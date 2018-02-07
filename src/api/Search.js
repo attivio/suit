@@ -1,0 +1,221 @@
+// @flow
+import SimpleQueryRequest from './SimpleQueryRequest';
+import QueryResponse from './QueryResponse';
+import FieldNames from './FieldNames';
+import AuthUtils from '../util/AuthUtils';
+
+/**
+ * Encapsulates the default Attivio search behavior.
+ */
+export default class Search {
+  baseUri: string;
+  sessionId: string;
+
+  /**
+   * Construct a Search object.
+   *
+   * @param baseUri     the base URI for the Attivio instance to call when searching
+   *                    (including the protocol, hostname or IP address, and port number,
+   *                    with no trailing slash)
+   */
+  constructor(baseUri: string) {
+    this.baseUri = baseUri;
+  }
+
+  /**
+   * Convert a JavaScript Map object whose keys are
+   * strings into a plain-old JavaScript object so it
+   * can be converted to JSON.
+   */
+  static strMapToObj(strMap: Map<string, any>) {
+    const obj = Object.create(null);
+    strMap.forEach((value, key) => {
+      obj[key] = value;
+    });
+    return obj;
+  }
+
+  search(request: SimpleQueryRequest, updateResults: (response: ?QueryResponse, error: ?string)=>void) {
+    if (!request.restParams || request.restParams.size === 0) {
+      request.restParams = new Map([
+        ['join.rollup', ['TREE']],
+        ['includeMetadataInResponse', ['true']],
+        ['geo.field', ['position']],
+        ['geo.units', ['DEGREES']],
+        ['l.stopwords.mode', ['OFF']],
+        ['l.acronyms.mode', ['OFF']],
+        ['l.acronymBoost', ['25']],
+        ['l.synonyms.mode', ['OFF']],
+        ['l.synonyms.boost', ['25']],
+      ]);
+    }
+    // Do the search on behalf of the logged-in user.
+    // If the user is authenticated using the servlet,
+    // this will be replaced with that username.
+    const username = AuthUtils.getLoggedInUserId();
+    if (username && username.length > 0) {
+      request.username = AuthUtils.getLoggedInUserId();
+    }
+
+    const uri = `${this.baseUri}/rest/searchApi/search`;
+    const headers = new Headers({
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    });
+    const jsonRequest = Object.assign({}, request);
+    jsonRequest.restParams = Search.strMapToObj(request.restParams);
+
+    const body = JSON.stringify(jsonRequest);
+    const params = {
+      method: 'POST',
+      headers,
+      body,
+      credentials: 'same-origin',
+    };
+    const fetchRequest = new Request(uri, params);
+
+    fetch(fetchRequest).then(
+      (response: Response) => {
+        if (response.ok) {
+          response.json().then((jsonResponse: any) => {
+            const searchResponse = QueryResponse.fromJson(jsonResponse);
+            updateResults(searchResponse);
+          }).catch((error: any) => {
+            // Catch errors from converting the response's JSON
+            updateResults(undefined, Search.getErrorMessage(error));
+          });
+        } else {
+          // The request came back other than a 200-type response code
+          const message = response.statusText ?
+            `${response.statusText} (error code ${response.status})` :
+            `Unknown error of type ${response.status}`;
+          updateResults(undefined, message);
+        }
+      },
+      (error: any) => {
+        // Catch network-type errors from the main fetch() call
+        updateResults(undefined, Search.getErrorMessage(error));
+      },
+    ).catch((error: any) => {
+      // Catch exceptions from the main "then" function
+      updateResults(undefined, Search.getErrorMessage(error));
+    });
+  }
+
+  /**
+   * Perform a search against the Attivio index.
+   *
+   * @param query         the query to perform
+   * @param queryLanguage the language to use, either "simple" or "advanced"
+   * @param offset        the index of the first document to return
+   * @param number        the number of documents to return (e.g. page size)
+   * @param updateResults will be called when the search is complete with the results or an error
+   */
+  simpleSearch(query: string, queryLanguage: 'simple' | 'advanced', offset: number, count: number,
+    updateResults: (response: ?QueryResponse, error: ?string)=>void) {
+    const request = new SimpleQueryRequest();
+    request.rows = count;
+    request.query = query;
+    request.queryLanguage = queryLanguage;
+
+    this.search(request, updateResults);
+  }
+
+  /**
+   * Get the error message out of the error object.
+   *
+   * @param error the error recieved
+   * @return      a string represening the error object
+   */
+  static getErrorMessage(error: any): string {
+    let message;
+    if (error && error.message) {
+      message = error.message;
+    } else {
+      message = 'There was an error executing the query.';
+    }
+    return message;
+  }
+
+  updateRealtimeField(docId: string, fieldName: string, fieldValues: Array<string>): Promise<any> {
+    return new Promise((resolve, reject) => {
+      // Get session
+      const connectUri = `${this.baseUri}/rest/ingestApi/connect`;
+      fetch(connectUri).then((connectResult) => {
+        connectResult.json().then((json) => {
+          const sessionId = json;
+          const updateUri = `${this.baseUri}/rest/ingestApi/updateRealTimeField/${sessionId}`;
+
+          const headers = new Headers({
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          });
+          const jsonRequest = {
+            id: docId,
+            fieldName: FieldNames.TAGS,
+            values: fieldValues,
+          };
+
+          const body = JSON.stringify(jsonRequest);
+          const params = {
+            method: 'POST',
+            headers,
+            body,
+            credentials: 'same-origin',
+          };
+
+          const updateFetchRequest = new Request(updateUri, params);
+          fetch(updateFetchRequest).then((updateResult: Response) => {
+            if (updateResult.ok) {
+              // Now need to commit the update
+              const commitUri = `${this.baseUri}/rest/ingestApi/commit/${sessionId}`;
+              fetch(commitUri).then((commitResult: Response) => {
+                if (commitResult.ok) {
+                  // Now need to close the session
+                  const disconnectUri = `${this.baseUri}/rest/ingestApi/disconnect/${sessionId}`;
+                  fetch(disconnectUri).then((disconnectResult: Response) => {
+                    if (disconnectResult.ok) {
+                      resolve();
+                    } else {
+                      // The request came back other than a 200-type response code
+                      disconnectResult.text().then((msg) => {
+                        reject(new Error(`Error disconnecting from the ingest API: ${msg}`));
+                      }).catch(() => {
+                        reject(new Error(`Error disconnecting from the ingest API: ${disconnectResult.statusText}`));
+                      });
+                    }
+                  }).catch((error) => {
+                    reject(new Error(`Failed to disconnect from the ingest API: ${error}`));
+                  });
+                } else {
+                  // The request came back other than a 200-type response code
+                  commitResult.text().then((msg) => {
+                    reject(new Error(`Failed to commit the update: ${msg}`));
+                  }).catch(() => {
+                    reject(new Error(`Failed to commit the update: ${commitResult.statusText}`));
+                  });
+                }
+              }).catch((error) => {
+                reject(new Error(`Failed to commit the update: ${error}`));
+              });
+            } else {
+              // The request came back other than a 200-type response code
+              updateResult.text().then((msg) => {
+                reject(new Error(`Failed to update the field: ${msg}`));
+              }).catch((error) => {
+                reject(new Error(`Failed to update the field: ${error}`));
+              });
+            }
+          }).catch((error: any) => {
+            // Catch network-type errors from the updating fetch() call
+            reject(new Error(`Failed to update the field: ${error}`));
+          });
+        }).catch((error) => {
+          reject(new Error(`Failed to connect to the ingest API: ${error}`));
+        });
+      }).catch((error) => {
+        reject(new Error(`Failed to connect to the ingest API: ${error}`));
+      });
+    });
+  }
+}

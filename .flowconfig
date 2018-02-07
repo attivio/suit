@@ -1,0 +1,19 @@
+[ignore]
+
+
+[include]
+
+[libs]
+
+[options]
+esproposal.class_static_fields=enable
+esproposal.class_instance_fields=enable
+suppress_type=$FlowIssue
+suppress_type=$FlowFixMe
+module.name_mapper='.*\(.xml\)' -> 'empty/object'
+module.name_mapper='.*\(.css\)' -> 'empty/object'
+module.name_mapper='.*\(.less\)' -> 'empty/object'
+unsafe.enable_getters_and_setters=true
+emoji=true
+
+[lints]
