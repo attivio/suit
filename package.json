@@ -1,7 +1,7 @@
 {
   "name": "@attivio/suit",
   "version": "0.0.1",
-  "description": "Attivio SUIT, the Search UI Toolkit, is a library for creating search clients for searching the Attivio platform",
+  "description": "Attivio SUIT, the Search UI Toolkit, is a library for creating search clients for searching the Attivio platform.",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
@@ -16,22 +16,26 @@
     "start": "nwb serve-react-demo",
     "test": "nwb test-react",
     "test:coverage": "nwb test-react --coverage",
-    "test:watch": "nwb test-react --server"
+    "test:watch": "nwb test-react --server",
+    "flow": "flow --show-all-errors",
+    "lint": "eslint src --ext .js --ext .jsx",
+    "styleguide": "styleguidist build",
+    "styleguide:serve": "styleguidist server"
   },
   "dependencies": {
+    "@mapbox/mapbox-gl-draw": "^1.0.4",
     "crypto-js": "^3.1.9-1",
     "enumify": "^1.0.4",
-    "vis": "^4.20.1",
-    "react-sizeme": "^2.3.4",
-    "validator": "^8.2.0",
-    "react-highcharts": "^12.0.0",
-    "react-bootstrap": "^0.31.1",
     "mapbox-gl": "^0.39.1",
-    "@mapbox/mapbox-gl-draw": "^1.0.4",
+    "moment": "^2.20.1",
+    "react-bootstrap": "^0.31.1",
+    "react-highcharts": "^12.0.0",
     "react-mapbox-gl": "^3.4.1",
     "react-mapbox-gl-draw": "^1.0.3",
     "react-overlays": "^0.8.3",
-    "moment": "^2.20.1"
+    "react-sizeme": "^2.3.4",
+    "validator": "^8.2.0",
+    "vis": "^4.20.1"
   },
   "peerDependencies": {
     "react": "^16.2.0",
@@ -41,6 +45,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
+    "create-nwb-webpack-config": "^1.0.0",
     "eslint": "^4.16.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-flowtype": "^2.35.1",
@@ -50,9 +55,10 @@
     "flow-bin": "^0.64.0",
     "nwb": "0.21.x",
     "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
-    "react-dom": "^15.6.1"
+    "react-styleguidist": "^6.0.20"
   },
   "author": "Attivio, Inc.",
   "homepage": "http://www.attivio.com",

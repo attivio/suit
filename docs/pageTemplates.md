@@ -1,0 +1,1 @@
+These components provide templates which can be used as-is for implementing pages in your application. Alternatively, you can copy these components and use them as the basis for creating your own custom pages.

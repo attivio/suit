@@ -1,0 +1,1 @@
+These components provide the means to display the contents of documents returned by a search. They must all exist inside the context of a `<Searcher>` component.

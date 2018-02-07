@@ -1,0 +1,1 @@
+These components include the `<Searcher>` component and other controls that provide the input necessary for it to work properly. Except for the `<Searcher>` itslef, they must all exist inside the context of a `<Searcher>` component.
