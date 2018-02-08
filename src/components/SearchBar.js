@@ -34,8 +34,14 @@ type SearchBarProps = {
    * If set, the search bar's input field will use autocomplete via this URI.
    * Otherwise, if the configuration is available, the autoCompleteUri in the configuration will be used.
    * Otherwise, the search bar will not autocomplete.
+   * Note that this is relative to the baseUri field in the configuration.
    */
   autoCompleteUri: string;
+  /**
+   * Optional. The location of the node through which to interact with Attivio.
+   * Defaults to the value in the configuration.
+   */
+  baseUri: string;
   /** The label to show on the search button. Defaults to "Go". */
   buttonLabel: string;
   /** If set, this is the route to navigate to upon executing a search. By default, no navigation will occur when searching. */
@@ -49,8 +55,9 @@ type SearchBarDefaultProps = {
   allowLanguageSelect: boolean;
   allowVoice: boolean;
   buttonLabel: string;
-  autoCompleteUri: string;
+  autoCompleteUri: string | null;
   route: string | null;
+  baseUri: string;
 };
 
 type SearchBarState = {
@@ -74,8 +81,9 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     buttonLabel: 'Go',
     allowLanguageSelect: true,
     allowVoice: true,
-    autoCompleteUri: 'http://localhost:17000/rest/autocompleteApi/richCgi/dictionaryProvider',
+    autoCompleteUri: null,
     route: null,
+    baseUri: '',
   };
 
   static AUTOCOMPLETE_THRESHOLD = 2;
@@ -308,7 +316,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     const inputComponent = this.props.autoCompleteUri ?
       (
         <AutoCompleteInput
-          uri={this.props.autoCompleteUri}
+          uri={`${this.props.baseUri}${this.props.autoCompleteUri}`}
           updateValue={this.updateQuery}
           placeholder={placeholder || ''}
           value={query}

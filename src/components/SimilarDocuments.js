@@ -12,8 +12,7 @@ import QueryResponse from '../api/QueryResponse';
 type SimilarDocumentsProps = {
   /**
    * Optional. The location of the node through which to interact with Attivio.
-   * Defaults to the value in the configuration if it's available or
-   * 'http://localhost:17000' if it's not.
+   * Defaults to the value in the configuration.
    */
   baseUri: string;
   /**
@@ -41,7 +40,7 @@ type SimilarDocumentsState = {
  */
 export default class SimilarDocuments extends React.Component<SimilarDocumentsDefaultProps, SimilarDocumentsProps, SimilarDocumentsState> { // eslint-disable-line max-len
   static defaultProps = {
-    baseUri: 'http://localhost:17000',
+    baseUri: '',
   }
 
   static contextTypes = {

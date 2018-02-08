@@ -22,8 +22,7 @@ import Signals from '../api/Signals';
 type SearchResultProps = {
   /**
    * Optional. The location of the node through which to interact with Attivio.
-   * Defaults to the value in the configuration if it's available or
-   * 'http://localhost:17000' if it's not.
+   * Defaults to the value in the configuration.
    */
   baseUri: string;
   /** The document to be displayed. */
@@ -71,7 +70,7 @@ type SearchResultState = {
  */
 export default class SearchResult extends React.Component<SearchResultDefaultProps, SearchResultProps, SearchResultState> {
   static defaultProps = {
-    baseUri: 'http://localhost:17000',
+    baseUri: '',
     format: 'list',
     showScores: false,
     entityFields: new Map(),

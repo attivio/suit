@@ -10,8 +10,7 @@ import SearchDocument from '../api/SearchDocument';
 type SearchResultsProps = {
   /**
    * Optional. The location of the node through which to interact with Attivio.
-   * Defaults to the value in the configuration if it's available or
-   * 'http://localhost:17000' if it's not.
+   * Defaults to the value in the configuration.
    */
   baseUri: string;
   /** The format to use for displaying the individual documents. */
@@ -41,7 +40,7 @@ type SearchResultsDefaultProps = {
  */
 export default class SearchResults extends React.Component<SearchResultsDefaultProps, SearchResultsProps, void> {
   static defaultProps = {
-    baseUri: 'http://localhost:17000',
+    baseUri: '',
     format: 'list',
     showScores: false,
     entityFields: new Map([['people', 'People'], ['locations', 'Locations'], ['companies', 'Companies']]),

@@ -20,8 +20,7 @@ type SearcherProps = {
   history: PropTypes.object.isRequired;
   /**
    * Optional. The location of the node through which to interact with Attivio.
-   * Defaults to the value in the configuration if it's available or
-   * 'http://localhost:17000' if it's not.
+   * Defaults to the value in the configuration.
    */
   baseUri: string;
   /** The workflow to use when performing the search. Defaults to the "search" workflow. */
@@ -159,7 +158,7 @@ type SearcherState = {
  */
 class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, SearcherState> {
   static defaultProps = {
-    baseUri: 'http://localhost:17000',
+    baseUri: '',
     searchWorkflow: 'search',
     fields: ['*'],
     facets: [],

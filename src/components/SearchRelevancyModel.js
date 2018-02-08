@@ -16,8 +16,7 @@ type SearchRelevancyModelProps = {
   right: boolean;
   /**
    * Optional. The location of the node through which to interact with Attivio.
-   * Defaults to the value in the configuration if it's available or
-   * 'http://localhost:17000' if it's not.
+   * Defaults to the value in the configuration.
    */
   baseUri: string;
 };
@@ -37,7 +36,7 @@ export default class SearchRelevancyModel extends React.Component<SearchRelevanc
   static defaultProps = {
     models: [],
     right: false,
-    baseUri: 'http://localhost:17000',
+    baseUri: '',
   };
 
   static contextTypes = {

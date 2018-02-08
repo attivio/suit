@@ -6,8 +6,7 @@ import Configurable from './Configurable';
 type LogUtilsProps = {
   /**
    * Optional. The location of the node through which to interact with Attivio.
-   * Defaults to the value in the configuration if it's available or
-   * 'http://localhost:17000' if it's not.
+   * Defaults to the value in the configuration.
    */
   baseUri: string;
 }
@@ -16,7 +15,7 @@ class LogUtils extends React.Component<LogUtilsProps, LogUtilsProps, void> {
   static instance;
 
   static defaultProps = {
-    baseUri: 'http://localhost:17000',
+    baseUri: '',
   }
 
   static info(message: string, context: string = 'general', error: Error | null = null) {
