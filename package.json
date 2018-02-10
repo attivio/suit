@@ -23,14 +23,15 @@
     "styleguide:serve": "styleguidist server"
   },
   "dependencies": {
+    "@mapbox/extent": "^0.4.0",
     "@mapbox/mapbox-gl-draw": "^1.0.4",
     "crypto-js": "^3.1.9-1",
     "enumify": "^1.0.4",
-    "mapbox-gl": "^0.39.1",
+    "mapbox-gl": "^0.40.0",
     "moment": "^2.20.1",
     "react-bootstrap": "^0.31.1",
-    "react-highcharts": "^12.0.0",
-    "react-mapbox-gl": "^3.4.1",
+    "react-highcharts": "^13.0.0",
+    "react-mapbox-gl": "^2.5.0",
     "react-mapbox-gl-draw": "^1.0.3",
     "react-overlays": "^0.8.3",
     "react-sizeme": "^2.3.4",
@@ -38,10 +39,10 @@
     "vis": "^4.20.1"
   },
   "peerDependencies": {
-    "react": "^16.2.0",
+    "react": "^15.6.2",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
-    "react-dom": "^16.2.0"
+    "react-dom": "^15.6.2"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
@@ -53,9 +54,10 @@
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.2.0",
     "flow-bin": "^0.64.0",
+    "inferno": "^3.10.1",
     "nwb": "0.21.x",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-styleguidist": "^6.0.20"
