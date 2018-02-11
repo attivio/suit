@@ -13,6 +13,7 @@ type MastheadUserProps = {
 
 type MastheadUserDefaultProps = {
   username: string | null;
+  logoutFunction: () => void;
 };
 
 /**
@@ -22,6 +23,7 @@ type MastheadUserDefaultProps = {
 export default class MastheadUser extends React.Component<MastheadUserDefaultProps, MastheadUserProps, void> {
   static defaultProps = {
     username: null,
+    logoutFunction: () => {},
   };
 
   constructor(props: MastheadUserProps) {
@@ -36,8 +38,8 @@ export default class MastheadUser extends React.Component<MastheadUserDefaultPro
   render() {
     const dropdown = AuthUtils.backEndAuth() ? null : (
       <span>
-        { ' '}
-        < Dropdown id = "attivio-globalmast-user-dropdown" pullRight>
+        {' '}
+        <Dropdown id="attivio-globalmast-user-dropdown" pullRight>
           <Dropdown.Toggle
             noCaret
             useAnchor
@@ -53,7 +55,7 @@ export default class MastheadUser extends React.Component<MastheadUserDefaultPro
           </Dropdown.Menu>
         </Dropdown >
       </span>
-    ) 
+    );
     if (this.props.username && this.props.username.length > 0) {
       return (
         <div className="attivio-globalmast-user attivio-globalmast-separator before">

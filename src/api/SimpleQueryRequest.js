@@ -1,10 +1,11 @@
 // @flow
 
 import FacetFilter from './FacetFilter';
+import AuthUtils from '../util/AuthUtils';
 
 const DEFAULT_FIELDS = [];
-const DEFAULT_USER = 'aieadmin';
-const DEFAULT_REALM = 'aie';
+const DEFAULT_USER = AuthUtils.config.ALL.defautUser;
+const DEFAULT_REALM = AuthUtils.config.ALL.defautRealm;
 
 /**
  * An object that embodies the various parameters needed to
