@@ -114,13 +114,13 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
 
   rateDocument(doc: SearchDocument, rating: number) {
     if (doc.signal) {
-      new Signals(this.props.baseUri, 'aieadmin').addSignal(doc, 'like', rating);
+      new Signals(this.props.baseUri).addSignal(doc, 'like', rating);
     }
   }
 
   handleDocumentClick(doc: SearchDocument) {
     if (doc.signal) {
-      new Signals(this.props.baseUri, 'aieadmin').addSignal(doc);
+      new Signals(this.props.baseUri).addSignal(doc);
     }
     const uri = doc.getFirstValue(FieldNames.URI);
     window.open(uri, '_blank');
