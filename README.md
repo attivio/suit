@@ -5,7 +5,7 @@
 [![Coveralls][coveralls-badge]][coveralls]
 
 The Search User Interface Toolkit, or SUIT, is a library for creating search
-applications on top of the index in the Attivio platform. For more informaiton
+applications on top of the index in the Attivio platform. For more information
 on Attivio, please visit our website at http://www.attivio.com.
 
 ## Working with the SUIT Library
