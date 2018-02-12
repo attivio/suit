@@ -1,7 +1,11 @@
 [ignore]
-
+.*/styleguide/**/.*
+.*/docs/**/.*
+.*/es/**/.*
+.*/lib/**/.*
 
 [include]
+.*/src/**/.*
 
 [libs]
 
