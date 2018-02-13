@@ -7,9 +7,12 @@ import Menu, { MenuItemDef } from './Menu';
 
 type SearchRelevancyModelProps = {
   /**
-   * The available models to choose from, if you want to specify a
-   * subset. If not set, the list of available models is queried
-   * from the server.
+   * The list of relevancy models to show that will be availale for the user
+   * to choose from. If this is set to a single-element array, then that one
+   * relevancy model will be used for all queries and the user will not see
+   * a menu for choosing the model. If this is not set (and the value is the
+   * default, empty array), then the back-end will be queried to obtain the list
+   * of known model names.
    */
   models: Array<string>;
   /** If set, then the menu will be shown at the right end of the navbar. */
@@ -62,6 +65,14 @@ export default class SearchRelevancyModel extends React.Component<SearchRelevanc
     if (!this.state.models || this.state.models.length === 0) {
       axios.get(uri).then((response) => {
         if (response && response.data && response.data.length > 0) {
+          // If there's just a single relevancy model, tell the searcher to use it
+          if (response.data.length === 1) {
+            const searcher = this.context.searcher;
+            if (searcher) {
+              searcher.updateRelevancyModels([this.state.models[0]]);
+            }
+          }
+          // Save the models
           this.setState({
             models: response.data,
             loading: false,
@@ -95,6 +106,12 @@ export default class SearchRelevancyModel extends React.Component<SearchRelevanc
           errorMessage,
         });
       });
+    } else if (this.state.models && this.state.models.length === 1) {
+      // If there's just a single relevancy model, tell the searcher to use it
+      const searcher = this.context.searcher;
+      if (searcher) {
+        searcher.updateRelevancyModels([this.state.models[0]]);
+      }
     }
   }
 
@@ -134,18 +151,10 @@ export default class SearchRelevancyModel extends React.Component<SearchRelevanc
           right
         />
       );
-    } else if (this.state.models.length === 0) {
-      const noneMenuItem = new MenuItemDef('No models available', 'none');
-      noneMenuItem.disabled = true;
-      menu = (
-        <Menu
-          label="Relevancy Model:"
-          selection="none"
-          items={[noneMenuItem]}
-          onSelect={() => {}}
-          right
-        />
-      );
+    } else if (this.state.models.length <= 1) {
+      // If there is only one model or if there are no models, then we don't show the list.
+      // In the case of a single model, the searcher will always use that one.
+      menu = '';
     } else {
       // Normal case with models provided either by the parent or the back-end
       let currentModel;
