@@ -144,6 +144,6 @@ export default class StringUtils {
    * Returns true if the value is a string and it is has a length greater than 0.
    */
   static notEmpty(value: any): boolean {
-    return value && value instanceof string && value.length > 0;
+    return value && (typeof value === 'string' || value instanceof String) && value.length > 0;
   }
 }

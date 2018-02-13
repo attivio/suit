@@ -196,7 +196,7 @@ export default class AuthUtils {
       throw usersError;
     }
     AuthUtils.users = users;
-    AuthUtils.config = config;    
+    AuthUtils.config = config;
   }
 
   /**
@@ -497,7 +497,7 @@ export default class AuthUtils {
       return 'The configuration object is missing the \'ALL.authType\' value.';
     }
     if (config.ALL.authType !== 'XML' && config.ALL.authType !== 'SAML' && config.ALL.authType !== 'NONE') {
-      return `The configuration object has an invalid value for 'ALL.authType': i5 must be 'XML,' 'SAML,' or 'NONE' but it is '${config.ALL.authType}.'`;
+      return `The configuration object has an invalid value for 'ALL.authType': i5 must be 'XML,' 'SAML,' or 'NONE' but it is '${config.ALL.authType}.'`; // eslint-disable-line max-len
     }
     if (!StringUtils.notEmpty(config.ALL.defaultRealm)) {
       return 'The configuration object is missing the \'ALL.defaultRealm\' value.';
@@ -544,11 +544,11 @@ export default class AuthUtils {
     if (!StringUtils.notEmpty(config.ALL.sourcePath)) {
       return 'The configuration object is missing the \'ALL.sourcePath\' value.';
     }
-    if (!StringUtils.notEmpty(config.ALL.previewImageUrl)) {
-      return 'The configuration object is missing the \'ALL.previewImageUrl\' value.';
+    if (!StringUtils.notEmpty(config.ALL.previewImageUri)) {
+      return 'The configuration object is missing the \'ALL.previewImageUri\' value.';
     }
-    if (!StringUtils.notEmpty(config.ALL.thumbnailImageUrl)) {
-      return 'The configuration object is missing the \'ALL.thumbnailImageUrl\' value.';
+    if (!StringUtils.notEmpty(config.ALL.thumbnailImageUri)) {
+      return 'The configuration object is missing the \'ALL.thumbnailImageUri\' value.';
     }
     if (!StringUtils.notEmpty(config.ALL.moreLikeThisQuery)) {
       return 'The configuration object is missing the \'ALL.moreLikeThisQuery\' value.';
@@ -559,9 +559,10 @@ export default class AuthUtils {
     if (!StringUtils.notEmpty(config.ALL.text)) {
       return 'The configuration object is missing the \'ALL.text\' value.';
     }
-    if (!StringUtils.notEmpty(config.ALL.mapboxKey)) {
-      return 'The configuration object is missing the \'ALL.mapboxKey\' value.';
-    }
+    // Don't check this for now... we'll probably make this optional
+    // if (!StringUtils.notEmpty(config.ALL.mapboxKey)) {
+    //   return 'The configuration object is missing the \'ALL.mapboxKey\' value.';
+    // }
     return null;
   }
 }
