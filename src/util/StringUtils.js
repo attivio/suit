@@ -139,4 +139,11 @@ export default class StringUtils {
     }
     return `${firstLine}\n${StringUtils.wrapLabel(remainder, newLine, limit)}`;
   }
+
+  /**
+   * Returns true if the value is a string and it is has a length greater than 0.
+   */
+  static notEmpty(value: any): boolean {
+    return value && value instanceof string && value.length > 0;
+  }
 }

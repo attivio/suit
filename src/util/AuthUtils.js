@@ -2,6 +2,7 @@
 import md5 from 'crypto-js/md5';
 
 import ObjectUtils from './ObjectUtils';
+import StringUtils from './StringUtils';
 
 export default class AuthUtils {
   static USER_KEY = 'suit-user';
@@ -186,9 +187,16 @@ export default class AuthUtils {
   };
 
   static configure(users: any, config: any) {
-    console.log('Setting the users and configuration', users, config);
+    const configError = AuthUtils.validateConfiguration(config);
+    if (configError) {
+      throw configError;
+    }
+    const usersError = AuthUtils.validateUsers(users);
+    if (usersError) {
+      throw usersError;
+    }
     AuthUtils.users = users;
-    AuthUtils.config = config;
+    AuthUtils.config = config;    
   }
 
   /**
@@ -443,5 +451,117 @@ export default class AuthUtils {
       }
     }
     return '';
+  }
+
+  /**
+   * Validate the users object to make sure it won't cause us any
+   * grief. Return null if it's good, or an error messager otherwise.
+   */
+  static validateUsers(users: any): string | null {
+    if (!users) {
+      return 'The users object must be specified.';
+    }
+    if (!users.user) {
+      return 'The users object is invalid; it must contain at least one user definition.';
+    }
+    if (Array.isArray(users.user)) {
+      for (let i = 0; i < users.user.length; i += 1) {
+        if (!users.user[i].$ || !StringUtils.notEmpty(users.user[i].$.id)) {
+          return `The users object is invalid; the user at position ${i} is missing an ID.`;
+        }
+      }
+    } else if (!users.user.$ || !StringUtils.notEmpty(users.user.$.id)) {
+      return 'The users object is invalid; the single user is missing an ID.';
+    }
+    return null;
+  }
+
+  /**
+   * Validate the configuration object to make sure it won't cause us any
+   * grief. Return null if it's good, or an error messager otherwise.
+   */
+  static validateConfiguration(config: any): string | null {
+    if (!config) {
+      return 'The configuration object must be specified.';
+    }
+    if (!config.ALL) {
+      return 'The configuration object is missing the \'ALL\' value.';
+    }
+    if (!StringUtils.notEmpty(config.ALL.baseUri)) {
+      return 'The configuration object is missing the \'ALL.baseUri\' value.';
+    }
+    if (!StringUtils.notEmpty(config.ALL.basename)) {
+      return 'The configuration object is missing the \'ALL.basename\' value.';
+    }
+    if (!StringUtils.notEmpty(config.ALL.authType)) {
+      return 'The configuration object is missing the \'ALL.authType\' value.';
+    }
+    if (config.ALL.authType !== 'XML' && config.ALL.authType !== 'SAML' && config.ALL.authType !== 'NONE') {
+      return `The configuration object has an invalid value for 'ALL.authType': i5 must be 'XML,' 'SAML,' or 'NONE' but it is '${config.ALL.authType}.'`;
+    }
+    if (!StringUtils.notEmpty(config.ALL.defaultRealm)) {
+      return 'The configuration object is missing the \'ALL.defaultRealm\' value.';
+    }
+    if (!config.ALL.entityFields) {
+      return 'The configuration object is missing the \'ALL.entityFields\' value.';
+    }
+    if (!(config.ALL.entityFields instanceof Map)) {
+      return 'The configuration object\'s \'ALL.entityFields\' value should be a Map.';
+    }
+    if (!config.ALL.entityColors) {
+      return 'The configuration object is missing the \'ALL.entityColors\' value.';
+    }
+    if (!(config.ALL.entityColors instanceof Map)) {
+      return 'The configuration object\'s \'ALL.entityColors\' value should be a Map.';
+    }
+    if (!config.ALL.fields) {
+      return 'The configuration object is missing the \'ALL.fields\' value.';
+    }
+    if (!Array.isArray(config.ALL.fields)) {
+      return 'The configuration object\'s \'ALL.fields\' value should be an array with at least one value.';
+    }
+    if (config.ALL.fields.length < 1) {
+      return 'The configuration object\'s \'ALL.fields\' value should be an array with at least one value.';
+    }
+    if (!StringUtils.notEmpty(config.ALL.title)) {
+      return 'The configuration object is missing the \'ALL.title\' value.';
+    }
+    if (!StringUtils.notEmpty(config.ALL.uri)) {
+      return 'The configuration object is missing the \'ALL.uri\' value.';
+    }
+    if (!StringUtils.notEmpty(config.ALL.table)) {
+      return 'The configuration object is missing the \'ALL.table\' value.';
+    }
+    if (!StringUtils.notEmpty(config.ALL.latitude)) {
+      return 'The configuration object is missing the \'ALL.latitude\' value.';
+    }
+    if (!StringUtils.notEmpty(config.ALL.longitude)) {
+      return 'The configuration object is missing the \'ALL.longitude\' value.';
+    }
+    if (!StringUtils.notEmpty(config.ALL.mimetype)) {
+      return 'The configuration object is missing the \'ALL.mimetype\' value.';
+    }
+    if (!StringUtils.notEmpty(config.ALL.sourcePath)) {
+      return 'The configuration object is missing the \'ALL.sourcePath\' value.';
+    }
+    if (!StringUtils.notEmpty(config.ALL.previewImageUrl)) {
+      return 'The configuration object is missing the \'ALL.previewImageUrl\' value.';
+    }
+    if (!StringUtils.notEmpty(config.ALL.thumbnailImageUrl)) {
+      return 'The configuration object is missing the \'ALL.thumbnailImageUrl\' value.';
+    }
+    if (!StringUtils.notEmpty(config.ALL.moreLikeThisQuery)) {
+      return 'The configuration object is missing the \'ALL.moreLikeThisQuery\' value.';
+    }
+    if (!StringUtils.notEmpty(config.ALL.teaser)) {
+      return 'The configuration object is missing the \'ALL.teaser\' value.';
+    }
+    if (!StringUtils.notEmpty(config.ALL.text)) {
+      return 'The configuration object is missing the \'ALL.text\' value.';
+    }
+    if (!StringUtils.notEmpty(config.ALL.mapboxKey)) {
+      return 'The configuration object is missing the \'ALL.mapboxKey\' value.';
+    }
+    return null;
   }
 }
