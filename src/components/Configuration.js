@@ -15,7 +15,7 @@ type ConfigurationProps = {
 
 export default class Configuration extends React.Component<void, ConfigurationProps, any> {
   static childContextTypes = {
-    configuration: PropTypes.instanceOf(Configuration),
+    configuration: PropTypes.any,
   }
 
   constructor(props: ConfigurationProps) {

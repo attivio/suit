@@ -1,5 +1,4 @@
 // @flow
-// import axios from 'axios';
 
 import SearchDocument from './SearchDocument';
 

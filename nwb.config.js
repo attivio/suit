@@ -4,4 +4,7 @@ module.exports = {
     esModules: true,
     umd: false,
   },
+  webpack: {
+    uglify: false,
+  },
 };

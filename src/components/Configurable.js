@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Configuration from './Configuration';
-
 type ConfigurableState = {
   filled: boolean;
   props: any;
@@ -17,7 +15,7 @@ type ConfigurableState = {
 function Configurable(WrappedComponent: React.Component): React.Component {
   return class extends React.Component<any, any, ConfigurableState> {
     static contextTypes = {
-      configuration: PropTypes.instanceOf(Configuration),
+      configuration: PropTypes.any,
     };
 
     constructor(props: any) {
