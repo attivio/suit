@@ -92,7 +92,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
           error: '',
           suggestions: [],
         });
-        fetch(`${uri}?term=${encodedValue}`).then((response) => {
+        fetch(`${uri}?term=${encodedValue}`, { credentials: 'include' }).then((response) => {
           response.json().then((data) => {
             const suggestions = Array.isArray(data) ? data.map((item) => {
               return item.label;

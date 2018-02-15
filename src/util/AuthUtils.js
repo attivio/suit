@@ -377,7 +377,7 @@ export default class AuthUtils {
       const params = {
         method: 'GET',
         headers,
-        credentials: 'same-origin', // Need to do this to make sure the cookies are sent
+        credentials: 'include', // Need to do this to make sure the cookies are sent
       };
       const request = new Request(`${AuthUtils.config.ALL.baseUri}/user`, params);
       fetch(request).then((response: Response) => {
@@ -564,5 +564,13 @@ export default class AuthUtils {
     //   return 'The configuration object is missing the \'ALL.mapboxKey\' value.';
     // }
     return null;
+  }
+
+  static getEntityColors(): Map<string, any> {
+    if (this.config && this.config.ALL && this.config.ALL.entityColors) {
+      return this.config.ALL.entityColors;
+    }
+    // If it's not configured, return an empty map.
+    return new Map();
   }
 }

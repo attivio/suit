@@ -70,7 +70,7 @@ export default class Search {
       method: 'POST',
       headers,
       body,
-      credentials: 'same-origin',
+      credentials: 'include',
     };
     const fetchRequest = new Request(uri, params);
 
@@ -161,7 +161,7 @@ export default class Search {
             method: 'POST',
             headers,
             body,
-            credentials: 'same-origin',
+            credentials: 'include',
           };
 
           const updateFetchRequest = new Request(updateUri, params);

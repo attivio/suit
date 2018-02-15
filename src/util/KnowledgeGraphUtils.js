@@ -307,7 +307,7 @@ export default class KnowledgeGraphUtils {
   static calculateGraphOptions(entityNames: Array<string> = []): any {
     const options = JSON.parse(JSON.stringify(BASE_GRAPH_OPTIONS));
     const groups = options.groups;
-    const colors = AuthUtils.properties.ALL.entityColors;
+    const colors = AuthUtils.getEntityColors();
     colors.forEach((color, entity) => {
       const entityOptions = JSON.parse(JSON.stringify(BASE_GROUP_OPTIONS));
       entityOptions.color.border = color;
