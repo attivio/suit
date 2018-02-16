@@ -9,6 +9,10 @@ export default class AuthUtils {
   static users;
   static config;
 
+  /**
+   * Called by the application to pass in configuration to the
+   * library's utility and API classes.
+   */
   static configure(users: any, config: any) {
     const configError = AuthUtils.validateConfiguration(config);
     if (configError) {
@@ -33,13 +37,21 @@ export default class AuthUtils {
       }).catch(() => {
         callback();
       });
+    } else {
+      callback();
     }
   }
 
+  /**
+   * Check to see if we're offloading the authentication to the back end.
+   */
   static backEndAuth(): boolean {
     return AuthUtils.config && AuthUtils.config.ALL && AuthUtils.config.ALL.authType === 'SAML';
   }
 
+  /**
+   * Imeplementation of the obfuscation algorithm from Jetty.
+   */
   static obfuscate(orig: string): string {
     const buf = [];
     const bytes = orig.split('').map((c) => { return c.charCodeAt(0); });
@@ -67,6 +79,9 @@ export default class AuthUtils {
     return buf.join('');
   }
 
+  /**
+   * Validate a password against a hashed one.
+   */
   static passwordMatches(comp: string, compTo: string): boolean {
     if (compTo.startsWith('OBF:')) {
       const remainder = compTo.substring(4);
@@ -80,6 +95,9 @@ export default class AuthUtils {
     return comp === compTo;
   }
 
+  /**
+   * Find the user info for a given user name (for XML authentication)
+   */
   static findUser(username: string): any {
     if (AuthUtils.users && AuthUtils.users.user) {
       if (Array.isArray(AuthUtils.users.user)) {
@@ -125,6 +143,9 @@ export default class AuthUtils {
     return null;
   }
 
+  /**
+   * Push the currently logged-in user's info into local storage for easy access.
+   */
   static saveLoggedInUser(userInfo: any) {
     if (userInfo) {
       const userInfoCopy = JSON.parse(JSON.stringify(userInfo));
@@ -135,6 +156,10 @@ export default class AuthUtils {
     }
   }
 
+  /**
+   * Check whether the user has a particular permission.
+   * TO BE IMPLEMENTED
+   */
   static hasPermission(/* user: any, permission: string */): boolean {
     if (AuthUtils.config && AuthUtils.config.ALL && AuthUtils.config.ALL.authType === 'NONE') {
       return true;
@@ -152,6 +177,7 @@ export default class AuthUtils {
     if (AuthUtils.config.ALL.authType === 'NONE') {
       return true;
     }
+
     const user = AuthUtils.getLocalStorageUser();
     if (user) {
       if (permission) {
