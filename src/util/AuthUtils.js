@@ -310,7 +310,8 @@ export default class AuthUtils {
     if (!config.ALL) {
       return 'The configuration object is missing the \'ALL\' value.';
     }
-    if (!StringUtils.notEmpty(config.ALL.baseUri)) {
+    if (config.ALL.baseUri === null || typeof config.ALL.baseUri === 'undefined') {
+      // Note that baseUri can be the empty string, as in the case of running inside a node
       return 'The configuration object is missing the \'ALL.baseUri\' value.';
     }
     if (!StringUtils.notEmpty(config.ALL.basename)) {
