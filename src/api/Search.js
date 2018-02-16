@@ -86,10 +86,17 @@ export default class Search {
           });
         } else {
           // The request came back other than a 200-type response code
-          const message = response.statusText ?
-            `${response.statusText} (error code ${response.status})` :
-            `Unknown error of type ${response.status}`;
-          updateResults(undefined, message);
+          // There should be JSON describing it...
+          response.json().then((searchException: any) => {
+            const exceptionMessasge = searchException.message ? searchException.message : '';
+            const exceptionCode = searchException.errorCode ? ` (${(searchException.errorCode: string)})` : '';
+            const finalExceptionMessage = `An exception occurred while searching. ${exceptionMessasge}${exceptionCode}`;
+            updateResults(undefined, finalExceptionMessage);
+          }).catch((badJsonError: any) => {
+            // const errorMessage = response.statusText ? `${response.statusText} (error code ${response.status})` :
+            //   `Unknown error of type ${response.status}`;
+            updateResults(undefined, Search.getErrorMessage(badJsonError));
+          });
         }
       },
       (error: any) => {
