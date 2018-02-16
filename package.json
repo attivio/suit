@@ -1,6 +1,6 @@
 {
   "name": "@attivio/suit",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Attivio SUIT, the Search UI Toolkit, is a library for creating search clients for searching the Attivio platform.",
   "main": "lib/index.js",
   "module": "es/index.js",
