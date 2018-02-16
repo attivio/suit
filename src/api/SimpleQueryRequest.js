@@ -3,10 +3,6 @@
 import FacetFilter from './FacetFilter';
 import AuthUtils from '../util/AuthUtils';
 
-const DEFAULT_FIELDS = [];
-const DEFAULT_USER = AuthUtils.config.ALL.defaultUser;
-const DEFAULT_REALM = AuthUtils.config.ALL.defaultRealm;
-
 /**
  * An object that embodies the various parameters needed to
  * make a query of the Attivio index.
@@ -21,9 +17,9 @@ export default class SimpleQueryRequest {
     flt: Array<string> = [],
     f: Array<string> = [],
     s: Array<string> = [],
-    fds: Array<string> = DEFAULT_FIELDS,
-    un: string = DEFAULT_USER,
-    rlm: string = DEFAULT_REALM,
+    fds: Array<string> = [],
+    un: string | null = null,
+    rlm: string | null = null,
     ff: Array<FacetFilter> = [],
     rp: Map<string, Array<string>> = new Map(),
   ) {
@@ -36,10 +32,19 @@ export default class SimpleQueryRequest {
     this.facets = f;
     this.sort = s;
     this.fields = fds;
-    this.username = un;
-    this.realm = rlm;
     this.facetFilters = ff;
     this.restParams = rp;
+
+    if (un === null) {
+      this.username = AuthUtils.getConfig().ALL.defaultUsername;
+    } else {
+      this.username = un;
+    }
+    if (rlm === null) {
+      this.realm = AuthUtils.getConfig().ALL.defaultRealm;
+    } else {
+      this.realm = rlm;
+    }
   }
 
   /** The workflow to use when processing the query */
