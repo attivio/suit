@@ -1,6 +1,8 @@
 // @flow
 import React from 'react';
 
+import StringUtils from '../util/StringUtils';
+
 type DocumentThumbnailProps = {
   /**
    * The URI of the image to display as the document's
@@ -24,8 +26,11 @@ export default class DocumentThumbnail extends React.Component<DocumentThumbnail
   };
 
   render() {
-    const haveImage = (this.props.uri && this.props.uri.length > 0);
-    const imageUri = haveImage ? this.props.uri : 'img/placeholder-doc.svg';
+    const haveImage = StringUtils.notEmpty(this.props.uri);
+    let imageUri = haveImage ? this.props.uri : 'img/placeholder-doc.svg';
+    if (imageUri && imageUri.startsWith('/')) {
+      imageUri = imageUri.substring(1);
+    }
     const className = haveImage ? 'attivio-search-result-preview img-responsive' :
       'attivio-search-result-preview img-responsive attivio-search-result-preview-placeholder';
     return <img src={imageUri} className={className} alt="Thumbnail" />;
