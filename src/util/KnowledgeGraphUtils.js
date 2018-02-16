@@ -125,12 +125,14 @@ export default class KnowledgeGraphUtils {
   static MAIN_DOCUMENT_BORDER_COLOR = '#333';
 
   static buildQuery(docId: string, table: string, tableField: string, linkingFields: Array<string>, maxLinkedDocs: number, entityName: string | null, entityValue: string | null): string { // eslint-disable-line max-len
+    // We need to escape any backslashes in the document ID to ensure they pass through the query engine correctly
+    const escapedDocId = docId.replace(/\\/g, '\\\\\\\\');
     // If there is an entity name and value, query on those instead.
     if (entityName && entityValue) {
       // We boost the existing document ID so it will appear at the top of the result list
-      return `BOOST("${entityName}":"${entityValue}", ${FieldNames.ID}:"${docId}")`;
+      return `BOOST("${entityName}":"${entityValue}", ${FieldNames.ID}:"${escapedDocId}")`;
     }
-    const primaryQuery = `QUERY("${FieldNames.ID}:\\"${docId}\\"", qlang=advanced)`;
+    const primaryQuery = `QUERY("${FieldNames.ID}:\\"${escapedDocId}\\"", qlang=advanced)`;
     // Don't join against documents from the same table as the primary one (if it has a table)
     const notTable = tableField && table ? `NOT(${tableField}:${table}), ` : '*, ';
     const outerClauses = linkingFields.map((field) => {
