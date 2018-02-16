@@ -38,7 +38,7 @@ export default class SearchResultsCount extends React.Component<void, {}, void> 
         );
       } else if (searcher.state.error) {
         // got an error...
-        message = <span title={searcher.state.error}>Error</span>;
+        message = `Error: ${searcher.state.error}`;
       } else {
         message = ''; // Not yet searched...
       }
