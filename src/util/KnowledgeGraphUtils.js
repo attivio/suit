@@ -124,7 +124,21 @@ const BASE_GROUP_OPTIONS = {
 export default class KnowledgeGraphUtils {
   static MAIN_DOCUMENT_BORDER_COLOR = '#333';
 
-  static buildQuery(docId: string, table: string, tableField: string, linkingFields: Array<string>, maxLinkedDocs: number, entityName: string | null, entityValue: string | null): string { // eslint-disable-line max-len
+  /**
+   * Build up the query to use to get the knowledge graph's documents. The results of the
+   * query will be the main document (the one whose ID is passed in) with any related
+   * documents listed as its children.
+   *
+   * @param docId         the ID of the document to look up.
+   * @param table         the name of the table containing the document, if you want to exclude
+   *                      joining to other documents in the same table (pass null to join with
+   *                      any document, regardless of its table)
+   * @param linkingFields the list of fields to look for links in (e.g., entity fields)
+   * @param maxLinkedDocs the maximum number of additional documebnts to return
+   * @param entityName
+   * @param entityValue
+   */
+  static buildQuery(docId: string, table: string | null, tableField: string, linkingFields: Array<string>, maxLinkedDocs: number, entityName: string | null, entityValue: string | null): string { // eslint-disable-line max-len
     // We need to escape any backslashes in the document ID to ensure they pass through the query engine correctly
     const escapedDocId = docId.replace(/\\/g, '\\\\\\\\');
     // If there is an entity name and value, query on those instead.
@@ -134,7 +148,7 @@ export default class KnowledgeGraphUtils {
     }
     const primaryQuery = `QUERY("${FieldNames.ID}:\\"${escapedDocId}\\"", qlang=advanced)`;
     // Don't join against documents from the same table as the primary one (if it has a table)
-    const notTable = tableField && table ? `NOT(${tableField}:${table}), ` : '*, ';
+    const notTable = (tableField && table) ? `NOT(${tableField}:"${table}"), ` : '*, ';
     const outerClauses = linkingFields.map((field) => {
       return `OUTER(${notTable}on="${field}", alias=${field}, rollup=${maxLinkedDocs})`;
     });

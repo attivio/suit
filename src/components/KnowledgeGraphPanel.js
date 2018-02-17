@@ -33,6 +33,11 @@ type KnowledgeGraphPanelProps = {
    * the primary document will be shown (these are hidden by default).
    */
   showEdges: boolean;
+  /**
+   * If true, then the 360° page will show links to documents from any table. Set this to false to
+   * only show links to documnents that come from tables other than the one the main document is in.
+   */
+  includeAllTables: boolean;
 };
 
 type KnowledgeGraphPanelDefaultProps = {
@@ -43,6 +48,7 @@ type KnowledgeGraphPanelDefaultProps = {
   entityName: string | null;
   entityValue: string | null;
   showEdges: boolean;
+  includeAllTables: boolean;
 };
 
 type KnowledgeGraphPanelState = {
@@ -60,6 +66,7 @@ export default class KnowledgeGraphPanel extends React.Component<KnowledgeGraphP
     entityName: null,
     entityValue: null,
     showEdges: false,
+    includeAllTables: false,
   };
 
   static contextTypes = {
@@ -132,7 +139,7 @@ export default class KnowledgeGraphPanel extends React.Component<KnowledgeGraphP
   loadGraphForDocument(doc: SearchDocument, entityName: string | null, entityValue: string | null) {
     if (this.context.searcher) {
       const docId = doc.getFirstValue(FieldNames.ID);
-      const table = doc.getFirstValue(this.props.tableField);
+      const table = this.props.includeAllTables ? null : doc.getFirstValue(this.props.tableField);
 
       const query = KnowledgeGraphUtils.buildQuery(docId, table, this.props.tableField,
         this.props.linkingFields, this.props.maxLinkedDocs, entityName, entityValue);
