@@ -2,14 +2,31 @@
   "name": "@attivio/suit",
   "version": "0.0.7",
   "description": "Attivio SUIT, the Search UI Toolkit, is a library for creating search clients for searching the Attivio platform.",
-  "main": "lib/index.js",
-  "module": "es/index.js",
+  "keywords": [
+    "Attivio",
+    "AIE",
+    "SUIT",
+    "Search UI",
+    "Search",
+    "React",
+    "react-component"
+  ],
+  "homepage": "http://www.attivio.com",
+  "bugs": {
+    "url": "https://github.com/attivio/suit/issues",
+    "email": "suitbugs@attivio.com"
+  },
+  "license": "GPL-3.0",
+  "author": "Attivio, Inc.",
   "files": [
     "css",
     "es",
     "lib",
     "umd"
   ],
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "repository": "https://github.com/attivio/suit",
   "scripts": {
     "build": "nwb build-react-component",
     "clean": "nwb clean-module",
@@ -57,19 +74,5 @@
     "inferno": "^3.10.1",
     "nwb": "0.21.x",
     "react-styleguidist": "^6.0.20"
-  },
-  "author": "Attivio, Inc.",
-  "homepage": "http://www.attivio.com",
-  "bugs": "https://github.com/attivio/suit/issues",
-  "repository": "https://github.com/attivio/suit",
-  "license": "GPL-3.0",
-  "keywords": [
-    "Attivio",
-    "AIE",
-    "SUIT",
-    "Search UI",
-    "Search",
-    "React",
-    "react-component"
-  ]
+  }
 }
