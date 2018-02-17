@@ -21,7 +21,7 @@ type SearchResultTagsProps = {
   docId: string;
   /**
    * The label to show for the link to the 360 page for the document.
-   * Set to null to not show a link. Defaults to "Show 360⁰ View."
+   * Set to null to not show a link. Defaults to "Show 360° View."
    */
   view360Label: string | null;
 };
@@ -55,7 +55,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
   static defaultProps = {
     moreLikeThisQuery: '',
     vertical: false,
-    view360Label: 'Show 360⁰ View',
+    view360Label: 'Show 360° View',
   };
 
   constructor(props: SearchResultTagsProps) {

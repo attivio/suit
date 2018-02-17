@@ -11,7 +11,11 @@ type PieChartFacetContentsProps = {
   buckets: Array<SearchFacetBucket>;
   /** Callback to add a filter for this facet. */
   addFacetFilter: (bucket: SearchFacetBucket) => void;
-  /** Controls the colors used to show various entity types (the value can be any valid CSS color) */
+  /**
+   * Controls the colors used by the pie chart. The colors are used in the order they
+   * are present in the map's list of values and the entity names that are the keys in
+   * the map are ignored.
+   */
   entityColors: Map<string, string>;
 };
 
@@ -57,6 +61,12 @@ export default class PieChartFacetContents extends React.Component<PieChartFacet
         y: bucket.count,
       };
     });
+
+    const colors = [];
+    this.props.entityColors.forEach((value: string) => {
+      colors.push(value);
+    });
+
     const config = {
       chart: {
         type: 'pie',
@@ -66,9 +76,6 @@ export default class PieChartFacetContents extends React.Component<PieChartFacet
       },
       tooltip: {
         formatter: this.formatTooltip,
-        // () => {
-        //   return this.point.name;
-        // },
       },
       legend: {
         symbolRadius: 0,
@@ -100,7 +107,7 @@ export default class PieChartFacetContents extends React.Component<PieChartFacet
             },
           },
           showInLegend: true,
-          colors: [...this.props.entityColors.values()],
+          colors,
         },
       },
       title: {

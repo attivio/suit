@@ -8,7 +8,7 @@ type Header360Props = {
 };
 
 /**
- * Show the supplied label in a format for use as the header on a 360⁰ page.
+ * Show the supplied label in a format for use as the header on a 360° page.
  */
 export default class Header360 extends React.Component<void, Header360Props, void> {
   render() {
