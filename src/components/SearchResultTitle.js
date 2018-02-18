@@ -1,14 +1,20 @@
 import React from 'react';
 
+import FieldNames from '../api/FieldNames';
+import Signals from '../api/Signals';
+
 type SearchResultTitleProps = {
-  /** The document’s title */
-  title: string,
-  /** The callback to use if the user clicks the document's title (optional) */
-  onClick: null | () => {},
+  /** The document whose title should be rendered. */
+  doc: SearchDocument;
+  /**
+   * Optional. The location of the node through which to interact with Attivio.
+   * Defaults to the value in the configuration.
+   */
+  baseUri: string;
 };
 
 type SearchResultTitleDefaultProps = {
-  onClick: null | () => {},
+  baseUri: string;
 };
 
 /**
@@ -18,22 +24,40 @@ type SearchResultTitleDefaultProps = {
  */
 export default class SearchResultTitle extends React.Component<SearchResultTitleDefaultProps, SearchResultTitleProps, void> {
   static defaultProps = {
-    onClick: null,
+    baseUri: '',
   };
 
+  constructor(props: SearchResultTitleProps) {
+    super(props);
+    (this: any).handleDocumentClick = this.handleDocumentClick.bind(this);
+  }
+
+  handleDocumentClick() {
+    if (this.props.doc.signal) {
+      new Signals(this.props.baseUri).addSignal(this.props.doc);
+    }
+    const uri = this.props.doc.getFirstValue(FieldNames.URI);
+    window.open(uri, '_blank');
+  }
+
   render() {
+    const title = this.props.doc.getFirstValue(FieldNames.TITLE);
+    const uri = this.props.doc.getFirstValue(FieldNames.URI);
     let titleComp;
-    if (this.props.onClick) {
+
+    if (uri) {
       titleComp = (
         <a
-          onClick={this.props.onClick}
+          onClick={this.handleDocumentClick}
           role="button"
           tabIndex={0}
-          dangerouslySetInnerHTML={{ __html: this.props.title }} // eslint-disable-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: title }} // eslint-disable-line react/no-danger
         />
       );
+    } else if (title) {
+      titleComp = <span dangerouslySetInnerHTML={{ __html: title }} />; // eslint-disable-line react/no-danger
     } else {
-      titleComp = <span dangerouslySetInnerHTML={{ __html: this.props.title }} />; // eslint-disable-line react/no-danger
+      titleComp = <span className="none">This document has no title</span>;
     }
 
     return (
@@ -43,4 +67,3 @@ export default class SearchResultTitle extends React.Component<SearchResultTitle
     );
   }
 }
-

@@ -118,14 +118,6 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
     }
   }
 
-  handleDocumentClick(doc: SearchDocument) {
-    if (doc.signal) {
-      new Signals(this.props.baseUri).addSignal(doc);
-    }
-    const uri = doc.getFirstValue(FieldNames.URI);
-    window.open(uri, '_blank');
-  }
-
   renderListResult() {
     const doc = this.props.document;
     const docId = doc.getFirstValue('.id');
@@ -134,7 +126,6 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
     const scoreString = doc.getFirstValue(FieldNames.SCORE);
     const score = scoreString ? parseFloat(scoreString) : 0;
     const scoreDescription = doc.getFirstValue(FieldNames.SCORE_EXPLAIN);
-    const title = doc.getFirstValue('title');
     const text = doc.getFirstValue('teaser');
     const moreLikeThisQuery = doc.getFirstValue('morelikethisquery');
     const docTags = doc.getAllValues('tags');
@@ -205,7 +196,7 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
           </dl>
         </div>
         <div className="attivio-search-result-content">
-          <SearchResultTitle title={title} onClick={() => { this.handleDocumentClick(doc); }} />
+          <SearchResultTitle doc={doc} baseUri={this.props.baseUri} />
           <Row>
             <Col xs={7} sm={7}>
               <SearchResultBody body={text} />
@@ -225,7 +216,6 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
     const doc = this.props.document;
     const docId = doc.getFirstValue('.id');
     const table = doc.getFirstValue('table');
-    const title = doc.getFirstValue('title');
     const text = doc.getFirstValue('teaser');
 
     return (
@@ -235,7 +225,7 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
             <DocumentType docType={table} position={this.props.position} />
           </div>
           <div className="col-sm-9 col-xs-8 col-md-9 col-lg-9">
-            <SearchResultTitle title={title} onClick={() => { this.handleDocumentClick(doc); }} />
+            <SearchResultTitle doc={doc} baseUri={this.props.baseUri} />
           </div>
         </div>
         <div className="row" style={{ width: '100%', margin: 0 }} >
