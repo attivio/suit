@@ -333,7 +333,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     const result = [].concat(this.props.fields || []);
     // Add the mapped fields that the search results will expect
     result.push(`${this.props.title} as title`);
-    result.push(`${this.props.uri} as url`);
+    result.push(`${this.props.uri} as uri`);
     result.push(`${this.props.table} as table`);
     result.push(`${this.props.teaser} as teaser`);
     result.push(`${this.props.text} as text`);

@@ -32,7 +32,12 @@ export default class SearchResultTitle extends React.Component<SearchResultTitle
     (this: any).handleDocumentClick = this.handleDocumentClick.bind(this);
   }
 
+  titleLink: ?HTMLAnchorElement;
+
   handleDocumentClick() {
+    if (this.titleLink) {
+      this.titleLink.blur();
+    }
     if (this.props.doc.signal) {
       new Signals(this.props.baseUri).addSignal(this.props.doc);
     }
@@ -41,7 +46,10 @@ export default class SearchResultTitle extends React.Component<SearchResultTitle
   }
 
   render() {
-    const title = this.props.doc.getFirstValue(FieldNames.TITLE);
+    let title = this.props.doc.getFirstValue(FieldNames.TITLE);
+    if (!title) {
+      title = '<span className="none">This document has no title</span>';
+    }
     const uri = this.props.doc.getFirstValue(FieldNames.URI);
     let titleComp;
 
@@ -52,12 +60,11 @@ export default class SearchResultTitle extends React.Component<SearchResultTitle
           role="button"
           tabIndex={0}
           dangerouslySetInnerHTML={{ __html: title }} // eslint-disable-line react/no-danger
+          ref={(c) => { this.titleLink = c; }}
         />
       );
-    } else if (title) {
-      titleComp = <span dangerouslySetInnerHTML={{ __html: title }} />; // eslint-disable-line react/no-danger
     } else {
-      titleComp = <span className="none">This document has no title</span>;
+      titleComp = <span dangerouslySetInnerHTML={{ __html: title }} />; // eslint-disable-line react/no-danger
     }
 
     return (
