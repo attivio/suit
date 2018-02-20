@@ -249,7 +249,6 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
     const thumbnailUri = doc.getFirstValue('thumbnailImageUri');
     const score = parseFloat(doc.getFirstValue(FieldNames.SCORE));
     const scoreDescription = doc.getFirstValue(FieldNames.SCORE_EXPLAIN);
-    const title = doc.getFirstValue(FieldNames.TITLE);
     const moreLikeThisQuery = doc.getFirstValue('morelikethisquery');
     const docTags = doc.getAllValues('tags');
 
@@ -297,11 +296,7 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
           </dl>
         </div>
         <div className="col-xs-8 col-sm-8">
-          <h2 className="attivio-search-result-title attivio-url">
-            {
-            // eslint-disable-next-line react/no-danger
-            }<a dangerouslySetInnerHTML={{ __html: title }} />
-          </h2>
+          <SearchResultTitle doc={doc} baseUri={this.props.baseUri} />
           <dl className="attivio-labeldata-2col attivio-search-result-debugger">\
             {fieldRows}
           </dl>
