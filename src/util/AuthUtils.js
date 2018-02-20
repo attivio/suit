@@ -347,7 +347,7 @@ export default class AuthUtils {
       return 'The configuration object is missing the \'ALL.authType\' value.';
     }
     if (config.ALL.authType !== 'XML' && config.ALL.authType !== 'SAML' && config.ALL.authType !== 'NONE') {
-      return `The configuration object has an invalid value for 'ALL.authType': i5 must be 'XML,' 'SAML,' or 'NONE' but it is '${config.ALL.authType}.'`; // eslint-disable-line max-len
+      return `The configuration object has an invalid value for 'ALL.authType': it must be 'XML,' 'SAML,' or 'NONE' but it is '${config.ALL.authType}.'`; // eslint-disable-line max-len
     }
     if (!StringUtils.notEmpty(config.ALL.defaultRealm)) {
       return 'The configuration object is missing the \'ALL.defaultRealm\' value.';
