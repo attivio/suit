@@ -27,12 +27,15 @@ export default class DocumentThumbnail extends React.Component<DocumentThumbnail
 
   render() {
     const haveImage = StringUtils.notEmpty(this.props.uri);
-    let imageUri = haveImage ? this.props.uri : 'img/placeholder-doc.svg';
-    if (imageUri && imageUri.startsWith('/')) {
-      imageUri = imageUri.substring(1);
+    if (haveImage) {
+      let uri = this.props.uri;
+      if (uri && uri.startsWith('/')) {
+        uri = uri.substring(1);
+      }
+      const className = haveImage ? 'attivio-search-result-preview img-responsive' :
+        'attivio-search-result-preview img-responsive attivio-search-result-preview-placeholder';
+      return <img src={uri} className={className} alt="Thumbnail" />;
     }
-    const className = haveImage ? 'attivio-search-result-preview img-responsive' :
-      'attivio-search-result-preview img-responsive attivio-search-result-preview-placeholder';
-    return <img src={imageUri} className={className} alt="Thumbnail" />;
+    return null; // No thumbnail for this document
   }
 }
