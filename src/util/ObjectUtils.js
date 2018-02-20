@@ -14,7 +14,10 @@ export default class ObjectUtils {
     return a;
   }
 
-  /** Compare two objects shallowly to see if they are equal. Doesn't go into nested objects. */
+  /**
+   * Compare two objects to see if they are equal. Will handle primitive
+   * types, arrays, and plain-old JavaScript objects.
+   */
   static deepEquals(objA: any, objB: any): boolean {
     if (objA === objB) {
       return true;

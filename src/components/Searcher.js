@@ -12,6 +12,8 @@ import QueryResponse from '../api/QueryResponse';
 import FacetFilter from '../api/FacetFilter';
 import FieldNames from '../api/FieldNames';
 
+import ObjectUtils from '../util/ObjectUtils';
+
 import Configurable from '../components/Configurable';
 import Configuration from '../components/Configuration';
 
@@ -176,6 +178,7 @@ type SearcherDefaultProps = {
  *   generateLocationQueryStringFromState()
  *   parseLocationQueryStringToState()
  *   reset()
+ *   relevantStateDiffers()
  */
 type SearcherState = {
   query: string;
@@ -310,6 +313,9 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
 
   constructor(props: SearcherProps) {
     super(props);
+
+    this.search = new Search(this.props.baseUri);
+
     this.state = {
       query: Searcher.STAR_COLON_STAR,
       queryLanguage: this.props.defaultQueryLanguage,
@@ -336,16 +342,14 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   componentWillMount() {
     console.log('In Searcher.componentWillMount()');
     // When the searcher is first created, this is called.
-    // We check to see if the state needs to be updated due to this.
-    this.search = new Search(this.props.baseUri);
-
     // Pull a state object out of the location's query string
     const location = this.props.location;
     const newState = this.parseLocationQueryStringToState(location.search);
 
     console.log('Pulled the state from the location as:', newState);
 
-    if (JSON.stringify(this.state) !== JSON.stringify(newState)) {
+    // We check to see if the state needs to be updated due to this
+    if (this.relevantStateDiffers(newState)) {
       console.log('The state has changed so we are updating it');
       this.updateStateAndSearch(newState);
     }
@@ -362,7 +366,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     console.log('Pulled the state from the location as:', newState);
 
     // We check to see if the state needs to be updated due to this
-    if (JSON.stringify(this.state) !== JSON.stringify(newState)) {
+    if (this.relevantStateDiffers(newState)) {
       console.log('The state has changed so we are updating it');
       this.updateStateAndSearch(newState);
     }
@@ -447,6 +451,25 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     // Add the fields we always want
     result.push('tags');
     return result;
+  }
+
+  /**
+   * Check to see if the old and new state differ, only comparing the
+   * properties we care about (non-transient ones).
+   */
+  relevantStateDiffers(compareWith: any): boolean {
+    // Get a copy of the state with transient values removed
+    const currentState = Object.assign({}, this.state);
+    delete currentState.error;
+    delete currentState.response;
+    delete currentState.haveSearched;
+
+    const newState = Object.assign({}, compareWith);
+    delete newState.error;
+    delete newState.response;
+    delete newState.haveSearched;
+
+    return !ObjectUtils.deepEquals(currentState, newState);
   }
 
   /**
@@ -629,7 +652,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       sort: [sort],
       relevancyModels,
       format,
-      haveSearched: false,
+      haveSearched: this.state.haveSearched, // Make sure we don't change this
     };
 
     console.log('The state we came up with is: ', result);
@@ -765,17 +788,6 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         this.props.history.push(`?${updatedQueryString}`);
       }
     });
-  }
-
-  /**
-   * If a search has already been done and the user is just tweaking a setting,
-   * then we'll repeat the search with the updated parameters. Otherwise, this is
-   * a no-op.
-   */
-  repeatSearchIfNeeded() {
-    if (this.state.haveSearched) {
-      this.doSearch();
-    }
   }
 
   /**
