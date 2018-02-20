@@ -409,10 +409,6 @@ export default class AuthUtils {
     if (!StringUtils.notEmpty(config.ALL.text)) {
       return 'The configuration object is missing the \'ALL.text\' value.';
     }
-    // Don't check this for now... we'll probably make this optional
-    // if (!StringUtils.notEmpty(config.ALL.mapboxKey)) {
-    //   return 'The configuration object is missing the \'ALL.mapboxKey\' value.';
-    // }
     return null;
   }
 
