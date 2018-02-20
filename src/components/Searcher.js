@@ -15,6 +15,38 @@ import FieldNames from '../api/FieldNames';
 import Configurable from '../components/Configurable';
 import Configuration from '../components/Configuration';
 
+/*
+
+IF
+Searcher is first loaded, we need to check for query parameters and apply them if they exist.In this case, we need to do the search.
+
+IF
+Searcher is updated with a new query string, then we need to parse it and possibly do a new search, if it has changed.
+
+IF
+User does a search manually, we need to calculate the query string and push the new location onto the history if it has changed.
+  THIS HAPPENS IN THE doSearch() method
+
+IF
+User updates a property that affects existing searches but doesn't require resetting, we need to update the state and then, if there's a previous search, perform a new one (and, only in this case, update the search string
+  THIS HAPPENDS WHEN THESE PROPERTIES CHANGE:
+      resultsOffset (i.e., paging)
+
+IF
+User updates a property that affects existing searches AND requires resetting, then we need to update the state including setting the offset to 0, and , if there's a previous search, perform a new one (and, only in this case, update the search string
+  THIS HAPPENDS WHEN THESE PROPERTIES CHANGE:
+      geoFilters (adding or removing)
+      resultsPerPage
+      facetFilters (adding or removing)
+      sort
+      relevancyModels
+      format
+      searchProfile
+
+
+      // NEED TO DEAL WITH VALUES IN URL THAT ARE NOT VALID...
+*/
+
 type SearcherProps = {
   location: PropTypes.object.isRequired;
   history: PropTypes.object.isRequired;
@@ -136,6 +168,15 @@ type SearcherDefaultProps = {
   defaultQueryLanguage: 'simple' | 'advanced';
 };
 
+/*
+ * NOTE: If you add or remove anything from the Searcher's state, you'll
+ * need to update (at least) the following methods to accommodate the chnage:
+ *   constructor()
+ *   getQueryRequest()
+ *   generateLocationQueryStringFromState()
+ *   parseLocationQueryStringToState()
+ *   reset()
+ */
 type SearcherState = {
   query: string;
   queryLanguage: 'advanced' | 'simple';
@@ -152,11 +193,61 @@ type SearcherState = {
 };
 
 /**
- * A wrapper for an Attivio search. child components can access it using
- * a property on the React context. See the SearchResults component for an example
+ * A wrapper for an Attivio search. Child components can access this object using
+ * the searcher property that is inserted into their context object. This allows them
+ * to access the Searcher's state to see all of its input parameters aa well as the
+ * results of the most recent search and any errors. In addition, they can use the
+ * reference to the Seacher to call methods which allow them to update the Searcher's
+ * state or execute searches.
+ *
+ * The Searcher also provides a method, doCustomSearch(), that lets the callers
+ * query the index using the configured Search class but providing their own request
+ * object, without affecting the Searcher's state.
+ *
+ * See the SearchResults component for an example
  * of how this is done using by defining "static contextTypes" in the component.
+ *
+ * Note that the Searcher will add query parameters to the URL for the page's location
+ * when the usere executes a (non-custom) search. This allows the URL for the search to be
+ * used to repeat the same search, either when refreshing the browser window or when
+ * bookmarking the page, sharing it in an email, etc. The URL is updated whenever a search
+ * happens, whether caused by the user clicking the search button or by changing the
+ * parameters to an existing search (e.g., changing the sort order or paging through the
+ * results).
+
+ IF
+Searcher is first loaded, we need to check for query parameters and apply them if they exist.In this case, we need to do the search.
+
+IF
+Searcher is updated with a new query string, then we need to parse it and possibly do a new search, if it has changed.
+
+IF
+User does a search manually, we need to calculate the query string and push the new location onto the history if it has changed.
+  THIS HAPPENS IN THE doSearch() method
+
+IF
+User updates a property that affects existing searches but doesn't require resetting, we need to update the state and then, if there's a previous search, perform a new one (and, only in this case, update the search string
+  THIS HAPPENDS WHEN THESE PROPERTIES CHANGE:
+      resultsOffset (i.e., paging)
+
+IF
+User updates a property that affects existing searches AND requires resetting, then we need to update the state including setting the offset to 0, and , if there's a previous search, perform a new one (and, only in this case, update the search string
+  THIS HAPPENDS WHEN THESE PROPERTIES CHANGE:
+      geoFilters (adding or removing)
+      resultsPerPage
+      facetFilters (adding or removing)
+      sort
+      relevancyModels
+      format
+      searchProfile
+
+
+      // NEED TO DEAL WITH VALUES IN URL THAT ARE NOT VALID...
+
  */
 class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, SearcherState> {
+  static STAR_COLON_STAR = '*:*';
+
   static defaultProps = {
     baseUri: '',
     searchWorkflow: 'search',
@@ -194,12 +285,18 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     searcher: PropTypes.any,
   }
 
+  /**
+   * Convert an array of facet filters to an array of string representations thereof.
+   */
   static serializeFacetFilters(facetFilters: Array<FacetFilter>): Array<string> {
     return facetFilters.map((facetFilter: FacetFilter): string => {
       return `${facetFilter.facetName},+${facetFilter.bucketLabel},+${facetFilter.filter}`;
     });
   }
 
+  /**
+   * Conveert an array of stringified facet filters to an array of actual FacetFilter objects.
+   */
   static deserializeFacetFilters(facetFilters: Array<string>): Array<FacetFilter> {
     return facetFilters.map((facetFilterString: string): FacetFilter => {
       const parts: Array<string> = facetFilterString.split(',+');
@@ -213,40 +310,19 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
 
   constructor(props: SearcherProps) {
     super(props);
-    const location = this.props.location;
-    const search = QueryString.parse(location.search);
-    search.geoFilters = search.geoFilters === undefined ? [] : search.geoFilters;
-    search.geoFilters = typeof search.geoFilters === 'string' ? [search.geoFilters] : search.geoFilters;
-    search.resultsPerPage = search.resultsPerPage ? Number(search.resultsPerPage) : 10;
-    search.relevancyModels = typeof search.relevancyModels === 'string' ? [search.relevancyModels] : search.relevancyModels;
-    search.sort = typeof search.sort === 'string' ? [search.sort] : search.sort;
-    if (search.facetFilters) {
-      search.facetFilters = typeof search.facetFilters === 'string' ? [search.facetFilters] : search.facetFilters;
-      search.facetFilters = Searcher.deserializeFacetFilters(search.facetFilters);
-    }
     this.state = {
-      query: search.query || '*:*',
-      queryLanguage: search.queryLanguage || this.props.defaultQueryLanguage,
-      geoFilters: search.geoFilters || [],
-      resultsPerPage: parseInt(search.resultsPerPage, 10) || parseInt(this.props.resultsPerPage, 10) || 10,
+      query: Searcher.STAR_COLON_STAR,
+      queryLanguage: this.props.defaultQueryLanguage,
+      geoFilters: [],
+      resultsPerPage: parseInt(this.props.resultsPerPage, 10),
       haveSearched: false,
-      resultsOffset: parseInt(search.resultsOffset, 10) || 0,
-      facetFilters: search.facetFilters || [],
-      sort: search.sort || ['.score:DESC'],
-      relevancyModels: search.relevancyModels || this.props.relevancyModels || ['default'],
-      format: search.format || this.props.format || 'list',
+      resultsOffset: 0,
+      facetFilters: [],
+      sort: ['.score:DESC'],
+      relevancyModels: this.props.relevancyModels,
+      format: this.props.format,
     };
-    (this: any).updateQuery = this.updateQuery.bind(this);
-    (this: any).updateQueryLanguage = this.updateQueryLanguage.bind(this);
-    (this: any).updateFormat = this.updateFormat.bind(this);
-    (this: any).changePage = this.changePage.bind(this);
-    (this: any).updateResultsPerPage = this.updateResultsPerPage.bind(this);
-    (this: any).addFacetFilter = this.addFacetFilter.bind(this);
-    (this: any).removeFacetFilter = this.removeFacetFilter.bind(this);
-    (this: any).doSearch = this.doSearch.bind(this);
-    (this: any).doCustomSearch = this.doCustomSearch.bind(this);
     (this: any).updateSearchResults = this.updateSearchResults.bind(this);
-    (this: any).performQueryImmediately = this.performQueryImmediately.bind(this);
   }
 
   state: SearcherState;
@@ -258,95 +334,38 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   }
 
   componentWillMount() {
+    console.log('In Searcher.componentWillMount()');
+    // When the searcher is first created, this is called.
+    // We check to see if the state needs to be updated due to this.
     this.search = new Search(this.props.baseUri);
+
+    // Pull a state object out of the location's query string
     const location = this.props.location;
-    const {
-      query,
-      queryLanguage,
-      geoFilters,
-      resultsPerPage,
-      resultsOffset,
-      sort,
-      relevancyModels,
-      format,
-      facetFilters,
-    } = this.state;
-    const search = Object.assign({}, {
-      query,
-      queryLanguage,
-      geoFilters,
-      resultsPerPage,
-      resultsOffset,
-      sort,
-      relevancyModels,
-      facetFilters,
-      format,
-    }, QueryString.parse(location.search));
-    if (location.search !== `?${QueryString.stringify(search)}`) {
-      location.search = `?${QueryString.stringify(search)}`;
-      this.props.history.push(location);
+    const newState = this.parseLocationQueryStringToState(location.search);
+
+    console.log('Pulled the state from the location as:', newState);
+
+    if (JSON.stringify(this.state) !== JSON.stringify(newState)) {
+      console.log('The state has changed so we are updating it');
+      this.updateStateAndSearch(newState);
     }
   }
 
   componentWillReceiveProps(nextProps: SearcherProps) {
+    console.log('In Searcher.componentWillReceiveProps()');
+    // When the searcher gets updated to have a new set of props, then this is called.
     const location = nextProps.location;
-    const search = QueryString.parse(location.search);
-    const { geoFilters, resultsPerPage, resultsOffset, sort, relevancyModels, facetFilters } = this.state;
 
-    search.geoFilters = search.geoFilters === undefined ? [] : search.geoFilters;
-    search.geoFilters = typeof search.geoFilters === 'string' ? [search.geoFilters] : search.geoFilters;
-    search.resultsPerPage = search.resultsPerPage ? Number(search.resultsPerPage) : 10;
-    search.resultsOffset = search.resultsOffset ? Number(search.resultsOffset) : 0;
-    search.relevancyModels = typeof search.relevancyModels === 'string' ? [search.relevancyModels] : search.relevancyModels;
-    search.sort = typeof search.sort === 'string' ? [search.sort] : search.sort;
+    // Pull a state object out of the location's query string
+    const newState = this.parseLocationQueryStringToState(location.search);
 
-    const doSearch = QueryString.stringify(search) !== QueryString.stringify({
-      query: search.query,
-      queryLanguage: search.queryLanguage,
-      format: search.format,
-      geoFilters,
-      resultsPerPage,
-      resultsOffset,
-      sort,
-      relevancyModels,
-      facetFilters: Searcher.serializeFacetFilters(facetFilters),
-    });
-    if (search.facetFilters) {
-      search.facetFilters = typeof search.facetFilters === 'string' ? [search.facetFilters] : search.facetFilters;
-      search.facetFilters = Searcher.deserializeFacetFilters(search.facetFilters);
-    } else {
-      search.facetFilters = [];
+    console.log('Pulled the state from the location as:', newState);
+
+    // We check to see if the state needs to be updated due to this
+    if (JSON.stringify(this.state) !== JSON.stringify(newState)) {
+      console.log('The state has changed so we are updating it');
+      this.updateStateAndSearch(newState);
     }
-    this.setState(search, () => {
-      if (doSearch) {
-        const qr = this.getQueryRequest();
-        this.search.search(qr, this.updateSearchResults);
-      }
-    });
-  }
-
-  /**
-   * Get the list of fields to use in the query request.
-   */
-  getFieldList(): Array<string> {
-    // Start out with the fields the user specifed
-    const result = [].concat(this.props.fields || []);
-    // Add the mapped fields that the search results will expect
-    result.push(`${this.props.title} as title`);
-    result.push(`${this.props.uri} as uri`);
-    result.push(`${this.props.table} as table`);
-    result.push(`${this.props.teaser} as teaser`);
-    result.push(`${this.props.text} as text`);
-    result.push(`${this.props.previewImageUri} as previewImageUri`);
-    result.push(`${this.props.thumbnailImageUri} as thumbnailImageUri`);
-    result.push(`${this.props.latitude} as latitude`);
-    result.push(`${this.props.longitude} as longitude`);
-    result.push(`${this.props.moreLikeThisQuery} as morelikethisquery`);
-    result.push(`${this.props.mimetype} as mimetype`);
-    result.push(`${this.props.sourcePath} as sourcepath`);
-    // Add the fields we always want
-    result.push('tags');
-    return result;
   }
 
   /**
@@ -406,14 +425,239 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     return qr;
   }
 
-  updateQueryParams(props: any) {
-    const { location } = this.props;
-    const search = Object.assign({}, props);
-    if (search.facetFilters) {
-      search.facetFilters = Searcher.serializeFacetFilters(search.facetFilters);
+  /**
+   * Get the list of fields to use in the query request.
+   */
+  getFieldList(): Array<string> {
+    // Start out with the fields the user specifed
+    const result = [].concat(this.props.fields || []);
+    // Add the mapped fields that the search results will expect
+    result.push(`${this.props.title} as title`);
+    result.push(`${this.props.uri} as uri`);
+    result.push(`${this.props.table} as table`);
+    result.push(`${this.props.teaser} as teaser`);
+    result.push(`${this.props.text} as text`);
+    result.push(`${this.props.previewImageUri} as previewImageUri`);
+    result.push(`${this.props.thumbnailImageUri} as thumbnailImageUri`);
+    result.push(`${this.props.latitude} as latitude`);
+    result.push(`${this.props.longitude} as longitude`);
+    result.push(`${this.props.moreLikeThisQuery} as morelikethisquery`);
+    result.push(`${this.props.mimetype} as mimetype`);
+    result.push(`${this.props.sourcePath} as sourcepath`);
+    // Add the fields we always want
+    result.push('tags');
+    return result;
+  }
+
+  /**
+   * Given a SearcherState object, generate the serialized URL query string parameters
+   * that represent that state. If the optional original queryString parameter is passed,
+   * then any non-SearcherState parameters encoded in it will be added to the resulting
+   * query string.
+   */
+  generateLocationQueryStringFromState(state: SearcherState, originalQueryString: string | null): string {
+    console.log('In Searcher.generateLocationQueryStringFromState()');
+    console.log('The state is:', this.state);
+    let basicState = {};
+
+    if (!(state.query === '*' || state.query === '*:*')) {
+      basicState.query = state.query;
     }
-    location.search = `?${QueryString.stringify(Object.assign(QueryString.parse(location.search), search))}`;
-    this.props.history.push(location);
+    if (state.queryLanguage !== this.props.defaultQueryLanguage) {
+      basicState.queryLanguage = state.queryLanguage;
+    }
+    if (state.geoFilters && state.geoFilters.length > 0) {
+      basicState.geoFilters = state.geoFilters;
+    }
+    if (state.resultsPerPage !== this.props.resultsPerPage) {
+      basicState.resultsPerPage = state.resultsPerPage;
+    }
+    if (state.resultsOffset !== 0) {
+      basicState.resultsOffset = state.resultsOffset;
+    }
+    if (state.facetFilters && state.facetFilters.length > 0) {
+      basicState.facetFilters = Searcher.serializeFacetFilters(state.facetFilters);
+    }
+    if (state.sort) {
+      // LJV TODO compare with default version
+      basicState.sort = state.sort;
+    }
+    if (state.relevancyModels && state.relevancyModels.length > 0) {
+      basicState.relevancyModels = state.relevancyModels;
+    }
+    if (state.format && state.format !== this.props.format) {
+      basicState.format = state.format;
+    }
+
+    console.log('We calculated the basic state as: ', basicState);
+
+    // See if there are any query parameters other than those set by the Searcher. If so, we want to maintain them.
+    if (originalQueryString) {
+      console.log('The caller passed in the original query string: ', originalQueryString);
+      const originalParsed = QueryString.parse(originalQueryString);
+      if (originalParsed) {
+        originalParsed.delete('query');
+        originalParsed.delete('queryLanguage');
+        originalParsed.delete('geoFilters');
+        originalParsed.delete('resultsPerPage');
+        originalParsed.delete('resultsOffset');
+        originalParsed.delete('facetFilters');
+        originalParsed.delete('sort');
+        originalParsed.delete('relevancyModels');
+        originalParsed.delete('format');
+      }
+      console.log('After removing searcher stuff, the parsed version is: ', originalParsed);
+      // Add any leftover fields back in to the basic state
+      basicState = Object.assign({}, basicState, originalParsed);
+      console.log('The updated basic state is: ', basicState);
+    }
+
+    return QueryString.stringify(basicState);
+  }
+
+  /**
+   * Given the query string from the location URL, parse it into the values of a SearcherState
+   * object. Values which are missing are set to their default values. Any values in the
+   * queryString which don't apply to the SearcherState are ignored.
+   */
+  parseLocationQueryStringToState(queryString: string): SearcherState {
+    console.log('In Searcher.parseLocationQueryStringToState()');
+    console.log('The query string is: ', queryString);
+    const parsed = QueryString.parse(queryString);
+
+    // Get the query string
+    // DEFAULT: *:*
+    const query = parsed.query ? parsed.query : '*:*';
+
+    // Get the query language (and validate that it's one of 'simple' or 'advanced')
+    // DEFAULT: this.props.defaultQueryLanguage
+    let queryLanguage: 'simple' | 'advanced' = this.props.defaultQueryLanguage;
+    if (parsed.queryLanguage === 'simple' || parsed.queryLanguage === 'advanced') {
+      queryLanguage = parsed.queryLanguage;
+    } else if (parsed.queryLanguage) {
+      console.log(`Searcher was passed unknown query language from the URI: ${parsed.queryLanguage}. Using default: ${this.props.defaultQueryLanguage}`);
+    }
+
+    // Get the geoFilters (normalized to an array of strings)
+    // DEFAUT: []
+    let geoFilters = parsed.geoFilters;
+    if (!geoFilters) {
+      geoFilters = [];
+    } else if (typeof geoFilters === 'string') {
+      geoFilters = [geoFilters];
+    }
+
+    // Get the number of results per page (as a positive integer)
+    // DEFAULT: this.props.resultsPerPage¸
+    let resultsPerPage: number;
+    if (parsed.resultsPerPage) {
+      resultsPerPage = parseInt(parsed.resultsPerPage, 10);
+    }
+    if (!resultsPerPage || resultsPerPage <= 0) {
+      resultsPerPage = this.props.resultsPerPage;
+    }
+
+    // Get the offset into the search results (as a positive integer or zero)
+    // DEFAULT: 0
+    let resultsOffset: number;
+    if (parsed.resultsOffset) {
+      resultsOffset = parseInt(parsed.resultsOffset, 10);
+    }
+    if (!resultsOffset || resultsOffset < 0) {
+      resultsOffset = 0;
+    }
+
+    // Get the facet filters (normalized to an array of FacetFilter objects
+    // DEFAULT: []
+    let facetFiltersStrings = [];
+    if (parsed.facetFilters) {
+      // Wrap single strings in an array
+      if (typeof parsed.facetFilters === 'string') {
+        facetFiltersStrings = [parsed.facetFilters];
+      } else {
+        facetFiltersStrings = parsed.facetFilters;
+      }
+    }
+    // Deserialize the strings to get FacetFilter objects
+    const facetFilters = Searcher.deserializeFacetFilters(facetFiltersStrings);
+
+    // Get the sort order
+    // DEFAULT: '.score:DESC'
+    let sort;
+    if (typeof parsed.sort === 'string') {
+      // LJV TODO Validate the sort column and direction
+      sort = parsed.sort;
+    }
+    if (!sort) {
+      sort = '.score:DESC';
+    }
+
+    // Get the relevancy models to use.
+    // DEFAULT: []
+    let relevancyModels;
+    if (parsed.relevancyModels) {
+      if (typeof parsed.relevancyModels === 'string') {
+        relevancyModels = [parsed.relevancyModels];
+      } else {
+        relevancyModels = parsed.relevancyModels;
+      }
+    }
+    if (!relevancyModels) {
+      relevancyModels = [];
+    }
+
+    // LJV TODO
+    // Get the business center profile to use.
+    // DEFAULT: none
+
+    // Get the format.
+    // DEFAULT: this.props.format
+    let format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple' = this.props.format;
+    if (parsed.format === 'list' || parsed.format === 'usercard' || parsed.format === 'doccard' || parsed.format === 'debug' || parsed.format === 'simple') {
+      format = parsed.format;
+    } else if (parsed.format) {
+      console.log(`Searcher was passed unknown list format from the URI: ${parsed.format}. Using default: ${this.props.format}`);
+    }
+
+    const result: SearcherState = {
+      query,
+      queryLanguage,
+      geoFilters,
+      resultsPerPage,
+      resultsOffset,
+      facetFilters,
+      sort: [sort],
+      relevancyModels,
+      format,
+      haveSearched: false,
+    };
+
+    console.log('The state we came up with is: ', result);
+
+    return result;
+  }
+
+  /**
+   * Reset to the first page and then update the state, re-running the search if one had already been done.
+   */
+  updateStateResetAndSearch(partialState: any) {
+    console.log('In Searcher.updateStateResetAndSearch()');
+    const newPartialState = Object.assign({}, partialState);
+    newPartialState.resultsOffset = 0;
+    this.updateStateAndSearch(newPartialState);
+  }
+
+  /**
+   * Update the state of the searcher and then re-run the search if one had already been done.
+   */
+  updateStateAndSearch(partialState: any) {
+    console.log('In Searcher.updateStateAndSearch()');
+    console.log('The partial state is: ', partialState);
+    this.setState(partialState, () => {
+      if (this.state.haveSearched) {
+        this.doSearch();
+      }
+    });
   }
 
   /**
@@ -421,17 +665,10 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * to use when rendering results.
    */
   updateFormat(newFormat: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple') {
-    const callback = () => {
-      this.updateQueryParams({ format: newFormat });
-    };
     if (this.state.format !== newFormat) {
-      if (this.context && this.context.configuration) {
-        this.context.configuration.set('Searcher', {
-          format: newFormat,
-        }, callback);
-      } else {
-        callback();
-      }
+      this.updateStateAndSearch({
+        format: newFormat,
+      });
     }
   }
 
@@ -446,7 +683,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   search: Search;
 
   /**
-   * Callback used when the search is completed.
+   * Callback used when the search is completed. Will update the Searcher's state
+   * with the query response or the error string passed in.
    */
   updateSearchResults(response: ?QueryResponse, error: ?string) {
     if (response) {
@@ -479,14 +717,16 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * optional callback when done.
    */
   reset(callback: () => void = () => {}) {
+    console.log('In Searcher.reset()');
     const callBackWrapper = () => {
-      this.updateQueryParams({
-        query: '*:*',
+      this.updateStateResetAndSearch({
+        query: Searcher.STAR_COLON_STAR,
         queryLanguage: this.props.defaultQueryLanguage,
-        resultsPerPage: this.props.resultsPerPage ? this.props.resultsPerPage : 10,
-        resultsOffset: 0,
-        sort: ['.score:DESC'],
+        geoFilters: [],
+        resultsPerPage: this.props.resultsPerPage,
         facetFilters: [],
+        sort: ['.score:DESC'],
+        relevancyModels: [],
         format: 'list',
       });
       callback();
@@ -511,8 +751,31 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * </ul>
    */
   doSearch() {
+    console.log('In Searcher.doSearch()');
     const qr = this.getQueryRequest();
-    this.search.search(qr, this.updateSearchResults);
+    this.search.search(qr, (response: QueryResponse, error: string) => {
+      this.updateSearchResults(response, error);
+
+      // potentially do window.scrollTo(0, 0)?
+
+      // Update the URL if needed.
+      const oldQueryString = this.props.location.query;
+      const updatedQueryString = this.generateLocationQueryStringFromState(this.state, oldQueryString);
+      if (oldQueryString !== updatedQueryString) {
+        this.props.history.push(`?${updatedQueryString}`);
+      }
+    });
+  }
+
+  /**
+   * If a search has already been done and the user is just tweaking a setting,
+   * then we'll repeat the search with the updated parameters. Otherwise, this is
+   * a no-op.
+   */
+  repeatSearchIfNeeded() {
+    if (this.state.haveSearched) {
+      this.doSearch();
+    }
   }
 
   /**
@@ -520,72 +783,65 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * query immediately, resetting parameters to the beginning.
    */
   performQueryImmediately(query: string, advanced: boolean = false) {
-    this.setState({
+    this.updateStateResetAndSearch({
       haveSearched: true,
       error: undefined,
       response: undefined,
+      queryLanguage: advanced ? 'advanced' : 'simple',
+      facetFilters: [],
       query,
-    }, () => {
-      const qr = this.getQueryRequest();
-      qr.facetFilters = [];
-      qr.restParams.set('offset', [`${0}`]);
-      // If requested, force an advanced query (we always do this, e.g.,
-      // for more-like-this queries, regardless of the searcher's state)
-      if (advanced) {
-        qr.queryLanguage = 'advanced';
-      }
-      this.search.search(qr, this.updateSearchResults);
-      window.scrollTo(0, 0);
     });
   }
 
   /**
    * Set whether the simple or advanced query language should be
    * used to perform the search.
-  * This causes subsequent searches to be reset (see doSearch() for details).
+   * This causes subsequent searches to be reset.
    */
   updateQueryLanguage(queryLanguage: 'advanced' | 'simple') {
     if (queryLanguage !== this.state.queryLanguage) {
-      this.setState({
-        haveSearched: false,
-      }, () => {
-        this.updateQueryParams({ queryLanguage });
+      this.updateStateResetAndSearch({
+        queryLanguage,
       });
     }
   }
 
   /**
-   * Update the query string to use for searching.
+   * Update the query string to use for searching. Don't add this into the
+   * URL because we don't want the URL changing as the user types, only when
+   * the search button is clicked.
    * This causes subsequent searches to be reset (see doSearch() for details).
    */
   updateQuery(query: string) {
-    this.updateQueryParams({ query });
+    this.setState({
+      haveSearched: false,
+      query,
+    });
   }
 
   /**
    * Update the number of documents to show on a page.
-   * This causes the current search to be reperformed with the new value.
+   * If there is a current search and the value has changed, the
+   * search will be repeated with the new value.
    */
   updateResultsPerPage(newResultsPerPage: number) {
-    const callback = () => {
-      this.updateQueryParams({ resultsPerPage: newResultsPerPage });
-    };
-    if (this.context && this.context.configuration) {
-      this.context.configuration.set('Searcher', {
+    if (newResultsPerPage !== this.state.resultsPerPage) {
+      this.updateStateResetAndSearch({
         resultsPerPage: newResultsPerPage,
-      }, callback);
-    } else {
-      callback();
+      });
     }
   }
 
   /**
-   * Call to change the relevancy model in use for the searcher.
-   * Will repeat the current search, if any has been done.
+   * Call to change the relevancy model in use by the searcher.
+   * If there is a current search and the value has changed, the
+   * search will be repeated with the new value.
    */
   updateRelevancyModels(newRelevancyModels: Array<string>) {
     if (JSON.stringify(newRelevancyModels) !== JSON.stringify(this.state.relevancyModels)) {
-      this.updateQueryParams({ relevancyModels: newRelevancyModels });
+      this.updateStateResetAndSearch({
+        relevancyModels: newRelevancyModels,
+      });
     }
   }
 
@@ -593,30 +849,29 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * Update the searcher to use a new sort column. The value passed
    * in should have the column name and sort direction, separated
    * by a colon (direction is either ASC or DESC).
+   * If there is a current search and the value has changed, the
+   * search will be repeated with the new value.
+   * The search is reset to the first page when performed again.
    */
   updateSort(newSort: string) {
-    let sort = this.state.sort;
-    if (sort && sort.length > 0) {
-      sort[0] = newSort;
-    } else {
-      sort = [newSort];
+    if (this.newSort !== this.state.sort) {
+      let sort = this.state.sort;
+      if (sort && sort.length > 0) {
+        sort[0] = newSort;
+      } else {
+        sort = [newSort];
+      }
+      this.updateStateResetAndSearch({
+        sort,
+      });
     }
-    this.setState({
-      haveSearched: true,
-    }, () => {
-      this.updateQueryParams({ sort, resultsOffset: 0 });
-    });
   }
 
   /**
    * Add a query filter (in AQL) to the query request.
    */
   addGeoFilter(filter: string) {
-    const geoFilters = this.state.geoFilters.slice();
-    if (geoFilters.indexOf(filter) === -1) {
-      geoFilters.push(filter);
-    }
-    this.updateQueryParams({ geoFilters });
+    this.addGeoFilters([filter]);
   }
 
   /**
@@ -625,7 +880,9 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   addGeoFilters(filters: Array<string>) {
     let geoFilters = this.state.geoFilters.slice();
     geoFilters = geoFilters.concat(filters);
-    this.updateQueryParams({ geoFilters });
+    this.updateStateResetAndSearch({
+      geoFilters,
+    });
   }
 
   /**
@@ -637,7 +894,9 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     if (index !== -1) {
       geoFilters.splice(index, 1);
     }
-    this.updateQueryParams({ geoFilters });
+    this.updateStateResetAndSearch({
+      geoFilters,
+    });
   }
 
   /**
@@ -660,7 +919,9 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       }
     });
     updatedFacetFilters.push(newFF);
-    this.updateQueryParams({ resultsOffset: 0, facetFilters: updatedFacetFilters });
+    this.updateStateResetAndSearch({
+      facetFilters: updatedFacetFilters,
+    });
   }
 
   /**
@@ -676,23 +937,29 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         updatedFacetFilters.push(facetFilter);
       }
     });
-    this.updateQueryParams({ resultsOffset: 0, facetFilters: updatedFacetFilters });
+    this.updateStateResetAndSearch({
+      facetFilters: updatedFacetFilters,
+    });
   }
 
   /**
-   * Navigate to a new page. If a search has been completed,
-   * the search's results for the new page will be displayed.
+   * Navigate to a new page of search results. (Should only actually be
+   * called if a search has been completed.) The search will be performed
+   * again with the new page's offset.
    */
   changePage(newPage: number) {
     const resultsPerPage = this.state.resultsPerPage;
+    const oldOffset = this.state.resultsOffset;
     const newOffset = resultsPerPage * newPage;
-    this.updateQueryParams({ resultsOffset: newOffset });
-    if (this.state.haveSearched) {
-      this.doSearch();
+    if (newOffset !== oldOffset) {
+      this.updateStateAndSearch({
+        resultsOffset: newOffset,
+      });
     }
   }
 
   render() {
+    // Nothing special to do here. The children will all look at our state to decide what to render
     return (
       <div>
         {this.props.children}
