@@ -44,6 +44,7 @@ export Configurable from './components/Configurable';
 export Configuration from './components/Configuration';
 export DataPairs from './components/DataPairs';
 export DatePicker from './components/DatePicker';
+export DisappearingImage from './components/DisappearingImage';
 export Doc360Breadcrumbs from './components/Doc360Breadcrumbs';
 export DocumentEntityList from './components/DocumentEntityList';
 export DocumentThumbnail from './components/DocumentThumbnail';
