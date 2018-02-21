@@ -297,7 +297,7 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
         </div>
         <div className="col-xs-8 col-sm-8">
           <SearchResultTitle doc={doc} baseUri={this.props.baseUri} />
-          <dl className="attivio-labeldata-2col attivio-search-result-debugger">\
+          <dl className="attivio-labeldata-2col attivio-search-result-debugger">
             {fieldRows}
           </dl>
           <SearchResultTags tags={docTags} moreLikeThisQuery={moreLikeThisQuery} vertical docId={docId} />
