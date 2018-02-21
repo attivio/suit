@@ -158,10 +158,14 @@ export default class KnowledgeGraphUtils {
   }
 
   static makeDocNode(doc: SearchDocument, id: number, isPrimary: boolean = false): any {
-    const label = StringUtils.wrapLabel(doc.getFirstValue('title'));
+    let label = StringUtils.wrapLabel(doc.getFirstValue('title'));
     const docId = doc.getFirstValue(FieldNames.ID);
     const table = doc.getFirstValue('table');
     const title = isPrimary ? `${table} [Main Document]` : `Related ${table} Document`;
+
+    if (!label) {
+      label = '[This document has no title]';
+    }
 
     const node = new GraphNode(id, label, title, 'document');
     node.physics = false;
