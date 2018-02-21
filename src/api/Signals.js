@@ -36,6 +36,7 @@ export default class Signals {
         method: 'POST',
         headers,
         body,
+        credentials: 'include',
       };
       const fetchRequest = new Request(uri, params);
 
