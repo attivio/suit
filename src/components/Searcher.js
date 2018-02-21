@@ -30,12 +30,14 @@ User does a search manually, we need to calculate the query string and push the 
   THIS HAPPENS IN THE doSearch() method
 
 IF
-User updates a property that affects existing searches but doesn't require resetting, we need to update the state and then, if there's a previous search, perform a new one (and, only in this case, update the search string
+User updates a property that affects existing searches but doesn't require resetting, we need to update the state and then,
+]if there's a previous search, perform a new one (and, only in this case, update the search string
   THIS HAPPENDS WHEN THESE PROPERTIES CHANGE:
       resultsOffset (i.e., paging)
 
 IF
-User updates a property that affects existing searches AND requires resetting, then we need to update the state including setting the offset to 0, and , if there's a previous search, perform a new one (and, only in this case, update the search string
+User updates a property that affects existing searches AND requires resetting, then we need to update the state including
+setting the offset to 0, and , if there's a previous search, perform a new one (and, only in this case, update the search string
   THIS HAPPENDS WHEN THESE PROPERTIES CHANGE:
       geoFilters (adding or removing)
       resultsPerPage
@@ -229,12 +231,14 @@ User does a search manually, we need to calculate the query string and push the 
   THIS HAPPENS IN THE doSearch() method
 
 IF
-User updates a property that affects existing searches but doesn't require resetting, we need to update the state and then, if there's a previous search, perform a new one (and, only in this case, update the search string
+User updates a property that affects existing searches but doesn't require resetting, we need to update the state and then,
+if there's a previous search, perform a new one (and, only in this case, update the search string
   THIS HAPPENDS WHEN THESE PROPERTIES CHANGE:
       resultsOffset (i.e., paging)
 
 IF
-User updates a property that affects existing searches AND requires resetting, then we need to update the state including setting the offset to 0, and , if there's a previous search, perform a new one (and, only in this case, update the search string
+User updates a property that affects existing searches AND requires resetting, then we need to update the state including setting
+the offset to 0, and , if there's a previous search, perform a new one (and, only in this case, update the search string
   THIS HAPPENDS WHEN THESE PROPERTIES CHANGE:
       geoFilters (adding or removing)
       resultsPerPage
@@ -558,7 +562,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     if (parsed.queryLanguage === 'simple' || parsed.queryLanguage === 'advanced') {
       queryLanguage = parsed.queryLanguage;
     } else if (parsed.queryLanguage) {
-      console.log(`Searcher was passed unknown query language from the URI: ${parsed.queryLanguage}. Using default: ${this.props.defaultQueryLanguage}`);
+      console.log(`Searcher was passed unknown query language from the URI: ${parsed.queryLanguage}. Using default: ${this.props.defaultQueryLanguage}`); // eslint-disable-line max-len
     }
 
     // Get the geoFilters (normalized to an array of strings)
@@ -636,7 +640,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     // Get the format.
     // DEFAULT: this.props.format
     let format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple' = this.props.format;
-    if (parsed.format === 'list' || parsed.format === 'usercard' || parsed.format === 'doccard' || parsed.format === 'debug' || parsed.format === 'simple') {
+    if (parsed.format === 'list' || parsed.format === 'usercard' || parsed.format === 'doccard' ||
+        parsed.format === 'debug' || parsed.format === 'simple') {
       format = parsed.format;
     } else if (parsed.format) {
       console.log(`Searcher was passed unknown list format from the URI: ${parsed.format}. Using default: ${this.props.format}`);
@@ -709,7 +714,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * Callback used when the search is completed. Will update the Searcher's state
    * with the query response or the error string passed in.
    */
-  updateSearchResults(response: ?QueryResponse, error: ?string) {
+  updateSearchResults(response: QueryResponse | null, error: string | null) {
     if (response) {
       // Succeeded...
       this.setState({
@@ -731,7 +736,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * Perform a custom search given a query request. Calls the updateResults callback
    * and doesn't affect the state of the searcher itself.
    */
-  doCustomSearch(request: SimpleQueryRequest, updateResults: (response: ?QueryResponse, error: ?string)=>void) {
+  doCustomSearch(request: SimpleQueryRequest, updateResults: (response: QueryResponse | null, error: string | null) => void) {
     this.search.search(request, updateResults);
   }
 
@@ -776,7 +781,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   doSearch() {
     console.log('In Searcher.doSearch()');
     const qr = this.getQueryRequest();
-    this.search.search(qr, (response: QueryResponse, error: string) => {
+    this.search.search(qr, (response: QueryResponse | null, error: string | null) => {
       this.updateSearchResults(response, error);
 
       // potentially do window.scrollTo(0, 0)?

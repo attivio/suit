@@ -35,7 +35,7 @@ export default class Search {
     return obj;
   }
 
-  search(request: SimpleQueryRequest, updateResults: (response: ?QueryResponse, error: ?string)=>void) {
+  search(request: SimpleQueryRequest, updateResults: (response: QueryResponse | null, error: string | null) => void) {
     if (!request.restParams || request.restParams.size === 0) {
       request.restParams = new Map([
         ['join.rollup', ['TREE']],
@@ -79,10 +79,10 @@ export default class Search {
         if (response.ok) {
           response.json().then((jsonResponse: any) => {
             const searchResponse = QueryResponse.fromJson(jsonResponse);
-            updateResults(searchResponse);
+            updateResults(searchResponse, null);
           }).catch((error: any) => {
             // Catch errors from converting the response's JSON
-            updateResults(undefined, Search.getErrorMessage(error));
+            updateResults(null, Search.getErrorMessage(error));
           });
         } else {
           // The request came back other than a 200-type response code
@@ -91,21 +91,21 @@ export default class Search {
             const exceptionMessasge = searchException.message ? searchException.message : '';
             const exceptionCode = searchException.errorCode ? ` (${(searchException.errorCode: string)})` : '';
             const finalExceptionMessage = `An exception occurred while searching. ${exceptionMessasge}${exceptionCode}`;
-            updateResults(undefined, finalExceptionMessage);
+            updateResults(null, finalExceptionMessage);
           }).catch((badJsonError: any) => {
             // const errorMessage = response.statusText ? `${response.statusText} (error code ${response.status})` :
             //   `Unknown error of type ${response.status}`;
-            updateResults(undefined, Search.getErrorMessage(badJsonError));
+            updateResults(null, Search.getErrorMessage(badJsonError));
           });
         }
       },
       (error: any) => {
         // Catch network-type errors from the main fetch() call
-        updateResults(undefined, Search.getErrorMessage(error));
+        updateResults(null, Search.getErrorMessage(error));
       },
     ).catch((error: any) => {
       // Catch exceptions from the main "then" function
-      updateResults(undefined, Search.getErrorMessage(error));
+      updateResults(null, Search.getErrorMessage(error));
     });
   }
 
@@ -119,7 +119,7 @@ export default class Search {
    * @param updateResults will be called when the search is complete with the results or an error
    */
   simpleSearch(query: string, queryLanguage: 'simple' | 'advanced', offset: number, count: number,
-    updateResults: (response: ?QueryResponse, error: ?string)=>void) {
+    updateResults: (response: QueryResponse | null, error: string | null) => void) {
     const request = new SimpleQueryRequest();
     request.rows = count;
     request.query = query;
@@ -176,11 +176,11 @@ export default class Search {
             if (updateResult.ok) {
               // Now need to commit the update
               const commitUri = `${this.baseUri}/rest/ingestApi/commit/${sessionId}`;
-              fetch(commitUri).then((commitResult: Response) => {
+              fetch(commitUri, { credentials: 'include' }).then((commitResult: Response) => {
                 if (commitResult.ok) {
                   // Now need to close the session
                   const disconnectUri = `${this.baseUri}/rest/ingestApi/disconnect/${sessionId}`;
-                  fetch(disconnectUri).then((disconnectResult: Response) => {
+                  fetch(disconnectUri, { credentials: 'include' }).then((disconnectResult: Response) => {
                     if (disconnectResult.ok) {
                       resolve();
                     } else {

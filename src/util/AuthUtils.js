@@ -208,7 +208,7 @@ export default class AuthUtils {
    * Get the full info object for the logged-in user and call the passed-in
    * callback function with this info. If no user is logged in, the callback
    * is passed null.
-   * 
+   *
    * @param callback a function which takes the user info as a parameter
    */
   static getLoggedInUserInfo(callback: (any) => void) {

@@ -2,6 +2,7 @@
 
 import AbstractDocument from './AbstractDocument';
 import SimplePrincipal from './SimplePrincipal';
+import DocumentMode from '../util/DocumentMode';
 
 export class SimplePermission {
   principal: SimplePrincipal;

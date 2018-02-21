@@ -145,7 +145,7 @@ export default class KnowledgeGraphPanel extends React.Component<KnowledgeGraphP
         this.props.linkingFields, this.props.maxLinkedDocs, entityName, entityValue);
       const req = new SimpleQueryRequest(query);
       req.queryLanguage = 'advanced';
-      this.context.searcher.doCustomSearch(req, (response: ?QueryResponse, error: ?string) => {
+      this.context.searcher.doCustomSearch(req, (response: QueryResponse | null, error: string | null) => {
         if (response && response.documents && response.documents.length >= 1) {
           // Add the nodes and edges to our state so we can display them
           let primaryDoc = response.documents[0];

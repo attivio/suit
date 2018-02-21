@@ -69,7 +69,7 @@ export default class SimilarDocuments extends React.Component<SimilarDocumentsDe
           req.fields = fields;
           req.rows = 6;
 
-          searcher.doCustomSearch(req, (response: ?QueryResponse, error: ?string) => {
+          searcher.doCustomSearch(req, (response: QueryResponse | null, error: string | null) => {
             if (response && response.documents) {
               let docs = response.documents.slice();
               if (this.props.baseDoc) {
