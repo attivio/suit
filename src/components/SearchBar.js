@@ -13,6 +13,7 @@ import AutoCompleteInput from './AutoCompleteInput';
 declare var webkitSpeechRecognition: any; // Prevent complaints about this not existing
 
 type SearchBarProps = {
+  location: PropTypes.object.isRequired;
   history: PropTypes.object.isRequired;
   /** If set, this will be styled to live inside a <code>&lt;Masthead&gt;</code> component. */
   inMasthead: boolean;
@@ -192,8 +193,12 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
   route() {
     const searcher = this.context.searcher;
     if (this.props.route && searcher) {
-      // TODO: this should be using it's own location property, but that's not updating for some reason
-      this.props.history.push({ pathname: this.props.route, search: searcher.props.location.search });
+      // We need to do this to ensure the Searcher's state survives the navigation
+      const searchString = searcher.generateLocationQueryStringFromState(searcher.state);
+      this.props.history.push({
+        pathname: this.props.route,
+        search: searchString,
+      });
     }
   }
 

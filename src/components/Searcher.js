@@ -801,7 +801,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    */
   performQueryImmediately(query: string, advanced: boolean = false) {
     this.updateStateResetAndSearch({
-      haveSearched: true,
+      haveSearched: true, // Force it to update right now
       error: undefined,
       response: undefined,
       queryLanguage: advanced ? 'advanced' : 'simple',
