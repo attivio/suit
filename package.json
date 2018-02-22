@@ -30,6 +30,7 @@
   "scripts": {
     "build": "nwb build-react-component",
     "clean": "nwb clean-module",
+    "watch": "nodemon --watch src --exec npm run build",
     "test": "nwb test-react",
     "test:coverage": "nwb test-react --coverage",
     "test:watch": "nwb test-react --server",
@@ -72,6 +73,7 @@
     "eslint-plugin-react": "7.2.0",
     "flow-bin": "^0.50.0",
     "inferno": "^3.10.1",
+    "nodemon": "^1.15.1",
     "nwb": "0.21.x",
     "react-styleguidist": "^6.0.20"
   }
