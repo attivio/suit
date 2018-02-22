@@ -34,13 +34,31 @@ type AuthRouteDefaultProps = {
   authType: 'SAML' | 'XML' | 'NONE';
 };
 
+type AuthRouteState = {
+  user: any;
+};
+
 // LJV TODO Create a no-permissions page to use for unauthorized users
-class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, void> {
+class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, AuthRouteState> {
   static defaultProps = {
     required: null,
     location: null, // This should be filled in by the router
     authType: 'NONE',
   };
+
+  constructor(props: AuthRouteProps) {
+    super(props);
+    this.state = {
+      user: null,
+    };
+    AuthUtils.getLoggedInUserInfo((userInfo: any) => {
+      this.setState({
+        user: userInfo,
+      });
+    });
+  }
+
+  state: AuthRouteState;
 
   render() {
     // If the user is logged in and has permission for this
@@ -53,31 +71,20 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, v
       );
     }
 
-    // In the case where the user is not logged in...
-    if (this.props.authType === 'SAML') {
-      // In the case of SAML authentication, the back end will force
-      // the user to log on first but we need to forceably redirect
-      // to the "logged out" page so they don't automatically get
-      // logged back in by the Identity Provider.
+    if (this.props.authType !== 'SAML') {
+      // For local authentication, then just redirect to the login page.
       return (
         <Redirect
           to={{
-            pathname: '/loggedout',
+            pathname: '/login',
+          }}
+          state={{
+            from: this.props.location,
           }}
         />
       );
     }
-    // For local authentication, then just redirect to the login page.
-    return (
-      <Redirect
-        to={{
-          pathname: '/login',
-        }}
-        state={{
-          from: this.props.location,
-        }}
-      />
-    );
+    return null;
   }
 }
 

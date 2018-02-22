@@ -65,7 +65,7 @@ export default class SimpleQueryRequest {
   sort: Array<string>;
   /** The fields to return for each document */
   fields: Array<string>;
-  /** The name of the user peroforming the query */
+  /** The name of the user performing the query */
   username: string;
   /** The user's realm */
   realm: string;
