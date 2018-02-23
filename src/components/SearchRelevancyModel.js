@@ -126,7 +126,7 @@ export default class SearchRelevancyModel extends React.Component<SearchRelevanc
   render() {
     let menu;
     if (this.state.loading) {
-      const loadingMenuItem = new MenuItemDef('Loading…', 'loading');
+      const loadingMenuItem = new MenuItemDef('Loading\u2026', 'loading');
       loadingMenuItem.disabled = true;
       menu = (
         <Menu

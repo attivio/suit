@@ -83,7 +83,7 @@ export default class LoginForm extends React.Component<LoginFormDefaultProps, Lo
           disabled={this.state.loading}
           onClick={!this.state.loading ? this.handleClick : null}
         >
-          {this.state.loading ? 'Logging In…' : 'Log In'}
+          {this.state.loading ? 'Logging In\u2026' : 'Log In'}
         </Button>
       </Form>
     );

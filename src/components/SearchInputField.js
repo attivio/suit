@@ -22,7 +22,7 @@ type SearchInputFieldDefaultProps = {
  */
 export default class SearchInputField extends React.Component<SearchInputFieldDefaultProps, SearchInputFieldProps, void> {
   static defaultProps = {
-    placeholder: 'Search…',
+    placeholder: 'Search\u2026',
   };
 
   static contextTypes = {

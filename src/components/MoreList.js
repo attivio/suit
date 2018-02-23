@@ -35,8 +35,8 @@ type MoreListState = {
 export default class MoreList extends React.Component<MoreListDefaultProps, MoreListProps, MoreListState> {
   static defaultProps = {
     shortSize: 5,
-    morePrompt: 'More…',
-    fewerPrompt: 'Fewer…',
+    morePrompt: 'More\u2026',
+    fewerPrompt: 'Fewer\u2026',
   };
 
   constructor(props: MoreListProps) {

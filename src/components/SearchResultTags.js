@@ -55,7 +55,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
   static defaultProps = {
     moreLikeThisQuery: '',
     vertical: false,
-    view360Label: 'Show 360° View',
+    view360Label: 'Show 360\u00B0 View',
   };
 
   constructor(props: SearchResultTagsProps) {
@@ -195,7 +195,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
       tagList = <span className="attivio-tags-link none">None</span>;
     }
 
-    const addButtonText = this.state.updating ? 'Adding…' : 'Add';
+    const addButtonText = this.state.updating ? 'Adding\u2026' : 'Add';
     const extra = this.state.adding ? (
       <div className="form-inline attivio-tags-form">
         <div className="form-group">
@@ -204,7 +204,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
             type="email"
             className="form-control"
             id="attivio-tags-more-add"
-            placeholder="Tag…"
+            placeholder="Tag\u2026"
             value={this.state.newTag}
             onChange={this.updateNewTag}
             onKeyUp={this.keyUp}
@@ -237,7 +237,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
         role="button"
         tabIndex={0}
       >
-        Add…
+        Add\u2026
       </a>
     );
 

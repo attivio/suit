@@ -77,8 +77,8 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
 
   static defaultProps: SearchBarDefaultProps = {
     inMasthead: false,
-    placeholder: 'Search…',
-    placeholderAdvanced: 'Enter an advanced query…',
+    placeholder: 'Search\u2026',
+    placeholderAdvanced: 'Enter an advanced query\u2026',
     buttonLabel: 'Go',
     allowLanguageSelect: true,
     allowVoice: true,

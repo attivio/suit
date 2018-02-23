@@ -64,7 +64,7 @@ export default class DataPairs extends React.Component<void, DataPairsProps, Dat
       let value = pair.value;
       if (!this.state.showingAll && pair.value.length > DataPairs.MAX_CHARACTERS) {
         haveTruncated = true;
-        value = `${pair.value.substr(0, 100)}…`;
+        value = `${pair.value.substr(0, 100)}\u2026`;
       }
 
       if (pair.type && pair.type !== '') {
@@ -91,7 +91,7 @@ export default class DataPairs extends React.Component<void, DataPairsProps, Dat
               this.showAllLink = c;
             }}
           >
-            All data…
+            All data\u2026
           </a>
         </dd>
       ));

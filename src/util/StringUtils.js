@@ -107,7 +107,7 @@ export default class StringUtils {
       result = orig.substring(0, maxLen).trim();
     }
     if (ellipsis) {
-      result = `${result}…`;
+      result = `${result}\u2026`;
     }
     return result;
   }

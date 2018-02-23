@@ -22,7 +22,7 @@ type NavbarSearchDefaultProps = {
  */
 export default class NavbarSearch extends React.Component<NavbarSearchDefaultProps, NavbarSearchProps, void> {
   static defaultProps: NavbarSearchDefaultProps = {
-    placeholder: 'Search…',
+    placeholder: 'Search\u2026',
   };
 
   constructor(props: NavbarSearchProps) {
