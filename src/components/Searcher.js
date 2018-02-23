@@ -181,19 +181,20 @@ type SearcherDefaultProps = {
  *   parseLocationQueryStringToState()
  *   reset()
  *   relevantStateDiffers()
+ *   getDefaultState()
  */
 type SearcherState = {
+  haveSearched: boolean;
+  response?: QueryResponse;
+  error?: string;
   query: string;
   queryLanguage: 'advanced' | 'simple';
+  sort: Array<string>,
+  relevancyModels: Array<string>;
+  facetFilters: Array<FacetFilter>;
   geoFilters: Array<string>;
   resultsPerPage: number;
-  haveSearched: boolean;
   resultsOffset: number;
-  facetFilters: Array<FacetFilter>;
-  sort: Array<string>,
-  error?: string;
-  response?: QueryResponse;
-  relevancyModels: Array<string>;
   format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
 };
 
@@ -320,18 +321,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
 
     this.search = new Search(this.props.baseUri);
 
-    this.state = {
-      query: Searcher.STAR_COLON_STAR,
-      queryLanguage: this.props.defaultQueryLanguage,
-      geoFilters: [],
-      resultsPerPage: parseInt(this.props.resultsPerPage, 10),
-      haveSearched: false,
-      resultsOffset: 0,
-      facetFilters: [],
-      sort: ['.score:DESC'],
-      relevancyModels: this.props.relevancyModels,
-      format: this.props.format,
-    };
+    this.state = this.getDefaultState();
     (this: any).updateSearchResults = this.updateSearchResults.bind(this);
   }
 
@@ -374,6 +364,28 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       console.log('The state has changed so we are updating it');
       this.updateStateAndSearch(newState);
     }
+  }
+
+  /**
+   * Method to get the default state for the Searcher. This ism in a
+   * separate method since it needs to be done both in the constructor
+   * and in the reset method.
+   */
+  getDefaultState(): SearcherState {
+    return {
+      haveSearched: false,
+      response: undefined,
+      error: undefined,
+      query: Searcher.STAR_COLON_STAR,
+      queryLanguage: this.props.defaultQueryLanguage,
+      sort: ['.score:DESC'],
+      relevancyModels: this.props.relevancyModels,
+      facetFilters: [],
+      geoFilters: [],
+      resultsPerPage: parseInt(this.props.resultsPerPage, 10),
+      resultsOffset: 0,
+      format: this.props.format,
+    };
   }
 
   /**
@@ -746,24 +758,17 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    */
   reset(callback: () => void = () => {}) {
     console.log('In Searcher.reset()');
+    this.setState(this.getDefaultState(), callback);
+
     const callBackWrapper = () => {
-      this.updateStateResetAndSearch({
-        query: Searcher.STAR_COLON_STAR,
-        queryLanguage: this.props.defaultQueryLanguage,
-        geoFilters: [],
-        resultsPerPage: this.props.resultsPerPage,
-        facetFilters: [],
-        sort: ['.score:DESC'],
-        relevancyModels: [],
-        format: 'list',
-      });
-      callback();
+      this.updateStateResetAndSearch(this.getDefaultState(), callback);
     };
     this.setState({
       haveSearched: false,
-      error: undefined,
       response: undefined,
+      error: undefined,
     }, callBackWrapper);
+
   }
 
   /**
