@@ -28,7 +28,7 @@ export default class DateUtils {
       case DateFormat.LONG_MONTH:
         return m.format('MMMM YYYY');
       case DateFormat.SHORT_YEAR:
-        return m.format('’YY');
+        return m.format('\u2019YY');
       case DateFormat.LONG_YEAR:
         return m.format('YYYY');
       case DateFormat.SHORT:
