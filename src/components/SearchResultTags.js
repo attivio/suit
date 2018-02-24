@@ -204,7 +204,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
             type="email"
             className="form-control"
             id="attivio-tags-more-add"
-            placeholder="Tag\u2026"
+            placeholder={'Tag\u2026'}
             value={this.state.newTag}
             onChange={this.updateNewTag}
             onKeyUp={this.keyUp}

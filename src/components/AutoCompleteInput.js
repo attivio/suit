@@ -143,7 +143,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
     if (this.state.error && this.state.error.length > 0) {
       menuItems.push(<MenuItem eventKey="error" disabled>{this.state.error}</MenuItem>);
     } else if (this.state.loading) {
-      menuItems.push(<MenuItem eventKey="loading" disabled>Loading\u2026</MenuItem>);
+      menuItems.push(<MenuItem eventKey="loading" disabled>{'Loading\u2026'}</MenuItem>);
     } else {
       this.state.suggestions.forEach((suggestion) => {
         menuItems.push((
