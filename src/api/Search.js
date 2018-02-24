@@ -148,7 +148,7 @@ export default class Search {
     return new Promise((resolve, reject) => {
       // Get session
       const connectUri = `${this.baseUri}/rest/ingestApi/connect`;
-      fetch(connectUri).then((connectResult) => {
+      fetch(connectUri, { credentials: 'include' }).then((connectResult) => {
         connectResult.json().then((json) => {
           const sessionId = json;
           const updateUri = `${this.baseUri}/rest/ingestApi/updateRealTimeField/${sessionId}`;
