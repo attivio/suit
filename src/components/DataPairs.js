@@ -91,7 +91,7 @@ export default class DataPairs extends React.Component<void, DataPairsProps, Dat
               this.showAllLink = c;
             }}
           >
-            All data\u2026
+            {'All data\u2026'}
           </a>
         </dd>
       ));

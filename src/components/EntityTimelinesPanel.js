@@ -149,7 +149,7 @@ export default class EntityTimelinesPanel extends React.Component<void, EntityTi
           tabIndex={0}
           onClick={EntityTimelinesPanel.showMore}
         >
-          More\u2026
+          {'More\u2026'}
         </a>
       </div>
     );

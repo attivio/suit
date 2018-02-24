@@ -237,7 +237,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
         role="button"
         tabIndex={0}
       >
-        Add\u2026
+        {'Add\u2026'}
       </a>
     );
 
