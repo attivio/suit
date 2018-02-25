@@ -2,7 +2,6 @@
 import React from 'react';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
-import AuthUtils from '../util/AuthUtils';
 
 type MastheadUserProps = {
   /** The name of the user to display, if logged in. */
@@ -20,7 +19,7 @@ type MastheadUserDefaultProps = {
  * Displays the currently logged-in user inside the masthead.
  * The user can click on the name to pop-up a menu with a log-out command.
  */
-export default class MastheadUser extends React.Component<MastheadUserDefaultProps, MastheadUserProps, void> {
+class MastheadUser extends React.Component<MastheadUserDefaultProps, MastheadUserProps, void> {
   static defaultProps = {
     username: null,
     logoutFunction: () => {},
@@ -36,7 +35,7 @@ export default class MastheadUser extends React.Component<MastheadUserDefaultPro
   }
 
   render() {
-    const dropdown = AuthUtils.backEndAuth() ? null : (
+    const dropdown = (
       <span>
         {' '}
         <Dropdown id="attivio-globalmast-user-dropdown" pullRight>
@@ -51,7 +50,7 @@ export default class MastheadUser extends React.Component<MastheadUserDefaultPro
             <span className="attivio-globalmast-icon attivio-icon-arrow-down-blue" />
           </Dropdown.Toggle>
           <Dropdown.Menu onSelect={this.handleSelect}>
-            <MenuItem>Log out</MenuItem>
+            <MenuItem>Log Out</MenuItem>
           </Dropdown.Menu>
         </Dropdown >
       </span>

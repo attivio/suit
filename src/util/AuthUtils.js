@@ -31,22 +31,32 @@ export default class AuthUtils {
    */
   static logout(callback: () => void) {
     localStorage.removeItem(AuthUtils.USER_KEY);
-    if (AuthUtils.backEndAuth()) {
-      fetch(`${AuthUtils.config.ALL.baseUri}/saml/logout`, { method: 'POST' }).then(() => {
+    if (AuthUtils.config.ALL.authType === 'SAML') {
+      // For SAML auth, call the special URL from Spring/SAML to tell the IdP we’re logging out
+      fetch(`${AuthUtils.config.ALL.baseUri}/saml/logout`, { method: 'GET' }).then(() => {
+        // And then call the callback
         callback();
       }).catch(() => {
+       // Always do the callback even if we got an error fetching
+        callback();
+      });
+    } else if (AuthUtils.config.ALL.authType === 'NONE') {
+      // For "none," we want to tell the server to 
+      // Delete the SessionId cookie
+      document.cookie = 'SessionId=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+      // And tell the server to log us out
+      fetch(`${AuthUtils.config.ALL.baseUri}/`, { method: 'POST' }).then(() => {
+        // And then call the callback
+        callback();
+      }).catch(() => {
+        // Always do the callback even if we got an error fetching
         callback();
       });
     } else {
+      // Just XML authentication, remoing from local storage is good enough.
+      // Still need to call the callback
       callback();
     }
-  }
-
-  /**
-   * Check to see if we're offloading the authentication to the back end.
-   */
-  static backEndAuth(): boolean {
-    return AuthUtils.config && AuthUtils.config.ALL && AuthUtils.config.ALL.authType === 'SAML';
   }
 
   /**
@@ -125,7 +135,7 @@ export default class AuthUtils {
     if (AuthUtils.config.ALL.authType === 'NONE') {
       return null;
     }
-    if (!AuthUtils.backEndAuth()) {
+    if (AuthUtils.config.ALL.authType !== 'SAML') {
       if (!AuthUtils.users) {
         return null;
       }
@@ -215,7 +225,7 @@ export default class AuthUtils {
     const userObject = AuthUtils.getLocalStorageUser();
     if (userObject && userObject.timeout && userObject.timeout > new Date().getTime()) {
       callback(userObject);
-    } else if (AuthUtils.backEndAuth()) {
+    } else if (AuthUtils.config.ALL.authType === 'SAML') {
       // If the authentication is done on the front-end, we shouldn't
       // ever get here because if there's no local-storage user, then
       // no one is logged in yet...
