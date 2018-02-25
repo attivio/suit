@@ -80,9 +80,9 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
         <Redirect
           to={{
             pathname: '/login',
-          }}
-          state={{
-            from: this.props.location,
+            state: {
+              referrer: this.props.location,
+            },
           }}
         />
       );
