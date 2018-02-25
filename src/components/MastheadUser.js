@@ -19,7 +19,7 @@ type MastheadUserDefaultProps = {
  * Displays the currently logged-in user inside the masthead.
  * The user can click on the name to pop-up a menu with a log-out command.
  */
-class MastheadUser extends React.Component<MastheadUserDefaultProps, MastheadUserProps, void> {
+export default class MastheadUser extends React.Component<MastheadUserDefaultProps, MastheadUserProps, void> {
   static defaultProps = {
     username: null,
     logoutFunction: () => {},
