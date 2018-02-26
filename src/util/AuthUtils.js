@@ -109,14 +109,14 @@ export default class AuthUtils {
    * Find the user info for a given user name (for XML authentication)
    */
   static findUser(username: string): any {
-    if (AuthUtils.users && AuthUtils.users.user) {
-      if (Array.isArray(AuthUtils.users.user)) {
-        return AuthUtils.users.user.find((testUser) => {
-          return testUser.$.id === username;
-        });
-      }
+    if (Array.isArray(AuthUtils.users.principals.user)) {
+      return AuthUtils.users.principals.user.find((testUser) => {
+        return testUser.$.id === username;
+      });
+    }
       // This will happen if there's only use user...
-      return AuthUtils.users.user;
+    if (AuthUtils.users.principals.user.$.id === username) {
+      return AuthUtils.users.principals.user;
     }
     return null;
   }
@@ -136,10 +136,6 @@ export default class AuthUtils {
       return null;
     }
     if (AuthUtils.config.ALL.authType !== 'SAML') {
-      if (!AuthUtils.users) {
-        return null;
-      }
-
       const userObject = AuthUtils.findUser(username);
       if (userObject) {
         if (AuthUtils.passwordMatches(password, userObject.$.password)) {
@@ -318,19 +314,22 @@ export default class AuthUtils {
    */
   static validateUsers(users: any): string | null {
     if (!users) {
-      return 'The users object must be specified.';
+      return 'The users.xml file was not properly loaded.';
     }
-    if (!users.user) {
-      return 'The users object is invalid; it must contain at least one user definition.';
+    if (!users.principals) {
+      return 'The users.xml file is invalid; it must contain an outer <principals> element.';
     }
-    if (Array.isArray(users.user)) {
-      for (let i = 0; i < users.user.length; i += 1) {
-        if (!users.user[i].$ || !StringUtils.notEmpty(users.user[i].$.id)) {
-          return `The users object is invalid; the user at position ${i} is missing an ID.`;
+    if (!users.principals.user) {
+      return 'The users.xml file is invalid; it must contain at least one <user> definition.';
+    }
+    if (Array.isArray(users.principals.user)) {
+      for (let i = 0; i < users.principals.user.length; i += 1) {
+        if (!users.principals.user[i].$ || !StringUtils.notEmpty(users.principals.user[i].$.id)) {
+          return `The users.xml file is invalid; the user at position ${i} is missing an "id" attribute.`;
         }
       }
-    } else if (!users.user.$ || !StringUtils.notEmpty(users.user.$.id)) {
-      return 'The users object is invalid; the single user is missing an ID.';
+    } else if (!users.principals.user.$ || !StringUtils.notEmpty(users.principals.user.$.id)) {
+      return 'The users.xml file is invalid; the user is missing an "id" attribute.';
     }
     return null;
   }
