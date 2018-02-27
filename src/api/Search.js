@@ -3,6 +3,7 @@ import SimpleQueryRequest from './SimpleQueryRequest';
 import QueryResponse from './QueryResponse';
 import FieldNames from './FieldNames';
 import AuthUtils from '../util/AuthUtils';
+import QueryRequestToElastic from '../util/QueryRequestToElastic';
 
 /**
  * Encapsulates the default Attivio search behavior.
@@ -18,8 +19,10 @@ export default class Search {
    *                    (including the protocol, hostname or IP address, and port number,
    *                    with no trailing slash)
    */
-  constructor(baseUri: string) {
+  constructor(baseUri: string, searchEngineType: string, customOptions: any) {
     this.baseUri = baseUri;
+    this.searchEngineType = searchEngineType;
+    this.customOptions = customOptions;
   }
 
   /**
@@ -49,6 +52,8 @@ export default class Search {
         ['l.synonyms.boost', ['25']],
       ]);
     }
+    console.log("request!")
+    console.log(request)
     // Do the search on behalf of the logged-in user.
     // If the user is authenticated using the servlet,
     // this will be replaced with that username.
@@ -65,6 +70,17 @@ export default class Search {
     const jsonRequest = Object.assign({}, request);
     jsonRequest.restParams = Search.strMapToObj(request.restParams);
 
+    if(this.searchEngineType === 'elastic') {
+      QueryRequestToElastic(jsonRequest, 'http://192.168.31.221:9200/shakespeare', this.customOptions, (err, searchResponse) => {
+        if(err) updateResults(undefined, err)
+        console.log('#####SEARCH RESPONSE#######')
+        console.log(searchResponse)
+        console.log('#####SEARCH RESPONSE#######')
+        updateResults(searchResponse)
+      })
+      return;
+    }
+
     const body = JSON.stringify(jsonRequest);
     const params = {
       method: 'POST',
@@ -79,6 +95,8 @@ export default class Search {
         if (response.ok) {
           response.json().then((jsonResponse: any) => {
             const searchResponse = QueryResponse.fromJson(jsonResponse);
+            console.log("Search Response!")
+            console.log(searchResponse)
             updateResults(searchResponse);
           }).catch((error: any) => {
             // Catch errors from converting the response's JSON
