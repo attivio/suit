@@ -4,18 +4,19 @@ import ElasticToQueryResponse from "./ElasticToQueryResponse";
 
 export default (qr: any, baseUri: string, customOptions: any, callback: any) => {
 
-  const { query, rows = 0, facets, sort } =  qr;
+  const { query, rows = 0, facets, sort, facetFilters } =  qr;
   const { offset = ["0"] } = qr.restParams;
+
 
   const body = JSON.stringify({
     query: {
       query_string: {
-        query
+        query: buildQuery(query, facetFilters)
       }
     },
     size: rows,
     from: offset.pop(),
-    aggs: buildFacets(customOptions.facets.fields)
+    aggs: buildFacets(customOptions.facets, facets)
   })
 
 
@@ -41,11 +42,15 @@ export default (qr: any, baseUri: string, customOptions: any, callback: any) => 
     .catch(e => callback("Error: ", e))
 }
 
-const buildFacets = (facets: Array<string>) => {
+const buildQuery = (query, facetFilters) => {
+  if(facetFilters.length === 0) return query;
+  return `${query} AND ${facetFilters.map(ff => ff.filter).join(' AND ')}`
+}
+
+const buildFacets = (facets: Array<any>) => {
   const aggs = {};
   facets.forEach(f => {
-    aggs[f] = {}
-    aggs[f].terms = { field: f }
+    aggs[f.field] = { terms: { field: f.field } };
   })
-  return aggs
+  return aggs;
 }
