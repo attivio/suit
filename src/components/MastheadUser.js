@@ -3,6 +3,8 @@ import React from 'react';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 
+// LJV TODO Move help link to configuration and don't show if not set.
+
 type MastheadUserProps = {
   /** The name of the user to display, if logged in. */
   username: string | null;
@@ -53,6 +55,9 @@ export default class MastheadUser extends React.Component<MastheadUserDefaultPro
             <MenuItem>Log Out</MenuItem>
           </Dropdown.Menu>
         </Dropdown >
+        <a href="http://answers.attivio.com" target="_blank" style={{ marginLeft: '8px' }}>
+          <img src="img/vector/help.svg" title="On-line Help" />
+        </a>
       </span>
     );
     if (this.props.username && this.props.username.length > 0) {
