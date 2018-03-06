@@ -204,9 +204,10 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
 
   doSearch() {
     const searcher = this.context.searcher;
-    if (searcher) {
-      searcher.doSearch();
+    if (this.props.route && searcher) {
       this.route();
+    } else {
+      searcher.doSearch();
     }
     if (this.submitButton) {
       this.submitButton.blur();
