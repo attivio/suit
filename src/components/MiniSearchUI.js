@@ -5,10 +5,26 @@ import PropTypes from 'prop-types';
 
 import NavbarSearch from '../components/NavbarSearch';
 import SearchResults from '../components/SearchResults';
+import Scrollable from '../components/Scrollable';
 import SearchResultsCount from '../components/SearchResultsCount';
 import ObjectUtils from '../util/ObjectUtils';
 
-export default class MiniSearchUI extends React.Component<void, {}, void> {
+type MiniSearchUIProps = {
+  /**
+   * The scale factor for the mini UI. Defaults to 25%.
+   */
+  scale: number;
+};
+
+type MiniSearchUIDefaultProps = {
+  scale: number;
+};
+
+export default class MiniSearchUI extends React.Component<MiniSearchUIDefaultProps, MiniSearchUIProps, void> {
+  static defaultProps = {
+    scale: 0.25,
+  };
+
   static contextTypes = {
     searcher: PropTypes.any,
   };
@@ -18,7 +34,20 @@ export default class MiniSearchUI extends React.Component<void, {}, void> {
       <div style={{ minHeight: '50vh' }}>
         <NavbarSearch onSearch={this.context.searcher.doSearch} updateSearchString={this.context.searcher.updateQuery} value={this.context.searcher.state.query} />
         <SearchResultsCount />
-        <SearchResults format="simple" entityFields={ObjectUtils.toMap([])} />
+        <Scrollable
+          style={{
+            height: '300px',
+            width: '100%',
+          }}
+        >
+          <SearchResults
+            format="simple"
+            entityFields={ObjectUtils.toMap([])}
+            style={{
+              transform: `scale(${this.props.scale}, ${this.props.scale})`,
+            }}
+          />
+        </Scrollable>
       </div>
     );
   }

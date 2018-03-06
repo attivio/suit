@@ -25,6 +25,7 @@ type SearchResultsProps = {
    * Defaults to show the people, locations, and companies entities.
    */
   entityFields: Map<string, string>;
+  style: ?any;
 };
 
 type SearchResultsDefaultProps = {
@@ -78,13 +79,14 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
   }
 
   render() {
-    const style = {
+    const baseStyle = this.props.style ? this.props.style : {};
+    const s = Object.assign({}, baseStyle, {
       listStyle: 'none',
       paddingLeft: 0,
-    };
+    });
 
     return (
-      <ul style={style}>
+      <ul style={s}>
         {this.renderResults()}
       </ul>
     );

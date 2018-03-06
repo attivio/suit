@@ -1,7 +1,8 @@
 // @flow
 
 import React from 'react';
-import { Panel, PanelGroup } from 'react-bootstrap';
+import Panel from 'react-bootstrap/lib/Panel';
+import PanelGroup from 'react-bootstrap/lib/PanelGroup';
 
 export class AccordionPanel {
   heading: string;
@@ -15,11 +16,11 @@ export class AccordionPanel {
   }
 }
 
-type AccordionProps = {
+type AccordionPanelsProps = {
   panels: Array<AccordionPanel>;
 };
 
-export default class Accordion extends React.Component<void, AccordionProps, void> {
+export default class AccordionPanels extends React.Component<void, AccordionPanelsProps, void> {
   static AccordionPanel;
 
   render() {
@@ -67,4 +68,4 @@ export default class Accordion extends React.Component<void, AccordionProps, voi
   }
 }
 
-Accordion.AccordionPanel = AccordionPanel;
+AccordionPanels.AccordionPanel = AccordionPanel;

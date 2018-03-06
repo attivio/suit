@@ -43,7 +43,7 @@ export default class NavbarSearch extends React.Component<NavbarSearchDefaultPro
 
   render() {
     return (
-      <form className="navbar-form navbar-left attivio-search" role="search" onSubmit={this.onSearch}>
+      <div className="navbar-form navbar-left attivio-search">
         <div className="form-group">
           <input
             type="text"
@@ -52,11 +52,11 @@ export default class NavbarSearch extends React.Component<NavbarSearchDefaultPro
             value={this.props.value}
             onChange={this.onChange}
           />
-          <button type="submit" className="btn btn-link attivio-icon-search">
-            <span className="sr-only">Search</span>
-          </button>
         </div>
-      </form>
+        <button type="button" className="btn btn-link attivio-icon-search" onClick={this.onSearch}>
+          <span className="sr-only">Search</span>
+        </button>
+      </div>
     );
   }
 }

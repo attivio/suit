@@ -31,7 +31,7 @@ export PositionUtils from './util/PositionUtils';
 export StringUtils from './util/StringUtils';
 
 // Component classes
-export Accordion from './components/Accordion';
+export AccordionPanels from './components/AccordionPanels';
 export AuthRoute from './components/AuthRoute';
 export AutoCompleteInput from './components/AutoCompleteInput';
 export BarChartFacetContents from './components/BarChartFacetContents';
@@ -93,6 +93,7 @@ export PlacementResult from './components/PlacementResult';
 export PlacementResults from './components/PlacementResults';
 export ProfilePhoto from './components/ProfilePhoto';
 export RelevancyScore from './components/RelevancyScore';
+export Scrollable from './components/Scrollable';
 export SearchBar from './components/SearchBar';
 export SearchButton from './components/SearchButton';
 export SearchDebugToggle from './components/SearchDebugToggle';

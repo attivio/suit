@@ -323,6 +323,23 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
 
     this.state = this.getDefaultState();
     (this: any).updateSearchResults = this.updateSearchResults.bind(this);
+    (this: any).updateQuery = this.updateQuery.bind(this);
+    (this: any).getQueryRequest = this.getQueryRequest.bind(this);
+    (this: any).updateFormat = this.updateFormat.bind(this);
+    (this: any).updateTags = this.updateTags.bind(this);
+    (this: any).doCustomSearch = this.doCustomSearch.bind(this);
+    (this: any).doSearch = this.doSearch.bind(this);
+    (this: any).performQueryImmediately = this.performQueryImmediately.bind(this);
+    (this: any).updateQueryLanguage = this.updateQueryLanguage.bind(this);
+    (this: any).updateResultsPerPage = this.updateResultsPerPage.bind(this);
+    (this: any).updateRelevancyModels = this.updateRelevancyModels.bind(this);
+    (this: any).updateSort = this.updateSort.bind(this);
+    (this: any).addGeoFilter = this.addGeoFilter.bind(this);
+    (this: any).addGeoFilters = this.addGeoFilters.bind(this);
+    (this: any).removeGeoFilter = this.removeGeoFilter.bind(this);
+    (this: any).addFacetFilter = this.addFacetFilter.bind(this);
+    (this: any).removeFacetFilter = this.removeFacetFilter.bind(this);
+    (this: any).changePage = this.changePage.bind(this);
   }
 
   state: SearcherState;
@@ -367,7 +384,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   }
 
   /**
-   * Method to get the default state for the Searcher. This ism in a
+   * Method to get the default state for the Searcher. This is in a
    * separate method since it needs to be done both in the constructor
    * and in the reset method.
    */
