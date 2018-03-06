@@ -11,6 +11,7 @@ export default class ContextHelp extends React.Component < void, ContextHelpProp
     const id = this.props.id;
     return {
       id,
+      title: 'Search Profiles',
       paragraphs: [
         'A Search Profile rofile is a group of settings applied to a serch request.',
         'Each search profile can contain several query frames that define the actions that occur based on the query executed.',
@@ -39,6 +40,7 @@ export default class ContextHelp extends React.Component < void, ContextHelpProp
 
     return (
       <div>
+        <h4>{info.title}</h4>
         {paragraphs}
         {more}
       </div>
