@@ -31,9 +31,9 @@ export default class ContextHelp extends React.Component < void, ContextHelpProp
     let more = null;
     if (info.moreLink) {
       if (info.moreName) {
-        more = <p>To learn more about {info.moreName}, visit <a href={info.moreLink} target="_blank">Attivio Answers</a>.</p>;
+        more = <p>To learn more about {info.moreName}, visit <a href={info.moreLink} target="_blank" rel="noopener noreferrer">Attivio Answers</a>.</p>;
       } else {
-        more = <p>To learn more, visit <a href={info.moreLink} target="_blank">Attivio Answers</a>.</p>;
+        more = <p>To learn more, visit <a href={info.moreLink} target="_blank" rel="noopener noreferrer">Attivio Answers</a>.</p>;
       }
     }
 

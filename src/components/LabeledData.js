@@ -50,7 +50,7 @@ export default class LabeledData extends React.Component<LabeledDataDefaultProps
       if (typeof item.value === 'string' && validator.isURL(item.value)) {
         rows.push((
           <dd className="attivio-labeldata-url" key={`${item.label}-value`}>
-            <a href={item.value} target="_blank">
+            <a href={item.value} target="_blank" rel="noopener noreferrer">
               {item.value}
             </a>
           </dd>
