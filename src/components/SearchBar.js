@@ -13,7 +13,6 @@ import AutoCompleteInput from './AutoCompleteInput';
 declare var webkitSpeechRecognition: any; // Prevent complaints about this not existing
 
 type SearchBarProps = {
-  location: PropTypes.object.isRequired;
   history: PropTypes.object.isRequired;
   /** If set, this will be styled to live inside a <code>&lt;Masthead&gt;</code> component. */
   inMasthead: boolean;

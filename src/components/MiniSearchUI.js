@@ -16,7 +16,7 @@ export default class MiniSearchUI extends React.Component<void, {}, void> {
   render() {
     return (
       <div style={{ minHeight: '50vh' }}>
-        <NavbarSearch onSearch={this.context.searcher.doSearch} updateSearchString={this.context.searcher.updateQuery} />
+        <NavbarSearch onSearch={this.context.searcher.doSearch} updateSearchString={this.context.searcher.updateQuery} value={this.context.searcher.state.query} />
         <SearchResultsCount />
         <SearchResults format="simple" entityFields={ObjectUtils.toMap([])} />
       </div>

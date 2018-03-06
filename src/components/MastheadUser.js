@@ -10,11 +10,14 @@ type MastheadUserProps = {
   username: string | null;
   /** The function to call to log the user out. */
   logoutFunction: () => void;
+  /** The URI to use for global on-line help. If not set, the help button won't be shown. */
+  helpUri: string | null;
 };
 
 type MastheadUserDefaultProps = {
   username: string | null;
   logoutFunction: () => void;
+  helpUri: string | null;
 };
 
 /**
@@ -24,7 +27,8 @@ type MastheadUserDefaultProps = {
 export default class MastheadUser extends React.Component<MastheadUserDefaultProps, MastheadUserProps, void> {
   static defaultProps = {
     username: null,
-    logoutFunction: () => {},
+    logoutFunction: () => { },
+    helpUri: null,
   };
 
   constructor(props: MastheadUserProps) {
@@ -55,9 +59,11 @@ export default class MastheadUser extends React.Component<MastheadUserDefaultPro
             <MenuItem>Log Out</MenuItem>
           </Dropdown.Menu>
         </Dropdown >
-        <a href="http://answers.attivio.com" target="_blank" style={{ marginLeft: '8px' }}>
-          <img src="img/vector/help.svg" title="On-line Help" />
-        </a>
+        {this.props.helpUri ? (
+          <a href={this.props.helpUri} target="_blank" style={{ marginLeft: '8px' }} rel="noopener noreferrer">
+            <img src="img/vector/help.svg" title="On-line Help" alt="On-line Help" />
+          </a>
+        ): null}  
       </span>
     );
     if (this.props.username && this.props.username.length > 0) {

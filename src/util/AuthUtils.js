@@ -41,8 +41,8 @@ export default class AuthUtils {
         callback();
       });
     } else if (AuthUtils.config.ALL.authType === 'NONE') {
-      // For "none," we want to tell the server to 
-      // Delete the SessionId cookie
+      // For "none," we want to tell the server to
+      // delete the SessionId cookie
       document.cookie = 'SessionId=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
       // And tell the server to log us out
       fetch(`${AuthUtils.config.ALL.baseUri}/`, { method: 'POST' }).then(() => {
