@@ -11,7 +11,7 @@ import ObjectUtils from '../util/ObjectUtils';
 
 type MiniSearchUIProps = {
   /**
-   * The scale factor for the mini UI. Defaults to 25%.
+   * The scale factor for the mini UI. Defaults to 100%.
    */
   scale: number;
 };
@@ -22,7 +22,7 @@ type MiniSearchUIDefaultProps = {
 
 export default class MiniSearchUI extends React.Component<MiniSearchUIDefaultProps, MiniSearchUIProps, void> {
   static defaultProps = {
-    scale: 0.25,
+    scale: 1.0,
   };
 
   static contextTypes = {
