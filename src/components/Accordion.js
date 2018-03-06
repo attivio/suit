@@ -20,6 +20,8 @@ type AccordionProps = {
 };
 
 export default class Accordion extends React.Component<void, AccordionProps, void> {
+  static AccordionPanel;
+
   render() {
     const panels = this.props.panels.map((panel: AccordionPanel) => {
       let body;
@@ -64,3 +66,5 @@ export default class Accordion extends React.Component<void, AccordionProps, voi
     );
   }
 }
+
+Accordion.AccordionPanel = AccordionPanel;
