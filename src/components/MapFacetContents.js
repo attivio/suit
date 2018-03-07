@@ -235,7 +235,7 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
               display: 'inline',
               zIndex: 1,
               top: '30px',
-              left: '5px',
+              left: '35px',
             }}
             role="button"
             tabIndex={0}
