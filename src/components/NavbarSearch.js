@@ -39,7 +39,12 @@ export default class NavbarSearch extends React.Component<NavbarSearchDefaultPro
 
   onSearch() {
     this.props.onSearch();
+    if (this.button) {
+      this.button.blur();
+    }
   }
+
+  button: ?HTMLDivElement;
 
   render() {
     return (
@@ -53,7 +58,7 @@ export default class NavbarSearch extends React.Component<NavbarSearchDefaultPro
             onChange={this.onChange}
           />
         </div>
-        <button type="button" className="btn btn-link attivio-icon-search" onClick={this.onSearch}>
+        <button type="button" className="btn btn-link attivio-icon-search" onClick={this.onSearch} ref={(i) => { this.button = i; }}>
           <span className="sr-only">Search</span>
         </button>
       </div>
