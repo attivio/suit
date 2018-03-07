@@ -48,7 +48,7 @@ export default class NavbarSearch extends React.Component<NavbarSearchDefaultPro
 
   render() {
     return (
-      <div className="navbar-form navbar-left attivio-search">
+      <div className="navbar-form navbar-left attivio-search" {...this.props}>
         <div className="form-group">
           <input
             type="text"

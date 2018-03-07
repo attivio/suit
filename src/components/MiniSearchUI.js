@@ -32,8 +32,15 @@ export default class MiniSearchUI extends React.Component<MiniSearchUIDefaultPro
   render() {
     return (
       <div style={{ minHeight: '50vh' }}>
-        <NavbarSearch onSearch={this.context.searcher.doSearch} updateSearchString={this.context.searcher.updateQuery} value={this.context.searcher.state.query} />
-        <SearchResultsCount />
+        <NavbarSearch
+          onSearch={this.context.searcher.doSearch}
+          updateSearchString={this.context.searcher.updateQuery}
+          value={this.context.searcher.state.query}
+          style={{
+            marginLeft: '8px',
+          }}
+        />
+        <SearchResultsCount style={{ marginLeft: '20px', paddingBottom: '8px' }} />
         <Scrollable
           style={{
             height: '300px',
