@@ -2,48 +2,81 @@
 
 import React from 'react';
 
-type ContextHelpProps = {
+export class ContextHelpInfo {
   id: string;
+  title: string;
+  paragraphs: Array<string>;
+  moreName: string | null;
+  moreLink: string | null;
+
+  constructor(id: string, title: string, paragraphs: Array<string>, moreName: string | null = null, moreLink: string | null = null) {
+    this.id = id;
+    this.title = title;
+    this.paragraphs = paragraphs;
+    this.moreName = moreName;
+    this.moreLink = moreLink;
+  }
+}
+
+type ContextHelpProps = {
+  info: ContextHelpInfo | null;
 };
 
-export default class ContextHelp extends React.Component < void, ContextHelpProps, void> {
-  getHelpInfo() {
-    const id = this.props.id;
-    return {
-      id,
-      title: 'Search Profiles',
-      paragraphs: [
-        'A Search Profile rofile is a group of settings applied to a serch request.',
-        'Each search profile can contain several query frames that define the actions that occur based on the query executed.',
-        'Each query frame inherits settings from its parent search profile but can override them if necessary.',
-      ],
-      moreName: 'search profiles and query frames',
-      moreLink: 'http://answers.attivio.com/Search-Profiles',
-    };
-  }
-
+export default class ContextHelp extends React.Component<void, ContextHelpProps, void> {
+  static ContextHelpInfo;
+  
   render() {
-    const info = this.getHelpInfo();
+    const info = this.props.info;
+    if (info) {
+      const paragraphs = info.paragraphs ? info.paragraphs.map((paragraph, index) => {
+        return <p key={`${index}:${paragraph}`}>{paragraph}</p>; // eslint-disable-line react/no-array-index-key
+      }) : null;
 
-    const paragraphs = info.paragraphs ? info.paragraphs.map((paragraph, index) => {
-      return <p key={`${index}:${paragraph}`}>{paragraph}</p>; // eslint-disable-line react/no-array-index-key
-    }) : null;
-
-    let more = null;
-    if (info.moreLink) {
-      if (info.moreName) {
-        more = <p>To learn more about {info.moreName}, visit <a href={info.moreLink} target="_blank" rel="noopener noreferrer">Attivio Answers</a>.</p>;
-      } else {
-        more = <p>To learn more, visit <a href={info.moreLink} target="_blank" rel="noopener noreferrer">Attivio Answers</a>.</p>;
+      let more = null;
+      if (info.moreLink) {
+        if (info.moreName) {
+          more = <p>To learn more about {info.moreName}, visit <a href={info.moreLink} target="_blank" rel="noopener noreferrer">Attivio Answers</a>.</p>;
+        } else {
+          more = <p>To learn more, visit <a href={info.moreLink} target="_blank" rel="noopener noreferrer">Attivio Answers</a>.</p>;
+        }
       }
-    }
 
+      return (
+        <div>
+          <h4>
+            <span
+              className="attivio-icon-help"
+              style={{
+                display: 'inline-block',
+                width: '1em',
+                transform: 'scale(1.5, 1.5)',
+              }}
+            />
+            {info.title}
+          </h4>
+          {paragraphs}
+          {more}
+        </div>
+      );
+    }
+    // No help available
     return (
       <div>
-        <h4>{info.title}</h4>
-        {paragraphs}
-        {more}
+        <h4>
+          <span
+            className="attivio-icon-help"
+            style={{
+              display: 'inline-block',
+              width: '1em',
+              transform: 'scale(1.5, 1.5)',
+            }}
+          />
+          Help
+        </h4>
+        <p>No context help is currently available.</p>
       </div>
     );
   }
 }
+
+ContextHelp.ContextHelpInfo = ContextHelpInfo;

@@ -82,7 +82,7 @@ class Breadcrumbs extends React.Component<BreadcrumbsDefaultProps, BreadcrumbsPr
         }
         // Simple breadcrumbs without links
         return (
-          <li key={`$crumb.label}-${index}`}> { // eslint-disable-line react/no-array-index-key
+          <li key={`${crumb.label}-${index}`}> { // eslint-disable-line react/no-array-index-key
           }
             {label}
             <span className="attivio-icon-arrow-right" />
