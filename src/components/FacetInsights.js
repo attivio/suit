@@ -139,7 +139,7 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
         />
       );
     } else {
-      result = <Card title={label}>Unknown Facet Type</Card>;
+      result = null;
     }
     return result;
   }
