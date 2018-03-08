@@ -43,8 +43,11 @@ export default class MiniSearchUI extends React.Component<MiniSearchUIDefaultPro
         <SearchResultsCount style={{ marginLeft: '20px', paddingBottom: '8px' }} />
         <Scrollable
           style={{
-            height: '300px',
+            height: '428px',
             width: '100%',
+            borderTop: '1px solid #ccc',
+            borderRight: '1px solid #ccc',
+            borderLeft: '1px solid #ccc',
           }}
         >
           <SearchResults
