@@ -31,7 +31,7 @@ export PositionUtils from './util/PositionUtils';
 export StringUtils from './util/StringUtils';
 
 // Component classes
-export AccordionPanels from './components/AccordionPanels';
+export Accordion from './components/Accordion';
 export AuthRoute from './components/AuthRoute';
 export AutoCompleteInput from './components/AutoCompleteInput';
 export BarChartFacetContents from './components/BarChartFacetContents';

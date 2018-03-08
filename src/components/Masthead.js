@@ -139,7 +139,11 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
           </div>
           {this.props.children}
           <div className="attivio-globalmast-spacer" />
-          <MastheadUser username={AuthUtils.getUserName(this.state.userInfo)} logoutFunction={this.handleLogout} helpUri={this.props.helpUri} />
+          <MastheadUser
+            username={AuthUtils.getUserName(this.state.userInfo)}
+            logoutFunction={this.handleLogout}
+            helpUri={this.props.helpUri}
+          />
         </div>
       </header>
     );

@@ -4,6 +4,10 @@ import React from 'react';
 import Panel from 'react-bootstrap/lib/Panel';
 import PanelGroup from 'react-bootstrap/lib/PanelGroup';
 
+/**
+ * Describes one panel for an Accordian component. The body can be either
+ * an element or a simple string.
+ */
 export class AccordionPanel {
   heading: string;
   key: string;
@@ -16,12 +20,32 @@ export class AccordionPanel {
   }
 }
 
-type AccordionPanelsProps = {
+type AccordionProps = {
+  /**
+   * An array of AccordionPanel objects defining the panels to show.
+   */
   panels: Array<AccordionPanel>;
+  /**
+   * The ID of the panel that should be the default open one. If not
+   * set, the first panel's ID will be used.
+   */
+  defaultPanelKey: string | null;
 };
 
-export default class AccordionPanels extends React.Component<void, AccordionPanelsProps, void> {
+type AccordionDefaultProps = {
+  defaultPanelKey: string | null;
+};
+
+/**
+ * This component presents a series of titled, collapsible panels, only one of which can be open at
+ * any given time.
+ */
+export default class Accordion extends React.Component<AccordionDefaultProps, AccordionProps, void> {
   static AccordionPanel;
+
+  static defaultProps = {
+    defaultPanelKey: null,
+  };
 
   render() {
     const panels = this.props.panels.map((panel: AccordionPanel) => {
@@ -59,13 +83,17 @@ export default class AccordionPanels extends React.Component<void, AccordionPane
       );
     });
 
-    return (
-      <PanelGroup accordion id="queryFrameDescriptionAccoerdion" defaultActiveKey="metadata">
-        {panels}
-      </PanelGroup>
+    if (panels.length > 0) {
+      const defaultPanelKey = this.props.defaultPanelKey ? this.props.defaultPanelKey : this.props.panels[0].key;
+      return (
+        <PanelGroup accordion id="queryFrameDescriptionAccoerdion" defaultActiveKey={defaultPanelKey}>
+          {panels}
+        </PanelGroup>
 
-    );
+      );
+    }
+    return null;
   }
 }
 
-AccordionPanels.AccordionPanel = AccordionPanel;
+Accordion.AccordionPanel = AccordionPanel;

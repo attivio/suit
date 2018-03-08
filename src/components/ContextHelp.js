@@ -2,6 +2,9 @@
 
 import React from 'react';
 
+/**
+ * Descibes the help to display in a particulsar context.
+ */
 export class ContextHelpInfo {
   id: string;
   title: string;
@@ -9,7 +12,7 @@ export class ContextHelpInfo {
   moreName: string | null;
   moreLink: string | null;
 
-  constructor(id: string, title: string, paragraphs: Array<string>, moreName: string | null = null, moreLink: string | null = null) {
+  constructor(id: string, title: string, paragraphs: Array<string>, moreName: string | null = null, moreLink: string | null = null) { // eslint-disable-line max-len
     this.id = id;
     this.title = title;
     this.paragraphs = paragraphs;
@@ -22,9 +25,12 @@ type ContextHelpProps = {
   info: ContextHelpInfo | null;
 };
 
+/**
+ * Component to display contextual help.
+ */
 export default class ContextHelp extends React.Component<void, ContextHelpProps, void> {
   static ContextHelpInfo;
-  
+
   render() {
     const info = this.props.info;
     if (info) {
@@ -35,7 +41,18 @@ export default class ContextHelp extends React.Component<void, ContextHelpProps,
       let more = null;
       if (info.moreLink) {
         if (info.moreName) {
-          more = <p>To learn more about {info.moreName}, visit <a href={info.moreLink} target="_blank" rel="noopener noreferrer">Attivio Answers</a>.</p>;
+          more = (
+            <p>
+              To learn more about {info.moreName}, visit
+              <a
+                ref={info.moreLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Attivio Answers
+              </a>.
+            </p>
+          );
         } else {
           more = <p>To learn more, visit <a href={info.moreLink} target="_blank" rel="noopener noreferrer">Attivio Answers</a>.</p>;
         }

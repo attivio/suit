@@ -58,7 +58,14 @@ export default class NavbarSearch extends React.Component<NavbarSearchDefaultPro
             onChange={this.onChange}
           />
         </div>
-        <button type="button" className="btn btn-link attivio-icon-search" onClick={this.onSearch} ref={(i) => { this.button = i; }}>
+        <button
+          type="button"
+          className="btn btn-link attivio-icon-search"
+          onClick={this.onSearch}
+          ref={(i) => {
+            this.button = i;
+          }}
+        >
           <span className="sr-only">Search</span>
         </button>
       </div>

@@ -63,7 +63,7 @@ export default class MastheadUser extends React.Component<MastheadUserDefaultPro
           <a href={this.props.helpUri} target="_blank" style={{ marginLeft: '8px' }} rel="noopener noreferrer">
             <img src="img/vector/help.svg" title="On-line Help" alt="On-line Help" />
           </a>
-        ): null}  
+        ) : null}
       </span>
     );
     if (this.props.username && this.props.username.length > 0) {

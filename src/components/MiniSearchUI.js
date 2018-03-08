@@ -11,7 +11,8 @@ import ObjectUtils from '../util/ObjectUtils';
 
 type MiniSearchUIProps = {
   /**
-   * The scale factor for the mini UI. Defaults to 100%.
+   * A scale (1.0 = 100%) to use when rendering the search results part of
+   * the MiniSearchUI. Optional—defaults to 100%.
    */
   scale: number;
 };
@@ -20,6 +21,12 @@ type MiniSearchUIDefaultProps = {
   scale: number;
 };
 
+/**
+ * A miniature, self-contained component that presentds super simple search UI including a text field for the
+ * query, an indication of the number or results or error from the wuery, and a small, scrollable results area
+ * showing the resulting documents. It must be nested inside a Searcher component and will use that parent
+ * Searcher to manage its state.
+ */
 export default class MiniSearchUI extends React.Component<MiniSearchUIDefaultProps, MiniSearchUIProps, void> {
   static defaultProps = {
     scale: 1.0,
