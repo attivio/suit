@@ -1,6 +1,6 @@
 // @flow
 import SimpleQueryRequest from "../api/SimpleQueryRequest";
-import ElasticToQueryResponse from "./ElasticToQueryResponse";
+import SolrToQueryResponse from "./SolrToQueryResponse";
 
 export default (qr: any, baseUri: string, customOptions: any, callback: any) => {
 
@@ -9,15 +9,11 @@ export default (qr: any, baseUri: string, customOptions: any, callback: any) => 
 
 
   const body = JSON.stringify({
-    query: {
-      query_string: {
-        query: buildQuery(query, facetFilters)
-      }
-    },
-    size: rows,
-    from: offset.pop(),
+    query: query,
+    limit: parseInt(rows),
+    filter: buildFilter(facetFilters),
     sort: buildSort(sort, customOptions),
-    aggs: buildFacets(customOptions.facets)
+    facet: buildFacets(customOptions.facets)
   })
 
 
@@ -29,23 +25,23 @@ export default (qr: any, baseUri: string, customOptions: any, callback: any) => 
   const params = {
     method: 'POST',
     headers,
-    body
+    body,
   };
 
-  const requestUri = `${baseUri}`
+  const requestUri = `${baseUri}?start=${parseInt(offset.pop())}`
 
   const fetchRequest = new Request(requestUri, params)
 
 
   fetch(fetchRequest)
     .then(r => r.json())
-    .then(r => callback(undefined, ElasticToQueryResponse(r, customOptions)))
+    .then(r => callback(undefined, SolrToQueryResponse(r, customOptions)))
     .catch(e => callback(`Error: ${e}`))
 }
 
-const buildQuery = (query, facetFilters) => {
-  if(facetFilters.length === 0) return query;
-  return `${query} AND ${facetFilters.map(ff => ff.filter).join(' AND ')}`
+const buildFilter = (facetFilters) => {
+  if(!facetFilters || facetFilters.length === 0) return "";
+  return `${facetFilters.map(ff => ff.filter).join(' AND ')}`
 }
 
 const buildFacets = (facets: Array<any>) => {
@@ -57,17 +53,16 @@ const buildFacets = (facets: Array<any>) => {
 }
 
 const buildSort = (sort, customConfig) => {
-  if(sort.length === 0) return [];
+  if(!sort || !sort[0] || sort[0].length === 0) return "score DESC";
   const [ field, order ] = sort[0].split(':');
-  let fieldInElastic;
-  switch(field) {
-    case '.score':
-      fieldInElastic = '_score';
-      break;
-    default:
-      fieldInElastic = customConfig.mappings[field];
+  const fieldInSolr = customConfig.mappings[field];
+
+  if(field.indexOf('.score') === 0) return `score ${order}`;
+
+  if(fieldInSolr) {
+    return `${ fieldInSolr } ${ order }`
   }
-  const sortObj = {};
-  sortObj[fieldInElastic] = order;
-  return [ sortObj ];
+
+  return `${ field } ${ order }`
+
 }

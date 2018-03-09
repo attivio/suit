@@ -18,7 +18,6 @@ export default (json: any, customOptions: any) => {
     if(json.hits.hits.length > 0) {
       result.documents = _getElasticDocuments(json.hits.hits, customOptions);
     }
-    console.log(json)
     if(json.aggregations || Object.keys(json.aggregations).length > 0) {
       result.facets = _getElasticFacets(json.aggregations, customOptions);
     }
@@ -26,20 +25,23 @@ export default (json: any, customOptions: any) => {
     return result;
 }
 
+const _wrapIfNotArray = (v) => Array.isArray(v) ? v : [v];
+
 const _getElasticDocuments = (documents: any, customOptions: any) => {
   return documents.map(doc => {
     const mapp = customOptions.mappings;
     const fields = {};
 
-    Object.keys(mapp).forEach(k => { if(mapp[k]) fields[k] = [doc._source[mapp[k]]]; });
+    Object.keys(mapp).forEach(k => { if(mapp[k] && doc._source[mapp[k]]) fields[k] = _wrapIfNotArray(doc._source[mapp[k]]); });
 
     //Temporary
 
     fields["thumbnailImageUri"] = [`http://robohash.org/${doc._id}`];
     fields["previewImageUri"] = [`http://robohash.org/${doc._score}`];
+    fields["uri"] = [`http://robohash.org/${doc._id}`];
 
     fields[".id"] = [doc._id];
-    fields[".score"] = [doc._score];
+    fields[".score"] = [doc._score || 0];
 
     return SearchDocument.fromJson({ fields });
   });
