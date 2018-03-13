@@ -54,6 +54,16 @@ setting the offset to 0, and , if there's a previous search, perform a new one (
 type SearcherProps = {
   location: PropTypes.object.isRequired;
   history: PropTypes.object.isRequired;
+
+  /**
+   * Optional. we can select elastic or solr as search engine also,
+   * use the value "elastic" or "solr", defaults to "attivio"
+   */
+  searchEngineType: string;
+  /**
+   * Optional. if other search engine than Attivio is selected, in this property we can configure mappings and other options.
+   */
+  customOptions?: any;
   /**
    * Optional. The location of the node through which to interact with Attivio.
    * Defaults to the value in the configuration.
@@ -144,6 +154,8 @@ type SearcherProps = {
 };
 
 type SearcherDefaultProps = {
+  searchEngineType: 'attivio' | 'elastic' | 'solr';
+  customOptions: any;
   baseUri: string;
   searchWorkflow: string;
   fields: Array<string>;
@@ -257,6 +269,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   static STAR_COLON_STAR = '*:*';
 
   static defaultProps = {
+    searchEngineType: 'attivio',
+    customOptions: {},
     baseUri: '',
     searchWorkflow: 'search',
     fields: ['*'],
@@ -319,7 +333,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   constructor(props: SearcherProps) {
     super(props);
 
-    this.search = new Search(this.props.baseUri);
+    this.search = new Search(this.props.baseUri, this.props.searchEngineType, this.props.customOptions);
 
     this.state = this.getDefaultState();
     (this: any).updateSearchResults = this.updateSearchResults.bind(this);
