@@ -193,10 +193,10 @@ export default class Search {
           const updateFetchRequest = new Request(updateUri, params);
           fetch(updateFetchRequest).then((updateResult: Response) => {
             if (updateResult.ok) {
-              // Now need to commit the update
-              const commitUri = `${this.baseUri}/rest/ingestApi/commit/${sessionId}`;
-              fetch(commitUri, { credentials: 'include' }).then((commitResult: Response) => {
-                if (commitResult.ok) {
+              // Now need to refresh the update
+              const refreshUri = `${this.baseUri}/rest/ingestApi/refresh/${sessionId}`;
+              fetch(refreshUri, { credentials: 'include' }).then((refreshResult: Response) => {
+                if (refreshResult.ok) {
                   // Now need to close the session
                   const disconnectUri = `${this.baseUri}/rest/ingestApi/disconnect/${sessionId}`;
                   fetch(disconnectUri, { credentials: 'include' }).then((disconnectResult: Response) => {
@@ -215,14 +215,14 @@ export default class Search {
                   });
                 } else {
                   // The request came back other than a 200-type response code
-                  commitResult.text().then((msg) => {
-                    reject(new Error(`Failed to commit the update: ${msg}`));
+                  refreshResult.text().then((msg) => {
+                    reject(new Error(`Failed to refresh the update: ${msg}`));
                   }).catch(() => {
-                    reject(new Error(`Failed to commit the update: ${commitResult.statusText}`));
+                    reject(new Error(`Failed to refresh the update: ${refreshResult.statusText}`));
                   });
                 }
               }).catch((error) => {
-                reject(new Error(`Failed to commit the update: ${error}`));
+                reject(new Error(`Failed to refresh the update: ${error}`));
               });
             } else {
               // The request came back other than a 200-type response code
