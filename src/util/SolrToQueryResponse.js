@@ -34,10 +34,6 @@ const _getSolrDocuments = (documents: any, customOptions: any) => {
 
     Object.keys(mapp).forEach(k => { if(mapp[k] && doc[mapp[k]]) fields[k] = _wrapIfNotArray(doc[mapp[k]])});
 
-    fields["thumbnailImageUri"] = [`http://robohash.org/${doc._id}`];
-    fields["previewImageUri"] = [`http://robohash.org/${doc._score}`];
-    fields["uri"] = [`http://robohash.org/${doc._id}`];
-
     if(customOptions.customId && customOptions.customId.length > 0) {
       fields[".id"] = [doc[customOptions.customId]];
     }

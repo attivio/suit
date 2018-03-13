@@ -180,7 +180,7 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
         />
       );
     }
-
+    
     return (
       <div className=" attivio-search-result">
         <div className="attivio-search-result-col">

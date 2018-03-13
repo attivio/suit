@@ -34,12 +34,6 @@ const _getElasticDocuments = (documents: any, customOptions: any) => {
 
     Object.keys(mapp).forEach(k => { if(mapp[k] && doc._source[mapp[k]]) fields[k] = _wrapIfNotArray(doc._source[mapp[k]]); });
 
-    //Temporary
-
-    fields["thumbnailImageUri"] = [`http://robohash.org/${doc._id}`];
-    fields["previewImageUri"] = [`http://robohash.org/${doc._score}`];
-    fields["uri"] = [`http://robohash.org/${doc._id}`];
-
     fields[".id"] = [doc._id];
     fields[".score"] = [doc._score || 0];
 
