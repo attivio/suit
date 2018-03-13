@@ -187,10 +187,15 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
           <DocumentType docType={table} position={this.props.position} />
           <DocumentThumbnail uri={thumbnailUri} />
           <dl className="attivio-labeldata-stacked attivio-labeldata-stacked-search-results">
-            <dt>Rating</dt>
-            <dd>
-              <StarRating onRated={(rating) => { this.rateDocument(doc, rating); }} />
-            </dd>
+            {
+              this.props.searchEngineType === 'attivio' &&
+              <div>
+                <dt>Rating</dt>
+                <dd>
+                  <StarRating onRated={(rating) => { this.rateDocument(doc, rating); }} />
+                </dd>
+              </div>
+            }
             {this.props.showScores ? <dt>Relevancy Score</dt> : ''}
             {this.props.showScores ? <dd><RelevancyScore score={score} explanation={scoreDescription} id={docId} /></dd> : ''}
           </dl>
@@ -200,7 +205,7 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
           <Row>
             <Col xs={7} sm={7}>
               <SearchResultBody body={text} />
-              <SearchResultTags tags={docTags} moreLikeThisQuery={moreLikeThisQuery} docId={docId} />
+              {this.props.searchEngineType === 'attivio' && <SearchResultTags tags={docTags} moreLikeThisQuery={moreLikeThisQuery} docId={docId} />}
             </Col>
             <Col xs={5} sm={5}>
               <DocumentEntityList doc={doc} entityFields={this.props.entityFields} />
@@ -287,20 +292,26 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
           <DocumentType docType={table} position={this.props.position} />
           <DocumentThumbnail uri={thumbnailUri} />
           <dl className="attivio-labeldata-stacked attivio-labeldata-stacked-search-results">
-            <dt>User Rating</dt>
-            <dd>
-              <StarRating onRated={(rating) => { this.rateDocument(doc, rating); }} />
-            </dd>
+            {
+              this.props.searchEngineType === 'attivio' && <div>
+                <dt>User Rating</dt>
+                <dd>
+                  <StarRating onRated={(rating) => { this.rateDocument(doc, rating); }} />
+                </dd>
+              </div>
+            }
             <dt>Relevancy Score</dt>
             <dd><RelevancyScore score={score} description={scoreDescription} id={docId} /></dd>
           </dl>
         </div>
         <div className="col-xs-8 col-sm-8">
           <SearchResultTitle doc={doc} baseUri={this.props.baseUri} />
-          <dl className="attivio-labeldata-2col attivio-search-result-debugger">\
+          <dl className="attivio-labeldata-2col attivio-search-result-debugger">
             {fieldRows}
           </dl>
-          <SearchResultTags tags={docTags} moreLikeThisQuery={moreLikeThisQuery} vertical docId={docId} />
+          {
+            this.props.searchEngineType === 'attivio' && <SearchResultTags tags={docTags} moreLikeThisQuery={moreLikeThisQuery} vertical docId={docId} />
+          }
         </div>
       </div>
     );

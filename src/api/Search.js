@@ -3,6 +3,8 @@ import SimpleQueryRequest from './SimpleQueryRequest';
 import QueryResponse from './QueryResponse';
 import FieldNames from './FieldNames';
 import AuthUtils from '../util/AuthUtils';
+import QueryRequestToElastic from '../util/QueryRequestToElastic';
+import QueryRequestToSolr from '../util/QueryRequestToSolr';
 
 /**
  * Encapsulates the default Attivio search behavior.
@@ -18,8 +20,10 @@ export default class Search {
    *                    (including the protocol, hostname or IP address, and port number,
    *                    with no trailing slash)
    */
-  constructor(baseUri: string) {
+  constructor(baseUri: string, searchEngineType: string, customOptions: any) {
     this.baseUri = baseUri;
+    this.searchEngineType = searchEngineType;
+    this.customOptions = customOptions;
   }
 
   /**
@@ -64,6 +68,21 @@ export default class Search {
     });
     const jsonRequest = Object.assign({}, request);
     jsonRequest.restParams = Search.strMapToObj(request.restParams);
+
+    if(this.searchEngineType === 'elastic') {
+      QueryRequestToElastic(jsonRequest, `${this.baseUri}`, this.customOptions, (err, searchResponse) => {
+        if(err) updateResults(undefined, err);
+        updateResults(searchResponse)
+      })
+      return;
+    }
+    if(this.searchEngineType === 'solr') {
+      QueryRequestToSolr(jsonRequest, `${this.baseUri}`, this.customOptions, (err, searchResponse) => {
+        if(err) updateResults(undefined, err);
+        updateResults(searchResponse)
+      })
+      return
+    }
 
     const body = JSON.stringify(jsonRequest);
     const params = {
