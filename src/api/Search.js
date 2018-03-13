@@ -12,6 +12,8 @@ import QueryRequestToSolr from '../util/QueryRequestToSolr';
 export default class Search {
   baseUri: string;
   sessionId: string;
+  searchEngineType: string;
+  customOptions: any;
 
   /**
    * Construct a Search object.
@@ -69,19 +71,21 @@ export default class Search {
     const jsonRequest = Object.assign({}, request);
     jsonRequest.restParams = Search.strMapToObj(request.restParams);
 
-    if(this.searchEngineType === 'elastic') {
+    if (this.searchEngineType === 'elastic') {
       QueryRequestToElastic(jsonRequest, `${this.baseUri}`, this.customOptions, (err, searchResponse) => {
-        if(err) updateResults(undefined, err);
-        updateResults(searchResponse)
-      })
-      return;
+        if (err) {
+          updateResults(null, err);
+        }
+        updateResults(searchResponse, null);
+      });
     }
-    if(this.searchEngineType === 'solr') {
+    if (this.searchEngineType === 'solr') {
       QueryRequestToSolr(jsonRequest, `${this.baseUri}`, this.customOptions, (err, searchResponse) => {
-        if(err) updateResults(undefined, err);
-        updateResults(searchResponse)
-      })
-      return
+        if (err) {
+          updateResults(null, err);
+        }
+        updateResults(searchResponse, null);
+      });
     }
 
     const body = JSON.stringify(jsonRequest);

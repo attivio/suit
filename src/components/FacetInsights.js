@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Facet from './Facet';
-import Card from './Card';
 
 import SearchFacet from '../api/SearchFacet';
 import ObjectUtils from '../util/ObjectUtils';
@@ -123,7 +122,7 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
     return 'list';
   }
 
-  facetForField(fieldName: string, facetMap: Map<string, SearchFacet>, label: string) {
+  facetForField(fieldName: string, facetMap: Map<string, SearchFacet>) {
     let result;
     const facet = facetMap.get(fieldName);
     if (facet) {
@@ -171,7 +170,7 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
       if (facet) {
         return (
           <div key={facetField} style={{ flex: 1 }}>
-            {this.facetForField(facetField, facetMap, facet.findLabel())}
+            {this.facetForField(facetField, facetMap)}
           </div>
         );
       }
@@ -188,13 +187,13 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
           }}
         >
           <div style={{ gridRow: 'span 2' }}>
-            {this.facetForField('table', facetMap, 'Table')}
+            {this.facetForField('table', facetMap)}
           </div>
           <div>
-            {this.facetForField('keyphrases', facetMap, 'Key Phrases')}
+            {this.facetForField('keyphrases', facetMap)}
           </div>
           <div style={{ gridColumn: 'span 3' }}>
-            {this.facetForField('date', facetMap, 'Date')}
+            {this.facetForField('date', facetMap)}
           </div>
           {additionalFacets}
         </div>

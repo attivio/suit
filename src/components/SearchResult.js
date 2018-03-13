@@ -35,6 +35,10 @@ type SearchResultProps = {
   showScores: boolean;
   /** A map of the field names to the label to use for any entity fields */
   entityFields: Map<string, string>;
+  /** Whether tags should be shown in the UI or not. Defaults to true. */
+  showTags: boolean;
+  /** Whether star ratings should be shown in the UI or not. Defaults to true. */
+  showRatings: boolean;
 }
 
 type SearchResultDefaultProps = {
@@ -42,6 +46,8 @@ type SearchResultDefaultProps = {
   format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
   showScores: boolean;
   entityFields: Map<string, string>;
+  showTags: boolean;
+  showRatings: boolean;
 }
 
 type SearchResultState = {
@@ -74,6 +80,8 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
     format: 'list',
     showScores: false,
     entityFields: new Map(),
+    showTags: true,
+    showRatings: true,
   };
 
   static getFirstDocumentType(list: Array<SearchDocument>): string {
@@ -180,22 +188,21 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
         />
       );
     }
-    
+
     return (
       <div className=" attivio-search-result">
         <div className="attivio-search-result-col">
           <DocumentType docType={table} position={this.props.position} />
           <DocumentThumbnail uri={thumbnailUri} />
           <dl className="attivio-labeldata-stacked attivio-labeldata-stacked-search-results">
-            {
-              this.props.searchEngineType === 'attivio' &&
+            {this.props.showRatings ? (
               <div>
                 <dt>Rating</dt>
                 <dd>
                   <StarRating onRated={(rating) => { this.rateDocument(doc, rating); }} />
                 </dd>
               </div>
-            }
+            ) : null}
             {this.props.showScores ? <dt>Relevancy Score</dt> : ''}
             {this.props.showScores ? <dd><RelevancyScore score={score} explanation={scoreDescription} id={docId} /></dd> : ''}
           </dl>
@@ -205,7 +212,9 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
           <Row>
             <Col xs={7} sm={7}>
               <SearchResultBody body={text} />
-              {this.props.searchEngineType === 'attivio' && <SearchResultTags tags={docTags} moreLikeThisQuery={moreLikeThisQuery} docId={docId} />}
+              {this.props.showTags ? (
+                <SearchResultTags tags={docTags} moreLikeThisQuery={moreLikeThisQuery} docId={docId} />
+              ) : null}
             </Col>
             <Col xs={5} sm={5}>
               <DocumentEntityList doc={doc} entityFields={this.props.entityFields} />
@@ -292,14 +301,14 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
           <DocumentType docType={table} position={this.props.position} />
           <DocumentThumbnail uri={thumbnailUri} />
           <dl className="attivio-labeldata-stacked attivio-labeldata-stacked-search-results">
-            {
-              this.props.searchEngineType === 'attivio' && <div>
+            {this.props.showRatings ? (
+              <div>
                 <dt>User Rating</dt>
                 <dd>
                   <StarRating onRated={(rating) => { this.rateDocument(doc, rating); }} />
                 </dd>
               </div>
-            }
+            ) : null}
             <dt>Relevancy Score</dt>
             <dd><RelevancyScore score={score} description={scoreDescription} id={docId} /></dd>
           </dl>
@@ -309,9 +318,9 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
           <dl className="attivio-labeldata-2col attivio-search-result-debugger">
             {fieldRows}
           </dl>
-          {
-            this.props.searchEngineType === 'attivio' && <SearchResultTags tags={docTags} moreLikeThisQuery={moreLikeThisQuery} vertical docId={docId} />
-          }
+          {this.props.showTags ? (
+            <SearchResultTags tags={docTags} moreLikeThisQuery={moreLikeThisQuery} vertical docId={docId} />
+          ) : null}
         </div>
       </div>
     );

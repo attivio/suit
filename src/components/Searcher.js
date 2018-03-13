@@ -775,14 +775,13 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     this.setState(this.getDefaultState(), callback);
 
     const callBackWrapper = () => {
-      this.updateStateResetAndSearch(this.getDefaultState(), callback);
+      this.updateStateResetAndSearch(this.getDefaultState());
     };
     this.setState({
       haveSearched: false,
       response: undefined,
       error: undefined,
     }, callBackWrapper);
-
   }
 
   /**
