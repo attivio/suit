@@ -32,7 +32,7 @@ NPM has a cool feature that lets you pull the contents of a dependency from some
 
 You can read more about the link command [here](https://docs.npmjs.com/cli/link).
 
-**IMPORTANT:** You can also set up links between NPM projects by changing the dependency's version in package.json to be a "file" URL (e.g., "file:///Users/yourname/dev/suit"). We don't recommend doing this for two reasons: 1) you have to worry about not checking in the udpated package.json file and 2) if you are developing on Windows, you need to worry about a bug which causes Maven to **entirely delete the contents of your SUIT directory** when using the `clean` goal.
+**IMPORTANT:** You can also set up links between NPM projects by changing the dependency's version in package.json to be a "file" URL (e.g., "file:///Users/yourname/dev/suit"). We don't recommend doing this for two reasons: 1) you have to worry about not checking in the updated package.json file and 2) if you are developing on Windows, you need to worry about a bug which causes Maven to **entirely delete the contents of your SUIT directory** when using the `clean` goal.
 
 ### Watching for Changes
 
