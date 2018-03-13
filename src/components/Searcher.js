@@ -56,14 +56,16 @@ type SearcherProps = {
   history: PropTypes.object.isRequired;
 
   /**
-   * Optional. we can select elastic or solr as search engine also,
-   * use the value "elastic" or "solr", defaults to "attivio"
+   * The engine backing the SUIT application. Defaults to 'attivio'.
+   * Set to 'solr' or 'elastic' to use one of those engines instesd.
    */
-  searchEngineType: string;
+  searchEngineType: 'attivio' | 'solr' | 'elastic';
   /**
-   * Optional. if other search engine than Attivio is selected, in this property we can configure mappings and other options.
+   * If a search engine than 'attivio' is specified, this property contains
+   * configuration mappings and other options for it. It is ignored when the
+   * engine is 'attivio'.
    */
-  customOptions?: any;
+  customOptions: any;
   /**
    * Optional. The location of the node through which to interact with Attivio.
    * Defaults to the value in the configuration.

@@ -13,11 +13,6 @@ type SearchResultsProps = {
    * Defaults to the value in the configuration.
    */
   baseUri: string;
-  /**
-   * Optional, The search engine type,
-   * this help us hide components if they are not supported.
-   */
-  searchEngineType: string;
   /** The format to use for displaying the individual documents. */
   format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
   /**
@@ -30,14 +25,19 @@ type SearchResultsProps = {
    * Defaults to show the people, locations, and companies entities.
    */
   entityFields: Map<string, string>;
+  /** Whether tags should be shown in the UI or not. Defaults to true. */
+  showTags: boolean;
+  /** Whether star ratings should be shown in the UI or not. Defaults to true. */
+  showRatings: boolean;
 };
 
 type SearchResultsDefaultProps = {
   baseUri: string;
-  searchEngineType: string;
   format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
   showScores: boolean;
   entityFields: Map<string, string>;
+  showTags: boolean;
+  showRatings: boolean;
 };
 
 /**
@@ -47,10 +47,11 @@ type SearchResultsDefaultProps = {
 export default class SearchResults extends React.Component<SearchResultsDefaultProps, SearchResultsProps, void> {
   static defaultProps = {
     baseUri: '',
-    searchEngineType: 'attivio',
     format: 'list',
     showScores: false,
     entityFields: new Map([['people', 'People'], ['locations', 'Locations'], ['companies', 'Companies']]),
+    showTags: true,
+    showRatings: true,
   };
 
   static contextTypes = {
@@ -76,7 +77,8 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
             showScores={this.props.showScores}
             entityFields={this.props.entityFields}
             baseUri={this.props.baseUri}
-            searchEngineType={this.props.searchEngineType}
+            showRatings={this.props.showRatings}
+            showTags={this.props.showTags}
           />,
         );
       });

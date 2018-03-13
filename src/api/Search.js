@@ -12,7 +12,7 @@ import QueryRequestToSolr from '../util/QueryRequestToSolr';
 export default class Search {
   baseUri: string;
   sessionId: string;
-  searchEngineType: string;
+  searchEngineType: 'attivio' | 'solr' | 'elastic';
   customOptions: any;
 
   /**
@@ -22,7 +22,7 @@ export default class Search {
    *                    (including the protocol, hostname or IP address, and port number,
    *                    with no trailing slash)
    */
-  constructor(baseUri: string, searchEngineType: string, customOptions: any) {
+  constructor(baseUri: string, searchEngineType: 'attivio' | 'solr' | 'elastic', customOptions: any) {
     this.baseUri = baseUri;
     this.searchEngineType = searchEngineType;
     this.customOptions = customOptions;
@@ -78,58 +78,57 @@ export default class Search {
         }
         updateResults(searchResponse, null);
       });
-    }
-    if (this.searchEngineType === 'solr') {
+    } else if (this.searchEngineType === 'solr') {
       QueryRequestToSolr(jsonRequest, `${this.baseUri}`, this.customOptions, (err, searchResponse) => {
         if (err) {
           updateResults(null, err);
         }
         updateResults(searchResponse, null);
       });
-    }
+    } else {
+      const body = JSON.stringify(jsonRequest);
+      const params = {
+        method: 'POST',
+        headers,
+        body,
+        credentials: 'include',
+      };
+      const fetchRequest = new Request(uri, params);
 
-    const body = JSON.stringify(jsonRequest);
-    const params = {
-      method: 'POST',
-      headers,
-      body,
-      credentials: 'include',
-    };
-    const fetchRequest = new Request(uri, params);
-
-    fetch(fetchRequest).then(
-      (response: Response) => {
-        if (response.ok) {
-          response.json().then((jsonResponse: any) => {
-            const searchResponse = QueryResponse.fromJson(jsonResponse);
-            updateResults(searchResponse, null);
-          }).catch((error: any) => {
-            // Catch errors from converting the response's JSON
-            updateResults(null, Search.getErrorMessage(error));
-          });
-        } else {
-          // The request came back other than a 200-type response code
-          // There should be JSON describing it...
-          response.json().then((searchException: any) => {
-            const exceptionMessasge = searchException.message ? searchException.message : '';
-            const exceptionCode = searchException.errorCode ? ` (${(searchException.errorCode: string)})` : '';
-            const finalExceptionMessage = `An exception occurred while searching. ${exceptionMessasge}${exceptionCode}`;
-            updateResults(null, finalExceptionMessage);
-          }).catch((badJsonError: any) => {
-            // const errorMessage = response.statusText ? `${response.statusText} (error code ${response.status})` :
-            //   `Unknown error of type ${response.status}`;
-            updateResults(null, Search.getErrorMessage(badJsonError));
-          });
-        }
-      },
-      (error: any) => {
-        // Catch network-type errors from the main fetch() call
+      fetch(fetchRequest).then(
+        (response: Response) => {
+          if (response.ok) {
+            response.json().then((jsonResponse: any) => {
+              const searchResponse = QueryResponse.fromJson(jsonResponse);
+              updateResults(searchResponse, null);
+            }).catch((error: any) => {
+              // Catch errors from converting the response's JSON
+              updateResults(null, Search.getErrorMessage(error));
+            });
+          } else {
+            // The request came back other than a 200-type response code
+            // There should be JSON describing it...
+            response.json().then((searchException: any) => {
+              const exceptionMessasge = searchException.message ? searchException.message : '';
+              const exceptionCode = searchException.errorCode ? ` (${(searchException.errorCode: string)})` : '';
+              const finalExceptionMessage = `An exception occurred while searching. ${exceptionMessasge}${exceptionCode}`;
+              updateResults(null, finalExceptionMessage);
+            }).catch((badJsonError: any) => {
+              // const errorMessage = response.statusText ? `${response.statusText} (error code ${response.status})` :
+              //   `Unknown error of type ${response.status}`;
+              updateResults(null, Search.getErrorMessage(badJsonError));
+            });
+          }
+        },
+        (error: any) => {
+          // Catch network-type errors from the main fetch() call
+          updateResults(null, Search.getErrorMessage(error));
+        },
+      ).catch((error: any) => {
+        // Catch exceptions from the main "then" function
         updateResults(null, Search.getErrorMessage(error));
-      },
-    ).catch((error: any) => {
-      // Catch exceptions from the main "then" function
-      updateResults(null, Search.getErrorMessage(error));
-    });
+      });
+    }
   }
 
   /**
