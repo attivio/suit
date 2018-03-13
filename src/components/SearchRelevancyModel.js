@@ -61,7 +61,7 @@ export default class SearchRelevancyModel extends React.Component<SearchRelevanc
   componentWillMount() {
     // If our parent didn't set a list of models for us
     // to use, ask the server what we should do.
-    const uri = `${this.props.baseUri}/rest/signals/relevancyModels`;
+    const uri = `${this.props.baseUri}/rest/relevancyModelApi/getRelevancyModelNames`;
     if (!this.state.models || this.state.models.length === 0) {
       axios.get(uri).then((response) => {
         if (response && response.data && response.data.length > 0) {
