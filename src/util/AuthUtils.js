@@ -221,7 +221,7 @@ export default class AuthUtils {
     const userObject = AuthUtils.getLocalStorageUser();
     if (userObject && userObject.timeout && userObject.timeout > new Date().getTime()) {
       callback(userObject);
-    } else if (AuthUtils.config.ALL.authType === 'SAML') {
+    } else if (AuthUtils.config.ALL.authType === 'SAML' || AuthUtils.config.ALL.authType === 'NONE') {
       // If the authentication is done on the front-end, we shouldn't
       // ever get here because if there's no local-storage user, then
       // no one is logged in yet...
