@@ -234,7 +234,7 @@ export default class AuthUtils {
         headers,
         credentials: 'include', // Need to do this to make sure the cookies are sent
       };
-      const request = new Request(`${AuthUtils.config.ALL.baseUri}/user`, params);
+      const request = new Request(`${AuthUtils.config.ALL.baseUri}/rest/serverDetailsApi/user`, params);
       fetch(request).then((response: Response) => {
         if (response.ok) {
           response.json().then((userInfo) => {
@@ -242,7 +242,7 @@ export default class AuthUtils {
             callback(userInfo);
           }).catch((error: any) => {
             // Catch errors from converting the response's JSON
-            console.log('Got an error parsing the JSON', error);
+            console.log('Got an error parsing the current user info', error);
             callback(null);
           });
         } else {
