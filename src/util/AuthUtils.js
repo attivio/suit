@@ -18,9 +18,12 @@ export default class AuthUtils {
     if (configError) {
       throw configError;
     }
-    const usersError = AuthUtils.validateUsers(users);
-    if (usersError) {
-      throw usersError;
+    if (config.ALL.authType === 'XML') {
+      // Only validate users if the auth type is XML
+      const usersError = AuthUtils.validateUsers(users);
+      if (usersError) {
+        throw usersError;
+      }
     }
     AuthUtils.users = users;
     AuthUtils.config = config;
@@ -106,17 +109,20 @@ export default class AuthUtils {
   }
 
   /**
-   * Find the user info for a given user name (for XML authentication)
+   * Find the user info for a given user name.
+   * This is only applicable in the case of XML authentication.
    */
   static findUser(username: string): any {
-    if (Array.isArray(AuthUtils.users.principals.user)) {
-      return AuthUtils.users.principals.user.find((testUser) => {
-        return testUser.$.id === username;
-      });
-    }
+    if (this.config.ALL.authType === 'XML') {
+      if (Array.isArray(AuthUtils.users.principals.user)) {
+        return AuthUtils.users.principals.user.find((testUser) => {
+          return testUser.$.id === username;
+        });
+      }
       // This will happen if there's only use user...
-    if (AuthUtils.users.principals.user.$.id === username) {
-      return AuthUtils.users.principals.user;
+      if (AuthUtils.users.principals.user.$.id === username) {
+        return AuthUtils.users.principals.user;
+      }
     }
     return null;
   }
@@ -135,7 +141,7 @@ export default class AuthUtils {
     if (AuthUtils.config.ALL.authType === 'NONE') {
       return null;
     }
-    if (AuthUtils.config.ALL.authType !== 'SAML') {
+    if (AuthUtils.config.ALL.authType === 'XML') {
       const userObject = AuthUtils.findUser(username);
       if (userObject) {
         if (AuthUtils.passwordMatches(password, userObject.$.password)) {
@@ -311,6 +317,7 @@ export default class AuthUtils {
   /**
    * Validate the users object to make sure it won't cause us any
    * grief. Return null if it's good, or an error messager otherwise.
+   * This should only be called if auth type is 'XML'
    */
   static validateUsers(users: any): string | null {
     if (!users) {
