@@ -72,11 +72,21 @@ export default class LoginForm extends React.Component<LoginFormDefaultProps, Lo
         {error}
         <FormGroup controlId="usernameText" validationState={formValidationState}>
           <ControlLabel>Username</ControlLabel>
-          <FormControl type="text" value={this.state.username} onChange={this.updateUsername} />
+          <FormControl
+            type="text"
+            value={this.state.username}
+            onChange={this.updateUsername}
+            autoComplete="username"
+          />
         </FormGroup>
         <FormGroup controlId="passwordText" validationState={formValidationState}>
           <ControlLabel>Password</ControlLabel>
-          <FormControl type="password" value={this.state.password} onChange={this.updatePassword} />
+          <FormControl
+            type="password"
+            value={this.state.password}
+            onChange={this.updatePassword}
+            autoComplete="current-password"
+          />
         </FormGroup>
         <Button
           type="submit"
