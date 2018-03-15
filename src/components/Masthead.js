@@ -22,6 +22,10 @@ type MastheadProps = {
   applicationName: string | null;
   /** If set, then the application name will wrap to two lines. */
   multiline: boolean;
+  /**
+   * The engine being used. Defaults to 'attivio.'
+   */
+  searchEngineType: 'attivio' | 'solr' | 'elastic';
   /** The contents of the Masthead can be arbitrary components. */
   children: Children;
 };
@@ -32,6 +36,7 @@ type MastheadDefaultProps = {
   homeRoute: string | null;
   applicationName: string | null;
   multiline: boolean;
+  searchEngineType: 'attivio' | 'solr' | 'elastic';
 };
 
 type MastheadState = {
@@ -57,6 +62,7 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
     logoutFunction: () => {},
     applicationName: 'Cognitive Search',
     multiline: false,
+    searchEngineType: 'attivio',
   }
 
   constructor(props: MastheadProps) {
@@ -116,6 +122,43 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
   homeLink: ?HTMLAnchorElement;
 
   render() {
+    let engineInfo = null;
+    if (this.props.searchEngineType === 'solr') {
+      engineInfo = (
+        <span
+          style={{
+            display: 'inline-block',
+            float: 'right',
+            fontSize: '0.6875em',
+            fontWeight: 100,
+            color: '#fff',
+            width: '100%',
+            textAlign: 'right',
+            padding: 0,
+          }}
+        >
+          for Apache Solr
+        </span>
+      );
+    } else if (this.props.searchEngineType === 'elastic') {
+      engineInfo = (
+        <span
+          style={{
+            display: 'inline-block',
+            float: 'right',
+            fontSize: '0.6875em',
+            fontWeight: 100,
+            color: '#fff',
+            width: '100%',
+            textAlign: 'right',
+            padding: 0,
+          }}
+        >
+          for Elasticsearch
+        </span>
+      );
+    }
+
     return (
       <header className="attivio-globalmast attivio-minwidth">
         <div className="attivio-container">
@@ -129,6 +172,7 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
             }}
           >
             <img src={this.props.logoUri} alt={this.props.logoAlt} className="attivio-globalmast-logo-img" />
+            {engineInfo}
           </button>
           <div className={`attivio-globalmast-appname attivio-globalmast-separator after ${this.props.multiline ? '' : 'nowrap'}`}>
             {this.props.applicationName}
