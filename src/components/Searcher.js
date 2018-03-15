@@ -350,34 +350,26 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   }
 
   componentWillMount() {
-    console.log('In Searcher.componentWillMount()');
     // When the searcher is first created, this is called.
     // Pull a state object out of the location's query string
     const location = this.props.location;
     const newState = this.parseLocationQueryStringToState(location.search);
 
-    console.log('Pulled the state from the location as:', newState);
-
     // We check to see if the state needs to be updated due to this
     if (this.relevantStateDiffers(newState)) {
-      console.log('The state has changed so we are updating it');
       this.updateStateAndSearch(newState);
     }
   }
 
   componentWillReceiveProps(nextProps: SearcherProps) {
-    console.log('In Searcher.componentWillReceiveProps()');
     // When the searcher gets updated to have a new set of props, then this is called.
     const location = nextProps.location;
 
     // Pull a state object out of the location's query string
     const newState = this.parseLocationQueryStringToState(location.search);
 
-    console.log('Pulled the state from the location as:', newState);
-
     // We check to see if the state needs to be updated due to this
     if (this.relevantStateDiffers(newState)) {
-      console.log('The state has changed so we are updating it');
       this.updateStateAndSearch(newState);
     }
   }
@@ -511,8 +503,6 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * query string.
    */
   generateLocationQueryStringFromState(state: SearcherState, originalQueryString: string | null): string {
-    console.log('In Searcher.generateLocationQueryStringFromState()');
-    console.log('The state is:', this.state);
     let basicState = {};
 
     if (!(state.query === '*' || state.query === '*:*')) {
@@ -544,11 +534,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       basicState.format = state.format;
     }
 
-    console.log('We calculated the basic state as: ', basicState);
-
     // See if there are any query parameters other than those set by the Searcher. If so, we want to maintain them.
     if (originalQueryString) {
-      console.log('The caller passed in the original query string: ', originalQueryString);
       const originalParsed = QueryString.parse(originalQueryString);
       if (originalParsed) {
         originalParsed.delete('query');
@@ -561,10 +548,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         originalParsed.delete('relevancyModels');
         originalParsed.delete('format');
       }
-      console.log('After removing searcher stuff, the parsed version is: ', originalParsed);
       // Add any leftover fields back in to the basic state
       basicState = Object.assign({}, basicState, originalParsed);
-      console.log('The updated basic state is: ', basicState);
     }
 
     return QueryString.stringify(basicState);
@@ -576,8 +561,6 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * queryString which don't apply to the SearcherState are ignored.
    */
   parseLocationQueryStringToState(queryString: string): SearcherState {
-    console.log('In Searcher.parseLocationQueryStringToState()');
-    console.log('The query string is: ', queryString);
     const parsed = QueryString.parse(queryString);
 
     // Get the query string
@@ -688,8 +671,6 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       haveSearched: this.state.haveSearched, // Make sure we don't change this
     };
 
-    console.log('The state we came up with is: ', result);
-
     return result;
   }
 
@@ -697,7 +678,6 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * Reset to the first page and then update the state, re-running the search if one had already been done.
    */
   updateStateResetAndSearch(partialState: any) {
-    console.log('In Searcher.updateStateResetAndSearch()');
     const newPartialState = Object.assign({}, partialState);
     newPartialState.resultsOffset = 0;
     this.updateStateAndSearch(newPartialState);
@@ -707,8 +687,6 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * Update the state of the searcher and then re-run the search if one had already been done.
    */
   updateStateAndSearch(partialState: any) {
-    console.log('In Searcher.updateStateAndSearch()');
-    console.log('The partial state is: ', partialState);
     this.setState(partialState, () => {
       if (this.state.haveSearched) {
         this.doSearch();
@@ -773,7 +751,6 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * optional callback when done.
    */
   reset(callback: () => void = () => {}) {
-    console.log('In Searcher.reset()');
     this.setState(this.getDefaultState(), callback);
 
     const callBackWrapper = () => {
@@ -799,7 +776,6 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * </ul>
    */
   doSearch() {
-    console.log('In Searcher.doSearch()');
     const qr = this.getQueryRequest();
     this.search.search(qr, (response: QueryResponse | null, error: string | null) => {
       this.updateSearchResults(response, error);

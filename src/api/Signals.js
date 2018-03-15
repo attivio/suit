@@ -46,23 +46,23 @@ export default class Signals {
             response.json().then(() => {
             }).catch((error: any) => {
               // Catch errors from converting the response's JSON
-              console.log('Got an error parsing the JSON', error);
+              console.log('Failed to submit signal', updatedSignal, error);
             });
           } else {
             // The request came back other than a 200-type response code
             const message = response.statusText ?
               `${response.statusText} (error code ${response.status})` :
               `Unknown error of type ${response.status}`;
-            console.log(`Got an error trying to add the signal: ${message}`);
+            console.log('Failed to submit signal', updatedSignal, message);
           }
         },
         (error: any) => {
           // Catch network-type errors from the main fetch() call
-          console.log('Got an error parsing from the fetch call', error);
+          console.log('Failed to submit signal', updatedSignal, error);
         },
       ).catch((error: any) => {
         // Catch exceptions from the main "then" function
-        console.log('Got an error from the main "then" function', error);
+        console.log('Failed to submit signal', updatedSignal, error);
       });
     }
   }
