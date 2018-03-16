@@ -2,8 +2,8 @@
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 
 import React from 'react';
-import ReactMapboxGl, { Marker, ZoomControl } from 'react-mapbox-gl';
-import DrawControl from 'react-mapbox-gl-draw';
+//Uncommenting DrawControl import would enable Polygon selection feature and render it in Chrome but won't render in IE11.
+//import DrawControl from 'react-mapbox-gl-draw';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 import PropTypes from 'prop-types';
@@ -14,6 +14,8 @@ import SearchFacetBucket from '../api/SearchFacetBucket';
 import PositionUtils from '../util/PositionUtils';
 import ObjectUtils from '../util/ObjectUtils';
 import StringUtils from '../util/StringUtils';
+
+const ReactMapboxGl = require("react-mapbox-gl");
 
 type MapFacetContentsProps = {
   /** The facet’s buckets. */
@@ -181,8 +183,10 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
   }
 
   render() {
+    const Marker = ReactMapboxGl.Marker;
+    const ZoomControl = ReactMapboxGl.ZoomControl;
     if (StringUtils.notEmpty(this.props.mapboxKey)) {
-      const Map = ReactMapboxGl({
+      const Map = ReactMapboxGl.Map({
         accessToken: this.props.mapboxKey,
         attributionControl: false,
       });
@@ -263,7 +267,9 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
             }}
           >
             <ZoomControl position="bottom-right" />
-            <DrawControl
+            {/* DrawControl has no ES5 support yet, hence we won't use it until we have a fix for this.
+                Uncommenting below code would enable Polygon selection feature and render it in Chrome but won't render in IE11. */}
+            {/* <DrawControl
               controls={{
                 point: false,
                 line_string: false,
@@ -320,7 +326,7 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
                   'line-width': 3,
                 },
               }]}
-            />
+            /> */}
             {points}
           </Map>
         </div>
