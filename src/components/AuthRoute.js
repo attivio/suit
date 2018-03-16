@@ -25,7 +25,7 @@ type AuthRouteProps = {
   /**
    * The authenticaton method being used
    */
-  authType: 'SAML' | 'XML';
+  authType: 'SAML' | 'XML' | 'NONE';
 };
 
 type AuthRouteDefaultProps = {
@@ -74,8 +74,8 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
       );
     }
 
-    if (this.props.authType !== 'SAML') {
-      // For local authentication, then just redirect to the login page.
+    // For local authentication, then just redirect to the login page.
+    if (this.props.authType === 'XML') {
       return (
         <Redirect
           to={{
