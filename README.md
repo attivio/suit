@@ -1,8 +1,7 @@
 # SUIT
 
-[![Travis][build-badge]][build]
-[![npm package][npm-badge]][npm]
-[![Coveralls][coveralls-badge]][coveralls]
+[![TravisCI][build-badge]][build]
+[![npmjs][npm-badge]][npm]
 
 The Search User Interface Toolkit, or SUIT, is a library for creating search
 applications on top of the index in an Attivio, Elasticsearch or Solr installation. For more information
@@ -71,11 +70,8 @@ use the folllowing commands:
 
 You may find it helpful to make use of NPM’s `link` functionality to facilitate seeing changes you make to the SUIT library code in the front-end application code that uses it, particularly in conjunction with the `npm run start` command. See the NPM documentation for details about doing this.
 
-[build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
-[build]: https://travis-ci.org/user/repo
+[build-badge]: https://travis-ci.org/attivio/suit.svg
+[build]: https://travis-ci.org/attivio/suit
 
-[npm-badge]: https://img.shields.io/npm/v/npm-package.png?style=flat-square
-[npm]: https://www.npmjs.org/package/npm-package
-
-[coveralls-badge]: https://img.shields.io/coveralls/user/repo/master.png?style=flat-square
-[coveralls]: https://coveralls.io/github/user/repo
+[npm-badge]: https://img.shields.io/npm/v/@attivio/suit.svg
+[npm]: https://www.npmjs.org/package/@attivio/suit
