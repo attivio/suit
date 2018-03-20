@@ -1,7 +1,7 @@
 # SUIT
 
-[![Travis][build-badge]][build]
-[![npm package][npm-badge]][npm]
+[![TravisCI][build-badge]][build]
+[![npmjs][npm-badge]][npm]
 [![Coveralls][coveralls-badge]][coveralls]
 
 The Search User Interface Toolkit, or SUIT, is a library for creating search
@@ -71,10 +71,10 @@ use the folllowing commands:
 
 You may find it helpful to make use of NPM’s `link` functionality to facilitate seeing changes you make to the SUIT library code in the front-end application code that uses it, particularly in conjunction with the `npm run start` command. See the NPM documentation for details about doing this.
 
-[build-badge]: https://img.shields.io/travis/mmasi-attivio/suit/master.png?style=flat-square
+[build-badge]: https://travis-ci.org/mmasi-attivio/suit.svg
 [build]: https://travis-ci.org/mmasi-attivio/suit
 
-[npm-badge]: https://img.shields.io/npm/v/npm-package.png?style=flat-square
+[npm-badge]: https://img.shields.io/npm/v/@attivio/suit.svg
 [npm]: https://www.npmjs.org/package/@attivio/suit
 
 [coveralls-badge]: https://coveralls.io/repos/github/mmasi-attivio/suit/badge.svg
