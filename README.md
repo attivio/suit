@@ -77,5 +77,5 @@ You may find it helpful to make use of NPM’s `link` functionality to facilitat
 [npm-badge]: https://img.shields.io/npm/v/npm-package.png?style=flat-square
 [npm]: https://www.npmjs.org/package/@attivio/suit
 
-[coveralls-badge]: https://img.shields.io/coveralls/mmasi-attivio/suit/master.png?style=flat-square
+[coveralls-badge]: https://coveralls.io/repos/github/mmasi-attivio/suit/badge.svg
 [coveralls]: https://coveralls.io/github/mmasi-attivio/suit
