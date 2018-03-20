@@ -2,7 +2,6 @@
 
 [![TravisCI][build-badge]][build]
 [![npmjs][npm-badge]][npm]
-[![Coveralls][coveralls-badge]][coveralls]
 
 The Search User Interface Toolkit, or SUIT, is a library for creating search
 applications on top of the index in an Attivio, Elasticsearch or Solr installation. For more information
@@ -76,6 +75,3 @@ You may find it helpful to make use of NPM’s `link` functionality to facilitat
 
 [npm-badge]: https://img.shields.io/npm/v/@attivio/suit.svg
 [npm]: https://www.npmjs.org/package/@attivio/suit
-
-[coveralls-badge]: https://coveralls.io/repos/github/mmasi-attivio/suit/badge.svg
-[coveralls]: https://coveralls.io/github/mmasi-attivio/suit
