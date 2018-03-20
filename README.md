@@ -5,14 +5,14 @@
 [![Coveralls][coveralls-badge]][coveralls]
 
 The Search User Interface Toolkit, or SUIT, is a library for creating search
-applications on top of the index in the Attivio platform. For more information
+applications on top of the index in an Attivio, Elasticsearch or Solr installation. For more information
 on Attivio, please visit our website at http://www.attivio.com.
 
 ## Working with the SUIT Library
 
 To build an application using the SUIT library, we strongly recommend that you
-fork the companion repository, [search-ui](https://github.com/attivio/search-ui),
-from our [GitHub](https://github.com/attivio/search-ui). The Search UI project
+fork the companion repository, [searchui](https://github.com/attivio/searchui),
+from our [GitHub](https://github.com/attivio/searchui). The Search UI project
 imports the SUIT library and builds a search application that uses the React
 components and other classes in SUIT. Further documentation on the Search UI
 layer can be found in its repository.
