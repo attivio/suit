@@ -71,11 +71,11 @@ use the folllowing commands:
 
 You may find it helpful to make use of NPM’s `link` functionality to facilitate seeing changes you make to the SUIT library code in the front-end application code that uses it, particularly in conjunction with the `npm run start` command. See the NPM documentation for details about doing this.
 
-[build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
-[build]: https://travis-ci.org/user/repo
+[build-badge]: https://img.shields.io/travis/mmasi-attivio/suit/master.png?style=flat-square
+[build]: https://travis-ci.org/mmasi-attivio/suit
 
 [npm-badge]: https://img.shields.io/npm/v/npm-package.png?style=flat-square
-[npm]: https://www.npmjs.org/package/npm-package
+[npm]: https://www.npmjs.org/package/@attivio/suit
 
-[coveralls-badge]: https://img.shields.io/coveralls/user/repo/master.png?style=flat-square
-[coveralls]: https://coveralls.io/github/user/repo
+[coveralls-badge]: https://img.shields.io/coveralls/mmasi-attivio/suit/master.png?style=flat-square
+[coveralls]: https://coveralls.io/github/mmasi-attivio/suit
