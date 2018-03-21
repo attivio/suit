@@ -9,7 +9,8 @@ import Card from './Card';
 
 type SpellCheckMessageProps = {
   location: PropTypes.object.isRequired;
-}
+  history: PropTypes.object.isRequired;
+};
 
 /**
  * A suggested alternate query if one is available.
@@ -18,6 +19,11 @@ class SpellCheckMessage extends React.Component<void, SpellCheckMessageProps, vo
   static contextTypes = {
     searcher: PropTypes.any,
   };
+
+  constructor(props: SpellCheckMessageProps) {
+    super(props);
+    (this: any).handleClick = this.handleClick.bind(this);
+  }
 
   getMessage(): string {
     const searcher = this.context.searcher;
@@ -35,15 +41,22 @@ class SpellCheckMessage extends React.Component<void, SpellCheckMessageProps, vo
     return '';
   }
 
+  handleClick() {
+      const message = this.getMessage();
+      const path = '/results';
+      const searchString = QueryString.parse(location.search);
+      searchString.query = message;
+      this.props.history.push({
+        pathname: path,
+        search: QueryString.stringify(searchString)
+      });
+  }
+
   getLink() {
     const message = this.getMessage();
     if (message) {
-      const location = this.props.location;
-      const search = QueryString.parse(location.search);
-      search.query = message;
-      const href = `${location.pathname}?${QueryString.stringify(search)}`;
       return (
-        <a href={href}>
+        <a onClick={this.handleClick}>
           {message}
         </a>
       );
