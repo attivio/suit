@@ -1,0 +1,100 @@
+.attivio-toolbar a.attivio-collaborators-trigger {
+  display: inline-block;
+}
+.attivio-toolbar a.attivio-collaborators-trigger.attivio-icon {
+  padding-left: 30px;
+}
+a.attivio-collaborators-trigger {
+  color: #A6A8AB;
+}
+a.attivio-collaborators-trigger strong {
+  color: #2f75b0;
+}
+
+.attivio-collaborators {
+  min-width: 350px;
+  display: none;
+}
+.popover-content > .attivio-collaborators {
+  display: block;
+}
+.attivio-collaborators ul,
+.attivio-collaborators li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.attivio-collaborators ul {
+  max-height: 280px; /* 7 items at 40px */
+  overflow-y: auto;
+}
+.attivio-collaborators li {
+  position: relative;
+  padding-right: 100px;
+}
+.attivio-collaborators .attivio-collaborators-header {
+  border-bottom: 1px solid #e5e5e5;
+  overflow: hidden;
+  padding: 7px 0;
+}
+.attivio-collaborators-title {
+  font-size: 1.1em;
+  line-height: 1.2;
+  float: left;
+  margin: 0;
+  padding-left: 20px;
+  color: #A6A8AB;
+}
+.attivio-collaborators-title strong {
+  color: #2f75b0;
+}
+.attivio-collaborators a.attivio-collaborators-add {
+  float: right;
+  clear: none;
+  background-size: 14px 14px;
+    padding-left: 25px;
+  background-position: 5px 50%;
+  .button-variant(@btn-success-color; @btn-success-bg; @btn-success-border);
+}
+
+.attivio-collaborators a.attivio-collaborators-name{
+  color: #2f75b0;
+  padding: 10px 20px;
+  display: block;
+}
+.attivio-collaborators .attivio-collaborators-access {
+  position: absolute;
+  top: 0;
+  padding-right: 20px;
+  right: 55px;
+  width: 70px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  border: 0;
+  height: 100%;
+  background-color: transparent;
+  background-position: right 50%;
+}
+.attivio-collaborators a.attivio-collaborators-remove {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  padding: 0;
+  background-color: none;
+  width: 26px;
+  height: 18px;
+  background-size: 18px 18px;
+  background-position: right 0;
+  border-left: 1px solid #e5e5e5;
+}
+@media (min-width: 980px) {
+  .attivio-masthead .attivio-collaborators-trigger .sr-only {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: none;
+  }
+}

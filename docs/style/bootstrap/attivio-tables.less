@@ -1,0 +1,25 @@
+.attivio-table thead tr:last-child th,
+.attivio-table thead tr:last-child td {
+  border-bottom: 1px solid @attivio-table-head-border-color;
+}
+.attivio-table thead th,
+.attivio-table thead td {
+  color: @attivio-table-head-font-color;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: @attivio-table-head-font-size;
+}
+
+.attivio-table-sm {
+  // Cells
+  > thead,
+  > tbody,
+  > tfoot {
+    > tr {
+      > th,
+      > td {
+        padding: 6px;
+      }
+    }
+  }
+}

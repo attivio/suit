@@ -1,0 +1,27 @@
+.attivio-or {
+  text-transform: uppercase;
+  text-align: center;
+  position: relative;
+  font-size: 11px;
+  font-weight: 700;
+  margin: 10px 0;
+  color: @attivio-or-inline-font-color;
+}
+div.attivio-or {
+  z-index: 2;
+  color: @attivio-or-block-font-color;
+}
+div.attivio-or:before,
+div.attivio-or:after {
+  content: " ";
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 46%;
+  border-top: 1px solid @attivio-or-block-border-color;
+  z-index: 1;
+}
+div.attivio-or:after {
+  left: auto;
+  right: 0;
+}

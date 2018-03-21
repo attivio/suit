@@ -1,0 +1,12 @@
+.attivio-list-inline {
+  > li:before {
+    content: @attivio-inline-list-separator;
+    margin-left: -2px;
+    padding-right: 7px;
+  }
+  > li:first-child:before {
+    content: "";
+    display: none;
+  }
+}
+

@@ -3,7 +3,11 @@
 __1.__ Simplest search bar.
 
 ```jsx
-  <SearchBar />
+  <Router>
+    <Searcher>
+      <SearchBar />
+    </Searcher>
+  </Router>
 ```
 
 __2.__ Search bar styled for use inside the `<Masthead>` component.

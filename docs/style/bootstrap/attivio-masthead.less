@@ -1,0 +1,57 @@
+.attivio-masthead {
+  .clearfix();
+  #gradient > .horizontal(@attivio-masthead-bg-color1; @attivio-masthead-bg-color2);
+
+  padding: 13px 0 13px 1em;
+}
+.attivio-logo {
+  float: left;
+  margin-right: 3em;
+}
+.attivio-logo img {
+  max-width: 100%;
+}
+.attivio-masthead .attivio-logo img {
+  max-width: @attivio-masthead-logo-max-width;
+}
+.attivio-masthead .attivio-identifier {
+  display: inline;
+  line-height: 26px;
+  font-size: @attivio-masthead-identifier-font-size;
+  color: @attivio-masthead-identifier-color;
+  opacity: @attivio-masthead-identifier-opacity;
+}
+.attivio-masthead .attivio-user {
+  margin: 0;
+  line-height: 26px;
+  text-align: right;
+
+  > li,
+  > li :link,
+  > li :visited {
+    color: @attivio-masthead-actions-color;
+  }
+  > li:first-child,
+  > li:first-child :link,
+  > li:first-child :visited {
+    color: @attivio-masthead-user-color;
+  }
+}
+.attivio-masthead-toolbar {
+  float: right;
+  padding-right: 1em;
+}
+
+/* Compact Masthead */
+.attivio-masthead-compact .attivio-logo {
+  position: relative;
+  line-height: 36px;
+}
+.attivio-masthead-compact .attivio-logo:after {
+  content: " ";
+  position: absolute;
+  top: 5px;
+  right: -28px;
+  height: 26px;
+  border-right: 1px solid @brand-primary;
+}

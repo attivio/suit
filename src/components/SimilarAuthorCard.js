@@ -34,7 +34,7 @@ export default class SimilarAuthorCard extends React.Component<void, SimilarAuth
           className="img-responsive attivio-expert360-similar-img"
         />
         <h2 className="attivio-expert360-similar-title">
-          <a href={this.props.expert.link}>Pradeep
+          <a href={this.props.expert.link}>
             {this.props.expert.name}
           </a>
         </h2>

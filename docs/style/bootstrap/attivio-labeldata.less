@@ -1,0 +1,59 @@
+/* Label Data */
+.attivio-labeldata-title() {
+  font-weight: 700;
+  color: @attivio-labeldata-title-font-color;
+}
+.attivio-labeldata-url {
+  .attivio-url();
+}
+
+/* Label Data Stacked */
+.attivio-labeldata-stacked {
+  margin: .8em 0;
+}
+.attivio-labeldata-stacked dt {
+  .attivio-labeldata-title;
+}
+.attivio-labeldata-stacked dd {
+  margin: 0 0 .8em 0;
+}
+
+/* Label Data 2 Columns Tab */
+
+.attivio-labeldata-2col {
+  .clearfix();
+}
+.attivio-labeldata-2col dt,
+.attivio-labeldata-2col dd {
+  padding: .7em 0;
+  border-top: 1px dotted @attivio-labeldata-2col-border-color;
+}
+.attivio-labeldata-2col dt:first-child,
+.attivio-labeldata-2col dt:first-child + dd {
+  border-top: none;
+}
+.attivio-labeldata-2col dt {
+  .attivio-labeldata-title;
+  clear: left;
+  float: left;
+  width: 40%;
+}
+.attivio-labeldata-2col dd {
+  float: left;
+  width: 60%;
+}
+
+/* Inspector icons */
+.attivio-labeldata-2col .attivio-inspector-icon {
+  float: right;
+}
+.attivio-inspector-icon {
+  background-position: 100% 35%;
+  padding-right: 20px;
+}
+.attivio-inspector-icon.attivio-icon-cleanse {
+  background-size: 15px 14px;
+}
+.attivio-inspector-icon.attivio-icon-user {
+  background-size: 14px 17px;
+}

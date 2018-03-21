@@ -1,4 +1,5 @@
 const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const createNwbWebpackConfig = require('create-nwb-webpack-config'); // eslint-disable-line import/no-extraneous-dependencies
 
 // Use the webpack configuration that NWB generate since there's no actual
@@ -7,11 +8,45 @@ const webpackConfig = createNwbWebpackConfig();
 webpackConfig.node = {
   fs: 'empty',
 };
+const additionalRules = [
+  {
+    test: /\.css$/,
+    use: ExtractTextPlugin.extract({
+      fallback: 'style-loader',
+      use: ['css-loader'],
+    }),
+  },
+  {
+    test: /\.less$/,
+    use: ExtractTextPlugin.extract({
+      fallback: 'style-loader',
+      use: ['css-loader', 'less-loader'],
+    }),
+  },
+  // {
+  //   test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+  //   loader: 'url-loader?limit=10000&minetype=application/font-woff',
+  // },
+  // {
+  //   test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+  //   loader: 'file-loader',
+  // },
+];
+webpackConfig.module.rules = webpackConfig.module.rules ?
+  webpackConfig.module.rules.concat(additionalRules) : additionalRules;
+
+const additionalPlugins = [
+  new ExtractTextPlugin('style.css'),
+];
+
+webpackConfig.plugins = webpackConfig.plugins ?
+  webpackConfig.plugins.concat(additionalPlugins) : additionalPlugins;
 
 module.exports = {
   title: 'Attivio SUIT Component Reference',
   verbose: true,
-  assetsDir: 'src/',
+  assetsDir: 'docs/static',
+  template: 'docs/template.ejs',
   ignore: [], // Add any componets we want to exclude here
   defaultExample: false,
   showUsage: true,
@@ -24,10 +59,6 @@ module.exports = {
     {
       name: 'Introduction',
       content: 'docs/introduction.md',
-    },
-    {
-      name: 'Installation',
-      content: 'docs/installation.md',
     },
     {
       name: 'Components',
@@ -166,7 +197,7 @@ module.exports = {
     },
   ],
   require: [
-    // path.join(__dirname, 'src/style/main.less'),
+    path.join(__dirname, 'docs/style/main.less'),
   ],
   getComponentPathLine(componentPath) {
     const name = path.basename(componentPath, '.js');

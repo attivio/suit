@@ -1,0 +1,747 @@
+/* Layout util */
+.attivio-minwidth {
+  min-width: 102.4rem; /* 1024px /10 */
+  padding-left: 2.8rem; /* 28px /10 */
+  padding-right: 2.8rem; /* 28px /10 */
+}
+@media (min-width: 87.5em) { /* 1400px /16 */
+  .attivio-minwidth {
+    padding-left: 3.6rem; /* 36px /10 */
+    padding-right: 3.6rem; /* 36px /10 */
+  }
+}
+
+/* Sentiment Chart */
+.attivio-sentiment-chart {
+	overflow: hidden;
+	margin-bottom: 1em;
+	// max-width: 21.42857142857em; /* 300px /14 */
+}
+.attivio-sentiment-chart-count {
+	display: block;
+	color: #767676;
+	line-height: 1;
+}
+.attivio-sentiment-chart-positive,
+.attivio-sentiment-chart-negative {
+	margin-bottom: 0.7em;
+}
+.attivio-sentiment-chart-positive {
+	float: left;
+	text-align: left;
+}
+.attivio-sentiment-chart-negative {
+	float: right;
+	text-align: right;
+}
+.attivio-sentiment-chart-bar {
+	overflow: hidden;
+	height: 1.142857142857em; /* 16px /14 */
+	width: 100%;
+}
+.attivio-sentiment-chart-bar-positive,
+.attivio-sentiment-chart-bar-negative {
+	height: 100%;
+}
+.attivio-sentiment-chart-bar-positive {
+	float: left;
+	background-color: #5D9A0D;
+}
+.attivio-sentiment-chart-bar-negative {
+	float: right;
+	background-color: #CE462B;
+}
+.attivio-sentiment-chart-bar-positive + .attivio-sentiment-chart-bar-negative {
+	border-left: 2px solid #fff;
+}
+
+/* Category */
+.attivio-category {
+	display: block;
+	font-size: 0.7142857142857em; /* 10px /14 */
+	max-width: 18em; /* 180px /10 */
+	.clearfix();
+	margin-bottom: 1em;
+}
+.attivio-category:hover {
+	text-decoration: none;
+}
+.attivio-category-count,
+.attivio-category-label {
+	color: #fff;
+	padding: 0.3em 0.5em .2em; /* 3px 5px 2px /10 */
+}
+.attivio-category-count {
+	float: left;
+	background-color: #40ACE2;
+	border-right: 1px solid #fff;
+	min-width: 2em; /* 20px /10 */
+	text-align: center;
+}
+.attivio-category-label {
+	display: block;
+	padding-left: 2.5em; /* 25px /10 */
+	text-transform: uppercase;
+	background-color: #2E75B3;
+}
+
+/* Star Rating */
+.attivio-stars {
+	display: block;
+	.clearfix();
+	margin-bottom: 0.5em; /* 7px /14 */
+}
+.attivio-stars-star {
+	float: left;
+	text-indent: 9999px;
+	overflow: hidden;
+	width: 16px;
+	height: 15px;
+	background-size: contain;
+}
+
+/* Search Result */
+.attivio-search-result {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 1em 0;
+	border-bottom: 1px solid #e6e7e8;
+	.clearfix();
+}
+.attivio-search-result-col {
+	flex: 0 0 8.214285714286em; /* 115px /14 */
+}
+.attivio-search-result-content {
+	flex: 1;
+	padding-left: 1.071428571429em; /* 15px /14 */
+}
+.attivio-search-result-score .attivio-icon-help {
+	margin-left: 2px;
+}
+.attivio-search-result-preview {
+	border: 1px solid #e6e7e8;
+	margin-bottom: 1em;
+}
+.attivio-search-result-preview-noborder {
+	border: none;
+}
+.attivio-search-result-title {
+	font-size: 1.214285714286em; /* 17px /14 */
+	font-weight: 400;
+  margin-top: 0;
+  word-break: break-word;
+  text-overflow: ellipsis;
+}
+.attivio-search-result-desc {
+	font-size: 0.9285714285714em; /* 13px /14 */
+  max-width: 53.84615384615em; /* 700px /13 */
+  word-wrap: break-word;
+}
+.attivio-search-result-desc-2col,
+.attivio-search-result-debugger {
+	float: left;
+	width: ~"calc( 100% - 11.53846153846em )"; /* 150px /13 */
+  word-wrap: break-word;
+}
+.attivio-search-result .attivio-tags.attivio-tags-vertical {
+	float: right;
+	width: 9.230769230769em; /* 120px /13 */
+	margin-bottom: 1.071428571429em; /* 15px /14 */
+}
+/* Nested results */
+.attivio-nested-search-tabpanel {
+	margin-left: 8.214285714286em; /* 115px /14 */
+	width: 100%;
+}
+.attivio-nested-search-tabpanel > .nav-tabs {
+	border-bottom: none;
+}
+.attivio-nested-search-tabpanel-records {
+	padding: 7px 0;
+	margin: 0 15px;
+	line-height: 1.42857143;
+	text-transform: none;
+	color: #333;
+}
+.attivio-nested-search-results {
+	background-color: #fafafa;
+	border: 1px solid #e7e8e8;
+	border-top-color: #bbbdbf;
+	border-bottom-color: #bbbdbf;
+	padding-left: 1.071428571429em; /* 15px /14 */
+	width: 100%;
+}
+.attivio-nested-search-results > .attivio-search-result:last-child {
+	border-bottom: none;
+}
+/* Double nested */
+.attivio-nested-search-results .attivio-nested-search-results {
+	background-color: #fff;
+	padding-right: 1.071428571429em; /* 15px /14 */
+	margin-right: 1.071428571429em; /* 15px /14 */
+}
+
+/* Data pairs */
+.attivio-labeldata-stacked-search-results dt,
+.attivio-labeldata-2col-search-results dt {
+	color: #767676;
+}
+.attivio-labeldata-2col-search-results dt {
+	width: 36%;
+}
+.attivio-labeldata-2col-search-results dd {
+	width: 64%;
+}
+.attivio-labeldata-2col-search-results {
+	font-size: 0.7857142857143em; /* 11px /14 */
+}
+.attivio-labeldata-2col-search-results dd,
+.attivio-labeldata-2col-search-results dt {
+	border: none;
+}
+.attivio-labeldata-2col-search-results dt:first-child,
+.attivio-labeldata-2col-search-results dt:first-child + dd {
+	padding-top: 0;
+}
+.attivio-labeldata-2col-search-results-more {
+	font-weight: 700;
+}
+.attivio-labeldata-2col-search-results dt:not(.attivio-labeldata-2col-search-results-entity) {
+	padding-left: 12px;
+}
+.attivio-labeldata-2col-search-results-entity:before {
+	content: "";
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	margin-right: 5px;
+}
+.attivio-labeldata-2col-search-results-keyphrase:before,
+.attivio-labeldata-2col-search-results-phrase:before {
+	background-color: @attivio-entity-keyphrase;
+}
+.attivio-labeldata-2col-search-results-company:before {
+	background-color: @attivio-entity-company;
+}
+.attivio-labeldata-2col-search-results-people:before,
+.attivio-labeldata-2col-search-results-person:before {
+	background-color: @attivio-entity-people;
+}
+.attivio-labeldata-2col-search-results-location:before {
+	background-color: @attivio-entity-location;
+}
+.attivio-labeldata-2col-search-results-location:before {
+	background-color: @attivio-entity-location;
+}
+.attivio-labeldata-2col-search-results-company:before {
+	background-color: @attivio-entity-company;
+}
+.attivio-labeldata-2col-search-results-people:before {
+	background-color: @attivio-entity-people;
+}
+.attivio-labeldata-2col-search-results-product:before {
+	background-color: @attivio-entity-product;
+}
+.attivio-labeldata-2col-search-results-religion:before {
+	background-color: @attivio-entity-religion;
+}
+.attivio-labeldata-2col-search-results-jobtitle:before {
+	background-color: @attivio-entity-jobtitle;
+}
+.attivio-labeldata-2col-search-results-phonenum:before {
+	background-color: @attivio-entity-phonenum;
+}
+.attivio-labeldata-2col-search-results-email:before {
+	background-color: @attivio-entity-email;
+}
+.attivio-labeldata-2col-search-results-url:before {
+	background-color: @attivio-entity-url;
+}
+.attivio-labeldata-2col-search-results-utm:before {
+	background-color: @attivio-entity-utm;
+}
+.attivio-labeldata-2col-search-results-time:before {
+	background-color: @attivio-entity-time;
+}
+.attivio-labeldata-2col-search-results-extracteddate:before {
+	background-color: @attivio-entity-extracteddate;
+}
+.attivio-labeldata-2col-search-results-date:before {
+	background-color: @attivio-entity-extracteddate;
+}
+.attivio-labeldata-2col-search-results-keyphrase:before {
+	background-color: @attivio-entity-keyphrase;
+}
+.attivio-labeldata-2col-search-results-hashtags:before {
+	background-color: @attivio-entity-hashtags;
+}
+.attivio-labeldata-2col-search-results-mentions:before {
+	background-color: @attivio-entity-mentions;
+}
+.attivio-labeldata-2col-search-results-creditcard:before {
+	background-color: @attivio-entity-creditcard;
+}
+.attivio-labeldata-2col-search-results-money:before {
+	background-color: @attivio-entity-money;
+}
+.attivio-labeldata-2col-search-results-nationality:before {
+	background-color: @attivio-entity-nationality;
+}
+.attivio-labeldata-2col-search-results-distance:before {
+	background-color: @attivio-entity-distance;
+}
+.attivio-labeldata-2col-search-results-coordinate:before {
+	background-color: @attivio-entity-coordinate;
+}
+
+/* Entities */
+.scope.location, .scope.company, .scope.people, .scope.product, .scope.religion, .scope.jobtitle, .scope.phonenum, .scope.email, .scope.url, .scope.utm, .scope.time, .scope.extracteddate, .scope.date, .scope.keyphrase, .scope.hashtags, .scope.mentions, .scope.creditcard, .scope.money, .scope.nationality, .scope.distance, .scope.coordinate {
+	position: relative;
+	text-decoration: none;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	padding-left: 3px;
+	padding-right: 3px;
+	cursor: pointer;
+}
+/* Tooltip */
+.scope.location:hover:after, .scope.company:hover:after, .scope.people:hover:after, .scope.product:hover:after, .scope.religion:hover:after, .scope.jobtitle:hover:after, .scope.phonenum:hover:after, .scope.email:hover:after, .scope.url:hover:after, .scope.utm:hover:after, .scope.time:hover:after, .scope.extracteddate:hover:after, .scope.date:hover:after, .scope.keyphrase:hover:after, .scope.hashtags:hover:after, .scope.mentions:hover:after, .scope.creditcard:hover:after, .scope.money:hover:after, .scope.nationality:hover:after, .scope.distance:hover:after, .scope.coordinate:hover:after {
+  position: absolute;
+	left: 0;
+	bottom: 100%;
+	display: inline-block;
+	font-size: 10px;
+	font-weight: 700;
+	text-transform: uppercase;
+	padding: 2px 4px 1px;
+	background-color: #000;
+	color: #fff;
+	z-index: 100;
+}
+/* Extra padding behind word */
+.scope.location:hover, .scope.company:hover, .scope.people:hover, .scope.product:hover, .scope.religion:hover, .scope.jobtitle:hover, .scope.phonenum:hover, .scope.email:hover, .scope.url:hover, .scope.utm:hover, .scope.time:hover, .scope.extracteddate:hover, .scope.date:hover, .scope.keyphrase:hover, .scope.hashtags:hover, .scope.mentions:hover, .scope.creditcard:hover, .scope.money:hover, .scope.nationality:hover, .scope.distance:hover, .scope.coordinate:hover {
+	border-color: transparent;
+}
+
+/* Location */
+.scope.location {
+	border-color: @attivio-entity-location;
+}
+.scope.location:hover:after {
+	content: "Location";
+}
+.scope.location:hover,
+.scope.location:hover:before {
+	background-color: @attivio-entity-location;
+	color: #fff;
+}
+
+/* Company */
+.scope.company {
+	border-color: @attivio-entity-company;
+}
+.scope.company:hover:after {
+	content: "Company";
+}
+.scope.company:hover,
+.scope.company:hover:before {
+	background-color: @attivio-entity-company;
+	color: #000;
+}
+
+/* People */
+.scope.people {
+	border-color: @attivio-entity-people;
+}
+.scope.people:hover:after {
+	content: "People";
+}
+.scope.people:hover,
+.scope.people:hover:before {
+	background-color: @attivio-entity-people;
+	color: #000;
+}
+
+/* Product */
+.scope.product {
+	border-color: @attivio-entity-product;
+}
+.scope.product:hover:after {
+	content: "Product";
+}
+.scope.product:hover,
+.scope.product:hover:before {
+	background-color: @attivio-entity-product;
+	color: #fff;
+}
+
+/* Religion */
+.scope.religion {
+	border-color: @attivio-entity-religion;
+}
+.scope.religion:hover:after {
+	content: "religion";
+}
+.scope.religion:hover,
+.scope.religion:hover:before {
+	background-color: @attivio-entity-religion;
+	color: #000;
+}
+
+/* jobtitle */
+.scope.jobtitle {
+	border-color: @attivio-entity-jobtitle;
+}
+.scope.jobtitle:hover:after {
+	content: "Job Title";
+}
+.scope.jobtitle:hover,
+.scope.jobtitle:hover:before {
+	background-color: @attivio-entity-jobtitle;
+	color: #000;
+}
+
+/* phonenum */
+.scope.phonenum {
+	border-color: @attivio-entity-phonenum;
+}
+.scope.phonenum:hover:after {
+	content: "Phone Number";
+}
+.scope.phonenum:hover,
+.scope.phonenum:hover:before {
+	background-color: @attivio-entity-phonenum;
+	color: #fff;
+}
+
+/* email */
+.scope.email {
+	border-color: @attivio-entity-email;
+}
+.scope.email:hover:after {
+	content: "Email";
+}
+.scope.email:hover,
+.scope.email:hover:before {
+	background-color: @attivio-entity-email;
+	color: #fff;
+}
+
+/* url */
+.scope.url {
+	border-color: @attivio-entity-url;
+}
+.scope.url:hover:after {
+	content: "URL";
+}
+.scope.url:hover,
+.scope.url:hover:before {
+	background-color: @attivio-entity-url;
+	color: #fff;
+}
+
+/* utm */
+.scope.utm {
+	border-color: @attivio-entity-utm;
+}
+.scope.utm:hover:after {
+	content: "UTM";
+}
+.scope.utm:hover,
+.scope.utm:hover:before {
+	background-color: @attivio-entity-utm;
+	color: #000;
+}
+
+/* time */
+.scope.time {
+	border-color: @attivio-entity-time;
+}
+.scope.time:hover:after {
+	content: "Time";
+}
+.scope.time:hover,
+.scope.time:hover:before {
+	background-color: @attivio-entity-time;
+	color: #fff;
+}
+
+/* extracteddate */
+.scope.extracteddate {
+	border-color: @attivio-entity-extracteddate;
+}
+.scope.extracteddate:hover:after {
+	content: "Extracted Date";
+}
+.scope.extracteddate:hover,
+.scope.extracteddate:hover:before {
+	background-color: @attivio-entity-extracteddate;
+	color: #000;
+}
+
+/* date */
+.scope.date {
+	border-color: @attivio-entity-extracteddate;
+}
+.scope.date:hover:after {
+	content: "Date";
+}
+.scope.date:hover,
+.scope.date:hover:before {
+	background-color: @attivio-entity-extracteddate;
+	color: #000;
+}
+
+/* keyphrase */
+.scope.keyphrase {
+	border-color: @attivio-entity-keyphrase;
+}
+.scope.keyphrase:hover:after {
+	content: "keyphrase";
+}
+.scope.keyphrase:hover,
+.scope.keyphrase:hover:before {
+	background-color: @attivio-entity-keyphrase;
+	color: #fff;
+}
+
+/* hashtags */
+.scope.hashtags {
+	border-color: @attivio-entity-hashtags;
+}
+.scope.hashtags:hover:after {
+	content: "hashtags";
+}
+.scope.hashtags:hover,
+.scope.hashtags:hover:before {
+	background-color: @attivio-entity-hashtags;
+	color: #fff;
+}
+
+/* mentions */
+.scope.mentions {
+	border-color: @attivio-entity-mentions;
+}
+.scope.mentions:hover:after {
+	content: "mentions";
+}
+.scope.mentions:hover,
+.scope.mentions:hover:before {
+	background-color: @attivio-entity-mentions;
+	color: #000;
+}
+
+/* creditcard */
+.scope.creditcard {
+	border-color: @attivio-entity-creditcard;
+}
+.scope.creditcard:hover:after {
+	content: "credit card";
+}
+.scope.creditcard:hover,
+.scope.creditcard:hover:before {
+	background-color: @attivio-entity-creditcard;
+	color: #fff;
+}
+
+/* money */
+.scope.money {
+	border-color: @attivio-entity-money;
+}
+.scope.money:hover:after {
+	content: "money";
+}
+.scope.money:hover,
+.scope.money:hover:before {
+	background-color: @attivio-entity-money;
+	color: #000;
+}
+
+/* nationality */
+.scope.nationality {
+	border-color: @attivio-entity-nationality;
+}
+.scope.nationality:hover:after {
+	content: "nationality";
+}
+.scope.nationality:hover,
+.scope.nationality:hover:before {
+	background-color: @attivio-entity-nationality;
+	color: #000;
+}
+
+/* distance */
+.scope.distance {
+	border-color: @attivio-entity-distance;
+}
+.scope.distance:hover:after {
+	content: "distance";
+}
+.scope.distance:hover,
+.scope.distance:hover:before {
+	background-color: @attivio-entity-distance;
+	color: #fff;
+}
+
+/* coordinate */
+.scope.coordinate {
+	border-color: @attivio-entity-coordinate;
+}
+.scope.coordinate:hover:after {
+	content: "coordinate";
+}
+.scope.coordinate:hover,
+.scope.coordinate:hover:before {
+	background-color: @attivio-entity-coordinate;
+	color: #000;
+}
+
+.scope[data-scope-tooltip]:hover:after {
+	content: attr(data-scope-tooltip);
+}
+
+/* Sentiment */
+// .entsentpos_1:before,
+// .entsentpos_2:before,
+.entsentpos_3:before,
+// .entsentpos_1:after,
+// .entsentpos_2:after,
+.entsentpos_3:after,
+// .entsentneg_1:before,
+// .entsentneg_2:before,
+.entsentneg_3:before,
+// .entsentneg_1:after,
+// .entsentneg_2:after,
+.entsentneg_3:after {
+	letter-spacing: 1px;
+	font-weight: 700;
+}
+// .entsentpos_1:before,
+// .entsentpos_2:before,
+.entsentpos_3:before,
+// .entsentneg_1:before,
+// .entsentneg_2:before,
+.entsentneg_3:before {
+	padding-right: 1px;
+}
+// .entsentpos_1:after,
+// .entsentpos_2:after,
+.entsentpos_3:after,
+// .entsentneg_1:after,
+// .entsentneg_2:after,
+.entsentneg_3:after {
+	padding-left: 2px;
+}
+
+// .entsentpos_1:before,
+// .entsentpos_2:before,
+.entsentpos_3:before,
+// .entsentpos_1:after,
+// .entsentpos_2:after,
+.entsentpos_3:after {
+	color: @attivio-sentiment-positive;
+	font-weight: 700;
+}
+// .entsentpos_1:before {
+// 	content: "[+";
+// }
+// .entsentpos_1:after {
+// 	content: "+]";
+// }
+// .entsentpos_2:before {
+// 	content: "[++";
+// }
+// .entsentpos_2:after {
+// 	content: "++]";
+// }
+.entsentpos_3:before {
+	content: "[+";
+}
+.entsentpos_3:after {
+	content: "+]";
+}
+// .entsentneg_1:before,
+// .entsentneg_2:before,
+.entsentneg_3:before,
+// .entsentneg_1:after,
+// .entsentneg_2:after,
+.entsentneg_3:after  {
+	color: @attivio-sentiment-negative;
+}
+// .entsentneg_1:before {
+// 	content: "[-";
+// }
+// .entsentneg_1:after {
+// 	content: "-]";
+// }
+// .entsentneg_2:before {
+// 	content: "[--";
+// }
+// .entsentneg_2:after {
+// 	content: "--]";
+// }
+.entsentneg_3:before {
+	content: "[-";
+}
+.entsentneg_3:after {
+	content: "-]";
+}
+
+/* Cloud */
+.attivio-cloud {
+	text-align: center;
+}
+.attivio-cloud li {
+	padding: .1em 0.25em;
+}
+.attivio-cloud li a:hover {
+	color: #3276b1;
+}
+.attivio-cloud-level-1,
+.attivio-facet li .attivio-cloud-level-1 {
+	color: #767676;
+	font-size: 9px;
+}
+.attivio-cloud-level-2,
+.attivio-facet li .attivio-cloud-level-2 {
+	color: #6d6e70;
+	font-size: 10px;
+}
+.attivio-cloud-level-3,
+.attivio-facet li .attivio-cloud-level-3 {
+	color: #58595b;
+	font-size: 11px;
+}
+.attivio-cloud-level-4,
+.attivio-facet li .attivio-cloud-level-4 {
+	color: #404041;
+	font-size: 12px;
+}
+.attivio-cloud-level-5,
+.attivio-facet li .attivio-cloud-level-5 {
+	color: #231f20;
+	font-size: 13px;
+}
+.attivio-cloud-level-6,
+.attivio-facet li .attivio-cloud-level-6 {
+	color: #000;
+	font-size: 14px;
+}
+.attivio-cloud-level-7,
+.attivio-facet li .attivio-cloud-level-7 {
+	color: #000;
+	font-size: 15px;
+	font-weight: 700;
+}
+.attivio-cloud-level-8,
+.attivio-facet li .attivio-cloud-level-8 {
+	color: #000;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+/* Debugger */
+.attivio-search-result-debugger dt {
+	color: #767676;
+	width: 33%;
+}

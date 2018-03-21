@@ -1,0 +1,135 @@
+.attivio-tabpanel .nav-tabs {
+  font-size: @attivio-tabs-font-size;
+  text-transform: uppercase;
+
+  a {
+    color: @attivio-tabs-inactive-font-color;
+  }
+
+  & > li {
+    margin-bottom: 0;
+
+    & > a,
+    & > a:hover,
+    & > a:focus {
+      border-width: 0 0 4px 0;
+      padding-left: 0;
+      padding-right: 0;
+      margin: 0 15px;
+    }
+  }
+
+  & > li.active {
+    font-weight: @attivio-tabs-font-weight;
+
+    & > a,
+    & > a:hover,
+    & > a:focus {
+      border-bottom-color: @brand-primary;
+    }
+  }
+}
+
+/* Inspector Subheader */
+.attivio-inspector .attivio-tabpanel .nav-tabs > li:first-child a {
+  margin-left: 0;
+}
+
+.attivio-tabpanel-radio {
+  .clearfix();
+}
+.attivio-tabpanel-radio > .nav-tabs {
+  border: 1px solid #a0a2a6;
+  border-radius: 3px;
+  padding-bottom: 1px;
+  float: left;
+  position: relative;
+  z-index: 2;
+
+  & > li {
+    background-color: @attivio-tabs-radio-inactive-bg-color;
+    border-top: 4px solid @attivio-tabs-radio-inactive-border-color;
+    font-weight: bold;
+    width: 50%;
+
+    & > a,
+    & > a:hover,
+    & > a:focus {
+      text-align: center;
+      border: none;
+    }
+  }
+
+  & > li.active {
+    background-color: @attivio-tabs-radio-bg-color;
+    border-top-color: @attivio-tabs-radio-border-color;
+    border-radius: 1px;
+    position: relative;
+
+    &:before {
+      content: " ";
+      width: 0;
+      height: 0;
+      border-left: @attivio-tabs-radio-triangle-size solid transparent;
+      border-right: @attivio-tabs-radio-triangle-size solid transparent;
+      border-top: @attivio-tabs-radio-triangle-size solid @attivio-tabs-radio-bg-color;
+      position: absolute;
+      left: 50%;
+      margin-left: (-1*@attivio-tabs-radio-triangle-size);
+      bottom: (-1*@attivio-tabs-radio-triangle-size);
+    }
+
+    & > a,
+    & > a:hover,
+    & > a:focus {
+      background-color: transparent;
+      color: @attivio-tabs-radio-color;
+    }
+  }
+
+  /* Icons */
+  /* TODO refactor this icon code to use grunticon-embed */
+  .attivio-icon {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    background-size: 18px 18px;
+    vertical-align: top;
+    margin-right: 4px;
+    position: relative;
+    bottom: -1px;
+  }
+  .attivio-icon-identify-white,
+  .active .attivio-icon-identify {
+    display: none;
+  }
+  .active .attivio-icon-identify-white {
+    display: inline-block;
+  }
+
+  .attivio-icon-unify-white,
+  .active .attivio-icon-unify {
+    display: none;
+  }
+  .active .attivio-icon-unify-white {
+    display: inline-block;
+  }
+}
+.attivio-tabpanel-radio-navbar {
+  & > .nav-tabs {
+    top: 10px;
+    margin-left: 1em;
+    min-width: 15.3571em; /* 215px */
+  }
+
+  /* Tabs */
+  & > .attivio-navbar {
+    display: none;
+  }
+  & > .attivio-navbar.active {
+    display: block;
+  }
+  & > .attivio-navbar > .nav:first-child {
+    margin-left: 2em;
+  }
+}

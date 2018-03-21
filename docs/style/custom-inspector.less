@@ -1,0 +1,188 @@
+/* INSPECTOR */
+a.addSourceButton {
+  float: right;
+  height: 1.75em;
+  background-size: 1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: @brand-primary;
+  color: white;
+  border-radius: 2px;
+  padding-top: 1px;
+  padding-right: 10px;
+  font-size: 80%;
+  vertical-align: middle;
+  display: inline-block;
+  position: relative;
+  top: -1px;
+}
+
+a.replaceSourceButton {
+  float: right;
+  height: 1.75em;
+  background-size: 1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: 2px;
+  padding-top: 1px;
+  padding-right: 10px;
+  font-size: 80%;
+  vertical-align: middle;
+  display: inline-block;
+  position: relative;
+  top: -1px;
+}
+
+a.adding-icon {
+  float: right !important;
+  vertical-align: middle;
+  display: inline-block;
+  position: relative;
+  top: -1px;
+}
+
+h3.inspector-section-header.below-tabs {
+  border-top: 0px;
+  padding-top: 0px;
+}
+
+a.addSourceButton:hover {
+  background-color: @attivio-blue;
+}
+
+span.relatedSourceTooltip span {
+  margin-right: 10px;
+}
+
+span.alternate-source {
+  color: @link-color;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+span.alternate-source:hover {
+  color: @link-hover-color;
+  text-decoration: @link-hover-decoration;
+}
+
+div.tooltip.relatedSourceTooltip {
+  background-color: @attivio-related-sources-tooltip-bg;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+div.tooltip.relatedSourceTooltip div.tooltip-inner {
+  background-color: @attivio-related-sources-tooltip-bg;
+  text-align: left;
+  color: @attivio-related-sources-tooltip-text;
+  max-width: 250px;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+div.tooltip.relatedSourceTooltip div.tooltip-arrow {
+  background-color: @attivio-related-sources-tooltip-bg;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+span.relatedSourceTooltipScannerType {
+ font-weight: bold; 
+}
+
+span.relatedSourceTooltipDescription {
+  
+}
+
+span.relatedSourceTooltipDescription.relatedSourceTooltipDescriptionNone {
+  font-style: italic;
+}
+
+span.relatedSourceTooltipQualityRows {
+  
+}
+
+span.relatedSourceTooltipReason, span.relatedSourceTooltipColumnMapping {
+  color: fade(@attivio-related-sources-tooltip-text, 85%);
+}
+
+span.relatedSourceTooltipColumnMapping {
+  padding-left: 5px;
+}
+
+.attivio-sources.attivio-related-sources li {
+  font-size: 16px !important;
+}
+
+.attivio-sources.attivio-related-sources img.attivio-icon{
+  width: 24px !important;
+  height: 24px !important;
+  padding-left: 0px !important;
+  float: left;
+}
+
+img.status-icon {
+  height: 16px;
+  width: 16px;
+  position: relative;
+}
+
+img.no-status-icon{
+  display: none;
+}
+
+ul.nav.navbar-nav.navbar-center span.spider_running_status {
+  top: -8px;
+}
+
+span.spider_running_status {
+  position: relative;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6D6E70;
+}
+
+.inspector-section-header {
+  clear: both;
+  font-weight: 700;
+  color: @gray-dark;
+  border-top: 1px solid lighten(@gray-base, 86.5%);
+  border-bottom: 1px dotted lighten(@gray-base, 86.5%);
+  padding-top: 20px;
+  font-size: 16px;
+}
+
+.attivio-sources li {
+  padding-left: 0;
+}
+
+.attivio-inspector .navbar-center{
+  width: 50%;
+}
+
+.attivio-inspector .navbar-center li{
+  width: 100%;
+}
+
+.attivio-inspector .attivio-title{
+  width: 100%;
+  word-wrap: break-word;
+  margin-left: 5px;
+}
+
+.attivio-sources img.attivio-icon{
+  width: 16px !important;
+  height: 16px !important;
+  padding-left: 0px !important;
+  float: left;
+}
+
+.attivio-inspector .attivio-icon{
+  width: 30px;
+  height: 30px;
+  margin-right: 6px;
+}
+
+.attivio-inspector .attivio-navbar{
+  border-bottom: 0px;
+}

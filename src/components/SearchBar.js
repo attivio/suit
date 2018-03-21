@@ -14,24 +14,31 @@ declare var webkitSpeechRecognition: any; // Prevent complaints about this not e
 
 type SearchBarProps = {
   history: PropTypes.object.isRequired;
-  /** If set, this will be styled to live inside a <code>&lt;Masthead&gt;</code> component. */
+  /** If set, this will be styled to live inside a Masthead component. */
   inMasthead: boolean;
-  /** The placeholder text to display when the input field is empty. Defaults to "Search…". */
+  /**
+   * The placeholder text to display when the input field is empty and Simple
+   * Query Language is selected. Defaults to “Search…”
+   */
   placeholder: string;
   /**
-   * The placeholder text to display when the input field is empty and the language
-   * is advanced. Defaults to "Enter an advanced query…".
+   * The placeholder text to display when the input field is empty and Advanced
+   * Query Language is selected. Defaults to “Enter an advanced query…”
    */
   placeholderAdvanced: string;
-  /** Whether to show a toggle for simple/advanced language in the search bar */
+  /**
+   * Whether to show a toggle for simple/advanced language in the search bar.
+   * Defaults to true.
+   */
   allowLanguageSelect: boolean;
   /**
-   * If set, the "microphone" button is displayed and the user can use speech
-   * recognition to input the query terms.
+   * If set, the microphone button is displayed in the search field and the
+   * user can use speech recognition to input the query terms. This functionality
+   * is only available if the user’s browser is Chrome.
    */
   allowVoice: boolean;
   /**
-   * If set, the search bar's input field will use autocomplete via this URI.
+   * If set, the search bar’s input field will use autocomplete via this URI.
    * Otherwise, if the configuration is available, the autoCompleteUri in the configuration will be used.
    * Otherwise, the search bar will not autocomplete.
    * Note that this is relative to the baseUri field in the configuration.

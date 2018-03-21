@@ -1,0 +1,98 @@
+.attivio-navbar {
+  border-bottom: 1px solid @attivio-navbar-bottom-border-color;
+  margin-bottom: 0;
+  padding: 2px 0;
+}
+.attivio-subheader + .attivio-navbar {
+  border-top: 1px solid @attivio-navbar-bottom-border-color;
+}
+.attivio-navbar a.attivio-icon {
+  padding-left: 40px;
+  background-position: 15px 50%;
+  background-size: 18px 18px;
+}
+.attivio-navbar .navbar-nav > li > .attivio-or {
+  line-height: 48px;
+  margin-right: 4px;
+  margin-left: 10px;
+}
+@media (min-width: @screen-sm-min) {
+  .attivio-navbar .navbar-nav > li > .attivio-or {
+    margin-left: 0;
+  }
+  .attivio-navbar .navbar-right {
+    margin-right: 0;
+  }
+  .attivio-navbar .pager {
+    display: inline-block;
+    margin: 0 2em 0 0;
+  }
+  .attivio-navbar .pager > li > a {
+    border-radius: 3px;
+    box-shadow: 0 3px 0 rgba(0, 0, 0, .05);
+  }
+   .attivio-navbar .pager .attivio-icon-arrow-left,
+   .attivio-navbar .pager .attivio-icon-arrow-right {
+    width: 5px;
+    height: 8px;
+    background-position: 50% 50%;
+    display: inline-block;
+    margin: 0 .5em;
+    position: relative;
+    top: -2px;
+    vertical-align: middle;
+   }
+   .attivio-navbar .pager .attivio-icon-arrow-left {
+    margin-left: 0;
+   }
+   .attivio-navbar .pager .attivio-icon-arrow-right {
+    margin-right: 0;
+   }
+}
+.attivio-search {
+  padding: 0;
+}
+.attivio-navbar .attivio-search {
+  padding: 0 1em;
+}
+.attivio-sort {
+  padding-left: 0;
+}
+.attivio-search .form-group {
+  white-space: nowrap;
+  margin-bottom: 0;
+}
+.attivio-navbar .attivio-search .form-group {
+  margin-bottom: 15px;
+}
+.attivio-search input[type="text"],
+.attivio-search input[type="search"] {
+  display: inline-block;
+  border-radius: 18px;
+  width: 250px;
+  color: #000;
+  font-weight: 700;
+}
+.attivio-search ::-webkit-input-placeholder {
+  font-weight: 100;
+}
+.attivio-search ::-moz-placeholder {
+  font-weight: 100;
+}
+.attivio-search :-ms-input-placeholder {
+  font-weight: 100;
+}
+.attivio-search .attivio-icon-search {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  margin-left: -35px;
+}
+
+@media (min-width: 1040px){
+  .attivio-navbar .attivio-search input[type="text"],
+  .attivio-navbar .attivio-search input[type="search"] {
+    width: 440px;
+  }
+}

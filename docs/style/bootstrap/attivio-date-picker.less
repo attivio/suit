@@ -1,0 +1,85 @@
+/* Help tooltip button */
+.DayPickerKeyboardShortcuts__show--top-right,
+.DayPickerKeyboardShortcuts__show--bottom-right {
+  border-right-color: #ddd;
+}
+.DayPickerKeyboardShortcuts__show--top-right:hover,
+.DayPickerKeyboardShortcuts__show--bottom-right:hover {
+  border-right-color: #bbb;
+}
+.DayPickerKeyboardShortcuts__show--top-left {
+  border-left-color: #ddd;
+}
+.DayPickerKeyboardShortcuts__show--top-left:hover {
+  border-left-color: #bbb;
+}
+
+/* Months */
+.DayPicker {
+  border-radius: 0;
+  border: 1px solid #dedfe0;
+  box-shadow: -3px 3px 0 0 rgba(0,0,0,0.03);
+  box-sizing: content-box;
+}
+.CalendarMonth__caption {
+  font-size: 1.6rem; /* 16px /10 */
+  text-transform: uppercase;
+}
+.DayPicker__week-header {
+  top: 58px;
+  border-bottom: 1px solid #e9e9e9;
+}
+.DayPickerNavigation__next,
+.DayPickerNavigation__prev {
+  background-position: 50% 50%;
+  height: 26px;
+  width: 26px;
+}
+.DayPickerNavigation__next svg,
+.DayPickerNavigation__prev svg {
+  display: none;
+}
+
+/* Day colors */
+.CalendarDay,
+.CalendarDay--blocked-out-of-range {
+  border-color: transparent;
+}
+
+.CalendarDay--selected-start,
+.CalendarDay--selected-end,
+.CalendarDay--selected {
+  color: #000;
+  background-color: #ffc300;
+  border-color: #ffc300;
+}
+.CalendarDay--selected-start:active,
+.CalendarDay--selected-end:active,
+.CalendarDay--selected:active {
+  background-color: #ffc300;
+}
+
+.CalendarDay--hovered-span,
+.CalendarDay--after-hovered-start {
+  color: #000;
+  background-color: #ffe7a5;
+  border-color: #ffe7a5;
+}
+.CalendarDay--hovered-span:active,
+.CalendarDay--after-hovered-start:active {
+  background-color: #ffe7a5;
+}
+
+.CalendarDay--selected-span {
+  color: #000; 
+  background-color: #ffe7a5;
+  border-color: #ffe7a5;
+}
+.CalendarDay--selected-span.CalendarDay--hovered,
+.CalendarDay--selected-span:active {
+  background: #ffe7a5;
+  border-color: #000;
+}
+.CalendarDay--selected-span.CalendarDay--last-in-range {
+  border-right-color: #000;
+}
