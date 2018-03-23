@@ -1,46 +1,47 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const createNwbWebpackConfig = require('create-nwb-webpack-config'); // eslint-disable-line import/no-extraneous-dependencies
+const merge = require('webpack-merge');
 
 // Use the webpack configuration that NWB generate since there's no actual
 // file for the style guide to use
-const webpackConfig = createNwbWebpackConfig();
-webpackConfig.node = {
-  fs: 'empty',
+const nwbWebpackConfig = createNwbWebpackConfig();
+const ourWebpackConfig = {
+  node: {
+    fs: 'empty',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'less-loader'],
+        }),
+      },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader'],
+        }),
+      },
+      // {
+      //   test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      //   loader: 'url-loader?limit=10000&minetype=application/font-woff',
+      // },
+      // {
+      //   test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      //   loader: 'file-loader',
+      // },
+    ],
+  },
+  // plugins: [
+  //   new ExtractTextPlugin('style.css'),
+  // ],
 };
-const additionalRules = [
-  {
-    test: /\.css$/,
-    use: ExtractTextPlugin.extract({
-      fallback: 'style-loader',
-      use: ['css-loader'],
-    }),
-  },
-  {
-    test: /\.less$/,
-    use: ExtractTextPlugin.extract({
-      fallback: 'style-loader',
-      use: ['css-loader', 'less-loader'],
-    }),
-  },
-  // {
-  //   test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-  //   loader: 'url-loader?limit=10000&minetype=application/font-woff',
-  // },
-  // {
-  //   test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-  //   loader: 'file-loader',
-  // },
-];
-webpackConfig.module.rules = webpackConfig.module.rules ?
-  webpackConfig.module.rules.concat(additionalRules) : additionalRules;
 
-const additionalPlugins = [
-  new ExtractTextPlugin('style.css'),
-];
-
-webpackConfig.plugins = webpackConfig.plugins ?
-  webpackConfig.plugins.concat(additionalPlugins) : additionalPlugins;
+const mergedWebpackConfig = merge(nwbWebpackConfig, ourWebpackConfig);
 
 module.exports = {
   title: 'Attivio SUIT Component Reference',
@@ -211,5 +212,5 @@ module.exports = {
     const fullMdPath = path.resolve(dir, '../../docs/components', mdName);
     return fullMdPath;
   },
-  webpackConfig,
+  webpackConfig: mergedWebpackConfig,
 };

@@ -76,11 +76,12 @@
     "inferno": "^3.10.1",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
-    "style-loader": "^0.18.2",
     "nodemon": "^1.15.1",
     "nwb": "0.21.x",
     "react-dates": "^12.7.1",
     "react-styleguidist": "^6.0.20",
-    "rimraf": "latest"
+    "rimraf": "latest",
+    "style-loader": "^0.18.2",
+    "webpack-merge": "^4.1.2"
   }
 }
