@@ -75,3 +75,6 @@ You may find it helpful to make use of NPM’s `link` functionality to facilitat
 
 [npm-badge]: https://img.shields.io/npm/v/@attivio/suit.svg
 [npm]: https://www.npmjs.org/package/@attivio/suit
+
+## Contributing
+To report an issue or contribute, see [CONTRIBUTING.md](CONTRIBUTING.md)
