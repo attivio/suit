@@ -38,6 +38,6 @@ export default class NavbarButton extends React.Component<NavbarButtonDefaultPro
   }
 
   render() {
-    return <Button>{this.props.label} {this.props.icon}</Button>;
+    return <Button onClick={this.onClick} {...this.props}>{this.props.label} {this.props.icon}</Button>;
   }
 }

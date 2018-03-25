@@ -42,7 +42,8 @@ export default class SearchResultTitle extends React.Component<SearchResultTitle
       new Signals(this.props.baseUri).addSignal(this.props.doc);
     }
     const uri = this.props.doc.getFirstValue(FieldNames.URI);
-    window.open(uri, '_blank');
+    const newWindow = window.open(uri, '_blank');
+    newWindow.opener = null;
   }
 
   render() {

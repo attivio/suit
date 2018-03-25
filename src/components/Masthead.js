@@ -26,6 +26,8 @@ type MastheadProps = {
    * The engine being used. Defaults to 'attivio.'
    */
   searchEngineType: 'attivio' | 'solr' | 'elastic';
+  /** The URI to use for global on-line help. If not set, the help button won't be shown. */
+  helpUri: string | null;
   /** The contents of the Masthead can be arbitrary components. */
   children: Children;
 };
@@ -37,6 +39,7 @@ type MastheadDefaultProps = {
   applicationName: string | null;
   multiline: boolean;
   searchEngineType: 'attivio' | 'solr' | 'elastic';
+  helpUri: string | null;
 };
 
 type MastheadState = {
@@ -63,6 +66,7 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
     applicationName: 'Cognitive Search',
     multiline: false,
     searchEngineType: 'attivio',
+    helpUri: null,
   }
 
   constructor(props: MastheadProps) {
@@ -179,7 +183,11 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
           </div>
           {this.props.children}
           <div className="attivio-globalmast-spacer" />
-          <MastheadUser username={AuthUtils.getUserName(this.state.userInfo)} logoutFunction={this.handleLogout} />
+          <MastheadUser
+            username={AuthUtils.getUserName(this.state.userInfo)}
+            logoutFunction={this.handleLogout}
+            helpUri={this.props.helpUri}
+          />
         </div>
       </header>
     );

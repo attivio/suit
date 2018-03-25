@@ -50,7 +50,7 @@
     "prop-types": "^15.6.0",
     "query-string": "^5.1.0",
     "react": "^15.6.2",
-    "react-bootstrap": "^0.31.1",
+    "react-bootstrap": "^0.32.0",
     "react-dom": "^15.6.2",
     "react-highcharts": "^13.0.0",
     "react-mapbox-gl": "^2.5.0",

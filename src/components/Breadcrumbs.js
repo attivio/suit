@@ -60,22 +60,32 @@ class Breadcrumbs extends React.Component<BreadcrumbsDefaultProps, BreadcrumbsPr
       const label = StringUtils.smartTruncate(crumb.label, 40);
       if (index < (this.props.crumbs.length - 1)) {
         // We're at a prior level... show the link and the separator icon
+        if (crumb.location) {
+          return (
+            <li key={JSON.stringify(crumb.location)}>
+              <a
+                onClick={() => { this.handleClick(crumb.location, index); }}
+                role="button"
+                tabIndex={0}
+                ref={(c) => {
+                  if (!this.links) {
+                    this.links = [];
+                  }
+                  this.links[index] = c;
+                }}
+              >
+                {label}
+                <span className="attivio-icon-arrow-right" />
+              </a>
+            </li>
+          );
+        }
+        // Simple breadcrumbs without links
         return (
-          <li key={JSON.stringify(crumb.location)}>
-            <a
-              onClick={() => { this.handleClick(crumb.location, index); }}
-              role="button"
-              tabIndex={0}
-              ref={(c) => {
-                if (!this.links) {
-                  this.links = [];
-                }
-                this.links[index] = c;
-              }}
-            >
-              {label}
-              <span className="attivio-icon-arrow-right" />
-            </a>
+          <li key={`${crumb.label}-${index}`}> { // eslint-disable-line react/no-array-index-key
+          }
+            {label}
+            <span className="attivio-icon-arrow-right" />
           </li>
         );
       }
