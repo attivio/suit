@@ -30,6 +30,8 @@ type AutoCompleteInputState = {
   suggestions: Array<string>;
   error: string;
   open: boolean;
+  cursor: number;
+  queryValue: string;
 };
 
 export default class AutoCompleteInput extends React.Component<AutoCompleteInputDefaultProps, AutoCompleteInputProps, AutoCompleteInputState> { // eslint-disable-line max-len
@@ -52,6 +54,8 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
       suggestions: [],
       error: '',
       open: false,
+      cursor: -1,
+      queryValue: this.props.value,
     };
     (this: any).closeMenu = this.closeMenu.bind(this);
     (this: any).handleChange = this.handleChange.bind(this);
@@ -68,6 +72,9 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
 
   valueSelected(newValue: string) {
     this.props.updateValue(newValue, true);
+    this.setState({
+      queryValue: newValue,
+    })
     this.closeMenu();
   }
 
@@ -76,6 +83,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
       isLoading: false,
       suggestions: [],
       error: '',
+      cursor: -1,
     });
   }
 
@@ -91,6 +99,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
           open: true,
           error: '',
           suggestions: [],
+          queryValue: query,
         });
         fetch(`${uri}?term=${encodedValue}`, { credentials: 'include' }).then((response) => {
           response.json().then((data) => {
@@ -127,14 +136,37 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
         suggestions: [],
         error: '',
         open: false,
+        queryValue: query,
       });
     }
   }
 
   doKeyPress(event: Event & { currentTarget: HTMLInputElement, keyCode: number }) {
+    const { suggestions } = this.state;
+    //This condition is satisfied when a user presses the enter key.
     if (event.keyCode === 13) {
       const query = event.currentTarget.value;
       this.props.updateValue(query, true);
+      this.setState({
+        suggestions: [],
+        open: false,
+      })
+    } else if (event.keyCode === 40 && this.state.cursor < suggestions.length - 1) {
+      // This condition is satisfied when a user presses the down arrow key.
+      const newCursor = this.state.cursor + 1;
+      const value = suggestions[newCursor];
+      this.setState({
+        cursor: newCursor,
+        queryValue: value,
+      });
+    } else if (event.keyCode === 38 && this.state.cursor > 0) {
+      // This condition is satisfied when a user presses the up arrow key.
+      const newCursor = this.state.cursor - 1;
+      const value = suggestions[newCursor];
+      this.setState({
+        cursor: newCursor,
+        queryValue: value,
+      });
     }
   }
 
@@ -145,11 +177,13 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
     } else if (this.state.loading) {
       menuItems.push(<MenuItem eventKey="loading" disabled>{'Loading\u2026'}</MenuItem>);
     } else {
-      this.state.suggestions.forEach((suggestion) => {
+      this.state.suggestions.forEach((suggestion, i) => {
+        const activeState = this.state.cursor === i;
         menuItems.push((
           <MenuItem
             eventKey={suggestion}
             key={suggestion}
+            active={activeState}
           >
             {suggestion}
           </MenuItem>
@@ -170,7 +204,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
         >
           <input
             placeholder={this.props.placeholder}
-            value={this.props.value}
+            value={this.state.queryValue}
             className={this.props.className}
             style={this.props.style}
             disabled={this.props.disabled}
