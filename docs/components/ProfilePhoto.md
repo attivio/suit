@@ -1,9 +1,9 @@
 #### Examples:
 
-__1.__ Standard, showing Mary Smith’s photo.
+__1.__ Standard usage, showing Johannes Vermeer's profile picture.
 
 ```jsx
-  <ProfilePhoto url="img/marysmith.png" />
+  <ProfilePhoto url="img/GirlPearlEaring.jpg" />
 ```
 
 __2.__ Showing a placeholder image.

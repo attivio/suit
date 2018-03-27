@@ -2,7 +2,6 @@
 
 import SearchDocument from '../api/SearchDocument';
 import FieldNames from '../api/FieldNames';
-import AuthUtils from './AuthUtils';
 import GraphNode from './GraphNode';
 import GraphEdge from './GraphEdge';
 import StringUtils from './StringUtils';
@@ -324,11 +323,10 @@ export default class KnowledgeGraphUtils {
     return result;
   }
 
-  static calculateGraphOptions(entityNames: Array<string> = []): any {
+  static calculateGraphOptions(entityNames: Array<string> = [], entityColors: Map<string, any>): any {
     const options = JSON.parse(JSON.stringify(BASE_GRAPH_OPTIONS));
     const groups = options.groups;
-    const colors = AuthUtils.getEntityColors();
-    colors.forEach((color, entity) => {
+    entityColors.forEach((color, entity) => {
       const entityOptions = JSON.parse(JSON.stringify(BASE_GROUP_OPTIONS));
       entityOptions.color.border = color;
       entityOptions.color.highlight.border = color;
@@ -336,7 +334,7 @@ export default class KnowledgeGraphUtils {
       groups[entity] = entityOptions;
     });
     entityNames.forEach((entityName) => {
-      if (!colors.has(entityName)) {
+      if (!entityColors.has(entityName)) {
         // Make up a random color for this unknown entity
         const entityOptions = JSON.parse(JSON.stringify(BASE_GROUP_OPTIONS));
         const customColor = 'purple';

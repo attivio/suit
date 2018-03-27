@@ -1,6 +1,6 @@
 #### Examples:
 
-__1.__ Showing a fractional number of stars
+__1.__ Showing a fractional number of stars (3-1/4)
 ```jsx
 <StarRating stars={3.25} />
 ```
@@ -22,5 +22,11 @@ __4.__ Showing five stars
 
 __5.__ An editable version for the user to enter their own rating
 ```jsx
-<StarRating chooseable />
+initialState = {
+  rating: 0,
+};
+
+<StarRating chooseable stars={state.rating} onRated={(numStars) => {
+  state.rating = numStars;
+}} />
 ```

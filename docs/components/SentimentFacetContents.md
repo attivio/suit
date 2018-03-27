@@ -3,7 +3,7 @@
 __1.__ Normal variation.
 
 ```jsx
-  sampleFacets = require('../sampleData/Facets').default;
+  const sampleFacets = require('../sampleData/Facets').default;
   
   <SentimentFacetContents
     buckets={sampleFacets.sentimentFacet.buckets}

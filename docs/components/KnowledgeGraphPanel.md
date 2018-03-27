@@ -1,9 +1,4 @@
 #### Examples:
 
-__1.__ Simple example.
-
-```jsx
-  sampleDocs = require('../sampleData/Documents').default;
-
-  <KnowledgeGraphPanel doc={sampleDocs.elsalvador} />
-```
+The KnowledgeGraphPanel can only function inside an active Searcher component.
+See the Doc360Page and the NetworkDiagram component for more information.

@@ -18,37 +18,26 @@ import Configurable from '../components/Configurable';
 import Configuration from '../components/Configuration';
 
 /*
+  A NOTE ABOUT THE SEARCHER, THE PAGE'S URL, AND WHEN QUERYING HAPPENS:
 
-IF
-Searcher is first loaded, we need to check for query parameters and apply them if they exist.In this case, we need to do the search.
+  When the Searcher is first loaded, we check for query parameters and apply them if they exist.
+  In this case, we need to do a search right away.
 
-IF
-Searcher is updated with a new query string, then we need to parse it and possibly do a new search, if it has changed.
+  When the Searcher is updated with a new query string, we parse it and possibly do a new search,
+  if it has changed.
 
-IF
-User does a search manually, we need to calculate the query string and push the new location onto the history if it has changed.
-  THIS HAPPENS IN THE doSearch() method
+  When the user does a search manually, we need to calculate the query string and push the new
+  location onto the router's history if it has changed. (This happens in the method doSearch().)
 
-IF
-User updates a property that affects existing searches but doesn't require resetting, we need to update the state and then,
-]if there's a previous search, perform a new one (and, only in this case, update the search string
-  THIS HAPPENDS WHEN THESE PROPERTIES CHANGE:
-      resultsOffset (i.e., paging)
+  When the user updates a property that affects existing searches but doesn't require resetting,
+  we update the state and then, if there has been a previous search, perform a new one (and, only
+  in this case, update the search string).
 
-IF
-User updates a property that affects existing searches AND requires resetting, then we need to update the state including
-setting the offset to 0, and , if there's a previous search, perform a new one (and, only in this case, update the search string
-  THIS HAPPENDS WHEN THESE PROPERTIES CHANGE:
-      geoFilters (adding or removing)
-      resultsPerPage
-      facetFilters (adding or removing)
-      sort
-      relevancyModels
-      format
-      searchProfile
-
-
-      // NEED TO DEAL WITH VALUES IN URL THAT ARE NOT VALID...
+  When the user updates a property that affects existing searches and does require resetting,
+  then we update the state including setting the offset to 0, and, if there has been a previous
+  search, we perform a new one (and, only in this case, update the search string). The following
+  properties require resetting when they're changed: geoFilters (adding or removing), resultsPerPage,
+  facetFilters (adding or removing), sort, relevancyModels, format, and searchProfile.
 */
 
 type SearcherProps = {

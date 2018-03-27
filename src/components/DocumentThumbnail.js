@@ -7,8 +7,7 @@ import StringUtils from '../util/StringUtils';
 type DocumentThumbnailProps = {
   /**
    * The URI of the image to display as the document's
-   * thumbnail. If not set, then a default placeholder
-   * image is shown.
+   * thumbnail.
    */
   uri: string | null;
 };
@@ -19,7 +18,9 @@ type DocumentThumbnailDefaultProps = {
 
 /**
  * A component to display the thumbnail for a document. If the
- * thumbnail isn't set, then a default image is displayed instead.
+ * thumbnail isn't set, then no image is displayed. If the URI
+ * isn't valid, then the image is hidden rather than showing a
+ * broken image in the browser.
  */
 export default class DocumentThumbnail extends React.Component<DocumentThumbnailDefaultProps, DocumentThumbnailProps, void> {
   static defaultProps = {
@@ -35,7 +36,7 @@ export default class DocumentThumbnail extends React.Component<DocumentThumbnail
       }
       const className = haveImage ? 'attivio-search-result-preview img-responsive' :
         'attivio-search-result-preview img-responsive attivio-search-result-preview-placeholder';
-      return <DisappearingImage src={uri} className={className} alt="Thumbnail" />;
+      return <DisappearingImage src={uri} className={className} style={{ maxHeight: '100px' }} alt="Thumbnail" />;
     }
     return null; // No thumbnail for this document
   }

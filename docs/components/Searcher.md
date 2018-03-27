@@ -2,15 +2,18 @@ The `<Searcher>` component does all of the work to perform searches of the Attiv
 
 #### Examples:
 
-__1.__ This example won't actually search the index but is meant to give you an idea of how the `<Searcher>` component is used. For a more fleshed-out example, please look at the source code for the SearchPage.
+__1.__ This example won't actually search the index but is meant to give you an idea of how the `<Searcher>` component is used. Note that the searcher doesn't itself render any UI but relies on its children to do so. For a more fleshed-out example, please look at the source code for the SearchPage.
 
 ```jsx
-  <Searcher
-    searchUrl="http://myHost:17000"
-    username="jschmoe"
-    fields={[ '.id', 'title', 'text', 'date', 'language' ]}
-    facets={[ 'table', 'language' ]}
-  >
-    <div>Here is where the various components which provide search controls and search results would go.</div>
-  </Searcher>
+const { MemoryRouter } = require('react-router-dom');
+  <MemoryRouter>
+    <Searcher
+      searchUrl="http://myHost:17000"
+      username="jschmoe"
+      fields={[ '.id', 'title', 'text', 'date', 'language' ]}
+      facets={[ 'table', 'language' ]}
+    >
+      <div>Here is where the various components which provide search controls and search results would go.</div>
+    </Searcher>
+  </MemoryRouter>
 ```

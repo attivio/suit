@@ -2,14 +2,14 @@
 
 __1.__ A plain, "more" list facet.
 ```jsx
-  sampleFacets = require('../sampleData/Facets').default;
+  const sampleFacets = require('../sampleData/Facets').default;
 
   <Facet facet={sampleFacets.regionFacet} type="list" />
 ```
 
 __2.__ A sentiment facet in a collapsible component.
 ```jsx
-  sampleFacets = require('../sampleData/Facets').default;
+  const sampleFacets = require('../sampleData/Facets').default;
 
   <Facet facet={sampleFacets.sentimentFacet} type="sentiment" collapse />
 ```

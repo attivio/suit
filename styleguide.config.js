@@ -56,6 +56,11 @@ module.exports = {
     theme: 'ambiance', // see http://codemirror.net/demo/theme.html
   },
   styles: {},
+  // propsParser: require('react-docgen-typescript').withDefaultConfig({
+  //   propFilter: {
+  //     skipPropsWithoutDoc: true,
+  //   },
+  // }).parse,
   sections: [
     {
       name: 'Introduction',
@@ -79,53 +84,51 @@ module.exports = {
             ];
           },
         },
-        {
-          name: 'Search Results — Documents',
-          content: 'docs/searchResultsDocuments.md',
-          components: () => {
-            return [
-              'src/components/DocumentThumbnail.js',
-              'src/components/DataPairs.js',
-              'src/components/DocumentType.js',
-              'src/components/RelevancyScore.js',
-              'src/components/SearchResult.js',
-              'src/components/SearchResults.js',
-              'src/components/SearchResultBody.js',
-              'src/components/SearchResultsCount.js',
-              'src/components/SearchResultsEmpty.js',
-              'src/components/SearchResultsError.js',
-              'src/components/SearchResultsSummary.js',
-              'src/components/SearchResultTags.js',
-              'src/components/SentimentBar.js',
-            ];
-          },
-        },
-        {
-          name: 'Search Results — Facets',
-          content: 'docs/searchResultsFacets.md',
-          components: () => {
-            return [
-              'src/components/BarChartFacetContents.js',
-              'src/components/Facet.js',
-              'src/components/FacetResults.js',
-              'src/components/ListWithBarsFacetContents.js',
-              'src/components/MapFacetContents.js',
-              'src/components/MoreListFacetContents.js',
-              'src/components/PieChartFacetContents.js',
-              'src/components/SearchResultsFacetFilters.js',
-              'src/components/SentimentFacetContents.js',
-              'src/components/TagCloudFacetContents.js',
-              'src/components/TimeSeriesFacetContents.js',
-            ];
-          },
-        },
+        // {
+        //   name: 'Search Results — Documents',
+        //   content: 'docs/searchResultsDocuments.md',
+        //   components: () => {
+        //     return [
+        //       'src/components/DocumentThumbnail.js',
+        //       'src/components/DataPairs.js',
+        //       'src/components/DocumentType.js',
+        //       'src/components/RelevancyScore.js',
+        //       'src/components/SearchResult.js',
+        //       'src/components/SearchResults.js',
+        //       'src/components/SearchResultBody.js',
+        //       'src/components/SearchResultsCount.js',
+        //       'src/components/SearchResultsEmpty.js',
+        //       'src/components/SearchResultsError.js',
+        //       'src/components/SearchResultsSummary.js',
+        //       'src/components/SearchResultTags.js',
+        //       'src/components/SentimentBar.js',
+        //     ];
+        //   },
+        // },
+        // {
+        //   name: 'Search Results — Facets',
+        //   content: 'docs/searchResultsFacets.md',
+        //   components: () => {
+        //     return [
+        //       'src/components/BarChartFacetContents.js',
+        //       'src/components/Facet.js',
+        //       'src/components/FacetResults.js',
+        //       'src/components/ListWithBarsFacetContents.js',
+        //       'src/components/MapFacetContents.js',
+        //       'src/components/MoreListFacetContents.js',
+        //       'src/components/PieChartFacetContents.js',
+        //       'src/components/SearchResultsFacetFilters.js',
+        //       'src/components/SentimentFacetContents.js',
+        //       'src/components/TagCloudFacetContents.js',
+        //       'src/components/TimeSeriesFacetContents.js',
+        //     ];
+        //   },
+        // },
         {
           name: 'Search Results — Other',
           content: 'docs/searchResultsOther.md',
           components: () => {
             return [
-              'src/components/EntityTimeline.js',
-              'src/components/EntityTimelinesPanel.js',
               'src/components/ExpertCard.js',
               'src/components/ExpertDetails.js',
               'src/components/KnowledgeGraphPanel.js',
@@ -146,54 +149,54 @@ module.exports = {
             ];
           },
         },
-        {
-          name: 'Input',
-          content: 'docs/input.md',
-          components: () => {
-            return [
-              'src/components/DatePicker.js',
-              'src/components/DropdownButton.js',
-              'src/components/DataPairs.js',
-              'src/components/Menu.js',
-              'src/components/NavbarButton.js',
-              'src/components/NavbarFilter.js',
-              'src/components/NavbarOr.js',
-              'src/components/Masthead.js',
-              'src/components/NavbarPager.js',
-              'src/components/StarRating.js',
-              'src/components/Toggle.js',
-              'src/components/ToggleSwitch.js',
-            ];
-          },
-        },
-        {
-          name: 'Display',
-          content: 'docs/display.md',
-          components: () => {
-            return [
-              'src/components/Card.js',
-              'src/components/ChartTrends.js',
-              'src/components/Code.js',
-              'src/components/CollapsiblePanel.js',
-              'src/components/FormattedDate.js',
-              'src/components/Header360.js',
-              'src/components/LabeledData.js',
-              'src/components/Masthead.js',
-              'src/components/MastheadUser.js',
-              'src/components/MoreList.js',
-              'src/components/Navbar.js',
-              'src/components/NetworkDiagram.js',
-              'src/components/ProfilePhoto.js',
-              'src/components/SecondaryNavBar.js',
-              'src/components/SeparatedList.js',
-              'src/components/SqlLog.js',
-              'src/components/StarRating.js',
-              'src/components/Subheader360.js',
-              'src/components/TabPanel.js',
-              'src/components/TagCloud.js',
-            ];
-          },
-        },
+        // {
+        //   name: 'Input',
+        //   content: 'docs/input.md',
+        //   components: () => {
+        //     return [
+        //       'src/components/DatePicker.js',
+        //       'src/components/DropdownButton.js',
+        //       'src/components/DataPairs.js',
+        //       'src/components/Menu.js',
+        //       'src/components/NavbarButton.js',
+        //       'src/components/NavbarFilter.js',
+        //       'src/components/NavbarOr.js',
+        //       'src/components/Masthead.js',
+        //       'src/components/NavbarPager.js',
+        //       'src/components/StarRating.js',
+        //       'src/components/Toggle.js',
+        //       'src/components/ToggleSwitch.js',
+        //     ];
+        //   },
+        // },
+        // {
+        //   name: 'Display',
+        //   content: 'docs/display.md',
+        //   components: () => {
+        //     return [
+        //       'src/components/Card.js',
+        //       'src/components/ChartTrends.js',
+        //       'src/components/Code.js',
+        //       'src/components/CollapsiblePanel.js',
+        //       'src/components/FormattedDate.js',
+        //       'src/components/Header360.js',
+        //       'src/components/LabeledData.js',
+        //       'src/components/Masthead.js',
+        //       'src/components/MastheadUser.js',
+        //       'src/components/MoreList.js',
+        //       'src/components/Navbar.js',
+        //       'src/components/NetworkDiagram.js',
+        //       'src/components/ProfilePhoto.js',
+        //       'src/components/SecondaryNavBar.js',
+        //       'src/components/SeparatedList.js',
+        //       'src/components/SqlLog.js',
+        //       'src/components/StarRating.js',
+        //       'src/components/Subheader360.js',
+        //       'src/components/TabPanel.js',
+        //       'src/components/TagCloud.js',
+        //     ];
+        //   },
+        // },
       ],
     },
   ],

@@ -12,42 +12,60 @@ type MastheadNavTabsProps = {
    * An array of <code>NavTabInfo</code> objects describing the buttons to show.
    */
   tabInfo: Array<NavTabInfo>;
-  /** The route of the currently active button, if any. */
-  currentTab: string | null;
-}
+  /** The route of the initially active button, if any. */
+  initialTab: string | null;
+};
 
 type MastheadNavTabsDefaultProps = {
+  initialTab: string | null;
+};
+
+type MastheadNavTabsState = {
   currentTab: string | null;
-}
+};
 
 /**
  * A set of buttons to use within the Masthead component for
  * navigation within the application. Clicking one will update
  * the application’s router with the button’s route.
  */
-class MastheadNavTabs extends React.Component<MastheadNavTabsDefaultProps, MastheadNavTabsProps, void> {
+class MastheadNavTabs extends React.Component<MastheadNavTabsDefaultProps, MastheadNavTabsProps, MastheadNavTabsState> {
   static defaultProps = {
-    currentTab: null,
+    initialTab: null,
   };
 
   static NavTabInfo;
 
   constructor(props: MastheadNavTabsProps) {
     super(props);
+    let initialTab = this.props.initialTab;
+    if (!initialTab) {
+      if (this.props.tabInfo && this.props.tabInfo.length > 0 && this.props.tabInfo[0]) {
+        initialTab = this.props.tabInfo[0].route;
+      }
+    }
+    this.state = {
+      currentTab: initialTab,
+    };
     (this: any).routeTo = this.routeTo.bind(this);
   }
 
+  state: MastheadNavTabsState;
   props: MastheadNavTabsProps;
 
   routeTo(route: string) {
-    this.props.history.push({ pathname: route, search: this.props.location.search });
+    this.setState({
+      currentTab: route,
+    }, () => {
+      this.props.history.push({ pathname: route, search: this.props.location.search });
+    });
   }
 
   render() {
     const tabs = [];
     this.props.tabInfo.forEach((tabInfo) => {
-      const liClass = tabInfo.route === this.props.currentTab ? 'active' : '';
-      const clickHandler = tabInfo.route === this.props.currentTab ? null : () => { this.routeTo(tabInfo.route); };
+      const liClass = tabInfo.route === this.state.currentTab ? 'active' : '';
+      const clickHandler = tabInfo.route === this.state.currentTab ? null : () => { this.routeTo(tabInfo.route); };
 
       tabs.push((
         <li key={tabInfo.route} className={liClass}>

@@ -39,7 +39,8 @@ type SearchBarProps = {
   allowVoice: boolean;
   /**
    * If set, the search bar’s input field will use autocomplete via this URI.
-   * Otherwise, if the configuration is available, the autoCompleteUri in the configuration will be used.
+   * Otherwise, if the configuration is available, the autoCompleteUri in the
+   * configuration will be used.
    * Otherwise, the search bar will not autocomplete.
    * Note that this is relative to the baseUri field in the configuration.
    */
@@ -87,7 +88,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     placeholderAdvanced: 'Enter an advanced query\u2026',
     buttonLabel: 'Go',
     allowLanguageSelect: true,
-    allowVoice: true,
+    allowVoice: false,
     autoCompleteUri: null,
     route: null,
     baseUri: '',

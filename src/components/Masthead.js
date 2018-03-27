@@ -28,6 +28,11 @@ type MastheadProps = {
   searchEngineType: 'attivio' | 'solr' | 'elastic';
   /** The URI to use for global on-line help. If not set, the help button won't be shown. */
   helpUri: string | null;
+  /**
+   * The username to use if not using AuthUtils to get it. Setting this
+   * disables logging out as a side-effect.
+   */
+  username: string | null;
   /** The contents of the Masthead can be arbitrary components. */
   children: Children;
 };
@@ -40,6 +45,7 @@ type MastheadDefaultProps = {
   multiline: boolean;
   searchEngineType: 'attivio' | 'solr' | 'elastic';
   helpUri: string | null;
+  username: string | null;
 };
 
 type MastheadState = {
@@ -67,6 +73,7 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
     multiline: false,
     searchEngineType: 'attivio',
     helpUri: null,
+    username: null,
   }
 
   constructor(props: MastheadProps) {
@@ -90,29 +97,39 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
   }
 
   updateUser() {
-    const currentUser = AuthUtils.getLocalStorageUser();
-    if (currentUser) {
+    if (this.props.username) {
       this.setState({
-        userInfo: currentUser,
+        userInfo: {
+          userId: this.props.username,
+        },
       });
     } else {
-      // If we need to, ask the server...
-      AuthUtils.getLoggedInUserInfo((loggedInUserInfo) => {
+      const currentUser = AuthUtils.getSavedUser();
+      if (currentUser) {
         this.setState({
-          userInfo: loggedInUserInfo,
+          userInfo: currentUser,
         });
-      });
+      } else {
+        // If we need to, ask the server...
+        AuthUtils.getLoggedInUserInfo((loggedInUserInfo) => {
+          this.setState({
+            userInfo: loggedInUserInfo,
+          });
+        });
+      }
     }
   }
 
   handleLogout() {
-    AuthUtils.logout(() => {
-      this.setState({
-        userInfo: null,
-      }, () => {
-        this.props.history.push('/loggedout');
+    if (!this.props.username) {
+      AuthUtils.logout(() => {
+        this.setState({
+          userInfo: null,
+        }, () => {
+          this.props.history.push('/loggedout');
+        });
       });
-    });
+    }
   }
 
   navigateHome() {

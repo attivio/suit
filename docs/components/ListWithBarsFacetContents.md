@@ -3,7 +3,7 @@
 __1.__ Normal variation.
 
 ```jsx
-  sampleFacets = require('../sampleData/Facets').default;
+  const sampleFacets = require('../sampleData/Facets').default;
   
   <ListWithBarsFacetContents
     buckets={sampleFacets.relevancyScoreFacet.buckets}
@@ -16,7 +16,7 @@ __1.__ Normal variation.
 __2.__ Right-aligned labels.
 
 ```jsx
-  sampleFacets = require('../sampleData/Facets').default;
+  const sampleFacets = require('../sampleData/Facets').default;
 
   <ListWithBarsFacetContents
     buckets={sampleFacets.relevancyScoreFacet.buckets}

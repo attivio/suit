@@ -33,7 +33,11 @@ export default class AuthUtils {
    * Logs the currently logged-in user out.
    */
   static logout(callback: () => void) {
-    localStorage.removeItem(AuthUtils.USER_KEY);
+    // Tell the server to delete the SessionId cookie
+    document.cookie = `SessionId=; Path=${AuthUtils.config.basename}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+    document.cookie = `JSESSIONID=; Path=${AuthUtils.config.basename}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+    // And remove the user we added to session storage
+    sessionStorage.removeItem(AuthUtils.USER_KEY);
     if (AuthUtils.config.ALL.authType === 'SAML') {
       // For SAML auth, call the special URL from Spring/SAML to tell the IdP we’re logging out
       fetch(`${AuthUtils.config.ALL.baseUri}/saml/logout`, { method: 'GET' }).then(() => {
@@ -44,9 +48,6 @@ export default class AuthUtils {
         callback();
       });
     } else if (AuthUtils.config.ALL.authType === 'NONE') {
-      // For "none," we want to tell the server to
-      // delete the SessionId cookie
-      document.cookie = 'SessionId=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
       // And tell the server to log us out
       fetch(`${AuthUtils.config.ALL.baseUri}/`, { method: 'POST' }).then(() => {
         // And then call the callback
@@ -56,8 +57,8 @@ export default class AuthUtils {
         callback();
       });
     } else {
-      // Just XML authentication, remoing from local storage is good enough.
-      // Still need to call the callback
+      // Just XML authentication, removing saved user (above) is good enough.
+      // Still need to call the callback, though
       callback();
     }
   }
@@ -146,7 +147,7 @@ export default class AuthUtils {
       if (userObject) {
         if (AuthUtils.passwordMatches(password, userObject.$.password)) {
           userObject.timeout = new Date().getTime() + AuthUtils.TIMEOUT;
-          localStorage.setItem(AuthUtils.USER_KEY, JSON.stringify(userObject));
+          sessionStorage.setItem(AuthUtils.USER_KEY, JSON.stringify(userObject));
           return null;
         }
       }
@@ -156,15 +157,15 @@ export default class AuthUtils {
   }
 
   /**
-   * Push the currently logged-in user's info into local storage for easy access.
+   * Save the currently logged-in user's info into session storage for easy access.
    */
   static saveLoggedInUser(userInfo: any) {
     if (userInfo) {
       const userInfoCopy = JSON.parse(JSON.stringify(userInfo));
       userInfoCopy.timeout = new Date().getTime() + AuthUtils.TIMEOUT;
-      localStorage.setItem(AuthUtils.USER_KEY, JSON.stringify(userInfoCopy));
+      sessionStorage.setItem(AuthUtils.USER_KEY, JSON.stringify(userInfoCopy));
     } else {
-      localStorage.removeItem(AuthUtils.USER_KEY);
+      sessionStorage.removeItem(AuthUtils.USER_KEY);
     }
   }
 
@@ -190,7 +191,7 @@ export default class AuthUtils {
       return true;
     }
 
-    const user = AuthUtils.getLocalStorageUser();
+    const user = AuthUtils.getSavedUser();
     if (user) {
       if (permission) {
         return AuthUtils.hasPermission(/* user, permission */);
@@ -205,8 +206,8 @@ export default class AuthUtils {
    * If no user is logged in or if the logged-in user's login has expired,
    * then this method returns null.
    */
-  static getLocalStorageUser(): any {
-    const userObjectJson = localStorage.getItem(AuthUtils.USER_KEY);
+  static getSavedUser(): any {
+    const userObjectJson = sessionStorage.getItem(AuthUtils.USER_KEY);
     if (userObjectJson) {
       const userObject = JSON.parse(userObjectJson);
       if (userObject && userObject.timeout && userObject.timeout > new Date().getTime()) {
@@ -224,12 +225,12 @@ export default class AuthUtils {
    * @param callback a function which takes the user info as a parameter
    */
   static getLoggedInUserInfo(callback: (any) => void) {
-    const userObject = AuthUtils.getLocalStorageUser();
+    const userObject = AuthUtils.getSavedUser();
     if (userObject && userObject.timeout && userObject.timeout > new Date().getTime()) {
       callback(userObject);
     } else if (AuthUtils.config.ALL.authType === 'SAML' || AuthUtils.config.ALL.authType === 'NONE') {
       // If the authentication is done on the front-end, we shouldn't
-      // ever get here because if there's no local-storage user, then
+      // ever get here because if there's no saved user, then
       // no one is logged in yet...
       const headers = new Headers({
         Accept: 'application/json',
@@ -270,7 +271,7 @@ export default class AuthUtils {
   }
 
   static getLoggedInUserId(): string {
-    const userInfo = AuthUtils.getLocalStorageUser();
+    const userInfo = AuthUtils.getSavedUser();
     if (userInfo) {
       if (userInfo.$ && userInfo.$.id) {
         // Special case for XML-based user authentication

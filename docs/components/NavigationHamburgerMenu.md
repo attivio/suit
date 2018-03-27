@@ -3,6 +3,8 @@
 __1:__ A standard “hamburger” menu.
 
 ```jsx
+const { MemoryRouter } = require('react-router-dom');
+<MemoryRouter>
   <NavigationHamburgerMenu
     id="myHBMenu"
     items={[
@@ -11,11 +13,14 @@ __1:__ A standard “hamburger” menu.
       new NavigationHamburgerMenu.NavMenuItem('Third Choice', '3'),
     ]}
   />
+</MemoryRouter>
 ```
 
 __2:__ Another one, using a custom icon (“user”) and color (orange on purple).
 
 ```jsx
+const { MemoryRouter } = require('react-router-dom');
+<MemoryRouter>
   <NavigationHamburgerMenu
     id="anotherHBMenu"
     tooltip="Choose where to go"
@@ -29,4 +34,5 @@ __2:__ Another one, using a custom icon (“user”) and color (orange on purpl
       new NavigationHamburgerMenu.NavMenuItem('Third Choice', '3'),
     ]}
   />
+</MemoryRouter>
 ```

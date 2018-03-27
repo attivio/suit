@@ -6,6 +6,7 @@ import SearchDocument from '../api/SearchDocument';
 import SimpleQueryRequest from '../api/SimpleQueryRequest';
 import QueryResponse from '../api/QueryResponse';
 import FieldNames from '../api/FieldNames';
+import AuthUtils from '../util/AuthUtils';
 import KnowledgeGraphUtils from '../util/KnowledgeGraphUtils';
 import NetworkDiagram, { Node, Edge } from './NetworkDiagram';
 
@@ -187,7 +188,7 @@ export default class KnowledgeGraphPanel extends React.Component<KnowledgeGraphP
         <NetworkDiagram
           nodes={this.state.nodes}
           edges={this.state.edges}
-          options={KnowledgeGraphUtils.calculateGraphOptions(this.props.linkingFields)}
+          options={KnowledgeGraphUtils.calculateGraphOptions(this.props.linkingFields, AuthUtils.getEntityColors())}
           style={style}
           onDoubleClick={this.onDoubleClick}
         />
