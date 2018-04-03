@@ -257,6 +257,8 @@ the offset to 0, and , if there's a previous search, perform a new one (and, onl
 
  */
 class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, SearcherState> {
+  static displayName = 'Searcher';
+
   static STAR_COLON_STAR = '*:*';
 
   static defaultProps = {
