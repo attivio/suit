@@ -82,6 +82,8 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     searcher: PropTypes.any,
   };
 
+  static displayName = 'SearchBar';
+
   static defaultProps: SearchBarDefaultProps = {
     inMasthead: false,
     placeholder: 'Search\u2026',
