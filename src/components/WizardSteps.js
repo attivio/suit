@@ -58,7 +58,7 @@ export default class WizardSteps extends React.Component<void, WizardStepsProps,
       const complete = step.complete ? <Glyphicon glyph="ok" style={{ fontSize: '75%', color: 'green', paddingLeft: '4px' }} /> : null;
       if (this.props.currentStep === step.key) {
         pageLinks.push((
-          <Button disabled style={currentStepStyle}>
+          <Button disabled style={currentStepStyle} key={step.key}>
             {step.title}
             {complete}
           </Button>
@@ -66,14 +66,14 @@ export default class WizardSteps extends React.Component<void, WizardStepsProps,
       } else if (step.enabled) {
         // Can only go there if the page is enabled...
         pageLinks.push((
-          <Button onClick={() => { this.props.goToPage(step.key); }} style={stepStyle}>
+          <Button onClick={() => { this.props.goToPage(step.key); }} style={stepStyle} key={step.key}>
             {step.title}
             {complete}
           </Button>
         ));
       } else {
         pageLinks.push((
-          <Button disabled style={disabledStepStyle}>
+          <Button disabled style={disabledStepStyle} key={step.key}>
             {step.title}
             {complete}
           </Button>
