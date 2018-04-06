@@ -18,6 +18,8 @@ export default class NavbarOr extends React.Component<NavbarOrDefaultProps, Navb
     message: 'OR',
   };
 
+  static displayName = 'NavbarOr';
+
   render() {
     return (
       <li>

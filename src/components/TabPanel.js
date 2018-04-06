@@ -41,6 +41,8 @@ export default class TabPanel extends React.Component<TabPanelDefaultProps, TabP
     nested: false,
   };
 
+  static displayName = 'TabPanel';
+
   static TabInfo;
 
   constructor(props: TabPanelProps) {

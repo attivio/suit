@@ -3,7 +3,7 @@ import React from 'react';
 
 import Configurable from './Configurable';
 
-type LogUtilsProps = {
+type LoggerProps = {
   /**
    * Optional. The location of the node through which to interact with Attivio.
    * Defaults to the value in the configuration.
@@ -11,32 +11,34 @@ type LogUtilsProps = {
   baseUri: string;
 }
 
-class LogUtils extends React.Component<LogUtilsProps, LogUtilsProps, void> {
-  static instance;
-
+class Logger extends React.Component<LoggerProps, LoggerProps, void> {
   static defaultProps = {
     baseUri: '',
   }
 
+  static displayName = 'Logger';
+
+  static instance;
+
   static info(message: string, context: string = 'general', error: Error | null = null) {
-    LogUtils.instance.sendInfo('info', message, context, error);
+    Logger.instance.sendInfo('info', message, context, error);
   }
 
   static error(message: string, context: string = 'general', error: Error | null = null) {
-    LogUtils.instance.sendInfo('error', message, context, error);
+    Logger.instance.sendInfo('error', message, context, error);
   }
 
   static debug(message: string, context: string = 'general', error: Error | null = null) {
-    LogUtils.instance.sendInfo('debug', message, context, error);
+    Logger.instance.sendInfo('debug', message, context, error);
   }
 
   static warn(message: string, context: string = 'general', error: Error | null = null) {
-    LogUtils.instance.sendInfo('warn', message, context, error);
+    Logger.instance.sendInfo('warn', message, context, error);
   }
 
   constructor(props: any) {
     super(props);
-    LogUtils.instance = this;
+    Logger.instance = this;
   }
 
   sendInfo(level: 'debug' | 'info' | 'warn' | 'error', message: string, context: string, error: Error | null = null) {
@@ -73,4 +75,4 @@ class LogUtils extends React.Component<LogUtilsProps, LogUtilsProps, void> {
   }
 }
 
-export default Configurable(LogUtils);
+export default Configurable(Logger);

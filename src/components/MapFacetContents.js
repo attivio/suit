@@ -2,8 +2,9 @@
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 
 import React from 'react';
-//Uncommenting DrawControl import would enable Polygon selection feature and render it in Chrome but won't render in IE11.
-//import DrawControl from 'react-mapbox-gl-draw';
+// Uncommenting DrawControl import would enable Polygon selection
+// feature and render it in Chrome but won't render in IE11.
+// import DrawControl from 'react-mapbox-gl-draw';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 import PropTypes from 'prop-types';
@@ -15,7 +16,7 @@ import PositionUtils from '../util/PositionUtils';
 import ObjectUtils from '../util/ObjectUtils';
 import StringUtils from '../util/StringUtils';
 
-const ReactMapboxGl = require("react-mapbox-gl");
+const ReactMapboxGl = require('react-mapbox-gl');
 
 type MapFacetContentsProps = {
   /** The facet’s buckets. */
@@ -53,6 +54,8 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
   static contextTypes = {
     searcher: PropTypes.any,
   };
+
+  static displayName = 'MapFacetContents';
 
   static calcState(buckets: Array<SearchFacetBucket>, zoom: number,
     geoFilters: Array<string>, updating: string): MapFacetContentsState {
@@ -212,23 +215,23 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
       const width = this.props.size && this.props.size.width ? this.props.size.width : 400;
 
       // style filters
-      const selected = ['==', 'active', 'true'];
-      const deselected = ['==', 'active', 'false'];
-      const polygon = ['==', '$type', 'Polygon'];
-      const line = ['==', '$type', 'LineString'];
+      // const selected = ['==', 'active', 'true'];
+      // const deselected = ['==', 'active', 'false'];
+      // const polygon = ['==', '$type', 'Polygon'];
+      // const line = ['==', '$type', 'LineString'];
 
       // styles
-      const selectedColor = '#f9c448';
-      const deselectedColor = '#3276b1';
-      const lineLayout = {
-        'line-cap': 'round',
-        'line-join': 'round',
-      };
-      const selectedLinePaint = {
-        'line-color': selectedColor,
-        'line-dasharray': [0.2, 2],
-        'line-width': 2,
-      };
+      // const selectedColor = '#f9c448';
+      // const deselectedColor = '#3276b1';
+      // const lineLayout = {
+      //   'line-cap': 'round',
+      //   'line-join': 'round',
+      // };
+      // const selectedLinePaint = {
+      //   'line-color': selectedColor,
+      //   'line-dasharray': [0.2, 2],
+      //   'line-width': 2,
+      // };
 
       return (
         <div>

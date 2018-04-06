@@ -27,6 +27,8 @@ export default class SearchResultsPager extends React.Component<SearchResultsPag
     searcher: PropTypes.any,
   };
 
+  static displayName = 'SearchResultsPager';
+
   constructor(props: SearchResultsPagerProps) {
     super(props);
     (this: any).back = this.back.bind(this);

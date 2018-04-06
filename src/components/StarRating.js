@@ -35,6 +35,8 @@ export default class StarRating extends React.Component<StarRatingDefaultProps, 
     onRated: null,
   };
 
+  static displayName = 'StarRating';
+
   constructor(props: StarRatingProps) {
     super(props);
     this.state = {

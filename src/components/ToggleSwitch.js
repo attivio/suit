@@ -31,6 +31,8 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
     disabled: false,
   };
 
+  static displayName = 'ToggleSwitch';
+
   onButton: ?HTMLDivElement;
   offButton: ?HTMLDivElement;
 

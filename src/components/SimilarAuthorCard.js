@@ -23,6 +23,8 @@ type SimilarAuthorCardProps = {
 };
 
 export default class SimilarAuthorCard extends React.Component<void, SimilarAuthorCardProps, void> {
+  static displayName = 'SimilarAuthorCard';
+
   static ExpertInfo;
 
   render() {

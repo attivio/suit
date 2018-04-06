@@ -47,6 +47,8 @@ export default class Accordion extends React.Component<AccordionDefaultProps, Ac
     defaultPanelKey: null,
   };
 
+  static displayName = 'Accordion';
+
   render() {
     const panels = this.props.panels.map((panel: AccordionPanel) => {
       let body;

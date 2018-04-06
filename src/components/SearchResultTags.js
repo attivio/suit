@@ -58,6 +58,8 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
     view360Label: 'Show 360\u00B0 View',
   };
 
+  static displayName = 'SearchResultTags';
+
   constructor(props: SearchResultTagsProps) {
     super(props);
     this.state = {

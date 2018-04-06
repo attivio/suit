@@ -23,6 +23,8 @@ export default class SmallTabs extends React.Component<SmallTabsDefaultProps, Sm
     currentTab: '',
   };
 
+  static displayName = 'SmallTabs';
+
   constructor(props: SmallTabsProps) {
     super(props);
     (this: any).onClick = this.onClick.bind(this);

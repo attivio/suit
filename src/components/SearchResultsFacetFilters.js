@@ -9,6 +9,8 @@ export default class SearchResultsFacetFilters extends React.Component<void, {},
     searcher: PropTypes.any,
   };
 
+  static displayName = 'SearchResultsFacetFilters';
+
   static getNavbarFilter(key: string, name: string, label: string, remove: () => void) {
     return (
       <NavbarFilter

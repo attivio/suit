@@ -40,6 +40,8 @@ export default class StringListEditor extends React.Component<StringListEditorDe
     placeholder: 'Enter a value\u2026',
   };
 
+  static displayName = 'StringListEditor';
+
   static itemAsString(item: any) {
     return item.toString();
   }

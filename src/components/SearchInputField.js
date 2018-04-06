@@ -29,6 +29,8 @@ export default class SearchInputField extends React.Component<SearchInputFieldDe
     searcher: PropTypes.any,
   };
 
+  static displayName = 'SearchInputField';
+
   constructor(props: SearchInputFieldProps) {
     super(props);
     (this: any).updateQuery = this.updateQuery.bind(this);

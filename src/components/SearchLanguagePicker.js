@@ -38,6 +38,8 @@ export default class SearchLanguagePicker extends React.Component<SearchLanguage
     searcher: PropTypes.any,
   };
 
+  static displayName = 'SearchLanguagePicker';
+
   constructor(props: SearchLanguagePickerProps) {
     super(props);
     (this: any).onSelect = this.onSelect.bind(this);

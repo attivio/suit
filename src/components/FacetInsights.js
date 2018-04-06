@@ -73,6 +73,8 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
     searcher: PropTypes.any,
   };
 
+  static displayName = 'FacetInsights';
+
   static matchesFacetList(field: string, facetList: Array<string> | string | null): boolean {
     if (facetList) {
       if (typeof facetList === 'string') {

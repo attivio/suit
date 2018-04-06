@@ -38,6 +38,8 @@ type ListEditorProps = {
 };
 
 export default class ListEditor extends React.Component<void, ListEditorProps, void> {
+  static displayName = 'ListEditor';
+
   constructor(props: ListEditorProps) {
     super(props);
     (this: any).doAdd = this.doAdd.bind(this);

@@ -26,6 +26,8 @@ export default class SearchButton extends React.Component<SearchButtonDefaultPro
     searcher: PropTypes.any,
   };
 
+  static displayName = 'SearchButton';
+
   constructor(props: SearchButtonProps) {
     super(props);
     (this: any).doSearch = this.doSearch.bind(this);

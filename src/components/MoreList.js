@@ -39,6 +39,8 @@ export default class MoreList extends React.Component<MoreListDefaultProps, More
     fewerPrompt: 'Fewer\u2026',
   };
 
+  static displayName = 'MoreList';
+
   constructor(props: MoreListProps) {
     super(props);
     this.state = {

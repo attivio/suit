@@ -28,6 +28,8 @@ export default class SearchResultsPerPage extends React.Component<SearchResultsP
     searcher: PropTypes.any,
   };
 
+  static displayName = 'SearchResultsPerPage';
+
   constructor(props: any) {
     super(props);
     (this: any).onSelect = this.onSelect.bind(this);

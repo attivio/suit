@@ -78,6 +78,8 @@ export default class NetworkDiagram extends React.Component<NetworkDiagramDefaul
     onDoubleClick: () => {},
   };
 
+  static displayName = 'NetworkDiagram';
+
   static Node;
   static Edge;
 

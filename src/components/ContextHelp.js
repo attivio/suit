@@ -29,6 +29,8 @@ type ContextHelpProps = {
  * Component to display contextual help.
  */
 export default class ContextHelp extends React.Component<void, ContextHelpProps, void> {
+  static displayName = 'ContextHelp';
+
   static ContextHelpInfo;
 
   render() {

@@ -12,7 +12,7 @@ type DisappearingImageState = {
  * a standard <img> tag and they'll be added to the inserted image.
  */
 export default class DisappearingImage extends React.Component<DisappearingImageState, {}, void> {
-  static state: DisappearingImageState;
+  static displayName = 'DisappearingImage';
 
   constructor(props: any) {
     super(props);
@@ -21,6 +21,8 @@ export default class DisappearingImage extends React.Component<DisappearingImage
       error: false,
     };
   }
+
+  state: DisappearingImageState;
 
   onError() {
     this.setState({

@@ -6,6 +6,8 @@ import React from 'react';
  * Header for the Experts page.
  */
 export default class ExpertsHeader extends React.Component<void, {}, void> {
+  static displayName = 'ExpertsHeader';
+
   render() {
     return (
       <div className="attivio-expert-hed">

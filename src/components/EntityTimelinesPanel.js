@@ -29,10 +29,12 @@ type EntityTimelinesPanelState = {
 };
 
 export default class EntityTimelinesPanel extends React.Component<void, EntityTimelinesPanelProps, EntityTimelinesPanelState> {
-  static showMore() {
-  }
+  static displayName = 'EntityTimelinesPanel';
 
   static EntityTimelineData;
+
+  static showMore() {
+  }
 
   constructor(props: EntityTimelinesPanelProps) {
     super(props);

@@ -60,6 +60,8 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
     searcher: PropTypes.any,
   };
 
+  static displayName = 'SearchResults';
+
   renderResults() {
     const searcher = this.context.searcher;
     const response = searcher.state.response;

@@ -28,6 +28,8 @@ export default class LoginForm extends React.Component<LoginFormDefaultProps, Lo
     error: null,
   };
 
+  static displayName = 'LoginForm';
+
   constructor(props: LoginFormProps) {
     super(props);
     this.state = {

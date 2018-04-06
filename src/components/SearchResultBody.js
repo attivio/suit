@@ -19,6 +19,8 @@ export default class SearchResultBody extends React.Component<SearchResultBodyDe
     onClick: null,
   };
 
+  static displayName = 'SearchResultsBody';
+
   render() {
     return (
       <p

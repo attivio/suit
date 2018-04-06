@@ -40,6 +40,8 @@ export default class LabeledData extends React.Component<LabeledDataDefaultProps
     stacked: false,
   };
 
+  static displayName = 'LabeledData';
+
   static LabeledDataPair;
 
   render() {

@@ -31,6 +31,8 @@ export default class MastheadUser extends React.Component<MastheadUserDefaultPro
     helpUri: null,
   };
 
+  static displayName = 'MastheadUser';
+
   constructor(props: MastheadUserProps) {
     super(props);
     (this: any).handleSelect = this.handleSelect.bind(this);

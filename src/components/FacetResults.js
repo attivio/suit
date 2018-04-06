@@ -80,6 +80,8 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
     searcher: PropTypes.any,
   };
 
+  static displayName = 'FacetResults';
+
   static matchesFacetList(field: string, facetList: Array<string> | string | null): boolean {
     if (facetList) {
       if (typeof facetList === 'string') {

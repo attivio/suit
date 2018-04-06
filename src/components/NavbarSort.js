@@ -40,6 +40,8 @@ export default class NavbarSort extends React.Component<NavbarSortDefaultProps, 
     searcher: PropTypes.any,
   };
 
+  static displayName = 'NavbarSort';
+
   static makeMenuItem(fieldName: string, ascending: boolean, current: boolean) {
     const arrowClass = ascending ? 'attivio-icon-sort-ascending' : 'attivio-icon-sort-descending';
     const fieldNameElement = current ? <b>{fieldName}</b> : fieldName;

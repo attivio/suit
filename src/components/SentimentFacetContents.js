@@ -14,6 +14,8 @@ type SentimentFacetContentsProps = {
 
 /** Display a facet's bucket values using a sentiment bar. */
 export default class SentimentFacetContents extends React.Component<void, SentimentFacetContentsProps, void> {
+  static displayName = 'SentimentFacetContents';
+
   constructor(props: SentimentFacetContentsProps) {
     super(props);
     (this: any).handleClick = this.handleClick.bind(this);

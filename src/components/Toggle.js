@@ -13,6 +13,8 @@ type ToggleProps = {
  * A toggle component for use in DropdownButtons
  */
 export default class Toggle extends React.Component<void, ToggleProps, void> {
+  static displayName = 'Toggle';
+
   constructor(props: ToggleProps) {
     super(props);
     (this: any).handleClick = this.handleClick.bind(this);

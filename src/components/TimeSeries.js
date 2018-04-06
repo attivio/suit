@@ -58,6 +58,8 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
     yKey: null,
   };
 
+  static displayName = 'TimeSeries';
+
   static formatTooltip() {
     const self = (this: any);
     const yDisplay = `<br><b>${self.y} ${self.point.valueName}</b>`;

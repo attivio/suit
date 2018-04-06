@@ -20,6 +20,8 @@ type EntityTimelineProps = {
 };
 
 export default class EntityTimeline extends React.Component<void, EntityTimelineProps, void> {
+  static displayName = 'EntityTimeline';
+
   static EntityTimelineInstace;
 
   shouldComponentUpdate(nextProps: EntityTimelineProps) {

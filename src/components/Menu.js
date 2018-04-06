@@ -130,6 +130,8 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
     width: null,
   };
 
+  static displayName = 'Menu';
+
   static MenuItemDef;
 
   constructor(props: MenuProps) {

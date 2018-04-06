@@ -27,6 +27,8 @@ export default class DocumentThumbnail extends React.Component<DocumentThumbnail
     uri: null,
   };
 
+  static displayName = 'DocumentThumbnail';
+
   render() {
     const haveImage = StringUtils.notEmpty(this.props.uri);
     if (haveImage) {

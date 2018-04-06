@@ -32,6 +32,8 @@ export default class BarChartFacetContents extends React.Component<BarChartFacet
     color: '#55B3E3',
   };
 
+  static displayName = 'BarChartFacetContents';
+
   shouldComponentUpdate(nextProps: BarChartFacetContentsProps) {
     return !ObjectUtils.deepEquals(this.props.buckets, nextProps.buckets);
   }

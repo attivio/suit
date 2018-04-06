@@ -20,6 +20,8 @@ type TagCloudFacetContentsProps = {
 
 /** Display a facet's bucket values in a list with TagClouds. */
 export default class TagCloudFacetContents extends React.Component<void, TagCloudFacetContentsProps, void> {
+  static displayName = 'TagCloudFacetContents';
+
   constructor(props: TagCloudFacetContentsProps) {
     super(props);
     (this: any).tagCloudCallback = this.tagCloudCallback.bind(this);

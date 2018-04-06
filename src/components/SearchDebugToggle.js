@@ -29,6 +29,8 @@ export default class SearchDebugToggle extends React.Component<SearchDebugToggle
     searcher: PropTypes.any,
   };
 
+  static displayName = 'SearchDebugToggle';
+
   render() {
     let isDebug = false;
     const searcher = this.context.searcher;

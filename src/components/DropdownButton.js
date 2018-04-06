@@ -22,6 +22,8 @@ type DropdownButtonProps = {
  * A button that displays a menu below it when clicked.
  */
 export default class DropdownButton extends React.Component<void, DropdownButtonProps, void> {
+  static displayName = 'DropdownButton';
+
   render() {
     return (
       <Dropdown id={this.props.id} className="attivio-dropdown" style={{ verticalAlign: 'unset' }}>

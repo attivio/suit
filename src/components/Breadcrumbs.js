@@ -37,6 +37,8 @@ class Breadcrumbs extends React.Component<BreadcrumbsDefaultProps, BreadcrumbsPr
     onClick: null,
   };
 
+  static displayName = 'Breadcrumbs';
+
   constructor(props: BreadcrumbsProps) {
     super(props);
     (this: any).handleClick = this.handleClick.bind(this);
