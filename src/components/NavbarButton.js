@@ -28,6 +28,8 @@ export default class NavbarButton extends React.Component<NavbarButtonDefaultPro
     icon: '',
   };
 
+  static displayName = 'NavbarButton';
+
   constructor(props: NavbarButtonProps) {
     super(props);
     (this: any).onClick = this.onClick.bind(this);

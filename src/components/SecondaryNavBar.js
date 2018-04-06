@@ -10,7 +10,7 @@ type SecondaryNavBarProps = {
  * A row of subordinate navigation and/or controls under the masthead.
  */
 export default class SecondaryNavBar extends React.Component<void, SecondaryNavBarProps, void> {
-  props: SecondaryNavBarProps;
+  static displayName = 'SecondaryNavBar';
 
   render() {
     return (

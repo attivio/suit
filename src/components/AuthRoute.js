@@ -46,6 +46,8 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
     authType: 'NONE',
   };
 
+  static displayName = 'AuthRoute';
+
   constructor(props: AuthRouteProps) {
     super(props);
     this.state = {

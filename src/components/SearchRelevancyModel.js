@@ -46,6 +46,8 @@ export default class SearchRelevancyModel extends React.Component<SearchRelevanc
     searcher: PropTypes.any,
   };
 
+  static displayName = 'SearchRelevancyModel';
+
   constructor(props: SearchRelevancyModelProps) {
     super(props);
     this.state = {

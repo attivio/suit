@@ -34,6 +34,8 @@ class MastheadNavTabs extends React.Component<MastheadNavTabsDefaultProps, Masth
     initialTab: null,
   };
 
+  static displayName = 'MastheadNavTabs';
+
   static NavTabInfo;
 
   constructor(props: MastheadNavTabsProps) {

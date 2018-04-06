@@ -31,6 +31,8 @@ export default class PieChartFacetContents extends React.Component<PieChartFacet
     entityColors: new Map(),
   }
 
+  static displayName = 'PieChartFacetContents';
+
   constructor(props: PieChartFacetContentsProps) {
     super(props);
     (this: any).clickWedge = this.clickWedge.bind(this);

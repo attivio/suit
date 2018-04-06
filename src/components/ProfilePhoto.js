@@ -19,6 +19,8 @@ export default class ProfilePhoto extends React.Component<ProfilePhotoDefaultPro
     url: null,
   };
 
+  static displayName = 'ProfilePhoto';
+
   render() {
     const url = (this.props.url && this.props.url.length > 0) ? this.props.url : 'img/placeholder-person.svg';
     return <img src={url} className="attivio-expert360-img" alt="Profile" />;

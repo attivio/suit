@@ -60,10 +60,6 @@ type MastheadState = {
  * MastheadNavBar and MastheadNavTabs.
  */
 class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, MastheadState> {
-  static contextTypes = {
-    searcher: PropTypes.any,
-  };
-
   static defaultProps: MastheadDefaultProps = {
     logoUri: 'img/attivio-logo-reverse.png',
     logoAlt: 'Attivio Home',
@@ -75,6 +71,12 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
     helpUri: null,
     username: null,
   }
+
+  static contextTypes = {
+    searcher: PropTypes.any,
+  };
+
+  static displayName = 'Masthead';
 
   constructor(props: MastheadProps) {
     super(props);

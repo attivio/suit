@@ -28,6 +28,8 @@ export default class SentimentBar extends React.Component<SentimentBarDefaultPro
     onClick: () => {},
   };
 
+  static displayName = 'SentimentBar';
+
   render() {
     let posWidthPct = 0;
     let negWidthPct = 0;

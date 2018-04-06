@@ -38,6 +38,8 @@ export default class DatePicker extends React.Component<DatePickerDefaultProps, 
     range: false,
   };
 
+  static displayName = 'DatePicker';
+
   constructor(props: DatePickerProps) {
     super(props);
     (this: any).pickDate = this.pickDate.bind(this);

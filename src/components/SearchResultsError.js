@@ -9,6 +9,8 @@ type SearchResultsErrorProps = {
  * An indicator of an error that occurred during the search.
  */
 export default class SearchResultsError extends React.Component<void, SearchResultsErrorProps, void> {
+  static displayName = 'SearchResultsError';
+
   render() {
     const style = {
       textAlign: 'center',

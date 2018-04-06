@@ -65,6 +65,8 @@ export default class Scrollable extends React.Component<ScrollableDefaultProps, 
     force: false,
   };
 
+  static displayName = 'Scrollable';
+
   render() {
     const overflowType = this.props.force ? 'scroll' : 'auto';
     const outerStyle = Object.assign({}, this.props.style);

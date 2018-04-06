@@ -33,6 +33,8 @@ export default class Card extends React.Component<CardDefaultProps, CardProps, v
     className: '',
   };
 
+  static displayName = 'Card';
+
   render() {
     const cardClassName = this.props.borderless ? 'attivio-card attivio-card-borderless' : 'attivio-card';
     const className = `${cardClassName} ${this.props.className}`;

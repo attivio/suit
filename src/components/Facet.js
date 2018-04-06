@@ -63,6 +63,8 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
     searcher: PropTypes.any,
   };
 
+  static displayName = 'Facet';
+
   constructor(props: FacetProps) {
     super(props);
     (this: any).addFacetFilter = this.addFacetFilter.bind(this);

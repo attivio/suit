@@ -25,6 +25,8 @@ export default class SqlLog extends React.Component<SqlLogDefaultProps, SqlLogPr
     label: 'Search Query',
   };
 
+  static displayName = 'SqlLog';
+
   render() {
     const lines = this.props.lines.map((line, index) => {
       const key = `${index}: ${line}`;

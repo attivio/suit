@@ -28,6 +28,8 @@ type Doc360BreadcrumbsState = {
 };
 
 class Doc360Breadcrumbs extends React.Component<void, Doc360BreadcrumbsProps, Doc360BreadcrumbsState> {
+  static displayName = 'Doc360Breadcrumbs';
+
   constructor(props: Doc360BreadcrumbsProps) {
     super(props);
     (this: any).handleClick = this.handleClick.bind(this);

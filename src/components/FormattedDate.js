@@ -27,6 +27,8 @@ export default class FormattedDate extends React.Component<FormattedDateDefaultP
     locale: 'en',
   };
 
+  static displayName = 'FormattedDate';
+
   static DateFormat;
 
   render() {

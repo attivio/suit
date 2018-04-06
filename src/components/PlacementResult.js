@@ -32,6 +32,8 @@ export default class PlacementResult extends React.Component<PlacementResultDefa
     markup: null,
   }
 
+  static displayName = 'PlacementResult';
+
   render() {
     if (this.props.markup) {
       return (

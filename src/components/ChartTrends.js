@@ -35,6 +35,8 @@ export default class ChartTrends extends React.Component<ChartTrendsDefaultProps
     unchangedLabel: 'Average',
   };
 
+  static displayName = 'ChartTrends';
+
   render() {
     let classNames = 'attivio-trend';
     let label = this.props.unchangedLabel;

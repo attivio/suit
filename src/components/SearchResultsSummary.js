@@ -16,6 +16,8 @@ type SearchResultsSummaryProps = {
  * A summary of the currently displayed search results.
  */
 export default class SearchResultsSummary extends React.Component<void, SearchResultsSummaryProps, void> {
+  static displayName = 'SearchResultsSummary';
+
   render() {
     if (this.props.haveSearched) {
       const pageNumber = this.props.pageNumber;

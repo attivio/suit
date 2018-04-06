@@ -82,6 +82,8 @@ class NavigationHamburgerMenu extends React.Component<NavigationHamburgerMenuDef
     style: null,
   };
 
+  static displayName = 'NavigationHamburgerMenu';
+
   static NavMenuItem;
 
   constructor(props: NavigationHamburgerMenuProps) {

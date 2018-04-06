@@ -20,6 +20,8 @@ class SpellCheckMessage extends React.Component<void, SpellCheckMessageProps, vo
     searcher: PropTypes.any,
   };
 
+  static displayName = 'SpellCheckMessage';
+
   constructor(props: SpellCheckMessageProps) {
     super(props);
     (this: any).handleClick = this.handleClick.bind(this);
@@ -41,27 +43,31 @@ class SpellCheckMessage extends React.Component<void, SpellCheckMessageProps, vo
     return '';
   }
 
-  handleClick() {
-      const message = this.getMessage();
-      const path = '/results';
-      const searchString = QueryString.parse(location.search);
-      searchString.query = message;
-      this.props.history.push({
-        pathname: path,
-        search: QueryString.stringify(searchString)
-      });
-  }
-
   getLink() {
     const message = this.getMessage();
     if (message) {
       return (
-        <a onClick={this.handleClick}>
+        <a
+          onClick={this.handleClick}
+          role="button"
+          tabIndex={0}
+        >
           {message}
         </a>
       );
     }
     return null;
+  }
+
+  handleClick() {
+    const message = this.getMessage();
+    const path = '/results';
+    const searchString = QueryString.parse(this.props.location.search);
+    searchString.query = message;
+    this.props.history.push({
+      pathname: path,
+      search: QueryString.stringify(searchString),
+    });
   }
 
   render() {

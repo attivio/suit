@@ -30,6 +30,8 @@ export default class ListWithBarsFacetContents extends React.Component<ListWithB
     color: '#55B3E3',
   };
 
+  static displayName = 'ListWithBarsFacetContents';
+
   render() {
     // Calculate the max value for the count
     const maxValue = this.props.buckets.reduce((accumulator, currentBucket) => {

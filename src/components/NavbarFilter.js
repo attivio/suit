@@ -12,6 +12,8 @@ type NavbarFilterProps = {
 
 /** Displays a currently applied facet filter. */
 export default class NavbarFilter extends React.Component<void, NavbarFilterProps, void> {
+  static displayName = 'NavbarFilter';
+
   constructor(props: NavbarFilterProps) {
     super(props);
     (this: any).remove = this.remove.bind(this);

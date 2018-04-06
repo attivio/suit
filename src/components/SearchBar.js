@@ -78,10 +78,6 @@ type SearchBarState = {
  * to use when searching. Must be inside a Searcher component.
  */
 class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, SearchBarState> {
-  static contextTypes = {
-    searcher: PropTypes.any,
-  };
-
   static defaultProps: SearchBarDefaultProps = {
     inMasthead: false,
     placeholder: 'Search\u2026',
@@ -93,6 +89,12 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     route: null,
     baseUri: '',
   };
+
+  static contextTypes = {
+    searcher: PropTypes.any,
+  };
+
+  static displayName = 'SearchBar';
 
   static AUTOCOMPLETE_THRESHOLD = 2;
 

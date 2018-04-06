@@ -14,6 +14,8 @@ export default class PlacementResults extends React.Component<void, {}, void> {
     searcher: PropTypes.any,
   };
 
+  static displayName = 'PlacementResults';
+
   renderResults() {
     const searcher = this.context.searcher;
     const response = searcher.state.response;

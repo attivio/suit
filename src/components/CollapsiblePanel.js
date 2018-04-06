@@ -34,6 +34,8 @@ export default class CollapsiblePanel extends React.Component<CollapsiblePanelDe
     collapsed: false,
   };
 
+  static displayName = 'CollapsiblePanel';
+
   constructor(props: CollapsiblePanelProps) {
     super(props);
     this.state = {

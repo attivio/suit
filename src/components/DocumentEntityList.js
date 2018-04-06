@@ -15,6 +15,8 @@ type DocumentEntityListProps = {
 };
 
 export default class DocumentEntityList extends React.Component<void, DocumentEntityListProps, void> {
+  static displayName = 'DocumentEntityList';
+
   getEntityValues(doc: SearchDocument): Array<DataPairInfo> {
     const result = [];
     this.props.entityFields.forEach((fieldLabel: string, fieldName: string) => {

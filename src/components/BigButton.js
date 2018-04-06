@@ -56,6 +56,8 @@ class BigButton extends React.Component<BigButtonDefaultProps, BigButtonProps, v
     style: {},
   };
 
+  static displayName = 'BigButton';
+
   constructor(props: BigButtonProps) {
     super(props);
     (this: any).doClick = this.doClick.bind(this);

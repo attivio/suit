@@ -44,6 +44,8 @@ class NavigationButton extends React.Component<NavigationButtonDefaultProps, Nav
     children: null,
   };
 
+  static displayName = 'NavigationButton';
+
   constructor(props: NavigationButtonProps) {
     super(props);
     (this: any).doClick = this.doClick.bind(this);

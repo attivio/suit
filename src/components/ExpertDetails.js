@@ -9,6 +9,8 @@ type ExpertDetailsProps = {
 };
 
 export default class ExpertDetails extends React.Component<void, ExpertDetailsProps, void> {
+  static displayName = 'ExpertDetails';
+
   static ExpertInfo;
 
   render() {

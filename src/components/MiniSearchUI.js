@@ -36,6 +36,8 @@ export default class MiniSearchUI extends React.Component<MiniSearchUIDefaultPro
     searcher: PropTypes.any,
   };
 
+  static displayName = 'MiniSearchUI';
+
   render() {
     return (
       <div style={{ minHeight: '50vh' }}>

@@ -19,6 +19,8 @@ type TimeSeriesFacetContentsProps = {
  * the ranges they represent.
  */
 export default class TimeSeriesFacetContents extends React.Component<void, TimeSeriesFacetContentsProps, void> {
+  static displayName = 'TimeSeriesFacetContents';
+
   constructor(props: TimeSeriesFacetContentsProps) {
     super(props);
     (this: any).handleClick = this.handleClick.bind(this);

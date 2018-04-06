@@ -84,6 +84,8 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
     showRatings: true,
   };
 
+  static displayName = 'SearchResult';
+
   static getFirstDocumentType(list: Array<SearchDocument>): string {
     let result = '';
     if (list && list.length > 0) {

@@ -25,6 +25,8 @@ export default class NavbarSearch extends React.Component<NavbarSearchDefaultPro
     placeholder: 'Search\u2026',
   };
 
+  static displayName = 'NavbarSearch';
+
   constructor(props: NavbarSearchProps) {
     super(props);
     (this: any).onChange = this.onChange.bind(this);

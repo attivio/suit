@@ -43,6 +43,8 @@ export default class TagCloud extends React.Component<TagCloudDefaultProps, TagC
     maxValues: 15,
   };
 
+  static displayName = 'TagCloud';
+
   static TagCloudValue;
 
   static getAdjustedValue(value: number, max: number): number {

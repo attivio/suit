@@ -74,6 +74,8 @@ export default class KnowledgeGraphPanel extends React.Component<KnowledgeGraphP
     searcher: PropTypes.any,
   };
 
+  static displayName = 'KnowledgeGraphPanel';
+
   static updatePrimaryDoc(primaryDoc: SearchDocument, results: Array<SearchDocument>): SearchDocument {
     let newPrimaryDoc = primaryDoc;
     if (results.length > 0) {

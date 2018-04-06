@@ -22,6 +22,8 @@ export default class DocumentType extends React.Component<DocumentTypeDefaultPro
     docType: 'Document',
   }
 
+  static displayName = 'DocumentType';
+
   getDocType(): string {
     if (this.props.docType && this.props.docType.length > 0) {
       return this.props.docType;

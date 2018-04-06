@@ -18,6 +18,8 @@ export default class Configuration extends React.Component<void, ConfigurationPr
     configuration: PropTypes.any,
   }
 
+  static displayName = 'Configuration';
+
   constructor(props: ConfigurationProps) {
     super(props);
     this.state = Object.assign({}, this.props.config);

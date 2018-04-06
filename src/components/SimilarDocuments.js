@@ -47,6 +47,8 @@ export default class SimilarDocuments extends React.Component<SimilarDocumentsDe
     searcher: PropTypes.any,
   };
 
+  static displayName = 'SimilarDocuments';
+
   constructor(props: SimilarDocumentsProps) {
     super(props);
     this.state = {

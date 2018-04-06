@@ -59,6 +59,8 @@ export default class ExpertCard extends React.Component<ExpertCardDefaultProps, 
     authoredMessage: '{} document|{} documents',
   };
 
+  static displayName = 'ExpertCard';
+
   static ExpertiseItem;
 
   render() {

@@ -28,6 +28,8 @@ export default class NavbarPager extends React.Component<NavbarPagerDefaultProps
     maxPage: Number.MAX_SAFE_INTEGER,
   };
 
+  static displayName = 'NavbarPager';
+
   constructor(props: NavbarPagerProps) {
     super(props);
     (this: any).navBack = this.navBack.bind(this);

@@ -18,6 +18,8 @@ function Configurable(WrappedComponent: React.Component): React.Component {
       configuration: PropTypes.any,
     };
 
+    static displayName = `Configurable(${WrappedComponent.displayName || WrappedComponent.name})`;
+
     constructor(props: any) {
       super(props);
       this.state = {
@@ -39,7 +41,9 @@ function Configurable(WrappedComponent: React.Component): React.Component {
       const filled = Object.assign({}, props);
       if (this.context && this.context.configuration) {
         propKeys.forEach((property: string) => {
-          filled[property] = this.context.configuration.get(WrappedComponent.name, property, props[property]);
+          // Try to do it with the display name first because the name will be munged if uglified
+          const name = WrappedComponent.displayName || WrappedComponent.name;
+          filled[property] = this.context.configuration.get(name, property, props[property]);
         });
       }
       this.setState({

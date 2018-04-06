@@ -28,6 +28,8 @@ export default class RelevancyScore extends React.Component<RelevancyScoreDefaul
     explanation: null,
   };
 
+  static displayName = 'RelevancyScore';
+
   render() {
     let result;
     if (this.props.explanation) {

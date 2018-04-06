@@ -15,6 +15,8 @@ type MoreListFacetContentsProps = {
 
 /** Display a facet's bucket values in a MoreList component. */
 export default class MoreListFacetContents extends React.Component<void, MoreListFacetContentsProps, void> {
+  static displayName = 'MoreListFacetContents';
+
   constructor(props: MoreListFacetContentsProps) {
     super(props);
     (this: any).addFilter = this.addFilter.bind(this);

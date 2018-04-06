@@ -11,6 +11,8 @@ type NavbarProps = {
 
 /** A navigation bar that's under the main Masthead. */
 export default class Navbar extends React.Component<void, NavbarProps, void> {
+  static displayName = 'Navbar';
+
   render() {
     return (
       <div className="attivio-navbar navbar">

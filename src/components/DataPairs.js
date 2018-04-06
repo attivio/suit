@@ -34,6 +34,8 @@ type DataPairsState = {
 * in a side-by-side, two-column list format.
 */
 export default class DataPairs extends React.Component<void, DataPairsProps, DataPairsState> {
+  static displayName = 'DataPairs';
+
   static DataPairInfo;
 
   static MAX_CHARACTERS = 100;
