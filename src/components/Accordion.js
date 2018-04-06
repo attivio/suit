@@ -5,7 +5,7 @@ import Panel from 'react-bootstrap/lib/Panel';
 import PanelGroup from 'react-bootstrap/lib/PanelGroup';
 
 /**
- * Describes one panel for an Accordian component. The body can be either
+ * Describes one panel for an Accordion component. The body can be either
  * an element or a simple string.
  */
 export class AccordionPanel {

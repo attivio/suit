@@ -4,10 +4,11 @@ __1.__ Simplest search bar.
 
 ```jsx
 const { MemoryRouter } = require('react-router-dom');
+const { DummySearcher } = require('../../src/components/DummySearcher');
   <MemoryRouter>
-    <Searcher>
+    <DummySearcher>
       <SearchBar />
-    </Searcher>
+    </DummySearcher>
   </MemoryRouter>
 ```
 

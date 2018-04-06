@@ -105,25 +105,25 @@ module.exports = {
         //     ];
         //   },
         // },
-        // {
-        //   name: 'Search Results — Facets',
-        //   content: 'docs/searchResultsFacets.md',
-        //   components: () => {
-        //     return [
-        //       'src/components/BarChartFacetContents.js',
-        //       'src/components/Facet.js',
-        //       'src/components/FacetResults.js',
-        //       'src/components/ListWithBarsFacetContents.js',
-        //       'src/components/MapFacetContents.js',
-        //       'src/components/MoreListFacetContents.js',
-        //       'src/components/PieChartFacetContents.js',
-        //       'src/components/SearchResultsFacetFilters.js',
-        //       'src/components/SentimentFacetContents.js',
-        //       'src/components/TagCloudFacetContents.js',
-        //       'src/components/TimeSeriesFacetContents.js',
-        //     ];
-        //   },
-        // },
+        {
+          name: 'Search Results — Facets',
+          content: 'docs/searchResultsFacets.md',
+          components: () => {
+            return [
+              'src/components/BarChartFacetContents.js',
+              'src/components/Facet.js',
+              'src/components/FacetResults.js',
+              'src/components/ListWithBarsFacetContents.js',
+              'src/components/MapFacetContents.js',
+              'src/components/MoreListFacetContents.js',
+              'src/components/PieChartFacetContents.js',
+              'src/components/SearchResultsFacetFilters.js',
+              'src/components/SentimentFacetContents.js',
+              'src/components/TagCloudFacetContents.js',
+              'src/components/TimeSeriesFacetContents.js',
+            ];
+          },
+        },
         {
           name: 'Search Results — Other',
           content: 'docs/searchResultsOther.md',
@@ -149,31 +149,34 @@ module.exports = {
             ];
           },
         },
-        // {
-        //   name: 'Input',
-        //   content: 'docs/input.md',
-        //   components: () => {
-        //     return [
-        //       'src/components/DatePicker.js',
-        //       'src/components/DropdownButton.js',
-        //       'src/components/DataPairs.js',
-        //       'src/components/Menu.js',
-        //       'src/components/NavbarButton.js',
-        //       'src/components/NavbarFilter.js',
-        //       'src/components/NavbarOr.js',
-        //       'src/components/Masthead.js',
-        //       'src/components/NavbarPager.js',
-        //       'src/components/StarRating.js',
-        //       'src/components/Toggle.js',
-        //       'src/components/ToggleSwitch.js',
-        //     ];
-        //   },
-        // },
+        {
+          name: 'Input',
+          content: 'docs/input.md',
+          components: () => {
+            return [
+              'src/components/DatePicker.js',
+              'src/components/DropdownButton.js',
+              'src/components/DataPairs.js',
+              'src/components/Menu.js',
+              'src/components/NavbarButton.js',
+              'src/components/NavbarFilter.js',
+              'src/components/NavbarOr.js',
+              'src/components/Masthead.js',
+              'src/components/NavbarPager.js',
+              'src/components/StarRating.js',
+              'src/components/Toggle.js',
+              'src/components/ToggleSwitch.js',
+              'src/components/WizardSteps.js',
+              'src/components/Wizard.js',
+            ];
+          },
+        },
         {
           name: 'Display',
           content: 'docs/display.md',
           components: () => {
             return [
+              'src/components/Accordion.js',
               'src/components/Card.js',
               'src/components/ChartTrends.js',
               'src/components/Code.js',
