@@ -64,6 +64,8 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
     searcher: PropTypes.any,
   };
 
+  static displayName = 'Masthead';
+
   static defaultProps: MastheadDefaultProps = {
     logoUri: 'img/attivio-logo-reverse.png',
     logoAlt: 'Attivio Home',
