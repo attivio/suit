@@ -2,17 +2,18 @@
 
 import React from 'react';
 
+import CardPickerCard from './CardPickerCard';
 import Scrollable from './Scrollable';
 
 export class CardPickerItem {
   label: string;
   key: string;
-  iconUrl: string | null;
+  iconUri: string | null;
 
-  constructor(label: string, key: string, iconUrl: string | null = null) {
+  constructor(label: string, key: string, iconUri: string | null = null) {
     this.label = label;
     this.key = key;
-    this.iconUrl = iconUrl;
+    this.iconUri = iconUri;
   }
 }
 
@@ -27,13 +28,20 @@ type CardPickerProps = {
    */
   initialSelection: string | null;
   /**
+   * The icon to use if a particular card item doesn't have
+   * one defined. If all of the items will have icons assigned,
+   * you don't need to set this.
+   */
+  defaultIconUri: string | null;
+  /**
    * Callback is called when the selection changes.
    */
-  onChannge: (key: string) => void;
+  onChange: (key: string) => void;
 };
 
 type CardPickerDefaultProps = {
   initialSelection: string | null;
+  defaultIconUri: string | null;
 };
 
 type CardPickerState = {
@@ -43,6 +51,7 @@ type CardPickerState = {
 export default class CardPicker extends React.Component<CardPickerDefaultProps, CardPickerProps, CardPickerState> {
   static defaultProps = {
     initialSelection: null,
+    defaultIconUri: null,
   };
 
   static CardPickerItem;
@@ -61,47 +70,38 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
     this.setState({
       selection: key,
     }, () => {
-      this.props.onChannge(key);
+      this.props.onChange(key);
     });
-  }
-
-  createCard(item: CardPickerItem) {
-    const style = {
-      width: `calc(${100 / 3}% - 6px)`,
-      padding: '3px',
-      margin: '3px',
-      border: '1px solid #888',
-      height: '120px',
-    };
-    if (item.key === this.state.selection) {
-      style.border = '2px solid blue';
-    }
-    const cardComp = (
-      <div style={style}>
-        {item.label}
-      </div>
-    );
-    return cardComp;
   }
 
   render() {
     const cardComponnents = this.props.cards.map((cardItem) => {
-      return this.createCard(cardItem);
+      return (
+        <CardPickerCard
+          label={cardItem.label}
+          iconUri={cardItem.iconUri || this.props.defaultIconUri}
+          selected={cardItem.key === this.state.selection}
+          onClick={() => { this.onClick(cardItem.key); }}
+        />
+      );
     });
 
     return (
-      <Scrollable
-        style={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          justifyContent: 'flex-start',
-          alignItems: 'flex-start',
-          padding: 0,
-        }}
-      >
-        {cardComponnents}
+      <Scrollable style={{ height: '100%' }}>
+        <div
+          style={{
+            width: '100%',
+            padding: 0,
+            display: 'flex',
+            flex: 1,
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+          }}
+        >
+          {cardComponnents}
+        </div>
       </Scrollable>
     );
   }
