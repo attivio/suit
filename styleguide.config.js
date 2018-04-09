@@ -96,7 +96,7 @@ module.exports = {
               'src/components/RelevancyScore.js',
               'src/components/SearchResult.js',
               'src/components/SearchResults.js',
-              // 'src/components/SearchResultBody.js',
+              'src/components/SearchResultBody.js',
               'src/components/SearchResultsCount.js',
               'src/components/SearchResultsEmpty.js',
               'src/components/SearchResultsError.js',
