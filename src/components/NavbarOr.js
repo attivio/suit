@@ -22,8 +22,8 @@ export default class NavbarOr extends React.Component<NavbarOrDefaultProps, Navb
 
   render() {
     return (
-      <li>
-        <span className="attivio-or">
+      <li style={{ listStyle: 'none', paddingLeft: '4px' }}>
+        <span className="attivio-or" style={{ lineHeight: '20px' }}>
           {this.props.message}
         </span>
       </li>

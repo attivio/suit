@@ -34,8 +34,8 @@ type DummySearcherDefaultProps = {
 
 type DummySearcherState = {
   haveSearched: boolean;
-  response?: QueryResponse;
-  error?: string;
+  response: QueryResponse | null;
+  error: string | null;
   query: string;
   queryLanguage: 'advanced' | 'simple';
   sort: Array<string>,
@@ -87,6 +87,8 @@ export default class DummySearcher extends React.Component<DummySearcherDefaultP
 
   getDefaultState(): DummySearcherState {
     return {
+      response: this.props.defaultQueryResponse,
+      error: this.props.defaultError,
       haveSearched: false,
       query: this.props.defaultQuery,
       queryLanguage: this.props.defaultQueryLanguage,

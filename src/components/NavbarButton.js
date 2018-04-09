@@ -2,19 +2,23 @@
 import React from 'react';
 
 import Button from 'react-bootstrap/lib/Button';
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 type NavbarButtonProps = {
   /** The button's label. Optional—if not set, the button will only have an icon. */
-  label: string;
-  /** The icon to display for the button. Optional—if not set, the button will only have a text label. */
-  icon: string;
+  label: string | null;
+  /**
+   * The icon to display for the button. This should be the name of an icon in the
+   * set of Glyphicons halflings (see here: )
+   * Optional—if not set, the button will only have a text label. */
+  icon: string | null;
   /** The callback for when the button is clicked. */
   onClick: () => void;
 };
 
 type NavbarButtonDefaultProps = {
-  label: string;
-  icon: string;
+  label: string | null;
+  icon: string | null;
 };
 
 /**
@@ -25,7 +29,7 @@ type NavbarButtonDefaultProps = {
 export default class NavbarButton extends React.Component<NavbarButtonDefaultProps, NavbarButtonProps, void> {
   static defaultProps = {
     label: '',
-    icon: '',
+    icon: null,
   };
 
   static displayName = 'NavbarButton';
@@ -40,6 +44,22 @@ export default class NavbarButton extends React.Component<NavbarButtonDefaultPro
   }
 
   render() {
-    return <Button onClick={this.onClick} {...this.props}>{this.props.label} {this.props.icon}</Button>;
+    const icon = this.props.icon ? (
+      <span>
+        <Glyphicon
+          glyph={this.props.icon}
+          style={{
+            paddingRight: this.props.label ? '8px' : 0,
+          }}
+        />
+      </span>
+    ) : null;
+
+    return (
+      <Button onClick={this.onClick} {...this.props}>
+        {icon}
+        {this.props.label}
+      </Button>
+    );
   }
 }

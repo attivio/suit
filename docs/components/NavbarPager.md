@@ -6,14 +6,16 @@ __1.__ Simple example.
   initialState = {
     currentPage: 1,
   };
-
-  <NavbarPager
-    currentPage={state.currentPage}
-    maxPage={17}
-    onChange={(newPage) => {
-      setState({
-        currentPage: newPage,
-      });
-    }}
-  />
+  const Navbar = require('../../src/components/Navbar').default;
+  <Navbar>
+    <NavbarPager
+      currentPage={state.currentPage}
+      maxPage={17}
+      onChange={(newPage) => {
+        setState({
+          currentPage: newPage,
+        });
+      }}
+    />
+  </Navbar>
 ```

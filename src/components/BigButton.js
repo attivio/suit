@@ -16,10 +16,7 @@ type BigButtonProps = {
   route: string,
   /** An optional handler that will be called when the user clicks the button. */
   onClick: () => void,
-  /**
-   * The button's contents are any children between the opening and closing
-   * tags. The function takes no parameters and has no return value.
-   */
+  /** The button's contents are any children between the opening and closing tags. */
   children: Children,
   /** Any custom CSS styles to apply to the button. */
   style: any,

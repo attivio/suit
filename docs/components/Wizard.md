@@ -6,7 +6,6 @@ __1:__ Simple wizard.
 ```jsx
   const wizardPages = require('../sampleData/WizardPageDefinitions').default;
   const { Button } = require('react-bootstrap');
-  const WizardPage = require('../../src/components/WizardPage').default;
   <div style={{ height: '600px' }}>
     <Wizard
       pages={wizardPages}
