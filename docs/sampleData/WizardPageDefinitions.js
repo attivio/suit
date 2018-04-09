@@ -3,6 +3,15 @@
 import React from 'react';
 // import { Button } from 'react-bootstrap';
 import { WizardPageDefinition } from '../../src/components/Wizard';
+import CardPicker, { CardPickerItem } from '../../src/components/CardPicker';
+
+const typeCards = [
+  new CardPickerItem('Avro Files', 'avro', 'https://upload.wikimedia.org/wikipedia/commons/5/58/1NumberOneInCircle.png'),
+  new CardPickerItem('CSV Files', 'csv', 'https://upload.wikimedia.org/wikipedia/commons/5/58/1NumberOneInCircle.png'),
+  new CardPickerItem('Excel Files', 'excel', 'https://upload.wikimedia.org/wikipedia/commons/5/58/1NumberOneInCircle.png'),
+  new CardPickerItem('JDBC Database', 'jdbc', 'https://upload.wikimedia.org/wikipedia/commons/5/58/1NumberOneInCircle.png'),
+  new CardPickerItem('XML Files', 'xml', 'https://upload.wikimedia.org/wikipedia/commons/5/58/1NumberOneInCircle.png'),
+];
 
 const wizardPages = [
   new WizardPageDefinition(
@@ -12,18 +21,11 @@ const wizardPages = [
       return {};
     },
     (
-      <div>
-        <select size={9}>
-          <option>AVRO Files</option>
-          <option>CSV Files</option>
-          <option>Excel Files</option>
-          <option>JDBC Database</option>
-          <option>ORC Files</option>
-          <option>Parquet Files</option>
-          <option>Web Crawler</option>
-          <option>Windows File System</option>
-          <option>XML Files</option>
-        </select>
+      <div style={{ height: '375px' }}>
+        <CardPicker
+          cards={typeCards}
+          onChange={(key) => { alert(`User chose card with key ${key}`); }}
+        />
       </div>
     ),
   ),
