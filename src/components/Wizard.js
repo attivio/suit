@@ -76,8 +76,9 @@ export class WizardPageDefinition {
   ) {
     this.key = key;
     this.title = title;
-    this.optional = optional;
     this.getValue = getValue;
+    this.page = page;
+    this.optional = optional;
     this.validate = validate;
     this.aboutToShow = aboutToShow;
   }

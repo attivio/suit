@@ -27,40 +27,76 @@ const wizardPages = [
       </div>
     ),
   ),
-  // (<WizardPage pageKey="type" title="Type">
-  // </WizardPage>
-  // ),
-  // (<WizardPage pageKey="describe" title="Describe">
-  //   <div>
-  //     Name: <input type="text" placeholder="Enter the connector name" />
-  //   </div>
-  //   <div>
-  //     Description: <textarea placeholder="Describe the connector" size={10} />
-  //   </div>
-  // </WizardPage>
-  // ),
-  // (<WizardPage
-  //   pageKey="configure"
-  //   title="Configure"
-  //   aboutToShow={(values) => { alert(`About to show the configure page. The values for the pages are: ${values.toString()}`); }}
-  // >
-  //   <Button bsStyle="danger">Bad Button</Button>
-  // </WizardPage>
-  // ), (<WizardPage pageKey="map" title="Map">
-  //   <div>Just some text</div>
-  // </WizardPage>
-  // ), (<WizardPage pageKey="enrich" title="Enrich">
-  //   <div>Just some text</div>
-  // </WizardPage>
-  // ), (<WizardPage pageKey="process" title="Process">
-  //   <div>Just some text</div>
-  // </WizardPage>
-  // ), (<WizardPage pageKey="secure" title="Secure">
-  //   <div>Just some text</div>
-  // </WizardPage>
-  // ), (<WizardPage pageKey="schedule" title="Schedule">
-  //   <div>Just some text</div>
-  // </WizardPage>
-  // ),
+  new WizardPageDefinition(
+    'describe',
+    'Describe',
+    () => {
+      return {};
+    },
+    (
+      <div>
+        <div>
+          Name: <input type="text" placeholder="Enter the connector name" />
+        </div>
+        <div>
+          Description: <textarea placeholder="Describe the connector" size={10} />
+        </div>
+      </div>
+    ),
+  ),
+  new WizardPageDefinition(
+    'configure',
+    'Configure',
+    () => {
+      return {};
+    },
+    (
+      <div>
+        Configuration form goes here.
+      </div>
+    ),
+    false,
+    null,
+    null,
+    (values) => { alert(`About to show the configure page. The values for the pages are: ${values.toString()}`); },
+  ),
+  new WizardPageDefinition(
+    'map',
+    'Map',
+    () => {
+      return {};
+    },
+    (
+      <div>
+        Mapping controls go here.
+      </div>
+    ),
+  ),
+  new WizardPageDefinition(
+    'enrich',
+    'Enrich',
+    () => {
+      return {};
+    },
+    (
+      <div>
+        Enrichment controls go here.
+      </div>
+    ),
+    true,
+  ),
+  new WizardPageDefinition(
+    'enrich',
+    'Enrich',
+    () => {
+      return {};
+    },
+    (
+      <div>
+        Mapping controls go here.
+      </div>
+    ),
+    true,
+  ),
 ];
 export default wizardPages;

@@ -26,19 +26,8 @@ const ourWebpackConfig = {
           use: ['css-loader'],
         }),
       },
-      // {
-      //   test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      //   loader: 'url-loader?limit=10000&minetype=application/font-woff',
-      // },
-      // {
-      //   test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      //   loader: 'file-loader',
-      // },
     ],
   },
-  // plugins: [
-  //   new ExtractTextPlugin('style.css'),
-  // ],
 };
 
 const mergedWebpackConfig = merge(nwbWebpackConfig, ourWebpackConfig);
@@ -56,11 +45,6 @@ module.exports = {
     theme: 'ambiance', // see http://codemirror.net/demo/theme.html
   },
   styles: {},
-  // propsParser: require('react-docgen-typescript').withDefaultConfig({
-  //   propFilter: {
-  //     skipPropsWithoutDoc: true,
-  //   },
-  // }).parse,
   sections: [
     {
       name: 'Introduction',
