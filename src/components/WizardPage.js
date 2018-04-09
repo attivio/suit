@@ -22,9 +22,11 @@ type WizardPageProps = {
    * page will cache this as the user edits the values in the page's
    * controls so returning the value is fast.
    *
-   * If your page is purely informational, you can omit this method.
+   * If your page updates the value object in the state when it changes,
+   * you don't need to implement this method. In addition, if your
+   * page is purely informational, you can omit this method.
    */
-  getValue: () => any;
+  getValue: null | () => any;
   /**
    * Callback used to validate the current state of the page. Returns a
    * promise so that you may make asynchronous calls to the server
@@ -39,7 +41,7 @@ type WizardPageProps = {
    *
    * If your page is always valid, you can omit this method.
    */
-  validate: (values?: Map<string, any>) => Promise<void>;
+  validate: null | (values: Map<string, any>) => Promise<void>;
   /**
    * Callback used to allow the page to update itself based on
    * the state of the other pages in the wizard. Called right
@@ -47,35 +49,83 @@ type WizardPageProps = {
    *
    * If your page doesn't care, you can omit this method.
    */
-  aboutToShow: (values?: Map<string, any>) => void;
+  aboutToShow: null | (values: Map<string, any>) => void;
   /**
    * Set to true if this page is not required to be complete for the user to finish
    * the wizard. Defaults to false.
    */
   optional: boolean;
-
+  /**
+   * The contents of the WizardPage component are the controls for
+   * the page.
+   */
   children: Children;
 };
 
 type WizardPageDefaultProps = {
   optional: boolean;
-  getValue: () => any;
-  validate: (values?: Map<string, any>) => Promise<void>;
-  aboutToShow: (values?: Map<string, any>) => void;
+  getValue: null | () => any;
+  validate: null | (values: Map<string, any>) => Promise<void>;
+  aboutToShow: null | (values: Map<string, any>) => void;
 }
 
-// type WizardPageState = {
-// };
+type WizardPageState = {
+  value: any;
+};
 
-export default class WizardPage extends React.Component<WizardPageDefaultProps, WizardPageProps, void> {
+export default class WizardPage extends React.Component<WizardPageDefaultProps, WizardPageProps, WizardPageState> {
   static defaultProps = {
     optional: false,
-    getValue: () => { return {}; },
-    validate: () => { return Promise.resolve(); },
-    aboutToShow: () => {},
+    getValue: null,
+    validate: null,
+    aboutToShow: null,
   };
 
-  // state: WizardPageState;
+  constructor(props: WizardPageProps) {
+    super(props);
+    this.state = {
+      value: {},
+    };
+    (this: any).getKey = this.getKey.bind(this);
+  }
+
+  state: WizardPageState;
+
+  getValue() {
+    if (this.props.getValue) {
+      return this.props.getValue();
+    }
+    return this.state.value;
+  }
+
+  getKey() {
+    return this.props.pageKey;
+  }
+
+  getTitle() {
+    return this.props.title;
+  }
+
+  aboutToShow(values: Map<string, any>) {
+    if (this.props.aboutToShow) {
+      this.props.aboutToShow(values);
+    }
+  }
+
+  updateValue(value: any) {
+    this.setState({ value });
+  }
+
+  validate(values: Map<string, any>) {
+    if (this.props.validate) {
+      return this.props.validate(values);
+    }
+    return Promise.resolve();
+  }
+
+  isOptional() {
+    return this.props.optional;
+  }
 
   render() {
     return (

@@ -61,11 +61,11 @@ export default class Wizard extends React.Component<void, WizardProps, WizardSta
     // Set the initial state
     const visiblePages = [];
     this.props.pages.forEach((page) => {
-      visiblePages.push(page.props.pageKey);
+      visiblePages.push(page.getKey());
     });
     this.state = {
       visiblePages,
-      currentKey: this.props.pages[0].props.pageKey,
+      currentKey: this.props.pages[0].getKey(),
       currentPage: this.props.pages[0],
       currentPageValid: false,
       currentPageError: null,
@@ -82,7 +82,7 @@ export default class Wizard extends React.Component<void, WizardProps, WizardSta
 
   getPage(pageKey: string): WizardPage {
     const index = this.props.pages.findIndex((page: WizardPage) => {
-      return page.props.pageKey === pageKey;
+      return page.getKey() === pageKey;
     });
     return this.props.pages[index];
   }
@@ -115,7 +115,7 @@ export default class Wizard extends React.Component<void, WizardProps, WizardSta
     const values: Map<string, any> = new Map();
     this.state.visiblePages.forEach((visiblePageKey) => {
       const page = this.getPage(visiblePageKey);
-      const pageValue = page.props.getValue();
+      const pageValue = page.getValue();
       values.set(visiblePageKey, pageValue);
     });
     return values;
@@ -123,7 +123,7 @@ export default class Wizard extends React.Component<void, WizardProps, WizardSta
 
   validateCurrentPage() {
     const values = this.getAllPageValues();
-    this.state.currentPage.props.validate(values).then(() => {
+    this.state.currentPage.validate(values).then(() => {
       this.setState({
         currentPageValid: true,
         currentPageError: null,
@@ -148,7 +148,7 @@ export default class Wizard extends React.Component<void, WizardProps, WizardSta
   changePage(newPageKey: string | null) {
     if (newPageKey) {
       const newPage = this.getPage(newPageKey);
-      newPage.props.aboutToShow(this.getAllPageValues());
+      newPage.aboutToShow(this.getAllPageValues());
       this.setState({
         currentKey: newPageKey,
         currentPage: newPage,
@@ -172,7 +172,7 @@ export default class Wizard extends React.Component<void, WizardProps, WizardSta
     if (remainingPages && remainingPages.length) {
       // There are remaining visible pages... check if any is required.
       return !remainingPages.some((remainingPageKey) => {
-        return !this.getPage(remainingPageKey).props.optional;
+        return !this.getPage(remainingPageKey).isOptional();
       });
     }
     // We're on the last visible page, so we're done!
@@ -184,7 +184,7 @@ export default class Wizard extends React.Component<void, WizardProps, WizardSta
       const steps = [];
       this.state.visiblePages.forEach((visiblePageKey) => {
         const visiblePage = this.getPage(visiblePageKey);
-        steps.push(new WizardStep(visiblePageKey, visiblePage.props.title));
+        steps.push(new WizardStep(visiblePageKey, visiblePage.getTitle()));
       });
 
       const previousKey = this.getPreviousPageKey();
@@ -204,7 +204,7 @@ export default class Wizard extends React.Component<void, WizardProps, WizardSta
         <div style={{ display: 'flex', flexFlow: 'column', height: '100%' }}>
           <WizardSteps steps={steps} currentStep={this.state.currentKey} goToPage={() => { }} style={{ flex: '0 1 auto' }} />
           <Scrollable style={{ flex: '1 1 auto' }}>
-            <h3>{this.state.currentPage.props.title}</h3>
+            <h3>{this.state.currentPage.getTitle()}</h3>
             {this.state.currentPage}
           </Scrollable>
           <div style={{ flex: '0 1 40px' }}>

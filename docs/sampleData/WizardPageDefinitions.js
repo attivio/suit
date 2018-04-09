@@ -28,7 +28,11 @@ const wizardPages = [
     </div>
   </WizardPage>
   ),
-  (<WizardPage pageKey="configure" title="Configure">
+  (<WizardPage
+    pageKey="configure"
+    title="Configure"
+    aboutToShow={(values) => { alert(`About to show the configure page. The values for the pages are: ${values.toString()}`); }}
+  >
     <Button bsStyle="danger">Bad Button</Button>
   </WizardPage>
   ), (<WizardPage pageKey="map" title="Map">
