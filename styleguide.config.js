@@ -58,7 +58,6 @@ module.exports = {
           content: 'docs/searchControls.md',
           components: () => {
             return [
-              'src/components/DummySearcher.js',
               'src/components/NavbarFilter.js',
               'src/components/SearchBar.js',
               'src/components/Searcher.js',
@@ -186,6 +185,28 @@ module.exports = {
               'src/components/Subheader360.js',
               'src/components/TabPanel.js',
               'src/components/TagCloud.js',
+            ];
+          },
+        },
+        {
+          name: 'No Examples',
+          content: 'docs/withoutExamples.md',
+          components: () => {
+            return [
+              'src/components/AuthRoute.js',
+              'src/components/AutoCompleteInput.js',
+              'src/components/Configurable.js',
+              'src/components/Configuration.js',
+              'src/components/Logger.js',
+            ];
+          },
+        },
+        {
+          name: 'Miscelaneous',
+          content: 'docs/misc.md',
+          components: () => {
+            return [
+              'src/components/DummySearcher.js',
             ];
           },
         },

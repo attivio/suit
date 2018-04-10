@@ -23,11 +23,6 @@ type ConnectorCardProps = {
    */
   typeName: string;
   /**
-   * The URI for the icon to display. If unset, no icon is shown.
-   * The icon is limited in size to 60x60 pixels.
-   */
-  iconUri: string | null;
-  /**
    * The current state of the connector.
    */
   status: 'running' | 'stopped' | 'new';
@@ -55,9 +50,21 @@ type ConnectorCardProps = {
    * The callback to use when the user wants to delete the connector.
    */
   onDelete: (id: string) => void;
+  /**
+   * The number of columns in the grid layout this card will live in. Defaults to 3.
+   */
+  columns: number;
 };
 
-export default class ConnectorCard extends React.Component<void, ConnectorCardProps, void> {
+type ConnectorCardDefaultProps = {
+  columns: number;
+};
+
+export default class ConnectorCard extends React.Component<ConnectorCardDefaultProps, ConnectorCardProps, void> {
+  static defaultProps = {
+    columns: 3,
+  };
+
   constructor(props: ConnectorCardProps) {
     super(props);
     (this: any).doPreview = this.doPreview.bind(this);
@@ -94,7 +101,7 @@ export default class ConnectorCard extends React.Component<void, ConnectorCardPr
 
   render() {
     const style = {
-      width: `calc(${100 / 3}% - 6px)`,
+      width: `calc(${100 / this.props.columns}% - 6px)`,
       padding: '3px',
       margin: '3px',
       border: '1px solid #888',
@@ -104,29 +111,6 @@ export default class ConnectorCard extends React.Component<void, ConnectorCardPr
       backgroundColor: '#fff',
       position: 'relative',
     };
-
-    const icon = this.props.iconUri ? (
-      <img
-        src={this.props.iconUri}
-        style={{
-          border: 'none',
-          maxHeight: '20px',
-          maxWidth: '20px',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          marginTop: '15px',
-        }}
-        alt=""
-      />
-    ) : (
-      <div
-        style={{
-          height: '20px',
-          width: '20px',
-          marginTop: '15px',
-        }}
-      />
-    );
 
     const statusIcon = null;
 

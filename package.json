@@ -45,6 +45,7 @@
     "axios": "^0.17.1",
     "crypto-js": "^3.1.9-1",
     "enumify": "^1.0.4",
+    "extract-text-webpack-plugin": "^3.0.0",
     "mapbox-gl": "^0.40.1",
     "moment": "^2.20.1",
     "prop-types": "^15.6.0",
@@ -60,7 +61,8 @@
     "react-router-dom": "^4.1.1",
     "react-sizeme": "^2.3.4",
     "validator": "^8.2.0",
-    "vis": "^4.20.1"
+    "vis": "^4.20.1",
+    "webpack-merge": "^4.1.2"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
@@ -71,7 +73,6 @@
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "7.2.0",
-    "extract-text-webpack-plugin": "^3.0.0",
     "flow-bin": "^0.50.0",
     "inferno": "^3.10.1",
     "less": "^2.7.2",
@@ -81,7 +82,6 @@
     "react-dates": "^12.7.1",
     "react-styleguidist": "^6.0.20",
     "rimraf": "latest",
-    "style-loader": "^0.18.2",
-    "webpack-merge": "^4.1.2"
+    "style-loader": "^0.18.2"
   }
 }
