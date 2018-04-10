@@ -2,7 +2,6 @@
 
 import React from 'react';
 
-import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 export class WizardStep {
@@ -36,59 +35,48 @@ export default class WizardSteps extends React.Component<void, WizardStepsProps,
   render() {
     const pageLinks = [];
     const stepStyle = {
-      color: '#444',
-      backgroundColor: 'transparent',
-      border: 'none',
-      borderRadius: 0,
-      boxShadow: 'none',
-      textTransform: 'none',
-      padding: '5px',
-      minWidth: 0,
       width: `calc(100% / ${this.props.steps.length})`,
     };
-    const disabledStepStyle = Object.assign({}, stepStyle, {
-      color: '#ccc',
-      fontStyle: 'italic',
-    });
-    const currentStepStyle = Object.assign({}, stepStyle, {
-      backgroundColor: 'lightblue',
-      fontWeight: 'bold',
-    });
     this.props.steps.forEach((step: WizardStep) => {
-      const complete = step.complete ? <Glyphicon glyph="ok" style={{ fontSize: '75%', color: 'green', paddingLeft: '4px' }} /> : null;
+      let onClick;
+      let classNames;
+      let disabled = false;
+
       if (this.props.currentStep === step.key) {
-        pageLinks.push((
-          <Button disabled style={currentStepStyle} key={step.key}>
-            {step.title}
-            {complete}
-          </Button>
-        ));
+        classNames = 'wizard-step-button wizard-step-button-current';
       } else if (step.enabled) {
-        // Can only go there if the page is enabled...
-        pageLinks.push((
-          <Button onClick={() => { this.props.goToPage(step.key); }} style={stepStyle} key={step.key}>
-            {step.title}
-            {complete}
-          </Button>
-        ));
+        onClick = () => { this.props.goToPage(step.key); };
+        if (step.complete) {
+          classNames = 'wizard-step-button wizard-step-button-complete';
+        } else {
+          classNames = 'wizard-step-button';
+        }
       } else {
-        pageLinks.push((
-          <Button disabled style={disabledStepStyle} key={step.key}>
-            {step.title}
-            {complete}
-          </Button>
-        ));
+        disabled = true;
+        classNames = 'wizard-step-button wizard-step-button-disabled';
       }
+      pageLinks.push((
+        <button
+          disabled={disabled}
+          onClick={onClick}
+          style={stepStyle}
+          key={step.key}
+          className={classNames}
+        >
+          {step.title}
+        </button>
+      ));
     });
 
     const mainStyle = Object.assign({}, {
-      borderBottom: '1px dotted #666',
-      width: '100%',
+      width: 'calc(100% - 8px)',
+      paddingLeft: '4px',
+      paddingRight: '4px',
     }, this.props.style);
 
     if (pageLinks.length > 0) {
       return (
-        <div style={mainStyle}>
+        <div style={mainStyle} className="wizard-step-buttons">
           {pageLinks}
         </div>
       );
