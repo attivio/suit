@@ -3,7 +3,7 @@
 import React from 'react';
 
 import CardPickerCard from './CardPickerCard';
-import Scrollable from './Scrollable';
+import GridLayout from './GridLayout';
 
 export class CardPickerItem {
   label: string;
@@ -37,11 +37,17 @@ type CardPickerProps = {
    * Callback is called when the selection changes.
    */
   onChange: (key: string) => void;
+  /**
+   * The number of columns in the card picker. This determines
+   * the width of each card. Defaults to 3 columns.
+   */
+  columns: number;
 };
 
 type CardPickerDefaultProps = {
   initialSelection: string | null;
   defaultIconUri: string | null;
+  columns: number;
 };
 
 type CardPickerState = {
@@ -52,6 +58,7 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
   static defaultProps = {
     initialSelection: null,
     defaultIconUri: null,
+    columns: 3,
   };
 
   static CardPickerItem;
@@ -83,11 +90,22 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
           iconUri={cardItem.iconUri || this.props.defaultIconUri}
           selected={cardItem.key === this.state.selection}
           onClick={() => { this.onClick(cardItem.key); }}
+          columns={this.props.columns}
         />
       );
     });
 
     return (
+      <GridLayout>
+        {cardComponnents}
+      </GridLayout>
+    );
+  }
+}
+
+CardPicker.CardPickerItem = CardPickerItem;
+
+/*
       <Scrollable style={{ height: '100%' }}>
         <div
           style={{
@@ -104,8 +122,4 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
           {cardComponnents}
         </div>
       </Scrollable>
-    );
-  }
-}
-
-CardPicker.CardPickerItem = CardPickerItem;
+*/

@@ -77,6 +77,7 @@ const wizardPages = (state, setState) => {
           <CardPicker
             cards={typeCards}
             onChange={(key) => { alert(`User chose card with key ${key}`); }}
+            columns={4}
           />
         </div>
       ),
@@ -121,7 +122,6 @@ const wizardPages = (state, setState) => {
         </div>
       ),
       false,
-      null,
       null,
       (values) => { alert(`About to show the configure page. The values for the pages are: ${values.toString()}`); },
     ),

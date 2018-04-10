@@ -21,9 +21,22 @@ type CardPickerCardProps = {
    * The callback to use when the card is clicked by the user.
    */
   onClick: () => void;
+  /**
+   * The number of columns in the card picker. This determines
+   * the width of each card. Defaults to 3 columns.
+   */
+  columns: number;
 };
 
-export default class CardPickerCard extends React.Component<void, CardPickerCardProps, void> {
+type CardPickerCardDefaultProps = {
+  columns: number;
+};
+
+export default class CardPickerCard extends React.Component<CardPickerCardDefaultProps, CardPickerCardProps, void> {
+  static defaultProps = {
+    columns: 3,
+  };
+
   constructor(props: CardPickerCardProps) {
     super(props);
     (this: any).onClick = this.onClick.bind(this);
@@ -43,7 +56,7 @@ export default class CardPickerCard extends React.Component<void, CardPickerCard
   render() {
     const style = {
       height: '120px',
-      width: `calc(${100 / 3}% - 6px)`,
+      width: `calc(${100 / this.props.columns}% - 6px)`,
       margin: '3px',
       padding: '3px',
       color: '#2f75b0',
