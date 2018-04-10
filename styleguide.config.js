@@ -73,13 +73,13 @@ module.exports = {
           content: 'docs/searchResultsDocuments.md',
           components: () => {
             return [
-              'src/components/DocumentThumbnail.js',
               'src/components/DataPairs.js',
+              'src/components/DocumentThumbnail.js',
               'src/components/DocumentType.js',
               'src/components/RelevancyScore.js',
               'src/components/SearchResult.js',
-              'src/components/SearchResults.js',
               'src/components/SearchResultBody.js',
+              'src/components/SearchResults.js',
               'src/components/SearchResultsCount.js',
               'src/components/SearchResultsEmpty.js',
               'src/components/SearchResultsError.js',
