@@ -5,6 +5,5 @@ a description of each compnent, its properties, and how to use it.
 
 * AuthRoute
 * AutoComplete
-* Configurable
 * Configuration
 * Logger
