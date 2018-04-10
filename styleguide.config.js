@@ -151,6 +151,7 @@ module.exports = {
               'src/components/NavbarFilter.js',
               'src/components/NavbarOr.js',
               'src/components/NavbarPager.js',
+              'src/components/SmallTabs.js',
               'src/components/StarRating.js',
               'src/components/Toggle.js',
               'src/components/ToggleSwitch.js',
@@ -189,6 +190,10 @@ module.exports = {
           },
         },
       ],
+    },
+    {
+      name: 'Extra',
+      content: 'docs/extra.md',
     },
   ],
   require: [

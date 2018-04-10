@@ -4,7 +4,10 @@
 __1:__ Simple wizard.
 
 ```jsx
-  const wizardPages = require('../sampleData/WizardPageDefinitions').default;
+  initialState = {
+    currentConfigurationTab: 'simple',
+  };
+  const wizardPages = require('../sampleData/WizardPageDefinitions').default(state, setState);
   const { Button } = require('react-bootstrap');
   <div style={{ height: '600px' }}>
     <Wizard

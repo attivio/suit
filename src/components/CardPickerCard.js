@@ -42,27 +42,25 @@ export default class CardPickerCard extends React.Component<void, CardPickerCard
 
   render() {
     const style = {
-      width: `calc(${100 / 3}% - 6px)`,
-      padding: '3px',
-      margin: '3px',
-      border: this.props.selected ? '2px solid blue' : '1px solid #888',
       height: '120px',
-      textAlign: 'center',
-      color: 'blue',
+      width: `calc(${100 / 3}% - 6px)`,
+      margin: '3px',
+      padding: '3px',
+      color: '#2f75b0',
       backgroundColor: '#fff',
-      position: 'relative',
+      border: this.props.selected ? '2px solid #2f75b0' : '1px solid #888',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
     };
 
     const icon = this.props.iconUri ? (
       <img
         src={this.props.iconUri}
         style={{
-          border: 'none',
           maxHeight: '60px',
           maxWidth: '60px',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          marginTop: '15px',
         }}
         alt={`${this.props.label} icon`}
       />
@@ -71,7 +69,6 @@ export default class CardPickerCard extends React.Component<void, CardPickerCard
         style={{
           height: '60px',
           width: '60px',
-          marginTop: '15px',
         }}
       />
     );
@@ -88,20 +85,29 @@ export default class CardPickerCard extends React.Component<void, CardPickerCard
       >
         <div
           style={{
-            verticalAlign: 'middle',
+            height: '80px',
+            paddingBottom: '10px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
           }}
         >
           {icon}
-          <div
-            style={{
-              marginTop: '7px',
-              whiteSpace: 'nowrap',
-              overflowX: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-          >
-            {this.props.label}
-          </div>
+        </div>
+        <div
+          style={{
+            width: 'calc(100% - 6px)',
+            marginTop: '7px',
+            paddingBottom: '10px',
+            textAlign: 'center',
+            overflowX: 'hidden',
+            overflowY: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+          }}
+        >
+          {this.props.label}
         </div>
       </div>
     );

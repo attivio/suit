@@ -98,7 +98,7 @@ export default class ConnectorCard extends React.Component<void, ConnectorCardPr
       padding: '3px',
       margin: '3px',
       border: '1px solid #888',
-      borderTop: '2px solid blue',
+      borderTop: '2px solid #2f75b0',
       height: '150px',
       color: '#000',
       backgroundColor: '#fff',
