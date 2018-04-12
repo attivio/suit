@@ -38,12 +38,28 @@ export default class MiniSearchUI extends React.Component<MiniSearchUIDefaultPro
 
   static displayName = 'MiniSearchUI';
 
+  constructor(props: MiniSearchUIProps) {
+    super(props);
+    (this: any).doSearch = this.doSearch.bind(this);
+    (this: any).updateSearchQuery = this.updateSearchQuery.bind(this);
+  }
+
+  doSearch() {
+    const searcher = this.context.searcher;
+    searcher.doSearch();
+  }
+
+  updateSearchQuery(query: string) {
+    const searcher = this.context.searcher;
+    searcher.updateQuery(query);
+  }
+
   render() {
     return (
       <div style={{ minHeight: '50vh' }}>
         <NavbarSearch
-          onSearch={this.context.searcher.doSearch}
-          updateSearchString={this.context.searcher.updateQuery}
+          onSearch={this.doSearch}
+          updateSearchString={this.updateSearchQuery}
           value={this.context.searcher.state.query}
           style={{
             marginLeft: '8px',
