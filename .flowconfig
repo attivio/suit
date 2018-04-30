@@ -5,9 +5,7 @@
 <PROJECT_ROOT>/lib/**/.*
 
 [include]
-<PROJECT_ROOT>/src/**/.*
-
-[libs]
+./src/**/.*
 
 [options]
 esproposal.class_static_fields=enable
@@ -18,5 +16,3 @@ module.name_mapper='.*\(.xml\)' -> 'empty/object'
 module.name_mapper='.*\(.css\)' -> 'empty/object'
 module.name_mapper='.*\(.less\)' -> 'empty/object'
 emoji=true
-
-[lints]

@@ -68,10 +68,5 @@ typings/
 
 # End of https://www.gitignore.io
 
-/es
 /dist
-/lib
-/umd
-
-/styleguide
 
