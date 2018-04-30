@@ -26,19 +26,8 @@ const ourWebpackConfig = {
           use: ['css-loader'],
         }),
       },
-      // {
-      //   test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      //   loader: 'url-loader?limit=10000&minetype=application/font-woff',
-      // },
-      // {
-      //   test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      //   loader: 'file-loader',
-      // },
     ],
   },
-  // plugins: [
-  //   new ExtractTextPlugin('style.css'),
-  // ],
 };
 
 const mergedWebpackConfig = merge(nwbWebpackConfig, ourWebpackConfig);
@@ -84,46 +73,46 @@ module.exports = {
             ];
           },
         },
-        // {
-        //   name: 'Search Results — Documents',
-        //   content: 'docs/searchResultsDocuments.md',
-        //   components: () => {
-        //     return [
-        //       'src/components/DocumentThumbnail.js',
-        //       'src/components/DataPairs.js',
-        //       'src/components/DocumentType.js',
-        //       'src/components/RelevancyScore.js',
-        //       'src/components/SearchResult.js',
-        //       'src/components/SearchResults.js',
-        //       'src/components/SearchResultBody.js',
-        //       'src/components/SearchResultsCount.js',
-        //       'src/components/SearchResultsEmpty.js',
-        //       'src/components/SearchResultsError.js',
-        //       'src/components/SearchResultsSummary.js',
-        //       'src/components/SearchResultTags.js',
-        //       'src/components/SentimentBar.js',
-        //     ];
-        //   },
-        // },
-        // {
-        //   name: 'Search Results — Facets',
-        //   content: 'docs/searchResultsFacets.md',
-        //   components: () => {
-        //     return [
-        //       'src/components/BarChartFacetContents.js',
-        //       'src/components/Facet.js',
-        //       'src/components/FacetResults.js',
-        //       'src/components/ListWithBarsFacetContents.js',
-        //       'src/components/MapFacetContents.js',
-        //       'src/components/MoreListFacetContents.js',
-        //       'src/components/PieChartFacetContents.js',
-        //       'src/components/SearchResultsFacetFilters.js',
-        //       'src/components/SentimentFacetContents.js',
-        //       'src/components/TagCloudFacetContents.js',
-        //       'src/components/TimeSeriesFacetContents.js',
-        //     ];
-        //   },
-        // },
+        {
+          name: 'Search Results — Documents',
+          content: 'docs/searchResultsDocuments.md',
+          components: () => {
+            return [
+              'src/components/DocumentThumbnail.js',
+              'src/components/DataPairs.js',
+              'src/components/DocumentType.js',
+              'src/components/RelevancyScore.js',
+              'src/components/SearchResult.js',
+              'src/components/SearchResults.js',
+              'src/components/SearchResultBody.js',
+              'src/components/SearchResultsCount.js',
+              'src/components/SearchResultsEmpty.js',
+              'src/components/SearchResultsError.js',
+              'src/components/SearchResultsSummary.js',
+              'src/components/SearchResultTags.js',
+              'src/components/SentimentBar.js',
+            ];
+          },
+        },
+        {
+          name: 'Search Results — Facets',
+          content: 'docs/searchResultsFacets.md',
+          components: () => {
+            return [
+              'src/components/BarChartFacetContents.js',
+              'src/components/Facet.js',
+              'src/components/FacetResults.js',
+              'src/components/ListWithBarsFacetContents.js',
+              'src/components/MapFacetContents.js',
+              'src/components/MoreListFacetContents.js',
+              'src/components/PieChartFacetContents.js',
+              'src/components/SearchResultsFacetFilters.js',
+              'src/components/SentimentFacetContents.js',
+              'src/components/TagCloudFacetContents.js',
+              'src/components/TimeSeriesFacetContents.js',
+            ];
+          },
+        },
         {
           name: 'Search Results — Other',
           content: 'docs/searchResultsOther.md',
@@ -149,26 +138,26 @@ module.exports = {
             ];
           },
         },
-        // {
-        //   name: 'Input',
-        //   content: 'docs/input.md',
-        //   components: () => {
-        //     return [
-        //       'src/components/DatePicker.js',
-        //       'src/components/DropdownButton.js',
-        //       'src/components/DataPairs.js',
-        //       'src/components/Menu.js',
-        //       'src/components/NavbarButton.js',
-        //       'src/components/NavbarFilter.js',
-        //       'src/components/NavbarOr.js',
-        //       'src/components/Masthead.js',
-        //       'src/components/NavbarPager.js',
-        //       'src/components/StarRating.js',
-        //       'src/components/Toggle.js',
-        //       'src/components/ToggleSwitch.js',
-        //     ];
-        //   },
-        // },
+        {
+          name: 'Input',
+          content: 'docs/input.md',
+          components: () => {
+            return [
+              'src/components/DatePicker.js',
+              'src/components/DropdownButton.js',
+              'src/components/DataPairs.js',
+              'src/components/Menu.js',
+              'src/components/NavbarButton.js',
+              'src/components/NavbarFilter.js',
+              'src/components/NavbarOr.js',
+              'src/components/Masthead.js',
+              'src/components/NavbarPager.js',
+              'src/components/StarRating.js',
+              'src/components/Toggle.js',
+              'src/components/ToggleSwitch.js',
+            ];
+          },
+        },
         {
           name: 'Display',
           content: 'docs/display.md',
