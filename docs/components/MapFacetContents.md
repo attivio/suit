@@ -4,5 +4,5 @@
 __1:__ Description.
 
 ```jsx
-  <MapFacetContents />
+  {/* <MapFacetContents /> */}
 ```

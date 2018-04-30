@@ -151,7 +151,6 @@ module.exports = {
             return [
               'src/components/CardPicker.js',
               'src/components/CardPickerCard.js',
-              'src/components/ConnectorCard.js',
               'src/components/DataPairs.js',
               'src/components/DatePicker.js',
               'src/components/DropdownButton.js',

@@ -31,7 +31,7 @@ export class WizardPageDefinition {
    * you don't need to implement this method. In addition, if your
    * page is purely informational, you can omit this method.
    */
-  getValue: () => any;
+  getValue: null | () => any;
   /**
    * Callback used to validate the current state of the page. Returns a
    * promise so that you may make asynchronous calls to the server
@@ -68,11 +68,11 @@ export class WizardPageDefinition {
   constructor(
     key: string,
     title: string,
-    getValue: () => any,
     page: React$Element <*>,
-    optional: boolean = false,
+    getValue: null | () => any = null,
     validate: null | (values: Map<string, any>) => Promise < void> = null,
     aboutToShow: null | (values: Map<string, any>) => void = null,
+    optional: boolean = false,
   ) {
     this.key = key;
     this.title = title;
@@ -193,7 +193,7 @@ export default class Wizard extends React.Component<void, WizardProps, WizardSta
     const values: Map<string, any> = new Map();
     this.state.visiblePages.forEach((visiblePageKey) => {
       const page = this.getPage(visiblePageKey);
-      const pageValue = page.getValue();
+      const pageValue = page.getValue ? page.getValue() : {};
       values.set(visiblePageKey, pageValue);
     });
     return values;

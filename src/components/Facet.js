@@ -17,11 +17,15 @@ import TimeSeriesFacetContents from './TimeSeriesFacetContents';
 import SentimentFacetContents from './SentimentFacetContents';
 import MapFacetContents from './MapFacetContents';
 
+export type FacetType = 'barchart' | 'columnchart' | 'piechart' | 'barlist' |
+  'tagcloud' | 'timeseries' | 'list' | 'sentiment' | 'geomap' |
+  (facetName: string) => React$Element<*>;
+
 type FacetProps = {
   /** The facet to display. */
   facet: SearchFacet;
   /** The way the facet information should be displayed. Defaults to 'list' */
-  type: 'barchart' | 'columnchart' | 'piechart' | 'barlist' | 'tagcloud' | 'timeseries' | 'list' | 'sentiment' | 'geomap';
+  type: FacetType;
   /**
    * The maximum number of items to show in a facet. If there
    * are more than this many buckets for the facet, only this many, with
@@ -40,7 +44,7 @@ type FacetProps = {
 }
 
 type FacetDefaultProps = {
-  type: 'barchart' | 'columnchart' | 'piechart' | 'barlist' | 'tagcloud' | 'timeseries' | 'list' | 'sentiment' | 'geomap';
+  type: FacetType;
   maxBuckets: number;
   collapse: boolean;
   bordered: boolean;
