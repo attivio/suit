@@ -26,6 +26,7 @@ const ourWebpackConfig = {
           use: ['css-loader'],
         }),
       },
+
     ],
   },
 };
@@ -45,6 +46,7 @@ module.exports = {
     theme: 'ambiance', // see http://codemirror.net/demo/theme.html
   },
   styles: {},
+
   sections: [
     {
       name: 'Introduction',

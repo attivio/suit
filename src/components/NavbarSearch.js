@@ -7,7 +7,7 @@ type NavbarSearchProps = {
   /** The current value of the search field. */
   value: string;
   /** The function to call when the user changes the contents of the search field. */
-  updateSearchString: (newValue: string) => {};
+  updateSearchString: (newValue: string) => void;
   /** The function to call when the user presses enter or clicks the search button */
   onSearch: () => void;
 };

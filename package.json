@@ -11,12 +11,12 @@
     "React",
     "react-component"
   ],
-  "homepage": "http://www.attivio.com",
+  "homepage": "attivio.com",
   "bugs": {
     "url": "https://github.com/attivio/suit/issues",
     "email": "suitbugs@attivio.com"
   },
-  "license": "SEE LICENSE IN LICENSE.txt",
+  "license": "SEE LICENSE IN LICENSE",
   "author": "Attivio, Inc.",
   "files": [
     "css",
