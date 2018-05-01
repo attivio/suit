@@ -1,62 +1,64 @@
 // @flow
 import SolrToQueryResponse from './SolrToQueryResponse';
 
-const buildFilter = (facetFilters) => {
-  if (!facetFilters || facetFilters.length === 0) return '';
-  return `${facetFilters.map((ff) => { return ff.filter; }).join(' AND ')}`;
-};
+export default class QueryRequestToSolr {
+  static convert(qr: any, baseUri: string, customOptions: any, callback: any) {
+    const { query, rows = 0, sort = ['.score:DESC'], facetFilters } = qr;
+    const { offset = ['0'] } = qr.restParams;
 
-const buildFacets = (facets: Array<any>) => {
-  const aggs = {};
-  facets.forEach((f) => {
-    aggs[f.field] = { terms: { field: f.field } };
-  });
-  return aggs;
-};
+    const body = JSON.stringify({
+      query,
+      limit: parseInt(rows, 10),
+      filter: QueryRequestToSolr.buildFilter(facetFilters),
+      sort: QueryRequestToSolr.buildSort(sort, customOptions),
+      facet: QueryRequestToSolr.buildFacets(customOptions.facets),
+    });
 
-const buildSort = (sort, customConfig) => {
-  if (!sort || !sort[0] || sort[0].length === 0) return 'score DESC';
-  const [field, order] = sort[0].split(':');
-  const fieldInSolr = customConfig.mappings[field];
+    const headers = new Headers({
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    });
 
-  if (field.indexOf('.score') === 0) return `score ${order}`;
+    const params = {
+      method: 'POST',
+      headers,
+      body,
+    };
 
-  if (fieldInSolr) {
-    return `${fieldInSolr} ${order}`;
+    const requestUri = `${baseUri}?start=${parseInt(offset.pop(), 10)}`;
+
+    const fetchRequest = new Request(requestUri, params);
+
+    fetch(fetchRequest)
+      .then((r) => { return r.json(); })
+      .then((r) => { return callback(undefined, SolrToQueryResponse.convert(r, customOptions)); })
+      .catch((e) => { return callback(`Error: ${e}`); });
   }
 
-  return `${field} ${order}`;
-};
+  static buildFilter(facetFilters): string {
+    if (!facetFilters || facetFilters.length === 0) return '';
+    return `${facetFilters.map((ff) => { return ff.filter; }).join(' AND ')}`;
+  }
 
-export default (qr: any, baseUri: string, customOptions: any, callback: any) => {
-  const { query, rows = 0, sort = ['.score:DESC'], facetFilters } = qr;
-  const { offset = ['0'] } = qr.restParams;
+  static buildFacets(facets: Array<any>): any {
+    const aggs = {};
+    facets.forEach((f) => {
+      aggs[f.field] = { terms: { field: f.field } };
+    });
+    return aggs;
+  }
 
-  const body = JSON.stringify({
-    query,
-    limit: parseInt(rows, 10),
-    filter: buildFilter(facetFilters),
-    sort: buildSort(sort, customOptions),
-    facet: buildFacets(customOptions.facets),
-  });
+  static buildSort(sort, customConfig): string {
+    if (!sort || !sort[0] || sort[0].length === 0) return 'score DESC';
+    const [field, order] = sort[0].split(':');
+    const fieldInSolr = customConfig.mappings[field];
 
-  const headers = new Headers({
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  });
+    if (field.indexOf('.score') === 0) return `score ${order}`;
 
-  const params = {
-    method: 'POST',
-    headers,
-    body,
-  };
+    if (fieldInSolr) {
+      return `${fieldInSolr} ${order}`;
+    }
 
-  const requestUri = `${baseUri}?start=${parseInt(offset.pop(), 10)}`;
-
-  const fetchRequest = new Request(requestUri, params);
-
-  fetch(fetchRequest)
-    .then((r) => { return r.json(); })
-    .then((r) => { return callback(undefined, SolrToQueryResponse(r, customOptions)); })
-    .catch((e) => { return callback(`Error: ${e}`); });
-};
+    return `${field} ${order}`;
+  }
+}

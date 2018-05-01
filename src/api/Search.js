@@ -72,14 +72,14 @@ export default class Search {
     jsonRequest.restParams = Search.strMapToObj(request.restParams);
 
     if (this.searchEngineType === 'elastic') {
-      QueryRequestToElastic(jsonRequest, `${this.baseUri}`, this.customOptions, (err, searchResponse) => {
+      QueryRequestToElastic.convert(jsonRequest, `${this.baseUri}`, this.customOptions, (err, searchResponse) => {
         if (err) {
           updateResults(null, err);
         }
         updateResults(searchResponse, null);
       });
     } else if (this.searchEngineType === 'solr') {
-      QueryRequestToSolr(jsonRequest, `${this.baseUri}`, this.customOptions, (err, searchResponse) => {
+      QueryRequestToSolr.convert(jsonRequest, `${this.baseUri}`, this.customOptions, (err, searchResponse) => {
         if (err) {
           updateResults(null, err);
         }
