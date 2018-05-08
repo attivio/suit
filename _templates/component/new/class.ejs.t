@@ -1,5 +1,5 @@
 ---
-to: src/components/<%= Name %>.js
+to: src/components/<%= name %>.js
 ---
 // @flow
 
@@ -16,23 +16,23 @@ import PropTypes from 'prop-types';
 // import QueryResponse from '../api/QueryResponse';
 // import AuthUtils from '../util/AuthUtils';
 
-type <%= Name %>Props = {
+type <%= name %>Props = {
   /**
    * Property description...
    */
   prop: string;
 };
 
-type <%= Name %>DefaultProps = {
+type <%= name %>DefaultProps = {
 };
 
-type <%= Name %>State = {
+type <%= name %>State = {
 };
 
 /**
  * Component description...
  */
-export default class <%= Name %> extends React.Component<<%= Name %>DefaultProps, <%= Name %>Props, <%= Name %>State> { // eslint-disable-line max-len
+export default class <%= name %> extends React.Component<<%= name %>DefaultProps, <%= name %>Props, <%= name %>State> { // eslint-disable-line max-len
   static defaultProps = {
   };
 
@@ -44,20 +44,20 @@ export default class <%= Name %> extends React.Component<<%= Name %>DefaultProps
     <%= name %>: PropTypes.any,
   }
 
-  static displayName = '<%= Name %>';
+  static displayName = '<%= name %>';
 
-  constructor(props: <%= Name %>Props) {
+  constructor(props: <%= name %>Props) {
     super(props);
     this.state = {
     };
     (this: any).callback = this.callback.bind(this);
   }
 
-  state: <%= Name %>State;
+  state: <%= name %>State;
 
   getChildContext() {
     return {
-      <%= Name %>: this,
+      <%= name %>: this,
     };
   }
 
