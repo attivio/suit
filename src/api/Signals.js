@@ -1,6 +1,7 @@
 // @flow
 
 import SearchDocument from './SearchDocument';
+import FetchUtils from '../util/FetchUtils';
 
 /**
  * Encapsulates the default Attivio search behavior.
@@ -26,44 +27,13 @@ export default class Signals {
   addSignal(doc: SearchDocument, type: string = 'click', weight: number = 1) {
     if (doc.signal) {
       const uri = `${this.baseUri}/rest/signals/add`;
-      const headers = new Headers({
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      });
       const updatedSignal = Object.assign({}, doc.signal, { type, weight });
-      const body = JSON.stringify(updatedSignal);
-      const params = {
-        method: 'POST',
-        headers,
-        body,
-        credentials: 'include',
-      };
-      const fetchRequest = new Request(uri, params);
-
-      fetch(fetchRequest).then(
-        (response: Response) => {
-          if (response.ok) {
-            response.json().then(() => {
-            }).catch((error: any) => {
-              // Catch errors from converting the response's JSON
-              console.log('Failed to submit signal', updatedSignal, error);
-            });
-          } else {
-            // The request came back other than a 200-type response code
-            const message = response.statusText ?
-              `${response.statusText} (error code ${response.status})` :
-              `Unknown error of type ${response.status}`;
-            console.log('Failed to submit signal', updatedSignal, message);
-          }
-        },
-        (error: any) => {
-          // Catch network-type errors from the main fetch() call
+      const callback = (response: any | null, error: string | null) => {
+        if (!error) {
           console.log('Failed to submit signal', updatedSignal, error);
-        },
-      ).catch((error: any) => {
-        // Catch exceptions from the main "then" function
-        console.log('Failed to submit signal', updatedSignal, error);
-      });
+        }
+      };
+      FetchUtils.fetch(uri, updatedSignal, callback, 'POST', 'Failed to submit signal');
     }
   }
 }
