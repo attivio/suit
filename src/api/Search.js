@@ -87,7 +87,7 @@ export default class Search {
         const searchResponse = response ? QueryResponse.fromJson(response) : null;
         updateResults(searchResponse, error);
       };
-      FetchUtils.fetch(uri, jsonRequest, callback, 'An error occured while searching.');
+      FetchUtils.fetch(uri, jsonRequest, callback, 'POST', 'An error occured while searching.');
     }
   }
 
