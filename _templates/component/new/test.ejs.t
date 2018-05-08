@@ -1,15 +1,15 @@
 ---
-to: tests/components/<%= Name %>-test.js
+to: tests/components/<%= name %>-test.js
 ---
 import expect from 'expect';
 import React from 'react';
 import { renderToStaticMarkup as render } from 'react-dom/server';
 
-import <%= Name %> from 'src/components/<%= Name %>';
+import <%= name %> from 'src/components/<%= name %>';
 
-describe('<%= Name %>', () => {
+describe('<%= name %>', () => {
   it('Renders a component of type <%= name %>', () => {
-    expect(render(<<%= Name %> />))
+    expect(render(<<%= name %> />))
       .toContain('div');
   });
 });
