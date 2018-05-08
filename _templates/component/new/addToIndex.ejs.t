@@ -4,4 +4,4 @@ inject: true
 before: //\ LAST\ COMPONENT\ CLASS
 skip_if: <%= Name %>
 ---
-export <%= Name %> from './components/<%= Name %>';
+export <%= name %> from './components/<%= name %>';
