@@ -7,7 +7,11 @@ export default class FetchUtils {
    * Make a fetch call.
    * It ensures that all requests behave the same including handling SAML errors when a user's session times out.
    */
-  static fetch(uri: string, payload: any | null, callback: (response: any | null, error: string | null) => void, method: string, errorMesssage: string) {
+  static fetch(
+    uri: string,
+    payload: any | null,
+    callback: (response: any | null, error: string | null) => void,
+    method: string, errorMesssage: string) {
     const headers = new Headers({
       Accept: 'application/json',
       'Content-Type': 'application/json',
