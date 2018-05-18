@@ -29,7 +29,7 @@ export default class Signals {
       const uri = `${this.baseUri}/rest/signals/add`;
       const updatedSignal = Object.assign({}, doc.signal, { type, weight });
       const callback = (response: any | null, error: string | null) => {
-        if (!error) {
+        if (error) {
           console.log('Failed to submit signal', updatedSignal, error);
         }
       };

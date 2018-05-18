@@ -238,7 +238,7 @@ export default class AuthUtils {
           AuthUtils.saveLoggedInUser(userInfo);
         }
         if (error) {
-          console.log('Got an error parsing the current user info', error);
+          console.log('Got an error retrieving the current user\u2019s details.', error);
         }
         callback(userInfo);
       };
@@ -247,7 +247,7 @@ export default class AuthUtils {
         null,
         fetchResponseCallback,
         'GET',
-        'Got an error parsing the current user info');
+        'Got an error retrieving the current user\u2019s details.');
     } else {
       // If we're doing our own authentication, and nobody is logged in, pass null to the callback
       callback(null);

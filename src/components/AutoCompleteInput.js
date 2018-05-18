@@ -127,7 +127,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
             });
           }
         };
-        FetchUtils.fetch(`${uri}?term=${encodedValue}`, null, callback, 'GET', 'An error occured while looking for suggestions: ');
+        FetchUtils.fetch(`${uri}?term=${encodedValue}`, null, callback, 'GET', 'An error occured while looking for suggestions.');
       }
     } else {
       this.setState({
