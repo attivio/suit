@@ -3,6 +3,7 @@ import SimpleQueryRequest from './SimpleQueryRequest';
 import QueryResponse from './QueryResponse';
 import FieldNames from './FieldNames';
 import AuthUtils from '../util/AuthUtils';
+import FetchUtils from '../util/FetchUtils';
 import QueryRequestToElastic from '../util/QueryRequestToElastic';
 import QueryRequestToSolr from '../util/QueryRequestToSolr';
 
@@ -64,10 +65,6 @@ export default class Search {
     }
 
     const uri = `${this.baseUri}/rest/searchApi/search`;
-    const headers = new Headers({
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    });
     const jsonRequest = Object.assign({}, request);
     jsonRequest.restParams = Search.strMapToObj(request.restParams);
 
@@ -86,48 +83,11 @@ export default class Search {
         updateResults(searchResponse, null);
       });
     } else {
-      const body = JSON.stringify(jsonRequest);
-      const params = {
-        method: 'POST',
-        headers,
-        body,
-        credentials: 'include',
+      const callback = (response: any | null, error: string | null) => {
+        const searchResponse = response ? QueryResponse.fromJson(response) : null;
+        updateResults(searchResponse, error);
       };
-      const fetchRequest = new Request(uri, params);
-
-      fetch(fetchRequest).then(
-        (response: Response) => {
-          if (response.ok) {
-            response.json().then((jsonResponse: any) => {
-              const searchResponse = QueryResponse.fromJson(jsonResponse);
-              updateResults(searchResponse, null);
-            }).catch((error: any) => {
-              // Catch errors from converting the response's JSON
-              updateResults(null, Search.getErrorMessage(error));
-            });
-          } else {
-            // The request came back other than a 200-type response code
-            // There should be JSON describing it...
-            response.json().then((searchException: any) => {
-              const exceptionMessasge = searchException.message ? searchException.message : '';
-              const exceptionCode = searchException.errorCode ? ` (${(searchException.errorCode: string)})` : '';
-              const finalExceptionMessage = `An exception occurred while searching. ${exceptionMessasge}${exceptionCode}`;
-              updateResults(null, finalExceptionMessage);
-            }).catch((badJsonError: any) => {
-              // const errorMessage = response.statusText ? `${response.statusText} (error code ${response.status})` :
-              //   `Unknown error of type ${response.status}`;
-              updateResults(null, Search.getErrorMessage(badJsonError));
-            });
-          }
-        },
-        (error: any) => {
-          // Catch network-type errors from the main fetch() call
-          updateResults(null, Search.getErrorMessage(error));
-        },
-      ).catch((error: any) => {
-        // Catch exceptions from the main "then" function
-        updateResults(null, Search.getErrorMessage(error));
-      });
+      FetchUtils.fetch(uri, jsonRequest, callback, 'POST', 'An error occured while searching.');
     }
   }
 
@@ -148,22 +108,6 @@ export default class Search {
     request.queryLanguage = queryLanguage;
 
     this.search(request, updateResults);
-  }
-
-  /**
-   * Get the error message out of the error object.
-   *
-   * @param error the error recieved
-   * @return      a string represening the error object
-   */
-  static getErrorMessage(error: any): string {
-    let message;
-    if (error && error.message) {
-      message = error.message;
-    } else {
-      message = 'There was an error executing the query.';
-    }
-    return message;
   }
 
   updateRealtimeField(docId: string, fieldName: string, fieldValues: Array<string>): Promise<any> {
