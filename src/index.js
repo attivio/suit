@@ -23,6 +23,7 @@ export AuthUtils from './util/AuthUtils';
 export DateFormat from './util/DateFormat';
 export DateUtils from './util/DateUtils';
 export DocumentMode from './util/DocumentMode';
+export FetchUtils from './util/FetchUtils';
 export GraphEdge from './util/GraphEdge';
 export GraphNode from './util/GraphNode';
 export KnowledgeGraphUtils from './util/KnowledgeGraphUtils';
