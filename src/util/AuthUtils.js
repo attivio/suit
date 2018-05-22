@@ -2,6 +2,7 @@
 import md5 from 'crypto-js/md5';
 
 import StringUtils from './StringUtils';
+import FetchUtils from './FetchUtils';
 
 export default class AuthUtils {
   static USER_KEY = 'suit-user';
@@ -232,38 +233,21 @@ export default class AuthUtils {
       // If the authentication is done on the front-end, we shouldn't
       // ever get here because if there's no saved user, then
       // no one is logged in yet...
-      const headers = new Headers({
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      });
-      const params = {
-        method: 'GET',
-        headers,
-        credentials: 'include', // Need to do this to make sure the cookies are sent
-      };
-      const request = new Request(`${AuthUtils.config.ALL.baseUri}/rest/serverDetailsApi/user`, params);
-      fetch(request).then((response: Response) => {
-        if (response.ok) {
-          response.json().then((userInfo) => {
-            AuthUtils.saveLoggedInUser(userInfo);
-            callback(userInfo);
-          }).catch((error: any) => {
-            // Catch errors from converting the response's JSON
-            console.log('Got an error parsing the current user info', error);
-            callback(null);
-          });
-        } else {
-          // The request came back other than a 200-type response code
-          const message = response.statusText ?
-            `${response.statusText} (error code ${response.status})` :
-            `Unknown error of type ${response.status}`;
-          console.log(`Got an error trying to fetch the user info: ${message}`);
-          callback(null);
+      const fetchResponseCallback = (userInfo: any | null, error: string | null) => {
+        if (userInfo) {
+          AuthUtils.saveLoggedInUser(userInfo);
         }
-      }).catch((err: any) => {
-        console.log(`Got an error trying to fetch the user info: ${err.toString()}`);
-        callback(null);
-      });
+        if (error) {
+          console.log('Got an error retrieving the current user\u2019s details.', error);
+        }
+        callback(userInfo);
+      };
+      FetchUtils.fetch(
+        `${AuthUtils.config.ALL.baseUri}/rest/serverDetailsApi/user`,
+        null,
+        fetchResponseCallback,
+        'GET',
+        'Got an error retrieving the current user\u2019s details.');
     } else {
       // If we're doing our own authentication, and nobody is logged in, pass null to the callback
       callback(null);
