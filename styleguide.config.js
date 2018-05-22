@@ -26,6 +26,7 @@ const ourWebpackConfig = {
           use: ['css-loader'],
         }),
       },
+
     ],
   },
 };
@@ -45,11 +46,7 @@ module.exports = {
     theme: 'ambiance', // see http://codemirror.net/demo/theme.html
   },
   styles: {},
-  // propsParser: require('react-docgen-typescript').withDefaultConfig({
-  //   propFilter: {
-  //     skipPropsWithoutDoc: true,
-  //   },
-  // }).parse,
+
   sections: [
     {
       name: 'Introduction',
@@ -63,8 +60,11 @@ module.exports = {
           content: 'docs/searchControls.md',
           components: () => {
             return [
+              'src/components/MiniSearchUI.js',
               'src/components/NavbarFilter.js',
+              'src/components/NavbarSearch.js',
               'src/components/SearchBar.js',
+              'src/components/SearchDebugToggle.js',
               'src/components/Searcher.js',
               'src/components/SearchInputField.js',
               'src/components/SearchLanguagePicker.js',
@@ -78,19 +78,22 @@ module.exports = {
           content: 'docs/searchResultsDocuments.md',
           components: () => {
             return [
-              'src/components/DocumentThumbnail.js',
               'src/components/DataPairs.js',
+              'src/components/DocumentEntityList.js',
+              'src/components/DocumentThumbnail.js',
               'src/components/DocumentType.js',
               'src/components/RelevancyScore.js',
               'src/components/SearchResult.js',
-              'src/components/SearchResults.js',
               'src/components/SearchResultBody.js',
+              'src/components/SearchResults.js',
               'src/components/SearchResultsCount.js',
               'src/components/SearchResultsEmpty.js',
               'src/components/SearchResultsError.js',
               'src/components/SearchResultsSummary.js',
               'src/components/SearchResultTags.js',
+              'src/components/SearchResultTitle.js',
               'src/components/SentimentBar.js',
+              'src/components/SpellCheckMessage.js',
             ];
           },
         },
@@ -101,6 +104,7 @@ module.exports = {
             return [
               'src/components/BarChartFacetContents.js',
               'src/components/Facet.js',
+              'src/components/FacetInsights.js',
               'src/components/FacetResults.js',
               'src/components/ListWithBarsFacetContents.js',
               'src/components/MapFacetContents.js',
@@ -118,10 +122,14 @@ module.exports = {
           content: 'docs/searchResultsOther.md',
           components: () => {
             return [
+              'src/components/Doc360Breadcrumbs.js',
               'src/components/ExpertCard.js',
               'src/components/ExpertDetails.js',
               'src/components/KnowledgeGraphPanel.js',
+              'src/components/PlacementResult.js',
+              'src/components/PlacementResults.js',
               'src/components/SimilarAuthorCard.js',
+              'src/components/SimilarDocuments.js',
             ];
           },
         },
@@ -130,7 +138,7 @@ module.exports = {
           content: 'docs/navigation.md',
           components: () => {
             return [
-              'src/components/BigButton.js',
+              // 'src/components/BigButton.js',
               'src/components/Breadcrumbs.js',
               'src/components/MastheadNavTabs.js',
               'src/components/NavigationButton.js',
@@ -143,18 +151,26 @@ module.exports = {
           content: 'docs/input.md',
           components: () => {
             return [
+              'src/components/CardPicker.js',
+              'src/components/CardPickerCard.js',
+              'src/components/DataPairs.js',
               'src/components/DatePicker.js',
               'src/components/DropdownButton.js',
-              'src/components/DataPairs.js',
+              'src/components/Masthead.js',
               'src/components/Menu.js',
+              'src/components/ListEditor.js',
+              'src/components/LoginForm.js',
               'src/components/NavbarButton.js',
               'src/components/NavbarFilter.js',
               'src/components/NavbarOr.js',
-              'src/components/Masthead.js',
               'src/components/NavbarPager.js',
+              'src/components/SmallTabs.js',
               'src/components/StarRating.js',
+              'src/components/StringListEditor.js',
               'src/components/Toggle.js',
               'src/components/ToggleSwitch.js',
+              'src/components/Wizard.js',
+              'src/components/WizardSteps.js',
             ];
           },
         },
@@ -163,11 +179,14 @@ module.exports = {
           content: 'docs/display.md',
           components: () => {
             return [
+              'src/components/Accordion.js',
               'src/components/Card.js',
               'src/components/ChartTrends.js',
               'src/components/Code.js',
               'src/components/CollapsiblePanel.js',
+              'src/components/DisappearingImage.js',
               'src/components/FormattedDate.js',
+              'src/components/GridLayout.js',
               'src/components/Header360.js',
               'src/components/LabeledData.js',
               'src/components/Masthead.js',
@@ -176,6 +195,7 @@ module.exports = {
               'src/components/Navbar.js',
               'src/components/NetworkDiagram.js',
               'src/components/ProfilePhoto.js',
+              'src/components/Scrollable.js',
               'src/components/SecondaryNavBar.js',
               'src/components/SeparatedList.js',
               'src/components/SqlLog.js',
@@ -183,10 +203,37 @@ module.exports = {
               'src/components/Subheader360.js',
               'src/components/TabPanel.js',
               'src/components/TagCloud.js',
+              'src/components/TimeSeries.js',
+            ];
+          },
+        },
+        {
+          name: 'No Examples',
+          content: 'docs/withoutExamples.md',
+          components: () => {
+            return [
+              'src/components/AuthRoute.js',
+              'src/components/AutoCompleteInput.js',
+              'src/components/Configuration.js',
+              'src/components/Logger.js',
+            ];
+          },
+        },
+        {
+          name: 'Miscelaneous',
+          content: 'docs/misc.md',
+          components: () => {
+            return [
+              'src/components/ContextHelp.js',
+              'src/components/DummySearcher.js',
             ];
           },
         },
       ],
+    },
+    {
+      name: 'Extra',
+      content: 'docs/extra.md',
     },
   ],
   require: [

@@ -5,9 +5,7 @@ __1.__ Simplest search bar.
 ```jsx
 const { MemoryRouter } = require('react-router-dom');
   <MemoryRouter>
-    <Searcher>
-      <SearchBar />
-    </Searcher>
+    <SearchBar />
   </MemoryRouter>
 ```
 
@@ -21,7 +19,7 @@ const { MemoryRouter } = require('react-router-dom');
 ```
 
 __3.__ Search bar with custom placeholder text, which also allows voice-recognition-based entry.
-```
+```jsx
 const { MemoryRouter } = require('react-router-dom');
   <MemoryRouter>
     <SearchBar

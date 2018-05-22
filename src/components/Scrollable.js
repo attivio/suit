@@ -5,7 +5,7 @@ import type { Children } from 'react';
 
 type ScrollableProps = {
   /**
-   * The style to use foer the outer div. Either the style or the individual
+   * The style to use for the outer div. Either the style or the individual
    * size parameters must be set or the inner div won't scroll. For vertical
    * scrolling, the height must be set, for horizontal scrolling, the width
    * must be.

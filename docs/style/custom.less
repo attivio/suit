@@ -90,3 +90,48 @@ span.highlight {
   font-weight: 700 !important;
   text-transform: uppercase !important;
 }
+
+
+button.wizard-step-button {
+  border: none;
+  background-color: transparent;
+  padding-bottom: 8px;
+  border-bottom: 3px solid @brand-primary;
+}
+
+button.wizard-step-button:before {
+  content: '\2B55'; /* Big open circle */
+  color: @brand-primary;
+  background-color: #fff;
+  width: 1.2em;
+  line-height: 1.2em;
+  border-radius: 1.2em;
+  position: relative;
+  bottom: -2.1rem;
+  float: left;
+  left: 50%;
+  font-size: 15px;
+}
+
+button.wizard-step-button-complete:before {
+  content: '\2714'; /* Thick checkmark */
+  font-weight: bold;
+}
+
+button.wizard-step-button-disabled {
+  color: lighten(@brand-primary, 20%);
+  border-bottom-color: lighten(@brand-primary, 20%);
+}
+
+button.wizard-step-button-disabled:before {
+  color: lighten(@brand-primary, 20%);
+}
+
+button.wizard-step-button-current {
+  font-weight: bold;
+}
+
+button.wizard-step-button-current:before {
+  font-weight: bolder;
+  content: '\23FA'; /* Black circle (like record button) */
+}
