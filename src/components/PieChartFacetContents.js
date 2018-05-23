@@ -17,10 +17,21 @@ type PieChartFacetContentsProps = {
    * the map are ignored.
    */
   entityColors: Map<string, string>;
+  /** Property to align the legend to left, right or center. */
+  legendAlign?: 'left' | 'right' | 'center';
+  /** Property to position the legend either as horizontal or vertical. */
+  legendLayout?: 'horizontal' | 'vertical';
+  /** Property to align the legend vertically either on top, middle or bottom. */
+  legendVerticalAlign?: 'top' | 'middle' | 'bottom';
+  /** Height of the Pie Chart. */
+  height?: number;
 };
 
 type PieChartFacetContentsDefaultProps = {
   entityColors: Map<string, string>;
+  legendAlign?: 'left' | 'right' | 'center';
+  legendLayout?: 'horizontal' | 'vertical';
+  legendVerticalAlign?: 'top' | 'middle' | 'bottom';
 };
 
 /**
@@ -29,6 +40,10 @@ type PieChartFacetContentsDefaultProps = {
 export default class PieChartFacetContents extends React.Component<PieChartFacetContentsDefaultProps, PieChartFacetContentsProps, void> { // eslint-disable-line max-len
   static defaultProps = {
     entityColors: new Map(),
+    legendAlign: 'center',
+    legendLayout: 'horizontal',
+    legendVerticalAlign: 'bottom',
+    height: '400px',
   }
 
   static displayName = 'PieChartFacetContents';
@@ -75,12 +90,16 @@ export default class PieChartFacetContents extends React.Component<PieChartFacet
         plotBackgroundColor: null,
         plotBorderWidth: null,
         plotShadow: false,
+        height: this.props.height,
       },
       tooltip: {
         formatter: this.formatTooltip,
       },
       legend: {
         symbolRadius: 0,
+        align: this.props.legendAlign,
+        layout: this.props.legendLayout,
+        verticalAlign: this.props.legendVerticalAlign,
       },
       plotOptions: {
         pie: {
