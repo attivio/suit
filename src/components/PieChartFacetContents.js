@@ -17,21 +17,34 @@ type PieChartFacetContentsProps = {
    * the map are ignored.
    */
   entityColors: Map<string, string>;
-  /** Property to align the legend to left, right or center. */
-  legendAlign?: 'left' | 'right' | 'center';
-  /** Property to position the legend either as horizontal or vertical. */
-  legendLayout?: 'horizontal' | 'vertical';
-  /** Property to align the legend vertically either on top, middle or bottom. */
-  legendVerticalAlign?: 'top' | 'middle' | 'bottom';
-  /** Height of the Pie Chart. */
-  height?: number;
+  /**
+   * Property representing horizontal alignment of the legend box within the chart area.
+   * Optional values are left, right or center.
+   * Default value is center.
+   */
+  legendAlign: 'left' | 'right' | 'center';
+  /**
+   * Property representing how the individual items in the legend should be shown.
+   * Optional values are horizontal or vertical.
+   * Default value is horizontal.
+   */
+  legendLayout: 'horizontal' | 'vertical';
+  /**
+   * Vertical alignment of the legend box relative to chart.
+   * Optional values are top, middle or bottom.
+   * Default value is bottom.
+   */
+  legendVerticalAlign: 'top' | 'middle' | 'bottom';
+  /** Height of the Pie Chart. By default the height is set to 400px by Highcharts. */
+  height: string;
 };
 
 type PieChartFacetContentsDefaultProps = {
   entityColors: Map<string, string>;
-  legendAlign?: 'left' | 'right' | 'center';
-  legendLayout?: 'horizontal' | 'vertical';
-  legendVerticalAlign?: 'top' | 'middle' | 'bottom';
+  legendAlign: 'left' | 'right' | 'center';
+  legendLayout: 'horizontal' | 'vertical';
+  legendVerticalAlign: 'top' | 'middle' | 'bottom';
+  height: string;
 };
 
 /**
