@@ -17,10 +17,34 @@ type PieChartFacetContentsProps = {
    * the map are ignored.
    */
   entityColors: Map<string, string>;
+  /**
+   * Property representing horizontal alignment of the legend box within the chart area.
+   * Optional values are left, right or center.
+   * Default value is center.
+   */
+  legendAlign: 'left' | 'right' | 'center';
+  /**
+   * Property representing how the individual items in the legend should be shown.
+   * Optional values are horizontal or vertical.
+   * Default value is horizontal.
+   */
+  legendLayout: 'horizontal' | 'vertical';
+  /**
+   * Vertical alignment of the legend box relative to chart.
+   * Optional values are top, middle or bottom.
+   * Default value is bottom.
+   */
+  legendVerticalAlign: 'top' | 'middle' | 'bottom';
+  /** Height of the Pie Chart. By default the height is set to 400px by Highcharts. */
+  height: string;
 };
 
 type PieChartFacetContentsDefaultProps = {
   entityColors: Map<string, string>;
+  legendAlign: 'left' | 'right' | 'center';
+  legendLayout: 'horizontal' | 'vertical';
+  legendVerticalAlign: 'top' | 'middle' | 'bottom';
+  height: string;
 };
 
 /**
@@ -29,6 +53,10 @@ type PieChartFacetContentsDefaultProps = {
 export default class PieChartFacetContents extends React.Component<PieChartFacetContentsDefaultProps, PieChartFacetContentsProps, void> { // eslint-disable-line max-len
   static defaultProps = {
     entityColors: new Map(),
+    legendAlign: 'center',
+    legendLayout: 'horizontal',
+    legendVerticalAlign: 'bottom',
+    height: '400px',
   }
 
   static displayName = 'PieChartFacetContents';
@@ -75,12 +103,16 @@ export default class PieChartFacetContents extends React.Component<PieChartFacet
         plotBackgroundColor: null,
         plotBorderWidth: null,
         plotShadow: false,
+        height: this.props.height,
       },
       tooltip: {
         formatter: this.formatTooltip,
       },
       legend: {
         symbolRadius: 0,
+        align: this.props.legendAlign,
+        layout: this.props.legendLayout,
+        verticalAlign: this.props.legendVerticalAlign,
       },
       plotOptions: {
         pie: {
