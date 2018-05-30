@@ -19,4 +19,14 @@ export default class SimplePrincipal {
     this.groupMemberships = groupMemberships;
     this.type = type;
   }
+
+  static fromJson(json: any): SimplePrincipal {
+    let groupMemberships = [];
+    if (json.groupMemberships && json.groupMemberships.length > 0) {
+      groupMemberships = json.groupMemberships.map((group) => {
+        return new SimplePrincipal(json.name, json.realm, group, json.type);
+      });
+    }
+    return new SimplePrincipal(json.name, json.realm, groupMemberships, json.type);
+  }
 }
