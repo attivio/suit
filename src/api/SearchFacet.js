@@ -17,13 +17,14 @@ export default class SearchFacet {
     if (json.statistics) {
       statistics = SearchFacetStatistics.fromJson(json.statistics);
     }
-    return new SearchFacet(json.name, json.field, json.label, buckets, statistics);
+    return new SearchFacet(json.name, json.field, json.label, json.count, buckets, statistics);
   }
 
-  constructor(name: string, field: string, label: string, buckets: Array<SearchFacetBucket> = [], statistics: SearchFacetStatistics | null = null) { // eslint-disable-line max-len
+  constructor(name: string, field: string, label: string, count: number, buckets: Array<SearchFacetBucket> = [], statistics: SearchFacetStatistics | null = null) { // eslint-disable-line max-len
     this.name = name;
     this.field = field;
     this.label = label;
+    this.count = count;
     this.buckets = buckets;
     this.statistics = statistics;
   }
@@ -36,6 +37,8 @@ export default class SearchFacet {
   field: string;
   /** The human-readable label for this facet, usually the name of the field being faceted on */
   label: string;
+  /** The number of occurances for a facet. */
+  count: number;
   /** Statistics for the facet (only available for numeric fields) */
   statistics: SearchFacetStatistics | null;
 
