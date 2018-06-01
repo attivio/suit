@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 
-import DisappearingImage from './DisappearingImage';
+import DefaultImage from './DefaultImage';
 import StringUtils from '../util/StringUtils';
 
 type DocumentThumbnailProps = {
@@ -38,7 +38,7 @@ export default class DocumentThumbnail extends React.Component<DocumentThumbnail
       }
       const className = haveImage ? 'attivio-search-result-preview img-responsive' :
         'attivio-search-result-preview img-responsive attivio-search-result-preview-placeholder';
-      return <DisappearingImage src={uri} className={className} style={{ maxHeight: '100px' }} alt="Thumbnail" />;
+      return <DefaultImage src={uri} className={className} style={{ maxHeight: '100px' }} alt="Thumbnail" />;
     }
     return null; // No thumbnail for this document
   }

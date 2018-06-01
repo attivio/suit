@@ -184,7 +184,7 @@ module.exports = {
               'src/components/ChartTrends.js',
               'src/components/Code.js',
               'src/components/CollapsiblePanel.js',
-              'src/components/DisappearingImage.js',
+              'src/components/DefaultImage.js',
               'src/components/FormattedDate.js',
               'src/components/GridLayout.js',
               'src/components/Header360.js',
