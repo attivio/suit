@@ -8,9 +8,9 @@ type DefaultImageProps = {
    */
   imageSrc: string;
   /**
-   * The address of a default image to display if there's an issue displaying the prefered image address.
+   * The address of a default image to display if there's an issue displaying the prefered image address. Optional.
    */
-  defaultSrc?: string | null;
+  defaultSrc: string | null;
 };
 
 type DefaultImageDefaultProps = {
@@ -24,6 +24,7 @@ type DefaultImageState = {
 /**
  * Display a backup image if there is some error with the desired image source.
  * If neither provided source is successfully displayed, then display nothing.
+ * You can pass in any props that work for a standard <img> tag and they'll be added to the inserted image.
  */
 export default class DefaultImage extends React.Component<DefaultImageDefaultProps, DefaultImageProps, DefaultImageState> {
   static defaultProps = {
