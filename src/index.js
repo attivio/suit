@@ -49,7 +49,7 @@ export Configuration from './components/Configuration';
 export ContextHelp from './components/ContextHelp';
 export DataPairs from './components/DataPairs';
 export DatePicker from './components/DatePicker';
-export DisappearingImage from './components/DisappearingImage';
+export DefaultImage from './components/DefaultImage';
 export Doc360Breadcrumbs from './components/Doc360Breadcrumbs';
 export DocumentEntityList from './components/DocumentEntityList';
 export DocumentThumbnail from './components/DocumentThumbnail';

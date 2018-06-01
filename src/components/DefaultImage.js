@@ -6,7 +6,7 @@ type DefaultImageProps = {
   /**
    * The address of the image you want to display.
    */
-  imageSrc: string;
+  src: string;
   /**
    * The address of a default image to display if there's an issue displaying the prefered image address. Optional.
    */
@@ -34,7 +34,7 @@ export default class DefaultImage extends React.Component<DefaultImageDefaultPro
   constructor(props: DefaultImageProps) {
     super(props);
     this.state = {
-      src: props.imageSrc,
+      src: props.src,
     };
     (this: any).onError = this.onError.bind(this);
   }

@@ -31,7 +31,7 @@ export default class DocumentThumbnail extends React.Component<DocumentThumbnail
 
   render() {
     const haveImage = StringUtils.notEmpty(this.props.uri);
-    if (haveImage) {
+    if (this.props.uri) {
       let uri = this.props.uri;
       if (uri && uri.startsWith('/')) {
         uri = uri.substring(1);

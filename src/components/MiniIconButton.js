@@ -2,7 +2,6 @@
 
 import React from 'react';
 
-import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 type MiniIconButtonProps = {
@@ -30,7 +29,7 @@ type MiniIconButtonProps = {
 
 type MiniIconButtonDefaultProps = {
   glyph: string | null;
-  uri: string | null;  
+  uri: string | null;
 };
 
 export default class MiniIconButton extends React.Component<MiniIconButtonDefaultProps, MiniIconButtonProps, void> {
