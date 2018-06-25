@@ -28,6 +28,8 @@ type TagCloudProps = {
    * object if one is clicked.
    */
   callback: (tcv: TagCloudValue) => void;
+
+  noLink: boolean;
 };
 
 type TagCloudDefaultProps = {
@@ -41,6 +43,7 @@ type TagCloudDefaultProps = {
 export default class TagCloud extends React.Component<TagCloudDefaultProps, TagCloudProps, void> {
   static defaultProps = {
     maxValues: 15,
+    noLink: false,
   };
 
   static displayName = 'TagCloud';
@@ -88,11 +91,15 @@ export default class TagCloud extends React.Component<TagCloudDefaultProps, TagC
         event.target.blur();
       };
       return (
-        <li key={tcv.label}>
+        this.props.noLink ? (<li key={tcv.label}>
+          <span className={`attivio-cloud-level-${size}`}>
+            {tcv.label}
+          </span>
+        </li>) : (<li key={tcv.label}>
           <a className={`attivio-cloud-level-${size}`} onClick={callback} role="button" tabIndex={0}>
             {tcv.label}
           </a>
-        </li>
+        </li>)
       );
     });
 
