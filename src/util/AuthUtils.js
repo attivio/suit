@@ -19,13 +19,13 @@ export default class AuthUtils {
     if (configError) {
       throw configError;
     }
-    if (config.ALL.authType === 'XML') {
-      // Only validate users if the auth type is XML
-      const usersError = AuthUtils.validateUsers(users);
-      if (usersError) {
-        throw usersError;
-      }
-    }
+    // if (config.ALL.authType === 'XML') {
+    //   // Only validate users if the auth type is XML
+    //   const usersError = AuthUtils.validateUsers(users);
+    //   if (usersError) {
+    //     throw usersError;
+    //   }
+    // }
     AuthUtils.users = users;
     AuthUtils.config = config;
   }
@@ -172,11 +172,14 @@ export default class AuthUtils {
 
   /**
    * Check whether the user has a particular permission.
-   * TO BE IMPLEMENTED
    */
-  static hasPermission(/* user: any, permission: string */): boolean {
+  static hasPermission(user: any, permission: string): boolean {
     if (AuthUtils.config && AuthUtils.config.ALL && AuthUtils.config.ALL.authType === 'NONE') {
       return true;
+    } else if (AuthUtils.config && AuthUtils.config.ALL && AuthUtils.config.ALL.authType === 'XML') {
+      if (user.roles.includes(permission)) {
+        return true;
+      }
     }
     return false;
   }
@@ -195,7 +198,7 @@ export default class AuthUtils {
     const user = AuthUtils.getSavedUser();
     if (user) {
       if (permission) {
-        return AuthUtils.hasPermission(/* user, permission */);
+        return AuthUtils.hasPermission(user, permission);
       }
       return true;
     }
@@ -229,7 +232,7 @@ export default class AuthUtils {
     const userObject = AuthUtils.getSavedUser();
     if (userObject && userObject.timeout && userObject.timeout > new Date().getTime()) {
       callback(userObject);
-    } else if (AuthUtils.config.ALL.authType === 'SAML' || AuthUtils.config.ALL.authType === 'NONE') {
+    } else if (AuthUtils.config.ALL.authType === 'SAML' || AuthUtils.config.ALL.authType === 'NONE' || AuthUtils.config.ALL.authType === 'XML') {
       // If the authentication is done on the front-end, we shouldn't
       // ever get here because if there's no saved user, then
       // no one is logged in yet...
