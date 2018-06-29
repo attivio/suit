@@ -3,6 +3,7 @@
 import React from 'react';
 
 import SearchFacetBucket from '../api/SearchFacetBucket';
+import MoreList from './MoreList';
 
 type ListWithBarsFacetContentsProps = {
   /** The facet’s buckets. */
@@ -13,11 +14,14 @@ type ListWithBarsFacetContentsProps = {
   right: boolean;
   /** If set, then the bars will be this color as opposed to the default blue */
   color: string;
+  /** boolean condition to remove hyperlinks from labels and show them as plain text */
+  noLink: boolean;
 };
 
 type ListWithBarsFacetContentsDefaultProps = {
   right: boolean;
   color: string;
+  noLink: boolean;
 };
 
 /**
@@ -28,6 +32,7 @@ export default class ListWithBarsFacetContents extends React.Component<ListWithB
   static defaultProps = {
     right: false,
     color: '#55B3E3',
+    noLink: false,
   };
 
   static displayName = 'ListWithBarsFacetContents';
@@ -47,19 +52,23 @@ export default class ListWithBarsFacetContents extends React.Component<ListWithB
         this.props.addFacetFilter(bucket);
         event.target.blur();
       };
-
+      const labelValue = this.props.noLink ? (
+        <span>
+          {label}
+        </span>) : (
+          <a
+            onClick={callback}
+            role="button"
+            tabIndex={0}
+          >
+            {label}
+          </a>);
       return (
         <tr key={bucket.bucketKey()}>
-          <td>
-            <a
-              onClick={callback}
-              role="button"
-              tabIndex={0}
-            >
-              {label}
-            </a>
+          <td style={{ width: '100px' }}>
+            {labelValue}
           </td>
-          <td>
+          <td style={{ paddingRight: '10px' }}>
             {bucket.count}
           </td>
           <td className="attivio-linksbar-chart">
@@ -89,7 +98,7 @@ export default class ListWithBarsFacetContents extends React.Component<ListWithB
           </tr>
         </thead>
         <tbody>
-          {bucketRows}
+          <MoreList shortSize={6}>{bucketRows}</MoreList>
         </tbody>
       </table>
     );
