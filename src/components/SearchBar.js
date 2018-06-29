@@ -336,7 +336,6 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
           placeholder={placeholder || ''}
           value={query}
           className={inputClass}
-          style={{ minWidth: '500px' }}
         />
       ) : (
         <input
@@ -346,13 +345,12 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
           onChange={this.queryChanged}
           onKeyDown={this.doKeyPress}
           value={query}
-          style={{ minWidth: '500px' }}
         />
       );
 
     return (
       <div className={containerClass}>
-        <div className="attivio-globalmast-search" role="search" style={{ display: 'inline-block' }}>
+        <div className="attivio-globalmast-search" role="search">
           <div className="form-group">
             {inputComponent}
             {showMicrophone ? (
