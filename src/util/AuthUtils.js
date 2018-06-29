@@ -19,13 +19,13 @@ export default class AuthUtils {
     if (configError) {
       throw configError;
     }
-    // if (config.ALL.authType === 'XML') {
-    //   // Only validate users if the auth type is XML
-    //   const usersError = AuthUtils.validateUsers(users);
-    //   if (usersError) {
-    //     throw usersError;
-    //   }
-    // }
+    if (config.ALL.authType === 'XML') {
+      // Only validate users if the auth type is XML
+      const usersError = AuthUtils.validateUsers(users);
+      if (usersError) {
+        throw usersError;
+      }
+    }
     AuthUtils.users = users;
     AuthUtils.config = config;
   }
@@ -176,7 +176,8 @@ export default class AuthUtils {
   static hasPermission(user: any, permission: string): boolean {
     if (AuthUtils.config && AuthUtils.config.ALL && AuthUtils.config.ALL.authType === 'NONE') {
       return true;
-    } else if (AuthUtils.config && AuthUtils.config.ALL && AuthUtils.config.ALL.authType === 'XML') {
+    } else if (AuthUtils.config && AuthUtils.config.ALL && AuthUtils.config.ALL.authType !== 'NONE') {
+      // check if user is part of the role passed to this function.
       if (user.roles.includes(permission)) {
         return true;
       }
