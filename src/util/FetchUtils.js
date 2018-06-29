@@ -55,9 +55,9 @@ export default class FetchUtils {
           });
         }
       },
-      (error: any) => {
-        // Catch network-type errors from the main fetch() call
-        callback(null, FetchUtils.getErrorMessage(error, errorMesssage));
+      () => {
+        // Catch network-type errors from the main fetch() call and reload the page.
+        window.location.reload();
       },
     ).catch((error: any) => {
       // Catch exceptions from the main "then" function
