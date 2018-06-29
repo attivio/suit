@@ -68,7 +68,7 @@ export default class ListWithBarsFacetContents extends React.Component<ListWithB
           <td style={{ width: '100px' }}>
             {labelValue}
           </td>
-          <td>
+          <td style={{ paddingRight: '10px' }}>
             {bucket.count}
           </td>
           <td className="attivio-linksbar-chart">
