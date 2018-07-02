@@ -147,7 +147,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
       if (e.results[0].isFinal) {
         const searcher = this.context.searcher;
         if (searcher) {
-          searcher.performQueryImmediately(newQuery);
+          searcher.setQueryAndSearch(newQuery);
         }
       }
       this.setState({
@@ -180,7 +180,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     const searcher = this.context.searcher;
     if (searcher) {
       if (doSearch) {
-        searcher.performQueryImmediately(newQuery);
+        searcher.setQueryAndSearch(newQuery);
         this.route();
       } else {
         searcher.updateQuery(newQuery);
