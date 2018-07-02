@@ -37,6 +37,8 @@ type PieChartFacetContentsProps = {
   legendVerticalAlign: 'top' | 'middle' | 'bottom';
   /** Height of the Pie Chart. By default the height is set to 400px by Highcharts. */
   height: string;
+  /** Condition to enable or disable the click event for Pie Chart. By default it is set to true. */
+  clickable: boolean;
 };
 
 type PieChartFacetContentsDefaultProps = {
@@ -45,6 +47,7 @@ type PieChartFacetContentsDefaultProps = {
   legendLayout: 'horizontal' | 'vertical';
   legendVerticalAlign: 'top' | 'middle' | 'bottom';
   height: string;
+  clickable: boolean;
 };
 
 /**
@@ -57,6 +60,7 @@ export default class PieChartFacetContents extends React.Component<PieChartFacet
     legendLayout: 'horizontal',
     legendVerticalAlign: 'bottom',
     height: '400px',
+    clickable: true,
   }
 
   static displayName = 'PieChartFacetContents';
@@ -123,9 +127,12 @@ export default class PieChartFacetContents extends React.Component<PieChartFacet
           },
           events: {
             click: (event: Event) => {
-              if (event.point) {
-                this.clickWedge((event.point: any).index);
+              if (this.props.clickable) {
+                if (event.point) {
+                  this.clickWedge((event.point: any).index);
+                }
               }
+              return false;
             },
           },
           point: {
