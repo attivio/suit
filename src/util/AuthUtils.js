@@ -175,8 +175,6 @@ export default class AuthUtils {
    */
   static hasPermission(user: any, permission: string): boolean {
     if (AuthUtils.config && AuthUtils.config.ALL && AuthUtils.config.ALL.authType === 'NONE') {
-      return true;
-    } else if (AuthUtils.config && AuthUtils.config.ALL && AuthUtils.config.ALL.authType !== 'NONE') {
       // check if user is part of the role passed to this function.
       if (user.roles.includes(permission)) {
         return true;
@@ -191,9 +189,6 @@ export default class AuthUtils {
   static isLoggedIn(permission: string | null): boolean {
     if (!AuthUtils.config || !AuthUtils.config.ALL) {
       return false;
-    }
-    if (AuthUtils.config.ALL.authType === 'NONE') {
-      return true;
     }
 
     const user = AuthUtils.getSavedUser();
@@ -233,7 +228,7 @@ export default class AuthUtils {
     const userObject = AuthUtils.getSavedUser();
     if (userObject && userObject.timeout && userObject.timeout > new Date().getTime()) {
       callback(userObject);
-    } else if (AuthUtils.config.ALL.authType === 'SAML' || AuthUtils.config.ALL.authType === 'NONE' || AuthUtils.config.ALL.authType === 'XML') {
+    } else if (AuthUtils.config.ALL.authType === 'SAML' || AuthUtils.config.ALL.authType === 'NONE') {
       // If the authentication is done on the front-end, we shouldn't
       // ever get here because if there's no saved user, then
       // no one is logged in yet...
