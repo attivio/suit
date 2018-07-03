@@ -172,11 +172,13 @@ export default class AuthUtils {
 
   /**
    * Check whether the user has a particular permission.
-   * TO BE IMPLEMENTED
    */
-  static hasPermission(/* user: any, permission: string */): boolean {
+  static hasPermission(user: any, permission: string): boolean {
     if (AuthUtils.config && AuthUtils.config.ALL && AuthUtils.config.ALL.authType === 'NONE') {
-      return true;
+      // check if user is part of the role passed to this function.
+      if (user.roles.includes(permission)) {
+        return true;
+      }
     }
     return false;
   }
@@ -188,14 +190,11 @@ export default class AuthUtils {
     if (!AuthUtils.config || !AuthUtils.config.ALL) {
       return false;
     }
-    if (AuthUtils.config.ALL.authType === 'NONE') {
-      return true;
-    }
 
     const user = AuthUtils.getSavedUser();
     if (user) {
       if (permission) {
-        return AuthUtils.hasPermission(/* user, permission */);
+        return AuthUtils.hasPermission(user, permission);
       }
       return true;
     }
