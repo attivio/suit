@@ -133,6 +133,7 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
     const docId = doc.getFirstValue('.id');
     const table = doc.getFirstValue('table');
     const thumbnailUri = doc.getFirstValue('thumbnailImageUri');
+    const previewUri = doc.getAllValues('previewImageUri');
     const scoreString = doc.getFirstValue(FieldNames.SCORE);
     const score = scoreString ? parseFloat(scoreString) : 0;
     const scoreDescription = doc.getFirstValue(FieldNames.SCORE_EXPLAIN);
@@ -195,7 +196,7 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
       <div className=" attivio-search-result">
         <div className="attivio-search-result-col">
           <DocumentType docType={table} position={this.props.position} />
-          <DocumentThumbnail uri={thumbnailUri} />
+          <DocumentThumbnail uri={thumbnailUri} previewUris={previewUri} previewTitle={doc.getFirstValue(FieldNames.TITLE)} />
           <dl className="attivio-labeldata-stacked attivio-labeldata-stacked-search-results">
             {this.props.showRatings ? (
               <div>
@@ -263,6 +264,7 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
     const docId = doc.getFirstValue('.id');
     const table = doc.getFirstValue(FieldNames.TABLE);
     const thumbnailUri = doc.getFirstValue('thumbnailImageUri');
+    const previewUri = doc.getAllValues('previewImageUri');
     const score = parseFloat(doc.getFirstValue(FieldNames.SCORE));
     const scoreDescription = doc.getFirstValue(FieldNames.SCORE_EXPLAIN);
     const moreLikeThisQuery = doc.getFirstValue('morelikethisquery');
@@ -301,7 +303,7 @@ export default class SearchResult extends React.Component<SearchResultDefaultPro
       <div className=" attivio-search-result row">
         <div className="col-xs-2 col-sm-2">
           <DocumentType docType={table} position={this.props.position} />
-          <DocumentThumbnail uri={thumbnailUri} />
+          <DocumentThumbnail uri={thumbnailUri} previewUris={previewUri} previewTitle={doc.getFirstValue(FieldNames.TITLE)} />
           <dl className="attivio-labeldata-stacked attivio-labeldata-stacked-search-results">
             {this.props.showRatings ? (
               <div>

@@ -80,6 +80,7 @@ module.exports = {
             return [
               'src/components/DataPairs.js',
               'src/components/DocumentEntityList.js',
+              'src/components/DocumentPreview.js',
               'src/components/DocumentThumbnail.js',
               'src/components/DocumentType.js',
               'src/components/RelevancyScore.js',

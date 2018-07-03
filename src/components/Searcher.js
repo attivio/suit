@@ -780,7 +780,9 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
 
   /**
    * Set the query string to the passed-in value and trigger the
-   * query immediately, resetting parameters to the beginning.
+   * query immediately, resetting parameters to the beginning. The
+   * query is specified as either simple or advanced based on the
+   * value of the advanced flag (it's previous value is ignored).
    */
   performQueryImmediately(query: string, advanced: boolean = false) {
     this.updateStateResetAndSearch({
@@ -788,6 +790,22 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       error: undefined,
       response: undefined,
       queryLanguage: advanced ? 'advanced' : 'simple',
+      facetFilters: [],
+      query,
+    });
+  }
+
+  /**
+   * Set the query string to the passed-in value and trigger the
+   * query immediately, resetting parameters to the beginning.
+   * This is similar to performQueryImmediately() except that the
+   * current value of the queryLanguage is preserved.
+   */
+  setQueryAndSearch(query: string) {
+    this.updateStateResetAndSearch({
+      haveSearched: true, // Force it to update right now
+      error: undefined,
+      response: undefined,
       facetFilters: [],
       query,
     });
