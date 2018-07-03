@@ -52,6 +52,7 @@ export DatePicker from './components/DatePicker';
 export DefaultImage from './components/DefaultImage';
 export Doc360Breadcrumbs from './components/Doc360Breadcrumbs';
 export DocumentEntityList from './components/DocumentEntityList';
+export DocumentPreview from './components/DocumentPreview';
 export DocumentThumbnail from './components/DocumentThumbnail';
 export DocumentType from './components/DocumentType';
 export DropdownButton from './components/DropdownButton';
