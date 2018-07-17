@@ -36,6 +36,8 @@ type AutoCompleteInputState = {
   queryValue: string;
 };
 
+const isIE11 = !(window.ActiveXObject) && 'ActiveXObject' in window;
+
 export default class AutoCompleteInput extends React.Component<AutoCompleteInputDefaultProps, AutoCompleteInputProps, AutoCompleteInputState> { // eslint-disable-line max-len
   static defaultProps = {
     id: 'autocomplete',
@@ -50,6 +52,10 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
 
   // Start looking for autocomplete values when there are at least 3 characters in the input field
   static AUTOCOMPLETE_THRESHOLD = 2;
+
+  static getInputOnChangeProps(handler) {
+    return isIE11 ? { onInput: handler } : { onChange: handler };
+  }
 
   constructor(props: AutoCompleteInputProps) {
     super(props);
@@ -207,7 +213,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
             className={this.props.className}
             style={this.props.style}
             disabled={this.props.disabled}
-            onChange={this.handleChange}
+            {...AutoCompleteInput.getInputOnChangeProps(this.handleChange)}
             onKeyDown={this.doKeyPress}
           />
           <Dropdown.Toggle
