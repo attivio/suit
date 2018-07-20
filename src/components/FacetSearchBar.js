@@ -40,7 +40,7 @@ type SearchBarState = {
  * Component to include in the Masthead for entering the query
  * to use when searching. Must be inside a Searcher component.
  */
-class FacetSearchBar extends React.Component<SearchBarDefaultProps, SearchBarState, SearchBarProps> {
+class FacetSearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, SearchBarState> {
   static contextTypes = {
     searcher: PropTypes.any,
   };
@@ -49,7 +49,7 @@ class FacetSearchBar extends React.Component<SearchBarDefaultProps, SearchBarSta
     placeholder: 'Search Facet Values',
     buttonLabel: 'Search',
     name: '*',
-    addFacetFilter: (bucket) => {},
+    addFacetFilter: (bucket) => { return bucket.label; },
     maxValues: 5,
     showSearchBar: true,
     showExportButton: true,
@@ -267,46 +267,46 @@ class FacetSearchBar extends React.Component<SearchBarDefaultProps, SearchBarSta
     const inputComponent = this.props.showSearchBar ? (
       <div className="attivio-globalmast-search" role="search" style={{ display: 'inline-block' }}>
         <div className="form-group">
-            <input
-              type="search"
-              className={inputClass}
-              placeholder={placeholder}
-              onChange={this.queryChanged}
-              onKeyDown={this.doKeyPress}
-              value={query}
-              style={{ minWidth: '300px' }}
-            />
-            <button
-              type="submit"
-              className="btn attivio-globalmast-search-submit"
-              onClick={this.doSearch}
-              style={{ height: '25px' }}
-              ref={(c) => { this.submitButton = c; }}
-            >
-              {this.props.buttonLabel}
-            </button>
-          </div>
+          <input
+            type="search"
+            className={inputClass}
+            placeholder={placeholder}
+            onChange={this.queryChanged}
+            onKeyDown={this.doKeyPress}
+            value={query}
+            style={{ minWidth: '300px' }}
+          />
+          <button
+            type="submit"
+            className="btn attivio-globalmast-search-submit"
+            onClick={this.doSearch}
+            style={{ height: '25px' }}
+            ref={(c) => { this.submitButton = c; }}
+          >
+            {this.props.buttonLabel}
+          </button>
+        </div>
         {suggestionList}
       </div>) : '';
 
-    const buttonContent = this.props.showExportButton ? (        
+    const buttonContent = this.props.showExportButton ? (
       <div>
-          <button
-            id={this.props.name}
-            className="btn attivio-globalmast-search-submit"
-            style={{ height: '25px', position: 'relative' }}
-            href="#"
-            onClick={() => { return this.downloadCSV({}); }}
-          >
+        <button
+          id={this.props.name}
+          className="btn attivio-globalmast-search-submit"
+          style={{ height: '25px', position: 'relative' }}
+          href="#"
+          onClick={() => { return this.downloadCSV({}); }}
+        >
             Export to CSV
           </button>
-        </div>) : '';
-    
+      </div>) : '';
+
     return (
       <div className={containerClass}>
         { inputComponent }
         { additionalContent }
-        {} buttonContent }
+        { buttonContent }
       </div>
     );
   }
