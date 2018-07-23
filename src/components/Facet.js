@@ -16,6 +16,7 @@ import TagCloudFacetContents from './TagCloudFacetContents';
 import TimeSeriesFacetContents from './TimeSeriesFacetContents';
 import SentimentFacetContents from './SentimentFacetContents';
 import MapFacetContents from './MapFacetContents';
+import FacetSearchBar from './FacetSearchBar';
 
 export type FacetType = 'barchart' | 'columnchart' | 'piechart' | 'barlist' |
   'tagcloud' | 'timeseries' | 'list' | 'sentiment' | 'geomap' |
@@ -41,6 +42,12 @@ type FacetProps = {
   bordered: boolean;
   /** Controls the colors used to show various entity types (the value can be any valid CSS color) */
   entityColors: Map<string, string>;
+  /** Should the search bar be exposed for list facets */
+  showSearchBar: boolean;
+  /** Should the export button be available for the facet values for list facets */
+  showExportButton: boolean;
+  /** The label for the export button */
+  exportButtonLabel: string;
 }
 
 type FacetDefaultProps = {
@@ -186,9 +193,18 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
           facetContents = <MapFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />;
           break;
         case 'list':
-        default:
-          facetContents = <MoreListFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />;
+        default: {
+          const childProps = <MoreListFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />;
+          facetContents = (
+            <FacetSearchBar
+              childProps={childProps}
+              name={this.props.facet.field}
+              label={this.props.facet.label}
+              addFacetFilter={this.addFacetFilter}
+            />
+          );
           break;
+        }
       }
     } else {
       facetContents = <span className="none">No values for this facet.</span>;
