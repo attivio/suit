@@ -10,13 +10,19 @@ type FacetSearchBarProps = {
   placeholder: PropTypes.string.isRequired;
   /** The label to show on the search button. Defaults to "Go". */
   buttonLabel: PropTypes.string.isRequired;
+  /** The name of the Facet */
   name: PropTypes.string.isRequired;
   /** Callback to add a filter for this facet. */
   addFacetFilter: (bucket: SearchFacetBucket) => void;
+  /** Max number of matching facet values to show */
   maxValues: number;
+  /** Content to show for the actual facet stuff (typically the ListFacetContents) */
   childProps: Object | null;
+  /** Should there be a Facet Search Bar exposed to end users */
   showSearchBar: boolean;
+  /** Should there be an export button exposed to end users */
   showExportButton: boolean;
+  /** The label for the export button for exporting results to a CSV */
   exportButtonLabel: string;
 };
 
@@ -39,8 +45,8 @@ type FacetSearchBarState = {
 }
 
 /**
- * Component to include in the Masthead for entering the query
- * to use when searching. Must be inside a Searcher component.
+ * Component that wraps a Facet that allows searching for specific values for that facet,
+ * as well as exporting that facet's values to a CSV
  */
 class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSearchBarProps, FacetSearchBarState> {
   static contextTypes = {
@@ -57,41 +63,31 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
     exportButtonLabel: 'Export',
   };
 
-  static convertArrayOfObjectsToCSV(args) {
-    let result = '';
-    let columnDelimiter = ',';
-    let lineDelimiter = '\n';
-
-    if (args.columnDelimiter && args.lineDelimiter) {
-      columnDelimiter = args.columnDelimiter;
-      lineDelimiter = args.lineDelimiter;
-    }
-
-    const data = args.data || null;
-
+  /** Generates the CSV for the Facet Value data */
+  static convertArrayOfObjectsToCSV(data: Array<Map<string, Object>>, columnDelimiter: string = ',', lineDelimiter: string = '\n') {
     if (data == null || !data.length) {
       return null;
     }
-
+    let result = '';
+    // Create the header row of the CSV
     const keys = Object.keys(data[0]);
-
     result += keys.join(columnDelimiter);
     result += lineDelimiter;
-
-    let ctr = 0;
+    // Populate the CSV with data
+    let colNum = 0;
     data.forEach((item) => {
-      ctr = 0;
+      colNum = 0;
       if (keys && keys.length > 0) {
         keys.forEach((key) => {
-          if (ctr > 0) result += columnDelimiter;
-
+          if (colNum > 0) {
+            result += columnDelimiter;
+          }
           result += item[key];
-          ctr += 1;
+          colNum += 1;
         });
         result += lineDelimiter;
       }
     });
-
     return result;
   }
 
@@ -107,13 +103,14 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
     (this: any).doKeyPress = this.doKeyPress.bind(this);
     (this: any).doSearch = this.doSearch.bind(this);
     (this: any).queryChanged = this.queryChanged.bind(this);
-    (this: any).updateQuery = this.updateQuery.bind(this);
     (this: any).addFilter = this.addFilter.bind(this);
     (this: any).handleSearchResults = this.handleSearchResults.bind(this);
   }
 
   state: FacetSearchBarState;
 
+  /** Generates a list of menu items to show for the Facet values that match the query,
+  based on values currently set on this.state.suggestions */
   getSuggestionList() {
     if (!this.state.suggestions || this.state.suggestions.length === 0) {
       return null;
@@ -151,14 +148,15 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
     return null;
   }
 
+  /** Calls the function to fire off the query, then maps the results
+  into a format ready to be written to CSV */
   getAllFacetValues(callback) {
     function localCallback(qr: ?QueryResponse, error: ?string) {
       if (qr) {
         const facets = qr.facets[0].buckets;
         const response = [];
-        facets.map((facet: Object) => {
+        facets.forEach((facet: SearchFacetBucket) => {
           response.push({ 'Facet Value': facet.displayLabel(), 'Document Count': facet.count });
-          return '';
         });
         callback(response);
       } else if (error) {
@@ -169,11 +167,13 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
     this.doConfiguredSearch('*', -1, localCallback, this.context.searcher);
   }
 
+  /** Handles when a user clicks on a facet value from the suggestion list */
   addFilter(eventKey) {
     this.props.addFacetFilter(this.state.suggestions[eventKey]);
     this.setState({ suggestions: [], query: '' });
   }
 
+  /** Handles the results and sets the facets to state */
   handleSearchResults(response: ?QueryResponse, error: ?string) {
     if (response) {
       const facets = response.facets[0].buckets;
@@ -187,6 +187,7 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
     }
   }
 
+  /** Fires off the search for the matching facet values, while respecting the query and filters the user has already entered */
   doConfiguredSearch(queryTerm: string, maxBuckets: number, callback, searcher) {
     if (searcher) {
       const searchTerm = searcher.state.query;
@@ -207,11 +208,13 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
     }
   }
 
+  /** Called when the user wants to search (hits enter or clicks search) */
   doSearch() {
     const callback = this.handleSearchResults;
     this.doConfiguredSearch(`${this.state.facetValue}*`, this.props.maxValues * 2, callback, this.context.searcher);
   }
 
+  /** Handles when the user updates the query for this facet */
   queryChanged(e: Event) {
     if (e.target instanceof HTMLInputElement) {
       const newQuery = e.target.value;
@@ -219,14 +222,7 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
     }
   }
 
-  updateQuery(newQuery: string, doSearch: boolean = false) {
-    if (doSearch) {
-      this.setState({ facetValue: newQuery, query: newQuery }, this.doSearch());
-    } else {
-      this.setState({ facetValue: newQuery, query: newQuery });
-    }
-  }
-
+  /** Exports all values and counts for the facet to CSV */
   downloadCSV(args) {
     const callback = (data) => {
       let csv = FacetSearchBar.convertArrayOfObjectsToCSV({ data });
@@ -247,6 +243,7 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
     this.getAllFacetValues(callback);
   }
 
+  /** Called when a user presses a key */
   doKeyPress(e: Event) {
     // If the user presses enter, do the search
     if (e.target instanceof HTMLInputElement && e.keyCode) {
@@ -286,10 +283,10 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
             style={{ height: '25px' }}
             ref={(c) => { this.submitButton = c; }}
           >
-            {this.props.buttonLabel}
+            { this.props.buttonLabel }
           </button>
         </div>
-        {suggestionList}
+        { suggestionList }
       </div>) : '';
 
     const buttonContent = this.props.showExportButton ? (
