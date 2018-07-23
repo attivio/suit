@@ -42,12 +42,6 @@ type FacetProps = {
   bordered: boolean;
   /** Controls the colors used to show various entity types (the value can be any valid CSS color) */
   entityColors: Map<string, string>;
-  /** Should the search bar be exposed for list facets */
-  showSearchBar: boolean;
-  /** Should the export button be available for the facet values for list facets */
-  showExportButton: boolean;
-  /** The label for the export button */
-  exportButtonLabel: string;
 }
 
 type FacetDefaultProps = {
