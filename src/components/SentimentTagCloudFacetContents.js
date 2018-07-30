@@ -17,12 +17,34 @@ type SentimentTagCloudFacetContentsProps = {
    */
   maxBuckets: number;
   /** Callback to add a filter for this facet. */
-  addFacetFilter: (bucket: SearchFacetBucket) => void;
+  addFacetFilter: (bucket: any) => void;
 };
 
 /** Display the values for positive and negative keyphrases in a list with TagClouds. */
 export default class SentimentTagCloudFacetContents extends React.Component<void, SentimentTagCloudFacetContentsProps, void> {
   static displayName = 'SentimentTagCloudFacetContents';
+
+  // Check if keyphrase bucket is a part of keyphrase bucketList
+  // and if the count for bucket is greater than it's match in the bucketList,
+  // if so, return bucket with count updated as the difference in values of count of matching buckets;
+  // otherwise return null
+  static handleDuplicateBucketInBucketList(bucket: SearchFacetBucket, bucketList: Array<SearchFacetBucket>) {
+    let i;
+    const currentBucket = bucket;
+    for (i = 0; i < bucketList.length; i += 1) {
+      if (bucketList[i].value === currentBucket.value) {
+        if (bucketList[i].count < currentBucket.count) {
+          currentBucket.count -= bucketList[i].count;
+          return currentBucket;
+        } else if (bucketList[i].count > currentBucket.count) {
+          return null;
+        } else if (bucketList[i].count === currentBucket.count) {
+          return currentBucket;
+        }
+      }
+    }
+    return currentBucket;
+  }
 
   constructor(props: SentimentTagCloudFacetContentsProps) {
     super(props);
@@ -50,31 +72,10 @@ export default class SentimentTagCloudFacetContents extends React.Component<void
     }
   }
 
-  // Check if keyphrase bucket is a part of keyphrase bucketList
-  // and if the count for bucket is greater than it's match in the bucketList,
-  // if so, return bucket with count updated as the difference in values of count of matching buckets;
-  // otherwise return null
-  handleDuplicateBucketInBucketList(bucket: SearchFacetBucket, bucketList: Array<SearchFacetBucket>) {
-    let i;
-    for (i = 0; i < bucketList.length; i++) {
-      if (bucketList[i].value === bucket.value) {
-        if (bucketList[i].count < bucket.count) {
-          bucket.count -= bucketList[i].count;
-          return bucket;
-        } else if (bucketList[i].count > bucket.count) {
-          return null;
-        } else if (bucketList[i].count === bucket.count) {
-          return bucket;
-        }
-      }
-    }
-    return bucket;
-  }
-
   render() {
     const positiveTagCloudValues = [];
     this.props.positiveBuckets.forEach((bucket) => {
-      const record = this.handleDuplicateBucketInBucketList(bucket, this.props.negativeBuckets);
+      const record = this.constructor.handleDuplicateBucketInBucketList(bucket, this.props.negativeBuckets);
       if (record) {
         const bucketLabel = record.displayLabel();
         positiveTagCloudValues.push(new SentimentTagCloudValue(bucketLabel, record.count, 'positive'));
@@ -82,18 +83,18 @@ export default class SentimentTagCloudFacetContents extends React.Component<void
     });
     const negativeTagCloudValues = [];
     this.props.negativeBuckets.forEach((bucket) => {
-      const record = this.handleDuplicateBucketInBucketList(bucket, this.props.positiveBuckets);
+      const record = this.constructor.handleDuplicateBucketInBucketList(bucket, this.props.positiveBuckets);
       if (record) {
         const bucketLabel = record.displayLabel();
         negativeTagCloudValues.push(new SentimentTagCloudValue(bucketLabel, record.count, 'negative'));
       }
     });
 
-    return <SentimentTagCloud
+    return (<SentimentTagCloud
       positiveTags={positiveTagCloudValues}
       negativeTags={negativeTagCloudValues}
       maxValues={this.props.maxBuckets}
       callback={this.tagCloudCallback}
-    />;
+    />);
   }
 }

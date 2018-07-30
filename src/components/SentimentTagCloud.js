@@ -66,7 +66,7 @@ export default class SentimentTagCloud extends React.Component<SentimentTagCloud
       const outMax = 5;
       return (((num - inMin) * (outMin - outMax)) / (inMax - inMin)) + outMax;
     }
-    return null;
+    return -1;
   }
 
   static getAdjustedValue(value: number, max: number, sentiment: string): number {

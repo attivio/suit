@@ -25,6 +25,10 @@ export type FacetType = 'barchart' | 'columnchart' | 'piechart' | 'barlist' |
 type FacetProps = {
   /** The facet to display. */
   facet: SearchFacet;
+  /** The facet for positive key phrases used in Sentiment TagCloud */
+  positiveKeyphrases?: SearchFacet;
+  /** The facet for negative key phrases used in Sentiment TagCloud */
+  negativeKeyphrases?: SearchFacet;
   /** The way the facet information should be displayed. Defaults to 'list' */
   type: FacetType;
   /**
@@ -42,11 +46,6 @@ type FacetProps = {
   bordered: boolean;
   /** Controls the colors used to show various entity types (the value can be any valid CSS color) */
   entityColors: Map<string, string>;
-
-
-  /** The facets for positive and negative keyphrases used in Sentiment TagCloud */
-  positiveKeyphrases: SearchFacet;
-  negativeKeyphrases: SearchFacet;
 }
 
 type FacetDefaultProps = {
@@ -85,10 +84,10 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
     let bucketLabel;
     if (this.props.positiveKeyphrases || this.props.negativeKeyphrases) {
       bucketLabel = customBucketLabel || bucket.value.displayLabel();
-      if (bucket.sentiment === 'positive') {
-        this.context.searcher.addFacetFilter(this.props.positiveKeyphrases.findLabel(), bucketLabel, bucket.filter);
-      } else if (bucket.sentiment === 'negative') {
-        this.context.searcher.addFacetFilter(this.props.negativeKeyphrases.findLabel(), bucketLabel, bucket.filter);
+      if (bucket.sentiment === 'positive' && this.props.positiveKeyphrases) {
+        this.context.searcher.addFacetFilter(this.props.positiveKeyphrases.findLabel(), bucketLabel, bucket.value.filter);
+      } else if (bucket.sentiment === 'negative' && this.props.negativeKeyphrases) {
+        this.context.searcher.addFacetFilter(this.props.negativeKeyphrases.findLabel(), bucketLabel, bucket.value.filter);
       }
     } else if (this.props.facet) {
       bucketLabel = customBucketLabel || bucket.displayLabel();
@@ -131,7 +130,7 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
     }
 
     let facetContents;
-    if (this.props.positiveKeyphrases && this.props.negativeKeyphrases) {
+    if (this.props.type === 'sentimenttagcloud' && this.props.positiveKeyphrases && this.props.negativeKeyphrases) {
       if (this.props.positiveKeyphrases.buckets && this.props.negativeKeyphrases.buckets) {
         if (this.props.positiveKeyphrases.buckets.length > 0 || this.props.negativeKeyphrases.buckets.length > 0) {
           facetContents = (
