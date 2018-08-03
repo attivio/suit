@@ -188,14 +188,15 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
           break;
         case 'list':
         default: {
-          const childProps = <MoreListFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />;
           facetContents = (
             <FacetSearchBar
               childProps={childProps}
               name={this.props.facet.field}
               label={this.props.facet.label}
               addFacetFilter={this.addFacetFilter}
-            />
+            >
+              <MoreListFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />
+            </FacetSearchBar>
           );
           break;
         }
