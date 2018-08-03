@@ -1,6 +1,8 @@
 // @flow
 import React from 'react';
+import type { Children } from 'react';
 import PropTypes from 'prop-types';
+
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import Configurable from './Configurable';
 import SimpleQueryRequest from '../api/SimpleQueryRequest';
@@ -20,7 +22,7 @@ type FacetSearchBarProps = {
   /** Max number of matching facet values to show */
   maxValues: number;
   /** Content to show for the actual facet stuff (typically a ListFacetContents) */
-  childProps: Object | null;
+  children: Children;
   /**
    * Whether the export button should be shown to allow exporting all the facet
    * values as a CSV file
@@ -277,7 +279,6 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
   }
 
   render() {
-    const additionalContent = this.props.childProps ? this.props.childProps : '';
     const containerClass = 'attivio-globalmast-search-container';
     const inputClass = 'form-control attivio-globalmast-search-input facet-search-bar';
     const query = this.state.query;
@@ -301,10 +302,10 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
             onClick={this.doSearch}
             style={{ height: '25px' }}
           >
-            { this.props.buttonLabel }
+            {this.props.buttonLabel}
           </button>
         </div>
-        { suggestionList }
+        {suggestionList}
       </div>) : '';
 
     const buttonContent = this.props.showExportButton ? (
@@ -316,15 +317,15 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
           href="#"
           onClick={() => { return this.downloadCSV({}); }}
         >
-          { this.props.exportButtonLabel }
+          {this.props.exportButtonLabel}
         </button>
       </div>) : '';
 
     return (
       <div className={containerClass}>
-        { inputComponent }
-        { additionalContent }
-        { buttonContent }
+        {inputComponent}
+        {this.props.children}
+        {buttonContent}
       </div>
     );
   }
