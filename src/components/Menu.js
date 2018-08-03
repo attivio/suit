@@ -103,6 +103,8 @@ type MenuProps = {
    * width to. Must be greater than 40 if set.
    */
   width: number | null;
+  /** Any CSS style you need to apply to the menu. Optional. */
+  style: any;
 };
 
 type MenuDefaultProps = {
@@ -115,6 +117,7 @@ type MenuDefaultProps = {
   allLabel: string | null;
   maxLabelCharacters: number | null;
   width: number | null;
+  style: any;
 };
 
 export default class Menu extends React.Component<MenuDefaultProps, MenuProps, void> {
@@ -128,6 +131,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
     allLabel: 'All',
     maxLabelCharacters: null,
     width: null,
+    style: {},
   };
 
   static displayName = 'Menu';
@@ -326,26 +330,26 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
       return <MenuItem eventKey={item.value} key={item.value}>{label}</MenuItem>;
     });
 
-    const menuPrefix = this.props.multiSelect && this.props.selectAllNone ?
-      (
-        <MenuItem
-          eventKey="allNone"
-          key="allNone"
-          className="checkbox"
-          componentClass="div"
-        >
-          <ul className="attivio-dropdown-toolbar attivio-list-inline list-inline">
-            <li>
-              Check: <a onClick={this.selectAll} role="button" tabIndex={0} ref={(c) => { this.selectAllLink = c; }}>All</a>
-            </li>
-            <li>
-              <a onClick={this.selectNone} role="button" tabIndex={0} ref={(c) => { this.selectNoneLink = c; }}>None</a>
-            </li>
-          </ul>
-        </MenuItem>
-      ) : null;
+    const menuPrefix = this.props.multiSelect && this.props.selectAllNone ? (
+      <MenuItem
+        eventKey="allNone"
+        key="allNone"
+        className="checkbox"
+        componentClass="div"
+      >
+        <ul className="attivio-dropdown-toolbar attivio-list-inline list-inline">
+          <li>
+            Check: <a onClick={this.selectAll} role="button" tabIndex={0} ref={(c) => { this.selectAllLink = c; }}>All</a>
+          </li>
+          <li>
+            <a onClick={this.selectNone} role="button" tabIndex={0} ref={(c) => { this.selectNoneLink = c; }}>None</a>
+          </li>
+        </ul>
+      </MenuItem>
+    ) : null;
 
     const classNames = this.props.block ? 'attivio-dropdown attivio-dropdown-block' : 'attivio-dropdown';
+    const outerStyle = this.props.width ? Object.assign({ width: `${this.props.width}px` }, this.props.style) : this.props.style;
 
     return (
       <Dropdown
@@ -354,7 +358,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
         onSelect={this.onSelect}
         componentClass="div"
         pullRight={this.props.right}
-        style={this.props.width ? { width: `${this.props.width}px` } : {}}
+        style={outerStyle}
       >
         <Dropdown.Toggle
           noCaret

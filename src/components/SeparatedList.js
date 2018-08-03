@@ -8,7 +8,7 @@ type SeparatedListProps = {
 };
 
 /**
- * Render a list of items with a separater bar in between them.
+ * Render a list of items with a separator bar in between them.
  */
 export default class SeparatedList extends React.Component<void, SeparatedListProps, void> {
   static displayName = 'SeparatedList';
