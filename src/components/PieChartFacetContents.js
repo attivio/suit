@@ -90,6 +90,14 @@ export default class PieChartFacetContents extends React.Component<PieChartFacet
 
   render() {
     const dataSet = this.props.buckets.map((bucket) => {
+      if (this.props.entityColors.has(bucket.value)) {
+        const sectorColor = this.props.entityColors.get(bucket.value);
+        return {
+          name: bucket.displayLabel(),
+          y: bucket.count,
+          color: sectorColor,
+        };
+      }
       return {
         name: bucket.displayLabel(),
         y: bucket.count,
