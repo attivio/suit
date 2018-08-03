@@ -190,7 +190,6 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
         default: {
           facetContents = (
             <FacetSearchBar
-              childProps={childProps}
               name={this.props.facet.field}
               label={this.props.facet.label}
               addFacetFilter={this.addFacetFilter}
