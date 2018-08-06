@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import Configurable from './Configurable';
+import QueryResponse from '../api/QueryResponse';
 import SimpleQueryRequest from '../api/SimpleQueryRequest';
+import ObjectUtils from '../util/ObjectUtils';
 import SearchFacetBucket from '../api/SearchFacetBucket';
 
 type FacetSearchBarProps = {
@@ -69,32 +71,32 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
     exportButtonLabel: 'Export',
   };
 
-  /** Generates the CSV for the Facet Value data */
+  /**
+   * Generate a string with the the CSV representation of the facet value data.
+   */
   static convertArrayOfObjectsToCSV(data: Array<Map<string, Object>>, columnDelimiter: string = ',', lineDelimiter: string = '\n') {
     if (data === null || !data.length) {
       return null;
     }
-    let result = '';
+
     // Create the header row of the CSV
     const keys = Object.keys(data[0]);
-    result += keys.join(columnDelimiter);
-    result += lineDelimiter;
-    // Populate the CSV with data
-    let colNum = 0;
-    data.forEach((item) => {
-      colNum = 0;
-      if (keys && keys.length > 0) {
-        keys.forEach((key) => {
-          if (colNum > 0) {
-            result += columnDelimiter;
-          }
-          result += item[key];
-          colNum += 1;
-        });
-        result += lineDelimiter;
-      }
+    const header = keys.join(columnDelimiter);
+
+    // Populate the rows of the CSV
+    const rows = data.map((item: Map<string, Object>) => {
+      // Get the values for each data row from the map
+      const rowValues = keys.map((key: string) => {
+        return item.get(key);
+      });
+      // Concatenate the values, separated by the column delimiter
+      return rowValues.join(columnDelimiter);
     });
-    return result;
+    // Add the header to the beginning of the rows
+    rows.unshift(header);
+
+    // Concatenate the rows, separated by the line delimiter
+    return `${header}${lineDelimiter}${rows.join(lineDelimiter)}`;
   }
 
   constructor(props: FacetSearchBarProps) {
@@ -131,16 +133,18 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
       if (include && suggestionsAdded < this.props.maxValues) {
         suggestionsAdded += 1;
         returnVal = (
-          <button
+          <a
             className={'facet-suggestion'}
             key={suggestionsAdded}
             onClick={() => { return this.addFilter(index); }}
             style={{ width: '300px', textAlign: 'left', borderWidth: '0px', backgroundColor: '#FFFFFF' }}
+            role="button"
+            tabIndex={0}
           >
             <MenuItem eventKey={index} key={suggestionsAdded} onSelect={this.addFilter} tabIndex={index}>
               {`${suggestion.displayLabel()} (${suggestion.count})`}
             </MenuItem>
-          </button>);
+          </a>);
       }
       return returnVal;
     });
@@ -160,13 +164,12 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
    * Calls the function to fire off the query, then maps the results
    * into a format ready to be written to CSV
    */
-  getAllFacetValues(callback) {
+  getAllFacetValues(callback: (data: Array<Map<string, Object>>) => void) {
     function localCallback(qr: ?QueryResponse, error: ?string) {
       if (qr) {
         const facets = qr.facets[0].buckets;
-        const response = [];
-        facets.forEach((facet: SearchFacetBucket) => {
-          response.push({ 'Facet Value': facet.displayLabel(), 'Document Count': facet.count });
+        const response = facets.map((facet: SearchFacetBucket) => {
+          return ObjectUtils.toMap({ 'Facet Value': facet.displayLabel(), 'Document Count': facet.count });
         });
         callback(response);
       } else if (error) {
@@ -246,22 +249,19 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
   /**
    * Exports all values and counts for the facet to CSV.
    */
-  downloadCSV(args) {
-    const callback = (data) => {
-      let csv = FacetSearchBar.convertArrayOfObjectsToCSV({ data });
-      if (csv === null) return;
+  downloadCSV() {
+    const callback = (data: Array<Map<string, Object>>) => {
+      const csv = FacetSearchBar.convertArrayOfObjectsToCSV(data);
+      if (csv !== null) {
+        const filename = `${this.props.name}_facet_values.csv`;
+        // Make the CSV data into a data URI
+        const encodedData = encodeURI(`data:text/csv;charset=utf-8,${csv}`);
 
-      const filename = args.filename || `${this.props.name}_facet_values.csv`;
-
-      if (!csv.match(/^data:text\/csv/i)) {
-        csv = `data:text/csv;charset=utf-8,${csv}`;
+        const link = document.createElement('a');
+        link.setAttribute('href', encodedData);
+        link.setAttribute('download', filename);
+        link.click();
       }
-      const encodedData = encodeURI(csv);
-
-      const link = document.createElement('a');
-      link.setAttribute('href', encodedData);
-      link.setAttribute('download', filename);
-      link.click();
     };
     this.getAllFacetValues(callback);
   }
@@ -306,26 +306,24 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
           </button>
         </div>
         {suggestionList}
-      </div>) : '';
+      </div>) : null;
 
-    const buttonContent = this.props.showExportButton ? (
+    const exportButton = this.props.showExportButton ? (
       <div>
         <button
-          id={this.props.name}
           className="btn attivio-globalmast-search-submit"
           style={{ height: '25px', position: 'relative' }}
-          href="#"
-          onClick={() => { return this.downloadCSV({}); }}
+          onClick={() => { return this.downloadCSV(); }}
         >
           {this.props.exportButtonLabel}
         </button>
-      </div>) : '';
+      </div>) : null;
 
     return (
       <div className={containerClass}>
         {inputComponent}
         {this.props.children}
-        {buttonContent}
+        {exportButton}
       </div>
     );
   }
