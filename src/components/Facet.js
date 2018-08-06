@@ -16,6 +16,7 @@ import TagCloudFacetContents from './TagCloudFacetContents';
 import TimeSeriesFacetContents from './TimeSeriesFacetContents';
 import SentimentFacetContents from './SentimentFacetContents';
 import MapFacetContents from './MapFacetContents';
+import Configurable from '../components/Configurable';
 
 export type FacetType = 'barchart' | 'columnchart' | 'piechart' | 'barlist' |
   'tagcloud' | 'timeseries' | 'list' | 'sentiment' | 'geomap' |
@@ -41,6 +42,8 @@ type FacetProps = {
   bordered: boolean;
   /** Controls the colors used to show various entity types (the value can be any valid CSS color) */
   entityColors: Map<string, string>;
+  /** Controls the colors (specified in configurations) for specific fields used in pie charts */
+  fieldValueColors?: Map<string, Map<string, string>>;
 }
 
 type FacetDefaultProps = {
@@ -49,18 +52,20 @@ type FacetDefaultProps = {
   collapse: boolean;
   bordered: boolean;
   entityColors: Map<string, string>;
+  fieldValueColors?: Map<string, Object>;
 };
 
 /**
  * Display a single facet from the search results.
  */
-export default class Facet extends React.Component<FacetDefaultProps, FacetProps, void> {
+class Facet extends React.Component<FacetDefaultProps, FacetProps, void> {
   static defaultProps = {
     type: 'list',
     maxBuckets: 15,
     collapse: false,
     bordered: false,
     entityColors: new Map(),
+    fieldValueColors: new Map(),
   };
 
   static contextTypes = {
@@ -108,6 +113,27 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
   }
 
   render() {
+    // sets color for pie charts
+    const pieChartFacetColors = new Map();
+    let pieChartFacetColor = new Map();
+    if (this.props.fieldValueColors) {
+      // convert the prop fieldValueColors from an object to a map called pieChartFacetColors
+      Object.keys(this.props.fieldValueColors).forEach((key) => {
+        pieChartFacetColors.set(key, this.props.fieldValueColors[key]);
+      });
+      // check if the prop fieldValueColors has the current facet field as a key
+      // if so use the color map in it's value for facet buckets;
+      // otherwise use the default order of colors from prop entityColors
+      if (this.props.facet.field && pieChartFacetColors.has(this.props.facet.field)) {
+        const colorObject = pieChartFacetColors.get(this.props.facet.field);
+        Object.keys(colorObject).forEach((key) => {
+          pieChartFacetColor.set(key, colorObject[key]);
+        });
+      } else {
+        pieChartFacetColor = this.props.entityColors;
+      }
+    }
+
     const facetColors = this.props.entityColors;
     const facetColor = facetColors.has(this.props.facet.field) ? facetColors.get(this.props.facet.field) : null;
 
@@ -149,7 +175,7 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
             <PieChartFacetContents
               buckets={this.props.facet.buckets}
               addFacetFilter={this.addFacetFilter}
-              entityColors={this.props.entityColors}
+              entityColors={pieChartFacetColor}
             />
           );
           break;
@@ -213,3 +239,5 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
     );
   }
 }
+
+export default Configurable(Facet);
