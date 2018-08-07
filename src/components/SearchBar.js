@@ -54,6 +54,8 @@ type SearchBarProps = {
   buttonLabel: string;
   /** If set, this is the route to navigate to upon executing a search. By default, no navigation will occur when searching. */
   route: string | null;
+  /** Optional Callback function to be called inplace of searcher's searching functions */
+  searchFunction: () => void;
 };
 
 type SearchBarDefaultProps = {
@@ -180,8 +182,14 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     const searcher = this.context.searcher;
     if (searcher) {
       if (doSearch) {
-        searcher.setQueryAndSearch(newQuery);
-        this.route();
+        // Use the searchFunction callback if it is passed in as a prop
+        if (this.props.searchFunction) {
+          searcher.updateQuery(newQuery);
+          this.props.searchFunction();
+        } else {
+          searcher.setQueryAndSearch(newQuery);
+          this.route();
+        }
       } else {
         searcher.updateQuery(newQuery);
       }
@@ -213,7 +221,9 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
 
   doSearch() {
     const searcher = this.context.searcher;
-    if (this.props.route && searcher) {
+    if (this.props.searchFunction) {
+      this.props.searchFunction();
+    } else if (this.props.route && searcher) {
       this.route();
     } else {
       searcher.doSearch();
