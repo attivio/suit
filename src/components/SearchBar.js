@@ -55,7 +55,7 @@ type SearchBarProps = {
   /** If set, this is the route to navigate to upon executing a search. By default, no navigation will occur when searching. */
   route: string | null;
   /** Optional Callback function to be called inplace of searcher's searching functions */
-  searchFunction: () => void;
+  searchFunction?: () => void;
 };
 
 type SearchBarDefaultProps = {
