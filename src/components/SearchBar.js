@@ -182,16 +182,14 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     const searcher = this.context.searcher;
     if (searcher) {
       if (doSearch) {
+        searcher.updateQuery(newQuery);
         // Use the searchFunction callback if it is passed in as a prop
         if (this.props.searchFunction) {
-          searcher.updateQuery(newQuery);
           this.props.searchFunction();
         } else {
           searcher.setQueryAndSearch(newQuery);
           this.route();
         }
-      } else {
-        searcher.updateQuery(newQuery);
       }
     }
     this.forceUpdate();
