@@ -17,6 +17,7 @@ import TimeSeriesFacetContents from './TimeSeriesFacetContents';
 import SentimentFacetContents from './SentimentFacetContents';
 import MapFacetContents from './MapFacetContents';
 import SentimentTagCloudFacetContents from './SentimentTagCloudFacetContents';
+import FacetSearchBar from './FacetSearchBar';
 
 export type FacetType = 'barchart' | 'columnchart' | 'piechart' | 'barlist' |
   'tagcloud' | 'timeseries' | 'list' | 'sentiment' | 'geomap' |
@@ -219,9 +220,18 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
           facetContents = <MapFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />;
           break;
         case 'list':
-        default:
-          facetContents = <MoreListFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />;
+        default: {
+          facetContents = (
+            <FacetSearchBar
+              name={this.props.facet.field}
+              label={this.props.facet.label}
+              addFacetFilter={this.addFacetFilter}
+            >
+              <MoreListFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />
+            </FacetSearchBar>
+          );
           break;
+        }
       }
     } else if (!this.props.positiveKeyphrases && !this.props.negativeKeyphrases) {
       facetContents = <span className="none">No values for this facet.</span>;

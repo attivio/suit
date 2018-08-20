@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { Children } from 'react';
 
 type SmallTabsProps = {
   /** The list of tab labels for the control. */
@@ -9,6 +9,8 @@ type SmallTabsProps = {
   currentTab: string;
   /** Callback that is invoked when the user clicks a tab. */
   changed: (string) => void;
+  /** Any custom tab elements to include alongside the regular string tabs. Optional */
+  children?: Children;
 };
 
 type SmallTabsDefaultProps = {
@@ -48,6 +50,7 @@ export default class SmallTabs extends React.Component<SmallTabsDefaultProps, Sm
     return (
       <ol className="attivio-smalltabs list-inline">
         {items}
+        {this.props.children}
       </ol>
     );
   }
