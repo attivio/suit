@@ -43,7 +43,7 @@ type FacetProps = {
   /** Controls the colors used to show various entity types (the value can be any valid CSS color) */
   entityColors: Map<string, string>;
   /** Controls the colors (specified in configurations) for specific fields used in pie charts */
-  fieldValueColors?: Map<string, Map<string, string>>;
+  fieldValueColors: Map<string, string>;
 }
 
 type FacetDefaultProps = {
@@ -52,7 +52,7 @@ type FacetDefaultProps = {
   collapse: boolean;
   bordered: boolean;
   entityColors: Map<string, string>;
-  fieldValueColors?: Map<string, Object>;
+  fieldValueColors: Map<string, Object>;
 };
 
 /**
