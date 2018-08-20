@@ -68,7 +68,7 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
     maxValues: 5,
     showSearchBar: false,
     showExportButton: false,
-    exportButtonLabel: 'Export',
+    exportButtonLabel: 'Export facet as CSV\u2026',
   };
 
   /**
@@ -80,7 +80,7 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
     }
 
     // Create the header row of the CSV
-    const keys = Object.keys(data[0]);
+    const keys = Array.from(data[0].keys());
     const header = keys.join(columnDelimiter);
 
     // Populate the rows of the CSV
@@ -133,25 +133,26 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
       if (include && suggestionsAdded < this.props.maxValues) {
         suggestionsAdded += 1;
         returnVal = (
-          <a
+          <button
             className={'facet-suggestion'}
             key={suggestionsAdded}
             onClick={() => { return this.addFilter(index); }}
-            style={{ width: '300px', textAlign: 'left', borderWidth: '0px', backgroundColor: '#FFFFFF' }}
-            role="button"
-            tabIndex={0}
+            style={{ width: '100%', textAlign: 'left', borderWidth: '0px', backgroundColor: '#FFFFFF' }}
           >
             <MenuItem eventKey={index} key={suggestionsAdded} onSelect={this.addFilter} tabIndex={index}>
               {`${suggestion.displayLabel()} (${suggestion.count})`}
             </MenuItem>
-          </a>);
+          </button>);
       }
       return returnVal;
     });
     if (contents.length > 0) {
       return (
-        <div className={'facet-suggestion'} style={{ width: '300px', border: '1px solid #D2D2D2', passingTop: '11px' }}>
-          <ul role="menu">
+        <div
+          className={'facet-suggestion'}
+          style={{ width: '100%', border: '1px solid #D2D2D2', borderTop: 'none', passingTop: '11px', position: 'absolute' }}
+        >
+          <ul role="menu" style={{ marginBottom: 0 }}>
             {contents}
           </ul>
         </div>
@@ -279,14 +280,29 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
   }
 
   render() {
-    const containerClass = 'attivio-globalmast-search-container';
-    const inputClass = 'form-control attivio-globalmast-search-input facet-search-bar';
+    const inputClass = 'form-control facet-search-bar';
     const query = this.state.query;
     const placeholder = this.props.placeholder;
     const suggestionList = this.getSuggestionList();
+    // Only show the search button once the user has typed something in the field
+    const searchButton = this.state.facetValue === '' ? null : (
+      <button
+        type="submit"
+        className="btn attivio-globalmast-search-submit"
+        style={{
+          paddingLeft: '4px',
+          paddingRight: '4px',
+          height: 'calc(100% - 7px)',
+          lineHeight: 'calc(100% - 7px)',
+        }}
+        onClick={this.doSearch}
+      >
+        {this.props.buttonLabel}
+      </button>
+    );
     const inputComponent = this.props.showSearchBar ? (
       <div className="attivio-globalmast-search" role="search" style={{ display: 'inline-block' }}>
-        <div className="form-group">
+        <div className="form-group" style={{ position: 'relative' }}>
           <input
             type="search"
             className={inputClass}
@@ -294,33 +310,28 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
             onChange={this.queryChanged}
             onKeyDown={this.doKeyPress}
             value={query}
-            style={{ minWidth: '300px' }}
+            style={{ minWidth: '300px', paddingRight: '75px', height: '1.75em' }}
           />
-          <button
-            type="submit"
-            className="btn attivio-globalmast-search-submit"
-            onClick={this.doSearch}
-            style={{ height: '25px' }}
-          >
-            {this.props.buttonLabel}
-          </button>
+          {searchButton}
         </div>
         {suggestionList}
       </div>) : null;
 
     const exportButton = this.props.showExportButton ? (
       <div>
-        <button
-          className="btn attivio-globalmast-search-submit"
-          style={{ height: '25px', position: 'relative' }}
+        <a
+          className="attivio-facet-more attivio-more"
           onClick={() => { return this.downloadCSV(); }}
+          role="button"
+          tabIndex={0}
+          style={{ fontSize: '12px' }}
         >
           {this.props.exportButtonLabel}
-        </button>
+        </a>
       </div>) : null;
 
     return (
-      <div className={containerClass}>
+      <div>
         {inputComponent}
         {this.props.children}
         {exportButton}
