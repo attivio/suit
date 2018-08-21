@@ -16,6 +16,8 @@ import TagCloudFacetContents from './TagCloudFacetContents';
 import TimeSeriesFacetContents from './TimeSeriesFacetContents';
 import SentimentFacetContents from './SentimentFacetContents';
 import MapFacetContents from './MapFacetContents';
+import SentimentTagCloudFacetContents from './SentimentTagCloudFacetContents';
+import FacetSearchBar from './FacetSearchBar';
 
 export type FacetType = 'barchart' | 'columnchart' | 'piechart' | 'barlist' |
   'tagcloud' | 'timeseries' | 'list' | 'sentiment' | 'geomap' |
@@ -24,6 +26,10 @@ export type FacetType = 'barchart' | 'columnchart' | 'piechart' | 'barlist' |
 type FacetProps = {
   /** The facet to display. */
   facet: SearchFacet;
+  /** The facet for positive key phrases used in Sentiment TagCloud */
+  positiveKeyphrases?: SearchFacet;
+  /** The facet for negative key phrases used in Sentiment TagCloud */
+  negativeKeyphrases?: SearchFacet;
   /** The way the facet information should be displayed. Defaults to 'list' */
   type: FacetType;
   /**
@@ -75,9 +81,19 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
     (this: any).addTimeSeriesFilter = this.addTimeSeriesFilter.bind(this);
   }
 
-  addFacetFilter(bucket: SearchFacetBucket, customBucketLabel: ?string) {
-    const bucketLabel = customBucketLabel || bucket.displayLabel();
-    this.context.searcher.addFacetFilter(this.props.facet.findLabel(), bucketLabel, bucket.filter);
+  addFacetFilter(bucket: SearchFacetBucket | any, customBucketLabel: ?string) {
+    let bucketLabel;
+    if (this.props.positiveKeyphrases || this.props.negativeKeyphrases) {
+      bucketLabel = customBucketLabel || bucket.value.displayLabel();
+      if (bucket.sentiment === 'positive' && this.props.positiveKeyphrases) {
+        this.context.searcher.addFacetFilter(this.props.positiveKeyphrases.findLabel(), bucketLabel, bucket.value.filter);
+      } else if (bucket.sentiment === 'negative' && this.props.negativeKeyphrases) {
+        this.context.searcher.addFacetFilter(this.props.negativeKeyphrases.findLabel(), bucketLabel, bucket.value.filter);
+      }
+    } else if (this.props.facet) {
+      bucketLabel = customBucketLabel || bucket.displayLabel();
+      this.context.searcher.addFacetFilter(this.props.facet.findLabel(), bucketLabel, bucket.filter);
+    }
   }
 
   /**
@@ -109,10 +125,28 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
 
   render() {
     const facetColors = this.props.entityColors;
-    const facetColor = facetColors.has(this.props.facet.field) ? facetColors.get(this.props.facet.field) : null;
+    let facetColor;
+    if (this.props.facet) {
+      facetColor = facetColors.has(this.props.facet.field) ? facetColors.get(this.props.facet.field) : null;
+    }
 
     let facetContents;
-    if (this.props.facet.buckets && this.props.facet.buckets.length > 0) {
+    if (this.props.type === 'sentimenttagcloud' && this.props.positiveKeyphrases && this.props.negativeKeyphrases) {
+      if (this.props.positiveKeyphrases.buckets && this.props.negativeKeyphrases.buckets) {
+        if (this.props.positiveKeyphrases.buckets.length > 0 || this.props.negativeKeyphrases.buckets.length > 0) {
+          facetContents = (
+            <SentimentTagCloudFacetContents
+              positiveBuckets={this.props.positiveKeyphrases.buckets}
+              negativeBuckets={this.props.negativeKeyphrases.buckets}
+              maxBuckets={this.props.maxBuckets}
+              addFacetFilter={this.addFacetFilter}
+            />
+          );
+        }
+      }
+    }
+
+    if (this.props.facet && this.props.facet.buckets && this.props.facet.buckets.length > 0) {
       switch (this.props.type) {
         case 'barchart':
           facetContents = facetColor ? (
@@ -126,7 +160,7 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
               buckets={this.props.facet.buckets}
               addFacetFilter={this.addFacetFilter}
             />
-          );
+            );
           break;
         case 'columnchart':
           facetContents = facetColor ? (
@@ -142,7 +176,7 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
               addFacetFilter={this.addFacetFilter}
               columns
             />
-          );
+            );
           break;
         case 'piechart':
           facetContents = (
@@ -186,19 +220,31 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
           facetContents = <MapFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />;
           break;
         case 'list':
-        default:
-          facetContents = <MoreListFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />;
+        default: {
+          facetContents = (
+            <FacetSearchBar
+              name={this.props.facet.field}
+              label={this.props.facet.label}
+              addFacetFilter={this.addFacetFilter}
+            >
+              <MoreListFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />
+            </FacetSearchBar>
+          );
           break;
+        }
       }
-    } else {
+    } else if (!this.props.positiveKeyphrases && !this.props.negativeKeyphrases) {
       facetContents = <span className="none">No values for this facet.</span>;
     }
 
     // Prefer the display name but fall back to the name field (note special case for geomaps
     // where we always use the label "Map").
-    const label = this.props.type === 'geomap' ? 'Map' : this.props.facet.findLabel();
+    let label;
+    if (this.props.facet) {
+      label = this.props.type === 'geomap' ? 'Map' : this.props.facet.findLabel();
+    }
 
-    if (this.props.collapse) {
+    if (this.props.facet && this.props.collapse) {
       const collapsed = this.props.facet.buckets.length === 0;
       return (
         <CollapsiblePanel title={label} id={`facet-${this.props.facet.field}`} collapsed={collapsed}>
