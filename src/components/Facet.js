@@ -237,12 +237,8 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
       facetContents = <span className="none">No values for this facet.</span>;
     }
 
-    // Prefer the display name but fall back to the name field (note special case for geomaps
-    // where we always use the label "Map").
-    let label;
-    if (this.props.facet) {
-      label = this.props.type === 'geomap' ? 'Map' : this.props.facet.findLabel();
-    }
+    // Prefer the display name but fall back to the name field
+    const label = this.props.facet ? this.props.facet.findLabel() : '';
 
     if (this.props.facet && this.props.collapse) {
       const collapsed = this.props.facet.buckets.length === 0;
