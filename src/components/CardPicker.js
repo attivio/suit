@@ -61,6 +61,8 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
     columns: 3,
   };
 
+  static displayName = 'CardPicker';
+
   static CardPickerItem;
 
   constructor(props: CardPickerProps) {

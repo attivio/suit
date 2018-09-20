@@ -38,6 +38,8 @@ export default class MiniIconButton extends React.Component<MiniIconButtonDefaul
     uri: null,
   };
 
+  static displayName = 'MiniIconButton';
+
   constructor(props: MiniIconButtonProps) {
     super(props);
     (this: any).onClick = this.onClick.bind(this);

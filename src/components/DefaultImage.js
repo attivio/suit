@@ -31,6 +31,8 @@ export default class DefaultImage extends React.Component<DefaultImageDefaultPro
     defaultSrc: null,
   }
 
+  static displayName = 'DefaultImage';
+
   constructor(props: DefaultImageProps) {
     super(props);
     this.state = {

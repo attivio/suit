@@ -28,6 +28,8 @@ type WizardStepsProps = {
  * to enter data. The pages in the list can be enabled or disabled at any time.
  */
 export default class WizardSteps extends React.Component<void, WizardStepsProps, void> {
+  static displayName = 'WizardSteps';
+
   static WizardStep;
 
   render() {

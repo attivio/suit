@@ -131,6 +131,8 @@ type WizardState = {
 export default class Wizard extends React.Component<void, WizardProps, WizardState> {
   static WizardPageDefinition;
 
+  static displayName = 'Wizard';
+
   constructor(props: WizardProps) {
     super(props);
     // Set the initial state
