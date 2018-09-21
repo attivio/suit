@@ -28,6 +28,8 @@ export default class DocumentPreview extends React.Component<DocumentPreciewDefa
     docTitle: null,
   };
 
+  static displayName = 'DocumentPreview';
+
   constructor(props: DocumentPreviewProps) {
     super(props);
     this.state = {

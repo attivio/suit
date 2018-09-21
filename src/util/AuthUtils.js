@@ -13,9 +13,15 @@ export default class AuthUtils {
   /**
    * Called by the application to pass in configuration to the
    * library's utility and API classes.
+   *
+   * @property users    the contents of the users.xml file, converted to JavaScript objects
+   * @property config   the contents of the configuration.properties.js file with any
+   *                    maps converted already
+   * @property simpleValidation if set to true, then a lot of the validation
+   *                    specific to search applications won't be done
    */
-  static configure(users: any, config: any) {
-    const configError = AuthUtils.validateConfiguration(config);
+  static configure(users: any, config: any, simpleValidation: boolean = false) {
+    const configError = AuthUtils.validateConfiguration(config, simpleValidation);
     if (configError) {
       throw configError;
     }
@@ -329,7 +335,7 @@ export default class AuthUtils {
    * Validate the configuration object to make sure it won't cause us any
    * grief. Return null if it's good, or an error messager otherwise.
    */
-  static validateConfiguration(config: any): string | null {
+  static validateConfiguration(config: any, simpleValidation: boolean = false): string | null {
     if (!config) {
       return 'The configuration object must be specified.';
     }
@@ -352,62 +358,64 @@ export default class AuthUtils {
     if (!StringUtils.notEmpty(config.ALL.defaultRealm)) {
       return 'The configuration object is missing the \'ALL.defaultRealm\' value.';
     }
-    if (!config.ALL.entityFields) {
-      return 'The configuration object is missing the \'ALL.entityFields\' value.';
-    }
-    if (!(config.ALL.entityFields instanceof Map)) {
-      return 'The configuration object\'s \'ALL.entityFields\' value should be a Map.';
-    }
-    if (!config.ALL.entityColors) {
-      return 'The configuration object is missing the \'ALL.entityColors\' value.';
-    }
-    if (!(config.ALL.entityColors instanceof Map)) {
-      return 'The configuration object\'s \'ALL.entityColors\' value should be a Map.';
-    }
-    if (!config.ALL.fields) {
-      return 'The configuration object is missing the \'ALL.fields\' value.';
-    }
-    if (!Array.isArray(config.ALL.fields)) {
-      return 'The configuration object\'s \'ALL.fields\' value should be an array with at least one value.';
-    }
-    if (config.ALL.fields.length < 1) {
-      return 'The configuration object\'s \'ALL.fields\' value should be an array with at least one value.';
-    }
-    if (!StringUtils.notEmpty(config.ALL.title)) {
-      return 'The configuration object is missing the \'ALL.title\' value.';
-    }
-    if (!StringUtils.notEmpty(config.ALL.uri)) {
-      return 'The configuration object is missing the \'ALL.uri\' value.';
-    }
-    if (!StringUtils.notEmpty(config.ALL.table)) {
-      return 'The configuration object is missing the \'ALL.table\' value.';
-    }
-    if (!StringUtils.notEmpty(config.ALL.latitude)) {
-      return 'The configuration object is missing the \'ALL.latitude\' value.';
-    }
-    if (!StringUtils.notEmpty(config.ALL.longitude)) {
-      return 'The configuration object is missing the \'ALL.longitude\' value.';
-    }
-    if (!StringUtils.notEmpty(config.ALL.mimetype)) {
-      return 'The configuration object is missing the \'ALL.mimetype\' value.';
-    }
-    if (!StringUtils.notEmpty(config.ALL.sourcePath)) {
-      return 'The configuration object is missing the \'ALL.sourcePath\' value.';
-    }
-    if (!StringUtils.notEmpty(config.ALL.previewImageUri)) {
-      return 'The configuration object is missing the \'ALL.previewImageUri\' value.';
-    }
-    if (!StringUtils.notEmpty(config.ALL.thumbnailImageUri)) {
-      return 'The configuration object is missing the \'ALL.thumbnailImageUri\' value.';
-    }
-    if (!StringUtils.notEmpty(config.ALL.moreLikeThisQuery)) {
-      return 'The configuration object is missing the \'ALL.moreLikeThisQuery\' value.';
-    }
-    if (!StringUtils.notEmpty(config.ALL.teaser)) {
-      return 'The configuration object is missing the \'ALL.teaser\' value.';
-    }
-    if (!StringUtils.notEmpty(config.ALL.text)) {
-      return 'The configuration object is missing the \'ALL.text\' value.';
+    if (!simpleValidation) {
+      if (!config.ALL.entityFields) {
+        return 'The configuration object is missing the \'ALL.entityFields\' value.';
+      }
+      if (!(config.ALL.entityFields instanceof Map)) {
+        return 'The configuration object\'s \'ALL.entityFields\' value should be a Map.';
+      }
+      if (!config.ALL.entityColors) {
+        return 'The configuration object is missing the \'ALL.entityColors\' value.';
+      }
+      if (!(config.ALL.entityColors instanceof Map)) {
+        return 'The configuration object\'s \'ALL.entityColors\' value should be a Map.';
+      }
+      if (!config.ALL.fields) {
+        return 'The configuration object is missing the \'ALL.fields\' value.';
+      }
+      if (!Array.isArray(config.ALL.fields)) {
+        return 'The configuration object\'s \'ALL.fields\' value should be an array with at least one value.';
+      }
+      if (config.ALL.fields.length < 1) {
+        return 'The configuration object\'s \'ALL.fields\' value should be an array with at least one value.';
+      }
+      if (!StringUtils.notEmpty(config.ALL.title)) {
+        return 'The configuration object is missing the \'ALL.title\' value.';
+      }
+      if (!StringUtils.notEmpty(config.ALL.uri)) {
+        return 'The configuration object is missing the \'ALL.uri\' value.';
+      }
+      if (!StringUtils.notEmpty(config.ALL.table)) {
+        return 'The configuration object is missing the \'ALL.table\' value.';
+      }
+      if (!StringUtils.notEmpty(config.ALL.latitude)) {
+        return 'The configuration object is missing the \'ALL.latitude\' value.';
+      }
+      if (!StringUtils.notEmpty(config.ALL.longitude)) {
+        return 'The configuration object is missing the \'ALL.longitude\' value.';
+      }
+      if (!StringUtils.notEmpty(config.ALL.mimetype)) {
+        return 'The configuration object is missing the \'ALL.mimetype\' value.';
+      }
+      if (!StringUtils.notEmpty(config.ALL.sourcePath)) {
+        return 'The configuration object is missing the \'ALL.sourcePath\' value.';
+      }
+      if (!StringUtils.notEmpty(config.ALL.previewImageUri)) {
+        return 'The configuration object is missing the \'ALL.previewImageUri\' value.';
+      }
+      if (!StringUtils.notEmpty(config.ALL.thumbnailImageUri)) {
+        return 'The configuration object is missing the \'ALL.thumbnailImageUri\' value.';
+      }
+      if (!StringUtils.notEmpty(config.ALL.moreLikeThisQuery)) {
+        return 'The configuration object is missing the \'ALL.moreLikeThisQuery\' value.';
+      }
+      if (!StringUtils.notEmpty(config.ALL.teaser)) {
+        return 'The configuration object is missing the \'ALL.teaser\' value.';
+      }
+      if (!StringUtils.notEmpty(config.ALL.text)) {
+        return 'The configuration object is missing the \'ALL.text\' value.';
+      }
     }
     return null;
   }

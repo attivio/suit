@@ -72,6 +72,8 @@ export default class DummySearcher extends React.Component<DummySearcherDefaultP
     searcher: PropTypes.any,
   }
 
+  static displayName = 'DummySearcher';
+
   constructor(props: DummySearcherProps) {
     super(props);
     this.state = this.getDefaultState();

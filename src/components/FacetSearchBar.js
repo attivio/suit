@@ -71,6 +71,8 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
     exportButtonLabel: 'Export facet as CSV\u2026',
   };
 
+  static displayName = 'FacetSearchBar';
+
   /**
    * Generate a string with the the CSV representation of the facet value data.
    */

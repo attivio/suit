@@ -37,6 +37,8 @@ export default class CardPickerCard extends React.Component<CardPickerCardDefaul
     columns: 3,
   };
 
+  static displayName = 'CardPickerCard';
+
   constructor(props: CardPickerCardProps) {
     super(props);
     (this: any).onClick = this.onClick.bind(this);

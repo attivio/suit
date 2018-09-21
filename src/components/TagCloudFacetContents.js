@@ -25,7 +25,7 @@ type TagCloudFacetContentsDefaultProps = {
 };
 
 /** Display a facet's bucket values in a list with TagClouds. */
-export default class TagCloudFacetContents extends React.Component<TagCloudFacetContentsDefaultProps, TagCloudFacetContentsProps, void> {
+export default class TagCloudFacetContents extends React.Component<TagCloudFacetContentsDefaultProps, TagCloudFacetContentsProps, void> { // eslint-disable-line max-len
   static displayName = 'TagCloudFacetContents';
 
   static defaultProps = {
@@ -53,6 +53,13 @@ export default class TagCloudFacetContents extends React.Component<TagCloudFacet
       return new TagCloudValue(bucketLabel, bucket.count);
     });
 
-    return <TagCloud tags={tagCloudValues} maxValues={this.props.maxBuckets} noLink={this.props.noLink} callback={this.tagCloudCallback} />;
+    return (
+      <TagCloud
+        tags={tagCloudValues}
+        maxValues={this.props.maxBuckets}
+        noLink={this.props.noLink}
+        callback={this.tagCloudCallback}
+      />
+    );
   }
 }

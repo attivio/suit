@@ -20,7 +20,7 @@ type MoreListFacetContentsDefaultProps = {
 };
 
 /** Display a facet's bucket values in a MoreList component. */
-export default class MoreListFacetContents extends React.Component<MoreListFacetContentsDefaultProps, MoreListFacetContentsProps, void> {
+export default class MoreListFacetContents extends React.Component<MoreListFacetContentsDefaultProps, MoreListFacetContentsProps, void> { // eslint-disable-line max-len
   static displayName = 'MoreListFacetContents';
 
   static defaultProps = {
