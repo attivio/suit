@@ -31,6 +31,13 @@ type SearchResultsProps = {
   showRatings: boolean;
   /** A style to apply to the results list */
   style: ?any;
+  /**
+   * A response can be passed in from custom searches if you don't want
+   *  to use the response on the searcher in this.context
+   */
+  response?: QueryResponse | null;
+  /** Offset of search results for long scrolling or pagination */
+  offset: number;
 };
 
 type SearchResultsDefaultProps = {
@@ -40,6 +47,8 @@ type SearchResultsDefaultProps = {
   entityFields: Map<string, string>;
   showTags: boolean;
   showRatings: boolean;
+  response: QueryResponse | null;
+  offset: number;
 };
 
 /**
@@ -54,6 +63,8 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
     entityFields: new Map([['people', 'People'], ['locations', 'Locations'], ['companies', 'Companies']]),
     showTags: true,
     showRatings: true,
+    response: null,
+    offset: 0,
   };
 
   static contextTypes = {
@@ -64,8 +75,8 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
 
   renderResults() {
     const searcher = this.context.searcher;
-    const response = searcher.state.response;
-    const offset = searcher.state.resultsOffset;
+    const response = this.props.response !== null ? this.props.response : searcher.state.response;
+    const offset = this.props.response ? this.props.offset : searcher.state.resultsOffset;
     if (response && response.documents && response.documents.length > 0) {
       const documents = response.documents;
       const results = [];
