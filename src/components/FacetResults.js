@@ -32,11 +32,16 @@ type FacetResultsProps = {
    * An optional list of facet field names which will be used to determine
    * the order in which the facets are shown. Any facets not named here will
    * appear after the called-out ones, in the order they are in in the
-   * response.facets array of the parent Searcher compoinent.
+   * response.facets array of the parent Searcher component.
    */
   orderHint: Array<string>;
   /** Controls the colors used to show various entity types (the value can be any valid CSS color) */
   entityColors: Map<string, string>;
+  /**
+   * If set, then facets will appear in the results even if they contain no
+   * buckets. By default, facets with no buckets will be hidden.
+   */
+  showEmptyFacets: boolean;
 };
 
 type FacetResultsDefaultProps = {
@@ -51,6 +56,7 @@ type FacetResultsDefaultProps = {
   maxFacetBuckets: number;
   orderHint: Array<string>;
   entityColors: Map<string, string>;
+  showEmptyFacets: boolean;
 };
 
 /**
@@ -58,7 +64,7 @@ type FacetResultsDefaultProps = {
  * It must be contained within a Searcher component and
  * will obtain the list of facets from there. Via properties,
  * you can specify how to display specific facets. Any facet
- * not coveed by one of these property's lists will be displayed
+ * not covered by one of these property's lists will be displayed
  * in a standard "More…" list.
  */
 export default class FacetResults extends React.Component<FacetResultsDefaultProps, FacetResultsProps, void> {
@@ -74,6 +80,7 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
     maxFacetBuckets: 15,
     orderHint: [],
     entityColors: new Map(),
+    showEmptyFacets: false,
   };
 
   static contextTypes = {
@@ -121,6 +128,13 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
     return 'list';
   }
 
+  shouldShow(facet: SearchFacet): boolean {
+    if (this.props.showEmptyFacets || (facet && facet.buckets && facet.buckets.length > 0)) {
+      return true;
+    }
+    return false;
+  }
+
   renderFacets() {
     const searcher = this.context.searcher;
     const facets = searcher.state.response ? searcher.state.response.facets : null;
@@ -132,7 +146,7 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
       const results = [];
       this.props.orderHint.forEach((facetName) => {
         const facet = facetsMap.get(facetName);
-        if (facet) {
+        if (facet && this.shouldShow(facet)) {
           const type = this.getFacetDisplayType(facet.field);
           results.push(<Facet
             facet={facet}
@@ -146,15 +160,17 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
       });
       facets.forEach((facet: SearchFacet) => {
         if (!this.props.orderHint.includes(facet.name)) {
-          const type = this.getFacetDisplayType(facet.field);
-          results.push(<Facet
-            facet={facet}
-            type={type}
-            key={facet.name}
-            maxBuckets={this.props.maxFacetBuckets}
-            collapse
-            entityColors={this.props.entityColors}
-          />);
+          if (this.shouldShow(facet)) {
+            const type = this.getFacetDisplayType(facet.field);
+            results.push(<Facet
+              facet={facet}
+              type={type}
+              key={facet.name}
+              maxBuckets={this.props.maxFacetBuckets}
+              collapse
+              entityColors={this.props.entityColors}
+            />);
+          }
         }
       });
       return results;
