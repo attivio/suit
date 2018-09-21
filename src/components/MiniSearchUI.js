@@ -7,7 +7,6 @@ import NavbarSearch from '../components/NavbarSearch';
 import SearchResults from '../components/SearchResults';
 import Scrollable from '../components/Scrollable';
 import SearchResultsCount from '../components/SearchResultsCount';
-import ObjectUtils from '../util/ObjectUtils';
 
 type MiniSearchUIProps = {
   /**
@@ -77,7 +76,6 @@ export default class MiniSearchUI extends React.Component<MiniSearchUIDefaultPro
         >
           <SearchResults
             format="simple"
-            entityFields={ObjectUtils.toMap([])}
             style={{
               transform: `scale(${this.props.scale}, ${this.props.scale})`,
             }}

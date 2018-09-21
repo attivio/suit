@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import FieldNames from '../api/FieldNames';
 
-import SearchResult from './SearchResult';
+import SimpleSearchResult from './SimpleSearchResult';
 import SearchDocument from '../api/SearchDocument';
 import SimpleQueryRequest from '../api/SimpleQueryRequest';
 import QueryResponse from '../api/QueryResponse';
@@ -100,9 +100,8 @@ export default class SimilarDocuments extends React.Component<SimilarDocumentsDe
         const key = document.getFirstValue(FieldNames.ID);
         const position = index + 1;
         results.push(
-          <SearchResult
+          <SimpleSearchResult
             document={document}
-            format="simple"
             position={position}
             key={key}
             baseUri={this.props.baseUri}

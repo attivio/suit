@@ -79,12 +79,13 @@ module.exports = {
           components: () => {
             return [
               'src/components/DataPairs.js',
+              'src/components/DebugSearchResult.js',
               'src/components/DocumentEntityList.js',
               'src/components/DocumentPreview.js',
               'src/components/DocumentThumbnail.js',
               'src/components/DocumentType.js',
+              'src/components/ListSearchResult.js',
               'src/components/RelevancyScore.js',
-              'src/components/SearchResult.js',
               'src/components/SearchResultBody.js',
               'src/components/SearchResults.js',
               'src/components/SearchResultsCount.js',
@@ -94,6 +95,7 @@ module.exports = {
               'src/components/SearchResultTags.js',
               'src/components/SearchResultTitle.js',
               'src/components/SentimentBar.js',
+              'src/components/SimpleSearchResult.js',
               'src/components/SpellCheckMessage.js',
             ];
           },
