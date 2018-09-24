@@ -4,8 +4,21 @@ import PropTypes from 'prop-types';
 
 import FieldNames from '../api/FieldNames';
 
-import SearchResult from './SearchResult';
+import { renderer as debugRenderer } from './DebugSearchResult';
+import { renderer as listRenderer } from './ListSearchResult';
+import { renderer as simpleRenderer } from './SimpleSearchResult';
 import SearchDocument from '../api/SearchDocument';
+
+/**
+ * This is the definition of a search result renderer. It is passed the document
+ * for the result, the document's position in the search results, and a base URI
+ * that can be used when linking, etc. It should return either a React component
+ * that will be rendered for the document (the component returned should have its
+ * key set to the key parameter) or null if the document shouldn't be
+ * rendered by this function. If no SearchResultRenderer functions handle the
+ * rendering, then the document will be rendered by the 'list' renderer.
+ */
+export type SearchResultRenderer = (doc: SearchDocument, position: number, baseUri: string, key: string) => any;
 
 type SearchResultsProps = {
   /**
@@ -13,18 +26,29 @@ type SearchResultsProps = {
    * Defaults to the value in the configuration.
    */
   baseUri: string;
-  /** The format to use for displaying the individual documents. */
-  format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  /**
+   * This controls how the document is rendered. If can be a single SearchResultRenderer or an
+   * array of SearchResultRenderers. If an array, then each function is called in turn
+   * until the document has been rendered; if a function returns null, then the next
+   * function is called. If none of the SearchResultRenderers are able to render the document,
+   * then the default 'list' type is used. This allows you to have document types rendered
+   * differently in the same set of search results, depending on the contents of the document
+   * or the document's position in the list.
+   *
+   * There are some built-in renderers that you can use for rendering a standard Search-UI-type
+   * list result, for rendering the debug results showing all fields in the document,
+   * or for rendering a simplified result. Each of the components <ListSearchResult>,
+   * <DebugSearchResult>, and <SimpleSearchResult> exports a function called "renderer" you
+   * can pass to the format property to render those components. For historical reasons, there
+   * are also three string values you can pass to the format property, "list," "simple," and "debug,"
+   * which result in a single SearchResultRenderer that produces a result of that format.
+   */
+  format: Array<SearchResultRenderer> | SearchResultRenderer | 'list' | 'simple' | 'debug';
   /**
    * Whether or not the documents’ relevancy scores should be displayed.
    * Defaults to false.
    */
   showScores: boolean;
-  /**
-   * A map of the field names to the label to use for any entity fields.
-   * Defaults to show the people, locations, and companies entities.
-   */
-  entityFields: Map<string, string>;
   /** Whether tags should be shown in the UI or not. Defaults to true. */
   showTags: boolean;
   /** Whether star ratings should be shown in the UI or not. Defaults to true. */
@@ -35,9 +59,8 @@ type SearchResultsProps = {
 
 type SearchResultsDefaultProps = {
   baseUri: string;
-  format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  format: Array<SearchResultRenderer> | SearchResultRenderer | 'list' | 'simple' | 'debug';
   showScores: boolean;
-  entityFields: Map<string, string>;
   showTags: boolean;
   showRatings: boolean;
 };
@@ -51,7 +74,6 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
     baseUri: '',
     format: 'list',
     showScores: false,
-    entityFields: new Map([['people', 'People'], ['locations', 'Locations'], ['companies', 'Companies']]),
     showTags: true,
     showRatings: true,
   };
@@ -66,25 +88,50 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
     const searcher = this.context.searcher;
     const response = searcher.state.response;
     const offset = searcher.state.resultsOffset;
+
+    let formats: Array<SearchResultRenderer> = [];
+    if (searcher.state.debug) {
+      // If the searcher is overriding with the debug flag...
+      formats = [debugRenderer];
+    } else if (typeof this.props.format === 'function') {
+      formats = [this.props.format];
+    } else if (Array.isArray(this.props.format)) {
+      formats = this.props.format;
+    } else if (this.props.format === 'list') {
+      // 'list' -> ListSearchResult
+      formats = [listRenderer];
+    } else if (this.props.format === 'simple') {
+      // 'simple' -> SimpleSearchResult
+      formats = [simpleRenderer];
+    } else if (this.props.format === 'debug') {
+      // 'debug' -> DebugSearchResult
+      formats = [debugRenderer];
+    }
+
     if (response && response.documents && response.documents.length > 0) {
       const documents = response.documents;
       const results = [];
       documents.forEach((document: SearchDocument, index: number) => {
         const key = document.getFirstValue(FieldNames.ID);
         const position = offset + index + 1;
-        results.push(
-          <SearchResult
-            document={document}
-            format={this.props.format}
-            position={position}
-            key={key}
-            showScores={this.props.showScores}
-            entityFields={this.props.entityFields}
-            baseUri={this.props.baseUri}
-            showRatings={this.props.showRatings}
-            showTags={this.props.showTags}
-          />,
-        );
+        let renderedDocument = null;
+
+        // Look through the format array and see if one of the functions
+        // will render a result.
+        formats.forEach((format: SearchResultRenderer) => {
+          if (!renderedDocument) {
+            const possibleResult = format(document, position, this.props.baseUri, key);
+            if (possibleResult) {
+              renderedDocument = possibleResult;
+            }
+          }
+        });
+        if (!renderedDocument) {
+          // Default to the List renderer if nothing else did anything... It will always produce a result.
+          renderedDocument = listRenderer(document, position, this.props.baseUri, key);
+        }
+
+        results.push(renderedDocument);
       });
       return results;
     }

@@ -7,7 +7,7 @@ import Menu, { MenuItemDef } from './Menu';
 
 type SearchRelevancyModelProps = {
   /**
-   * The list of relevancy models to show that will be availale for the user
+   * The list of relevancy models to show that will be available for the user
    * to choose from. If this is set to a single-element array, then that one
    * relevancy model will be used for all queries and the user will not see
    * a menu for choosing the model. If this is not set (and the value is the

@@ -4,5 +4,7 @@
 __1:__ Description.
 
 ```jsx
-  <SearchResultTitle />
+  const sampleDocs = require('../sampleData/Documents').default;
+
+  <SearchResultTitle doc={sampleDocs.elsalvador} />
 ```

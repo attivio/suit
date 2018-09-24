@@ -10,7 +10,7 @@ import FacetFilter from '../api/FacetFilter';
 type DummySearcherProps = {
   defaultRelevancyModels: Array<string>;
   defaultQueryLanguage: 'simple' | 'advanced';
-  defaultFormat: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  defaultDebug: boolean;
   defaultResultsPerPage: number;
   defaultBusinessCenterProfile: string | null;
   defaultSort: Array<string>;
@@ -23,7 +23,7 @@ type DummySearcherProps = {
 type DummySearcherDefaultProps = {
   defaultRelevancyModels: Array<string>;
   defaultQueryLanguage: 'simple' | 'advanced';
-  defaultFormat: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  defaultDebug: boolean;
   defaultResultsPerPage: number;
   defaultBusinessCenterProfile: string | null;
   defaultSort: Array<string>;
@@ -44,7 +44,7 @@ type DummySearcherState = {
   geoFilters: Array<string>;
   resultsPerPage: number;
   resultsOffset: number;
-  format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  debug: boolean;
   businessCenterProfile: string | null;
 };
 
@@ -59,7 +59,7 @@ export default class DummySearcher extends React.Component<DummySearcherDefaultP
   static defaultProps = {
     defaultRelevancyModels: ['default'],
     defaultQueryLanguage: 'simple',
-    defaultFormat: 'list',
+    defaultDebug: false,
     defaultResultsPerPage: 10,
     defaultBusinessCenterProfile: null,
     defaultSort: ['.score:DESC'],
@@ -100,19 +100,19 @@ export default class DummySearcher extends React.Component<DummySearcherDefaultP
       geoFilters: [],
       resultsPerPage: this.props.defaultResultsPerPage,
       resultsOffset: 0,
-      format: this.props.defaultFormat,
+      debug: this.props.defaultDebug,
       businessCenterProfile: this.props.defaultBusinessCenterProfile,
     };
   }
 
  /**
-   * Used to tell the search results component which format
-   * to use when rendering results.
+   * Used to tell the search results component whether to override
+   * the format with the debug format.
    */
-  updateFormat(newFormat: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple') {
-    if (this.state.format !== newFormat) {
+  updateDebug(newDebug: boolean) {
+    if (this.state.debug !== newDebug) {
       this.setState({
-        format: newFormat,
+        debug: newDebug,
       });
     }
   }

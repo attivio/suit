@@ -244,8 +244,6 @@
     ],
     // The maximum number of facets the Facet Finder attempts to add to the query. Set this to 0 to turn off Facet Finder.
     facetFinderCount: 20,
-    // Determines if primary results should be displayed as 'list', 'usercard', 'doccard', 'debug', or 'simple';
-    format: 'list',
     // An optional filter to apply to all queries when using the advanced query language
     queryFilter: '',
     // The locale for queries; all linguistic processing is performed using this locale
