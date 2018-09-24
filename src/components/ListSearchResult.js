@@ -19,7 +19,7 @@ import Signals from '../api/Signals';
 import StarRating from './StarRating';
 import TabPanel, { TabInfo } from './TabPanel';
 
-type ListSearchResultProps = {
+type InnerListSearchResultProps = {
   /** The document to be displayed. */
   document: SearchDocument;
   /** The document’s position in the search results. */
@@ -39,7 +39,7 @@ type ListSearchResultProps = {
   showRatings: boolean;
 }
 
-type ListSearchResultDefaultProps = {
+type InnerListSearchResultDefaultProps = {
   baseUri: string;
   showScores: boolean;
   entityFields: Map<string, string>;
@@ -47,7 +47,7 @@ type ListSearchResultDefaultProps = {
   showRatings: boolean;
 }
 
-type ListSearchResultState = {
+type InnerListSearchResultState = {
   currentTab: string;
 };
 
@@ -63,7 +63,7 @@ export function renderer(doc: SearchDocument, position: number, baseUri: string,
 /**
  * An individual List-type search result.
  */
-class ListSearchResult extends React.Component<ListSearchResultDefaultProps, ListSearchResultProps, ListSearchResultState> { // eslint-disable-line max-len
+class InnerListSearchResult extends React.Component<InnerListSearchResultDefaultProps, InnerListSearchResultProps, InnerListSearchResultState> { // eslint-disable-line max-len
   static defaultProps = {
     baseUri: '',
     format: 'list',
@@ -98,16 +98,16 @@ class ListSearchResult extends React.Component<ListSearchResultDefaultProps, Lis
     return <span>{json}</span>;
   }
 
-  constructor(props: ListSearchResultProps) {
+  constructor(props: InnerListSearchResultProps) {
     super(props);
     this.state = {
-      currentTab: ListSearchResult.getFirstDocumentType(props.document.children),
+      currentTab: InnerListSearchResult.getFirstDocumentType(props.document.children),
     };
     (this: any).tabChanged = this.tabChanged.bind(this);
     (this: any).rateDocument = this.rateDocument.bind(this);
   }
 
-  state: ListSearchResultState;
+  state: InnerListSearchResultState;
 
   tabChanged(newTab: string) {
     this.setState({
@@ -229,4 +229,8 @@ class ListSearchResult extends React.Component<ListSearchResultDefaultProps, Lis
   }
 }
 
-export default Configurable(ListSearchResult);
+const ListSearchResult = Configurable(InnerListSearchResult);
+
+ListSearchResult.renderer = renderer;
+
+export default ListSearchResult;

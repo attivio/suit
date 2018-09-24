@@ -66,6 +66,8 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
     return <span>{json}</span>;
   }
 
+  static renderer;
+
   constructor(props: DebugSearchResultProps) {
     super(props);
     (this: any).rateDocument = this.rateDocument.bind(this);
@@ -148,3 +150,5 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
     );
   }
 }
+
+DebugSearchResult.renderer = renderer;

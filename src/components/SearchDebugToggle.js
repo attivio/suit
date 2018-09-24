@@ -35,7 +35,7 @@ export default class SearchDebugToggle extends React.Component<SearchDebugToggle
     let isDebug = false;
     const searcher = this.context.searcher;
     if (searcher) {
-      isDebug = searcher.state.format === 'debug';
+      isDebug = searcher.state.debug;
     }
 
     const leftRight = this.props.right ? 'attivio-globalmastnavbar-right' : '';
@@ -48,7 +48,7 @@ export default class SearchDebugToggle extends React.Component<SearchDebugToggle
           on={isDebug}
           onChange={(changingToDebug) => {
             if (searcher) {
-              searcher.updateFormat(changingToDebug ? 'debug' : 'list');
+              searcher.updateDebug(changingToDebug);
             }
           }}
         />

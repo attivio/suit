@@ -37,7 +37,7 @@ import Configuration from '../components/Configuration';
   then we update the state including setting the offset to 0, and, if there has been a previous
   search, we perform a new one (and, only in this case, update the search string). The following
   properties require resetting when they're changed: geoFilters (adding or removing), resultsPerPage,
-  facetFilters (adding or removing), sort, relevancyModels, format, and searchProfile.
+  facetFilters (adding or removing), sort, relevancyModels, debug, and searchProfile.
 */
 
 type SearcherProps = {
@@ -129,8 +129,8 @@ type SearcherProps = {
   // showWorkflowFields: boolean;
   /** The workflow to use when updating document properties, defaults to 'ingest' */
   // ingestWorkflow: string;
-  /** The format to use for displaying the individual documents. */
-  format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  /** Whether to override the format with the debug format. */
+  debug: boolean,
   /** The number of document results to display on each page of the results set */
   resultsPerPage: number;
   /**
@@ -169,7 +169,7 @@ type SearcherDefaultProps = {
   moreLikeThisQuery: string;
   mimetype: string;
   sourcePath: string;
-  format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  debug: boolean;
   resultsPerPage: number;
   businessCenterProfile: string | null;
   defaultQueryLanguage: 'simple' | 'advanced';
@@ -198,7 +198,7 @@ type SearcherState = {
   geoFilters: Array<string>;
   resultsPerPage: number;
   resultsOffset: number;
-  format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  debug: boolean;
 };
 
 /**
@@ -249,7 +249,7 @@ the offset to 0, and , if there's a previous search, perform a new one (and, onl
       facetFilters (adding or removing)
       sort
       relevancyModels
-      format
+      debug
       searchProfile
 
 
@@ -282,7 +282,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     moreLikeThisQuery: 'morelikethisquery',
     mimetype: FieldNames.MIME_TYPE,
     sourcePath: FieldNames.SOURCEPATH,
-    format: 'list',
+    debug: false,
     resultsPerPage: 10,
     businessCenterProfile: null,
     defaultQueryLanguage: 'simple',
@@ -383,7 +383,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       geoFilters: [],
       resultsPerPage: parseInt(this.props.resultsPerPage, 10),
       resultsOffset: 0,
-      format: this.props.format,
+      debug: this.props.debug,
     };
   }
 
@@ -537,8 +537,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     if (state.relevancyModels && state.relevancyModels.length > 0) {
       basicState.relevancyModels = state.relevancyModels;
     }
-    if (state.format && state.format !== this.props.format) {
-      basicState.format = state.format;
+    if (state.debug !== this.props.debug) {
+      basicState.debug = state.debug;
     }
 
     // See if there are any query parameters other than those set by the Searcher. If so, we want to maintain them.
@@ -553,7 +553,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         originalParsed.delete('facetFilters');
         originalParsed.delete('sort');
         originalParsed.delete('relevancyModels');
-        originalParsed.delete('format');
+        originalParsed.delete('debug');
       }
       // Add any leftover fields back in to the basic state
       basicState = Object.assign({}, basicState, originalParsed);
@@ -653,12 +653,11 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     // Get the business center profile to use.
     // DEFAULT: none
 
-    // Get the format.
+    // Determine if we're in debug mode.
     // DEFAULT: this.props.format
-    let format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple' = this.props.format;
-    if (parsed.format === 'list' || parsed.format === 'usercard' || parsed.format === 'doccard' ||
-      parsed.format === 'debug' || parsed.format === 'simple') {
-      format = parsed.format;
+    let debug = this.props.debug;
+    if (Object.prototype.hasOwnProperty.call(parsed, 'debug')) {
+      debug = parsed.debug;
     }
 
     const result: SearcherState = {
@@ -670,7 +669,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       facetFilters,
       sort: [sort],
       relevancyModels,
-      format,
+      debug,
       haveSearched: this.state.haveSearched, // Make sure we don't change this
     };
 
@@ -698,13 +697,13 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   }
 
   /**
-   * Used to tell the search results component which format
-   * to use when rendering results.
+   * Used to tell the search results component whether to use the debug
+   * format when rendering results.
    */
-  updateFormat(newFormat: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple') {
-    if (this.state.format !== newFormat) {
+  updateDebug(newDebug: boolean) {
+    if (this.state.debug !== newDebug) {
       this.updateStateAndSearch({
-        format: newFormat,
+        debug: newDebug,
       });
     }
   }

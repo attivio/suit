@@ -88,17 +88,24 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
     const searcher = this.context.searcher;
     const response = searcher.state.response;
     const offset = searcher.state.resultsOffset;
-    let formats: Array<SearchResultRenderer>;
-    if (this.props.format === 'list') {
-      formats = [listRenderer];
-    } else if (this.props.format === 'simple') {
-      formats = [simpleRenderer];
-    } else if (this.props.format === 'debug') {
+
+    let formats: Array<SearchResultRenderer> = [];
+    if (searcher.state.debug) {
+      // If the searcher is overriding with the debug flag...
       formats = [debugRenderer];
     } else if (typeof this.props.format === 'function') {
       formats = [this.props.format];
-    } else {
-      formats = [];
+    } else if (Array.isArray(this.props.format)) {
+      formats = this.props.format;
+    } else if (this.props.format === 'list') {
+      // 'list' -> ListSearchResult
+      formats = [listRenderer];
+    } else if (this.props.format === 'simple') {
+      // 'simple' -> SimpleSearchResult
+      formats = [simpleRenderer];
+    } else if (this.props.format === 'debug') {
+      // 'debug' -> DebugSearchResult
+      formats = [debugRenderer];
     }
 
     if (response && response.documents && response.documents.length > 0) {

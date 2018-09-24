@@ -62,6 +62,8 @@ export default class SimpleSearchResult extends React.Component<SimpleSearchResu
     return <span>{json}</span>;
   }
 
+  static renderer;
+
   render() {
     const doc = this.props.document;
     const docId = doc.getFirstValue('.id');
@@ -92,3 +94,5 @@ export default class SimpleSearchResult extends React.Component<SimpleSearchResu
     );
   }
 }
+
+SimpleSearchResult.renderer = renderer;
