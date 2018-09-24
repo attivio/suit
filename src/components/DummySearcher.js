@@ -106,7 +106,7 @@ export default class DummySearcher extends React.Component<DummySearcherDefaultP
   }
 
  /**
-   * Used to tell the search results component whether to overridew
+   * Used to tell the search results component whether to override
    * the format with the debug format.
    */
   updateDebug(newDebug: boolean) {
