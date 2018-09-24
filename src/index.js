@@ -57,6 +57,7 @@ export DocumentPreview from './components/DocumentPreview';
 export DocumentThumbnail from './components/DocumentThumbnail';
 export DocumentType from './components/DocumentType';
 export DropdownButton from './components/DropdownButton';
+export DummySearcher from './components/DummySearcher';
 export ExpertCard from './components/ExpertCard';
 export ExpertDetails from './components/ExpertDetails';
 export ExpertsHeader from './components/ExpertsHeader';
