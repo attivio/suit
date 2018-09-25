@@ -6,7 +6,6 @@ import FetchUtils from './FetchUtils';
 
 export default class AuthUtils {
   static USER_KEY = 'suit-user';
-  static TIMEOUT = 30 * 60 * 1000;
   static users;
   static config;
 
@@ -153,7 +152,6 @@ export default class AuthUtils {
       const userObject = AuthUtils.findUser(username);
       if (userObject) {
         if (AuthUtils.passwordMatches(password, userObject.$.password)) {
-          userObject.timeout = new Date().getTime() + AuthUtils.TIMEOUT;
           sessionStorage.setItem(AuthUtils.USER_KEY, JSON.stringify(userObject));
           return null;
         }
@@ -169,7 +167,6 @@ export default class AuthUtils {
   static saveLoggedInUser(userInfo: any) {
     if (userInfo) {
       const userInfoCopy = JSON.parse(JSON.stringify(userInfo));
-      userInfoCopy.timeout = new Date().getTime() + AuthUtils.TIMEOUT;
       sessionStorage.setItem(AuthUtils.USER_KEY, JSON.stringify(userInfoCopy));
     } else {
       sessionStorage.removeItem(AuthUtils.USER_KEY);
@@ -216,9 +213,7 @@ export default class AuthUtils {
     const userObjectJson = sessionStorage.getItem(AuthUtils.USER_KEY);
     if (userObjectJson) {
       const userObject = JSON.parse(userObjectJson);
-      if (userObject && userObject.timeout && userObject.timeout > new Date().getTime()) {
-        return userObject;
-      }
+      return userObject;
     }
     return null;
   }
@@ -232,7 +227,7 @@ export default class AuthUtils {
    */
   static getLoggedInUserInfo(callback: (any) => void) {
     const userObject = AuthUtils.getSavedUser();
-    if (userObject && userObject.timeout && userObject.timeout > new Date().getTime()) {
+    if (userObject) {
       callback(userObject);
     } else if (AuthUtils.config.ALL.authType === 'SAML' || AuthUtils.config.ALL.authType === 'NONE') {
       // If the authentication is done on the front-end, we shouldn't
@@ -243,7 +238,7 @@ export default class AuthUtils {
           AuthUtils.saveLoggedInUser(userInfo);
         }
         if (error) {
-          console.log('Got an error retrieving the current user\u2019s details.', error);
+          console.log('Got an error retrieving the current user\'s details.', error);
         }
         callback(userInfo);
       };
