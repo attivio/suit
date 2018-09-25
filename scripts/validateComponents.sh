@@ -155,7 +155,7 @@ fi
 
 
 
-totalErrors=$((${#missingCompsInIndex[@]} + ${#missingCompsInStyleGuide[@]} + ${#compsMissingTests[@]} + ${#compsWithMissingDisplayName[@]}))
+totalErrors=$((${#missingCompsInIndex[@]} + ${#missingCompsInStyleGuide[@]} + ${#compsWithMissingDisplayName[@]})) # + ${#compsMissingTests[@]}  Don't complain about this yet
 
 echo "Total Errors: ${totalErrors}"
 

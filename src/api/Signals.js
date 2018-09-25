@@ -30,7 +30,7 @@ export default class Signals {
       const updatedSignal = Object.assign({}, doc.signal, { type, weight });
       const callback = (response: any | null, error: string | null) => {
         if (error) {
-          console.log('Failed to submit signal', updatedSignal, error);
+          console.warn('Failed to submit signal', updatedSignal, error);
         }
       };
       FetchUtils.fetch(uri, updatedSignal, callback, 'POST', 'Failed to submit signal');
