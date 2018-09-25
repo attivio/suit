@@ -23,7 +23,7 @@ type AuthRouteProps = {
    */
   location: any;
   /**
-   * The authenticaton method being used
+   * The authentication method being used
    */
   authType: 'SAML' | 'XML' | 'NONE';
 };
