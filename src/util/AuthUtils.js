@@ -238,7 +238,7 @@ export default class AuthUtils {
           AuthUtils.saveLoggedInUser(userInfo);
         }
         if (error) {
-          console.log('Got an error retrieving the current user\'s details.', error);
+          console.error('Got an error retrieving the current user\'s details.', error);
         }
         callback(userInfo);
       };
