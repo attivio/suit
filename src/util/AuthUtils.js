@@ -70,7 +70,7 @@ export default class AuthUtils {
   }
 
   /**
-   * Imeplementation of the obfuscation algorithm from Jetty.
+   * Implementation of the obfuscation algorithm from Jetty.
    */
   static obfuscate(orig: string): string {
     const buf = [];
@@ -301,7 +301,7 @@ export default class AuthUtils {
 
   /**
    * Validate the users object to make sure it won't cause us any
-   * grief. Return null if it's good, or an error messager otherwise.
+   * grief. Return null if it's good, or an error message otherwise.
    * This should only be called if auth type is 'XML'
    */
   static validateUsers(users: any): string | null {
@@ -328,7 +328,7 @@ export default class AuthUtils {
 
   /**
    * Validate the configuration object to make sure it won't cause us any
-   * grief. Return null if it's good, or an error messager otherwise.
+   * grief. Return null if it's good, or an error message otherwise.
    */
   static validateConfiguration(config: any, simpleValidation: boolean = false): string | null {
     if (!config) {

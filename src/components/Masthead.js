@@ -55,7 +55,7 @@ type MastheadState = {
 /**
  * Display a masthead header at the top of your page. It displays a logo,
  * the name of the application, and the currently logged-in user. It can
- * contain arbitray components, but components particularly suited for
+ * contain arbitrary components, but components particularly suited for
  * being in masthead have names that start with "Masthead," such as
  * MastheadNavBar and MastheadNavTabs.
  */

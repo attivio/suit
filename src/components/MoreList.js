@@ -3,7 +3,7 @@ import React from 'react';
 import type { Children } from 'react';
 
 type MoreListProps = {
-  /** Arbirary childen. */
+  /** Arbitrary children. */
   children: Children;
   /** The maximum number of children to display initially. */
   shortSize: number;

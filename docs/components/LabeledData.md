@@ -72,7 +72,7 @@ __4.__ This list has more complex JSX elements as values
       new LabeledData.LabeledDataPair('Hebrew Letters', (
         <div>
           <ul>
-            <li>Alef — א</li>
+            <li>Aleph — א</li>
             <li>Bet — ב‎</li>
             <li>Gimel — ג‎</li>
           </ul>

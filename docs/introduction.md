@@ -9,11 +9,11 @@ allows you to see and, to some extent, interact with the components in the libra
 
 For each component, you can see:
 * An example of how you would import it into your application's pages or other
-componenets (clicking the icon next to the import statement will copy it to the clipboard).
+components (clicking the icon next to the import statement will copy it to the clipboard).
 * A description of the component (from the source code) explaining what it is
 designed to do and how you might use it.
 * A list of the properties of the component, their types, and descriptions. (Note that
-due to an iussue in the react-docgen library used by react-styleguidist, all properties
+due to an issue in the react-docgen library used by react-styleguidist, all properties
 show up in the list as "required" although many are, in fact, optional. See the comments
 for a property: if it is described as being optional or having a default value then
 it can be omitted.
@@ -25,7 +25,7 @@ it can be omitted.
 
 ## Additional Components Available
 
-SUIT makes use of several 3rd-party libraries which are, therefore, also avaialble to your
+SUIT makes use of several 3rd-party libraries which are, therefore, also available to your
 applications without needing to add any special dependencies. These include the
 [React Bootstrap library](https://react-bootstrap.github.io/), the
 [React Highcharts library](https://github.com/kirjs/react-highcharts), and the

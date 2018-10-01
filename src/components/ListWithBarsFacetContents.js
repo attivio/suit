@@ -38,7 +38,7 @@ type ListWithBarsFacetContentsState = {
 
 /**
  * Component to display the buckets of a facet in a table with
- * horizontal bars showing relatrive size.
+ * horizontal bars showing relative size.
  */
 export default class ListWithBarsFacetContents extends React.Component<ListWithBarsFacetContentsDefaultProps, ListWithBarsFacetContentsProps, ListWithBarsFacetContentsState> { // eslint-disable-line max-len
   static defaultProps = {

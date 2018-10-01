@@ -177,7 +177,7 @@ type SearcherDefaultProps = {
 
 /*
  * NOTE: If you add or remove anything from the Searcher's state, you'll
- * need to update (at least) the following methods to accommodate the chnage:
+ * need to update (at least) the following methods to accommodate the change:
  *   constructor()
  *   getQueryRequest()
  *   generateLocationQueryStringFromState()
@@ -206,7 +206,7 @@ type SearcherState = {
  * the searcher property that is inserted into their context object. This allows them
  * to access the Searcher's state to see all of its input parameters aa well as the
  * results of the most recent search and any errors. In addition, they can use the
- * reference to the Seacher to call methods which allow them to update the Searcher's
+ * reference to the Searcher to call methods which allow them to update the Searcher's
  * state or execute searches.
  *
  * The Searcher also provides a method, doCustomSearch(), that lets the callers
@@ -217,44 +217,45 @@ type SearcherState = {
  * of how this is done using by defining "static contextTypes" in the component.
  *
  * Note that the Searcher will add query parameters to the URL for the page's location
- * when the usere executes a (non-custom) search. This allows the URL for the search to be
+ * when the user executes a (non-custom) search. This allows the URL for the search to be
  * used to repeat the same search, either when refreshing the browser window or when
  * bookmarking the page, sharing it in an email, etc. The URL is updated whenever a search
  * happens, whether caused by the user clicking the search button or by changing the
  * parameters to an existing search (e.g., changing the sort order or paging through the
  * results).
-
- IF
-Searcher is first loaded, we need to check for query parameters and apply them if they exist.In this case, we need to do the search.
-
-IF
-Searcher is updated with a new query string, then we need to parse it and possibly do a new search, if it has changed.
-
-IF
-User does a search manually, we need to calculate the query string and push the new location onto the history if it has changed.
-  THIS HAPPENS IN THE doSearch() method
-
-IF
-User updates a property that affects existing searches but doesn't require resetting, we need to update the state and then,
-if there's a previous search, perform a new one (and, only in this case, update the search string
-  THIS HAPPENDS WHEN THESE PROPERTIES CHANGE:
-      resultsOffset (i.e., paging)
-
-IF
-User updates a property that affects existing searches AND requires resetting, then we need to update the state including setting
-the offset to 0, and , if there's a previous search, perform a new one (and, only in this case, update the search string
-  THIS HAPPENDS WHEN THESE PROPERTIES CHANGE:
-      geoFilters (adding or removing)
-      resultsPerPage
-      facetFilters (adding or removing)
-      sort
-      relevancyModels
-      debug
-      searchProfile
-
-
-      // NEED TO DEAL WITH VALUES IN URL THAT ARE NOT VALID...
-
+ *
+ * IF
+ * Searcher is first loaded, we need to check for query parameters and apply them if they
+ * exist.In this case, we need to do the search.
+ *
+ * IF
+ * Searcher is updated with a new query string, then we need to parse it and possibly do
+ * a new search, if it has changed.
+ *
+ * IF
+ * User does a search manually, we need to calculate the query string and push the new
+ * location onto the history if it has changed.
+ *   THIS HAPPENS IN THE doSearch() method
+ *
+ * IF
+ * User updates a property that affects existing searches but doesn't require resetting,
+ * we need to update the state and then, if there's a previous search, perform a new one
+ * (and, only in this case, update the search string
+ *   THIS HAPPENS WHEN THESE PROPERTIES CHANGE:
+ *       resultsOffset (i.e., paging)
+ *
+ * IF
+ * User updates a property that affects existing searches AND requires resetting, then we
+ * need to update the state including setting the offset to 0, and , if there's a previous
+ * search, perform a new one (and, only in this case, update the search string
+ *   THIS HAPPENS WHEN THESE PROPERTIES CHANGE:
+ *       geoFilters (adding or removing)
+ *       resultsPerPage
+ *       facetFilters (adding or removing)
+ *       sort
+ *       relevancyModels
+ *       debug
+ *       searchProfile
  */
 class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, SearcherState> {
   static defaultProps = {
@@ -448,7 +449,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * Get the list of fields to use in the query request.
    */
   getFieldList(): Array<string> {
-    // Start out with the fields the user specifed
+    // Start out with the fields the user specified
     const result = [].concat(this.props.fields || []);
     // Add the mapped fields that the search results will expect
     result.push(`${this.props.title} as title`);
@@ -582,7 +583,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     }
 
     // Get the geoFilters (normalized to an array of strings)
-    // DEFAUT: []
+    // DEFAULT: []
     let geoFilters = parsed.geoFilters;
     if (!geoFilters) {
       geoFilters = [];

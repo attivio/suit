@@ -14,7 +14,7 @@ export default class StringUtils {
    * in all cases.)
    *
    * In any case, if the part of the string being used contains
-   * the charaters '{}', that is substituted with the number
+   * the characters '{}', that is substituted with the number
    * itself, as a string.
    *
    * @param {*} format the format string

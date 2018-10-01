@@ -16,7 +16,7 @@ type MiniIconButtonProps = {
    * image used instead. You must use one or the other of
    * the glyph and uri properties. See http://glyphicons.com/
    * and click the "Halflings" tab to see the options
-   * avaialble (without the "halflings-" prefix).
+   * available (without the "halflings-" prefix).
    */
   glyph: string | null;
   /**

@@ -6,7 +6,7 @@ __1.__ Relevancy score with no explanation available.
   <RelevancyScore id="myFirstRelevancyScore" score={0.18323} />
 ```
 
-__2.__ Relevancy score with a score explaination provided.
+__2.__ Relevancy score with a score explanation provided.
 
 ```jsx
   <RelevancyScore

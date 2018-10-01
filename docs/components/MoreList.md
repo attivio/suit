@@ -22,7 +22,7 @@ __1.__ Twenty-item list with default properties.
     <div>Sixteenth row</div>
     <div>Seventeenth row</div>
     <div>Eighteenth row</div>
-    <div>Ninteenth row</div>
+    <div>Nineteenth row</div>
     <div>Twentieth row</div>
   </MoreList>
 ```
@@ -49,7 +49,7 @@ __2.__ Twenty-item list with longer default list and custom prompts.
     <div>Sixteenth row</div>
     <div>Seventeenth row</div>
     <div>Eighteenth row</div>
-    <div>Ninteenth row</div>
+    <div>Nineteenth row</div>
     <div>Twentieth row</div>
   </MoreList>
 ```

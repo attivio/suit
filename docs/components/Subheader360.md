@@ -3,5 +3,5 @@
 __1.__ Standard
 
 ```jsx
-  <Subheader360 label="My Subheader for the 360° page" />
+  <Subheader360 label="My sub-header for the 360° page" />
 ```

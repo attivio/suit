@@ -52,7 +52,7 @@ type ScrollableDefaultProps = {
 };
 
 /**
- * A scrollable contianer for other components. If the size of the children is large enough that
+ * A scrollable container for other components. If the size of the children is large enough that
  * they won't fit, scroll bars are enabled to let the user scroll to see the rest of the contents.
  */
 export default class Scrollable extends React.Component<ScrollableDefaultProps, ScrollableProps, void> {

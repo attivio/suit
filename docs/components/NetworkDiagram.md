@@ -3,7 +3,7 @@
 For more complex examples, see the Document360Page. For details about the options available,
 see the <a href="http://visjs.org/docs/network/" target="_blank">Vis.js Network documentation</a>.
 
-__1.__ Simple example with straighforward content.
+__1.__ Simple example with straightforward content.
 
 ```jsx
   // const KnowledgeGraphUtils = require('../../src/util/KnowledgeGraphUtils');

@@ -1,6 +1,6 @@
 #### Examples:
 
-__1.__ Simple exmple. Not all that exciting without any navbar children.
+__1.__ Simple example. Not all that exciting without any navbar children.
 
 ```jsx
   <SecondaryNavBar>

@@ -84,7 +84,7 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
   }
 
   render() {
-    const cardComponnents = this.props.cards.map((cardItem) => {
+    const cardComponents = this.props.cards.map((cardItem) => {
       return (
         <CardPickerCard
           key={`${cardItem.label}|${cardItem.iconUri ? cardItem.iconUri : 'noicon'}`}
@@ -99,7 +99,7 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
 
     return (
       <GridLayout>
-        {cardComponnents}
+        {cardComponents}
       </GridLayout>
     );
   }
