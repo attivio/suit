@@ -369,7 +369,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
         >
           <div
             style={this.props.width ? {
-              // adjusted to fit the carot
+              // adjusted to fit the caret
               width: `${this.props.width - 40}px`,
               whiteSpace: 'nowrap',
               overflow: 'hidden',

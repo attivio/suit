@@ -2,13 +2,13 @@
 import React from 'react';
 
 type NavbarPagerProps = {
-  /** The currenlty displayed page number (0-based). */
+  /** The currently displayed page number (0-based). */
   currentPage: number;
   /** The total number of pages. */
   maxPage: number;
   /**
    * A callback that is called with a new page number when
-   * the user clicks the foreward or back button.
+   * the user clicks the forward or back button.
    */
   onChange: (newPage: number) => void;
 }

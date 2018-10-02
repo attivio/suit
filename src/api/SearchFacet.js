@@ -37,7 +37,7 @@ export default class SearchFacet {
   field: string;
   /** The human-readable label for this facet, usually the name of the field being faceted on */
   label: string;
-  /** The number of occurances for a facet. */
+  /** The number of occurrences for a facet. */
   count: number;
   /** Statistics for the facet (only available for numeric fields) */
   statistics: SearchFacetStatistics | null;

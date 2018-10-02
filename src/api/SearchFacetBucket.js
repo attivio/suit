@@ -67,11 +67,11 @@ export default class SearchFacetBucket {
   /** The value of the bucket */
   value: any;
   /**
-   * If present (generaly for filter facet requests or range facets), the label to display
+   * If present (generally for filter facet requests or range facets), the label to display
    * as the facet bucket's value instead of the value field
    */
   label: string | null;
-  /** The number of occurances of this value in the facet */
+  /** The number of occurrences of this value in the facet */
   count: number;
   /** The filter that can be used to limit the original query to only show documents matching this value */
   filter: string;

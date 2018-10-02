@@ -11,7 +11,7 @@ type RelevancyScoreProps = {
   id: string;
   /** The relevancy score to display. */
   score: number;
-  /** The explanation of the score, if known. If not set, no explaination is displayed. */
+  /** The explanation of the score, if known. If not set, no explanation is displayed. */
   explanation: string | null;
 };
 

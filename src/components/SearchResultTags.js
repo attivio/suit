@@ -41,7 +41,7 @@ type SearchResultTagsState = {
 };
 
 /**
- * Show the tags for a document from the search results. Optionaly
+ * Show the tags for a document from the search results. Optionally
  * shows a link to view similar documents if the moreLikeThisQuery
  * property is set. If the vertical prop is set, then they're rendered
  * in a single column as opposed to in a horizontal row. Also allows

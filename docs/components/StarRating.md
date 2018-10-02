@@ -26,7 +26,7 @@ initialState = {
   rating: 0,
 };
 
-<StarRating chooseable stars={state.rating} onRated={(numStars) => {
+<StarRating choosable stars={state.rating} onRated={(numStars) => {
   setState({rating: numStars});
 }} />
 ```

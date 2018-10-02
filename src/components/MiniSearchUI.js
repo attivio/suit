@@ -21,8 +21,8 @@ type MiniSearchUIDefaultProps = {
 };
 
 /**
- * A miniature, self-contained component that presentds super simple search UI including a text field for the
- * query, an indication of the number or results or error from the wuery, and a small, scrollable results area
+ * A miniature, self-contained component that presents super simple search UI including a text field for the
+ * query, an indication of the number or results or error from the query, and a small, scrollable results area
  * showing the resulting documents. It must be nested inside a Searcher component and will use that parent
  * Searcher to manage its state.
  */

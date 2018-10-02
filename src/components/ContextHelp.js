@@ -3,7 +3,7 @@
 import React from 'react';
 
 /**
- * Descibes the help to display in a particulsar context.
+ * Describes the help to display in a particular context.
  */
 export class ContextHelpInfo {
   id: string;

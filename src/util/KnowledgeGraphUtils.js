@@ -133,7 +133,7 @@ export default class KnowledgeGraphUtils {
    *                      joining to other documents in the same table (pass null to join with
    *                      any document, regardless of its table)
    * @param linkingFields the list of fields to look for links in (e.g., entity fields)
-   * @param maxLinkedDocs the maximum number of additional documebnts to return
+   * @param maxLinkedDocs the maximum number of additional documents to return
    * @param entityName
    * @param entityValue
    */

@@ -20,7 +20,7 @@ export default class Placement {
   label: string;
   /** The address of the link. Optional. */
   linkUrl: string | null;
-  /** The anchortext of the link. Optional. */
+  /** The text to display as the link. Optional. */
   linkText: string | null;
   /** The address of an image to display. Optional. */
   imageUrl: string | null;

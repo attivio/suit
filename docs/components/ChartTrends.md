@@ -24,7 +24,7 @@ __4.__ An upward trend with a custom label.
   <ChartTrends
     change="5mm"
     up
-    changedLabel="Fluxuating"
+    changedLabel="Fluctuating"
   />
 ```
 
@@ -33,6 +33,6 @@ __5.__ An unchanged value with a custom label.
 ```jsx
   <ChartTrends
     change="18.425"
-    unchangeedLabel="Stable"
+    unchangedLabel="Stable"
   />
 ```
