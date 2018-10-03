@@ -52,7 +52,7 @@ export default class TagCloud extends React.Component<TagCloudDefaultProps, TagC
 
   static getAdjustedValue(value: number, min: number, max: number): number {
     if (max === min) {
-      // Special case where there's no variation... just use a 
+      // Special case where there's no variation... just use a "middling" value
       return 4;
     }
     // Make sure we only base the adjusted values on the range of min - max
