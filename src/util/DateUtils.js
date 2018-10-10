@@ -37,6 +37,10 @@ export default class DateUtils {
         return m.format('lll');
       case DateFormat.LONG:
         return m.format('LLLL');
+      case DateFormat.DAY_OF_MONTH:
+        return m.format('MMMM D');
+      case DateFormat.HOUR:
+        return m.format('h:00A');
       case DateFormat.AGO:
         return m.fromNow();
       case DateFormat.IN:
@@ -45,6 +49,15 @@ export default class DateUtils {
       default:
         return m.format();
     }
+  }
+
+  /**
+   * Given a JavaScript Date object, return a formatted date in the specified
+   * locale using the moment.js format string specified.
+   */
+  static formatDateCustom(date: Date, formatString: string, locale: string = 'en'): string {
+    const m = moment(date).locale(locale);
+    return m.format(formatString);
   }
 
   /**

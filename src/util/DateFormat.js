@@ -37,6 +37,10 @@ DateFormat.initEnum([
   'MEDIUM',
   /** The long date and the long time, combined: e.g., 'Thursday, September 8 2017 10:29 AM' */
   'LONG',
+  /** The month and day of the month with no time or year: e.g., 'March 4' */
+  'DAY_OF_MONTH',
+  /** A simple hour, in 12-hour format with AM or PM: e.g., '2 days ago' */
+  'HOUR',
   /** A distance 'ago' in time before now: e.g., '2 days ago' */
   'AGO',
   /** A distance into the future from now: e.g., 'in 4 months' */
