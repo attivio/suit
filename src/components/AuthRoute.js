@@ -66,9 +66,13 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
   }
 
   render() {
-    // If the user is logged in and has permission for this
-    // route, then just render the route.
-    if (AuthUtils.isLoggedIn(this.props.required)) {
+    // If authentication is required by the app, then make sure the user is logged in.
+    // If there is no general authentication required by the app,
+    // then only check that the user is logged in if specific credentials are required for the page
+    if (
+      (this.props.authType !== 'NONE' && AuthUtils.isLoggedIn(this.props.required)) ||
+      (this.props.authType === 'NONE' && (!this.props.required || AuthUtils.isLoggedIn(this.props.required)))
+    ) {
       return (
         <Route
           {...this.props}
