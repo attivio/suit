@@ -8,7 +8,7 @@
 VERSION_TYPE=$1
 if [ -z "$VERSION_TYPE" ]
   then
-    VERSION_TYPE = "patch"
+    VERSION_TYPE="patch"
 fi
 git pull && \
 npm version $VERSION_TYPE
