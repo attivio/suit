@@ -15,4 +15,11 @@ npm version $VERSION_TYPE
 #git commit --no-verify && \
 echo "Not pushing yet..."
 #git push
-echo "Updated SUIT version. Run 'npm run fullbuild' and 'npm run publish' to add the new version of the library to the NPM repo."
+
+PACKAGE_VERSION=$(cat package.json \
+  | grep version \
+  | head -1 \
+  | awk -F: '{ print $2 }' \
+  | sed 's/[",]//g')
+
+echo "Updated SUIT version to $PACKAGE_VERSION. Run 'npm run fullbuild' and 'npm run publish' to add the new version of the library to the NPM repo."
