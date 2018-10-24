@@ -14,7 +14,9 @@ TAG_NAME=
 
 echo "Going to build and publish version $PACKAGE_VERSION of the SUIT library."
 
-echo "Building..."
+# Try a git pull first to make sure that there are no un-checked-in changes
+git pull && \
+echo "Building..." && \
 npm run fullbuild && \
 echo "Publishing..." && \
 npm publish && \
