@@ -43,6 +43,14 @@ export default class DefaultImage extends React.Component<DefaultImageDefaultPro
 
   state: DefaultImageState;
 
+  componentWillReceiveProps(newProps: DefaultImageProps) {
+    if (newProps.src !== this.props.src) {
+      this.setState({
+        src: newProps.src,
+      });
+    }
+  }
+
   onError() {
     let src = null;
     if (this.state.src !== this.props.defaultSrc) {
