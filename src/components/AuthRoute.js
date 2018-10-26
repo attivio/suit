@@ -66,7 +66,7 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
   }
 
   render() {
-    // if authentication is handled by this application, then make sure the user is logged in.
+    // if authentication is via XML, handled here in JavaScript, make sure the user is logged in.
     if (this.props.authType === 'XML') {
       if (AuthUtils.isLoggedIn(this.props.required)) {
         return (
@@ -88,8 +88,7 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
       );
     }
 
-    // if authentication is not required or is handled outside this application,
-    // then only check that the user is logged in if specific credentials are required for our route
+    // If this route doesn't require any special credentials or it does and the currently logged-in user meets them
     if (!this.props.required || AuthUtils.isLoggedIn(this.props.required)) {
       return (
         <Route
