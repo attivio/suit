@@ -66,18 +66,16 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
   }
 
   render() {
-    // If the user is logged in and has permission for this
-    // route, then just render the route.
-    if (AuthUtils.isLoggedIn(this.props.required)) {
-      return (
-        <Route
-          {...this.props}
-        />
-      );
-    }
-
-    // For local authentication, then just redirect to the login page.
+    // if authentication is via XML, handled here in JavaScript, make sure the user is logged in.
     if (this.props.authType === 'XML') {
+      if (AuthUtils.isLoggedIn(this.props.required)) {
+        return (
+          <Route
+            {...this.props}
+          />
+        );
+      }
+      // insufficient credentials => redirect to our login page
       return (
         <Redirect
           to={{
@@ -89,6 +87,17 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
         />
       );
     }
+
+    // If this route doesn't require any special credentials or it does and the currently logged-in user meets them
+    if (!this.props.required || AuthUtils.isLoggedIn(this.props.required)) {
+      return (
+        <Route
+          {...this.props}
+        />
+      );
+    }
+
+    // insufficient credentials (provided by external authentication system) => don't let the user through
     return null;
   }
 }
