@@ -2,6 +2,7 @@
 import React from 'react';
 import type { Children } from 'react';
 import PropTypes from 'prop-types';
+import { RootCloseWrapper } from 'react-overlays';
 
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import Configurable from './Configurable';
@@ -46,7 +47,6 @@ type FacetSearchBarDefaultProps = {
 
 type FacetSearchBarState = {
   query: string;
-  recognizing: boolean;
   suggestions: Array<SearchFacetBucket>;
   facetValue: string;
   error: string | null;
@@ -105,7 +105,6 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
     super(props);
     this.state = {
       query: '',
-      recognizing: false,
       suggestions: [],
       facetValue: '',
       error: null,
@@ -115,6 +114,7 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
     (this: any).queryChanged = this.queryChanged.bind(this);
     (this: any).addFilter = this.addFilter.bind(this);
     (this: any).handleSearchResults = this.handleSearchResults.bind(this);
+    (this: any).closeMenu = this.closeMenu.bind(this);
   }
 
   state: FacetSearchBarState;
@@ -183,6 +183,13 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
     this.doConfiguredSearch('*', -1, localCallback, this.context.searcher);
   }
 
+  closeMenu() {
+    this.setState({
+      suggestions: [],
+      error: '',
+    });
+  }
+
   /**
     * Handles when a user clicks on a facet value from the suggestion list.
     */
@@ -236,7 +243,7 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
    */
   doSearch() {
     const callback = this.handleSearchResults;
-    this.doConfiguredSearch(`${this.state.facetValue}*`, this.props.maxValues * 2, callback, this.context.searcher);
+    this.doConfiguredSearch(`${this.state.facetValue}*`, this.props.maxValues * 2, callback, this.context.searcher); // `
   }
 
   /**
@@ -333,11 +340,15 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
       </div>) : null;
 
     return (
-      <div>
-        {inputComponent}
-        {this.props.children}
-        {exportButton}
-      </div>
+      <RootCloseWrapper
+        onRootClose={this.closeMenu}
+      >
+        <div>
+          {inputComponent}
+          {this.props.children}
+          {exportButton}
+        </div>
+      </RootCloseWrapper>
     );
   }
 }
