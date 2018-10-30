@@ -38,34 +38,36 @@ export default class AuthUtils {
   /**
    * Logs the currently logged-in user out.
    */
-  static logout(callback: () => void) {
-    // Tell the server to delete the SessionId cookie
-    document.cookie = `SessionId=; Path=${AuthUtils.config.basename}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
-    document.cookie = `JSESSIONID=; Path=${AuthUtils.config.basename}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
-    // And remove the user we added to session storage
+  static logout() {
+    // Remove the user we added to session storage
     sessionStorage.removeItem(AuthUtils.USER_KEY);
-    if (AuthUtils.config.ALL.authType === 'SAML') {
-      // For SAML auth, call the special URL from Spring/SAML to tell the IdP we’re logging out
-      fetch(`${AuthUtils.config.ALL.baseUri}/saml/logout`, { method: 'GET' }).then(() => {
-        // And then call the callback
-        callback();
-      }).catch(() => {
-       // Always do the callback even if we got an error fetching
-        callback();
+
+    // If it's just XML authentication, removing saved user (above) is good enough.
+    // Otherwise, we need to also tell the server
+    if (AuthUtils.config.authType !== 'XML') {
+      // The servlet mimics the node's login endpoint with the logout action to log out of the SAML IdP
+      // so regardless of how we're authenticated, we just need to access that to log out.
+
+      const headers = new Headers({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       });
-    } else if (AuthUtils.config.ALL.authType === 'NONE') {
-      // And tell the server to log us out
-      fetch(`${AuthUtils.config.ALL.baseUri}/`, { method: 'POST' }).then(() => {
-        // And then call the callback
-        callback();
-      }).catch(() => {
-        // Always do the callback even if we got an error fetching
-        callback();
+      const params = {
+        method: 'GET',
+        headers,
+        credentials: 'include',
+        mode: 'cors',
+      };
+      const fetchRequest = new Request('login?action=logout', params);
+      fetch(fetchRequest).then((/* response: Response */) => {
+        const baseUri = AuthUtils.getConfig().ALL.baseUri;
+        // Tell the browser to delete the SessionId cookie
+        document.cookie = `SessionId=; Path=${baseUri}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+        document.cookie = `JSESSIONID=; Path=${baseUri}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+        document.location.assign(baseUri);
+      }).catch((error: any) => {
+        console.warn('Failed to log out:', error);
       });
-    } else {
-      // Just XML authentication, removing saved user (above) is good enough.
-      // Still need to call the callback, though
-      callback();
     }
   }
 
@@ -349,6 +351,9 @@ export default class AuthUtils {
     }
     if (config.ALL.authType !== 'XML' && config.ALL.authType !== 'SAML' && config.ALL.authType !== 'NONE') {
       return `The configuration object has an invalid value for 'ALL.authType': it must be 'XML,' 'SAML,' or 'NONE' but it is '${config.ALL.authType}.'`; // eslint-disable-line max-len
+    }
+    if (config.ALL.authType === 'XML' && !config.ALL.loginPage) {
+      return 'The configuration is missing the \'All.loginPage\' value whiich is required when authentication is set to XML.';
     }
     if (!StringUtils.notEmpty(config.ALL.defaultRealm)) {
       return 'The configuration object is missing the \'ALL.defaultRealm\' value.';

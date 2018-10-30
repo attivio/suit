@@ -79,7 +79,8 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
       return (
         <Redirect
           to={{
-            pathname: '/login',
+            pathname: AuthUtils.config.ALL.loginPage,
+            search: '?action=logout',
             state: {
               referrer: this.props.location,
             },
