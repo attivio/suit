@@ -13,7 +13,9 @@ PACKAGE_VERSION=$(cat package.json \
 
 echo "Going to build and publish version $PACKAGE_VERSION of the SUIT library."
 
-TAG_NAME="PUBLISHED_v$PACKAGE_VERSION_TO_NPM"
+TAG_NAME="v${PACKAGE_VERSION}_PUBLISHED_TO_NPM"
+
+echo "Going to tag with: $TAG_NAME"
 
 # Try a git pull first to make sure that there are no un-checked-in changes
 git pull && \
