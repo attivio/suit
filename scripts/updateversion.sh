@@ -14,7 +14,7 @@ git pull && \
 npm version $VERSION_TYPE
 #git commit --no-verify && \
 echo "Not pushing yet..."
-#git push
+git push
 
 PACKAGE_VERSION=$(cat package.json \
   | grep version \

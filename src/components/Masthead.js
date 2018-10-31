@@ -33,6 +33,13 @@ type MastheadProps = {
    * disables logging out as a side-effect.
    */
   username: string | null;
+  /**
+   * The function to call when the user chooses to log out. If this is not
+   * set, then the logout menu item won't be shown for the current user.
+   * NOTE: If the user is logged in via SAML authentication, the logout
+   * menu item will always be hidden and this function will never be called.
+   */
+  logoutFunction: null | () => void,
   /** The contents of the Masthead can be arbitrary components. */
   children: Children;
 };
@@ -46,6 +53,7 @@ type MastheadDefaultProps = {
   searchEngineType: 'attivio' | 'solr' | 'elastic';
   helpUri: string | null;
   username: string | null;
+  logoutFunction: null | () => void,
 };
 
 type MastheadState = {
@@ -64,7 +72,7 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
     logoUri: 'img/attivio-logo-reverse.png',
     logoAlt: 'Attivio Home',
     homeRoute: '/',
-    logoutFunction: () => {},
+    logoutFunction: null,
     applicationName: 'Cognitive Search',
     multiline: false,
     searchEngineType: 'attivio',
@@ -84,7 +92,6 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
       userInfo: null,
     };
     (this: any).navigateHome = this.navigateHome.bind(this);
-    (this: any).handleLogout = this.handleLogout.bind(this);
     (this: any).updateUser = this.updateUser.bind(this);
   }
 
@@ -119,18 +126,6 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
           });
         });
       }
-    }
-  }
-
-  handleLogout() {
-    if (!this.props.username) {
-      AuthUtils.logout(() => {
-        this.setState({
-          userInfo: null,
-        }, () => {
-          this.props.history.push('/loggedout');
-        });
-      });
     }
   }
 
@@ -182,6 +177,17 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
       );
     }
 
+    let logoutFunction = this.props.logoutFunction;
+    if (this.state.userInfo) {
+      if (this.state.userInfo.saml) {
+        // If the user is logged in via SAML, diable logging out.
+        logoutFunction = null;
+      }
+    } else {
+      // If there's no user logged in, then disable logging out.
+      logoutFunction = null;
+    }
+
     return (
       <header className="attivio-globalmast attivio-minwidth">
         <div className="attivio-container">
@@ -204,7 +210,7 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
           <div className="attivio-globalmast-spacer" />
           <MastheadUser
             username={AuthUtils.getUserName(this.state.userInfo)}
-            logoutFunction={this.handleLogout}
+            logoutFunction={logoutFunction}
             helpUri={this.props.helpUri}
           />
         </div>
