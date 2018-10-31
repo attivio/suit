@@ -21,7 +21,7 @@ npm run fullbuild && \
 echo "Publishing..." && \
 npm publish && \
 echo "Tagging..." && \
-git tag -a $TAG_NAME -m "Published version $PACKAGE_VERSION of SUIT to NPM."
-
-echo "Done. Version $PACKAGE_VERSION of SUIT is now available for use by applications."
+echo "Git command is: git tag -a $TAG_NAME -m \"Published version $PACKAGE_VERSION of SUIT to NPM.\"" && \
+git tag -a $TAG_NAME -m "Published version $PACKAGE_VERSION of SUIT to NPM." && \
+echo "Done. Version $PACKAGE_VERSION of SUIT is now available for use by applications." && \
 echo "The Git repository has been tagged with: $TAG_NAME"
