@@ -12,6 +12,7 @@ if [ -z "$VERSION_TYPE" ]
 fi
 git pull && \
 npm version $VERSION_TYPE --commit-hooks false --no-git-tag-version && \
+git add . && \
 git commit --no-verify && \
 git push && \
 PACKAGE_VERSION=$(cat package.json \
