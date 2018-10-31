@@ -11,7 +11,7 @@ if [ -z "$VERSION_TYPE" ]
     VERSION_TYPE="patch"
 fi
 git pull && \
-npm version $VERSION_TYPE && \
+npm version $VERSION_TYPE --commit-hooks false --no-git-tag-version && \
 git commit --no-verify && \
 git push && \
 PACKAGE_VERSION=$(cat package.json \
