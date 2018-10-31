@@ -41,7 +41,7 @@
     "validateComponents": "./scripts/validateComponents.sh",
     "fullbuild": "./scripts/fullbuild.sh",
     "updateversion": "./scripts/updateversion.sh",
-    "publish": "./scripts/publish.sh"
+    "publishlib": "./scripts/publishlib.sh"
   },
   "dependencies": {
     "@mapbox/extent": "^0.4.0",
