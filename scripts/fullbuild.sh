@@ -7,7 +7,7 @@
 rm -rf  node_modules && \
 rm -rf es && \
 rm -rf lib && \
-rm -rf styleguide
+rm -rf styleguide && \
 npm install && \ 
 npm run lint && \
 npm run flow && \ 
