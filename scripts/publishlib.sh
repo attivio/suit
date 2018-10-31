@@ -8,9 +8,8 @@ PACKAGE_VERSION=$(cat package.json \
   | grep version \
   | head -1 \
   | awk -F: '{ print $2 }' \
-  | sed 's/[",]//g')
-
-TAG_NAME="PUBLISHED_TO_NPM_v$PACKAGE_VERSION"
+  | sed 's/[",]//g' \
+  | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 
 echo "Going to build and publish version $PACKAGE_VERSION of the SUIT library."
 
