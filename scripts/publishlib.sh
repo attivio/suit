@@ -10,7 +10,7 @@ PACKAGE_VERSION=$(cat package.json \
   | awk -F: '{ print $2 }' \
   | sed 's/[",]//g')
 
-TAG_NAME=
+TAG_NAME="Published version $PACKAGE_VERSION"
 
 echo "Going to build and publish version $PACKAGE_VERSION of the SUIT library."
 
