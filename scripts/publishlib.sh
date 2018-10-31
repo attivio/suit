@@ -13,6 +13,8 @@ PACKAGE_VERSION=$(cat package.json \
 
 echo "Going to build and publish version $PACKAGE_VERSION of the SUIT library."
 
+TAG_NAME="PUBLISHED_v$PACKAGE_VERSION_TO_NPM"
+
 # Try a git pull first to make sure that there are no un-checked-in changes
 git pull && \
 echo "Building..." && \
