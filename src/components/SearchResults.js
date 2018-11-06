@@ -3,11 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import FieldNames from '../api/FieldNames';
-
+import SearchDocument from '../api/SearchDocument';
 import { renderer as debugRenderer } from './DebugSearchResult';
 import { renderer as listRenderer } from './ListSearchResult';
 import { renderer as simpleRenderer } from './SimpleSearchResult';
-import SearchDocument from '../api/SearchDocument';
 
 /**
  * This is the definition of a search result renderer. It is passed the document

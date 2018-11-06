@@ -3,6 +3,8 @@
 import FacetFilter from './FacetFilter';
 import AuthUtils from '../util/AuthUtils';
 
+export type QueryLanguage = 'simple' | 'advanced' | 'NL';
+
 /**
  * An object that embodies the various parameters needed to
  * make a query of the Attivio index.
@@ -11,7 +13,7 @@ export default class SimpleQueryRequest {
   constructor(
     q: string = '*:*',
     wf: string = 'search',
-    ql: 'simple' | 'advanced' = 'simple',
+    ql: QueryLanguage = 'NL',
     l: string = 'en',
     r: number = 10,
     flt: Array<string> = [],
@@ -52,7 +54,7 @@ export default class SimpleQueryRequest {
   /** The query string */
   query: string;
   /** Whether the query is in Simple Query Language or Advanced Query Language */
-  queryLanguage: 'simple' | 'advanced';
+  queryLanguage: QueryLanguage;
   /** The locale to use when performing the query */
   locale: string;
   /** The number of documents to return with the query results */

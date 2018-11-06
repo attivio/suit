@@ -192,7 +192,7 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
     }
 
     return (
-      <div className=" attivio-search-result">
+      <div className="attivio-search-result">
         <div className="attivio-search-result-col">
           <DocumentType docType={table} position={this.props.position} />
           <DocumentThumbnail uri={thumbnailUri} previewUris={previewUri} previewTitle={doc.getFirstValue(FieldNames.TITLE)} />
@@ -212,7 +212,7 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
         <div className="attivio-search-result-content">
           <SearchResultTitle doc={doc} baseUri={this.props.baseUri} />
           <Row>
-            <Col xs={7} sm={7}>
+            <Col xs={7} sm={7} style={{ width: '100%' }}>
               <SearchResultBody body={text} />
               {this.props.showTags ? (
                 <SearchResultTags tags={docTags} moreLikeThisQuery={moreLikeThisQuery} docId={docId} />

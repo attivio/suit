@@ -1,11 +1,12 @@
 // @flow
-import SimpleQueryRequest from './SimpleQueryRequest';
-import QueryResponse from './QueryResponse';
-import FieldNames from './FieldNames';
+
 import AuthUtils from '../util/AuthUtils';
 import FetchUtils from '../util/FetchUtils';
+import FieldNames from './FieldNames';
 import QueryRequestToElastic from '../util/QueryRequestToElastic';
 import QueryRequestToSolr from '../util/QueryRequestToSolr';
+import QueryResponse from './QueryResponse';
+import SimpleQueryRequest from './SimpleQueryRequest';
 
 /**
  * Encapsulates the default Attivio search behavior.
@@ -43,6 +44,10 @@ export default class Search {
   }
 
   search(request: SimpleQueryRequest, updateResults: (response: QueryResponse | null, error: string | null) => void) {
+    if ((request.query === '*' || request.query === '*:*') &&
+    (request.queryLanguage === 'NL' || request.queryLanguage === 'nl')) {
+      request.queryLanguage = 'simple';
+    }
     if (!request.restParams || request.restParams.size === 0) {
       request.restParams = new Map([
         ['join.rollup', ['TREE']],
@@ -100,7 +105,7 @@ export default class Search {
    * @param number        the number of documents to return (e.g. page size)
    * @param updateResults will be called when the search is complete with the results or an error
    */
-  simpleSearch(query: string, queryLanguage: 'simple' | 'advanced', offset: number, count: number,
+  simpleSearch(query: string, queryLanguage: 'simple' | 'advanced' | 'NL', offset: number, count: number,
     updateResults: (response: QueryResponse | null, error: string | null) => void) {
     const request = new SimpleQueryRequest();
     request.rows = count;

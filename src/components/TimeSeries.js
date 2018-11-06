@@ -2,6 +2,7 @@
 
 import React from 'react';
 import ReactHighcharts from 'react-highcharts';
+
 import DateUtils from '../util/DateUtils';
 import DateFormat from '../util/DateFormat';
 import ObjectUtils from '../util/ObjectUtils';
@@ -17,10 +18,27 @@ export class TimeSeriesPoint {
   /** The end of the date range (optional) */
   endDate: Date;
 
-  constructor(date: string | null, value: number, endDate: string | null = null) {
-    this.date = date ? DateUtils.stringToDate(date) : new Date();
+  constructor(date: Date | string | null, value: number, endDate: Date | string | null = null) {
+    let realDate: Date;
+    if (typeof date === 'string') {
+      realDate = DateUtils.stringToDate(date);
+    } else if (date === null) {
+      realDate = new Date();
+    } else {
+      realDate = date;
+    }
+    let realEndDate: Date;
+    if (typeof endDate === 'string') {
+      realEndDate = DateUtils.stringToDate(endDate);
+    } else if (endDate === null) {
+      realEndDate = new Date();
+    } else {
+      realEndDate = endDate;
+    }
+
+    this.date = realDate;
     this.value = value;
-    this.endDate = endDate ? DateUtils.stringToDate(endDate) : new Date();
+    this.endDate = realEndDate;
   }
 }
 
@@ -57,6 +75,8 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
     xKey: null,
     yKey: null,
   };
+
+  static TimeSeriesPoint;
 
   static displayName = 'TimeSeries';
 
@@ -214,3 +234,5 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
     return <ReactHighcharts config={config} />;
   }
 }
+
+TimeSeries.TimeSeriesPoint = TimeSeriesPoint;

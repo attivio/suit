@@ -10,6 +10,8 @@ import MenuItem from 'react-bootstrap/lib/MenuItem';
 import Configurable from './Configurable';
 import AutoCompleteInput from './AutoCompleteInput';
 
+import type { QueryLanguage } from '../api/SimpleQueryRequest';
+
 declare var webkitSpeechRecognition: any; // Prevent complaints about this not existing
 
 type SearchBarProps = {
@@ -168,7 +170,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     });
   }
 
-  languageChanged(newLanguage: 'simple' | 'advanced') {
+  languageChanged(newLanguage: QueryLanguage) {
     const searcher = this.context.searcher;
     if (searcher && newLanguage) {
       searcher.updateQueryLanguage(newLanguage);
@@ -266,6 +268,22 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
         </span>
       </MenuItem>
     );
+    const nlMenuItem = (
+      <MenuItem
+        onSelect={() => {
+          this.languageChanged('NL');
+          if (this.simpleMenuItem) {
+            this.simpleMenuItem.blur();
+          }
+        }}
+      >
+        <span ref={(c) => { this.simpleMenuItem = c; }}>
+          <span style={{ visibility: language === 'NL' ? 'visible' : 'hidden' }}>&#x2713;</span>
+          {' '}
+          Natural Language
+        </span>
+      </MenuItem>
+    );
     const advancedMenuItem = (
       <MenuItem
         onSelect={() => {
@@ -317,6 +335,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
           }}
         >
           {simpleMenuItem}
+          {nlMenuItem}
           {advancedMenuItem}
         </Dropdown.Menu>
       </Dropdown>

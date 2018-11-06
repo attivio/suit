@@ -6,16 +6,16 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import QueryString from 'query-string';
 
-import Search from '../api/Search';
-import SimpleQueryRequest from '../api/SimpleQueryRequest';
-import QueryResponse from '../api/QueryResponse';
-import FacetFilter from '../api/FacetFilter';
-import FieldNames from '../api/FieldNames';
-
-import ObjectUtils from '../util/ObjectUtils';
-
 import Configurable from '../components/Configurable';
 import Configuration from '../components/Configuration';
+import FacetFilter from '../api/FacetFilter';
+import FieldNames from '../api/FieldNames';
+import ObjectUtils from '../util/ObjectUtils';
+import QueryResponse from '../api/QueryResponse';
+import Search from '../api/Search';
+import SimpleQueryRequest from '../api/SimpleQueryRequest';
+
+import type { QueryLanguage } from '../api/SimpleQueryRequest';
 
 /*
   A NOTE ABOUT THE SEARCHER, THE PAGE'S URL, AND WHEN QUERYING HAPPENS:
@@ -83,8 +83,8 @@ type SearcherProps = {
   joinRollupMode: 'TREE' | 'AGGREGATE' | 'SQL';
   /** An optional locale to use for the search. */
   locale?: string | null;
-  /** The default language to use for querying. Defaults to 'simple' if not specified. */
-  defaultQueryLanguage: 'simple' | 'advanced';
+  /** The default language to use for querying. Defaults to 'NL' if not specified. */
+  defaultQueryLanguage: QueryLanguage;
 
   /** A field expression to override what is used for the title, defaults to 'title' */
   title: string;
@@ -134,7 +134,8 @@ type SearcherProps = {
   /** The number of document results to display on each page of the results set */
   resultsPerPage: number;
   /**
-   * The name of the Business Center profile to use for queries. If set, this will enable Profile level campaigns and promotions.
+   * The name of the Business Center profile to use for queries. If set, this will enable
+   * profile-level campaigns and promotions.
    */
   businessCenterProfile: string | null;
   /**
@@ -172,7 +173,7 @@ type SearcherDefaultProps = {
   debug: boolean;
   resultsPerPage: number;
   businessCenterProfile: string | null;
-  defaultQueryLanguage: 'simple' | 'advanced';
+  defaultQueryLanguage: QueryLanguage;
 };
 
 /*
@@ -191,7 +192,7 @@ type SearcherState = {
   response?: QueryResponse;
   error?: string;
   query: string;
-  queryLanguage: 'advanced' | 'simple';
+  queryLanguage: QueryLanguage;
   sort: Array<string>,
   relevancyModels: Array<string>;
   facetFilters: Array<FacetFilter>;
@@ -286,7 +287,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     debug: false,
     resultsPerPage: 10,
     businessCenterProfile: null,
-    defaultQueryLanguage: 'simple',
+    defaultQueryLanguage: 'NL',
   };
 
   static contextTypes = {
@@ -572,13 +573,13 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     const parsed = QueryString.parse(queryString);
 
     // Get the query string
-    // DEFAULT: *:*
-    const query = parsed.query ? parsed.query : '*:*';
+    // Default to searching for everything
+    const query = parsed.query ? parsed.query : Searcher.EVERYTHING;
 
     // Get the query language (and validate that it's one of 'simple' or 'advanced')
     // DEFAULT: this.props.defaultQueryLanguage
-    let queryLanguage: 'simple' | 'advanced' = this.props.defaultQueryLanguage;
-    if (parsed.queryLanguage === 'simple' || parsed.queryLanguage === 'advanced') {
+    let queryLanguage: QueryLanguage = this.props.defaultQueryLanguage;
+    if (parsed.queryLanguage === 'simple' || parsed.queryLanguage === 'advanced' || parsed.queryLanguage === 'NL') {
       queryLanguage = parsed.queryLanguage;
     }
 
@@ -742,11 +743,12 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   }
 
   /**
+
    * Set whether the simple or advanced query language should be
    * used to perform the search.
    * This causes subsequent searches to be reset.
    */
-  updateQueryLanguage(queryLanguage: 'advanced' | 'simple') {
+  updateQueryLanguage(queryLanguage: QueryLanguage) {
     if (queryLanguage !== this.state.queryLanguage) {
       this.updateStateResetAndSearch({
         queryLanguage,
@@ -830,8 +832,6 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   doSearch() {
     const qr = this.getQueryRequest();
     this.search.search(qr, (response: QueryResponse | null, error: string | null) => {
-      this.updateSearchResults(response, error);
-
       // potentially do window.scrollTo(0, 0)?
 
       // Update the URL if needed.
@@ -840,6 +840,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       if (oldQueryString !== updatedQueryString) {
         this.props.history.push(`?${updatedQueryString}`);
       }
+
+      this.updateSearchResults(response, error);
     });
   }
 
@@ -877,22 +879,20 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
 
   /**
    * Set the query string to the passed-in value and trigger the
-   * query immediately, resetting parameters to the beginning. The
-   * query is specified as either simple or advanced based on the
-   * value of the advanced flag (it's previous value is ignored).
+   * query immediately, resetting parameters to the beginning. If the
+   * query language is set, then it will be used for the query, otherwise
+   * the query is performed using simple query language.
    */
-  performQueryImmediately(query: string, advanced: boolean = false) {
+  performQueryImmediately(query: string, queryLanguage: QueryLanguage = 'simple') {
     this.updateStateResetAndSearch({
       haveSearched: true, // Force it to update right now
       error: undefined,
       response: undefined,
-      queryLanguage: advanced ? 'advanced' : 'simple',
+      queryLanguage,
       facetFilters: [],
       query,
     });
   }
-
-
   /**
    * Add multiple query filters (in AQL) to the query request.
    */
