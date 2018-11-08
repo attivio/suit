@@ -29,8 +29,7 @@ type CardPickerProps = {
   initialSelection: string | null;
   /**
    * The icon to use if a particular card item doesn't have
-   * one defined. If all of the items will have icons assigned,
-   * you don't need to set this.
+   * one defined or if it cannot be found.
    */
   defaultIconUri: string | null;
   /**
@@ -90,6 +89,7 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
           key={`${cardItem.label}|${cardItem.iconUri ? cardItem.iconUri : 'noicon'}`}
           label={cardItem.label}
           iconUri={cardItem.iconUri || this.props.defaultIconUri}
+          defaultIconUri={this.props.defaultIconUri}
           selected={cardItem.key === this.state.selection}
           onClick={() => { this.onClick(cardItem.key); }}
           columns={this.props.columns}
