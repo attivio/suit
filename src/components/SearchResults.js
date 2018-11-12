@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 import FieldNames from '../api/FieldNames';
 
-import { renderer as debugRenderer } from './DebugSearchResult';
-import { renderer as listRenderer } from './ListSearchResult';
-import { renderer as simpleRenderer } from './SimpleSearchResult';
+import DebugSearchResult from './DebugSearchResult';
+import ListSearchResult from './ListSearchResult';
+import SimpleSearchResult from './SimpleSearchResult';
 import SearchDocument from '../api/SearchDocument';
 
 /**
@@ -92,20 +92,20 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
     let formats: Array<SearchResultRenderer> = [];
     if (searcher.state.debug) {
       // If the searcher is overriding with the debug flag...
-      formats = [debugRenderer];
+      formats = [DebugSearchResult.renderer];
     } else if (typeof this.props.format === 'function') {
       formats = [this.props.format];
     } else if (Array.isArray(this.props.format)) {
       formats = this.props.format;
     } else if (this.props.format === 'list') {
       // 'list' -> ListSearchResult
-      formats = [listRenderer];
+      formats = [ListSearchResult.renderer];
     } else if (this.props.format === 'simple') {
       // 'simple' -> SimpleSearchResult
-      formats = [simpleRenderer];
+      formats = [SimpleSearchResult.renderer];
     } else if (this.props.format === 'debug') {
       // 'debug' -> DebugSearchResult
-      formats = [debugRenderer];
+      formats = [DebugSearchResult.renderer];
     }
 
     if (response && response.documents && response.documents.length > 0) {

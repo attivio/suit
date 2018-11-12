@@ -52,15 +52,6 @@ type InnerListSearchResultState = {
 };
 
 /**
- * Renders a <ListSearchResult> component for the document.
- */
-export function renderer(doc: SearchDocument, position: number, baseUri: string, key: string) {
-  return (
-    <ListSearchResult document={doc} position={position} baseUri={baseUri} key={key} />
-  );
-}
-
-/**
  * An individual List-type search result.
  */
 class InnerListSearchResult extends React.Component<InnerListSearchResultDefaultProps, InnerListSearchResultProps, InnerListSearchResultState> { // eslint-disable-line max-len
@@ -78,6 +69,15 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
   static contextTypes = {
     configuration: PropTypes.instanceOf(Configuration),
   };
+
+  /**
+   * Renders a <ListSearchResult> component for the document.
+   */
+  static renderer(doc: SearchDocument, position: number, baseUri: string, key: string) {
+    return (
+      <ListSearchResult document={doc} position={position} baseUri={baseUri} key={key} />
+    );
+  }
 
   static getFirstDocumentType(list: Array<SearchDocument>): string {
     let result = '';
@@ -230,7 +230,5 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
 }
 
 const ListSearchResult = Configurable(InnerListSearchResult);
-
-ListSearchResult.renderer = renderer;
 
 export default ListSearchResult;

@@ -1,5 +1,5 @@
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const createNwbWebpackConfig = require('create-nwb-webpack-config'); // eslint-disable-line import/no-extraneous-dependencies
 const merge = require('webpack-merge');
 
@@ -14,19 +14,41 @@ const ourWebpackConfig = {
     rules: [
       {
         test: /\.less$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', 'less-loader'],
-        }),
+        use: [
+          'style-loader',
+          'css-loader',
+          'less-loader',
+        ],
       },
       {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader'],
-        }),
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url-loader?limit=10000&minetype=application/font-woff',
       },
-
+      {
+        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'file-loader',
+      },
+      {
+        test: /\.png$/,
+        loader: 'url-loader?limit=100000',
+      },
+      {
+        test: /\.jpg$/,
+        loader: 'file-loader',
+      },
+      {
+        test: /\.svg$/,
+        loader: 'url-loader?limit=10000&mimetype=image/svg+xml',
+      },
+      {
+        test: /\.xml$/,
+        loader: 'xml-loader',
+        options: {
+          trim: true,
+          explicitArray: false,
+          explicitRoot: false,
+        },
+      },
     ],
   },
 };
@@ -37,10 +59,38 @@ module.exports = {
   title: 'Attivio SUIT Component Reference',
   verbose: true,
   assetsDir: 'docs/static',
-  template: 'docs/template.ejs',
+  template: {
+    title: 'Attivio SUIT Style Guide',
+    head: {
+      meta: [
+        {
+          'http-equiv': 'Content-type',
+          content: 'text/html; charset=utf-8',
+        },
+        {
+          charset: 'utf-8',
+        },
+        {
+          name: 'viewport',
+          content: 'width=device-width, initial-scale=1.0',
+        },
+      ],
+      links: [
+        {
+          rel: 'stylesheet',
+          href: 'https://api.tiles.mapbox.com/mapbox-gl-js/v0.37.0/mapbox-gl.css',
+        },
+        {
+          rel: 'stylesheet',
+          href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+        },
+      ],
+    },
+    favicon: 'img/',
+  },
   ignore: [], // Add any componets we want to exclude here
   defaultExample: false,
-  showUsage: true,
+  usageMode: 'expand',
   styleguideDir: 'styleguide',
   editorConfig: {
     theme: 'ambiance', // see http://codemirror.net/demo/theme.html
@@ -196,12 +246,14 @@ module.exports = {
               'src/components/Code.js',
               'src/components/CollapsiblePanel.js',
               'src/components/DefaultImage.js',
+              'src/components/Details.js',
               'src/components/FormattedDate.js',
               'src/components/GridLayout.js',
               'src/components/Header360.js',
               'src/components/LabeledData.js',
               'src/components/Masthead.js',
               'src/components/MastheadUser.js',
+              'src/components/MasterDetails.js',
               'src/components/MoreList.js',
               'src/components/Navbar.js',
               'src/components/NetworkDiagram.js',
@@ -213,9 +265,11 @@ module.exports = {
               'src/components/SqlLog.js',
               'src/components/StarRating.js',
               'src/components/Subheader360.js',
+              'src/components/Table.js',
               'src/components/TabPanel.js',
               'src/components/TagCloud.js',
               'src/components/TimeSeries.js',
+              'src/components/TrianglePanel.js',
             ];
           },
         },

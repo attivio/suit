@@ -35,15 +35,6 @@ type DebugSearchResultDefaultProps = {
 }
 
 /**
- * Renders a <DebugSearchResult> component for the document.
- */
-export function renderer(doc: SearchDocument, position: number, baseUri: string, key: string) {
-  return (
-    <DebugSearchResult document={doc} position={position} baseUri={baseUri} key={key} />
-  );
-}
-
-/**
  * A "Debug" rendering of a document which shows all of its fields and their values.
  */
 export default class DebugSearchResult extends React.Component<DebugSearchResultDefaultProps, DebugSearchResultProps, void> {
@@ -54,6 +45,15 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
   };
 
   static displayName = 'DebugSearchResult';
+
+  /**
+   * Renders a <DebugSearchResult> component for the document.
+   */
+  static renderer(doc: SearchDocument, position: number, baseUri: string, key: string) {
+    return (
+      <DebugSearchResult document={doc} position={position} baseUri={baseUri} key={key} />
+    );
+  }
 
   static valueToDisplay(value: any) {
     if (typeof value === 'string') {
@@ -150,5 +150,3 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
     );
   }
 }
-
-DebugSearchResult.renderer = renderer;
