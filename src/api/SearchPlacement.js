@@ -5,6 +5,20 @@
  * that you can display along with search results.
  */
 export default class SearchPlacement {
+  constructor(
+    label: string | null = null,
+    imageUrl: string | null = null,
+    linkText: string | null = null,
+    linkUrl: string | null = null,
+    markup: string | null = null,
+  ) {
+    this.label = label;
+    this.imageUrl = imageUrl;
+    this.linkText = linkText;
+    this.linkUrl = linkUrl;
+    this.markup = markup;
+  }
+
   static fromJson(json: any): SearchPlacement {
     const result = new SearchPlacement();
     result.label = json.label;
@@ -16,13 +30,13 @@ export default class SearchPlacement {
   }
 
   /** The label to display */
-  label: string;
+  label: string | null;
   /** The URL of an image to display */
-  imageUrl: string;
+  imageUrl: string | null;
   /** The text to display for a hyperlink */
-  linkText: string;
+  linkText: string | null;
   /** The URL that should be the target of the hyperlink */
-  linkUrl: string;
+  linkUrl: string | null;
   /** HTML markup for the placement to be displayed as-is */
-  markup: string;
+  markup: string | null;
 }
