@@ -60,6 +60,8 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
 
   static displayName = 'TimeSeries';
 
+  static TimeSeriesPoint;
+
   static formatTooltip() {
     const self = (this: any);
     const yDisplay = `<br><b>${self.y} ${self.point.valueName}</b>`;
@@ -214,3 +216,5 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
     return <ReactHighcharts config={config} />;
   }
 }
+
+TimeSeries.TimeSeriesPoint = TimeSeriesPoint;
