@@ -1,7 +1,7 @@
 #### Examples:
 
 
-__1:__ Showing breadcrumbs for the .
+__1:__ Showing breadcrumbs for the document 360 page.
 
 ```jsx
 const { MemoryRouter, Route, Switch } = require('react-router-dom');
