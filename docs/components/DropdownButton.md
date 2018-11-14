@@ -8,7 +8,6 @@ __1:__ Simple dropdown button with Bootstrap-type menu items.
   <DropdownButton
     id="testingButton"
     title="Pick a Color"
-    onOpen={() => { alert('You clicked the dropdown button'); }}
     onSelect={(value) => { alert(`You selected the item with value: ${value.toString()}`); }}
   >
     <MenuItem header>Look at these fancy colors!</MenuItem>

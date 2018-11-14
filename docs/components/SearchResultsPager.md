@@ -1,13 +1,20 @@
 #### Examples:
 
-__1.__ Simple example.
-The `<SearchResultsPager>` component will only work inside the context of an active search, so it's not possible to include a live example here.
+__1.__ Simple example—paging by fours across 10 documents.
 
 ```jsx
-const { MemoryRouter } = require('react-router-dom');
-  <MemoryRouter>
-    <Searcher>
-      <SearchResultsPager />
-    </Searcher>
-  </MemoryRouter>
+  const QueryResponse = require('../../src/api/QueryResponse').default;
+  const DummySearcher = require('../../src/components/DummySearcher').default;
+  const sampleDocs = require('../sampleData/Documents').default;
+
+  const queryResponse = new QueryResponse();
+  queryResponse.documents = sampleDocs.rawDocuments;
+  queryResponse.totalHits = sampleDocs.rawDocuments.length;
+
+  <DummySearcher
+    defaultQueryResponse={queryResponse}
+    defaultResultsPerPage={4}
+  >
+    <SearchResultsPager />
+  </DummySearcher>
 ```

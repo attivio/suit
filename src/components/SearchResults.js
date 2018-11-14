@@ -54,7 +54,7 @@ type SearchResultsProps = {
   /** Whether star ratings should be shown in the UI or not. Defaults to true. */
   showRatings: boolean;
   /** A style to apply to the results list */
-  style: ?any;
+  style: any;
 };
 
 type SearchResultsDefaultProps = {
@@ -63,6 +63,7 @@ type SearchResultsDefaultProps = {
   showScores: boolean;
   showTags: boolean;
   showRatings: boolean;
+  style: any;
 };
 
 /**
@@ -76,6 +77,7 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
     showScores: false,
     showTags: true,
     showRatings: true,
+    style: {},
   };
 
   static contextTypes = {
@@ -128,7 +130,7 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
         });
         if (!renderedDocument) {
           // Default to the List renderer if nothing else did anything... It will always produce a result.
-          renderedDocument = listRenderer(document, position, this.props.baseUri, key);
+          renderedDocument = ListSearchResult.renderer(document, position, this.props.baseUri, key);
         }
 
         results.push(renderedDocument);

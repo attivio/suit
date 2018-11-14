@@ -28,7 +28,7 @@ const sentimentFacetBuckets = [
 const sentimentFacetCount = sentimentFacetBuckets.reduce((acc, bucket) => {
   return acc + bucket.count;
 }, 0);
-const sentimentFacet = new SearchFacet('sentiment', 'sentiment', 'Sentiment', sentimentFacetCount);
+const sentimentFacet = new SearchFacet('sentiment', 'sentiment', 'Sentiment', sentimentFacetCount, sentimentFacetBuckets);
 
 const locationFacetBuckets = [
   new SearchFacetBucket('Caribbean, Island Between the Caribbean Sea and North Atlantic Ocean, North Of Trinidad and Tobago', 'Caribbean, Island Between the Caribbean Sea and North Atlantic Ocean, North Of Trinidad and Tobago', 5, 'filter string'),

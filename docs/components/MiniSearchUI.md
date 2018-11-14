@@ -8,7 +8,7 @@ __1:__  A simple example of the mini search UI.
   const DummySearcher = require('../../src/components/DummySearcher').default;
   const sampleDocs = require('../sampleData/Documents').default;
 
-  const queryResponse = new QueryResponse(1000, 1000, );
+  const queryResponse = new QueryResponse();
   queryResponse.totalTime = 3239;
   queryResponse.totalHits = sampleDocs.rawDocuments.length;
   queryResponse.documents = sampleDocs.rawDocuments;
