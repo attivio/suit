@@ -71,12 +71,19 @@ class SpellCheckMessage extends React.Component<void, SpellCheckMessageProps, vo
   }
 
   render() {
-    return this.getLink() && (
-      <Card borderless style={{ paddingLeft: '20%', fontSize: '2rem' }}>
-        Your search returned no results. <br />
-        Did you mean: {this.getLink()}?
-      </Card>
-    );
+    const link = this.getLink();
+    if (link) {
+      return (
+        <Card borderless style={{ paddingLeft: '20%', fontSize: '2rem' }}>
+          {'Your search returned no results.'}
+          <br />
+          {'Did you mean \u201c'}
+          {link}
+          {'\u201d?'}
+        </Card>
+      );
+    }
+    return null;
   }
 }
 
