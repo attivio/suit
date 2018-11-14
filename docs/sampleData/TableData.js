@@ -102,7 +102,6 @@ const Samples = {
         id: 'mzedong@greatwall.co.zh',
         expertName: '毛泽东',
         category: 'Dictatorships',
-        subCategory: 'China',
         reasons: [
           'Led a revolution',
           'Founded the People\'s Republic of China',
