@@ -26,7 +26,12 @@ export default class ExpertsHeader extends React.Component<ExpertsHeaderDefaultP
 
   render() {
     const all = this.props.doAllExperts ? (
-      <a className="attivio-expert-hed-link pull-right" onClick={this.props.doAllExperts}>
+      <a
+        className="attivio-expert-hed-link pull-right"
+        onClick={this.props.doAllExperts}
+        role="button"
+        tabIndex={0}
+      >
         <strong>{'All Experts\u2026'}</strong>
       </a>
     ) : null;
