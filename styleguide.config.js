@@ -224,7 +224,7 @@ module.exports = {
               'src/components/NavbarButton.js',
               'src/components/NavbarFilter.js',
               'src/components/NavbarOr.js',
-              'src/components/NavbarPager.js',
+              'src/components/Pager.js',
               'src/components/SmallTabs.js',
               'src/components/StarRating.js',
               'src/components/StringListEditor.js',

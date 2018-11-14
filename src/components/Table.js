@@ -2,6 +2,9 @@ import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/css/react-bootstrap-table.css';
 
+import Pager from './Pager';
+import ObjectUtils from '../util/ObjectUtils';
+
 /**
  * This defines a single column within the table.
  */
@@ -89,7 +92,23 @@ type TableProps = {
    * definition. Once the callback has obtained the new data, the Table component should
    * be re-rendered with new values for the sortColumn and rows properties.
    */
-  doSort: null | (sortColumn: number) => void;
+  onSort: null | (sortColumn: number) => void;
+  /**
+   * A callback used when the user click the next/previous page buttons in the page control.
+   * If this is not set, the table will not be pageable... The newPage parameter is the 0-based
+   * number of the page the user is changing to.
+  */
+  onPageChange: null | (newPage: number) => void;
+  /**
+   * The total number of pages in the data set for the table. Only applicable if a doPageChange
+   * function is passed.
+   */
+  totalPages: number;
+  /**
+   * The currently displayed page in the data set for the table (0-based). Only applicable if a doPageChange
+   * function is passed.
+   */
+  currentPage: number;
 };
 
 type TableDefaultProps = {
@@ -97,7 +116,10 @@ type TableDefaultProps = {
   selection: Array<srting>;
   multiSelect: boolean;
   sortColumn: number;
-  doSort: null | (sortColumn: number) => void;
+  onSort: null | (sortColumn: number) => void;
+  doPageChange: null | (newPage: number) => void;
+  totalPages: number;
+  currentPage: number;
 };
 
 type TableState = {
@@ -105,7 +127,7 @@ type TableState = {
    * The sorted list of rows. If not sorting in the table, this will always just be
    * the same as the rows property.
    */
-  rows: Array<any>;
+  sortedRows: Array<any>;
 };
 
 /**
@@ -121,7 +143,10 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     selection: [],
     multiSelect: false,
     sortColumn: 0,
-    doSort: null,
+    onSort: null,
+    doPageChange: null,
+    totalPages: 1,
+    currentPage: 1,
   };
 
   static makeCustomRenderer(column) {
@@ -145,6 +170,15 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   }
 
   state: TableState;
+
+  componentWillReceiveProps(newProps: TableProps) {
+    if (!ObjectUtils.arrayEquals(newProps.rows, this.props.rows)) {
+      // Reset the sorted rows if the actual rows have changed.
+      this.setState({
+        sortedRows: newProps.rows,
+      });
+    }
+  }
 
   rowSelect(rowData: any, isSelected: boolean) {
     const rowId = rowData.id;
@@ -182,7 +216,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
   remote(remoteObject: any): any {
     const remoteCopy = Object.assign({}, remoteObject);
-    if (this.props.doSort) {
+    if (this.props.onSort) {
       // Caller wants to handle sorting themselves
       remoteCopy.sort = true;
     }
@@ -199,7 +233,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     if (order === 'desc') {
       colNum = -colNum;
     }
-    this.props.doSort(colNum);
+    this.props.onSort(colNum);
   }
 
   render() {
@@ -250,23 +284,33 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       options.defaultSortOrder = this.props.sortColumn > 0 ? 'asc' : 'desc';
       options.defaultSortName = this.props.columns[Math.abs(this.props.sortColumn) - 1].title;
     }
-    if (this.props.doSort) {
+    if (this.props.onSort) {
       options.onSortChange = this.handleSort;
     }
 
-    return (
-      <BootstrapTable
-        data={this.state.sortedRows}
-        tableStyle={{ backgroundColor: 'white' }}
-        selectRow={selectRow}
-        striped
-        keyField="id"
-        options={options}
-        remote={this.remote}
-      >
-        {columns}
-      </BootstrapTable>
+    const pager = this.props.onPageChange ? (
+      <Pager
+        onPageChange={this.props.onPageChange}
+        currentPage={this.props.currentPage}
+        totalPages={this.props.totalPages}
+      />
+    ) : null;
 
+    return (
+      <div>
+        <BootstrapTable
+          data={this.state.sortedRows}
+          tableStyle={{ backgroundColor: 'white' }}
+          selectRow={selectRow}
+          striped
+          keyField="id"
+          options={options}
+          remote={this.remote}
+        >
+          {columns}
+        </BootstrapTable>
+        {pager}
+      </div>
     );
   }
 }

@@ -68,6 +68,16 @@ const Samples = {
       selfServeHistory: [1, 2, 3, 4, 5],
       ticketHistory: [1, 2, 3, 4, 5],
     },
+    {
+      id: 'private-attivio',
+      customer: 'Attivio',
+      engagement: 14.32,
+      selfServe: 3777,
+      tickets: 18,
+      engagementHistory: [1, 2, 3, 4, 5],
+      selfServeHistory: [1, 2, 3, 4, 5],
+      ticketHistory: [1, 2, 3, 4, 5],
+    },
   ],
   experts: {
     columns: [
