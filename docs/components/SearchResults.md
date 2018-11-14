@@ -43,7 +43,6 @@ __2.__ Using a custom renderer for documents in the "country" table.
     const table = doc.getFirstValue('table');
     if (table === 'country') {
       const title = doc.getFirstValue('title');
-      debugger;
       const mapUrl = doc.getFirstValue('img.uri.preview');
       let imageTag;
       if (mapUrl) {

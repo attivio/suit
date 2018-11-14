@@ -94,7 +94,7 @@ type TableProps = {
 
 type TableDefaultProps = {
   onSelect: null | (row: any) => void;
-  selectedRowIds: Array<srting>;
+  selection: Array<srting>;
   multiSelect: boolean;
   sortColumn: number;
   doSort: null | (sortColumn: number) => void;
@@ -118,7 +118,7 @@ type TableState = {
 export default class Table extends React.Component<TableDefaultProps, TableProps, TableState> {
   static defaultProps = {
     onSelect: null,
-    selectedRowIds: [],
+    selection: [],
     multiSelect: false,
     sortColumn: 0,
     doSort: null,
@@ -150,7 +150,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     const rowId = rowData.id;
 
     let selectedRowIds;
-    if (!Array.isArray(this.props.selection)) {
+    if (Array.isArray(this.props.selection)) {
       selectedRowIds = this.props.selection;
     } else if (typeof this.props.selection === 'string') {
       selectedRowIds = [this.props.selection];
@@ -159,11 +159,16 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     }
 
     if (isSelected) {
-      // If it's not already in the seleciton, add it and call the callback
-      if (!selectedRowIds.contains(rowId)) {
-        selectedRowIds.push(rowId);
-        this.props.onSelect(selectedRowIds, rowId);
+      if (this.props.multiSelect) {
+        // If it's not already in the seleciton, add it and call the callback
+        if (!selectedRowIds.includes(rowId)) {
+          selectedRowIds.push(rowId);
+        }
+      } else {
+        // Just set the selection to the single row if not multi-select
+        selectedRowIds = [rowId];
       }
+      this.props.onSelect(selectedRowIds, rowId);
     } else {
       // Deselecting it...
       const oldPosition = selectedRowIds.indexOf(rowId);
@@ -199,7 +204,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
   render() {
     let selectedRowIds;
-    if (!Array.isArray(this.props.selection)) {
+    if (Array.isArray(this.props.selection)) {
       selectedRowIds = this.props.selection;
     } else if (typeof this.props.selection === 'string') {
       selectedRowIds = [this.props.selection];

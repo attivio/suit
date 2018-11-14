@@ -1,20 +1,21 @@
 #### Examples:
 
 
-__1:__ Simple table
+__1:__ Simple table allowing multiple selection.
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
   initialState = {
-    selectedRow: tableData.customerEngagementRows[0],
+    selectedRows: tableData.customerEngagementRows[0],
   };
   <Table
     columns={tableData.customerEngagementSimpleColumns}
     rows={tableData.customerEngagementRows}
     onSelect={(row) => {
-      setState({ selectedRow: row });
+      setState({ selectedRows: row });
     }}
-    selectedRowObject={state.selectedRow}
+    selection={state.selectedRows}
+    multiSelect
   /> 
 ```
 
@@ -44,15 +45,16 @@ __2:__ Table with accustom cell renderer for the Self-Service column showing per
       </div>
     );
   };
-
+  // Replace the third column with one that uses our rendering function
   cols[2] = new Table.TableColumn(cols[2].title, selfServeCellRenderer, cols[2].sort);
+
   <Table
     columns={cols}
     rows={tableData.customerEngagementRows}
     onSelect={(row) => {
       setState({ selectedRow: row });
     }}
-    selectedRowObject={state.selectedRow}
+    selection={state.selectedRow}
   /> 
 ```
 
@@ -74,7 +76,7 @@ __3:__ Table with sortable columms handled by a global handler (useful when sort
     onSelect={(row) => {
       setState({ selectedRow: row });
     }}
-    selectedRowObject={state.selectedRow}
+    selection={state.selectedRow}
     sortColumn={state.sortCol}
     doSort={(col) => {
       if (col !== 0) {
@@ -187,6 +189,6 @@ __4:__ Table with sortable columms with sorting handled by the columns themselve
     onSelect={(row) => {
       setState({ selectedRow: row });
     }}
-    selectedRowObject={state.selectedRow}
+    selection={state.selectedRow}
   /> 
 ```

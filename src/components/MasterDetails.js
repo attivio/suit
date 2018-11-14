@@ -109,7 +109,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
               columns={this.props.columns}
               rows={this.props.rows}
               onSelect={this.selectionChanged}
-              selectedRowObject={this.state.selectedRows}
+              selection={this.state.selectedRows}
               multiSelect={this.props.multiSelect}
             />
           </Col>
