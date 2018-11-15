@@ -4,6 +4,8 @@ import React from 'react';
 import type { Children } from 'react';
 import PropTypes from 'prop-types';
 
+import Configurable from './Configurable';
+
 type IfAllowedProps = {
   /**
    * The role representing a top-level admin, allowed to view any available widget.
@@ -28,7 +30,7 @@ type IfAllowedDefaultProps = {
 /**
  * Only displays its children if the currently logged-in user has the required role.
  */
-export default class IfAllowed extends React.Component<IfAllowedDefaultProps, IfAllowedProps, void> {
+class IfAllowed extends React.Component<IfAllowedDefaultProps, IfAllowedProps, void> {
   static defaultProps: IfAllowedDefaultProps = {
     adminRole: 'AIE_Administrator',
   };
@@ -59,3 +61,5 @@ export default class IfAllowed extends React.Component<IfAllowedDefaultProps, If
     return null;
   }
 }
+
+export default Configurable(IfAllowed);
