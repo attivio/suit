@@ -1,8 +1,23 @@
 #### Examples:
 
 
-__1:__ Description.
+__1:__ Basic example.
 
 ```jsx
-  <LoginForm />
+  <LoginForm
+    doLogin={(user, password) => {
+      alert(`User ${user} is trying to log in with password ${password}. Shh! It's a secret.`);
+    }}
+  />
+```
+
+__2:__ Example showing an error message.
+
+```jsx
+  <LoginForm
+    doLogin={(user, password) => {
+      alert(`User ${user} is trying to log in with password ${password}. Shh! It's a secret.`);
+    }}
+    error="That's not a valid username/password. Try again."
+  />
 ```

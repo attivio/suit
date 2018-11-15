@@ -1,5 +1,6 @@
 // @flow
 
+/* eslint-disable max-len */
 import SearchFacet from '../../src/api/SearchFacet';
 import SearchFacetBucket from '../../src/api/SearchFacetBucket';
 
@@ -15,22 +16,44 @@ const relevancyScoreFacetBuckets = [
   new SearchFacetBucket('Bucket9', '.55-.60', 195, 'filter string'),
   new SearchFacetBucket('Bucket10', '.50-.55', 242, 'filter string'),
 ];
-const relevancyScoreFacet = new SearchFacet('relevancy', '.score', 'Relevancy', relevancyScoreFacetBuckets);
+const relevancyScoreFacetCount = relevancyScoreFacetBuckets.reduce((acc, bucket) => {
+  return acc + bucket.count;
+}, 0);
+const relevancyScoreFacet = new SearchFacet('relevancy', '.score', 'Relevancy', relevancyScoreFacetCount, relevancyScoreFacetBuckets);
 
 const sentimentFacetBuckets = [
   new SearchFacetBucket('pos', 'pos', 239, 'filter string'),
   new SearchFacetBucket('neg', 'neg', 21, 'filter string'),
 ];
-const sentimentFacet = new SearchFacet('sentiment', 'sentiment', 'Sentiment', sentimentFacetBuckets);
+const sentimentFacetCount = sentimentFacetBuckets.reduce((acc, bucket) => {
+  return acc + bucket.count;
+}, 0);
+const sentimentFacet = new SearchFacet('sentiment', 'sentiment', 'Sentiment', sentimentFacetCount, sentimentFacetBuckets);
 
 const locationFacetBuckets = [
-  new SearchFacetBucket('Caribbean, Island Between the Caribbean Sea and North Atlantic Ocean, North Of Trinidad and Tobago', 'Caribbean, Island Between the Caribbean Sea and North Atlantic Ocean, North Of Trinidad and Tobago', 5, 'filter string'), // eslint-disable-line max-len
-  new SearchFacetBucket('Central Africa, East Of Democratic Republic Of the Congo', 'Central Africa, East Of Democratic Republic Of the Congo', 3, 'filter string'), // eslint-disable-line max-len
+  new SearchFacetBucket('Caribbean, Island Between the Caribbean Sea and North Atlantic Ocean, North Of Trinidad and Tobago', 'Caribbean, Island Between the Caribbean Sea and North Atlantic Ocean, North Of Trinidad and Tobago', 5, 'filter string'),
+  new SearchFacetBucket('Central Africa, East Of Democratic Republic Of the Congo', 'Central Africa, East Of Democratic Republic Of the Congo', 3, 'filter string'),
   new SearchFacetBucket('Central Asia, West of China', 'Central Asia, West of China', 2, 'filter string'),
-  new SearchFacetBucket('Eastern Asia, Bordering the South China Sea and China', 'Eastern Asia, Bordering the South China Sea and China', 2, 'filter string'), // eslint-disable-line max-len
-  new SearchFacetBucket('Archipelago in the Indian Ocean, Northeast of Madagasca', 'Archipelago in the Indian Ocean, Northeast of Madagasca', 1, 'filter string'), // eslint-disable-line max-len
+  new SearchFacetBucket('Eastern Asia, Bordering the South China Sea and China', 'Eastern Asia, Bordering the South China Sea and China', 2, 'filter string'),
+  new SearchFacetBucket('Archipelago in the Indian Ocean, Northeast of Madagasca', 'Archipelago in the Indian Ocean, Northeast of Madagasca', 1, 'filter string'),
 ];
-const locationFacet = new SearchFacet('location', 'location', 'Location', locationFacetBuckets);
+const locationFacetCount = locationFacetBuckets.reduce((acc, bucket) => {
+  return acc + bucket.count;
+}, 0);
+const locationFacet = new SearchFacet('location', 'location', 'Location', locationFacetCount, locationFacetBuckets);
+
+const positionFacetBuckets = [
+  new SearchFacetBucket({ longitude: -86.5, latitude: 15.0 }, 'Honduras', 32, 'filter string'),
+  new SearchFacetBucket({ longitude: -80.5, latitude: 19.5 }, 'Cayman Islands', 7, 'filter string'),
+  new SearchFacetBucket({ longitude: -88.91666666666667, latitude: 13.833333333333334 }, 'El Salvador', 32, 'filter string'),
+  new SearchFacetBucket({ longitude: -65.0, latitude: -17.0 }, 'Bolivia', 32, 'filter string'),
+  new SearchFacetBucket({ longitude: -55.0, latitude: -10.0 }, 'Brazil', 32, 'filter string'),
+  new SearchFacetBucket({ longitude: -63.416666666666664, latitude: 18.5 }, 'Saint Barthelemy', 32, 'filter string'),
+];
+const positionFacetCount = positionFacetBuckets.reduce((acc, bucket) => {
+  return acc + bucket.count;
+}, 0);
+const positionFacet = new SearchFacet('position', 'position', 'Position', positionFacetCount, positionFacetBuckets);
 
 const regionFacetBuckets = [
   new SearchFacetBucket('China', 'China', 310, 'filter string'),
@@ -44,9 +67,11 @@ const regionFacetBuckets = [
   new SearchFacetBucket('Nigeria', 'Nigeria', 60, 'filter string'),
   new SearchFacetBucket('Spain', 'Spain', 60, 'filter string'),
 ];
-const regionFacet = new SearchFacet('region', 'region', 'Region', regionFacetBuckets);
+const regionFacetCount = regionFacetBuckets.reduce((acc, bucket) => {
+  return acc + bucket.count;
+}, 0);
+const regionFacet = new SearchFacet('region', 'region', 'Region', regionFacetCount, regionFacetBuckets);
 
-/* eslint-disable max-len */
 const dateFacetBuckets = [
   new SearchFacetBucket('', 'August 14, 2017', 55, 'date:FACET(RANGE(\'2017-08-14T00:00:00\', \'2017-08-15T00:00:00\', upper=exclusive))', '2017-08-13T20:00:00.000-0400', '2017-08-14T20:00:00.000-0400'),
   new SearchFacetBucket('', 'August 15, 2017', 0, 'date:FACET(RANGE(\'2017-08-15T00:00:00\', \'2017-08-16T00:00:00\', upper=exclusive))', '2017-08-14T20:00:00.000-0400', '2017-08-15T20:00:00.000-0400'),
@@ -82,9 +107,42 @@ const dateFacetBuckets = [
   new SearchFacetBucket('', 'September 14, 2017', 3, 'date:FACET(RANGE(\'2017-09-14T00:00:00\', \'2017-09-15T00:00:00\', upper=exclusive))', '2017-09-13T20:00:00.000-0400', '2017-09-14T20:00:00.000-0400'),
   new SearchFacetBucket('', 'September 15, 2017', 5, 'date:FACET(RANGE(\'2017-09-15T00:00:00\', \'2017-09-16T00:00:00\', upper=exclusive))', '2017-09-14T20:00:00.000-0400', '2017-09-15T20:00:00.000-0400'),
 ];
-/* eslint-enable max-len */
 
-const dateFacet = new SearchFacet('date', 'date', 'Date', dateFacetBuckets);
+const dateFacetCount = dateFacetBuckets.reduce((acc, bucket) => {
+  return acc + bucket.count;
+}, 0);
+const dateFacet = new SearchFacet('date', 'date', 'Date', dateFacetCount, dateFacetBuckets);
+
+
+const positiveSentimentFacetBuckets = [
+  new SearchFacetBucket('', 'Puppies', 5, 'filter string'),
+  new SearchFacetBucket('', 'Kittens', 3, 'filter string'),
+  new SearchFacetBucket('', 'Sunshine', 18, 'filter string'),
+  new SearchFacetBucket('', 'Music', 9, 'filter string'),
+  new SearchFacetBucket('', 'Love', 15, 'filter string'),
+  new SearchFacetBucket('', 'Happiness', 8, 'filter string'),
+  new SearchFacetBucket('', 'Software', 2, 'filter string'),
+  new SearchFacetBucket('', 'Attivio', 18, 'filter string'),
+];
+const positiveSentimentFacetCount = positiveSentimentFacetBuckets.reduce((acc, bucket) => {
+  return acc + bucket.count;
+}, 0);
+const positiveSentimentFacet = new SearchFacet('positive', 'positive', 'Positive', positiveSentimentFacetCount, positiveSentimentFacetBuckets);
+
+const negativeSentimentFacetBuckets = [
+  new SearchFacetBucket('', 'Giant Squid', 5, 'filter string'),
+  new SearchFacetBucket('', 'Evil', 3, 'filter string'),
+  new SearchFacetBucket('', 'Thunderstorms', 18, 'filter string'),
+  new SearchFacetBucket('', 'Blizzards', 9, 'filter string'),
+  new SearchFacetBucket('', 'Depression', 15, 'filter string'),
+  new SearchFacetBucket('', 'Liver & Onions', 8, 'filter string'),
+  new SearchFacetBucket('', 'Pumpkin-Spice Lattes', 2, 'filter string'),
+  new SearchFacetBucket('', 'Worms', 18, 'filter string'),
+];
+const negativeSentimentFacetCount = negativeSentimentFacetBuckets.reduce((acc, bucket) => {
+  return acc + bucket.count;
+}, 0);
+const negativeSentimentFacet = new SearchFacet('negative', 'negative', 'Negative', negativeSentimentFacetCount, negativeSentimentFacetBuckets);
 
 const sampleFacets = {
   relevancyScoreFacet,
@@ -92,6 +150,11 @@ const sampleFacets = {
   locationFacet,
   regionFacet,
   dateFacet,
+  positiveSentimentFacet,
+  negativeSentimentFacet,
+  positionFacet,
 };
 
 export default sampleFacets;
+
+/* eslint-enable max-len */

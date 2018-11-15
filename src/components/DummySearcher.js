@@ -4,8 +4,9 @@ import type { Children } from 'react';
 
 import PropTypes from 'prop-types';
 
-import QueryResponse from '../api/QueryResponse';
 import FacetFilter from '../api/FacetFilter';
+import QueryResponse from '../api/QueryResponse';
+import SimpleQueryRequest from '../api/SimpleQueryRequest';
 
 type DummySearcherProps = {
   defaultRelevancyModels: Array<string>;
@@ -17,6 +18,7 @@ type DummySearcherProps = {
   defaultQuery: string;
   defaultQueryResponse: QueryResponse | null;
   defaultError: string | null;
+  defaultFieldList: Array<string>;
   children: Children;
 };
 
@@ -30,6 +32,7 @@ type DummySearcherDefaultProps = {
   defaultQuery: string;
   defaultQueryResponse: QueryResponse | null;
   defaultError: string | null;
+  defaultFieldList: Array<string>;
 };
 
 type DummySearcherState = {
@@ -66,6 +69,7 @@ export default class DummySearcher extends React.Component<DummySearcherDefaultP
     defaultQuery: '*:*',
     defaultQueryResponse: null,
     defaultError: null,
+    defaultFieldList: [],
   };
 
   static childContextTypes = {
@@ -87,6 +91,12 @@ export default class DummySearcher extends React.Component<DummySearcherDefaultP
     };
   }
 
+  getQueryRequest(): SimpleQueryRequest {
+    const qr = new SimpleQueryRequest();
+    qr.query = this.props.defaultQuery;
+    return qr;
+  }
+
   getDefaultState(): DummySearcherState {
     return {
       response: this.props.defaultQueryResponse,
@@ -103,6 +113,13 @@ export default class DummySearcher extends React.Component<DummySearcherDefaultP
       debug: this.props.defaultDebug,
       businessCenterProfile: this.props.defaultBusinessCenterProfile,
     };
+  }
+
+ /**
+  * Get the list of fields to use in the query request.
+  */
+  getFieldList(): Array<string> {
+    return this.props.defaultFieldList;
   }
 
  /**
