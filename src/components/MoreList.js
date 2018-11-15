@@ -100,7 +100,7 @@ export default class MoreList extends React.Component<MoreListDefaultProps, More
             className="attivio-facet-more attivio-more"
             onClick={this.toggleAllVisible}
             role="button"
-            tabIndex="0"
+            tabIndex={0}
             ref={(c) => { this.toggleButton = c; }}
           >
             {prompt}

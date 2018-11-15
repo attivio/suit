@@ -1,7 +1,7 @@
 #### Examples:
 
 
-__1:__ Description.
+__1:__ A series of common entities.
 
 ```jsx
   const sampleDocs = require('../sampleData/Documents').default;

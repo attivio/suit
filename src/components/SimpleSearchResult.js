@@ -25,15 +25,6 @@ type SimpleSearchResultDefaultProps = {
 }
 
 /**
- * Renders a <SimpleSearchResult> component for the document.
- */
-export function renderer(doc: SearchDocument, position: number, baseUri: string, key: string) {
-  return (
-    <SimpleSearchResult document={doc} position={position} baseUri={baseUri} key={key} />
-  );
-}
-
-/**
  * An Simple rendering of an individual search result.
  */
 export default class SimpleSearchResult extends React.Component<SimpleSearchResultDefaultProps, SimpleSearchResultProps, void> {
@@ -42,6 +33,15 @@ export default class SimpleSearchResult extends React.Component<SimpleSearchResu
   };
 
   static displayName = 'SimpleSearchResult';
+
+  /**
+   * Renders a <SimpleSearchResult> component for the document.
+   */
+  static renderer(doc: SearchDocument, position: number, baseUri: string, key: string) {
+    return (
+      <SimpleSearchResult document={doc} position={position} baseUri={baseUri} key={key} />
+    );
+  }
 
   static getFirstDocumentType(list: Array<SearchDocument>): string {
     let result = '';
@@ -94,5 +94,3 @@ export default class SimpleSearchResult extends React.Component<SimpleSearchResu
     );
   }
 }
-
-SimpleSearchResult.renderer = renderer;
