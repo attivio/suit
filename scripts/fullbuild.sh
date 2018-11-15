@@ -11,6 +11,6 @@ rm -rf styleguide && \
 npm install && \ 
 npm run lint && \
 npm run flow && \ 
-npm run validateComponents \
+npm run validatecomponents \
 npm run styleguide && \
 npm run build

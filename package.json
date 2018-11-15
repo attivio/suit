@@ -1,4 +1,4 @@
-{
+1{
   "name": "@attivio/suit",
   "version": "0.0.47",
   "description": "Attivio SUIT, the Search UI Toolkit, is a library for creating search clients for searching the Attivio platform.",
@@ -38,7 +38,7 @@
     "lint": "eslint src --ext .js --ext .jsx",
     "styleguide": "styleguidist build",
     "styleguide:serve": "styleguidist server",
-    "validateComponents": "./scripts/validateComponents.sh",
+    "validatecomponents": "./scripts/validateComponents.sh",
     "fullbuild": "./scripts/fullbuild.sh",
     "updateversion": "./scripts/updateversion.sh",
     "publishlib": "./scripts/publishlib.sh"
