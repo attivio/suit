@@ -140,7 +140,7 @@ export default class ListWithBarsFacetContents extends React.Component<ListWithB
               className="attivio-facet-more attivio-more"
               onClick={this.toggleAllVisible}
               role="button"
-              tabIndex="0"
+              tabIndex={0}
               ref={(c) => { this.toggleButton = c; }}
             >
               {label}

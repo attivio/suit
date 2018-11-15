@@ -181,7 +181,7 @@ export default class AuthUtils {
   static hasPermission(user: any, permission: string): boolean {
     if (AuthUtils.config && AuthUtils.config.ALL && AuthUtils.config.ALL.authType === 'NONE') {
       // check if user is part of the role passed to this function.
-      if (user.roles.includes(permission)) {
+      if (user.roles && user.roles.includes(permission)) {
         return true;
       }
     }

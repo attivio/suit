@@ -69,9 +69,6 @@ const wizardPages = (state, setState) => {
     new WizardPageDefinition(
       'type',
       'Type',
-      () => {
-        return {};
-      },
       (
         <div style={{ height: '375px' }}>
           <CardPicker
@@ -81,75 +78,78 @@ const wizardPages = (state, setState) => {
           />
         </div>
       ),
-    ),
-    new WizardPageDefinition(
-      'describe',
-      'Describe',
       () => {
         return {};
       },
-      (
-        <div>
-          <FormGroup>
-            <ControlLabel>Name</ControlLabel>
-            <FormControl type="text" placeholder="Enter the connector’s name" />
-            <HelpBlock>This is the name that will be used when displaying the connector.</HelpBlock>
-          </FormGroup>
-          <FormGroup>
-            <ControlLabel>Description</ControlLabel>
-            <FormControl componentClass="textarea" placeholder="Enter a description for the connector." />
-            <HelpBlock>This will help users know what the connector is used to ingest.</HelpBlock>
-          </FormGroup>
-        </div>
-      ),
     ),
-    new WizardPageDefinition(
-      'configure',
-      'Configure',
-      () => {
-        return {};
-      },
-      (
-        <div>
-          <TabPanel
-            tabInfos={configurationTabs}
-            activeTabId={state.currentConfigurationTab}
-            tabChanged={(newTabId) => {
-              alert(`Setting the configration page's tab to ${newTabId}.`);
-              setState({ currentConfigurationTab: newTabId });
-            }}
-          />
-        </div>
-      ),
-      false,
-      null,
-      (values) => { alert(`About to show the configure page. The values for the pages are: ${values.toString()}`); },
-    ),
-    new WizardPageDefinition(
-      'map',
-      'Map',
-      () => {
-        return {};
-      },
-      (
-        <div>
-          Mapping controls go here.
-        </div>
-      ),
-    ),
-    new WizardPageDefinition(
-      'enrich',
-      'Enrich',
-      () => {
-        return {};
-      },
-      (
-        <div>
-          Enrichment controls go here.
-        </div>
-      ),
-      true,
-    ),
+    // new WizardPageDefinition(
+    //   'describe',
+    //   'Describe',
+    //   (
+    //     <div>
+    //       <FormGroup>
+    //         <ControlLabel>Name</ControlLabel>
+    //         <FormControl type="text" placeholder="Enter the connector’s name" />
+    //         <HelpBlock>This is the name that will be used when displaying the connector.</HelpBlock>
+    //       </FormGroup>
+    //       <FormGroup>
+    //         <ControlLabel>Description</ControlLabel>
+    //         <FormControl componentClass="textarea" placeholder="Enter a description for the connector." />
+    //         <HelpBlock>This will help users know what the connector is used to ingest.</HelpBlock>
+    //       </FormGroup>
+    //     </div>
+    //   ),
+    //   () => {
+    //     return {};
+    //   },
+    // ),
+    // new WizardPageDefinition(
+    //   'configure',
+    //   'Configure',
+    //   (
+    //     <div>
+    //       <TabPanel
+    //         tabInfos={configurationTabs}
+    //         activeTabId={state.currentConfigurationTab}
+    //         tabChanged={(newTabId) => {
+    //           alert(`Setting the configration page's tab to ${newTabId}.`);
+    //           setState({ currentConfigurationTab: newTabId });
+    //         }}
+    //       />
+    //     </div>
+    //   ),
+    //   () => {
+    //     return {};
+    //   },
+    //   false,
+    //   null,
+    //   (values) => { alert(`About to show the configure page. The values for the pages are: ${values.toString()}`); },
+    // ),
+    // new WizardPageDefinition(
+    //   'map',
+    //   'Map',
+    //   (
+    //     <div>
+    //       Mapping controls go here.
+    //     </div>
+    //   ),
+    //   () => {
+    //     return {};
+    //   },
+    // ),
+    // new WizardPageDefinition(
+    //   'enrich',
+    //   'Enrich',
+    //   (
+    //     <div>
+    //       Enrichment controls go here.
+    //     </div>
+    //   ),
+    //   () => {
+    //     return {};
+    //   },
+    //   true,
+    // ),
   ];
 };
 

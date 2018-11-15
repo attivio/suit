@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 import FieldNames from '../api/FieldNames';
 
-import { renderer as debugRenderer } from './DebugSearchResult';
-import { renderer as listRenderer } from './ListSearchResult';
-import { renderer as simpleRenderer } from './SimpleSearchResult';
+import DebugSearchResult from './DebugSearchResult';
+import ListSearchResult from './ListSearchResult';
+import SimpleSearchResult from './SimpleSearchResult';
 import SearchDocument from '../api/SearchDocument';
 
 /**
@@ -54,7 +54,7 @@ type SearchResultsProps = {
   /** Whether star ratings should be shown in the UI or not. Defaults to true. */
   showRatings: boolean;
   /** A style to apply to the results list */
-  style: ?any;
+  style: any;
 };
 
 type SearchResultsDefaultProps = {
@@ -63,6 +63,7 @@ type SearchResultsDefaultProps = {
   showScores: boolean;
   showTags: boolean;
   showRatings: boolean;
+  style: any;
 };
 
 /**
@@ -76,6 +77,7 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
     showScores: false,
     showTags: true,
     showRatings: true,
+    style: {},
   };
 
   static contextTypes = {
@@ -92,20 +94,20 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
     let formats: Array<SearchResultRenderer> = [];
     if (searcher.state.debug) {
       // If the searcher is overriding with the debug flag...
-      formats = [debugRenderer];
+      formats = [DebugSearchResult.renderer];
     } else if (typeof this.props.format === 'function') {
       formats = [this.props.format];
     } else if (Array.isArray(this.props.format)) {
       formats = this.props.format;
     } else if (this.props.format === 'list') {
       // 'list' -> ListSearchResult
-      formats = [listRenderer];
+      formats = [ListSearchResult.renderer];
     } else if (this.props.format === 'simple') {
       // 'simple' -> SimpleSearchResult
-      formats = [simpleRenderer];
+      formats = [SimpleSearchResult.renderer];
     } else if (this.props.format === 'debug') {
       // 'debug' -> DebugSearchResult
-      formats = [debugRenderer];
+      formats = [DebugSearchResult.renderer];
     }
 
     if (response && response.documents && response.documents.length > 0) {
@@ -128,7 +130,7 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
         });
         if (!renderedDocument) {
           // Default to the List renderer if nothing else did anything... It will always produce a result.
-          renderedDocument = listRenderer(document, position, this.props.baseUri, key);
+          renderedDocument = ListSearchResult.renderer(document, position, this.props.baseUri, key);
         }
 
         results.push(renderedDocument);

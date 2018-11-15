@@ -7,6 +7,7 @@ import SearchDocument from '../api/SearchDocument';
 import Breadcrumbs, { BreadcrumbInfo } from './Breadcrumbs';
 
 type Doc360BreadcrumbsProps = {
+  /** The document currently being displayed on the 360 page. */
   currentDoc: SearchDocument;
   location: PropTypes.object.isRequired;
   history: PropTypes.object.isRequired;

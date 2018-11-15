@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export class ExpertInfo {
+class ExpertInfo {
   name: string;
   title: string;
   department: string;
