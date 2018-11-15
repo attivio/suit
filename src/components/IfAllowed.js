@@ -4,10 +4,12 @@ import React from 'react';
 import type { Children } from 'react';
 import PropTypes from 'prop-types';
 
-import SecurityApi from '../api/SecurityApi';
-import Secured from './Secured';
-
 type IfAllowedProps = {
+  /**
+   * The role representing a top-level admin, allowed to view any available widget.
+   * Optional, defaulting to "AIE_Administrator"
+   */
+  adminRole: string;
   /**
    * The role to require from the user before displaying the provided contents.
    */
@@ -19,44 +21,35 @@ type IfAllowedProps = {
   children: Children;
 };
 
-type IfAllowedState = {
-  allowed: boolean;
+type IfAllowedDefaultProps = {
+  adminRole: string;
 };
 
 /**
  * Only displays its children if the currently logged-in user has the required role.
  */
-export default class IfAllowed extends React.Component<void, IfAllowedProps, IfAllowedState> {
-
-  static contextTypes = {
-    secured: PropTypes.any,
+export default class IfAllowed extends React.Component<IfAllowedDefaultProps, IfAllowedProps, void> {
+  static defaultProps: IfAllowedDefaultProps = {
+    adminRole: 'AIE_Administrator',
   };
 
-  constructor(props: SecuredProps) {
-    super(props);
-    this.state = {
-      allowed: false,
-    };
+  static contextTypes = {
+    auth: PropTypes.any,
+  };
 
-    (this: any).setAllowed = this.setAllowed.bind(this);
-  }
-
-  state: IfAllowedState;
-
-  componentWillMount() {
-    if (this.context.secured && this.context.secured.state) {
-      this.setAllowed(this.context.secured.state.roles.indexOf(this.props.requiredRole) >= 0);
-    } else {
-      SecurityApi.currentUserHasRole(this.props.requiredRole).then(this.setAllowed);
+  isAllowed(): boolean {
+    let allowed: boolean = false;
+    if (this.context.auth && this.context.auth.state && this.context.auth.state.user) {
+      allowed = (
+        this.context.auth.state.user.roles.indexOf(this.props.requiredRole) >= 0 ||
+        this.context.auth.state.user.roles.indexOf(this.props.adminRole) >= 0
+      );
     }
-  }
-
-  setAllowed(allowed: boolean) {
-    this.setState({ allowed });
+    return allowed;
   }
 
   render() {
-    if (this.state.allowed) {
+    if (this.isAllowed()) {
       return (
         <div>
           {this.props.children}

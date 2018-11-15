@@ -121,7 +121,6 @@ export SearchResultsPerPage from './components/SearchResultsPerPage';
 export SearchResultsSummary from './components/SearchResultsSummary';
 export Searcher from './components/Searcher';
 export SecondaryNavBar from './components/SecondaryNavBar';
-export Secured from './components/Secured';
 export SentimentBar from './components/SentimentBar';
 export SentimentFacetContents from './components/SentimentFacetContents';
 export SentimentTagCloud from './components/SentimentTagCloud';
