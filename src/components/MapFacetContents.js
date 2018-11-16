@@ -23,7 +23,11 @@ type MapFacetContentsProps = {
   buckets: Array<SearchFacetBucket>;
   /** Callback to add a filter for this facet. */
   addFacetFilter: (bucket: SearchFacetBucket) => void;
-  /** The size for the component. An object with height and width properties. Optional. */
+  /**
+   * The size for the component. This is set by the react-sizeme library
+   * so that the Mapbox control can be updated when our size changes
+   * and should not be set by the component's parent.
+  */
   size: any;
   /** The public key with which to connect to the mapbox public apis. */
   mapboxKey: string;
