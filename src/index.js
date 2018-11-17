@@ -38,6 +38,7 @@ export AutoCompleteInput from './components/AutoCompleteInput';
 export BarChartFacetContents from './components/BarChartFacetContents';
 export BigButton from './components/BigButton';
 export Breadcrumbs from './components/Breadcrumbs';
+export BusyIndicator from './components/BusyIndicator';
 export Card from './components/Card';
 export CardPicker from './components/CardPicker';
 export CardPickerCard from './components/CardPickerCard';
