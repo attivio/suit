@@ -96,6 +96,7 @@ export NavbarSort from './components/NavbarSort';
 export NavigationButton from './components/NavigationButton';
 export NavigationHamburgerMenu from './components/NavigationHamburgerMenu';
 export NetworkDiagram from './components/NetworkDiagram';
+export Notifiable from './components/Notifiable';
 export Pager from './components/Pager';
 export PieChartFacetContents from './components/PieChartFacetContents';
 export PlacementResult from './components/PlacementResult';
