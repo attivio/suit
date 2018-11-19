@@ -113,7 +113,11 @@ export default class StyleUtils {
   /**
    * Takes two CSS colors, from and to, and calculates a new color "percentage"
    * percent of the way from "from" to "to." Percentage should be between 0 and 1.0.
-   * It always returns a hex encoded number prefixed with an octothorpe, e.g., "#f2a902."
+   * Both the from and to parameters can be hex strings prefixed with an octothorpe
+   * (either 3 or 6 digits), expressions with rgb() or rgba(), or valid CSS color
+   * names.
+   * It always returns a hex encoded number prefixed with an octothorpe, e.g., "#f2a902,"
+   * regardless of the format of the original colors.
    */
   static blendColors(from: string, to: string, percentage: number = 0.5): string {
     const fromParsed = StyleUtils.parseColor(from);
@@ -127,10 +131,16 @@ export default class StyleUtils {
   }
 
   /**
-   * Takes a CSS color, orig, and lightens it by the specified percentage. Percentage
-   * should be between 0 and 1.0. This is the equivalent of calling blendColors() with
-   * the value of "to" set to white. It always returns a hex encoded number prefixed
-   * with an octothorpe, e.g., "#f2a902."
+   * Takes a CSS color, orig, and lightens it by the specified percentage, which
+   * should be between 0 and 1.0 (where 0 is the original color and 1.0 is white).
+   * (This is the equivalent of calling blendColors() with the value of "to" set
+   * to white.)
+   * The orig parameter can be a hex string prefixed with an octothorpe
+   * (either 3 or 6 digits), an expression with rgb() or rgba(), or a valid CSS
+   * color name.
+   * It always returns the color as a hex string
+   * prefixed with an octothorpe, e.g., "#f2a902," regardless of the format of the
+   * original color.
    */
   static lightenColor(orig: string, percentage: number = 0.5): string {
     const origParsed = StyleUtils.parseColor(orig);
@@ -143,10 +153,16 @@ export default class StyleUtils {
   }
 
   /**
-   * Takes a CSS color, orig, and darkends it by the specified percentage. Percentage
-   * should be between 0 and 1.0. This is the equivalent of calling blendColors() with
-   * the value of "to" set to black. It always returns a hex encoded number prefixed
-   * with an octothorpe, e.g., "#f2a902."
+   * Takes a CSS color, orig, and darkens it by the specified percentage, which
+   * should be between 0 and 1.0 (where 0 is the original color and 1.0 is black).
+   * (This is the equivalent of calling blendColors() with the value of "to" set
+   * to black.)
+   * The orig parameter can be a hex string prefixed with an octothorpe
+   * (either 3 or 6 digits), an expression with rgb() or rgba(), or a valid CSS
+   * color name.
+   * It always returns the color as a hex string
+   * prefixed with an octothorpe, e.g., "#f2a902," regardless of the format of the
+   * original color.
    */
   static darkenColor(orig: string, percentage: number = 0.5): string {
     const origParsed = StyleUtils.parseColor(orig);
