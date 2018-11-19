@@ -1,7 +1,7 @@
 // @flow
 import moment from 'moment';
 
-import DateFormat from './DateFormat';
+import DateFormat from '../api/DateFormat';
 
 export default class DateUtils {
   /**
@@ -43,8 +43,6 @@ export default class DateUtils {
         return m.format('h:00A');
       case DateFormat.AGO:
         return m.fromNow();
-      case DateFormat.IN:
-        return m.toNow();
       case DateFormat.ISO_8601:
       default:
         return m.format();

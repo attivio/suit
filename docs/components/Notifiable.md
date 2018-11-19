@@ -3,6 +3,7 @@
 __1.__ Showing error notification.
 
 ```jsx
+  debugger;
   <div>
     <Notifiable>
       <div>

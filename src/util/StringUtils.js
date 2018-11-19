@@ -121,29 +121,40 @@ export default class StringUtils {
     if (s.length < limit) {
       return s;
     }
-    const firstChunk = s.substring(0, limit);
-    const lastWS = StringUtils.regexLastIndexOf(firstChunk, /\s/g);
     let firstLine;
     let remainder;
-    if (lastWS >= 0) {
-      // We found a whitespace character, so we'll break there.
-      firstLine = s.substring(0, lastWS).trim();
-      remainder = s.substring(lastWS).trim();
-    } else {
-      firstLine = firstChunk;
+
+    const firstChunk = s.substring(0, limit);
+    if (s.length <= limit || s.charAt(limit).match(/\s/g)) {
+      // If the first chunk is already at the end of the string, or the next
+      // character is whitespace, we can leave it as is... well, just trim it
+      firstLine = firstChunk.trim();
       remainder = s.substring(limit).trim();
+    } else {
+      const lastWS = StringUtils.regexLastIndexOf(firstChunk, /\s/g);
+      if (lastWS >= 0) {
+        // We found a whitespace character, so we'll break there.
+        firstLine = s.substring(0, lastWS).trim();
+        remainder = s.substring(lastWS).trim();
+      } else {
+        firstLine = firstChunk;
+        remainder = s.substring(limit).trim();
+      }
     }
     if (remainder.length === 0) {
       // If the trimmed remainder is empty, then just return the part we found.
       return firstLine;
     }
-    return `${firstLine}\n${StringUtils.wrapLabel(remainder, newLine, limit)}`;
+    return `${firstLine}${newLine}${StringUtils.wrapLabel(remainder, newLine, limit)}`;
   }
 
   /**
    * Returns true if the value is a string and it is has a length greater than 0.
    */
   static notEmpty(value: any): boolean {
-    return value && (typeof value === 'string' || value instanceof String) && value.length > 0;
+    if (value && (typeof value === 'string' || value instanceof String) && value.length > 0) {
+      return true;
+    }
+    return false;
   }
 }

@@ -4,6 +4,7 @@ import QueryResponse from './QueryResponse';
 import FieldNames from './FieldNames';
 import AuthUtils from '../util/AuthUtils';
 import FetchUtils from '../util/FetchUtils';
+import ObjectUtils from '../util/ObjectUtils';
 import QueryRequestToElastic from '../util/QueryRequestToElastic';
 import QueryRequestToSolr from '../util/QueryRequestToSolr';
 
@@ -27,19 +28,6 @@ export default class Search {
     this.baseUri = baseUri;
     this.searchEngineType = searchEngineType;
     this.customOptions = customOptions;
-  }
-
-  /**
-   * Convert a JavaScript Map object whose keys are
-   * strings into a plain-old JavaScript object so it
-   * can be converted to JSON.
-   */
-  static strMapToObj(strMap: Map<string, any>) {
-    const obj = Object.create(null);
-    strMap.forEach((value, key) => {
-      obj[key] = value;
-    });
-    return obj;
   }
 
   search(request: SimpleQueryRequest, updateResults: (response: QueryResponse | null, error: string | null) => void) {
@@ -66,7 +54,7 @@ export default class Search {
 
     const uri = `${this.baseUri}/rest/searchApi/search`;
     const jsonRequest = Object.assign({}, request);
-    jsonRequest.restParams = Search.strMapToObj(request.restParams);
+    jsonRequest.restParams = ObjectUtils.strMapToObj(request.restParams);
 
     if (this.searchEngineType === 'elastic') {
       QueryRequestToElastic.convert(jsonRequest, `${this.baseUri}`, this.customOptions, (err, searchResponse) => {
