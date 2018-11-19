@@ -250,6 +250,7 @@ module.exports = {
               'src/components/FormattedDate.js',
               'src/components/GridLayout.js',
               'src/components/Header360.js',
+              'src/components/IfAllowed.js',
               'src/components/LabeledData.js',
               'src/components/Masthead.js',
               'src/components/MastheadUser.js',

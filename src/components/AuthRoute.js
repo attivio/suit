@@ -9,11 +9,6 @@ import AuthUtils from '../util/AuthUtils';
 
 type AuthRouteProps = {
   /**
-   * The role representing a top-level admin, allowed to view any available widget.
-   * Optional, defaulting to "AIE_Administrator"
-   */
-  adminRole: string;
-  /**
    * The component for which to require authentication.
    */
   component: PropTypes.Component;
@@ -31,11 +26,9 @@ type AuthRouteProps = {
    * The authentication method being used
    */
   authType: 'SAML' | 'XML' | 'NONE';
-
 };
 
 type AuthRouteDefaultProps = {
-  adminRole: string;
   requiredRole: string | null;
   location: any;
   authType: 'SAML' | 'XML' | 'NONE';
@@ -48,7 +41,6 @@ type AuthRouteState = {
 // LJV TODO Create a no-permissions page to use for unauthorized users
 class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, AuthRouteState> {
   static defaultProps = {
-    adminRole: 'AIE_Administrator',
     requiredRole: null,
     location: null, // This should be filled in by the router
     authType: 'NONE',
@@ -108,11 +100,7 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
     }
 
     // If this route doesn't require any special credentials or it does and the currently logged-in user meets them
-    if (
-      !this.props.requiredRole ||
-      AuthUtils.isLoggedIn(this.props.requiredRole) ||
-      AuthUtils.isLoggedIn(this.props.adminRole)
-    ) {
+    if (!this.props.requiredRole || AuthUtils.isLoggedIn(this.props.requiredRole)) {
       return (
         <Route
           {...this.props}

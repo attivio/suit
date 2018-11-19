@@ -4,14 +4,9 @@ import React from 'react';
 import type { Children } from 'react';
 import PropTypes from 'prop-types';
 
-import Configurable from './Configurable';
+import AuthUtils from '../util/AuthUtils';
 
 type IfAllowedProps = {
-  /**
-   * The role representing a top-level admin, allowed to view any available widget.
-   * Optional, defaulting to "AIE_Administrator"
-   */
-  adminRole: string;
   /**
    * The role to require from the user before displaying the provided contents.
    */
@@ -23,17 +18,11 @@ type IfAllowedProps = {
   children: Children;
 };
 
-type IfAllowedDefaultProps = {
-  adminRole: string;
-};
-
 /**
  * Only displays its children if the currently logged-in user has the required role.
  */
-class IfAllowed extends React.Component<IfAllowedDefaultProps, IfAllowedProps, void> {
-  static defaultProps: IfAllowedDefaultProps = {
-    adminRole: 'AIE_Administrator',
-  };
+export default class IfAllowed extends React.Component<void, IfAllowedProps, void> {
+  static displayName = 'IfAllowed';
 
   static contextTypes = {
     auth: PropTypes.any,
@@ -44,7 +33,7 @@ class IfAllowed extends React.Component<IfAllowedDefaultProps, IfAllowedProps, v
     if (this.context.auth && this.context.auth.state && this.context.auth.state.user) {
       allowed = (
         this.context.auth.state.user.roles.indexOf(this.props.requiredRole) >= 0 ||
-        this.context.auth.state.user.roles.indexOf(this.props.adminRole) >= 0
+        this.context.auth.state.user.roles.indexOf(AuthUtils.ADMIN_ROLE) >= 0
       );
     }
     return allowed;
@@ -61,5 +50,3 @@ class IfAllowed extends React.Component<IfAllowedDefaultProps, IfAllowedProps, v
     return null;
   }
 }
-
-export default Configurable(IfAllowed);

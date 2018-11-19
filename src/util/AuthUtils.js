@@ -6,6 +6,11 @@ import FetchUtils from './FetchUtils';
 
 export default class AuthUtils {
   static USER_KEY = 'suit-user';
+  /**
+   * The special role representing a top-level admin, granting full permission.
+   */
+  static ADMIN_ROLE = 'AIE_Administrator';
+
   static users;
   static config;
 
@@ -178,10 +183,17 @@ export default class AuthUtils {
   /**
    * Check whether the user has a particular permission.
    */
-  static hasPermission(user: any, permission: string): boolean {
+  static hasRole(user: any, role: string): boolean {
     if (AuthUtils.config && AuthUtils.config.ALL && AuthUtils.config.ALL.authType === 'NONE') {
-      // check if user is part of the role passed to this function.
-      if (user.roles && user.roles.includes(permission)) {
+      // check if the user has inherited or been directly assigned the provided role
+      if (
+        user.roles &&
+        (
+          user.roles.includes(role) ||
+          // The admin role is equivalent to all roles
+          user.roles.includes(AuthUtils.ADMIN_ROLE)
+        )
+      ) {
         return true;
       }
     }
@@ -190,16 +202,17 @@ export default class AuthUtils {
 
   /**
    * Check whether there is a user currently logged in.
+   * Optionally with the provided role
    */
-  static isLoggedIn(permission: string | null): boolean {
+  static isLoggedIn(role: string | null): boolean {
     if (!AuthUtils.config || !AuthUtils.config.ALL) {
       return false;
     }
 
     const user = AuthUtils.getSavedUser();
     if (user) {
-      if (permission) {
-        return AuthUtils.hasPermission(user, permission);
+      if (role) {
+        return AuthUtils.hasRole(user, role);
       }
       return true;
     }
