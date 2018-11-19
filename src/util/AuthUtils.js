@@ -47,7 +47,9 @@ export default class AuthUtils {
     const copy = {};
     Object.entries(orig).forEach((entry: [string, any]) => {
       const [key: string, value: any] = entry;
-      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+      if (typeof value === 'object' && value !== null &&
+          (!Array.isArray(value) || value instanceof Map)) {
+        // If the value is an object that's not null or an Array or a Map, convert it
         if (key.charAt(0) === key.charAt(0).toLowerCase()) {
           copy[key] = ObjectUtils.toMap(value);
         } else {
