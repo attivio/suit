@@ -1,8 +1,9 @@
 // @flow
 import md5 from 'crypto-js/md5';
 
-import StringUtils from './StringUtils';
 import FetchUtils from './FetchUtils';
+import ObjectUtils from './ObjectUtils';
+import StringUtils from './StringUtils';
 
 export default class AuthUtils {
   static USER_KEY = 'suit-user';
@@ -20,11 +21,13 @@ export default class AuthUtils {
    *                    specific to search applications won't be done
    */
   static configure(users: any, config: any, simpleValidation: boolean = false) {
-    const configError = AuthUtils.validateConfiguration(config, simpleValidation);
+    const mappifiedConfig = AuthUtils.mappify(config);
+
+    const configError = AuthUtils.validateConfiguration(mappifiedConfig, simpleValidation);
     if (configError) {
       throw configError;
     }
-    if (config.ALL.authType === 'XML') {
+    if (mappifiedConfig.ALL.authType === 'XML') {
       // Only validate users if the auth type is XML
       const usersError = AuthUtils.validateUsers(users);
       if (usersError) {
@@ -32,7 +35,33 @@ export default class AuthUtils {
       }
     }
     AuthUtils.users = users;
-    AuthUtils.config = config;
+    AuthUtils.config = mappifiedConfig;
+  }
+
+  /** Go through the passed in object and conver any nested objects to JavaScript
+   * Map objects if and only if their name starts with a lowercase letter. Thus
+   * orig.ALL and orig.Masthead won't be converted but orig.ALL.entityColors
+   * will.
+   */
+  static mappify(orig: any): any {
+    const copy = {};
+    Object.entries(orig).forEach((entry: [string, any]) => {
+      const [key: string, value: any] = entry;
+      if (typeof value === 'object' && value !== null &&
+          (!Array.isArray(value) || value instanceof Map)) {
+        // If the value is an object that's not null or an Array or a Map, convert it
+        if (key.charAt(0) === key.charAt(0).toLowerCase()) {
+          copy[key] = ObjectUtils.toMap(value);
+        } else {
+          // recurse on non-final objects
+          copy[key] = AuthUtils.mappify(value);
+        }
+      } else {
+        // Just set it as is
+        copy[key] = value;
+      }
+    });
+    return copy;
   }
 
   /**
