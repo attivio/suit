@@ -46,6 +46,7 @@ export Code from './components/Code';
 export CollapsiblePanel from './components/CollapsiblePanel';
 export Configurable from './components/Configurable';
 export Configuration from './components/Configuration';
+export ConfirmationDialog from './components/ConfirmationDialog';
 export ContextHelp from './components/ContextHelp';
 export DataPairs from './components/DataPairs';
 export DatePicker from './components/DatePicker';
