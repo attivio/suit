@@ -68,6 +68,8 @@ export default class ConfirmationDialog extends React.Component<ConfirmationDial
     dangerous: false,
   };
 
+  static displayName = 'ConfirmationDialog';
+
   render() {
     const okButtonStyle = this.props.dangerous ? 'danger' : 'primary';
     return this.props.show ? (
