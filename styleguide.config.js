@@ -259,6 +259,7 @@ module.exports = {
               'src/components/MoreList.js',
               'src/components/Navbar.js',
               'src/components/NetworkDiagram.js',
+              'src/components/Notifiable.js',
               'src/components/ProfilePhoto.js',
               'src/components/Scrollable.js',
               'src/components/SecondaryNavBar.js',

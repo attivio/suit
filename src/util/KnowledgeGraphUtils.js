@@ -2,8 +2,8 @@
 
 import SearchDocument from '../api/SearchDocument';
 import FieldNames from '../api/FieldNames';
-import GraphNode from './GraphNode';
-import GraphEdge from './GraphEdge';
+import GraphNode from '../api/GraphNode';
+import GraphEdge from '../api/GraphEdge';
 import StringUtils from './StringUtils';
 
 export class GraphDefinition {

@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactHighcharts from 'react-highcharts';
 import DateUtils from '../util/DateUtils';
-import DateFormat from '../util/DateFormat';
+import DateFormat from '../api/DateFormat';
 import ObjectUtils from '../util/ObjectUtils';
 
 /**

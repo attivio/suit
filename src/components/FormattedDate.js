@@ -2,7 +2,7 @@
 import React from 'react';
 
 import DateUtils from '../util/DateUtils';
-import DateFormat from '../util/DateFormat';
+import DateFormat from '../api/DateFormat';
 
 type FormattedDateProps = {
   /** The date to format. */

@@ -5,7 +5,7 @@ import SearchDocument from '../api/SearchDocument';
 import FieldNames from '../api/FieldNames';
 import DataPairs, { DataPairInfo } from './DataPairs';
 import DateUtils from '../util/DateUtils';
-import DateFormat from '../util/DateFormat';
+import DateFormat from '../api/DateFormat';
 
 type DocumentEntityListProps = {
   /** The document whose entities we're showing */

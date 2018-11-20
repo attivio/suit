@@ -2,7 +2,7 @@
 import React from 'react';
 
 import FormattedDate from './FormattedDate';
-import DateFormat from '../util/DateFormat';
+import DateFormat from '../api/DateFormat';
 import StringUtils from '../util/StringUtils';
 
 export class ExpertiseItem {

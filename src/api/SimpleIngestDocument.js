@@ -2,7 +2,7 @@
 
 import AbstractDocument from './AbstractDocument';
 import SimplePrincipal from './SimplePrincipal';
-import DocumentMode from '../util/DocumentMode';
+import DocumentMode from './DocumentMode';
 
 import ObjectUtils from '../util/ObjectUtils';
 

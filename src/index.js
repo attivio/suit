@@ -1,7 +1,11 @@
 // API classes
 export AbstractDocument from './api/AbstractDocument';
+export DateFormat from './api/DateFormat';
+export DocumentMode from './api/DocumentMode';
 export FacetFilter from './api/FacetFilter';
 export FieldNames from './api/FieldNames';
+export GraphEdge from './api/GraphEdge';
+export GraphNode from './api/GraphNode';
 export Placement from './api/Placement';
 export Position from './api/Position';
 export QueryResponse from './api/QueryResponse';
@@ -20,12 +24,8 @@ export SimpleQueryRequest from './api/SimpleQueryRequest';
 
 // Utility classes
 export AuthUtils from './util/AuthUtils';
-export DateFormat from './util/DateFormat';
 export DateUtils from './util/DateUtils';
-export DocumentMode from './util/DocumentMode';
 export FetchUtils from './util/FetchUtils';
-export GraphEdge from './util/GraphEdge';
-export GraphNode from './util/GraphNode';
 export KnowledgeGraphUtils from './util/KnowledgeGraphUtils';
 export ObjectUtils from './util/ObjectUtils';
 export PositionUtils from './util/PositionUtils';
@@ -98,6 +98,7 @@ export NavbarSort from './components/NavbarSort';
 export NavigationButton from './components/NavigationButton';
 export NavigationHamburgerMenu from './components/NavigationHamburgerMenu';
 export NetworkDiagram from './components/NetworkDiagram';
+export Notifiable from './components/Notifiable';
 export Pager from './components/Pager';
 export PieChartFacetContents from './components/PieChartFacetContents';
 export PlacementResult from './components/PlacementResult';
