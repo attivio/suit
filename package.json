@@ -28,7 +28,7 @@
   "module": "es/index.js",
   "repository": "https://github.com/attivio/suit",
   "scripts": {
-    "build": "nwb build-react-component",
+    "build": "nwb build-react-component --copy-files",
     "clean": "nwb clean-module",
     "watch": "nodemon --watch src --exec \"rimraf .babelrc && npm run build\"",
     "test": "nwb test-react",
