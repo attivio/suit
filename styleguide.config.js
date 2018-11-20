@@ -242,6 +242,7 @@ module.exports = {
           components: () => {
             return [
               'src/components/Accordion.js',
+              'src/components/BusyIndicator.js',
               'src/components/Card.js',
               'src/components/ChartTrends.js',
               'src/components/Code.js',
