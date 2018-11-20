@@ -213,6 +213,7 @@ module.exports = {
             return [
               'src/components/CardPicker.js',
               'src/components/CardPickerCard.js',
+              'src/components/ConfirmationDialog.js',
               'src/components/DataPairs.js',
               'src/components/DatePicker.js',
               'src/components/DropdownButton.js',
@@ -241,6 +242,7 @@ module.exports = {
           components: () => {
             return [
               'src/components/Accordion.js',
+              'src/components/BusyIndicator.js',
               'src/components/Card.js',
               'src/components/ChartTrends.js',
               'src/components/Code.js',
