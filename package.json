@@ -38,7 +38,7 @@
     "lint": "eslint src --ext .js --ext .jsx",
     "styleguide": "styleguidist build",
     "styleguide:serve": "styleguidist server",
-    "validatecomponents": "./scripts/validateComponents.sh",
+    "validatecomponents": "./scripts/validatecomponents.sh",
     "fullbuild": "./scripts/fullbuild.sh",
     "updateversion": "./scripts/updateversion.sh",
     "publishlib": "./scripts/publishlib.sh"
