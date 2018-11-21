@@ -132,7 +132,6 @@ module.exports = {
           content: 'docs/searchResultsDocuments.md',
           components: () => {
             return [
-              'src/components/DataPairs.js',
               'src/components/DebugSearchResult.js',
               'src/components/DocumentEntityList.js',
               'src/components/DocumentPreview.js',
@@ -222,13 +221,16 @@ module.exports = {
               'src/components/MiniIconButton.js',
               'src/components/ListEditor.js',
               'src/components/LoginForm.js',
+              'src/components/LozengeFilter.js',
               'src/components/NavbarButton.js',
               'src/components/NavbarFilter.js',
               'src/components/NavbarOr.js',
               'src/components/Pager.js',
+              'src/components/SimpleAutoCompleteInput.js',
               'src/components/SmallTabs.js',
               'src/components/StarRating.js',
               'src/components/StringListEditor.js',
+              'src/components/TimeRangePicker.js',
               'src/components/Toggle.js',
               'src/components/ToggleSwitch.js',
               'src/components/Wizard.js',
@@ -247,12 +249,14 @@ module.exports = {
               'src/components/ChartTrends.js',
               'src/components/Code.js',
               'src/components/CollapsiblePanel.js',
+              'src/components/DateRangeDisplay.js',
               'src/components/DefaultImage.js',
               'src/components/Details.js',
               'src/components/FormattedDate.js',
               'src/components/GridLayout.js',
               'src/components/Header360.js',
               'src/components/LabeledData.js',
+              'src/components/LineBarChart.js',
               'src/components/Masthead.js',
               'src/components/MastheadUser.js',
               'src/components/MasterDetails.js',
@@ -282,7 +286,7 @@ module.exports = {
           components: () => {
             return [
               'src/components/AuthRoute.js',
-              'src/components/AutoCompleteInput.js',
+              'src/components/AutoCompleteInput.js',        
               'src/components/Configuration.js',
               'src/components/Logger.js',
             ];
