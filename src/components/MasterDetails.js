@@ -8,6 +8,8 @@ import Col from 'react-bootstrap/lib/Col';
 
 import Table from './Table';
 
+type ColumnCount = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+
 type MasterDetailsProps = {
   /**
    * The data for the rows of the table. When a row is selected, its value from
@@ -31,10 +33,66 @@ type MasterDetailsProps = {
    * most recently selected row is shown in the details view.
    */
   multiSelect: boolean;
+  /**
+   * This callback is called when the user changes the selection in the table. However the
+   * MasterDetails component and not its parent is responsible for maintaining the selection
+   * in the table; this callback is just a "courtesy" so the parent can do something such
+   * as change the enablement of buttons, etc., based on the selection. See the onSelect
+   * property of the Table component for more details.
+  */
+  onSelect: null | (rowsIds: Array<string>, newlySelectedRowId: string | null) => void;
+  /**
+   * If set, the user can select multiple rows in the table.
+   */
+  multiSelect: boolean;
+  /**
+   * The column being sorted by, if any.
+   * A callback used when the owner of the rows is doing any sorting. See the onSort property
+   * in the Table component for more details.
+   */
+  sortColumn: number;
+  /**
+   * A callback used when the owner of the rows is doing any sorting. See the onSort property
+   * in the Table component for more details.
+   */
+  onSort: null | (sortColumn: number) => void;
+  /**
+   * A header component that can be inserted above the table (but to the left of the
+   * details component). For example, this might be used to include controls that help the
+   * user filter the list of items in the table. Optional; if not set, the table will be
+   * flush with the top of the details component.
+   */
+  header: any;
+  /**
+   * A footer component that can be inserted below the table (but to the left of the
+   * details component). For example, this might be used to include controls to paginate
+   * the table. Optional.
+   */
+  footer: any;
+  /**
+   * This determines the ratio of table to details, based on Bootstrap's 12-column grid.
+   * This is the width of the table; the details component will use the remainder. Optional;
+   * by default, the table will have a width of 8 and the details component 4. Note also
+   * that this only applies to large or medium screen sizes; for small and extra small ones,
+   * the table will always be full width, above the details component.
+   */
+  split: ColumnCount;
+  /**
+   * The number of pixels of padding to include between the table and the details component.
+   * Optional; defaults to 0 pixels.
+   */
+  padding: number;
 };
 
 type MasterDetailsDefaultProps = {
   multiSelect: boolean;
+  onSelect: null | (rowsIds: Array<string>, newlySelectedRowId: string | null) => void;
+  sortColumn: number;
+  onSort: null | (sortColumn: number) => void;
+  header: any;
+  footer: any;
+  split: ColumnCount;
+  padding: number;
 };
 
 type MasterDetailsState = {
@@ -52,6 +110,13 @@ type MasterDetailsState = {
 export default class MasterDetails extends React.Component<MasterDetailsDefaultProps, MasterDetailsProps, MasterDetailsState> {
   static defaultProps = {
     multiSelect: false,
+    onSelect: null,
+    sortColumn: 0,
+    onSort: null,
+    header: null,
+    footer: null,
+    split: 8,
+    padding: 0,
   };
 
   static displayName = 'MasterDetails';
@@ -74,14 +139,9 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     let selectedRows;
     if (this.props.multiSelect) {
       if (mostRecent) {
-        // We're adding a new row to the selection
+        // We're adding a new row to the selection or reverting
+        // to the previously selected one
         detailsRowId = mostRecent;
-      } else if (rows.length > 0) {
-        // we removed a row fromt he selection... if there's anything left,
-        // use the last item in the list as the details row; since any new
-        // selection is always added to the end of the array, this will be
-        // the previously selected row
-        detailsRowId = rows[rows.length - 1];
       }
     } else {
       // Rows should be an array of 0 or 1 row ID
@@ -93,6 +153,9 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     const detailsRow = this.props.rows.find((row) => {
       return row.id === detailsRowId;
     });
+    if (this.props.onSelect) {
+      this.props.onSelect(rows, mostRecent);
+    }
     this.setState({
       selectedRows,
       detailsRow: detailsRow || null,
@@ -101,19 +164,29 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
 
   render() {
     const Detail = this.props.details;
+    const tableWidth = this.props.split;
+    const detailsWidth = 12 - tableWidth;
+    const halfPadding = `${this.props.padding / 2}px`;
+
     return (
-      <Grid fluid>
+      <Grid fluid style={{ padding: 0 }}>
         <Row>
-          <Col lg={6} md={6} sm={12} xs={12}>
-            <Table
-              columns={this.props.columns}
-              rows={this.props.rows}
-              onSelect={this.selectionChanged}
-              selection={this.state.selectedRows}
-              multiSelect={this.props.multiSelect}
-            />
+          <Col lg={tableWidth} md={tableWidth} sm={12} xs={12} style={{ paddingLeft: 0, paddingRight: halfPadding }}>
+            <div>
+              {this.props.header}
+              <Table
+                columns={this.props.columns}
+                rows={this.props.rows}
+                onSelect={this.selectionChanged}
+                sortColumn={this.props.sortColumn}
+                onSort={this.props.onSort}
+                selection={this.state.selectedRows}
+                multiSelect={this.props.multiSelect}
+              />
+              {this.props.footer}
+            </div>
           </Col>
-          <Col lg={6} md={6} sm={12} xs={12}>
+          <Col lg={detailsWidth} md={detailsWidth} sm={12} xs={12} style={{ paddingLeft: halfPadding, paddingRight: 0 }}>
             <Detail data={this.state.detailsRow} />
           </Col>
         </Row>

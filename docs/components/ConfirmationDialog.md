@@ -14,7 +14,6 @@ __1:__ Straightforward confirmation dialog with default values.
     <ConfirmationDialog
       show={state.open}
       title="Transportation"
-      message="I want to borrow the car. May I?"
       onCancel={() => {
         setState({open: false});
       }}
@@ -22,11 +21,13 @@ __1:__ Straightforward confirmation dialog with default values.
         alert('Thanks, Dad. I promise not to crash it!');
         setState({open: false});
       }}
-    />
+    >
+      I want to borrow the car. May I?
+    </ConfirmationDialog>
   </div>
 ```
 
-__2:__ Customized button labels to confirm a "dangerous" action.
+__2:__ Customized button labels to confirm a "dangerous" action and more elaborate contents.
 
 ```jsx
   initialState = {
@@ -39,7 +40,6 @@ __2:__ Customized button labels to confirm a "dangerous" action.
     <ConfirmationDialog
       show={state.open}
       title="Poseidon Says..."
-      message="Releasing the Kraken could have devastating effects. Do you really want to do this?"
       cancelButtonLabel="Oh, Heavens, No!"
       confirmButtonLabel="Don't Second Guess Me!"
       dangerous
@@ -50,6 +50,19 @@ __2:__ Customized button labels to confirm a "dangerous" action.
         alert('I hope you know what you\'ve done!');
         setState({open: false});
       }}
-    />
+    >
+      <div style={{ float: 'left', paddingBottom: '20px' }}>
+        <img src="img/kraken.jpg" style={{ float: 'left', marginRight: '20px', border: '4px solid deepskyblue' }} />
+        <span style={{ fontSize: '30px' }}>
+          Releasing the Kraken could have
+          <em>devastating effects</em>
+          .
+          <br />
+          <span style={{ textWeight: 'bold' }}>
+            Do you really want to do this?
+          </span>
+        </span>
+      </div>
+    </ConfirmationDialog>
   </div>
 ```
