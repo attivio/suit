@@ -132,7 +132,6 @@ module.exports = {
           content: 'docs/searchResultsDocuments.md',
           components: () => {
             return [
-              'src/components/DataPairs.js',
               'src/components/DebugSearchResult.js',
               'src/components/DocumentEntityList.js',
               'src/components/DocumentPreview.js',
@@ -288,6 +287,7 @@ module.exports = {
             return [
               'src/components/AuthRoute.js',
               'src/components/AutoCompleteInput.js',
+              'src/components/Configurable.js',
               'src/components/Configuration.js',
               'src/components/Logger.js',
             ];

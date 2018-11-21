@@ -1,5 +1,7 @@
 // API classes
 export AbstractDocument from './api/AbstractDocument';
+export DataPoint from './api/DataPoint';
+export DataSet from './api/DataSet';
 export DateFormat from './api/DateFormat';
 export DocumentMode from './api/DocumentMode';
 export FacetFilter from './api/FacetFilter';
@@ -25,11 +27,16 @@ export SimpleQueryRequest from './api/SimpleQueryRequest';
 // Utility classes
 export AuthUtils from './util/AuthUtils';
 export DateUtils from './util/DateUtils';
+export ElasticToQueryResponse from './util/ElasticToQueryResponse';
 export FetchUtils from './util/FetchUtils';
 export KnowledgeGraphUtils from './util/KnowledgeGraphUtils';
 export ObjectUtils from './util/ObjectUtils';
 export PositionUtils from './util/PositionUtils';
+export QueryRequestToElastic from './util/QueryRequestToElastic';
+export QueryRequestToSolr from './util/QueryRequestToSolr';
+export SolrToQueryResponse from './util/SolrToQueryResponse';
 export StringUtils from './util/StringUtils';
+export StyleUtils from './util/StyleUtils';
 
 // Component classes
 export Accordion from './components/Accordion';

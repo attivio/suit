@@ -48,15 +48,15 @@ type AutoCompleteInputProps = {
    */
   disabled: boolean;
   /**
-   * The CSS class name to apply to the outer <div>. Optional.
+   * The CSS class name to apply to the outer &lt;div&gt;. Optional.
    */
   className: string;
   /**
-   * Specific CSS styling to apply to the <input> element. Optional.
+   * Specific CSS styling to apply to the &lt;input&gt; element. Optional.
    */
   style: any;
   /**
-   * Specific CSS styling to apply to the outer <div> element. Optional.
+   * Specific CSS styling to apply to the outer &lt;div&gt; element. Optional.
    */
   outerStyle: any;
 };

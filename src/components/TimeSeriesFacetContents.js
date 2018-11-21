@@ -3,6 +3,7 @@
 import React from 'react';
 
 import DataPoint from '../api/DataPoint';
+import DateUtils from '../util/DateUtils';
 import SearchFacetBucket from '../api/SearchFacetBucket';
 import TimeSeries, { SeriesDataSource } from './TimeSeries';
 
@@ -36,11 +37,11 @@ export default class TimeSeriesFacetContents extends React.Component<void, TimeS
       return bucket.min && bucket.max;
     });
     const dataPoints = validPoints.map((bucket) => {
-      const minMS = parseInt(bucket.min, 10);
-      const maxMS = parseInt(bucket.max, 10);
+      const minMS = bucket.min ? DateUtils.stringToDate(bucket.min).getTime() : 0;
+      const maxMS = bucket.max ? DateUtils.stringToDate(bucket.max).getTime() : 0;
       return new DataPoint(minMS, maxMS, bucket.count);
     });
-    const series = [new SeriesDataSource('', 'AREA', dataPoints, '#cccccc', '0:1 document|{} documents', 'Documents', false, true)];
+    const series = [new SeriesDataSource('Documents', 'AREA', dataPoints, 'lightblue', '0:{}', 'Documents', false, true)];
 
     return (
       <TimeSeries

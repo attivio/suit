@@ -39,12 +39,12 @@ export default class DateRangeDisplay extends React.Component<DateRangeDisplayDe
   }
 
   static SECONDS_MS = 1000;
-  static MINUTES_MS = DateRangeDisplay.SECONDS_MS * 60;
-  static HOURS_MS = DateRangeDisplay.MINUTES_MS * 60;
-  static DAYS_MS = DateRangeDisplay.HOURS_MS * 24;
-  static WEEKS_MS = DateRangeDisplay.DAYS_MS * 7;
-  static MONTHS_MS = DateRangeDisplay.DAYS_MS * 30;
-  static YEARS_MS = DateRangeDisplay.DAYS_MS * 365;
+  static MINUTES_MS = 1000 * 60;
+  static HOURS_MS = 1000 * 60 * 60;
+  static DAYS_MS = 1000 * 60 * 60 * 24;
+  static WEEKS_MS = 1000 * 60 * 60 * 24 * 7;
+  static MONTHS_MS = 1000 * 60 * 60 * 24 * 30;
+  static YEARS_MS = 1000 * 60 * 60 * 24 * 365;
 
   static getIntervalRange(interval: number): string {
     // Convert interval from milliseconds to a duration
