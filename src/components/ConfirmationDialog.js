@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import type { Children } from 'react';
 
 import { Modal, Button } from 'react-bootstrap';
 
@@ -8,11 +9,6 @@ type ConfirmationDialogProps = {
    * The title to display in the dialog box.
    */
   title: string;
-
-  /**
-   * The message to be displayed in body of the dialog box.
-   */
-  message: string;
 
   /**
    * The Label for the submit button. Optional; defaults to "OK."
@@ -47,6 +43,12 @@ type ConfirmationDialogProps = {
    * the default "primary" color (generally blue).
   */
   dangerous: boolean;
+
+  /**
+   * The contents to display in body of the dialog box. May be a simple string
+   * or more complex components.
+   */
+  children: Children;
 };
 
 type ConfirmationDialogDefaultProps = {
@@ -78,7 +80,7 @@ export default class ConfirmationDialog extends React.Component<ConfirmationDial
           <Modal.Title>{this.props.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div>{this.props.message}</div>
+          <div>{this.props.children}</div>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.onCancel}>{this.props.cancelButtonLabel}</Button>
