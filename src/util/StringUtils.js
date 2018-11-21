@@ -157,4 +157,54 @@ export default class StringUtils {
     }
     return false;
   }
+
+
+  /**
+   * Take a number and format it as a string accordning to the specified format.
+   * The format string must consist of two main parts separated by a colon—
+   * before the colon is the number of decimal points that should be used when formatting the
+   * number. The remainder of the format string describes how to format the overall
+   * string with instances of "{}" being replaced with the formatted value—it can
+   * contanin separate to use if the number is 0, 1, or more than one, separated by
+   * pipe characters.
+   * For example:
+   *    "2:${}" with 3.215 will produce the string "$3.22"
+   *    "4:None|{}% More" with 0 will produce the string "None"
+   *    "4:None|{}% More" with 72.324214566 will produce the string "72.3242% More"
+   *    "0:No Queries|{} Query|{} Queries" with 0 will produce the string "No Queries"
+   *    "0:No Queries|{} Query|{} Queries" with 1 will produce the string "1 Query"
+   *    "0:No Queries|{} Query|{} Queries" with 72.1 will produce the string "72 Queries"
+   */
+  static formatNumber(formatString: string, value: number): string {
+    const [decimalPlaceString, overallFormatString] = formatString.split(':', 2);
+
+    let decimalPlaces = parseInt(decimalPlaceString, 10);
+    if (isNaN(decimalPlaces)) {
+      decimalPlaces = 0;
+    }
+
+    // Note: this is here because of a bug in toFixed where numbers ending in 5 weren't being
+    // rounded up. E.g., for 3.125, at 2 decimal places, it would return 3.12 instead of 3.13
+    const decimalPlaceFactor = 10 ** decimalPlaces;
+    const roundedValue = Math.round(value * decimalPlaceFactor) / decimalPlaceFactor;
+
+    const formattedValue = roundedValue.toFixed(decimalPlaces);
+    const formatStringPieces = overallFormatString.split('|', 3);
+
+    // If there's only format, use it for all values.
+    // Otherwise, the first format is for values of 1 if there are 2 formats and for
+    // values of 0 if there are three formats...
+    let formatToUse = formatStringPieces[0];
+    if (formatStringPieces.length === 2 && value !== 1) {
+      // If there are 2 formats, the first one is for values of 1, and the second is for all other values
+      formatToUse = formatStringPieces[1];
+    } else if (formatStringPieces.length === 3 && value === 1) {
+      // If there are three formats, the second is for values of one
+      formatToUse = formatStringPieces[1];
+    } else if (formatStringPieces.length === 3 && value > 1) {
+      // And the third is for values greater than 1
+      formatToUse = formatStringPieces[2];
+    }
+    return formatToUse.replace('{}', formattedValue);
+  }
 }

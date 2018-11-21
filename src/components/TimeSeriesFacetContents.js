@@ -2,8 +2,9 @@
 
 import React from 'react';
 
+import DataPoint from '../api/DataPoint';
 import SearchFacetBucket from '../api/SearchFacetBucket';
-import TimeSeries, { TimeSeriesPoint } from './TimeSeries';
+import TimeSeries, { SeriesDataSource } from './TimeSeries';
 
 type TimeSeriesFacetContentsProps = {
   /** The facet’s buckets. */
@@ -26,23 +27,24 @@ export default class TimeSeriesFacetContents extends React.Component<void, TimeS
     (this: any).handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(start: Date | null, end: Date | null) {
+  handleClick(start: Date | null, end: Date) {
     this.props.addFacetFilter(start, end);
   }
 
   render() {
-    const timeSeriesData = this.props.buckets.map((bucket) => {
-      if (bucket.min && bucket.max) {
-        return new TimeSeriesPoint(bucket.min, bucket.count, bucket.max);
-      }
-      return new TimeSeriesPoint('', 0);
+    const validPoints = this.props.buckets.filter((bucket) => {
+      return bucket.min && bucket.max;
     });
+    const dataPoints = validPoints.map((bucket) => {
+      const minMS = parseInt(bucket.min, 10);
+      const maxMS = parseInt(bucket.max, 10);
+      return new DataPoint(minMS, maxMS, bucket.count);
+    });
+    const series = [new SeriesDataSource('', 'AREA', dataPoints, '#cccccc', '0:1 document|{} documents', 'Documents', false, true)];
 
     return (
       <TimeSeries
-        data={timeSeriesData}
-        area
-        valueName="documents"
+        dataSources={series}
         onSelect={this.handleClick}
       />
     );

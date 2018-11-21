@@ -46,4 +46,17 @@ describe('Test StringUtils', () => {
     expect(StringUtils.notEmpty(undefined)).toBeFalsy();
     expect(StringUtils.notEmpty(null)).toBeFalsy();
   });
+
+  it('Can format numbers', () => {
+    expect(StringUtils.formatNumber('2:${}', 3.2151)).toBe('$3.22');
+    expect(StringUtils.formatNumber('4:None|{}% More|{}% More', 0)).toBe('None');
+    expect(StringUtils.formatNumber('4:None|{}% More|{}% More', 1)).toBe('1.0000% More');
+    expect(StringUtils.formatNumber('4:None|{}% More|{}% More', 72.324214566)).toBe('72.3242% More');
+    expect(StringUtils.formatNumber('0:No Queries|{} Query|{} Queries', 0)).toBe('No Queries');
+    expect(StringUtils.formatNumber('0:No Queries|{} Query|{} Queries', 1)).toBe('1 Query');
+    expect(StringUtils.formatNumber('0:No Queries|{} Query|{} Queries', 72)).toBe('72 Queries');
+    expect(StringUtils.formatNumber('0:1 Ringy-Dingy|{} Ringy-Dingies', 0)).toBe('0 Ringy-Dingies');
+    expect(StringUtils.formatNumber('0:1 Ringy-Dingy|{} Ringy-Dingies', 1)).toBe('1 Ringy-Dingy');
+    expect(StringUtils.formatNumber('0:1 Ringy-Dingy|{} Ringy-Dingies', 7)).toBe('7 Ringy-Dingies');
+  });
 });
