@@ -6,14 +6,15 @@ __1:__  An example of the view from a user who is allowed to see the secret.
 ```jsx
   const AuthUtils = require('../../src/util/AuthUtils').default;
   const AuthRoute = require('../../src/components/AuthRoute').default;
+  const { Link, MemoryRouter, Route, Switch } = require('react-router-dom');
 
   const config = {
     ALL: {
       authType: 'NONE',
       defaultUsername: 'thor',
       defaultRealm: 'asgard',
-      baseUri: 'dummy',
-      basename: 'fred',
+      baseUri: 'hammer',
+      basename: 'Thor',
     },
   };
   const user = {
@@ -35,15 +36,23 @@ __1:__  An example of the view from a user who is allowed to see the secret.
     true,
   );
   AuthUtils.saveLoggedInUser(user);
-
-  <AuthRoute
-    authType='NONE'
-    requiredRole="prince"
-  >
-    <IfAllowed requiredRole="prince">
-      Shhhhh it's a secret
-    </IfAllowed>
-  </AuthRoute>
+  <MemoryRouter>
+    <Switch>
+      <AuthRoute
+        authType='NONE'
+        requiredRole="prince"
+        exact
+        path="/"
+      >
+        <div>
+          Nothing to see here...
+          <IfAllowed requiredRole="prince">
+            <span style={{fontStyle: 'italic'}}>Shhhhh it's a secret</span>
+          </IfAllowed>
+        </div>
+      </AuthRoute>
+    </Switch>
+  </MemoryRouter>
 ```
 
 __2:__  An example of the view from a user who is _not_ allowed to see the secret.
@@ -51,14 +60,15 @@ __2:__  An example of the view from a user who is _not_ allowed to see the secre
 ```jsx
   const AuthUtils = require('../../src/util/AuthUtils').default;
   const AuthRoute = require('../../src/components/AuthRoute').default;
+  const { Link, MemoryRouter, Route, Switch } = require('react-router-dom');
 
   const config = {
     ALL: {
       authType: 'NONE',
       defaultUsername: 'thor',
       defaultRealm: 'asgard',
-      baseUri: 'dummy',
-      basename: 'fred',
+      baseUri: 'hammer',
+      basename: 'Thor',
     },
   };
   const user = {
@@ -80,13 +90,21 @@ __2:__  An example of the view from a user who is _not_ allowed to see the secre
     true,
   );
   AuthUtils.saveLoggedInUser(user);
-
-  <AuthRoute
-    authType='NONE'
-    requiredRole="prince"
-  >
-    <IfAllowed requiredRole="king">
-      Shhhhh it's a secret
-    </IfAllowed>
-  </AuthRoute>
+  <MemoryRouter>
+    <Switch>
+      <AuthRoute
+        authType='NONE'
+        requiredRole="prince"
+        exact
+        path="/"
+      >
+        <div>
+          Nothing to see here...
+          <IfAllowed requiredRole="king">
+            <span style={{fontStyle: 'italic'}}>Shhhhh it's a secret</span>
+          </IfAllowed>
+        </div>
+      </AuthRoute>
+    </Switch>
+  </MemoryRouter>
 ```
