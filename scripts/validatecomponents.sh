@@ -11,7 +11,7 @@
 ### Be very sure when you add component names to
 ### these lists...
 ##################################################
-compsAllowedToNotBeInTheStyleGuide=() #"AuthRoute" "Configurable" "Configuration" "Logger")
+compsAllowedToNotBeInTheStyleGuide=("Configurable") #"AuthRoute" "Configuration" "Logger")
 compsAllowedToNotHaveDisplayName=("Configurable")
 # Note that configurable creates its display name dynamically using the name of the component it wraps...
 compsAllowedToNotHaveTests=()

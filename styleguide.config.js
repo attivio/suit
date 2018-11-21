@@ -286,8 +286,7 @@ module.exports = {
           components: () => {
             return [
               'src/components/AuthRoute.js',
-              'src/components/AutoCompleteInput.js',
-              'src/components/Configurable.js',
+              'src/components/AutoCompleteInput.js',        
               'src/components/Configuration.js',
               'src/components/Logger.js',
             ];
