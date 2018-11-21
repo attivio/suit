@@ -117,7 +117,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     footer: null,
     split: 8,
     padding: 0,
-};
+  };
 
   static displayName = 'MasterDetails';
 
