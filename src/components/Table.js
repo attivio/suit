@@ -2,7 +2,6 @@ import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/css/react-bootstrap-table.css';
 
-import Pager from './Pager';
 import ObjectUtils from '../util/ObjectUtils';
 
 /**
@@ -57,9 +56,11 @@ type TableProps = {
   * set, the rows won't be selectable. Will always be called with an array of
   * row IDs, though the array will be empty if nothing is selected. If a row
   * was added to the seleciton of a multi-select table, then that row's ID will
-  * be passed as the second parameter.
+  * be passed as the second parameter, if one was deselected, the previous last-
+  * selected row will be passed as the newlySelectedRowId; if there are no more
+  * rows selected, then this parameter will be null.
   */
-  onSelect: null | (rowsIds: Array<string>, newlySelectedRowId: string) => void;
+  onSelect: null | (rowsIds: Array<string>, newlySelectedRowId: string | null) => void;
   /**
    * The IDs of the selected rows, if any. May be an array, for muili-select tables,
    * or a single string, for single-select tables. If null, nothing is selected.
@@ -69,10 +70,6 @@ type TableProps = {
    * If set, the user can select multiple rows in the table.
    */
   multiSelect: boolean;
-  /**
-   * A callback that tells the owner that the user wants to change the sorting of the
-   * table.
-   */
   /**
    * The column being sorted by, if any. The absolute value of this is the 1-based index
    * of the sort column in the array specified by the columns property. If the value is
@@ -93,22 +90,6 @@ type TableProps = {
    * be re-rendered with new values for the sortColumn and rows properties.
    */
   onSort: null | (sortColumn: number) => void;
-  /**
-   * A callback used when the user click the next/previous page buttons in the page control.
-   * If this is not set, the table will not be pageable... The newPage parameter is the 0-based
-   * number of the page the user is changing to.
-  */
-  onPageChange: null | (newPage: number) => void;
-  /**
-   * The total number of pages in the data set for the table. Only applicable if a doPageChange
-   * function is passed.
-   */
-  totalPages: number;
-  /**
-   * The currently displayed page in the data set for the table (0-based). Only applicable if a doPageChange
-   * function is passed.
-   */
-  currentPage: number;
 };
 
 type TableDefaultProps = {
@@ -117,9 +98,6 @@ type TableDefaultProps = {
   multiSelect: boolean;
   sortColumn: number;
   onSort: null | (sortColumn: number) => void;
-  doPageChange: null | (newPage: number) => void;
-  totalPages: number;
-  currentPage: number;
 };
 
 type TableState = {
@@ -144,9 +122,6 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     multiSelect: false,
     sortColumn: 0,
     onSort: null,
-    doPageChange: null,
-    totalPages: 1,
-    currentPage: 1,
   };
 
   static makeCustomRenderer(column) {
@@ -209,7 +184,8 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       if (oldPosition >= 0) {
         // If it was in the previous array, remove it...
         selectedRowIds.splice(oldPosition, 1);
-        this.props.onSelect(selectedRowIds, null);
+        const mostRecent = selectedRowIds.length > 0 ? selectedRowIds[selectedRowIds.length - 1] : null;
+        this.props.onSelect(selectedRowIds, mostRecent);
       }
     }
   }
@@ -288,14 +264,6 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       options.onSortChange = this.handleSort;
     }
 
-    const pager = this.props.onPageChange ? (
-      <Pager
-        onPageChange={this.props.onPageChange}
-        currentPage={this.props.currentPage}
-        totalPages={this.props.totalPages}
-      />
-    ) : null;
-
     return (
       <div>
         <BootstrapTable
@@ -309,7 +277,6 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         >
           {columns}
         </BootstrapTable>
-        {pager}
       </div>
     );
   }

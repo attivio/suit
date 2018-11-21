@@ -19,40 +19,7 @@ __1:__ Simple table allowing multiple selection.
   /> 
 ```
 
-__2:__ Table allowing paging.
-
-```jsx
-  const tableData = require('../sampleData/TableData').default;
-  initialState = {
-    selectedRow: [],
-    rows: tableData.customerEngagementRows.slice(0, 3),
-    currentPage: 0,
-  };
-  const totalPages = Math.ceil(tableData.customerEngagementRows.length / 3);
-  <Table
-    columns={tableData.customerEngagementSimpleColumns}
-    rows={state.rows}
-    onSelect={(row) => {
-      setState({ selectedRows: row });
-    }}
-    selection={state.selectedRows}
-    onPageChange={(newPage) => {
-      // Get the new set of rows to show
-      const offset = newPage * 3;
-      const rows = tableData.customerEngagementRows.slice(offset, offset + 3);
-      // Clear the selection too since it will no longer be visible...
-      setState({
-        rows,
-        currentPage: newPage,
-        selectedRow: [],
-      });
-    }}
-    currentPage={state.currentPage}
-    totalPages={totalPages}
-  /> 
-```
-
-__3:__ Table with a custom cell renderer for the Self-Service column showing percentage bars...
+__2:__ Table with a custom cell renderer for the Self-Service column showing percentage bars...
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
@@ -91,7 +58,7 @@ __3:__ Table with a custom cell renderer for the Self-Service column showing per
   /> 
 ```
 
-__4:__ Table with sortable columms handled by a global handler (useful when sorting in the back-end code).
+__3:__ Table with sortable columms handled by a global handler (useful when sorting in the back-end code).
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
@@ -140,7 +107,7 @@ __4:__ Table with sortable columms handled by a global handler (useful when sort
   /> 
 ```
 
-__5:__ Table with sortable columms with sorting handled by the columns themselves.
+__4:__ Table with sortable columms with sorting handled by the columns themselves.
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
