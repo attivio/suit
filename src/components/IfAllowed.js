@@ -25,15 +25,15 @@ export default class IfAllowed extends React.Component<void, IfAllowedProps, voi
   static displayName = 'IfAllowed';
 
   static contextTypes = {
-    auth: PropTypes.any,
+    user: PropTypes.any,
   };
 
   isAllowed(): boolean {
     let allowed: boolean = false;
-    if (this.context.auth && this.context.auth.state && this.context.auth.state.user) {
+    if (this.context.user) {
       allowed = (
-        this.context.auth.state.user.roles.indexOf(this.props.requiredRole) >= 0 ||
-        this.context.auth.state.user.roles.indexOf(AuthUtils.ADMIN_ROLE) >= 0
+        this.context.user.roles.includes(this.props.requiredRole) ||
+        this.context.user.roles.includes(AuthUtils.ADMIN_ROLE)
       );
     }
     return allowed;

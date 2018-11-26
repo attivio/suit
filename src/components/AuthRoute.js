@@ -49,7 +49,7 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
   static displayName = 'AuthRoute';
 
   static childContextTypes = {
-    auth: PropTypes.any,
+    user: PropTypes.any,
   }
 
   constructor(props: AuthRouteProps) {
@@ -63,7 +63,7 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
 
   getChildContext() {
     return {
-      auth: this,
+      user: this.state.user,
     };
   }
 
