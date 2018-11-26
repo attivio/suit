@@ -91,12 +91,3 @@ __10.__ AGO
     format={FormattedDate.DateFormat.AGO}
   />
 ```
-
-__11.__ IN
-
-```jsx
-  <FormattedDate
-    date={new Date('2233-03-22T17:23:09-00:00')}
-    format={FormattedDate.DateFormat.IN}
-  />
-```

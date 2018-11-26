@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import SearchFacet from '../api/SearchFacet';
 import SearchFacetBucket from '../api/SearchFacetBucket';
 import DateUtils from '../util/DateUtils';
-import DateFormat from '../util/DateFormat';
+import DateFormat from '../api/DateFormat';
 import Card from './Card';
 import CollapsiblePanel from './CollapsiblePanel';
 import BarChartFacetContents from './BarChartFacetContents';

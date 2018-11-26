@@ -43,6 +43,4 @@ DateFormat.initEnum([
   'HOUR',
   /** A distance 'ago' in time before now: e.g., '2 days ago' */
   'AGO',
-  /** A distance into the future from now: e.g., 'in 4 months' */
-  'IN',
 ]);

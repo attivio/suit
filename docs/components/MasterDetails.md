@@ -14,7 +14,29 @@ __1:__ A simple master detail example using the dummy &lt;Details&gt; component 
   /> 
 ```
 
-__2:__ A multi-select variation with a custom details component. In real life, it's recommended that you
+__2:__ Another example showing the use of a header and footer and with a 50-50 split, widthwise, between
+the table and details, along with 20 pixels of padding between them.
+
+```jsx
+  const tableData = require('../sampleData/TableData').default;
+  const Details = require('../../src/components/Details').default;
+
+  <MasterDetails
+    columns={tableData.experts.columns}
+    rows={tableData.experts.rows}
+    details={Details}
+    header={(
+      <div style={{ width: '100%', background: 'darkblue', color: 'white', textAlign: 'center' }} >Header</div>
+    )}
+    footer={(
+      <div style={{ width: '100%', background: 'darkred', color: 'white', textAlign: 'center' }} >Footer</div>
+    )}
+    split={6}
+    padding={20}
+  /> 
+```
+
+__3:__ A multi-select variation with a custom details component. In real life, it's recommended that you
 create a full class-based component for the details pane.
 
 ```jsx
@@ -54,7 +76,7 @@ create a full class-based component for the details pane.
       contents = (
         <div>
           <h2>Expert</h2>
-          <dl className="attivio-labeldata-2col attivio-search-result-debugger">
+          <dl className="attivio-labeldata-2col">
             {detailsRows}
           </dl>
         </div>
@@ -68,7 +90,7 @@ create a full class-based component for the details pane.
     }
 
     return (
-      <div>
+      <div style={{ paddingLeft: '20px' }}>
         {contents}
       </div>
     );

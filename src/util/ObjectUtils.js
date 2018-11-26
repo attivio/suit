@@ -15,6 +15,39 @@ export default class ObjectUtils {
   }
 
   /**
+   * Compares two JavaScript Map objects for equality.
+   */
+  static mapEquals(mapA: Map<any, any>, mapB: Map<any, any>): boolean {
+    if (mapA === mapB) {
+      // If theyr'e the exact same object...
+      return true;
+    }
+    const keysA = Array.from(mapA.keys());
+    const keysB = Array.from(mapB.keys());
+    if (keysA.length === keysB.length) {
+      const found = keysA.find((key) => {
+        if (!mapB.has(key)) {
+          return true;
+        }
+        const valA = mapA.get(key);
+        const valB = mapB.get(key);
+
+        if (!ObjectUtils.deepEquals(valA, valB)) {
+          return true;
+        }
+        return false;
+      });
+      if (found) {
+        // We found a key whose values didn't match
+        return false;
+      }
+      // All of the keys and values match!
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * Compare two objects to see if they are equal. Will handle primitive
    * types, arrays, and plain-old JavaScript objects.
    */
@@ -46,6 +79,10 @@ export default class ObjectUtils {
     if (Array.isArray(objA) && Array.isArray(objB)) {
       // Only need to check one since we already checked that they're the same type
       return ObjectUtils.arrayEquals((objA: Array<any>), (objB: Array<any>));
+    }
+
+    if (objA instanceof Map && objB instanceof Map) {
+      return ObjectUtils.mapEquals(objA, objB);
     }
 
     // Otherwise check for plain objects...
@@ -90,6 +127,19 @@ export default class ObjectUtils {
       return true;
     }
     return false;
+  }
+
+  /**
+   * Convert a JavaScript Map object whose keys are
+   * strings into a plain-old JavaScript object so it
+   * can be converted to JSON.
+   */
+  static strMapToObj(strMap: Map<string, any>) {
+    const obj = Object.create(null);
+    strMap.forEach((value, key) => {
+      obj[key] = value;
+    });
+    return obj;
   }
 
   /**

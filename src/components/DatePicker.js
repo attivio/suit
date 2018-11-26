@@ -1,68 +1,86 @@
 // @flow
 import React from 'react';
 
+import moment from 'moment';
+
+import {
+  DayPickerRangeController,
+} from 'react-dates';
+
+type FocusedInput = 'startDate' | 'endDate' | null;
+
 type DatePickerProps = {
   /**
-   * The starting point to show when the picker is first
+   * The starting date to show when the picker is first
    * opened. Optional.
    */
-  startingDate: Date | null,
+  startingDate: Date;
   /**
-   * The ending point to show when the picker is first
-   * opened. Optional. (Only applies if range is set.)
+   * The ending date to show when the picker is first
+   * opened.
    */
-  endingDate: Date | null,
-  /** If set, then choose a date range instead of a single date. */
-  range: boolean,
+  endingDate: Date;
   /**
-   * Callback that will be called with the starting (and ending,
-   * if specifying a range) date and which has no return value.
+   * Callback that will be called with the starting and ending
+   * dates.
    */
-  updateDate: (start: Date, end: Date) => void,
+  updateDate: (start: Date, end: Date) => void;
+  /**
+   * Callback tell the parent we want to be closed.
+   */
+  onClose: () => void;
 };
 
-type DatePickerDefaultProps = {
-  startingDate: Date | null,
-  endingDate: Date | null,
-  range: boolean,
+type DatePickerState = {
+  focusedInput: FocusedInput;
 };
 
 /**
  * Component to let the user choose either a single
  * date or a starting/ending range.
  */
-export default class DatePicker extends React.Component<DatePickerDefaultProps, DatePickerProps, void> {
-  static defaultProps: DatePickerDefaultProps = {
-    startingDate: null,
-    endingDate: null,
-    range: false,
-  };
+export default class DatePicker extends React.Component<void, DatePickerProps, DatePickerState> {
 
   static displayName = 'DatePicker';
 
   constructor(props: DatePickerProps) {
     super(props);
-    (this: any).pickDate = this.pickDate.bind(this);
+    this.state = {
+      focused: false,
+      focusedInput: null,
+    };
+
+    (this: any).setFocusedState = this.setFocusedState.bind(this);
+    (this: any).setDate = this.setDate.bind(this);
   }
 
-  props: DatePickerProps;
+  state: DatePickerState;
 
-  pickDate() {
-    this.props.updateDate(new Date(), new Date());
+  setFocusedState(focusedInput: FocusedInput) {
+    this.setState({
+      focusedInput,
+    });
+  }
+
+  setDate(event: any) {
+    this.props.updateDate(new Date(event.startDate), new Date(event.endDate));
   }
 
   render() {
-    let label = this.props.range ? 'Range date picker' : 'Single date picker';
-    const startingDate = this.props.startingDate ? this.props.startingDate.toDateString() : 'none';
-    const endingDate = this.props.endingDate ? this.props.endingDate.toDateString() : 'none';
+    const startDate = moment(this.props.startingDate);
+    const endDate = moment(this.props.endingDate);
 
-    if (this.props.startingDate && this.props.endingDate) {
-      label = `${label} from ${startingDate} to ${endingDate}`;
-    } else if (this.props.startingDate) {
-      label = `${label} from ${startingDate}`;
-    } else if (this.props.endingDate) {
-      label = `${label} from ${endingDate}`;
-    }
-    return <div>{label}</div>;
+    return (
+      <DayPickerRangeController
+        startDate={startDate}
+        endDate={endDate}
+        onDatesChange={this.setDate}
+        focusedInput={this.state.focusedInput || 'startDate'}
+        onFocusChange={this.setFocusedState}
+        isOutsideRange={() => { return false; }}
+        onOutsideClick={this.props.onClose}
+        numberOfMonths={2}
+      />
+    );
   }
 }

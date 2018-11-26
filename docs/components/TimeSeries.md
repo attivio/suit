@@ -1,33 +1,131 @@
 #### Examples:
 
 
-__1:__ A simple bar chart showing time-based data. This is designed to show data from time-based facets.
+__1:__ Combined bar and line chart values over time.
 
 ```jsx
-  const timeSeriesData = [];
-  let timeLong = new Date().getTime();
-  let i;
-  for (i = 0; i < 30; i++) {
-    const date = new Date(timeLong);
-    const value = Math.floor(Math.random() * 10000) / 100;
-    const dataPoint = new TimeSeries.TimeSeriesPoint(null, value);
-    dataPoint.date = date;
-    timeSeriesData.unshift(dataPoint);
-    timeLong -= (1000 * 60 * 60 * 24); // go back a day
-  }
+  const DataPoint = require('../../src/api/DataPoint').default;
+
+  const roundTo = function(num, digits = 0) {
+    var multiplier = Math.pow(10, digits);
+    const bigValue = Math.round(num * multiplier);
+    return  bigValue / multiplier;
+  };
+
+  const getPoints = function(values, startTime, increment) {
+    let currentStart = startTime;
+    return values.map((value) => {
+      const oldStart = currentStart;
+      currentStart += increment;
+      return {
+        date: oldStart,
+        value,
+        endDate: currentStart,
+      };
+    });
+  };
+
+  const getValues = function(count, max, min = 0, decimalPoints = 0) {
+    const result = [];
+    let i;
+    for (i = 0; i < count; i += 1) {
+      const fraction = Math.random();
+      const number = (fraction * (max - min)) + min;
+      result.push(roundTo(number, decimalPoints));
+    }
+    return result;
+  };
+
+  const getBarValues = function() {
+    const startTime = Date.UTC(2018, 6, 16);
+    const increment = 1000 * 60 * 60 * 24; // 1 day
+    const articleCounts = getValues(30, 230);
+    return getPoints(articleCounts, startTime, increment);
+  };
+
+  const getLineValues = function() {
+    const startTime = Date.UTC(2018, 6, 16);
+    const increment = 1000 * 60 * 60 * 24; // 1 day
+    const selfServeCounts = getValues(30, 1500, 71);
+    return getPoints(selfServeCounts, startTime, increment);
+  };
+
+  const dataPoints1 = getBarValues().map((dataPoint) => {
+    return new DataPoint(dataPoint.date, dataPoint.endDate, dataPoint.value);
+  });
+
+  const source1 = new TimeSeries.SeriesDataSource('New Documents', 'BAR', dataPoints1, '#0000c2', ':1 document|{} documents', 'New Document Count');
+  const dataPoints2 = getLineValues().map((dataPoint) => {
+    return new DataPoint(dataPoint.date, dataPoint.endDate, dataPoint.value);
+  });
+  const source2 = new TimeSeries.SeriesDataSource('Self-Serve Requests', 'LINE', dataPoints2, '#00c200', ':1 request|{} requests', 'Requests');
 
   <TimeSeries
-    data={timeSeriesData}
-    onSelect={(start, end) => {
-      if (start && end) {
-        alert(`The user selected from ${start.toLocaleString()} to ${end.toLocaleString()}`);
-      } else if (start) {
-        alert(`The user selected from ${start.toLocaleString()}`);
-      } else if (end) {
-        alert(`The user selected up to ${end.toLocaleString()}`);
-      } else {
-        alert('The user selected nothing');
-      }
-    }}
+    dataSources={[source1, source2]}
+  />
+```
+
+__2:__ Combined bar and line chart values over time with the legend off to the right and a taller chart.
+
+```jsx
+  const DataPoint = require('../../src/api/DataPoint').default;
+
+const roundTo = function(num, digits = 0) {
+    var multiplier = Math.pow(10, digits);
+    const bigValue = Math.round(num * multiplier);
+    return  bigValue / multiplier;
+  };
+
+  const getPoints = function(values, startTime, increment) {
+    let currentStart = startTime;
+    return values.map((value) => {
+      const oldStart = currentStart;
+      currentStart += increment;
+      return {
+        date: oldStart,
+        value,
+        endDate: currentStart,
+      };
+    });
+  };
+
+  const getValues = function(count, max, min = 0, decimalPoints = 0) {
+    const result = [];
+    let i;
+    for (i = 0; i < count; i += 1) {
+      const fraction = Math.random();
+      const number = (fraction * (max - min)) + min;
+      result.push(roundTo(number, decimalPoints));
+    }
+    return result;
+  };
+
+  const getBarValues = function() {
+    const startTime = Date.UTC(2018, 6, 16);
+    const increment = 1000 * 60 * 60 * 24; // 1 day
+    const articleCounts = getValues(30, 230);
+    return getPoints(articleCounts, startTime, increment);
+  };
+
+  const getLineValues = function() {
+    const startTime = Date.UTC(2018, 6, 16);
+    const increment = 1000 * 60 * 60 * 24; // 1 day
+    const selfServeCounts = getValues(30, 1500, 71);
+    return getPoints(selfServeCounts, startTime, increment);
+  };
+
+  const dataPoints1 = getBarValues().map((dataPoint) => {
+    return new DataPoint(dataPoint.date, dataPoint.endDate, dataPoint.value);
+  });
+  const source1 = new TimeSeries.SeriesDataSource('New Documents', 'BAR', dataPoints1, '#0000c2', ':1 document|{} documents', 'New Document Count');
+  const dataPoints2 = getLineValues().map((dataPoint) => {
+    return new DataPoint(dataPoint.date, dataPoint.endDate, dataPoint.value);
+  });
+  const source2 = new TimeSeries.SeriesDataSource('Self-Serve Requests', 'LINE', dataPoints2, '#00c200', ':1 request|{} requests', 'Requests');
+
+  <TimeSeries
+    dataSources={[source1, source2]}
+    legendAtRight
+    height={400}
   />
 ```
