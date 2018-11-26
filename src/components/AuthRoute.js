@@ -16,7 +16,7 @@ type AuthRouteProps = {
    * If a particular permission is required for this route, set it here.
    * Otherwise, any logged-in user can access the authenticated component.
    */
-  required: string | null;
+  requiredRole: string | null;
   /**
    * Location shouldn't ever be set by the containing component, only
    * by the router.
@@ -29,7 +29,7 @@ type AuthRouteProps = {
 };
 
 type AuthRouteDefaultProps = {
-  required: string | null;
+  requiredRole: string | null;
   location: any;
   authType: 'SAML' | 'XML' | 'NONE';
 };
@@ -41,12 +41,16 @@ type AuthRouteState = {
 // LJV TODO Create a no-permissions page to use for unauthorized users
 class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, AuthRouteState> {
   static defaultProps = {
-    required: null,
+    requiredRole: null,
     location: null, // This should be filled in by the router
     authType: 'NONE',
   };
 
   static displayName = 'AuthRoute';
+
+  static childContextTypes = {
+    user: PropTypes.any,
+  }
 
   constructor(props: AuthRouteProps) {
     super(props);
@@ -57,7 +61,13 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
 
   state: AuthRouteState;
 
-  componentDidMount() {
+  getChildContext() {
+    return {
+      user: this.state.user,
+    };
+  }
+
+  componentWillMount() {
     AuthUtils.getLoggedInUserInfo((userInfo: any) => {
       this.setState({
         user: userInfo,
@@ -68,7 +78,7 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
   render() {
     // if authentication is via XML, handled here in JavaScript, make sure the user is logged in.
     if (this.props.authType === 'XML') {
-      if (AuthUtils.isLoggedIn(this.props.required)) {
+      if (AuthUtils.isLoggedIn(this.props.requiredRole)) {
         return (
           <Route
             {...this.props}
@@ -90,7 +100,7 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
     }
 
     // If this route doesn't require any special credentials or it does and the currently logged-in user meets them
-    if (!this.props.required || AuthUtils.isLoggedIn(this.props.required)) {
+    if (!this.props.requiredRole || AuthUtils.isLoggedIn(this.props.requiredRole)) {
       return (
         <Route
           {...this.props}

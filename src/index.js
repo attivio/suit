@@ -79,6 +79,7 @@ export FacetSearchBar from './components/FacetSearchBar';
 export FormattedDate from './components/FormattedDate';
 export GridLayout from './components/GridLayout';
 export Header360 from './components/Header360';
+export IfAllowed from './components/IfAllowed';
 export KnowledgeGraphPanel from './components/KnowledgeGraphPanel';
 export LabeledData from './components/LabeledData';
 export LineBarChart from './components/LineBarChart';

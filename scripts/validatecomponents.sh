@@ -3,6 +3,7 @@
 ##################################################
 ### This script expects to be executed by NPM
 ### from the root of the project. For example,
+### with the command "npm run validateComponents"
 ### with the command "npm run validatecomponents"
 ##################################################
 
@@ -194,7 +195,6 @@ else
   echo "Missing components in the styleguide.config.js file (${#missingCompsInStyleGuide[@]}):"
   echo ${missingCompsInStyleGuide[*]}
 fi
-
 
 ##################################################
 ### Validate that the components all have a
