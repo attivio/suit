@@ -36,7 +36,7 @@ see examples of how they are combined in "real life."
 
 The style guide is particularly useful because you can not only see examples of the components but modify
 their configuration in real time, right in your browser. (We actually use it while developing new components to see how
-the changes we make will look.) The documnetaion presented by the style guide comes directly from the comments
+the changes we make will look.) The documentation presented by the style guide comes directly from the comments
 in the individual components' source files, so it's never out of date.
 
 To build the SUIT style guide and serve it dynamically, run the command `npm run styleguide:serve`
@@ -47,7 +47,7 @@ copy to the `styleguide` directory and then just load the `index.html` file it c
 ### SUIT’s API Layer
 
 The API layer includes both classes that implement the methods used to talk to the Attivio platform and others that model the objects used by the APIs. In general, there are components (see above) which
-encapsulate all of the functionality of the API classes. However, you can see documentation for each of them in its source file. The class you’ll likely find the most interesting is Search, which performs all queries to the back end, but others will be useful, such as AuthUtils, which is where the configuraiton of SUIT occurs.
+encapsulate all of the functionality of the API classes. However, you can see documentation for each of them in its source file. The class you’ll likely find the most interesting is Search, which performs all queries to the back end, but others will be useful, such as AuthUtils, which is where the configuration of SUIT occurs.
 
 Documentation for the API classes can be found in their source files, though many of these classes mirror the classes and methods provided by the Attivio REST API, so looking at the [REST API documentation](https://answers.attivio.com/display/extranet55/JSON+REST+API) can be helpful.
 
@@ -58,14 +58,16 @@ Like the API classes, the utility classes are mostly used by the component class
 ## Building the SUIT Library
 
 In general, as a user of the SUIT library, you shouldn’t need to make any
-changes to it or build it yourself. However, if you may need to do so if, for examplem,
+changes to it or build it yourself. However, if you may need to do so if, for example,
 you are interested in submitting a pull request that fixes a bug or adds a new feature. For this,
 see further information in the file [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## NPM Scripts
+If you are a developer in the SUIT project who needs to build a new version of the library, you use the command `npm run updateversion` to bump the version of SUIT to the next patch release (or use `npm run updateversion minor` or `npm run uipdateversion major` to update the minor or major version). Then you can use the command `npm run publishlib` to perform a clean, full build including all the available validation steps, and publish the resulting files to the NPM repository. You must be logged into npmjs.com (via `npm login`) to do this.
+
+## All NPM Scripts
 The full list of scripts that you can run on the SUIT library is listed here:
 In this case, you can
-use the folllowing commands:
+use the following commands:
 
 | Command | Description |
 | ------- | ----------- |
