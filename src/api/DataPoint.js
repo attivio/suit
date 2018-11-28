@@ -1,5 +1,8 @@
 // @flow
 
+/**
+ * A single point of data in a time-based series.
+ */
 export default class DataPoint {
   constructor(startTime: number, endTime: number, data: number | null) {
     this.startTime = startTime;

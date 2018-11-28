@@ -1,5 +1,8 @@
 // @flow
 
+/**
+ * Utility class that provides various string-manipulation functionality.
+ */
 export default class StringUtils {
   /**
    * Simply format a string/number combination based on the

@@ -1,5 +1,9 @@
 // @flow
 
+/**
+ * The names of fields in the default Attivio schema that can be used to access values
+ * in a document.
+ */
 export default class FieldNames {
   /** The internal field that holds the document id. */
   static ID = '.id';

@@ -5,6 +5,11 @@ import FetchUtils from './FetchUtils';
 import ObjectUtils from './ObjectUtils';
 import StringUtils from './StringUtils';
 
+/**
+ * Utility class for handling auhentication in SUIT-based applications. Also handles
+ * configuration of application including the configuration used for components
+ * wrapped with the Configurable higher-order component.
+ */
 export default class AuthUtils {
   static USER_KEY = 'suit-user';
   /**
@@ -19,10 +24,10 @@ export default class AuthUtils {
    * Called by the application to pass in configuration to the
    * library's utility and API classes.
    *
-   * @property users    the contents of the users.xml file, converted to JavaScript objects
-   * @property config   the contents of the configuration.properties.js file with any
+   * @param users    the contents of the users.xml file, converted to JavaScript objects
+   * @param config   the contents of the configuration.properties.js file with any
    *                    maps converted already
-   * @property simpleValidation if set to true, then a lot of the validation
+   * @param simpleValidation if set to true, then a lot of the validation
    *                    specific to search applications won't be done
    */
   static configure(users: any, config: any, simpleValidation: boolean = false) {

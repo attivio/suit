@@ -120,6 +120,10 @@ const BASE_GROUP_OPTIONS = {
   },
 };
 
+/**
+ * Utility functions used by the KnowledgeGraphPanel component to construct the queries
+ * needed for populating it's graph.
+ */
 export default class KnowledgeGraphUtils {
   static MAIN_DOCUMENT_BORDER_COLOR = '#333';
 

@@ -6,6 +6,10 @@ import DocumentMode from './DocumentMode';
 
 import ObjectUtils from '../util/ObjectUtils';
 
+/**
+ * A simplified version of the AttivioPermission class used by the Attivio
+ * REST APIs.
+ */
 export class SimplePermission {
   principal: SimplePrincipal | null;
   readable: boolean;
@@ -24,6 +28,10 @@ export class SimplePermission {
   }
 }
 
+/**
+ * A simplified version of the IngestDocument class used by the Attivio
+ * REST APIs.
+ */
 export default class SimpleIngestDocument extends AbstractDocument {
   /** The document's ID */
   id: string;

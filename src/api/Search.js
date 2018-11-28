@@ -85,7 +85,7 @@ export default class Search {
    * @param query         the query to perform
    * @param queryLanguage the language to use, either "simple" or "advanced"
    * @param offset        the index of the first document to return
-   * @param number        the number of documents to return (e.g. page size)
+   * @param count         the number of documents to return (e.g. page size)
    * @param updateResults will be called when the search is complete with the results or an error
    */
   simpleSearch(query: string, queryLanguage: 'simple' | 'advanced', offset: number, count: number,

@@ -1,5 +1,8 @@
 // @Flow
 
+/**
+ * Utility class that provdides CSS-related functionality.
+ */
 export default class StyleUtils {
   /**
    * Parse the passed-in CSS color into its red, green, and blue values

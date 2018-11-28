@@ -3,6 +3,9 @@ import moment from 'moment';
 
 import DateFormat from '../api/DateFormat';
 
+/**
+ * Utility class with functions that help manipulate dates.
+ */
 export default class DateUtils {
   /**
    * Given a JavaScript Date object, return a formatted date in the specified

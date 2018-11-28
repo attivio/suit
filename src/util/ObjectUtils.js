@@ -1,5 +1,8 @@
 // @flow
 
+/**
+ * Utility class for working with various types of JavaScript objects.
+ */
 export default class ObjectUtils {
   /**
    * Remove an object from an array.
