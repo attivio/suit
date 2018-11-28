@@ -1,6 +1,3 @@
-To report an issue, please click the Issues tab above and click the *New Issue* button. 
-Please provide a detailed description of the issue with any code excerpts, logs or screenshots which help describe the issue.
-
 For contributions, we prefer pull requests. Please follow these steps to get your contributions in:
 
 1. Open a new issue or pick up an existing one on the Issues tab about the patch that you are going to submit. 
