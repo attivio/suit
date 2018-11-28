@@ -82,7 +82,7 @@
     "babel-eslint": "7.2.3",
     "create-nwb-webpack-config": "1.0.0",
     "css-loader": "1.0.1",
-    "documentation": "9.0.0-alpha.1",
+    "documentation": "8.1.2",
     "eslint": "3.19.0",
     "eslint-config-airbnb": "15.1.0",
     "eslint-plugin-flowtype": "2.35.1",
