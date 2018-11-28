@@ -91,7 +91,7 @@ module.exports = {
   ignore: [], // Add any componets we want to exclude here
   defaultExample: false,
   usageMode: 'expand',
-  styleguideDir: 'styleguide',
+  styleguideDir: 'docs/styleguide',
   editorConfig: {
     theme: 'ambiance', // see http://codemirror.net/demo/theme.html
   },
