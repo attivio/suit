@@ -1,6 +1,5 @@
 # SUIT
 
-[![TravisCI][build-badge]][build]
 [![npmjs][npm-badge]][npm]
 
 The Search User Interface Toolkit, or SUIT, is a library for creating search
@@ -90,9 +89,6 @@ use the following commands:
 | `npm run test ` | Runs the suite of tests for the library. |
 | `npm run test:coverage ` | Generates a report of test coverage for the library. |
 | `npm run test:watch ` | Continuously runs the suite of tests for the library, watching for changes and re-running as they are found. |
-
-[build-badge]: https://travis-ci.org/attivio/suit.svg
-[build]: https://travis-ci.org/attivio/suit
 
 [npm-badge]: https://img.shields.io/npm/v/@attivio/suit.svg
 [npm]: https://www.npmjs.org/package/@attivio/suit
