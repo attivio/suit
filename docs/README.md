@@ -49,11 +49,11 @@ copy to the `styleguide` directory and then just load the `index.html` file it c
 The API layer includes both classes that implement the methods used to talk to the Attivio platform and others that model the objects used by the APIs. In general, there are components (see above) which
 encapsulate all of the functionality of the API classes. However, you can see documentation for each of them in its source file. The class you’ll likely find the most interesting is Search, which performs all queries to the back end, but others will be useful, such as AuthUtils, which is where the configuration of SUIT occurs.
 
-Documentation for the API classes can be found in their source files, though many of these classes mirror the classes and methods provided by the Attivio REST API, so looking at the [REST API documentation](https://answers.attivio.com/display/extranet55/JSON+REST+API) can be helpful.
+Documentation for the API classes can be found [here](api/index.html). Many of these classes mirror the classes and methods provided by the Attivio REST API, so looking at the [REST API documentation](https://answers.attivio.com/display/extranet55/JSON+REST+API) can be helpful as well for those classes.
 
 ### SUIT’s Utility Classes
 
-Like the API classes, the utility classes are mostly used by the component classes and you will probably only access them indirectly; however, you might want to use some of their functionality in other ways. For details about the methods in each one, however, feel free to check out the documentation in the source files.
+Like the API classes, the utility classes are mostly used by the component classes and you will probably only access them indirectly; however, you might want to use some of their functionality in other ways. For details about the methods in each one, however, feel free to check out the documentation, [here](util/index.html).
 
 ## Building the SUIT Library
 
