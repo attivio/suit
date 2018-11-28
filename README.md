@@ -1,5 +1,7 @@
 # SUIT
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/attivio/suit.svg)](https://greenkeeper.io/)
+
 [![TravisCI][build-badge]][build]
 [![npmjs][npm-badge]][npm]
 
