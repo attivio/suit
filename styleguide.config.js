@@ -58,7 +58,7 @@ const mergedWebpackConfig = merge(nwbWebpackConfig, ourWebpackConfig);
 module.exports = {
   title: 'Attivio SUIT Component Reference',
   verbose: true,
-  assetsDir: 'docs/static',
+  assetsDir: 'documentation/static',
   template: {
     title: 'Attivio SUIT Style Guide',
     head: {
@@ -100,14 +100,14 @@ module.exports = {
   sections: [
     {
       name: 'Introduction',
-      content: 'docs/introduction.md',
+      content: 'documentation/introduction.md',
     },
     {
       name: 'Components',
       sections: [
         {
           name: 'Search Controls',
-          content: 'docs/searchControls.md',
+          content: 'documentation/searchControls.md',
           components: () => {
             return [
               'src/components/MiniSearchUI.js',
@@ -129,7 +129,7 @@ module.exports = {
         },
         {
           name: 'Search Results — Documents',
-          content: 'docs/searchResultsDocuments.md',
+          content: 'documentation/searchResultsDocuments.md',
           components: () => {
             return [
               'src/components/DebugSearchResult.js',
@@ -155,7 +155,7 @@ module.exports = {
         },
         {
           name: 'Search Results — Facets',
-          content: 'docs/searchResultsFacets.md',
+          content: 'documentation/searchResultsFacets.md',
           components: () => {
             return [
               'src/components/BarChartFacetContents.js',
@@ -177,7 +177,7 @@ module.exports = {
         },
         {
           name: 'Search Results — Other',
-          content: 'docs/searchResultsOther.md',
+          content: 'documentation/searchResultsOther.md',
           components: () => {
             return [
               'src/components/Doc360Breadcrumbs.js',
@@ -194,7 +194,7 @@ module.exports = {
         },
         {
           name: 'Navigation',
-          content: 'docs/navigation.md',
+          content: 'documentation/navigation.md',
           components: () => {
             return [
               // 'src/components/BigButton.js',
@@ -207,7 +207,7 @@ module.exports = {
         },
         {
           name: 'Input',
-          content: 'docs/input.md',
+          content: 'documentation/input.md',
           components: () => {
             return [
               'src/components/CardPicker.js',
@@ -240,7 +240,7 @@ module.exports = {
         },
         {
           name: 'Display',
-          content: 'docs/display.md',
+          content: 'documentation/display.md',
           components: () => {
             return [
               'src/components/Accordion.js',
@@ -283,7 +283,7 @@ module.exports = {
         },
         {
           name: 'No Examples',
-          content: 'docs/withoutExamples.md',
+          content: 'documentation/withoutExamples.md',
           components: () => {
             return [
               'src/components/AuthRoute.js',
@@ -295,7 +295,7 @@ module.exports = {
         },
         {
           name: 'Miscelaneous',
-          content: 'docs/misc.md',
+          content: 'documentation/misc.md',
           components: () => {
             return [
               'src/components/ContextHelp.js',
@@ -307,11 +307,11 @@ module.exports = {
     },
     {
       name: 'Extra',
-      content: 'docs/extra.md',
+      content: 'documentation/extra.md',
     },
   ],
   require: [
-    path.join(__dirname, 'docs/style/main.less'),
+    path.join(__dirname, 'documentation/style/main.less'),
   ],
   getComponentPathLine(componentPath) {
     const name = path.basename(componentPath, '.js');
@@ -322,7 +322,7 @@ module.exports = {
     const name = path.basename(componentPath, '.js');
     const mdName = `${name}.md`;
     const dir = path.dirname(componentPath);
-    const fullMdPath = path.resolve(dir, '../../docs/components', mdName);
+    const fullMdPath = path.resolve(dir, '../../documentation/components', mdName);
     return fullMdPath;
   },
   webpackConfig: mergedWebpackConfig,

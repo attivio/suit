@@ -1,4 +1,4 @@
-# Created by https://www.gitignore.io
+'# Created by https://www.gitignore.io
 
 ### Node ###
 # Logs
@@ -72,5 +72,4 @@ typings/
 /es
 /lib
 
-/styleguide
 
