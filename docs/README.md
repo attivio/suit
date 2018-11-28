@@ -79,12 +79,14 @@ use the following commands:
 | `npm run build` | Performs a build of the library. |
 | `npm run flow` | Run the Flow type checker on the library and report any errors. |
 | `npm run lint` | Run the ES Lint style checker on the library and report any errors. |
+| `npm run doclint` | Run the documentation.js checker to look for errors in the JSDoc comments in the `api` and `util` subdirectories. |
 | `npm run validatecomponents` | Performs validation that all of the components in the library meet certain standards. |
-| `npm run fullbuild` | Performs a full buid of the project from scratch and performs all validation steps. |
+| `npm run fullbuild` | Performs a full buid of the project from scratch (removing the `node_modules` direcotory as well as any other build products and performs all validation steps before actually building the contents of the SUIT library and its documentation. |
 | `npm run updateversion` | Updates the project's version before publishing it to the NPM repository. |
 | `npm run publishlib` | Does a full build and then publishes the resulting new version to the NPM repository. |
 | `npm run styleguide:serve` | Buids the style guide and serves it on your local machine's port 6060. This continues watching for changes and re-compiles and updates the style guide if any are found. |
-| `npm run styleguide` | Buids the style guide statically into the `styleguide` directory. |
+| `npm run styleguide` | Buids the style guide statically into the `styleguide` directory for the `components` directory. |
+| `npm run doc` | Run the documentation.js builder to publish documentation for the classes in the `api` and `util` subdirectories. |
 | `npm run watch` | Builds the library and watches for changes, rebuilding as they are found. |
 | `npm run test ` | Runs the suite of tests for the library. |
 | `npm run test:coverage ` | Generates a report of test coverage for the library. |
