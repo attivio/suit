@@ -30,7 +30,7 @@ There are many resources on the web for learning more about React, but a good
 starting point is the [React library’s own website](https://reactjs.org).
 
 The documentation of individual components, as well as some more basic examples of
-their use can be seen in the style guide. In addition, since most of the components
+their use can be seen in the [SUIT style guide](styleguide/index.html). In addition, since most of the components
 are used in various ways by the Search UI application’s code, you can look there to
 see examples of how they are combined in "real life."
 
@@ -64,6 +64,10 @@ see further information in the file [CONTRIBUTING.md](CONTRIBUTING.md).
 
 If you are a developer in the SUIT project who needs to build a new version of the library, you use the command `npm run updateversion` to bump the version of SUIT to the next patch release (or use `npm run updateversion minor` or `npm run uipdateversion major` to update the minor or major version). Then you can use the command `npm run publishlib` to perform a clean, full build including all the available validation steps, and publish the resulting files to the NPM repository. You must be logged into npmjs.com (via `npm login`) to do this.
 
+### Contributing to the SUIT Library
+
+Details about how you can contribute to the SUIT library, including criteria for doing so, can be found [here](Contributing.md).
+
 ## All NPM Scripts
 The full list of scripts that you can run on the SUIT library is listed here:
 In this case, you can
@@ -92,6 +96,3 @@ use the following commands:
 
 [npm-badge]: https://img.shields.io/npm/v/@attivio/suit.svg
 [npm]: https://www.npmjs.org/package/@attivio/suit
-
-## Contributing
-To report an issue or contribute, see [CONTRIBUTING.md](CONTRIBUTING.md)
