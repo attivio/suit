@@ -203,7 +203,7 @@ fi
 i=0
 for compName in "${compNames[@]}"
 do
-  if [ ! -f ./docs/components/${compName}.md ]
+  if [ ! -f ./documentation/components/${compName}.md ]
   then
     compsMissingExamples[$i]="$compName"
     (( i++ ))

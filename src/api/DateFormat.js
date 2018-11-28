@@ -32,7 +32,7 @@ const SHORT_YEAR = 'SHORT_YEAR';
 /** The full year: e.g. 2017 */
 const LONG_YEAR = 'LONG_YEAR';
 /** The short date and the short time, combined: e.g., '09/07/2017 10:29 AM' */
-const SHORT = 'SHORT'
+const SHORT = 'SHORT';
 /** The medium date and the short time, combined: e.g., 'Sep. 8 2017 10:29 AM' */
 const MEDIUM = 'MEDIUM';
 /** The long date and the long time, combined: e.g., 'Thursday, September 8 2017 10:29 AM' */
