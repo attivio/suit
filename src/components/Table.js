@@ -274,6 +274,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
           keyField="id"
           options={options}
           remote={this.remote}
+          bordered={false}
         >
           {columns}
         </BootstrapTable>
