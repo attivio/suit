@@ -24,6 +24,7 @@ export default class FetchUtils {
       headers,
       body,
       credentials: 'include',
+      mode: 'cors',
     };
     const fetchRequest = new Request(uri, params);
 
@@ -39,9 +40,23 @@ export default class FetchUtils {
               callback(null, FetchUtils.getErrorMessage(error, errorMessage));
             });
           } else {
-            // If the response content-type is HTML then reload the page because user's session likely timed out.
-            // SAML tries to redirect but we can't deal with that in Ajax.
-            window.location.reload();
+            response.text().then((text: string) => {
+              if (text.indexOf('SAML') !== -1) {
+                // If the response content-type is HTML and it mentions SAML, it's 99.9% likely
+                // that it's a redirect to a login page. If so, then we then reload the whole
+                // page to let the user log in again.
+                window.location.reload();
+              } else {
+                // We've received some other sort of error, so let's just log it and stop.
+                const msg = `REST call to ${uri} failed to return JSON.`;
+                console.error(msg);
+                callback(null, msg);
+              }
+            }).catch((error: any) => {
+              const msg = `Results of REST call to ${uri} couldn't be parsed.`;
+              console.error(msg, error);
+              callback(null, msg);
+            });
           }
         } else {
           // The request came back other than a 200-type response code
@@ -55,10 +70,6 @@ export default class FetchUtils {
             callback(null, FetchUtils.getErrorMessage(badJsonError, errorMessage));
           });
         }
-      },
-      () => {
-        // Catch network-type errors from the main fetch() call and reload the page.
-        window.location.reload();
       },
     ).catch((error: any) => {
       // Catch exceptions from the main "then" function

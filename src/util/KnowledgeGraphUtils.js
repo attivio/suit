@@ -2,8 +2,8 @@
 
 import SearchDocument from '../api/SearchDocument';
 import FieldNames from '../api/FieldNames';
-import GraphNode from './GraphNode';
-import GraphEdge from './GraphEdge';
+import GraphNode from '../api/GraphNode';
+import GraphEdge from '../api/GraphEdge';
 import StringUtils from './StringUtils';
 
 export class GraphDefinition {
@@ -120,6 +120,10 @@ const BASE_GROUP_OPTIONS = {
   },
 };
 
+/**
+ * Utility functions used by the KnowledgeGraphPanel component to construct the queries
+ * needed for populating it's graph.
+ */
 export default class KnowledgeGraphUtils {
   static MAIN_DOCUMENT_BORDER_COLOR = '#333';
 
@@ -133,7 +137,7 @@ export default class KnowledgeGraphUtils {
    *                      joining to other documents in the same table (pass null to join with
    *                      any document, regardless of its table)
    * @param linkingFields the list of fields to look for links in (e.g., entity fields)
-   * @param maxLinkedDocs the maximum number of additional documebnts to return
+   * @param maxLinkedDocs the maximum number of additional documents to return
    * @param entityName
    * @param entityValue
    */

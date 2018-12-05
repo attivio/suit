@@ -3,13 +3,18 @@
 import React from 'react';
 
 /**
- * Descibes the help to display in a particulsar context.
+ * Describes the help to display in a particular context.
  */
 export class ContextHelpInfo {
+  /** An ID for the help topic. */
   id: string;
+  /** The title to show for the help. */
   title: string;
+  /** The contents of the help, separated into paragraphs. */
   paragraphs: Array<string>;
+  /** The label to use for showing more information. If not set, no link to more information will be shown. */
   moreName: string | null;
+  /** A URL for more information. */
   moreLink: string | null;
 
   constructor(id: string, title: string, paragraphs: Array<string>, moreName: string | null = null, moreLink: string | null = null) { // eslint-disable-line max-len
@@ -22,6 +27,7 @@ export class ContextHelpInfo {
 }
 
 type ContextHelpProps = {
+  /** Details about the help to show. */
   info: ContextHelpInfo | null;
 };
 
@@ -46,6 +52,7 @@ export default class ContextHelp extends React.Component<void, ContextHelpProps,
           more = (
             <p>
               To learn more about {info.moreName}, visit
+              {'\u00a0'}
               <a
                 ref={info.moreLink}
                 target="_blank"
@@ -56,7 +63,16 @@ export default class ContextHelp extends React.Component<void, ContextHelpProps,
             </p>
           );
         } else {
-          more = <p>To learn more, visit <a href={info.moreLink} target="_blank" rel="noopener noreferrer">Attivio Answers</a>.</p>;
+          more = (
+            <p>
+              To learn more, visit
+              {'\u00a0'}
+              <a href={info.moreLink} target="_blank" rel="noopener noreferrer">
+                Attivio Answers
+              </a>
+              .
+            </p>
+          );
         }
       }
 

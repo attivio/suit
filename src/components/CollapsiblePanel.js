@@ -24,7 +24,7 @@ type CollapsiblePanelState = {
 }
 
 /**
- * This is a panel that the user can exapend or collapse by clicking
+ * This is a panel that the user can expand or collapse by clicking
  * its header. It's used, for example, for displaying facets in
  * search results but can be used with whatever contents you like.
  */

@@ -1,7 +1,7 @@
 // @flow
 
 /**
- * The basis for ingest and search doocuments.
+ * The basis for ingest and search documents.
  */
 export default class AbstractDocument {
   constructor(fields: Map<string, Array<string>>) {

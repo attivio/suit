@@ -4,6 +4,7 @@ import QueryResponse from './QueryResponse';
 import FieldNames from './FieldNames';
 import AuthUtils from '../util/AuthUtils';
 import FetchUtils from '../util/FetchUtils';
+import ObjectUtils from '../util/ObjectUtils';
 import QueryRequestToElastic from '../util/QueryRequestToElastic';
 import QueryRequestToSolr from '../util/QueryRequestToSolr';
 
@@ -27,19 +28,6 @@ export default class Search {
     this.baseUri = baseUri;
     this.searchEngineType = searchEngineType;
     this.customOptions = customOptions;
-  }
-
-  /**
-   * Convert a JavaScript Map object whose keys are
-   * strings into a plain-old JavaScript object so it
-   * can be converted to JSON.
-   */
-  static strMapToObj(strMap: Map<string, any>) {
-    const obj = Object.create(null);
-    strMap.forEach((value, key) => {
-      obj[key] = value;
-    });
-    return obj;
   }
 
   search(request: SimpleQueryRequest, updateResults: (response: QueryResponse | null, error: string | null) => void) {
@@ -66,7 +54,7 @@ export default class Search {
 
     const uri = `${this.baseUri}/rest/searchApi/search`;
     const jsonRequest = Object.assign({}, request);
-    jsonRequest.restParams = Search.strMapToObj(request.restParams);
+    jsonRequest.restParams = ObjectUtils.strMapToObj(request.restParams);
 
     if (this.searchEngineType === 'elastic') {
       QueryRequestToElastic.convert(jsonRequest, `${this.baseUri}`, this.customOptions, (err, searchResponse) => {
@@ -87,7 +75,7 @@ export default class Search {
         const searchResponse = response ? QueryResponse.fromJson(response) : null;
         updateResults(searchResponse, error);
       };
-      FetchUtils.fetch(uri, jsonRequest, callback, 'POST', 'An error occured while searching.');
+      FetchUtils.fetch(uri, jsonRequest, callback, 'POST', 'An error occurred while searching.');
     }
   }
 
@@ -97,7 +85,7 @@ export default class Search {
    * @param query         the query to perform
    * @param queryLanguage the language to use, either "simple" or "advanced"
    * @param offset        the index of the first document to return
-   * @param number        the number of documents to return (e.g. page size)
+   * @param count         the number of documents to return (e.g. page size)
    * @param updateResults will be called when the search is complete with the results or an error
    */
   simpleSearch(query: string, queryLanguage: 'simple' | 'advanced', offset: number, count: number,

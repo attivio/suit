@@ -37,7 +37,7 @@ import Configuration from '../components/Configuration';
   then we update the state including setting the offset to 0, and, if there has been a previous
   search, we perform a new one (and, only in this case, update the search string). The following
   properties require resetting when they're changed: geoFilters (adding or removing), resultsPerPage,
-  facetFilters (adding or removing), sort, relevancyModels, format, and searchProfile.
+  facetFilters (adding or removing), sort, relevancyModels, debug, and searchProfile.
 */
 
 type SearcherProps = {
@@ -129,8 +129,8 @@ type SearcherProps = {
   // showWorkflowFields: boolean;
   /** The workflow to use when updating document properties, defaults to 'ingest' */
   // ingestWorkflow: string;
-  /** The format to use for displaying the individual documents. */
-  format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  /** Whether to override the format with the debug format. */
+  debug: boolean,
   /** The number of document results to display on each page of the results set */
   resultsPerPage: number;
   /**
@@ -169,7 +169,7 @@ type SearcherDefaultProps = {
   moreLikeThisQuery: string;
   mimetype: string;
   sourcePath: string;
-  format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  debug: boolean;
   resultsPerPage: number;
   businessCenterProfile: string | null;
   defaultQueryLanguage: 'simple' | 'advanced';
@@ -177,7 +177,7 @@ type SearcherDefaultProps = {
 
 /*
  * NOTE: If you add or remove anything from the Searcher's state, you'll
- * need to update (at least) the following methods to accommodate the chnage:
+ * need to update (at least) the following methods to accommodate the change:
  *   constructor()
  *   getQueryRequest()
  *   generateLocationQueryStringFromState()
@@ -198,7 +198,7 @@ type SearcherState = {
   geoFilters: Array<string>;
   resultsPerPage: number;
   resultsOffset: number;
-  format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  debug: boolean;
 };
 
 /**
@@ -206,7 +206,7 @@ type SearcherState = {
  * the searcher property that is inserted into their context object. This allows them
  * to access the Searcher's state to see all of its input parameters aa well as the
  * results of the most recent search and any errors. In addition, they can use the
- * reference to the Seacher to call methods which allow them to update the Searcher's
+ * reference to the Searcher to call methods which allow them to update the Searcher's
  * state or execute searches.
  *
  * The Searcher also provides a method, doCustomSearch(), that lets the callers
@@ -217,44 +217,45 @@ type SearcherState = {
  * of how this is done using by defining "static contextTypes" in the component.
  *
  * Note that the Searcher will add query parameters to the URL for the page's location
- * when the usere executes a (non-custom) search. This allows the URL for the search to be
+ * when the user executes a (non-custom) search. This allows the URL for the search to be
  * used to repeat the same search, either when refreshing the browser window or when
  * bookmarking the page, sharing it in an email, etc. The URL is updated whenever a search
  * happens, whether caused by the user clicking the search button or by changing the
  * parameters to an existing search (e.g., changing the sort order or paging through the
  * results).
-
- IF
-Searcher is first loaded, we need to check for query parameters and apply them if they exist.In this case, we need to do the search.
-
-IF
-Searcher is updated with a new query string, then we need to parse it and possibly do a new search, if it has changed.
-
-IF
-User does a search manually, we need to calculate the query string and push the new location onto the history if it has changed.
-  THIS HAPPENS IN THE doSearch() method
-
-IF
-User updates a property that affects existing searches but doesn't require resetting, we need to update the state and then,
-if there's a previous search, perform a new one (and, only in this case, update the search string
-  THIS HAPPENDS WHEN THESE PROPERTIES CHANGE:
-      resultsOffset (i.e., paging)
-
-IF
-User updates a property that affects existing searches AND requires resetting, then we need to update the state including setting
-the offset to 0, and , if there's a previous search, perform a new one (and, only in this case, update the search string
-  THIS HAPPENDS WHEN THESE PROPERTIES CHANGE:
-      geoFilters (adding or removing)
-      resultsPerPage
-      facetFilters (adding or removing)
-      sort
-      relevancyModels
-      format
-      searchProfile
-
-
-      // NEED TO DEAL WITH VALUES IN URL THAT ARE NOT VALID...
-
+ *
+ * IF
+ * Searcher is first loaded, we need to check for query parameters and apply them if they
+ * exist.In this case, we need to do the search.
+ *
+ * IF
+ * Searcher is updated with a new query string, then we need to parse it and possibly do
+ * a new search, if it has changed.
+ *
+ * IF
+ * User does a search manually, we need to calculate the query string and push the new
+ * location onto the history if it has changed.
+ *   THIS HAPPENS IN THE doSearch() method
+ *
+ * IF
+ * User updates a property that affects existing searches but doesn't require resetting,
+ * we need to update the state and then, if there's a previous search, perform a new one
+ * (and, only in this case, update the search string
+ *   THIS HAPPENS WHEN THESE PROPERTIES CHANGE:
+ *       resultsOffset (i.e., paging)
+ *
+ * IF
+ * User updates a property that affects existing searches AND requires resetting, then we
+ * need to update the state including setting the offset to 0, and , if there's a previous
+ * search, perform a new one (and, only in this case, update the search string
+ *   THIS HAPPENS WHEN THESE PROPERTIES CHANGE:
+ *       geoFilters (adding or removing)
+ *       resultsPerPage
+ *       facetFilters (adding or removing)
+ *       sort
+ *       relevancyModels
+ *       debug
+ *       searchProfile
  */
 class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, SearcherState> {
   static defaultProps = {
@@ -282,7 +283,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     moreLikeThisQuery: 'morelikethisquery',
     mimetype: FieldNames.MIME_TYPE,
     sourcePath: FieldNames.SOURCEPATH,
-    format: 'list',
+    debug: false,
     resultsPerPage: 10,
     businessCenterProfile: null,
     defaultQueryLanguage: 'simple',
@@ -383,7 +384,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       geoFilters: [],
       resultsPerPage: parseInt(this.props.resultsPerPage, 10),
       resultsOffset: 0,
-      format: this.props.format,
+      debug: this.props.debug,
     };
   }
 
@@ -448,7 +449,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * Get the list of fields to use in the query request.
    */
   getFieldList(): Array<string> {
-    // Start out with the fields the user specifed
+    // Start out with the fields the user specified
     const result = [].concat(this.props.fields || []);
     // Add the mapped fields that the search results will expect
     result.push(`${this.props.title} as title`);
@@ -537,8 +538,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     if (state.relevancyModels && state.relevancyModels.length > 0) {
       basicState.relevancyModels = state.relevancyModels;
     }
-    if (state.format && state.format !== this.props.format) {
-      basicState.format = state.format;
+    if (state.debug !== this.props.debug) {
+      basicState.debug = state.debug;
     }
 
     // See if there are any query parameters other than those set by the Searcher. If so, we want to maintain them.
@@ -553,7 +554,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         originalParsed.delete('facetFilters');
         originalParsed.delete('sort');
         originalParsed.delete('relevancyModels');
-        originalParsed.delete('format');
+        originalParsed.delete('debug');
       }
       // Add any leftover fields back in to the basic state
       basicState = Object.assign({}, basicState, originalParsed);
@@ -582,7 +583,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     }
 
     // Get the geoFilters (normalized to an array of strings)
-    // DEFAUT: []
+    // DEFAULT: []
     let geoFilters = parsed.geoFilters;
     if (!geoFilters) {
       geoFilters = [];
@@ -653,12 +654,11 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     // Get the business center profile to use.
     // DEFAULT: none
 
-    // Get the format.
+    // Determine if we're in debug mode.
     // DEFAULT: this.props.format
-    let format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple' = this.props.format;
-    if (parsed.format === 'list' || parsed.format === 'usercard' || parsed.format === 'doccard' ||
-      parsed.format === 'debug' || parsed.format === 'simple') {
-      format = parsed.format;
+    let debug = this.props.debug;
+    if (Object.prototype.hasOwnProperty.call(parsed, 'debug')) {
+      debug = parsed.debug;
     }
 
     const result: SearcherState = {
@@ -670,7 +670,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       facetFilters,
       sort: [sort],
       relevancyModels,
-      format,
+      debug,
       haveSearched: this.state.haveSearched, // Make sure we don't change this
     };
 
@@ -698,13 +698,13 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   }
 
   /**
-   * Used to tell the search results component which format
-   * to use when rendering results.
+   * Used to tell the search results component whether to use the debug
+   * format when rendering results.
    */
-  updateFormat(newFormat: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple') {
-    if (this.state.format !== newFormat) {
+  updateDebug(newDebug: boolean) {
+    if (this.state.debug !== newDebug) {
       this.updateStateAndSearch({
-        format: newFormat,
+        debug: newDebug,
       });
     }
   }

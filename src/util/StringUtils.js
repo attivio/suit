@@ -1,5 +1,8 @@
 // @flow
 
+/**
+ * Utility class that provides various string-manipulation functionality.
+ */
 export default class StringUtils {
   /**
    * Simply format a string/number combination based on the
@@ -14,7 +17,7 @@ export default class StringUtils {
    * in all cases.)
    *
    * In any case, if the part of the string being used contains
-   * the charaters '{}', that is substituted with the number
+   * the characters '{}', that is substituted with the number
    * itself, as a string.
    *
    * @param {*} format the format string
@@ -121,29 +124,90 @@ export default class StringUtils {
     if (s.length < limit) {
       return s;
     }
-    const firstChunk = s.substring(0, limit);
-    const lastWS = StringUtils.regexLastIndexOf(firstChunk, /\s/g);
     let firstLine;
     let remainder;
-    if (lastWS >= 0) {
-      // We found a whitespace character, so we'll break there.
-      firstLine = s.substring(0, lastWS).trim();
-      remainder = s.substring(lastWS).trim();
-    } else {
-      firstLine = firstChunk;
+
+    const firstChunk = s.substring(0, limit);
+    if (s.length <= limit || s.charAt(limit).match(/\s/g)) {
+      // If the first chunk is already at the end of the string, or the next
+      // character is whitespace, we can leave it as is... well, just trim it
+      firstLine = firstChunk.trim();
       remainder = s.substring(limit).trim();
+    } else {
+      const lastWS = StringUtils.regexLastIndexOf(firstChunk, /\s/g);
+      if (lastWS >= 0) {
+        // We found a whitespace character, so we'll break there.
+        firstLine = s.substring(0, lastWS).trim();
+        remainder = s.substring(lastWS).trim();
+      } else {
+        firstLine = firstChunk;
+        remainder = s.substring(limit).trim();
+      }
     }
     if (remainder.length === 0) {
       // If the trimmed remainder is empty, then just return the part we found.
       return firstLine;
     }
-    return `${firstLine}\n${StringUtils.wrapLabel(remainder, newLine, limit)}`;
+    return `${firstLine}${newLine}${StringUtils.wrapLabel(remainder, newLine, limit)}`;
   }
 
   /**
    * Returns true if the value is a string and it is has a length greater than 0.
    */
   static notEmpty(value: any): boolean {
-    return value && (typeof value === 'string' || value instanceof String) && value.length > 0;
+    if (value && (typeof value === 'string' || value instanceof String) && value.length > 0) {
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * Take a number and format it as a string accordning to the specified format.
+   * The format string must consist of two main parts separated by a colon—
+   * before the colon is the number of decimal points that should be used when formatting the
+   * number. The remainder of the format string describes how to format the overall
+   * string with instances of "{}" being replaced with the formatted value—it can
+   * contanin separate to use if the number is 0, 1, or more than one, separated by
+   * pipe characters.
+   * For example:
+   *    "2:${}" with 3.215 will produce the string "$3.22"
+   *    "4:None|{}% More" with 0 will produce the string "None"
+   *    "4:None|{}% More" with 72.324214566 will produce the string "72.3242% More"
+   *    "0:No Queries|{} Query|{} Queries" with 0 will produce the string "No Queries"
+   *    "0:No Queries|{} Query|{} Queries" with 1 will produce the string "1 Query"
+   *    "0:No Queries|{} Query|{} Queries" with 72.1 will produce the string "72 Queries"
+   */
+  static formatNumber(formatString: string, value: number): string {
+    const [decimalPlaceString, overallFormatString] = formatString.split(':', 2);
+
+    let decimalPlaces = parseInt(decimalPlaceString, 10);
+    if (isNaN(decimalPlaces)) {
+      decimalPlaces = 0;
+    }
+
+    // Note: this is here because of a bug in toFixed where numbers ending in 5 weren't being
+    // rounded up. E.g., for 3.125, at 2 decimal places, it would return 3.12 instead of 3.13
+    const decimalPlaceFactor = 10 ** decimalPlaces;
+    const roundedValue = Math.round(value * decimalPlaceFactor) / decimalPlaceFactor;
+
+    const formattedValue = roundedValue.toFixed(decimalPlaces);
+    const formatStringPieces = overallFormatString.split('|', 3);
+
+    // If there's only format, use it for all values.
+    // Otherwise, the first format is for values of 1 if there are 2 formats and for
+    // values of 0 if there are three formats...
+    let formatToUse = formatStringPieces[0];
+    if (formatStringPieces.length === 2 && value !== 1) {
+      // If there are 2 formats, the first one is for values of 1, and the second is for all other values
+      formatToUse = formatStringPieces[1];
+    } else if (formatStringPieces.length === 3 && value === 1) {
+      // If there are three formats, the second is for values of one
+      formatToUse = formatStringPieces[1];
+    } else if (formatStringPieces.length === 3 && value > 1) {
+      // And the third is for values greater than 1
+      formatToUse = formatStringPieces[2];
+    }
+    return formatToUse.replace('{}', formattedValue);
   }
 }

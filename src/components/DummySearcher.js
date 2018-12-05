@@ -4,32 +4,35 @@ import type { Children } from 'react';
 
 import PropTypes from 'prop-types';
 
-import QueryResponse from '../api/QueryResponse';
 import FacetFilter from '../api/FacetFilter';
+import QueryResponse from '../api/QueryResponse';
+import SimpleQueryRequest from '../api/SimpleQueryRequest';
 
 type DummySearcherProps = {
   defaultRelevancyModels: Array<string>;
   defaultQueryLanguage: 'simple' | 'advanced';
-  defaultFormat: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  defaultDebug: boolean;
   defaultResultsPerPage: number;
   defaultBusinessCenterProfile: string | null;
   defaultSort: Array<string>;
   defaultQuery: string;
   defaultQueryResponse: QueryResponse | null;
   defaultError: string | null;
+  defaultFieldList: Array<string>;
   children: Children;
 };
 
 type DummySearcherDefaultProps = {
   defaultRelevancyModels: Array<string>;
   defaultQueryLanguage: 'simple' | 'advanced';
-  defaultFormat: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  defaultDebug: boolean;
   defaultResultsPerPage: number;
   defaultBusinessCenterProfile: string | null;
   defaultSort: Array<string>;
   defaultQuery: string;
   defaultQueryResponse: QueryResponse | null;
   defaultError: string | null;
+  defaultFieldList: Array<string>;
 };
 
 type DummySearcherState = {
@@ -44,7 +47,7 @@ type DummySearcherState = {
   geoFilters: Array<string>;
   resultsPerPage: number;
   resultsOffset: number;
-  format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  debug: boolean;
   businessCenterProfile: string | null;
 };
 
@@ -59,13 +62,14 @@ export default class DummySearcher extends React.Component<DummySearcherDefaultP
   static defaultProps = {
     defaultRelevancyModels: ['default'],
     defaultQueryLanguage: 'simple',
-    defaultFormat: 'list',
+    defaultDebug: false,
     defaultResultsPerPage: 10,
     defaultBusinessCenterProfile: null,
     defaultSort: ['.score:DESC'],
     defaultQuery: '*:*',
     defaultQueryResponse: null,
     defaultError: null,
+    defaultFieldList: [],
   };
 
   static childContextTypes = {
@@ -87,6 +91,12 @@ export default class DummySearcher extends React.Component<DummySearcherDefaultP
     };
   }
 
+  getQueryRequest(): SimpleQueryRequest {
+    const qr = new SimpleQueryRequest();
+    qr.query = this.props.defaultQuery;
+    return qr;
+  }
+
   getDefaultState(): DummySearcherState {
     return {
       response: this.props.defaultQueryResponse,
@@ -100,19 +110,26 @@ export default class DummySearcher extends React.Component<DummySearcherDefaultP
       geoFilters: [],
       resultsPerPage: this.props.defaultResultsPerPage,
       resultsOffset: 0,
-      format: this.props.defaultFormat,
+      debug: this.props.defaultDebug,
       businessCenterProfile: this.props.defaultBusinessCenterProfile,
     };
   }
 
  /**
-   * Used to tell the search results component which format
-   * to use when rendering results.
+  * Get the list of fields to use in the query request.
+  */
+  getFieldList(): Array<string> {
+    return this.props.defaultFieldList;
+  }
+
+ /**
+   * Used to tell the search results component whether to override
+   * the format with the debug format.
    */
-  updateFormat(newFormat: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple') {
-    if (this.state.format !== newFormat) {
+  updateDebug(newDebug: boolean) {
+    if (this.state.debug !== newDebug) {
       this.setState({
-        format: newFormat,
+        debug: newDebug,
       });
     }
   }

@@ -25,18 +25,18 @@ type KnowledgeGraphPanelProps = {
   navigateToDoc: (docId: string) => void;
   /** A callback function used when the user double-clicks an entity node */
   navigateToEntity: (entityType: string, entityValue: string) => void;
-  /** The name of the endity being searched on, or null if searching on a document */
+  /** The name of the entity being searched on, or null if searching on a document */
   entityName: string | null;
-  /** The value of the endity being searched on, or null if searching on a document */
+  /** The value of the entity being searched on, or null if searching on a document */
   entityValue: string | null;
   /**
-   * If set, even entities that don't link two doucments and aren't connected to
+   * If set, even entities that don't link two documents and aren't connected to
    * the primary document will be shown (these are hidden by default).
    */
   showEdges: boolean;
   /**
    * If true, then the 360° page will show links to documents from any table. Set this to false to
-   * only show links to documnents that come from tables other than the one the main document is in.
+   * only show links to documents that come from tables other than the one the main document is in.
    */
   includeAllTables: boolean;
 };
@@ -90,7 +90,7 @@ export default class KnowledgeGraphPanel extends React.Component<KnowledgeGraphP
           return value.getFirstValue(FieldNames.ID) !== primaryDocId;
         });
       }
-      // If not, use the first doc as the primary one and add the remainig ones as its children
+      // If not, use the first doc as the primary one and add the remaining ones as its children
       newPrimaryDoc = results[0];
       newPrimaryDoc.children = results.slice(1);
     }

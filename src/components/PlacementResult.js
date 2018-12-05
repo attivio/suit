@@ -6,9 +6,9 @@ import Card from './Card';
 type PlacementResultProps = {
   /** The address of the link. Optional. */
   linkUrl: string | null;
-  /** The anchortext of the link. Optional. */
+  /** The text to show as the link. Optional. */
   linkText: string | null;
-  /** The address of an image to display. Optional. */
+  /** The address of an image to display as the link. Optional. */
   imageUrl: string | null;
   /** The raw html markup to display. Optional. */
   markup: string | null;

@@ -2,10 +2,10 @@
 
 import React from 'react';
 
-import { ExpertInfo } from './SimilarAuthorCard';
+import SimilarAuthorCard from './SimilarAuthorCard';
 
 type ExpertDetailsProps = {
-  expert: ExpertInfo;
+  expert: SimilarAuthorCard.ExpertInfo;
 };
 
 export default class ExpertDetails extends React.Component<void, ExpertDetailsProps, void> {
@@ -25,4 +25,4 @@ export default class ExpertDetails extends React.Component<void, ExpertDetailsPr
   }
 }
 
-ExpertDetails.ExpertInfo = ExpertInfo;
+ExpertDetails.ExpertInfo = SimilarAuthorCard.ExpertInfo;
