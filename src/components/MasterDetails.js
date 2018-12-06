@@ -82,6 +82,10 @@ type MasterDetailsProps = {
    * Optional; defaults to 0 pixels.
    */
   padding: number;
+  /**
+   * The boolean flag if set, the selection of the row will be retained
+   */
+  noEmptySelection: boolean;
 };
 
 type MasterDetailsDefaultProps = {
@@ -93,6 +97,7 @@ type MasterDetailsDefaultProps = {
   footer: any;
   split: ColumnCount;
   padding: number;
+  noEmptySelection: boolean;
 };
 
 type MasterDetailsState = {
@@ -117,6 +122,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     footer: null,
     split: 8,
     padding: 0,
+    noEmptySelection: false,
   };
 
   static displayName = 'MasterDetails';
@@ -182,6 +188,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
                 onSort={this.props.onSort}
                 selection={this.state.selectedRows}
                 multiSelect={this.props.multiSelect}
+                noEmptySelection={this.props.noEmptySelection}
               />
               {this.props.footer}
             </div>

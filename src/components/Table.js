@@ -90,6 +90,10 @@ type TableProps = {
    * be re-rendered with new values for the sortColumn and rows properties.
    */
   onSort: null | (sortColumn: number) => void;
+  /**
+   * The boolean flag if set, the selection of the row will be retained
+  */
+  noEmptySelection: boolean;
 };
 
 type TableDefaultProps = {
@@ -98,6 +102,7 @@ type TableDefaultProps = {
   multiSelect: boolean;
   sortColumn: number;
   onSort: null | (sortColumn: number) => void;
+  noEmptySelection: boolean;
 };
 
 type TableState = {
@@ -122,6 +127,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     multiSelect: false,
     sortColumn: 0,
     onSort: null,
+    noEmptySelection: false,
   };
 
   static makeCustomRenderer(column) {
@@ -178,7 +184,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         selectedRowIds = [rowId];
       }
       this.props.onSelect(selectedRowIds, rowId);
-    } else {
+    } else if (!this.props.noEmptySelection) {
       // Deselecting it...
       const oldPosition = selectedRowIds.indexOf(rowId);
       if (oldPosition >= 0) {
@@ -211,6 +217,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     }
     this.props.onSort(colNum);
   }
+
 
   render() {
     let selectedRowIds;
