@@ -82,9 +82,13 @@ type MasterDetailsProps = {
    * Optional; defaults to 0 pixels.
    */
   padding: number;
-  /**
-   * The boolean flag if set, the selection of the row will be retained
-   */
+ /**
+  * If set, then the component will not allow the user to deselect all rows in the child table.
+  * For single-select components, the user eill only be able to change the selection to another row;
+  * for multi-select components, the user will not be able to deselect the last-selected row
+  * without first selecting another one. This means that, unless the rows property is empty,
+  * there will always be an item selected in the table and, therefore, shown in the details view
+  */
   noEmptySelection: boolean;
 };
 
@@ -173,6 +177,9 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     const tableWidth = this.props.split;
     const detailsWidth = 12 - tableWidth;
     const halfPadding = `${this.props.padding / 2}px`;
+    const detailsRow = this.props.rows.find((row) => {
+      return row.id === this.state.detailsRow.id;
+    });
 
     return (
       <Grid fluid style={{ padding: 0 }}>
@@ -194,7 +201,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
             </div>
           </Col>
           <Col lg={detailsWidth} md={detailsWidth} sm={12} xs={12} style={{ paddingLeft: halfPadding, paddingRight: 0 }}>
-            <Detail data={this.state.detailsRow.id} rows={this.props.rows} />
+            <Detail data={detailsRow} />
           </Col>
         </Row>
       </Grid>
