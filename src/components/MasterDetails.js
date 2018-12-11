@@ -194,7 +194,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
             </div>
           </Col>
           <Col lg={detailsWidth} md={detailsWidth} sm={12} xs={12} style={{ paddingLeft: halfPadding, paddingRight: 0 }}>
-            <Detail data={this.state.detailsRow} />
+            <Detail data={this.state.detailsRow.id} rows={this.props.rows} />
           </Col>
         </Row>
       </Grid>
