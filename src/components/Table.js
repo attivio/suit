@@ -189,14 +189,15 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         selectedRowIds = [rowId];
       }
       this.props.onSelect(selectedRowIds, rowId);
-    } else if (!this.props.noEmptySelection) {
-      // Deselecting it...
-      const oldPosition = selectedRowIds.indexOf(rowId);
-      if (oldPosition >= 0) {
-        // If it was in the previous array, remove it...
-        selectedRowIds.splice(oldPosition, 1);
-        const mostRecent = selectedRowIds.length > 0 ? selectedRowIds[selectedRowIds.length - 1] : null;
-        this.props.onSelect(selectedRowIds, mostRecent);
+    } else if (!this.props.noEmptySelection && this.props.multiSelect) {
+      if (selectedRowIds.length !== 1) {
+        const oldPosition = selectedRowIds.indexOf(rowId);
+        if (oldPosition >= 0) {
+          // If it was in the previous array, remove it...
+          selectedRowIds.splice(oldPosition, 1);
+          const mostRecent = selectedRowIds.length > 0 ? selectedRowIds[selectedRowIds.length - 1] : null;
+          this.props.onSelect(selectedRowIds, mostRecent);
+        }
       }
     }
   }

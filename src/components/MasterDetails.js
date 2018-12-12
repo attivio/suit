@@ -83,11 +83,7 @@ type MasterDetailsProps = {
    */
   padding: number;
  /**
-  * If set, then the component will not allow the user to deselect all rows in the child table.
-  * For single-select components, the user eill only be able to change the selection to another row;
-  * for multi-select components, the user will not be able to deselect the last-selected row
-  * without first selecting another one. This means that, unless the rows property is empty,
-  * there will always be an item selected in the table and, therefore, shown in the details view
+  * See the noEmptySelection property of the Table component for details
   */
   noEmptySelection: boolean;
 };
