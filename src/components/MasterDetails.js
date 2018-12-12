@@ -20,7 +20,7 @@ type MasterDetailsProps = {
   rows: Array<any>;
   /**
    * The columns to display in the table
-  */
+   */
   columns: Array<Table.ColumnDef>;
   /**
    * The details component to be rendered for the selected row object from table.
@@ -39,7 +39,7 @@ type MasterDetailsProps = {
    * in the table; this callback is just a "courtesy" so the parent can do something such
    * as change the enablement of buttons, etc., based on the selection. See the onSelect
    * property of the Table component for more details.
-  */
+   */
   onSelect: null | (rowsIds: Array<string>, newlySelectedRowId: string | null) => void;
   /**
    * If set, the user can select multiple rows in the table.
@@ -82,9 +82,9 @@ type MasterDetailsProps = {
    * Optional; defaults to 0 pixels.
    */
   padding: number;
- /**
-  * See the noEmptySelection property of the Table component for details
-  */
+  /**
+   * See the noEmptySelection property of the Table component for details
+   */
   noEmptySelection: boolean;
 };
 
@@ -140,30 +140,26 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
   /**
    * Update the table's selection and update the details view's input.
    */
-  selectionChanged(rows: Array<string>, mostRecent: string | null) {
+  selectionChanged(selectedRowsIds: Array<string>, newlySelectedRowId: string | null) {
     let detailsRowId;
-    let selectedRows;
     if (this.props.multiSelect) {
-      if (mostRecent) {
+      if (newlySelectedRowId) {
         // We're adding a new row to the selection or reverting
         // to the previously selected one
-        detailsRowId = mostRecent;
+        detailsRowId = newlySelectedRowId;
       }
-    } else {
-      // Rows should be an array of 0 or 1 row ID
-      selectedRows = rows;
-      if (rows.length > 0) {
-        detailsRowId = rows[0];
-      }
+    // Rows should be an array of 0 or 1 row ID
+    } else if (selectedRowsIds.length > 0) {
+      detailsRowId = selectedRowsIds[0];
     }
     const detailsRow = this.props.rows.find((row) => {
       return row.id === detailsRowId;
     });
     if (this.props.onSelect) {
-      this.props.onSelect(rows, mostRecent);
+      this.props.onSelect(selectedRowsIds, newlySelectedRowId);
     }
     this.setState({
-      selectedRows,
+      selectedRows: selectedRowsIds,
       detailsRow: detailsRow || null,
     });
   }

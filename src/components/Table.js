@@ -44,23 +44,23 @@ class TableColumn {
 
 type TableProps = {
   /**
-  * Columns to be created for the table
-  */
+   * Columns to be created for the table
+   */
   columns: Array<TableColumn>;
   /**
-  * Rows of the table to be rendered
-  */
+   * Rows of the table to be rendered
+   */
   rows: Array<any>;
   /**
-  * Method to display details of the row selected in the table. Optional. If not
-  * set, the rows won't be selectable. Will always be called with an array of
-  * row IDs, though the array will be empty if nothing is selected. If a row
-  * was added to the seleciton of a multi-select table, then that row's ID will
-  * be passed as the second parameter, if one was deselected, the previous last-
-  * selected row will be passed as the newlySelectedRowId; if there are no more
-  * rows selected, then this parameter will be null.
-  */
-  onSelect: null | (rowsIds: Array<string>, newlySelectedRowId: string | null) => void;
+   * Method to display details of the row selected in the table. Optional. If not
+   * set, the rows won't be selectable. Will always be called with an array of
+   * row IDs, though the array will be empty if nothing is selected. If a row
+   * was added to the selection of a multi-select table, then that row's ID will
+   * be passed as the second parameter, if one was deselected, the previous last-
+   * selected row will be passed as the newlySelectedRowId; if there are no more
+   * rows selected, then this parameter will be null.
+   */
+  onSelect: null | (selectedRowsIds: Array<string>, newlySelectedRowId: string | null) => void;
   /**
    * The IDs of the selected rows, if any. May be an array, for muili-select tables,
    * or a single string, for single-select tables. If null, nothing is selected.
@@ -102,7 +102,7 @@ type TableProps = {
 };
 
 type TableDefaultProps = {
-  onSelect: null | (row: any) => void;
+  onSelect: null | (selectedRowsIds: Array<string>, newlySelectedRowId: string | null) => void;
   selection: Array<srting>;
   multiSelect: boolean;
   sortColumn: number;
@@ -180,7 +180,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
     if (isSelected) {
       if (this.props.multiSelect) {
-        // If it's not already in the seleciton, add it and call the callback
+        // If it's not already in the selection, add it and call the callback
         if (!selectedRowIds.includes(rowId)) {
           selectedRowIds.push(rowId);
         }
@@ -189,15 +189,13 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         selectedRowIds = [rowId];
       }
       this.props.onSelect(selectedRowIds, rowId);
-    } else if (!this.props.noEmptySelection && this.props.multiSelect) {
-      if (selectedRowIds.length !== 1) {
-        const oldPosition = selectedRowIds.indexOf(rowId);
-        if (oldPosition >= 0) {
+    } else if (this.props.noEmptySelection && selectedRowIds.length > 1) {
+      const oldPosition = selectedRowIds.indexOf(rowId);
+      if (oldPosition >= 0) {
           // If it was in the previous array, remove it...
-          selectedRowIds.splice(oldPosition, 1);
-          const mostRecent = selectedRowIds.length > 0 ? selectedRowIds[selectedRowIds.length - 1] : null;
-          this.props.onSelect(selectedRowIds, mostRecent);
-        }
+        selectedRowIds.splice(oldPosition, 1);
+        const mostRecent = selectedRowIds.length > 0 ? selectedRowIds[selectedRowIds.length - 1] : null;
+        this.props.onSelect(selectedRowIds, mostRecent);
       }
     }
   }
