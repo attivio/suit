@@ -104,7 +104,7 @@ type MasterDetailsState = {
   /** The IDs of the selected rows */
   selectedRows: Array<string>;
   /** The object for the most-recently selected row, to be displayed in the details pane.  */
-  detailsRow: any;
+  detailsRowId: string;
 };
 
 /**
@@ -131,7 +131,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     super(props);
     this.state = {
       selectedRows: this.props.rows.length > 0 ? [this.props.rows[0].id] : [],
-      detailsRow: this.props.rows.length > 0 ? this.props.rows[0] : null,
+      detailsRowId: this.props.rows.length > 0 ? this.props.rows[0].id : '',
     };
     (this: any).selectionChanged = this.selectionChanged.bind(this);
   }
@@ -152,15 +152,12 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     } else if (selectedRowsIds.length > 0) {
       detailsRowId = selectedRowsIds[0];
     }
-    const detailsRow = this.props.rows.find((row) => {
-      return row.id === detailsRowId;
-    });
     if (this.props.onSelect) {
       this.props.onSelect(selectedRowsIds, newlySelectedRowId);
     }
     this.setState({
       selectedRows: selectedRowsIds,
-      detailsRow: detailsRow || null,
+      detailsRowId: detailsRowId || '',
     });
   }
 
@@ -170,7 +167,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     const detailsWidth = 12 - tableWidth;
     const halfPadding = `${this.props.padding / 2}px`;
     const detailsRow = this.props.rows.find((row) => {
-      return row.id === this.state.detailsRow.id;
+      return row.id === this.state.detailsRowId;
     });
 
     return (
