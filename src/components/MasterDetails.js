@@ -138,10 +138,10 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
   state: MasterDetailsState;
 
   componentWillReceiveProps(newProps: MasterDetailsProps) {
-    const flag = newProps.rows.find((row) => {
+    const isRowPresent = newProps.rows.find((row) => {
       return (row.id === this.state.detailsRowId);
     });
-    if (!flag) {
+    if (!isRowPresent) {
       if (this.props.multiSelect) {
         const oldPosition = this.state.selectedRows.indexOf(this.state.detailsRowId);
         if (oldPosition >= 0) {
