@@ -137,6 +137,31 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
   }
   state: MasterDetailsState;
 
+  componentWillReceiveProps(newProps: MasterDetailsProps) {
+    const flag = newProps.rows.find((row) => {
+      return (row.id === this.state.detailsRowId);
+    });
+    if (!flag) {
+      if (this.props.multiSelect) {
+        const oldPosition = this.state.selectedRows.indexOf(this.state.detailsRowId);
+        if (oldPosition >= 0) {
+          // If it was in the previous array, remove it...
+          this.state.selectedRows.splice(oldPosition, 1);
+          const detailsRowId = this.state.selectedRows.length > 0 ? this.state.selectedRows[this.state.selectedRows.length - 1] : '';
+          this.setState({
+            detailsRowId,
+          });
+        }
+      } else {
+        const detailsRowId = newProps.rows.length > 0 ? newProps.rows[0].id : '';
+        this.setState({
+          detailsRowId,
+          selectedRows: newProps.rows.length > 0 ? [newProps.rows[0].id] : [],
+        });
+      }
+    }
+  }
+
   /**
    * Update the table's selection and update the details view's input.
    */
