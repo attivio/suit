@@ -231,4 +231,6 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
 
 const ListSearchResult = Configurable(InnerListSearchResult);
 
+ListSearchResult.renderer = InnerListSearchResult.renderer;
+
 export default ListSearchResult;
