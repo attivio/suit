@@ -99,6 +99,10 @@ type TableProps = {
    * shown in the details view.
    */
   noEmptySelection: boolean;
+  /**
+   * If set, the table will have a border drawn around it.
+   */
+  bordered: booleaan;
 };
 
 type TableDefaultProps = {
@@ -108,6 +112,7 @@ type TableDefaultProps = {
   sortColumn: number;
   onSort: null | (sortColumn: number) => void;
   noEmptySelection: boolean;
+  bordered: boolean;
 };
 
 type TableState = {
@@ -133,6 +138,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     sortColumn: 0,
     onSort: null,
     noEmptySelection: false,
+    bordered: false,
   };
 
   static makeCustomRenderer(column) {
@@ -284,6 +290,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
           keyField="id"
           options={options}
           remote={this.remote}
+          bordered={this.props.bordered}
         >
           {columns}
         </BootstrapTable>
