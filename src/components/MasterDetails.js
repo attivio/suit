@@ -138,25 +138,34 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
   state: MasterDetailsState;
 
   componentWillReceiveProps(newProps: MasterDetailsProps) {
-    const isRowPresent = newProps.rows.find((row) => {
-      return (row.id === this.state.detailsRowId);
-    });
-    if (!isRowPresent) {
+    if (newProps.rows.length === 0) {
+      this.setState({
+        selectedRows: [],
+        detailsRowId: '',
+      });
+    } else {
+      const ids = newProps.rows.map((row) => {
+        return row.id;
+      });
+      const newSelectedRows = this.state.selectedRows.filter((row) => { return ids.includes(row); });
       if (this.props.multiSelect) {
-        const oldPosition = this.state.selectedRows.indexOf(this.state.detailsRowId);
-        if (oldPosition >= 0) {
-          // If it was in the previous array, remove it...
-          this.state.selectedRows.splice(oldPosition, 1);
-          const detailsRowId = this.state.selectedRows.length > 0 ? this.state.selectedRows[this.state.selectedRows.length - 1] : '';
-          this.setState({
-            detailsRowId,
-          });
-        }
-      } else {
-        const detailsRowId = newProps.rows.length > 0 ? newProps.rows[0].id : '';
+        const updatedSelectedRows = newSelectedRows.length > 0 ? newSelectedRows : newProps.rows[0].id;
         this.setState({
-          detailsRowId,
-          selectedRows: newProps.rows.length > 0 ? [newProps.rows[0].id] : [],
+          selectedRows: updatedSelectedRows,
+        });
+        let newDetailsRowId;
+        if (updatedSelectedRows.includes(this.state.detailsRowId)) {
+          newDetailsRowId = this.state.detailsRowId;
+        } else {
+          newDetailsRowId = updatedSelectedRows[newSelectedRows.length - 1];
+        }
+        this.setState({
+          detailsRowId: updatedSelectedRows.length > 0 ? newDetailsRowId : '',
+        });
+      } else {
+        this.setState({
+          selectedRows: newSelectedRows.length > 0 ? newSelectedRows : newProps.rows[0].id,
+          detailsRowId: newSelectedRows.length > 0 ? newSelectedRows[0] : newProps.rows[0].id,
         });
       }
     }
