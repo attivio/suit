@@ -172,7 +172,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
 
     return (
       <Grid fluid style={{ padding: 0 }}>
-        <Row>
+        <Row style={{ margin: 0 }}>
           <Col lg={tableWidth} md={tableWidth} sm={12} xs={12} style={{ paddingLeft: 0, paddingRight: halfPadding }}>
             <div>
               {this.props.header}
