@@ -29,23 +29,25 @@ export default class AuthUtils {
    *                    maps converted already
    * @param simpleValidation if set to true, then a lot of the validation
    *                    specific to search applications won't be done
+   * @returns a configuraiton error message, if one occurred
    */
-  static configure(users: any, config: any, simpleValidation: boolean = false) {
+  static configure(users: any, config: any, simpleValidation: boolean = false): string | null {
     const mappifiedConfig = AuthUtils.mappify(config);
 
     const configError = AuthUtils.validateConfiguration(mappifiedConfig, simpleValidation);
     if (configError) {
-      throw configError;
+      return configError;
     }
     if (mappifiedConfig.ALL.authType === 'XML') {
       // Only validate users if the auth type is XML
       const usersError = AuthUtils.validateUsers(users);
       if (usersError) {
-        throw usersError;
+        return usersError;
       }
     }
     AuthUtils.users = users;
     AuthUtils.config = mappifiedConfig;
+    return null;
   }
 
   /** Go through the passed in object and conver any nested objects to JavaScript
@@ -87,6 +89,11 @@ export default class AuthUtils {
       // The servlet mimics the node's login endpoint with the logout action to log out of the SAML IdP
       // so regardless of how we're authenticated, we just need to access that to log out.
 
+      // But first, remove the session cookies
+      const baseUri = AuthUtils.getConfig().ALL.baseUri;
+      document.cookie = `SessionId=; Path=${baseUri}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+      document.cookie = `JSESSIONID=; Path=${baseUri}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+
       const headers = new Headers({
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -99,11 +106,12 @@ export default class AuthUtils {
       };
       const fetchRequest = new Request('login?action=logout', params);
       fetch(fetchRequest).then((/* response: Response */) => {
-        const baseUri = AuthUtils.getConfig().ALL.baseUri;
-        // Tell the browser to delete the SessionId cookie
-        document.cookie = `SessionId=; Path=${baseUri}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
-        document.cookie = `JSESSIONID=; Path=${baseUri}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
-        document.location.assign(baseUri);
+        const loggedOutUri = `${baseUri}?action=loggedout`;
+        // let loggedOutUri = baseUri;
+        // if (AuthUtils.getConfig() && AuthUtils.getConfig().ALL && AuthUtils.getConfig().ALL.authType === 'XML') {
+        //   // If we're doing XML authentication, go to the login page with the "We've logged you out" flag set
+        // }
+        document.location.assign(loggedOutUri);
       }).catch((error: any) => {
         console.warn('Failed to log out:', error);
       });
