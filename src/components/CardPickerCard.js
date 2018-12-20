@@ -18,6 +18,10 @@ type CardPickerCardProps = {
    * The icon is limited in size to 60x60 pixels.
    */
   defaultIconUri: string | null;
+   /**
+   * The description for scanner type in the card.
+   */
+  desc: string | null;
   /**
    * If set, then the card is drawn with a selected border and is not
    * clickable.
@@ -100,7 +104,7 @@ export default class CardPickerCard extends React.Component<CardPickerCardDefaul
     );
 
     return (
-      <div
+      <div title={this.props.desc}
         style={style}
         onClick={this.onClick}
         role="button"
@@ -109,7 +113,7 @@ export default class CardPickerCard extends React.Component<CardPickerCardDefaul
           this.card = c;
         }}
       >
-        <div
+        <div 
           style={{
             height: '80px',
             paddingBottom: '10px',

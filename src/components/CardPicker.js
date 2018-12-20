@@ -9,11 +9,13 @@ export class CardPickerItem {
   label: string;
   key: string;
   iconUri: string | null;
+  desc: string | null;
 
-  constructor(label: string, key: string, iconUri: string | null = null) {
+  constructor(label: string, key: string, iconUri: string | null = null, desc: string) {
     this.label = label;
     this.key = key;
     this.iconUri = iconUri;
+    this.desc = desc;
   }
 }
 
@@ -89,6 +91,7 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
           key={`${cardItem.label}|${cardItem.iconUri ? cardItem.iconUri : 'noicon'}`}
           label={cardItem.label}
           iconUri={cardItem.iconUri || this.props.defaultIconUri}
+          desc={cardItem.desc}
           defaultIconUri={this.props.defaultIconUri}
           selected={cardItem.key === this.state.selection}
           onClick={() => { this.onClick(cardItem.key); }}
