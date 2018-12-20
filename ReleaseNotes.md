@@ -6,6 +6,10 @@ If you are _publishing_ a new build of the library that has changes users will n
 
 If you are _using_ the SUIT library and want to upgrade to a newer version, please check here to see if there have been changes that will affect your project and, if there are, what you will need to do about them.
 
+### Version 0.0.53
+
+* Add full support for logging out when running as an Attivio module or using XML-based authentication (for testing purposes). SAML-based authentication doesn't show the option for logging out. Applications which use SUIT should provide a configuration property called ALL.loginPage which is the route to the page to use for app-based login (e.g., XML-based). (Note that in the cases of SAML- and Attivio-based authentication, the Identity Provider's login page or the Attivio login page is used instead and the ALL.loginPage property is not needed.)
+
 ### Version 0.0.47
 
 *	Many of the broken/incomplete examples in the Style Guide have been fixed/updated.
