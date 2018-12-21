@@ -148,15 +148,12 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
         return row.id;
       });
       const newSelectedRows = this.state.selectedRows.filter((row) => { return ids.includes(row); });
-      let updatedSelectedRows = [];
       if (this.props.noEmptySelection && newSelectedRows.length === 0) {
-        updatedSelectedRows.push(newProps.rows[0].id);
-      } else {
-        updatedSelectedRows = newSelectedRows;
+        newSelectedRows.push(newProps.rows[0].id);
       }
-      const newDetailsRowId = (updatedSelectedRows.length > 0) ? (updatedSelectedRows[newSelectedRows.length - 1]) : '';
+      const newDetailsRowId = (newSelectedRows.length > 0) ? (newSelectedRows[newSelectedRows.length - 1]) : '';
       this.setState({
-        selectedRows: updatedSelectedRows,
+        selectedRows: newSelectedRows,
         detailsRowId: newDetailsRowId,
       });
     }
