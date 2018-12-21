@@ -19,7 +19,25 @@ __1:__ Simple table allowing multiple selection.
   /> 
 ```
 
-__2:__ Table with a custom cell renderer for the Self-Service column showing percentage bars...
+__2:__ Single-selection table with a border.
+
+```jsx
+  const tableData = require('../sampleData/TableData').default;
+  initialState = {
+    selectedRows: tableData.customerEngagementRows[0],
+  };
+  <Table
+    columns={tableData.customerEngagementSimpleColumns}
+    rows={tableData.customerEngagementRows}
+    onSelect={(row) => {
+      setState({ selectedRows: row });
+    }}
+    selection={state.selectedRows}
+    bordered
+  /> 
+```
+
+__3:__ Table with a custom cell renderer for the Self-Service column showing percentage bars...
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
@@ -58,7 +76,7 @@ __2:__ Table with a custom cell renderer for the Self-Service column showing per
   /> 
 ```
 
-__3:__ Table with sortable columms handled by a global handler (useful when sorting in the back-end code).
+__4:__ Table with sortable columms handled by a global handler (useful when sorting in the back-end code).
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
@@ -107,7 +125,7 @@ __3:__ Table with sortable columms handled by a global handler (useful when sort
   /> 
 ```
 
-__4:__ Table with sortable columms with sorting handled by the columns themselves.
+__5:__ Table with sortable columms with sorting handled by the columns themselves.
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
