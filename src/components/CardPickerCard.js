@@ -19,7 +19,7 @@ type CardPickerCardProps = {
    */
   defaultIconUri: string | null;
    /**
-   * The descriptive summary to suppliment the card contents.
+   * The descriptive summary to supplement the card contents.
    */
   description: string | null;
   /**
