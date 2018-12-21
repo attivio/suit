@@ -195,7 +195,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         selectedRowIds = [rowId];
       }
       this.props.onSelect(selectedRowIds, rowId);
-    } else if (this.props.noEmptySelection && selectedRowIds.length > 1) {
+    } else if ((this.props.noEmptySelection && selectedRowIds.length > 1) || this.props.multiSelect) {
       const oldPosition = selectedRowIds.indexOf(rowId);
       if (oldPosition >= 0) {
           // If it was in the previous array, remove it...

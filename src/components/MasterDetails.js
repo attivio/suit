@@ -148,26 +148,17 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
         return row.id;
       });
       const newSelectedRows = this.state.selectedRows.filter((row) => { return ids.includes(row); });
-      if (this.props.multiSelect) {
-        const updatedSelectedRows = newSelectedRows.length > 0 ? newSelectedRows : newProps.rows[0].id;
-        this.setState({
-          selectedRows: updatedSelectedRows,
-        });
-        let newDetailsRowId;
-        if (updatedSelectedRows.includes(this.state.detailsRowId)) {
-          newDetailsRowId = this.state.detailsRowId;
-        } else {
-          newDetailsRowId = updatedSelectedRows[newSelectedRows.length - 1];
-        }
-        this.setState({
-          detailsRowId: updatedSelectedRows.length > 0 ? newDetailsRowId : '',
-        });
+      let updatedSelectedRows = [];
+      if (this.props.noEmptySelection && newSelectedRows.length === 0) {
+        updatedSelectedRows.push(newProps.rows[0].id);
       } else {
-        this.setState({
-          selectedRows: newSelectedRows.length > 0 ? newSelectedRows : newProps.rows[0].id,
-          detailsRowId: newSelectedRows.length > 0 ? newSelectedRows[0] : newProps.rows[0].id,
-        });
+        updatedSelectedRows = newSelectedRows;
       }
+      const newDetailsRowId = (updatedSelectedRows.length > 0) ? (updatedSelectedRows[newSelectedRows.length - 1]) : '';
+      this.setState({
+        selectedRows: updatedSelectedRows,
+        detailsRowId: newDetailsRowId,
+      });
     }
   }
 
