@@ -19,9 +19,9 @@ type CardPickerCardProps = {
    */
   defaultIconUri: string | null;
    /**
-   * The description for scanner type in the card.
+   * The descriptive summary to suppliment the card contents.
    */
-  desc: string | null;
+  description: string | null;
   /**
    * If set, then the card is drawn with a selected border and is not
    * clickable.
@@ -42,6 +42,7 @@ type CardPickerCardDefaultProps = {
   columns: number;
   iconUri: string | null;
   defaultIconUri: string | null;
+  description: string | null;
 };
 
 export default class CardPickerCard extends React.Component<CardPickerCardDefaultProps, CardPickerCardProps, void> {
@@ -49,6 +50,7 @@ export default class CardPickerCard extends React.Component<CardPickerCardDefaul
     columns: 3,
     iconUri: null,
     defaultIconUri: null,
+    description: null
   };
 
   static displayName = 'CardPickerCard';
@@ -104,7 +106,7 @@ export default class CardPickerCard extends React.Component<CardPickerCardDefaul
     );
 
     return (
-      <div title={this.props.desc}
+      <div title={this.props.description}
         style={style}
         onClick={this.onClick}
         role="button"
