@@ -9,7 +9,7 @@ type CardPickerCardProps = {
    */
   label: string;
   /**
-   * The URI for the icon to display. If unset, no icon is shown.
+   * The URI for the icon to display. If not set, no icon is shown.
    * The icon is limited in size to 60x60 pixels.
    */
   iconUri: string | null;
@@ -19,16 +19,16 @@ type CardPickerCardProps = {
    */
   defaultIconUri: string | null;
    /**
-   * The descriptive summary to supplement the card contents.
+   * An optional description to show inside the card.
    */
   description: string | null;
   /**
-   * If set, then the card is drawn with a selected border and is not
-   * clickable.
+   * Should be set when the card is selected. It will be drawn with a border
+   * to indicate its selected status and will not be clickable.
    */
   selected: boolean;
   /**
-   * The callback to use when the card is clicked by the user.
+   * The function to call when the card is clicked by the user.
    */
   onClick: () => void;
   /**
