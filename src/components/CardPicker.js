@@ -11,7 +11,7 @@ export class CardPickerItem {
   iconUri: string | null;
   description: string | null;
 
-  constructor(label: string, key: string, iconUri: string | null = null, description: string) {
+  constructor(label: string, key: string, iconUri: string | null = null, description: string | null) {
     this.label = label;
     this.key = key;
     this.iconUri = iconUri;
@@ -109,22 +109,3 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
 }
 
 CardPicker.CardPickerItem = CardPickerItem;
-
-/*
-      <Scrollable style={{ height: '100%' }}>
-        <div
-          style={{
-            width: '100%',
-            padding: 0,
-            display: 'flex',
-            flex: 1,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-          }}
-        >
-          {cardComponnents}
-        </div>
-      </Scrollable>
-*/
