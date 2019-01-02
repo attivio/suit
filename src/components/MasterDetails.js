@@ -137,6 +137,28 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
   }
   state: MasterDetailsState;
 
+  componentWillReceiveProps(newProps: MasterDetailsProps) {
+    if (newProps.rows.length === 0) {
+      this.setState({
+        selectedRows: [],
+        detailsRowId: '',
+      });
+    } else {
+      const ids = newProps.rows.map((row) => {
+        return row.id;
+      });
+      const newSelectedRows = this.state.selectedRows.filter((row) => { return ids.includes(row); });
+      if (this.props.noEmptySelection && newSelectedRows.length === 0) {
+        newSelectedRows.push(newProps.rows[0].id);
+      }
+      const newDetailsRowId = (newSelectedRows.length > 0) ? (newSelectedRows[newSelectedRows.length - 1]) : '';
+      this.setState({
+        selectedRows: newSelectedRows,
+        detailsRowId: newDetailsRowId,
+      });
+    }
+  }
+
   /**
    * Update the table's selection and update the details view's input.
    */
