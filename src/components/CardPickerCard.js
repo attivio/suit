@@ -50,7 +50,7 @@ export default class CardPickerCard extends React.Component<CardPickerCardDefaul
     columns: 3,
     iconUri: null,
     defaultIconUri: null,
-    description: null
+    description: null,
   };
 
   static displayName = 'CardPickerCard';
@@ -106,7 +106,8 @@ export default class CardPickerCard extends React.Component<CardPickerCardDefaul
     );
 
     return (
-      <div title={this.props.description}
+      <div
+        title={this.props.description}
         style={style}
         onClick={this.onClick}
         role="button"
@@ -115,7 +116,7 @@ export default class CardPickerCard extends React.Component<CardPickerCardDefaul
           this.card = c;
         }}
       >
-        <div 
+        <div
           style={{
             height: '80px',
             paddingBottom: '10px',
