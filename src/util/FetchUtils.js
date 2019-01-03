@@ -18,7 +18,7 @@ export default class FetchUtils {
       'Content-Type': 'application/json',
     });
 
-    const body = payload ? JSON.stringify(payload) : null;
+    const body = payload ? JSON.stringify(payload) : undefined;
     const params = {
       method,
       headers,
