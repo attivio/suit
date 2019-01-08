@@ -16,9 +16,25 @@ type MiniSearchUIProps = {
    * the MiniSearchUI. Optional—defaults to 100%.
    */
   scale: number;
+  /**
+   * Optional callback to handle searching if not using the context's
+   * Searcher component to do the searching (otherwise the searcher's onSearch method is used).
+   */
   onSearch: null | (q: string) => void;
+  /**
+   * Optional callback to handle updating the query string if not using the context's
+   * Searcher component to do the searching (otherwise the searcher's onSearch method is used).
+   */
   updateQuery: null | (q: string) => void;
+  /**
+   * Optional query response to render if not using the context's
+   * Searcher component to do the searching (otherwise the searcher's state's response is used).
+   */
   response: QueryResponse | null;
+  /**
+   * Optional query error to render if not using the context's
+   * Searcher component to do the searching (otherwise the searcher's state's error is used).
+   */
   error: string | null;
 };
 
