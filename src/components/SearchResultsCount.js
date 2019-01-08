@@ -7,18 +7,18 @@ type SearchResultsCountProps = {
    * A response can be passed in from custom searches if you don't want
    *  to use the response on the searcher in this.context
    */
-  response?: QueryResponse | null;
+  response: QueryResponse | null;
   /**
    * If attempting to pass in a custom response, there may be queries that result in errors,
    * which can be passed in here. Otherwise the error from the searcher
    * on this.context will be used.
    */
-  error?: string | null;
+  error: string | null;
 }
 
 type SearchResultsCountDefaultProps = {
   response: QueryResponse | null;
-  error?: string | null;
+  error: string | null;
 }
 
 /**
