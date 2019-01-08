@@ -16,14 +16,18 @@ type MiniSearchUIProps = {
    * the MiniSearchUI. Optional—defaults to 100%.
    */
   scale: number;
-  onSearch?: (q: string) => void;
-  updateQuery?: (q: string) => void;
-  response?: QueryResponse;
-  error?: string | null;
+  onSearch: null | (q: string) => void;
+  updateQuery: null | (q: string) => void;
+  response: QueryResponse | null;
+  error: string | null;
 };
 
 type MiniSearchUIDefaultProps = {
   scale: number;
+  onSearch: null | (q: string) => void;
+  updateQuery: null | (q: string) => void;
+  response: QueryResponse | null;
+  error: string | null;
 };
 
 type MiniSearchUIState = {
@@ -39,6 +43,10 @@ type MiniSearchUIState = {
 export default class MiniSearchUI extends React.Component<MiniSearchUIDefaultProps, MiniSearchUIProps, MiniSearchUIState> {
   static defaultProps = {
     scale: 1.0,
+    onSearch: null,
+    updateQuery: null,
+    response: null,
+    error: null,
   };
 
   static contextTypes = {
