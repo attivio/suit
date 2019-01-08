@@ -9,7 +9,7 @@ type CardPickerCardProps = {
    */
   label: string;
   /**
-   * The URI for the icon to display. If unset, no icon is shown.
+   * The URI for the icon to display. If not set, no icon is shown.
    * The icon is limited in size to 60x60 pixels.
    */
   iconUri: string | null;
@@ -18,13 +18,17 @@ type CardPickerCardProps = {
    * The icon is limited in size to 60x60 pixels.
    */
   defaultIconUri: string | null;
+   /**
+   * An optional description to show inside the card.
+   */
+  description: string | null;
   /**
-   * If set, then the card is drawn with a selected border and is not
-   * clickable.
+   * Should be set when the card is selected. It will be drawn with a border
+   * to indicate its selected status and will not be clickable.
    */
   selected: boolean;
   /**
-   * The callback to use when the card is clicked by the user.
+   * The function to call when the card is clicked by the user.
    */
   onClick: () => void;
   /**
@@ -38,6 +42,7 @@ type CardPickerCardDefaultProps = {
   columns: number;
   iconUri: string | null;
   defaultIconUri: string | null;
+  description: string | null;
 };
 
 export default class CardPickerCard extends React.Component<CardPickerCardDefaultProps, CardPickerCardProps, void> {
@@ -45,6 +50,7 @@ export default class CardPickerCard extends React.Component<CardPickerCardDefaul
     columns: 3,
     iconUri: null,
     defaultIconUri: null,
+    description: null,
   };
 
   static displayName = 'CardPickerCard';
@@ -101,6 +107,7 @@ export default class CardPickerCard extends React.Component<CardPickerCardDefaul
 
     return (
       <div
+        title={this.props.description}
         style={style}
         onClick={this.onClick}
         role="button"

@@ -9,11 +9,13 @@ export class CardPickerItem {
   label: string;
   key: string;
   iconUri: string | null;
+  description: string | null;
 
-  constructor(label: string, key: string, iconUri: string | null = null) {
+  constructor(label: string, key: string, iconUri: string | null = null, description: string | null) {
     this.label = label;
     this.key = key;
     this.iconUri = iconUri;
+    this.description = description;
   }
 }
 
@@ -89,6 +91,7 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
           key={`${cardItem.label}|${cardItem.iconUri ? cardItem.iconUri : 'noicon'}`}
           label={cardItem.label}
           iconUri={cardItem.iconUri || this.props.defaultIconUri}
+          description={cardItem.description}
           defaultIconUri={this.props.defaultIconUri}
           selected={cardItem.key === this.state.selection}
           onClick={() => { this.onClick(cardItem.key); }}
@@ -106,22 +109,3 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
 }
 
 CardPicker.CardPickerItem = CardPickerItem;
-
-/*
-      <Scrollable style={{ height: '100%' }}>
-        <div
-          style={{
-            width: '100%',
-            padding: 0,
-            display: 'flex',
-            flex: 1,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-          }}
-        >
-          {cardComponnents}
-        </div>
-      </Scrollable>
-*/

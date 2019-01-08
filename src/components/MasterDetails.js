@@ -20,7 +20,7 @@ type MasterDetailsProps = {
   rows: Array<any>;
   /**
    * The columns to display in the table
-  */
+   */
   columns: Array<Table.ColumnDef>;
   /**
    * The details component to be rendered for the selected row object from table.
@@ -39,7 +39,7 @@ type MasterDetailsProps = {
    * in the table; this callback is just a "courtesy" so the parent can do something such
    * as change the enablement of buttons, etc., based on the selection. See the onSelect
    * property of the Table component for more details.
-  */
+   */
   onSelect: null | (rowsIds: Array<string>, newlySelectedRowId: string | null) => void;
   /**
    * If set, the user can select multiple rows in the table.
@@ -82,6 +82,10 @@ type MasterDetailsProps = {
    * Optional; defaults to 0 pixels.
    */
   padding: number;
+  /**
+   * See the noEmptySelection property of the Table component for details
+   */
+  noEmptySelection: boolean;
 };
 
 type MasterDetailsDefaultProps = {
@@ -93,13 +97,14 @@ type MasterDetailsDefaultProps = {
   footer: any;
   split: ColumnCount;
   padding: number;
+  noEmptySelection: boolean;
 };
 
 type MasterDetailsState = {
   /** The IDs of the selected rows */
   selectedRows: Array<string>;
   /** The object for the most-recently selected row, to be displayed in the details pane.  */
-  detailsRow: any;
+  detailsRowId: string;
 };
 
 /**
@@ -117,6 +122,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     footer: null,
     split: 8,
     padding: 0,
+    noEmptySelection: false,
   };
 
   static displayName = 'MasterDetails';
@@ -125,40 +131,55 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     super(props);
     this.state = {
       selectedRows: this.props.rows.length > 0 ? [this.props.rows[0].id] : [],
-      detailsRow: this.props.rows.length > 0 ? this.props.rows[0] : null,
+      detailsRowId: this.props.rows.length > 0 ? this.props.rows[0].id : '',
     };
     (this: any).selectionChanged = this.selectionChanged.bind(this);
   }
   state: MasterDetailsState;
 
+  componentWillReceiveProps(newProps: MasterDetailsProps) {
+    if (newProps.rows.length === 0) {
+      this.setState({
+        selectedRows: [],
+        detailsRowId: '',
+      });
+    } else {
+      const ids = newProps.rows.map((row) => {
+        return row.id;
+      });
+      const newSelectedRows = this.state.selectedRows.filter((row) => { return ids.includes(row); });
+      if (this.props.noEmptySelection && newSelectedRows.length === 0) {
+        newSelectedRows.push(newProps.rows[0].id);
+      }
+      const newDetailsRowId = (newSelectedRows.length > 0) ? (newSelectedRows[newSelectedRows.length - 1]) : '';
+      this.setState({
+        selectedRows: newSelectedRows,
+        detailsRowId: newDetailsRowId,
+      });
+    }
+  }
+
   /**
    * Update the table's selection and update the details view's input.
    */
-  selectionChanged(rows: Array<string>, mostRecent: string | null) {
+  selectionChanged(selectedRowsIds: Array<string>, newlySelectedRowId: string | null) {
     let detailsRowId;
-    let selectedRows;
     if (this.props.multiSelect) {
-      if (mostRecent) {
+      if (newlySelectedRowId) {
         // We're adding a new row to the selection or reverting
         // to the previously selected one
-        detailsRowId = mostRecent;
+        detailsRowId = newlySelectedRowId;
       }
-    } else {
-      // Rows should be an array of 0 or 1 row ID
-      selectedRows = rows;
-      if (rows.length > 0) {
-        detailsRowId = rows[0];
-      }
+    // Rows should be an array of 0 or 1 row ID
+    } else if (selectedRowsIds.length > 0) {
+      detailsRowId = selectedRowsIds[0];
     }
-    const detailsRow = this.props.rows.find((row) => {
-      return row.id === detailsRowId;
-    });
     if (this.props.onSelect) {
-      this.props.onSelect(rows, mostRecent);
+      this.props.onSelect(selectedRowsIds, newlySelectedRowId);
     }
     this.setState({
-      selectedRows,
-      detailsRow: detailsRow || null,
+      selectedRows: selectedRowsIds,
+      detailsRowId: detailsRowId || '',
     });
   }
 
@@ -167,10 +188,13 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     const tableWidth = this.props.split;
     const detailsWidth = 12 - tableWidth;
     const halfPadding = `${this.props.padding / 2}px`;
+    const detailsRow = this.props.rows.find((row) => {
+      return row.id === this.state.detailsRowId;
+    });
 
     return (
       <Grid fluid style={{ padding: 0 }}>
-        <Row>
+        <Row style={{ margin: 0 }}>
           <Col lg={tableWidth} md={tableWidth} sm={12} xs={12} style={{ paddingLeft: 0, paddingRight: halfPadding }}>
             <div>
               {this.props.header}
@@ -182,12 +206,13 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
                 onSort={this.props.onSort}
                 selection={this.state.selectedRows}
                 multiSelect={this.props.multiSelect}
+                noEmptySelection={this.props.noEmptySelection}
               />
               {this.props.footer}
             </div>
           </Col>
           <Col lg={detailsWidth} md={detailsWidth} sm={12} xs={12} style={{ paddingLeft: halfPadding, paddingRight: 0 }}>
-            <Detail data={this.state.detailsRow} />
+            <Detail data={detailsRow} />
           </Col>
         </Row>
       </Grid>
