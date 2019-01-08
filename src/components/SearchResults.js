@@ -101,8 +101,6 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
     const searcher = this.context.searcher;
     const response = this.props.response !== null ? this.props.response : searcher.state.response;
     const offset = this.props.response ? this.props.offset : searcher.state.resultsOffset;
-    const response = searcher.state.response;
-    const offset = searcher.state.resultsOffset;
 
     let formats: Array<SearchResultRenderer> = [];
     if (searcher.state.debug) {
