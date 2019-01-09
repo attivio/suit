@@ -2,6 +2,7 @@
 
 [![TravisCI][build-badge]][build]
 [![npmjs][npm-badge]][npm]
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fattivio%2Fsuit.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fattivio%2Fsuit?ref=badge_shield)
 
 The Search User Interface Toolkit, or SUIT, is a library for creating search
 applications on top of the index in an Attivio, Elasticsearch or Solr installation.
@@ -22,3 +23,7 @@ For more information on Attivio and the Attivio Platform, please visit our websi
 [npm-badge]: https://img.shields.io/npm/v/@attivio/suit.svg
 [npm]: https://www.npmjs.org/package/@attivio/suit
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fattivio%2Fsuit.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fattivio%2Fsuit?ref=badge_large)
