@@ -21,7 +21,7 @@ type MasterDetailsProps = {
   /**
    * The columns to display in the table
    */
-  columns: Array<Table.ColumnDef>;
+  columns: Array<Table.TableColumn>;
   /**
    * The details component to be rendered for the selected row object from table.
    * It is passed a property called "rowData" which contains the object representing
@@ -162,24 +162,10 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
   /**
    * Update the table's selection and update the details view's input.
    */
-  selectionChanged(selectedRowsIds: Array<string>, newlySelectedRowId: string | null) {
-    let detailsRowId;
-    if (this.props.multiSelect) {
-      if (newlySelectedRowId) {
-        // We're adding a new row to the selection or reverting
-        // to the previously selected one
-        detailsRowId = newlySelectedRowId;
-      }
-    // Rows should be an array of 0 or 1 row ID
-    } else if (selectedRowsIds.length > 0) {
-      detailsRowId = selectedRowsIds[0];
-    }
-    if (this.props.onSelect) {
-      this.props.onSelect(selectedRowsIds, newlySelectedRowId);
-    }
+  selectionChanged(selectedRowIds: Array<string>, newlySelectedRowId: string | null) {
     this.setState({
-      selectedRows: selectedRowsIds,
-      detailsRowId: detailsRowId || '',
+      selectedRows: selectedRowIds,
+      detailsRowId: newlySelectedRowId || '',
     });
   }
 

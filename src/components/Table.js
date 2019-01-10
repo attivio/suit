@@ -172,38 +172,39 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     }
   }
 
-  rowSelect(rowData: any, isSelected: boolean) {
-    const rowId = rowData.id;
+  rowSelect(rowData: any): boolean {
+    let rowId = rowData.id;
 
-    let selectedRowIds;
-    if (Array.isArray(this.props.selection)) {
-      selectedRowIds = this.props.selection;
-    } else if (typeof this.props.selection === 'string') {
-      selectedRowIds = [this.props.selection];
-    } else {
-      selectedRowIds = [];
-    }
-
-    if (isSelected) {
-      if (this.props.multiSelect) {
-        // If it's not already in the selection, add it and call the callback
-        if (!selectedRowIds.includes(rowId)) {
-          selectedRowIds.push(rowId);
-        }
+    if (this.props.multiSelect) {
+      // if the list allows multiple selected rows
+      let selectedRowIds;
+      if (Array.isArray(this.props.selection)) {
+        selectedRowIds = this.props.selection;
+      } else if (typeof this.props.selection === 'string') {
+        selectedRowIds = [this.props.selection];
       } else {
-        // Just set the selection to the single row if not multi-select
-        selectedRowIds = [rowId];
+        selectedRowIds = [];
       }
-      this.props.onSelect(selectedRowIds, rowId);
-    } else if ((this.props.noEmptySelection && selectedRowIds.length > 1) || this.props.multiSelect) {
-      const oldPosition = selectedRowIds.indexOf(rowId);
-      if (oldPosition >= 0) {
-          // If it was in the previous array, remove it...
-        selectedRowIds.splice(oldPosition, 1);
-        const mostRecent = selectedRowIds.length > 0 ? selectedRowIds[selectedRowIds.length - 1] : null;
-        this.props.onSelect(selectedRowIds, mostRecent);
+
+      if (!selectedRowIds.includes(rowId)) {
+        // if the row is not already in the selection, add it
+        selectedRowIds.push(rowId);
+        this.props.onSelect(selectedRowIds, rowId);
+      } else if (selectedRowIds.length === 1 && this.props.noEmptySelection) {
+        // if this is the only remaining selection and we don't allow empty selection, just don't update
+        return false;
+      } else {
+        // if it is already in the selection, remove it
+        selectedRowIds.splice(selectedRowIds.indexOf(rowId), 1);
+        rowId = selectedRowIds[selectedRowIds.length - 1];
+        this.props.onSelect(selectedRowIds, rowId);
       }
+      return true;
     }
+
+    // just select the newly clicked row
+    this.props.onSelect([rowId], rowId);
+    return true;
   }
 
   remote(remoteObject: any): any {
