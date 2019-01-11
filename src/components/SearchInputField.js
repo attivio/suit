@@ -41,11 +41,9 @@ export default class SearchInputField extends React.Component<SearchInputFieldPr
     }
   }
 
-  keyPressed(event: Event) {
-    if (event.target instanceof HTMLInputElement) {
-      if (event.key === 'Enter') {
-        this.doSearch();
-      }
+  keyPressed(event: SyntheticKeyboardEvent<HTMLInputElement>) {
+    if (event.key === 'Enter') {
+      this.doSearch();
     }
   }
 

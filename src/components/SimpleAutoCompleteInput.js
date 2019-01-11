@@ -135,7 +135,7 @@ export default class SimpleAutoCompleteInput extends React.Component<AutoComplet
     return [];
   }
 
-  handleChange(event: Event & { currentTarget: HTMLInputElement }) {
+  handleChange(event: SyntheticEvent<HTMLInputElement>) {
     const query = event.currentTarget.value;
     this.props.updateValue(query, false);
     if (!query || query.length === 0) {
@@ -174,7 +174,7 @@ export default class SimpleAutoCompleteInput extends React.Component<AutoComplet
     }
   }
 
-  doKeyPress(event: Event & { currentTarget: HTMLInputElement, keyCode: number }) {
+  doKeyPress(event: SyntheticKeyboardEvent<HTMLInputElement>) {
     const suggestions = this.state.suggestions;
     // This condition is satisfied when a user presses the enter key.
     if (event.keyCode === 13) {

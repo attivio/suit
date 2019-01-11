@@ -82,7 +82,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
     });
   }
 
-  handleChange(event: Event & { currentTarget: HTMLInputElement }) {
+  handleChange(event: SyntheticEvent<HTMLInputElement>) {
     const query = event.currentTarget.value;
     this.props.updateValue(query, false);
     if (query && query.length > AutoCompleteInput.AUTOCOMPLETE_THRESHOLD) {
@@ -118,7 +118,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
             });
           }
         };
-        FetchUtils.fetch(`${uri}?term=${encodedValue}`, null, callback, 'GET', 'An error occured while looking for suggestions.');
+        FetchUtils.fetch(`${uri}?term=${encodedValue}`, null, callback, 'GET', 'An error occurred while looking for suggestions.');
       }
     } else {
       this.setState({
@@ -131,7 +131,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
     }
   }
 
-  doKeyPress(event: Event & { currentTarget: HTMLInputElement, keyCode: number }) {
+  doKeyPress(event: SyntheticKeyboardEvent<HTMLInputElement>) {
     const { suggestions } = this.state;
     // This condition is satisfied when a user presses the enter key.
     if (event.keyCode === 13) {

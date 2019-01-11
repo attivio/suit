@@ -45,9 +45,8 @@ type PieChartFacetContentsProps = {
  * Component to display the buckets of a facet using a pie chart.
  */
 export default class PieChartFacetContents extends React.Component<PieChartFacetContentsProps> {
-  const entityColors = new Map();
   static defaultProps = {
-    entityColors,
+    entityColors: new Map(),
     legendAlign: 'center',
     legendLayout: 'horizontal',
     legendVerticalAlign: 'bottom',
@@ -118,7 +117,7 @@ export default class PieChartFacetContents extends React.Component<PieChartFacet
             enabled: false,
           },
           events: {
-            click: (event: Event) => {
+            click: (event: { point: number }) => {
               if (this.props.clickable) {
                 if (event.point) {
                   this.clickWedge((event.point: any).index);

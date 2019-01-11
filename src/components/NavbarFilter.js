@@ -19,9 +19,9 @@ export default class NavbarFilter extends React.Component<NavbarFilterProps> {
     (this: any).remove = this.remove.bind(this);
   }
 
-  remove(event: Event & { target: HTMLAnchorElement }) {
+  remove(event: SyntheticEvent<HTMLAnchorElement>) {
     this.props.removeCallback();
-    event.target.blur();
+    event.currentTarget.blur();
   }
 
   render() {

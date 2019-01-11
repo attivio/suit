@@ -54,7 +54,7 @@ export default class StringListEditor extends React.Component<StringListEditorPr
 
   state: StringListEditorState;
 
-  onChange(event: Event & { currentTarget: HTMLInputElement }) {
+  onChange(event: SyntheticEvent<HTMLInputElement>) {
     const newValue = event.currentTarget.value;
     this.setState({
       value: newValue,

@@ -40,18 +40,18 @@ export default class LoginForm extends React.Component<LoginFormProps, LoginForm
 
   state: LoginFormState;
 
-  handleClick(event: Event) {
+  handleClick(event: SyntheticEvent<HTMLButtonElement>) {
     this.props.doLogin(this.state.username, this.state.password);
     event.preventDefault();
   }
 
-  updateUsername(event: Event & { currentTarget: HTMLInputElement }) {
+  updateUsername(event: SyntheticEvent<HTMLInputElement>) {
     this.setState({
       username: event.currentTarget.value,
     });
   }
 
-  updatePassword(event: Event & { currentTarget: HTMLInputElement }) {
+  updatePassword(event: SyntheticEvent<HTMLInputElement>) {
     this.setState({
       password: event.currentTarget.value,
     });

@@ -28,9 +28,9 @@ export default class MoreListFacetContents extends React.Component<MoreListFacet
     (this: any).addFilter = this.addFilter.bind(this);
   }
 
-  addFilter(event: Event & { target: HTMLAnchorElement }) {
-    this.props.addFacetFilter(this.props.buckets[event.target.tabIndex]);
-    event.target.blur();
+  addFilter(event: SyntheticEvent<HTMLAnchorElement>) {
+    this.props.addFacetFilter(this.props.buckets[event.currentTarget.tabIndex]);
+    event.currentTarget.blur();
   }
 
   render() {

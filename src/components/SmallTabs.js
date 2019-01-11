@@ -29,10 +29,10 @@ export default class SmallTabs extends React.Component<SmallTabsProps> {
     (this: any).onClick = this.onClick.bind(this);
   }
 
-  onClick(event: Event & { target: HTMLAnchorElement }) {
-    const tabName = event.target.attributes.getNamedItem('data-tab-name').value;
+  onClick(event: SyntheticEvent<HTMLAnchorElement>) {
+    const tabName = event.currentTarget.attributes.getNamedItem('data-tab-name').value;
     this.props.changed(tabName);
-    event.target.blur();
+    event.currentTarget.blur();
   }
 
   render() {

@@ -118,26 +118,22 @@ class SearchResultTags extends React.Component<SearchResultTagsProps, SearchResu
     }
   }
 
-  updateNewTag(event: Event) {
-    if (event.target instanceof HTMLInputElement) {
-      this.setState({
-        newTag: event.target.value,
-      });
-    }
+  updateNewTag(event: SyntheticEvent<HTMLInputElement>) {
+    this.setState({
+      newTag: event.currentTarget.value,
+    });
   }
 
-  keyUp(event: Event) {
-    if (event.target instanceof HTMLInputElement) {
-      if (event.key === 'Enter') {
-        // If the user presses enter, then add the new tag
-        this.addTag();
-      } else if (event.key === 'Escape') {
-        // Otherwise, if the press escape, to back to showing the Add… link instead of the input field
-        this.setState({
-          newTag: '',
-          adding: false,
-        });
-      }
+  keyUp(event: SyntheticKeyboardEvent<HTMLInputElement>) {
+    if (event.key === 'Enter') {
+      // If the user presses enter, then add the new tag
+      this.addTag();
+    } else if (event.key === 'Escape') {
+      // Otherwise, if the press escape, to back to showing the Add… link instead of the input field
+      this.setState({
+        newTag: '',
+        adding: false,
+      });
     }
   }
 

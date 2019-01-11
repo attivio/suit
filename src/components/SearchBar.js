@@ -177,11 +177,9 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
     this.forceUpdate();
   }
 
-  queryChanged(e: Event) {
-    if (e.target instanceof HTMLInputElement) {
-      const newQuery = e.target.value;
-      this.updateQuery(newQuery);
-    }
+  queryChanged(e: SyntheticEvent<HTMLInputElement>) {
+    const newQuery = e.currentTarget.value;
+    this.updateQuery(newQuery);
   }
 
   advancedMenuItem: ?HTMLSpanElement;
@@ -211,12 +209,10 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
     }
   }
 
-  doKeyPress(e: Event) {
+  doKeyPress(e: SyntheticKeyboardEvent<HTMLInputElement>) {
     // If the user presses enter, do the search
-    if (e.target instanceof HTMLInputElement) {
-      if (e.keyCode === 13) {
-        this.doSearch();
-      }
+    if (e.keyCode === 13) {
+      this.doSearch();
     }
   }
 

@@ -104,9 +104,9 @@ export default class SentimentTagCloud extends React.Component<SentimentTagCloud
 
     const cloudItems = tagCloudValues.map((tcv) => {
       const size = SentimentTagCloud.getAdjustedValue(tcv.value, maxValue, tcv.sentiment);
-      const callback = (event: Event & { target: HTMLAnchorElement }) => {
+      const callback = (event: SyntheticEvent<HTMLAnchorElement>) => {
         this.props.callback(tcv);
-        event.target.blur();
+        event.currentTarget.blur();
       };
       return (
         <li key={tcv.label}>

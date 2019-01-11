@@ -232,11 +232,9 @@ class FacetSearchBar extends React.Component<FacetSearchBarProps, FacetSearchBar
   /**
    * Handles when the user updates the query for this facet.
    */
-  queryChanged(e: Event) {
-    if (e.target instanceof HTMLInputElement) {
-      const newQuery = e.target.value;
-      this.setState({ facetValue: newQuery, query: newQuery });
-    }
+  queryChanged(e: SyntheticEvent<HTMLInputElement>) {
+    const newQuery = e.currentTarget.value;
+    this.setState({ facetValue: newQuery, query: newQuery });
   }
 
   /**
@@ -262,12 +260,10 @@ class FacetSearchBar extends React.Component<FacetSearchBarProps, FacetSearchBar
   /**
    * Called when a user presses a key.
    */
-  doKeyPress(e: Event) {
+  doKeyPress(e: SyntheticKeyboardEvent<HTMLInputElement>) {
     // If the user presses enter, do the search
-    if (e.target instanceof HTMLInputElement && e.keyCode) {
-      if (e.keyCode === 13) {
-        this.doSearch();
-      }
+    if (e.keyCode === 13) {
+      this.doSearch();
     }
   }
 

@@ -75,9 +75,9 @@ export default class ListWithBarsFacetContents extends React.Component<Props, St
       const label = bucket.displayLabel();
       const percent = Math.round((bucket.count / maxValue) * 100);
       const percentage = `${percent}%`;
-      const callback = (event: Event & { target: HTMLAnchorElement }) => {
+      const callback = (event: SyntheticEvent<HTMLAnchorElement>) => {
         this.props.addFacetFilter(bucket);
-        event.target.blur();
+        event.currentTarget.blur();
       };
       const labelValue = this.props.noLink ? (
         <span>

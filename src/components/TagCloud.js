@@ -124,9 +124,9 @@ export default class TagCloud extends React.Component<TagCloudProps> {
 
     const cloudItems = tagCloudValues.map((tcv) => {
       const size = TagCloud.getAdjustedValue(tcv.value, minValue, maxValue);
-      const callback = (event: Event & { target: HTMLAnchorElement }) => {
+      const callback = (event: SyntheticEvent<HTMLAnchorElement>) => {
         this.props.callback(tcv);
-        event.target.blur();
+        event.currentTarget.blur();
       };
       const className = TagCloud.getClassNameForLevel(size);
       return (
