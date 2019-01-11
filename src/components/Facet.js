@@ -26,10 +26,10 @@ export type FacetType = 'barchart' | 'columnchart' | 'piechart' | 'barlist' |
 type FacetProps = {
   /** The facet to display. */
   facet: SearchFacet;
-  /** The facet for positive key phrases used in Sentiment TagCloud */
-  positiveKeyphrases?: SearchFacet;
-  /** The facet for negative key phrases used in Sentiment TagCloud */
-  negativeKeyphrases?: SearchFacet;
+  /** The facet for positive key phrases used in Sentiment TagCloud (optional) */
+  positiveKeyphrases: SearchFacet | null;
+  /** The facet for negative key phrases used in Sentiment TagCloud (optional) */
+  negativeKeyphrases: SearchFacet | null;
   /** The way the facet information should be displayed. Defaults to 'list' */
   type: FacetType;
   /**
@@ -59,6 +59,8 @@ export default class Facet extends React.Component<FacetProps> {
     collapse: false,
     bordered: false,
     entityColors: new Map(),
+    negativeKeyphrases: null,
+    positiveKeyphrases: null,
   };
 
   static contextTypes = {

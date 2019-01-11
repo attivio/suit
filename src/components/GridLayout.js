@@ -7,22 +7,12 @@ import Scrollable from './Scrollable';
 
 type GridLayoutProps = {
   /**
-   * Whether the grid should be laid out and scrollable
-   * in the horizontal direction (in a single row)
-   * Defaults to false.
-   */
-  oneRow: boolean;
-  /**
    * The contents that will be laid out.
    */
   children: Node;
 };
 
 export default class GridLayout extends React.Component<GridLayoutProps> {
-  static defaultProps = {
-    oneRow: false,
-  };
-
   static displayName = 'GridLayout';
 
   render() {
