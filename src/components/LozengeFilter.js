@@ -96,6 +96,8 @@ export default class LozengeFilter extends React.Component<LozengeFilterProps, L
     return [];
   }
 
+  divs: Map<string, ?HTMLDivElement> = new Map();
+
   makeItem(label: string, value: string | null, current: boolean) {
     const baseStyle = {
       display: 'block',
@@ -225,8 +227,6 @@ export default class LozengeFilter extends React.Component<LozengeFilterProps, L
     }
     return false;
   }
-
-  divs: Map<string, HTMLDivElement> = new Map();
 
   render() {
     const items = this.props.values.map((value) => {

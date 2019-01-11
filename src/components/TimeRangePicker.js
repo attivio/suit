@@ -196,7 +196,7 @@ export default class TimeRangePicker extends React.Component<TimeRangePickerProp
 
   renderCustomRangeOption() {
     if (this.props.customRange) {
-      const customRangeClass = this.state.currentInterval === null ? 'attivio-smalltabs-selected' : '';
+      const customRangeClass = this.props.currentInterval === null ? 'attivio-smalltabs-selected' : '';
       const { startDate, endDate } = this.calculateRange();
       return (
         <li className="DateRangePicker">

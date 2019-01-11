@@ -42,7 +42,7 @@ export default class NavbarSearch extends React.Component<NavbarSearchProps> {
     }
   }
 
-  button: ?HTMLDivElement;
+  button: ?HTMLButtonElement;
 
   render() {
     const { placeholder, value, updateSearchString, onSearch, ...otherProps } = this.props;

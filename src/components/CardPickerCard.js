@@ -62,7 +62,7 @@ export default class CardPickerCard extends React.Component<CardPickerCardProps>
     }
   }
 
-  card: ?HTMLAnchorElement;
+  card: ?HTMLDivElement;
 
   render() {
     const style = {

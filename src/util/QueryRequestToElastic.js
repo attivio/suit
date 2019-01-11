@@ -40,7 +40,7 @@ export default class QueryRequestToElastic {
       .catch((e) => { return callback(`Error: ${e}`); });
   }
 
-  static buildQuery(query, facetFilters) {
+  static buildQuery(query: string, facetFilters: Array<*>) {
     if (facetFilters.length === 0) {
       return query;
     }
@@ -55,7 +55,7 @@ export default class QueryRequestToElastic {
     return aggs;
   }
 
-  static buildSort(sort, customConfig) {
+  static buildSort(sort: Array<string>, customConfig: any) {
     if (sort.length === 0) {
       return [];
     }

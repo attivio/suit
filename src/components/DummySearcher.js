@@ -242,7 +242,7 @@ export default class DummySearcher extends React.Component<DummySearcherProps, D
    * The search is reset to the first page when performed again.
    */
   updateSort(newSort: string) {
-    if (this.newSort !== this.state.sort) {
+    if (newSort !== this.state.sort) {
       let sort = this.state.sort;
       if (sort && sort.length > 0) {
         sort[0] = newSort;

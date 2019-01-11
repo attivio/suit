@@ -78,6 +78,8 @@ export default class DocumentThumbnail extends React.Component<DocumentThumbnail
       } else {
         previews = this.props.previewUris;
       }
+    } else {
+      previews = [];
     }
 
     // We show something if there's a thumbnail URI or there are preview images...

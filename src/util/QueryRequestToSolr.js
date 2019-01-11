@@ -35,7 +35,7 @@ export default class QueryRequestToSolr {
       .catch((e) => { return callback(`Error: ${e}`); });
   }
 
-  static buildFilter(facetFilters): string {
+  static buildFilter(facetFilters: Array<*>): string {
     if (!facetFilters || facetFilters.length === 0) return '';
     return `${facetFilters.map((ff) => { return ff.filter; }).join(' AND ')}`;
   }
@@ -48,7 +48,7 @@ export default class QueryRequestToSolr {
     return aggs;
   }
 
-  static buildSort(sort, customConfig): string {
+  static buildSort(sort: Array<string>, customConfig: any): string {
     if (!sort || !sort[0] || sort[0].length === 0) return 'score DESC';
     const [field, order] = sort[0].split(':');
     const fieldInSolr = customConfig.mappings[field];

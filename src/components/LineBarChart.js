@@ -21,6 +21,7 @@ export class ChartDataSource {
   color: string | null;
   valueSuffix: string | null;
   right: boolean;
+  opposite: boolean;
 
   constructor(
     name: string,
@@ -29,6 +30,7 @@ export class ChartDataSource {
     color: string | null = null,
     valueSuffix: string | null = null,
     right: boolean = false,
+    opposite: boolean = false,
   ) {
     this.name = name;
     this.type = type;
@@ -36,6 +38,7 @@ export class ChartDataSource {
     this.color = color;
     this.valueSuffix = valueSuffix;
     this.right = right;
+    this.opposite = opposite;
   }
 }
 

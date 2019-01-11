@@ -45,8 +45,9 @@ type PieChartFacetContentsProps = {
  * Component to display the buckets of a facet using a pie chart.
  */
 export default class PieChartFacetContents extends React.Component<PieChartFacetContentsProps> {
+  const entityColors = new Map();
   static defaultProps = {
-    entityColors: new Map(),
+    entityColors,
     legendAlign: 'center',
     legendLayout: 'horizontal',
     legendVerticalAlign: 'bottom',

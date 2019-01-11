@@ -1,13 +1,14 @@
 // @flow
 
 import React from 'react';
+import type { Node } from 'react';
 import validator from 'validator';
 
 export class LabeledDataPair {
   label: string;
-  value: string | Element;
+  value: string | Node;
 
-  constructor(label: string, value: string | Element) {
+  constructor(label: string, value: string | Node) {
     this.label = label;
     this.value = value;
   }
@@ -42,7 +43,7 @@ export default class LabeledData extends React.Component<LabeledDataProps> {
   render() {
     const className = this.props.stacked ? 'attivio-labeldata-stacked' : 'attivio-labeldata-2col';
     const rows = [];
-    this.props.data.forEach((item) => {
+    this.props.data.forEach((item: LabeledDataPair) => {
       rows.push(<dt key={`${item.label}-label`}>{item.label}</dt>);
       if (typeof item.value === 'string' && validator.isURL(item.value)) {
         rows.push((
@@ -53,7 +54,11 @@ export default class LabeledData extends React.Component<LabeledDataProps> {
           </dd>
         ));
       } else {
-        rows.push(<dd key={`${item.label}-value`}>{item.value}</dd>);
+        rows.push((
+          <dd key={`${item.label}-value`}>
+            <span>{item.value}</span>
+          </dd>
+        ));
       }
     });
 

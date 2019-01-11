@@ -2,15 +2,17 @@
 
 import React from 'react';
 
+type Sentiment = 'positive' | 'negative' | 'neutral';
+
 export class SentimentTagCloudValue {
   /** The string to display in the list. */
   label: string;
   /** The value for this item. */
   value: number;
   /** The sentiment for this item. */
-  sentiment: string;
+  sentiment: Sentiment;
 
-  constructor(label: string, value: number, sentiment: string) {
+  constructor(label: string, value: number, sentiment: Sentiment) {
     this.label = label;
     this.value = value;
     this.sentiment = sentiment;
@@ -48,7 +50,7 @@ export default class SentimentTagCloud extends React.Component<SentimentTagCloud
 
   static SentimentTagCloudValue: typeof SentimentTagCloudValue;
 
-  static mapRange(num, sentiment) {
+  static mapRange(num: number, sentiment: Sentiment) {
     if (sentiment === 'positive') {
       const inMin = 1;
       const inMax = 8;
@@ -65,7 +67,7 @@ export default class SentimentTagCloud extends React.Component<SentimentTagCloud
     return -1;
   }
 
-  static getAdjustedValue(value: number, max: number, sentiment: string): number {
+  static getAdjustedValue(value: number, max: number, sentiment: Sentiment): number {
     const ratio = value / max;
     const timesSeven = ratio * 7;
     const oneThroughEight = Math.round(timesSeven) + 1;

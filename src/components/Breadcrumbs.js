@@ -40,7 +40,7 @@ class Breadcrumbs extends React.Component<BreadcrumbsProps> {
     (this: any).handleClick = this.handleClick.bind(this);
   }
 
-  links: ?Array<HTMLAnchorElement>;
+  links: Array<?HTMLAnchorElement>;
 
   handleClick(location: any, index: number) {
     if (this.links && this.links[index]) {

@@ -14,7 +14,9 @@ type ConfigurationProps = {
   children: Node;
 };
 
-export default class Configuration extends React.Component<ConfigurationProps> {
+type ConfigurationState = any;
+
+export default class Configuration extends React.Component<ConfigurationProps, ConfigurationState> {
   static childContextTypes = {
     configuration: PropTypes.any,
   }

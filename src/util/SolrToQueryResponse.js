@@ -39,7 +39,7 @@ export default class SolrToQueryResponse {
   /**
    * Turn non-array field values into arrays.
    */
-  static wrapIfNotArray(v) {
+  static wrapIfNotArray(v: any) {
     return Array.isArray(v) ? v : [v];
   }
 
@@ -66,7 +66,7 @@ export default class SolrToQueryResponse {
     });
   }
 
-  static getSolrFacets(facets: any, customOptions: any) {
+  static getSolrFacets(facets: any, customOptions: any): Array<*> {
     const countlessFacets = Object.assign({}, facets);
     if (countlessFacets.count) {
       delete countlessFacets.count;

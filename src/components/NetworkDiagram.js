@@ -119,7 +119,7 @@ export default class NetworkDiagram extends React.Component<NetworkDiagramProps>
     }
   }
 
-  networkDiagram: React.Component<*>;
+  networkDiagram: ?HTMLDivElement;
   network: vis.Network;
 
   render() {

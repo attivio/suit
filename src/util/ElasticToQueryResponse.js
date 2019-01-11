@@ -34,7 +34,7 @@ export default class ElasticToQueryResponse {
   /**
    * Turn non-array field values into arrays.
    */
-  static wrapIfNotArray(v): Array<any> {
+  static wrapIfNotArray(v: any): Array<any> {
     return Array.isArray(v) ? v : [v];
   }
 
@@ -56,7 +56,7 @@ export default class ElasticToQueryResponse {
     });
   }
 
-  static getElasticFacets(facets: any, customOptions: any) {
+  static getElasticFacets(facets: any, customOptions: any): Array<*> {
     return Object.keys(facets).map((field) => {
       const facetConfig = customOptions.facets.find((f) => {
         return f.field === field;

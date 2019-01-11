@@ -125,7 +125,7 @@ class Masthead extends React.Component<MastheadProps, MastheadState> {
     this.props.history.push({ pathname: this.props.homeRoute, search: this.props.location.search });
   }
 
-  homeLink: ?HTMLAnchorElement;
+  homeLink: ?HTMLButtonElement;
 
   render() {
     let engineInfo = null;
