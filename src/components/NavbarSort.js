@@ -18,19 +18,13 @@ type NavbarSortProps = {
   includeRelevancy: boolean;
 };
 
-type NavbarSortDefaultProps = {
-  right: boolean;
-  label: string;
-  includeRelevancy: boolean;
-};
-
 /**
  * A pop-up menu that lets the user choose which field the
  * search results should be sorted by. It must be a child of
  * the Searcher component it is controlling.
  */
-export default class NavbarSort extends React.Component<NavbarSortDefaultProps, NavbarSortProps, void> {
-  static defaultProps: NavbarSortDefaultProps = {
+export default class NavbarSort extends React.Component<NavbarSortProps> {
+  static defaultProps = {
     right: false,
     label: 'Sort:',
     includeRelevancy: false,

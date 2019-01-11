@@ -1,6 +1,7 @@
 // @flow
 
-import React, { Children } from 'react';
+import React from 'react';
+import type { Node } from 'react';
 
 type SmallTabsProps = {
   /** The list of tab labels for the control. */
@@ -10,17 +11,13 @@ type SmallTabsProps = {
   /** Callback that is invoked when the user clicks a tab. */
   changed: (string) => void;
   /** Any custom tab elements to include alongside the regular string tabs. Optional */
-  children?: Children;
-};
-
-type SmallTabsDefaultProps = {
-  currentTab: string;
+  children: Node;
 };
 
 /**
  * A set of buttons for choosing among a series of mutually exclusive options.
  */
-export default class SmallTabs extends React.Component<SmallTabsDefaultProps, SmallTabsProps, void> {
+export default class SmallTabs extends React.Component<SmallTabsProps> {
   static defaultProps = {
     currentTab: '',
   };

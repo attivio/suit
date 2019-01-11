@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import type { Children } from 'react';
+import type { Node } from 'react';
 
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -17,16 +17,8 @@ type BigButtonProps = {
   /** An optional handler that will be called when the user clicks the button. */
   onClick: () => void,
   /** The button's contents are any children between the opening and closing tags. */
-  children: Children,
+  children: Node,
   /** Any custom CSS styles to apply to the button. */
-  style: any,
-};
-
-type BigButtonDefaultProps = {
-  className: string,
-  bsStyle: string,
-  route: string,
-  onClick: () => void,
   style: any,
 };
 
@@ -44,7 +36,7 @@ type BigButtonDefaultProps = {
  * pass a value to the <code>bsStyle</code> prop to change its style). Alternatively,
  * you can pass the name of a CSS class or a style object as to style it yourself.
  */
-class BigButton extends React.Component<BigButtonDefaultProps, BigButtonProps, void> {
+class BigButton extends React.Component<BigButtonProps> {
   static defaultProps = {
     className: '',
     bsStyle: 'default',

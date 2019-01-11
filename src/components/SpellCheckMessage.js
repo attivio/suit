@@ -15,7 +15,7 @@ type SpellCheckMessageProps = {
 /**
  * A suggested alternate query if one is available.
  */
-class SpellCheckMessage extends React.Component<void, SpellCheckMessageProps, void> {
+class SpellCheckMessage extends React.Component<SpellCheckMessageProps> {
   static contextTypes = {
     searcher: PropTypes.any,
   };

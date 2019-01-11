@@ -1,5 +1,6 @@
 // @flow
-import React, { Children } from 'react';
+import React from 'react';
+import type { Node } from 'react';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
@@ -13,7 +14,7 @@ type TrianglePanelProps = {
   /** If set, then the panel's initial state will be collapsed. */
   initiallyCollapsed: boolean;
   /**
-   * If set, then the open/closed state of this componenent will be saved
+   * If set, then the open/closed state of this component will be saved
    * in the browser's local storage using this key. In this case, the
    * initial value of the open property will be obtained from the local
    * storage if possible, otherwise it will be determined by the
@@ -21,13 +22,7 @@ type TrianglePanelProps = {
    */
   localStorageKey: string | null;
   /** The contents of the panel can be whatever you like. */
-  children: Children;
-}
-
-type TrianglePanelDefaultProps = {
-  bordered: boolean;
-  initiallyCollapsed: boolean;
-  localStorageKey: string | null;
+  children: Node;
 }
 
 type TrianglePanelState = {
@@ -43,7 +38,7 @@ type TrianglePanelState = {
  * It can optionally remember the open/closed state between uses by using
  * the browser's local storage.
  */
-export default class TrianglePanel extends React.Component<TrianglePanelDefaultProps, TrianglePanelProps, TrianglePanelState> { // eslint-disable-line max-len
+export default class TrianglePanel extends React.Component<TrianglePanelProps, TrianglePanelState> {
   static defaultProps = {
     bordered: false,
     initiallyCollapsed: false,
@@ -56,7 +51,7 @@ export default class TrianglePanel extends React.Component<TrianglePanelDefaultP
     super(props);
 
     // If the localStorageKey is set, try to get the initial value for "open" from there.
-    // Otherwise use the value passed in as initallyCollapsed.
+    // Otherwise use the value passed in as initiallyCollapsed.
     let initiallyCollapsed = this.props.initiallyCollapsed;
     if (this.props.localStorageKey) {
       const collapsedString = window.localStorage.getItem(this.props.localStorageKey);

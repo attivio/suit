@@ -39,8 +39,7 @@ type DatePickerState = {
  * Component to let the user choose either a single
  * date or a starting/ending range.
  */
-export default class DatePicker extends React.Component<void, DatePickerProps, DatePickerState> {
-
+export default class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   static displayName = 'DatePicker';
 
   constructor(props: DatePickerProps) {

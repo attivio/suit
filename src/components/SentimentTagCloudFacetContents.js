@@ -21,7 +21,7 @@ type SentimentTagCloudFacetContentsProps = {
 };
 
 /** Display the values for positive and negative keyphrases in a list with TagClouds. */
-export default class SentimentTagCloudFacetContents extends React.Component<void, SentimentTagCloudFacetContentsProps, void> {
+export default class SentimentTagCloudFacetContents extends React.Component<SentimentTagCloudFacetContentsProps> {
   static displayName = 'SentimentTagCloudFacetContents';
 
   // Check if keyphrase bucket is a part of keyphrase bucketList

@@ -106,7 +106,7 @@ export default class DateUtils {
  * * April - May, 2017
  * * 2016 - 2019
  */
-  static formatDateRange(start, end) {
+  static formatDateRange(start: number, end: number) {
     const diff = end - start;
     const middle = (start + end) / 2;
     const startMoment = moment(start);

@@ -20,7 +20,7 @@ type TimeSeriesFacetContentsProps = {
  * contain min and max values which are timestamps for
  * the ranges they represent.
  */
-export default class TimeSeriesFacetContents extends React.Component<void, TimeSeriesFacetContentsProps, void> {
+export default class TimeSeriesFacetContents extends React.Component<TimeSeriesFacetContentsProps> {
   static displayName = 'TimeSeriesFacetContents';
 
   constructor(props: TimeSeriesFacetContentsProps) {

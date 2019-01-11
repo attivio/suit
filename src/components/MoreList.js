@@ -1,21 +1,15 @@
 // @flow
 import React from 'react';
-import type { Children } from 'react';
+import type { Node } from 'react';
 
 type MoreListProps = {
   /** Arbitrary children. */
-  children: Children;
+  children: Node;
   /** The maximum number of children to display initially. */
   shortSize: number;
   /** The prompt for displaying more children. Defaults to "More…" */
   morePrompt: string;
   /** The prompt for displaying fewer children. Defaults to "Fewer…" */
-  fewerPrompt: string;
-}
-
-type MoreListDefaultProps = {
-  shortSize: number;
-  morePrompt: string;
   fewerPrompt: string;
 }
 
@@ -32,7 +26,7 @@ type MoreListState = {
  *
  * Depends on CSS classes: more-list-link
  */
-export default class MoreList extends React.Component<MoreListDefaultProps, MoreListProps, MoreListState> {
+export default class MoreList extends React.Component<MoreListProps, MoreListState> {
   static defaultProps = {
     shortSize: 5,
     morePrompt: 'More\u2026',

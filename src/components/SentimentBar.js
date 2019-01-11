@@ -9,19 +9,13 @@ type SentimentBarProps = {
   onClick: (clickedPositive: boolean) => void;
 };
 
-type SentimentBarDefaultProps = {
-  posCount: number,
-  negCount: number,
-  onClick: (clickedPositive: boolean) => void;
-};
-
 /**
  * Displays an indication of the overall sentiment for a particular document/object.
  * This includes a bar that can be part red and green for mixed sentiment, all red
  * for entirely negative sentiment, all green for entirely positive sentiment, or
  * and empty bar if there is no sentiment information to display.
  */
-export default class SentimentBar extends React.Component<SentimentBarDefaultProps, SentimentBarProps, void> {
+export default class SentimentBar extends React.Component<SentimentBarProps> {
   static defaultProps = {
     posCount: 0,
     negCount: 0,

@@ -39,14 +39,6 @@ type InnerListSearchResultProps = {
   showRatings: boolean;
 }
 
-type InnerListSearchResultDefaultProps = {
-  baseUri: string;
-  showScores: boolean;
-  entityFields: Map<string, string>;
-  showTags: boolean;
-  showRatings: boolean;
-}
-
 type InnerListSearchResultState = {
   currentTab: string;
 };
@@ -54,7 +46,7 @@ type InnerListSearchResultState = {
 /**
  * An individual List-type search result.
  */
-class InnerListSearchResult extends React.Component<InnerListSearchResultDefaultProps, InnerListSearchResultProps, InnerListSearchResultState> { // eslint-disable-line max-len
+class InnerListSearchResult extends React.Component<InnerListSearchResultProps, InnerListSearchResultState> {
   static defaultProps = {
     baseUri: '',
     format: 'list',

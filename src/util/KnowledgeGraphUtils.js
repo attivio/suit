@@ -141,7 +141,15 @@ export default class KnowledgeGraphUtils {
    * @param entityName
    * @param entityValue
    */
-  static buildQuery(docId: string, table: string | null, tableField: string, linkingFields: Array<string>, maxLinkedDocs: number, entityName: string | null, entityValue: string | null): string { // eslint-disable-line max-len
+  static buildQuery(
+    docId: string,
+    table: string | null,
+    tableField: string,
+    linkingFields: Array<string>,
+    maxLinkedDocs: number,
+    entityName: string | null,
+    entityValue: string | null,
+  ): string {
     // We need to escape any backslashes in the document ID to ensure they pass through the query engine correctly
     const escapedDocId = docId.replace(/\\/g, '\\\\\\\\');
     // If there is an entity name and value, query on those instead.

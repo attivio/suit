@@ -25,12 +25,6 @@ type BusyIndicatorProps = {
   style: any;
 };
 
-type BusyIndicatorDefaultProps = {
-  style: any;
-  message: string;
-  type: BusyIndicatorType;
-};
-
 type BusyIndicatorState = {
   dotCount: number;
 };
@@ -38,7 +32,7 @@ type BusyIndicatorState = {
 /**
  * Component to indicate the app is busy with an animation and optional message.
  */
-export default class BusyIndicator extends React.Component<BusyIndicatorDefaultProps, BusyIndicatorProps, BusyIndicatorState> { // eslint-disable-line max-len
+export default class BusyIndicator extends React.Component<BusyIndicatorProps, BusyIndicatorState> {
   static defaultProps = {
     style: {},
     message: '',

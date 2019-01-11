@@ -9,10 +9,6 @@ type SearchInputFieldProps = {
   placeholder: string;
 };
 
-type SearchInputFieldDefaultProps = {
-  placeholder: string;
-};
-
 /**
  * This component renders an input field for entering a query string
  * for doing a search. It interacts with its parent Searcher component
@@ -20,7 +16,7 @@ type SearchInputFieldDefaultProps = {
  * other children of the Searcher. It is designed to be used outside of
  * the masthead, unlike the <code>SearchBar</code> component.
  */
-export default class SearchInputField extends React.Component<SearchInputFieldDefaultProps, SearchInputFieldProps, void> {
+export default class SearchInputField extends React.Component<SearchInputFieldProps> {
   static defaultProps = {
     placeholder: 'Search\u2026',
   };

@@ -58,19 +58,10 @@ type LineBarChartProps = {
   entityColors: Map<string, string>;
 };
 
-type LineBarChartDefaultProps = {
-  height: number;
-  yAxisLabelValueFormat: string | null;
-  yAxis2Label: string | null;
-  yAxis2LabelValueFormat: string | null;
-  barsSideBySide: boolean;
-  entityColors: Map<string, string>;
-};
-
 /**
  * Component to display a chart with one or more series of data points.
  */
-export default class LineBarChart extends React.Component<LineBarChartDefaultProps, LineBarChartProps, void> {
+export default class LineBarChart extends React.Component<LineBarChartProps> {
   static defaultProps = {
     height: 185,
     yAxisLabelValueFormat: null,
@@ -96,8 +87,8 @@ export default class LineBarChart extends React.Component<LineBarChartDefaultPro
     }
   }
 
-  static ChartDataSource;
-  static Point;
+  static ChartDataSource: typeof ChartDataSource;
+  static Point: typeof Point;
 
   constructor(props: LineBarChartProps) {
     super(props);

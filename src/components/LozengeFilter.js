@@ -52,20 +52,12 @@ type LozengeFilterProps = {
   filterPlaceholder: string;
 };
 
-type LozengeFilterDefaultProps = {
-  allLabel: string;
-  itemCutoff: number;
-  multiSelect: boolean;
-  currentValue: Array<string> | string | null;
-  filterPlaceholder: string;
-};
-
 type LozengeFilterState = {
   filterString: string;
   filteredItems: Array<string>;
 };
 
-export default class LozengeFilter extends React.Component<LozengeFilterDefaultProps, LozengeFilterProps, LozengeFilterState> {
+export default class LozengeFilter extends React.Component<LozengeFilterProps, LozengeFilterState> {
   static defaultProps = {
     allLabel: 'All Items',
     itemCutoff: 9,

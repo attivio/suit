@@ -1,9 +1,10 @@
 // @flow
-import React, { Children } from 'react';
+import React from 'react';
+import type { Node } from 'react';
 
 type CollapsiblePanelProps = {
   /** The contents of the panel can be whatever you like. */
-  children: Children;
+  children: Node;
   /** The title displayed in the header of the panel. */
   title: string;
   /** An ID used to coordinate between the various pieces. */
@@ -11,11 +12,6 @@ type CollapsiblePanelProps = {
   /** If set, the panel will be drawn with a border, like a Card. */
   bordered: boolean;
   /** If set, then the panel's initial state will be collapsed. */
-  collapsed: boolean;
-}
-
-type CollapsiblePanelDefaultProps = {
-  bordered: boolean;
   collapsed: boolean;
 }
 
@@ -28,7 +24,7 @@ type CollapsiblePanelState = {
  * its header. It's used, for example, for displaying facets in
  * search results but can be used with whatever contents you like.
  */
-export default class CollapsiblePanel extends React.Component<CollapsiblePanelDefaultProps, CollapsiblePanelProps, CollapsiblePanelState> { // eslint-disable-line max-len
+export default class CollapsiblePanel extends React.Component<CollapsiblePanelProps, CollapsiblePanelState> {
   static defaultProps = {
     bordered: false,
     collapsed: false,

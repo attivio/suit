@@ -112,17 +112,10 @@ type TimeSeriesProps = {
   onSelect: null | (date: Date, endingDate: Date) => void;
 };
 
-type TimeSeriesDefaultProps = {
-  onSelect: null | (date: Date, endingDate: Date) => void;
-  height: number;
-  barsSideBySide: boolean;
-  legendAtRight: boolean;
-};
-
 /**
  * Component to display a chart of values over time.
  */
-export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, TimeSeriesProps, void> {
+export default class TimeSeries extends React.Component<TimeSeriesProps> {
   static defaultProps = {
     onSelect: null,
     height: 300,
@@ -132,7 +125,7 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
 
   static displayName = 'TimeSeries';
 
-  static SeriesDataSource;
+  static SeriesDataSource: typeof SeriesDataSource;
 
   static getDataSourceType(type: TimeSeriesDataType) {
     switch (type) {

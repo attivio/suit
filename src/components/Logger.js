@@ -11,7 +11,7 @@ type LoggerProps = {
   baseUri: string;
 }
 
-class Logger extends React.Component<LoggerProps, LoggerProps, void> {
+class Logger extends React.Component<LoggerProps, LoggerProps> {
   static defaultProps = {
     baseUri: '',
   }

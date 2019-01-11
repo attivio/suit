@@ -20,14 +20,10 @@ type SimpleSearchResultProps = {
   position: number,
 }
 
-type SimpleSearchResultDefaultProps = {
-  baseUri: string;
-}
-
 /**
  * An Simple rendering of an individual search result.
  */
-export default class SimpleSearchResult extends React.Component<SimpleSearchResultDefaultProps, SimpleSearchResultProps, void> {
+export default class SimpleSearchResult extends React.Component<SimpleSearchResultProps> {
   static defaultProps = {
     baseUri: '',
   };
@@ -61,8 +57,6 @@ export default class SimpleSearchResult extends React.Component<SimpleSearchResu
     }
     return <span>{json}</span>;
   }
-
-  static renderer;
 
   render() {
     const doc = this.props.document;

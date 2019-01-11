@@ -12,7 +12,7 @@ class TableColumn {
     title: string,
     render: string | (value: any) => any,
     sort: boolean | (a: any, b: any, order: 'asc' | 'desc') => number = false,
-    ) {
+  ) {
     this.title = title;
     this.render = render;
     this.sort = sort;
@@ -105,16 +105,6 @@ type TableProps = {
   bordered: booleaan;
 };
 
-type TableDefaultProps = {
-  onSelect: null | (selectedRowsIds: Array<string>, newlySelectedRowId: string | null) => void;
-  selection: Array<srting>;
-  multiSelect: boolean;
-  sortColumn: number;
-  onSort: null | (sortColumn: number) => void;
-  noEmptySelection: boolean;
-  bordered: boolean;
-};
-
 type TableState = {
   /**
    * The sorted list of rows. If not sorting in the table, this will always just be
@@ -130,7 +120,7 @@ type TableState = {
  * be the contents of a property in the row's data object or the result of calling a function on that
  * row, allowing for complex values including nested React components.
  */
-export default class Table extends React.Component<TableDefaultProps, TableProps, TableState> {
+export default class Table extends React.Component<TableProps, TableState> {
   static defaultProps = {
     onSelect: null,
     selection: [],
@@ -198,7 +188,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     } else if ((this.props.noEmptySelection && selectedRowIds.length > 1) || this.props.multiSelect) {
       const oldPosition = selectedRowIds.indexOf(rowId);
       if (oldPosition >= 0) {
-          // If it was in the previous array, remove it...
+        // If it was in the previous array, remove it...
         selectedRowIds.splice(oldPosition, 1);
         const mostRecent = selectedRowIds.length > 0 ? selectedRowIds[selectedRowIds.length - 1] : null;
         this.props.onSelect(selectedRowIds, mostRecent);

@@ -1,16 +1,17 @@
 // @flow
 
-import React, { Children } from 'react';
+import React from 'react';
+import type { Node } from 'react';
 
 type CodeProps = {
   /** The contents of the Code tag can be whatever you like. */
-  children: Children;
+  children: Node;
 };
 
 /**
  * Component to show source code in a traditional, monospaced font etc.
  */
-export default class Code extends React.Component<void, CodeProps, void> {
+export default class Code extends React.Component<CodeProps> {
   static displayName = 'Code';
 
   render() {

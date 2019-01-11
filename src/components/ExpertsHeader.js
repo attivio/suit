@@ -10,14 +10,10 @@ type ExpertsHeaderProps = {
   doAllExperts: null | () => void;
 };
 
-type ExpertsHeaderDefaultProps = {
-  doAllExperts: null | () => void;
-};
-
 /**
  * Header for the Experts page.
  */
-export default class ExpertsHeader extends React.Component<ExpertsHeaderDefaultProps, ExpertsHeaderProps, void> {
+export default class ExpertsHeader extends React.Component<ExpertsHeaderProps> {
   static defaultProps = {
     doAllExperts: null,
   };

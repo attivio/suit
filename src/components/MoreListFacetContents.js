@@ -15,12 +15,8 @@ type MoreListFacetContentsProps = {
   noLink: boolean;
 };
 
-type MoreListFacetContentsDefaultProps = {
-  noLink: boolean;
-};
-
 /** Display a facet's bucket values in a MoreList component. */
-export default class MoreListFacetContents extends React.Component<MoreListFacetContentsDefaultProps, MoreListFacetContentsProps, void> { // eslint-disable-line max-len
+export default class MoreListFacetContents extends React.Component<MoreListFacetContentsProps> {
   static displayName = 'MoreListFacetContents';
 
   static defaultProps = {
@@ -40,20 +36,23 @@ export default class MoreListFacetContents extends React.Component<MoreListFacet
   render() {
     const rows = this.props.buckets.map((bucket, index) => {
       return (
-        this.props.noLink ? (<li key={bucket.bucketKey()}>
-          <span>
-            {bucket.displayLabel()}
-          </span>
-          {' '}
-          ({bucket.count})
-        </li>) :
-        (<li key={bucket.bucketKey()}>
-          <a onClick={this.addFilter} role="button" tabIndex={index}>
-            {bucket.displayLabel()}
-          </a>
-          {' '}
-          ({bucket.count})
-        </li>)
+        this.props.noLink ? (
+          <li key={bucket.bucketKey()}>
+            <span>
+              {bucket.displayLabel()}
+            </span>
+            {' '}
+            ({bucket.count})
+          </li>
+        ) : (
+          <li key={bucket.bucketKey()}>
+            <a onClick={this.addFilter} role="button" tabIndex={index}>
+              {bucket.displayLabel()}
+            </a>
+            {' '}
+            ({bucket.count})
+          </li>
+        )
       );
     });
     return <MoreList shortSize={6}>{rows}</MoreList>;

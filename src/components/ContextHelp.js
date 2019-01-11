@@ -17,7 +17,13 @@ export class ContextHelpInfo {
   /** A URL for more information. */
   moreLink: string | null;
 
-  constructor(id: string, title: string, paragraphs: Array<string>, moreName: string | null = null, moreLink: string | null = null) { // eslint-disable-line max-len
+  constructor(
+    id: string,
+    title: string,
+    paragraphs: Array<string>,
+    moreName: string | null = null,
+    moreLink: string | null = null,
+  ) {
     this.id = id;
     this.title = title;
     this.paragraphs = paragraphs;
@@ -34,10 +40,10 @@ type ContextHelpProps = {
 /**
  * Component to display contextual help.
  */
-export default class ContextHelp extends React.Component<void, ContextHelpProps, void> {
+export default class ContextHelp extends React.Component<ContextHelpProps> {
   static displayName = 'ContextHelp';
 
-  static ContextHelpInfo;
+  static ContextHelpInfo: typeof ContextHelpInfo;
 
   render() {
     const info = this.props.info;

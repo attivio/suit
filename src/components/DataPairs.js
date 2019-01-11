@@ -33,10 +33,10 @@ type DataPairsState = {
 * Display a list of name/value pairs, with optional category type indicators
 * in a side-by-side, two-column list format.
 */
-export default class DataPairs extends React.Component<void, DataPairsProps, DataPairsState> {
+export default class DataPairs extends React.Component<DataPairsProps, DataPairsState> {
   static displayName = 'DataPairs';
 
-  static DataPairInfo;
+  static DataPairInfo: typeof DataPairInfo;
 
   static MAX_CHARACTERS = 100;
 

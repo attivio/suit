@@ -1,7 +1,8 @@
 // flow
 
 import React from 'react';
-import type { Children } from 'react';
+import type { Node } from 'react';
+
 import PropTypes from 'prop-types';
 
 import AuthUtils from '../util/AuthUtils';
@@ -15,13 +16,13 @@ type IfAllowedProps = {
    * The IfAllowed wrapper contains arbitrary children, providing them with the
    * context necessary to decide what content to display.
    */
-  children: Children;
+  children: Node;
 };
 
 /**
  * Only displays its children if the currently logged-in user has the required role.
  */
-export default class IfAllowed extends React.Component<void, IfAllowedProps, void> {
+export default class IfAllowed extends React.Component<IfAllowedProps> {
   static displayName = 'IfAllowed';
 
   static contextTypes = {

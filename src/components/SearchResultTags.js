@@ -26,12 +26,6 @@ type SearchResultTagsProps = {
   view360Label: string | null;
 };
 
-type SearchResultTagsDefaultProps = {
-  moreLikeThisQuery: string;
-  vertical: boolean;
-  view360Label: string | null;
-};
-
 type SearchResultTagsState = {
   adding: boolean;
   newTag: string;
@@ -47,7 +41,7 @@ type SearchResultTagsState = {
  * in a single column as opposed to in a horizontal row. Also allows
  * the user to add additional tags by clicking the Add button.
  */
-class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, SearchResultTagsProps, SearchResultTagsState> { // eslint-disable-line max-len
+class SearchResultTags extends React.Component<SearchResultTagsProps, SearchResultTagsState> {
   static contextTypes = {
     searcher: PropTypes.any,
   };

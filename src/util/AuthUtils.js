@@ -17,8 +17,8 @@ export default class AuthUtils {
    */
   static ADMIN_ROLE = 'AIE_Administrator';
 
-  static users;
-  static config;
+  static users: any;
+  static config: any;
 
   /**
    * Called by the application to pass in configuration to the

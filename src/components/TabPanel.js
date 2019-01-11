@@ -30,12 +30,7 @@ type TabPanelProps = {
   nested: boolean;
 };
 
-type TabPanelDefaultProps = {
-  tabLabel: string | null;
-  nested: boolean;
-};
-
-export default class TabPanel extends React.Component<TabPanelDefaultProps, TabPanelProps, void> {
+export default class TabPanel extends React.Component<TabPanelProps> {
   static defaultProps = {
     tabLabel: null,
     nested: false,
@@ -43,7 +38,7 @@ export default class TabPanel extends React.Component<TabPanelDefaultProps, TabP
 
   static displayName = 'TabPanel';
 
-  static TabInfo;
+  static TabInfo: typeof TabInfo;
 
   constructor(props: TabPanelProps) {
     super(props);

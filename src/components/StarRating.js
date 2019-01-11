@@ -11,12 +11,6 @@ type StarRatingProps = {
   onRated: null | (starRating: 1 | 2 | 3 | 4 | 5) => void;
 };
 
-type StarRatingDefaultProps = {
-  stars: number,
-  choosable: boolean,
-  onRated: null | (starRating: 1 | 2 | 3 | 4 | 5) => void;
-};
-
 type StarRatingState = {
   stars: number,
 };
@@ -29,7 +23,7 @@ type StarRatingState = {
  * the enclosing Searcher to apply the value to the document in the
  * index.
  */
-export default class StarRating extends React.Component<StarRatingDefaultProps, StarRatingProps, StarRatingState> {
+export default class StarRating extends React.Component<StarRatingProps, StarRatingState> {
   static defaultProps = {
     stars: 0,
     onRated: null,

@@ -13,17 +13,13 @@ type LoginFormProps = {
   error: string | null;
 };
 
-type LoginFormDefaultProps = {
-  error: string | null;
-};
-
 type LoginFormState = {
   loading: boolean;
   username: string;
   password: string;
 };
 
-export default class LoginForm extends React.Component<LoginFormDefaultProps, LoginFormProps, LoginFormState> {
+export default class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   static defaultProps = {
     error: null,
   };

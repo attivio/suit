@@ -10,7 +10,7 @@ rm -rf lib && \
 rm -rf styleguide && \
 npm install && \ 
 npm run lint && \
-npm run flow && \ 
+npm run buildflow && \ 
 npm run validatecomponents && \
 npm run doclint && \
 npm run test && \

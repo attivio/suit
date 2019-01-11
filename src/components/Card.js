@@ -1,23 +1,17 @@
 // @flow
 
-import React, { Children } from 'react';
+import React from 'react';
+import type { Node } from 'react';
 
 type CardProps = {
   /** The title of the card. Optional—if not set, none will be shown. */
   title: string | null;
   /** If set, the card won't have a border around it. */
   borderless: boolean;
-  children: Children;
+  children: Node;
   /** Any custom style information needed */
   style: any;
   /** Any classes you want applied to the card. */
-  className: string;
-};
-
-type CardDefaultProps = {
-  title: string | null;
-  borderless: boolean;
-  style: any;
   className: string;
 };
 
@@ -25,7 +19,7 @@ type CardDefaultProps = {
  * A card is just a bordered &lt;div&gt; to wrap a set of
  * related elements.
  */
-export default class Card extends React.Component<CardDefaultProps, CardProps, void> {
+export default class Card extends React.Component<CardProps> {
   static defaultProps = {
     borderless: false,
     title: null,

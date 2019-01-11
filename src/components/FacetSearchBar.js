@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import type { Children } from 'react';
+import type { Node } from 'react';
 import PropTypes from 'prop-types';
 
 import MenuItem from 'react-bootstrap/lib/MenuItem';
@@ -24,23 +24,13 @@ type FacetSearchBarProps = {
   /** Max number of matching facet values to show */
   maxValues: number;
   /** Content to show for the actual facet stuff (typically a ListFacetContents) */
-  children: Children;
+  children: Node;
   /**
    * Whether the export button should be shown to allow exporting all the facet
    * values as a CSV file
    */
   showExportButton: boolean;
   /** The label for the export button */
-  exportButtonLabel: string;
-};
-
-type FacetSearchBarDefaultProps = {
-  placeholder: string;
-  buttonLabel: string;
-  name: string;
-  maxValues: number;
-  showSearchBar: boolean;
-  showExportButton: boolean;
   exportButtonLabel: string;
 };
 
@@ -56,12 +46,12 @@ type FacetSearchBarState = {
  * Component that wraps a Facet that allows searching for specific values for that facet,
  * as well as exporting that facet's values to a CSV
  */
-class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSearchBarProps, FacetSearchBarState> {
+class FacetSearchBar extends React.Component<FacetSearchBarProps, FacetSearchBarState> {
   static contextTypes = {
     searcher: PropTypes.any,
   };
 
-  static defaultProps: FacetSearchBarDefaultProps = {
+  static defaultProps = {
     placeholder: 'Search facet values\u2026',
     buttonLabel: 'Search',
     name: '*',

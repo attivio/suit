@@ -32,16 +32,12 @@ type AccordionProps = {
   defaultPanelKey: string | null;
 };
 
-type AccordionDefaultProps = {
-  defaultPanelKey: string | null;
-};
-
 /**
  * This component presents a series of titled, collapsible panels, only one of which can be open at
  * any given time.
  */
-export default class Accordion extends React.Component<AccordionDefaultProps, AccordionProps, void> {
-  static AccordionPanel;
+export default class Accordion extends React.Component<AccordionProps> {
+  static AccordionPanel: typeof AccordionPanel;
 
   static defaultProps = {
     defaultPanelKey: null,

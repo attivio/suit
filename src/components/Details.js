@@ -14,7 +14,7 @@ type DetailsProps = {
  * Component to display details for a row from the master-details component. This
  * placeholder/example one just shows the row data formatted as JSON.
  */
-export default class Details extends React.Component<void, DetailsProps, void> {
+export default class Details extends React.Component<DetailsProps> {
   static displayName = 'Details';
 
   render() {

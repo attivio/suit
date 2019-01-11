@@ -34,19 +34,6 @@ type FacetInsightsProps = {
   entityColors: Map<string, string>;
 };
 
-type FacetInsightsDefaultProps = {
-  pieChartFacets: Array<string> | string | null;
-  barChartFacets: Array<string> | string | null;
-  columnChartFacets: Array<string> | string | null;
-  barListFacets: Array<string> | string | null;
-  tagCloudFacets: Array<string> | string | null;
-  timeSeriesFacets: Array<string> | string | null;
-  sentimentFacets: Array<string> | string | null;
-  geoMapFacets: Array<string> | string | null;
-  maxFacetBuckets: number;
-  entityColors: Map<string, string>;
-};
-
 /**
  * A container for showing facet results from a search.
  * It must be contained within a Searcher component and
@@ -55,7 +42,7 @@ type FacetInsightsDefaultProps = {
  * not coveed by one of these property's lists will be displayed
  * in a standard "More…" list.
  */
-export default class FacetInsights extends React.Component<FacetInsightsDefaultProps, FacetInsightsProps, void> {
+export default class FacetInsights extends React.Component<FacetInsightsProps> {
   static defaultProps = {
     pieChartFacets: null,
     barChartFacets: null,

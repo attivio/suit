@@ -7,14 +7,10 @@ type ProfilePhotoProps = {
   url: string | null;
 };
 
-type ProfilePhotoDefaultProps = {
-  url: string | null;
-};
-
 /**
  * Shows a person's profile photo.
  */
-export default class ProfilePhoto extends React.Component<ProfilePhotoDefaultProps, ProfilePhotoProps, void> {
+export default class ProfilePhoto extends React.Component<ProfilePhotoProps> {
   static defaultProps = {
     url: null,
   };

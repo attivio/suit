@@ -39,18 +39,10 @@ type ExpertCardProps = {
   authoredMessage: string;
 };
 
-type ExpertCardDefaultProps = {
-  expertImage: string;
-  expertId: string | null;
-  expertBirthDate: Date | null;
-  authorCount: number;
-  authoredMessage: string;
-};
-
 /**
  * Displays a card with details about an "expert" within the company.
  */
-export default class ExpertCard extends React.Component<ExpertCardDefaultProps, ExpertCardProps, void> {
+export default class ExpertCard extends React.Component<ExpertCardProps> {
   static defaultProps = {
     expertImage: 'img/placeholder-person.svg',
     expertId: null,
@@ -61,7 +53,7 @@ export default class ExpertCard extends React.Component<ExpertCardDefaultProps, 
 
   static displayName = 'ExpertCard';
 
-  static ExpertiseItem;
+  static ExpertiseItem: typeof ExpertiseItem;
 
   render() {
     const imageAlt = this.props.expertImage ? this.props.expertName : 'Expert placeholder';

@@ -35,22 +35,18 @@ type SentimentTagCloudProps = {
   callback: (tcv: SentimentTagCloudValue) => void;
 };
 
-type SentimentTagCloudDefaultProps = {
-  maxValues: number;
-};
-
 /**
  * Display a linear tag "cloud" where the items are proportionally sized
  * based on an associated value.
  */
-export default class SentimentTagCloud extends React.Component<SentimentTagCloudDefaultProps, SentimentTagCloudProps, void> {
+export default class SentimentTagCloud extends React.Component<SentimentTagCloudProps> {
   static defaultProps = {
     maxValues: 15,
   };
 
   static displayName = 'SentimentTagCloud';
 
-  static SentimentTagCloudValue;
+  static SentimentTagCloudValue: typeof SentimentTagCloudValue;
 
   static mapRange(num, sentiment) {
     if (sentiment === 'positive') {

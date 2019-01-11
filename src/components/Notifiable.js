@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import type { Children } from 'react';
+import type { Node } from 'react';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import { css } from 'glamor';
@@ -12,10 +12,10 @@ import StyleUtils from '../util/StyleUtils';
 type NotificationType = toast.TYPE.ERROR | toast.TYPE.WARNING | toast.TYPE.INFO | toast.TYPE.SUCCESS;
 
 type NotifiableProps = {
-  children: Children;
+  children: Node;
 };
 
-export default class Notifiable extends React.Component<void, NotifiableProps, void> {
+export default class Notifiable extends React.Component<NotifiableProps> {
   /**
    * This does all the work of setting up colors and the contents of the notifications...
    */

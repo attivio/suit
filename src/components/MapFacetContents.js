@@ -33,11 +33,6 @@ type MapFacetContentsProps = {
   mapboxKey: string;
 };
 
-type MapFacetContentsDefaultProps = {
-  size: any;
-  mapboxKey: string;
-};
-
 type MapFacetContentsState = {
   latitude: number;
   longitude: number;
@@ -49,7 +44,7 @@ type MapFacetContentsState = {
 /**
  * Component to display the buckets of a facet using a MapBox map.
  */
-class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, MapFacetContentsProps, MapFacetContentsState> {
+class MapFacetContents extends React.Component<MapFacetContentsProps, MapFacetContentsState> {
   static defaultProps = {
     size: null,
     mapboxKey: '',

@@ -25,16 +25,11 @@ type StringListEditorProps = {
   updateList: (items: Array<string>) => void;
 };
 
-type StringListEditorDefaultProps = {
-  addButtonTooltip: string;
-  placeholder: string;
-};
-
 type StringListEditorState = {
   value: string;
 }
 
-export default class StringListEditor extends React.Component<StringListEditorDefaultProps, StringListEditorProps, StringListEditorState> { // eslint-disable-line max-len
+export default class StringListEditor extends React.Component<StringListEditorProps, StringListEditorState> {
   static defaultProps = {
     addButtonTooltip: 'Add',
     placeholder: 'Enter a value\u2026',

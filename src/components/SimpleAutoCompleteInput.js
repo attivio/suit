@@ -61,15 +61,6 @@ type AutoCompleteInputProps = {
   outerStyle: any;
 };
 
-type AutoCompleteInputDefaultProps = {
-  placeholder: string;
-  allowCustomValues: boolean;
-  disabled: boolean;
-  className: string;
-  style: any;
-  outerStyle: any;
-};
-
 type AutoCompleteInputState = {
   suggestions: Array<string>;
   open: boolean;
@@ -84,7 +75,7 @@ type AutoCompleteInputState = {
  * the look up and suggestions happen with the first key stroke instead of
  * waiting to have at least three characters.
  */
-export default class SimpleAutoCompleteInput extends React.Component<AutoCompleteInputDefaultProps, AutoCompleteInputProps, AutoCompleteInputState> { // eslint-disable-line max-len
+export default class SimpleAutoCompleteInput extends React.Component<AutoCompleteInputProps, AutoCompleteInputState> {
   static defaultProps = {
     placeholder: '',
     allowCustomValues: false,

@@ -15,19 +15,12 @@ type ChartTrendsProps = {
   unchangedLabel: string;
 };
 
-type ChartTrendsDefaultProps = {
-  up: boolean;
-  down: boolean;
-  changedLabel: string;
-  unchangedLabel: string;
-};
-
 /**
  * Show a change in a value. If the neither the up or down
  * properties are set, then it is displayed as an average
  * value, with no up/down arrows.
  */
-export default class ChartTrends extends React.Component<ChartTrendsDefaultProps, ChartTrendsProps, void> {
+export default class ChartTrends extends React.Component<ChartTrendsProps> {
   static defaultProps = {
     up: false,
     down: false,

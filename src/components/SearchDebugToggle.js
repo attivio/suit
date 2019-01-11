@@ -11,15 +11,10 @@ type SearchDebugToggleProps = {
   right: boolean;
 }
 
-type SearchDebugToggleDefaultProps = {
-  label: string,
-  right: boolean;
-}
-
 /**
  * A toggle switch for deciding whether the search results should be shown in debug format.
  */
-export default class SearchDebugToggle extends React.Component<SearchDebugToggleDefaultProps, SearchDebugToggleProps, void> { // eslint-disable-line max-len
+export default class SearchDebugToggle extends React.Component<SearchDebugToggleProps> {
   static defaultProps = {
     label: 'Details:',
     right: false,

@@ -10,14 +10,10 @@ type DocumentTypeProps = {
   position: number,
 };
 
-type DocumentTypeDefaultProps = {
-  docType: string,
-};
-
 /**
  * Display the type of the document and its position within the search results.
  */
-export default class DocumentType extends React.Component<DocumentTypeDefaultProps, DocumentTypeProps, void> {
+export default class DocumentType extends React.Component<DocumentTypeProps> {
   static defaultProps = {
     docType: 'Document',
   }

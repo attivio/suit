@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import type { Children } from 'react';
+import type { Node } from 'react';
 
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -19,14 +19,7 @@ type NavigationButtonProps = {
   /** Any arbitrary CSS styling to apply to the button. Optional. */
   style: any,
   /** The contents of the button. Usually just text. */
-  children: Children;
-};
-
-type NavigationButtonDefaultProps = {
-  className: string,
-  bsStyle: string,
-  style: any,
-  children: Children,
+  children: Node;
 };
 
 /**
@@ -36,7 +29,7 @@ type NavigationButtonDefaultProps = {
  * one. Use the route property to specify where the router should take the
  * user when clicked.
  */
-class NavigationButton extends React.Component<NavigationButtonDefaultProps, NavigationButtonProps, void> {
+class NavigationButton extends React.Component<NavigationButtonProps> {
   static defaultProps = {
     className: '',
     bsStyle: 'default',

@@ -28,16 +28,10 @@ type DebugSearchResultProps = {
   showRatings: boolean;
 }
 
-type DebugSearchResultDefaultProps = {
-  baseUri: string;
-  showTags: boolean;
-  showRatings: boolean;
-}
-
 /**
  * A "Debug" rendering of a document which shows all of its fields and their values.
  */
-export default class DebugSearchResult extends React.Component<DebugSearchResultDefaultProps, DebugSearchResultProps, void> {
+export default class DebugSearchResult extends React.Component<DebugSearchResultProps> {
   static defaultProps = {
     baseUri: '',
     showTags: true,
@@ -65,8 +59,6 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
     }
     return <span>{json}</span>;
   }
-
-  static renderer;
 
   constructor(props: DebugSearchResultProps) {
     super(props);

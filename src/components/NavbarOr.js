@@ -6,14 +6,10 @@ type NavbarOrProps = {
   message: string;
 };
 
-type NavbarOrDefaultProps = {
-  message: string;
-};
-
 /**
  * A component to use in a navbar to interject a choice between two others.
  */
-export default class NavbarOr extends React.Component<NavbarOrDefaultProps, NavbarOrProps, void> {
+export default class NavbarOr extends React.Component<NavbarOrProps> {
   static defaultProps = {
     message: 'OR',
   };

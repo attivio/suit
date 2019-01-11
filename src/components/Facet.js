@@ -49,18 +49,10 @@ type FacetProps = {
   entityColors: Map<string, string>;
 }
 
-type FacetDefaultProps = {
-  type: FacetType;
-  maxBuckets: number;
-  collapse: boolean;
-  bordered: boolean;
-  entityColors: Map<string, string>;
-};
-
 /**
  * Display a single facet from the search results.
  */
-export default class Facet extends React.Component<FacetDefaultProps, FacetProps, void> {
+export default class Facet extends React.Component<FacetProps> {
   static defaultProps = {
     type: 'list',
     maxBuckets: 15,
@@ -160,7 +152,7 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
               buckets={this.props.facet.buckets}
               addFacetFilter={this.addFacetFilter}
             />
-            );
+          );
           break;
         case 'columnchart':
           facetContents = facetColor ? (
@@ -176,7 +168,7 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
               addFacetFilter={this.addFacetFilter}
               columns
             />
-            );
+          );
           break;
         case 'piechart':
           facetContents = (

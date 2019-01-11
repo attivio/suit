@@ -38,14 +38,7 @@ type CardPickerCardProps = {
   columns: number;
 };
 
-type CardPickerCardDefaultProps = {
-  columns: number;
-  iconUri: string | null;
-  defaultIconUri: string | null;
-  description: string | null;
-};
-
-export default class CardPickerCard extends React.Component<CardPickerCardDefaultProps, CardPickerCardProps, void> {
+export default class CardPickerCard extends React.Component<CardPickerCardProps> {
   static defaultProps = {
     columns: 3,
     iconUri: null,

@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import type { Children } from 'react';
 
 import { Modal, Button } from 'react-bootstrap';
 
@@ -48,21 +47,13 @@ type ConfirmationDialogProps = {
    * The contents to display in body of the dialog box. May be a simple string
    * or more complex components.
    */
-  children: Children;
-};
-
-type ConfirmationDialogDefaultProps = {
-  confirmButtonLabel: string;
-  cancelButtonLabel: string;
-  show: boolean;
-  dangerous: boolean;
+  children: Node;
 };
 
 /**
  * Component to display a dialog box asking for confirmation from the user.
  */
-export default class ConfirmationDialog extends React.Component<ConfirmationDialogDefaultProps,
-  ConfirmationDialogProps, void> {
+export default class ConfirmationDialog extends React.Component<ConfirmationDialogProps> {
   static defaultProps = {
     confirmButtonLabel: 'OK',
     cancelButtonLabel: 'Cancel',

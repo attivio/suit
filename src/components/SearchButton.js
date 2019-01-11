@@ -7,17 +7,13 @@ type SearchButtonProps = {
   label: string,
 };
 
-type SearchButtonDefaultProps = {
-  label: string,
-};
-
 /**
  * A button that can triggering an Attivio search. It must be
  * inside a Searcher component. Note that the SearchBar component,
  * designed to be used in the Masthead component, already has its
  * own search button.
  */
-export default class SearchButton extends React.Component<SearchButtonDefaultProps, SearchButtonProps, void> {
+export default class SearchButton extends React.Component<SearchButtonProps> {
   static defaultProps = {
     label: 'Go',
   };

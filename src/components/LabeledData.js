@@ -23,18 +23,13 @@ type LabeledDataProps = {
   stacked: boolean;
 };
 
-type LabeledDataDefaultProps = {
-  data: Array<LabeledDataPair>;
-  stacked: boolean;
-};
-
 /**
  * Present a collection of name/value pairs. The values can
  * be either simple strings or entire React elements. If the
  * value is a string and appears to be a URL, it will be rendered
  * as a link that will navigate to that URL.
  */
-export default class LabeledData extends React.Component<LabeledDataDefaultProps, LabeledDataProps, void> {
+export default class LabeledData extends React.Component<LabeledDataProps> {
   static defaultProps = {
     data: [],
     stacked: false,
@@ -42,7 +37,7 @@ export default class LabeledData extends React.Component<LabeledDataDefaultProps
 
   static displayName = 'LabeledData';
 
-  static LabeledDataPair;
+  static LabeledDataPair: typeof LabeledDataPair;
 
   render() {
     const className = this.props.stacked ? 'attivio-labeldata-stacked' : 'attivio-labeldata-2col';

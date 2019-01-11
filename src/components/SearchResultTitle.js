@@ -13,16 +13,12 @@ type SearchResultTitleProps = {
   baseUri: string;
 };
 
-type SearchResultTitleDefaultProps = {
-  baseUri: string;
-};
-
 /**
  * The title of a given document in the search results. Any HTML markup in
  * the title is preserved so that highlighting, entities, and sentiment can
  * be displayed. It can optionally be made clickable, by passing a callback.
  */
-export default class SearchResultTitle extends React.Component<SearchResultTitleDefaultProps, SearchResultTitleProps, void> {
+export default class SearchResultTitle extends React.Component<SearchResultTitleProps> {
   static defaultProps = {
     baseUri: '',
   };

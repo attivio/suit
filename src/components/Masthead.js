@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import type { Children } from 'react';
+import type { Node } from 'react';
 
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -41,19 +41,7 @@ type MastheadProps = {
    */
   logoutFunction: null | () => void,
   /** The contents of the Masthead can be arbitrary components. */
-  children: Children;
-};
-
-type MastheadDefaultProps = {
-  logoUri: string | null;
-  logoAlt: string | null;
-  homeRoute: string | null;
-  applicationName: string | null;
-  multiline: boolean;
-  searchEngineType: 'attivio' | 'solr' | 'elastic';
-  helpUri: string | null;
-  username: string | null;
-  logoutFunction: null | () => void,
+  children: Node;
 };
 
 type MastheadState = {
@@ -67,8 +55,8 @@ type MastheadState = {
  * being in masthead have names that start with "Masthead," such as
  * MastheadNavBar and MastheadNavTabs.
  */
-class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, MastheadState> {
-  static defaultProps: MastheadDefaultProps = {
+class Masthead extends React.Component<MastheadProps, MastheadState> {
+  static defaultProps = {
     logoUri: 'img/attivio-logo-reverse.png',
     logoAlt: 'Attivio Home',
     homeRoute: '/',

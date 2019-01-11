@@ -25,10 +25,6 @@ type MastheadNavTabsProps = {
   initialTab: string | null;
 };
 
-type MastheadNavTabsDefaultProps = {
-  initialTab: string | null;
-};
-
 type MastheadNavTabsState = {
   currentTab: string | null;
 };
@@ -38,7 +34,7 @@ type MastheadNavTabsState = {
  * navigation within the application. Clicking one will update
  * the application’s router with the button’s route.
  */
-class MastheadNavTabs extends React.Component<MastheadNavTabsDefaultProps, MastheadNavTabsProps, MastheadNavTabsState> {
+class MastheadNavTabs extends React.Component<MastheadNavTabsProps, MastheadNavTabsState> {
   static defaultProps = {
     initialTab: null,
   };

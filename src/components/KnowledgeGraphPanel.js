@@ -41,24 +41,13 @@ type KnowledgeGraphPanelProps = {
   includeAllTables: boolean;
 };
 
-type KnowledgeGraphPanelDefaultProps = {
-  maxLinkedDocs: number;
-  tableField: string;
-  navigateToDoc: (docId: string) => void;
-  navigateToEntity: (entityType: string, entityValue: string) => void;
-  entityName: string | null;
-  entityValue: string | null;
-  showEdges: boolean;
-  includeAllTables: boolean;
-};
-
 type KnowledgeGraphPanelState = {
   nodes: Array<Node>;
   edges: Array<Edge>;
   error: string | null;
 };
 
-export default class KnowledgeGraphPanel extends React.Component<KnowledgeGraphPanelDefaultProps, KnowledgeGraphPanelProps, KnowledgeGraphPanelState> { // eslint-disable-line max-len
+export default class KnowledgeGraphPanel extends React.Component<KnowledgeGraphPanelProps, KnowledgeGraphPanelState> {
   static defaultProps = {
     maxLinkedDocs: 3,
     tableField: FieldNames.TABLE,

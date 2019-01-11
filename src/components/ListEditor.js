@@ -37,7 +37,7 @@ type ListEditorProps = {
   resetControl: () => any;
 };
 
-export default class ListEditor extends React.Component<void, ListEditorProps, void> {
+export default class ListEditor extends React.Component<ListEditorProps> {
   static displayName = 'ListEditor';
 
   constructor(props: ListEditorProps) {

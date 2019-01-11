@@ -13,15 +13,10 @@ type FormattedDateProps = {
   locale: string;
 };
 
-type FormattedDateDefaultProps = {
-  format: DateFormat;
-  locale: string;
-};
-
 /**
  * Display a formatted Date object.
  */
-export default class FormattedDate extends React.Component<FormattedDateDefaultProps, FormattedDateProps, void> {
+export default class FormattedDate extends React.Component<FormattedDateProps> {
   static defaultProps = {
     format: DateFormat.SHORT_DATE,
     locale: 'en',
@@ -29,11 +24,7 @@ export default class FormattedDate extends React.Component<FormattedDateDefaultP
 
   static displayName = 'FormattedDate';
 
-  static DateFormat;
-
   render() {
     return <span>{DateUtils.formatDate(this.props.date, this.props.format, this.props.locale)}</span>;
   }
 }
-
-FormattedDate.DateFormat = DateFormat;

@@ -9,7 +9,7 @@ import Placement from '../api/Placement';
  * A container for showing a list of business center promotional placements from the search results.
  * These come from the parent Searcher component.
  */
-export default class PlacementResults extends React.Component<void, {}, void> {
+export default class PlacementResults extends React.Component<{}, void> {
   static contextTypes = {
     searcher: PropTypes.any,
   };
@@ -23,7 +23,7 @@ export default class PlacementResults extends React.Component<void, {}, void> {
       const placements = response.placements;
       const results = [];
       placements.forEach((placement: Placement) => {
-        const key = `${placement.linkUrl ? placement.linkUrl : 'nourl'}-${placement.linkText ? placement.linkText : 'notext'}-${placement.imageUrl ? placement.imageUrl : 'noimg'}`; // eslint-disable-line max-len
+        const key = `${placement.linkUrl || 'noUrl'}-${placement.linkText || 'noText'}-${placement.imageUrl || 'noImage'}`;
         results.push(
           <PlacementResult
             linkUrl={placement.linkUrl}

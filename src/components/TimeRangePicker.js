@@ -62,22 +62,13 @@ type TimeRangePickerProps = {
   style: any;
 };
 
-type TimeRangePickerDefaultProps = {
-  currentStart: Date | null;
-  currentEnd: Date | null;
-  customRange: boolean;
-  customGranularity: boolean;
-  currentGranularity: TimeRangeGranularity;
-  style: any;
-};
-
 type TimeRangePickerState = {
   start: Date | null;
   end: Date | null;
   showCustomDatePicker: boolean;
 };
 
-export default class TimeRangePicker extends React.Component<TimeRangePickerDefaultProps, TimeRangePickerProps, TimeRangePickerState> { // eslint-disable-line max-len
+export default class TimeRangePicker extends React.Component<TimeRangePickerProps, TimeRangePickerState> {
   static defaultProps = {
     currentStart: null,
     currentEnd: null,

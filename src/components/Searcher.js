@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import type { Children } from 'react';
+import type { Node } from 'react';
 
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -44,9 +44,10 @@ type SearcherProps = {
   location: PropTypes.object.isRequired;
   history: PropTypes.object.isRequired;
 
+
   /**
    * The engine backing the SUIT application. Defaults to 'attivio'.
-   * Set to 'solr' or 'elastic' to use one of those engines instesd.
+   * Set to 'solr' or 'elastic' to use those engines instead.
    */
   searchEngineType: 'attivio' | 'solr' | 'elastic';
   /**
@@ -141,38 +142,7 @@ type SearcherProps = {
    * The Searcher contains arbitrary children, including the components that
    * control its properties and display the search results.
    */
-  children: Children;
-};
-
-type SearcherDefaultProps = {
-  searchEngineType: 'attivio' | 'elastic' | 'solr';
-  customOptions: any;
-  baseUri: string;
-  searchWorkflow: string;
-  fields: Array<string>;
-  facets: Array<string>;
-  relevancyModels: Array<string>;
-  facetFinderCount: number;
-  queryFilter: string | null;
-  highlightResults: 'on' | 'off' | 'all';
-  joinRollupMode: 'TREE' | 'AGGREGATE' | 'SQL';
-  locale: string | null;
-  title: string;
-  uri: string;
-  table: string;
-  teaser: string;
-  text: string;
-  previewImageUri: string;
-  thumbnailImageUri: string;
-  latitude: string;
-  longitude: string;
-  moreLikeThisQuery: string;
-  mimetype: string;
-  sourcePath: string;
-  debug: boolean;
-  resultsPerPage: number;
-  businessCenterProfile: string | null;
-  defaultQueryLanguage: 'simple' | 'advanced';
+  children: Node;
 };
 
 /*
@@ -257,7 +227,7 @@ type SearcherState = {
  *       debug
  *       searchProfile
  */
-class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, SearcherState> {
+class Searcher extends React.Component<SearcherProps, SearcherState> {
   static defaultProps = {
     searchEngineType: 'attivio',
     customOptions: {},

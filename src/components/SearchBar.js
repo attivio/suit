@@ -56,18 +56,6 @@ type SearchBarProps = {
   route: string | null;
 };
 
-type SearchBarDefaultProps = {
-  inMasthead: boolean;
-  placeholder: string;
-  placeholderAdvanced: string;
-  allowLanguageSelect: boolean;
-  allowVoice: boolean;
-  buttonLabel: string;
-  autoCompleteUri: string | null;
-  route: string | null;
-  baseUri: string;
-};
-
 type SearchBarState = {
   recognizing: boolean;
   suggestions: Array<string>;
@@ -77,8 +65,8 @@ type SearchBarState = {
  * Component to include in the Masthead for entering the query
  * to use when searching. Must be inside a Searcher component.
  */
-class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, SearchBarState> {
-  static defaultProps: SearchBarDefaultProps = {
+class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
+  static defaultProps = {
     inMasthead: false,
     placeholder: 'Search\u2026',
     placeholderAdvanced: 'Enter an advanced query\u2026',

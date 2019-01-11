@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import type { Children } from 'react';
+import type { Node } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -19,20 +19,7 @@ type DummySearcherProps = {
   defaultQueryResponse: QueryResponse | null;
   defaultError: string | null;
   defaultFieldList: Array<string>;
-  children: Children;
-};
-
-type DummySearcherDefaultProps = {
-  defaultRelevancyModels: Array<string>;
-  defaultQueryLanguage: 'simple' | 'advanced';
-  defaultDebug: boolean;
-  defaultResultsPerPage: number;
-  defaultBusinessCenterProfile: string | null;
-  defaultSort: Array<string>;
-  defaultQuery: string;
-  defaultQueryResponse: QueryResponse | null;
-  defaultError: string | null;
-  defaultFieldList: Array<string>;
+  children: Node;
 };
 
 type DummySearcherState = {
@@ -58,7 +45,7 @@ type DummySearcherState = {
  * This isn't included in the index.js for SUIT because
  * YOU DO NOT WANT TO USE THIS COMPONENT IN YOUR APPLICATIONS!
  */
-export default class DummySearcher extends React.Component<DummySearcherDefaultProps, DummySearcherProps, DummySearcherState> {
+export default class DummySearcher extends React.Component<DummySearcherProps, DummySearcherState> {
   static defaultProps = {
     defaultRelevancyModels: ['default'],
     defaultQueryLanguage: 'simple',
@@ -115,14 +102,14 @@ export default class DummySearcher extends React.Component<DummySearcherDefaultP
     };
   }
 
- /**
-  * Get the list of fields to use in the query request.
-  */
+  /**
+   * Get the list of fields to use in the query request.
+   */
   getFieldList(): Array<string> {
     return this.props.defaultFieldList;
   }
 
- /**
+  /**
    * Used to tell the search results component whether to override
    * the format with the debug format.
    */

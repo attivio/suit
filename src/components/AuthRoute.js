@@ -28,18 +28,12 @@ type AuthRouteProps = {
   authType: 'SAML' | 'XML' | 'NONE';
 };
 
-type AuthRouteDefaultProps = {
-  requiredRole: string | null;
-  location: any;
-  authType: 'SAML' | 'XML' | 'NONE';
-};
-
 type AuthRouteState = {
   user: any;
 };
 
 // LJV TODO Create a no-permissions page to use for unauthorized users
-class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, AuthRouteState> {
+class AuthRoute extends React.Component<AuthRouteProps, AuthRouteState> {
   static defaultProps = {
     requiredRole: null,
     location: null, // This should be filled in by the router

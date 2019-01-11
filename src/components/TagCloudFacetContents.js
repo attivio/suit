@@ -20,12 +20,8 @@ type TagCloudFacetContentsProps = {
   noLink: boolean;
 };
 
-type TagCloudFacetContentsDefaultProps = {
-  noLink: boolean;
-};
-
 /** Display a facet's bucket values in a list with TagClouds. */
-export default class TagCloudFacetContents extends React.Component<TagCloudFacetContentsDefaultProps, TagCloudFacetContentsProps, void> { // eslint-disable-line max-len
+export default class TagCloudFacetContents extends React.Component<TagCloudFacetContentsProps> {
   static displayName = 'TagCloudFacetContents';
 
   static defaultProps = {

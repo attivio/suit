@@ -128,8 +128,8 @@ type WizardState = {
  * This component presents a series of pages which are used by the user, in sequence,
  * to enter data. The pages in the list can be enabled or disabled at any time.
  */
-export default class Wizard extends React.Component<void, WizardProps, WizardState> {
-  static WizardPageDefinition;
+export default class Wizard extends React.Component<WizardProps, WizardState> {
+  static WizardPageDefinition: typeof WizardPageDefinition;
 
   static displayName = 'Wizard';
 

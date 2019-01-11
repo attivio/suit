@@ -32,15 +32,11 @@ type TagCloudProps = {
   noLink: boolean;
 };
 
-type TagCloudDefaultProps = {
-  maxValues: number;
-};
-
 /**
  * Display a linear tag "cloud" where the items are proportionally sized
  * based on an associated value.
  */
-export default class TagCloud extends React.Component<TagCloudDefaultProps, TagCloudProps, void> {
+export default class TagCloud extends React.Component<TagCloudProps> {
   static defaultProps = {
     maxValues: 15,
     noLink: false,
@@ -48,7 +44,7 @@ export default class TagCloud extends React.Component<TagCloudDefaultProps, TagC
 
   static displayName = 'TagCloud';
 
-  static TagCloudValue;
+  static TagCloudValue: typeof TagCloudValue;
 
   static getAdjustedValue(value: number, min: number, max: number): number {
     if (max === min) {

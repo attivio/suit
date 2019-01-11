@@ -14,7 +14,7 @@ type DocumentEntityListProps = {
   entityFields: Map<string, string>;
 };
 
-export default class DocumentEntityList extends React.Component<void, DocumentEntityListProps, void> {
+export default class DocumentEntityList extends React.Component<DocumentEntityListProps> {
   static displayName = 'DocumentEntityList';
 
   getEntityValues(doc: SearchDocument): Array<DataPairInfo> {

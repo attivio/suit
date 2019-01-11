@@ -1,5 +1,6 @@
 [ignore]
 <PROJECT_ROOT>/styleguide/**/.*
+<PROJECT_ROOT>/documentation/**/.*
 <PROJECT_ROOT>/docs/**/.*
 <PROJECT_ROOT>/es/**/.*
 <PROJECT_ROOT>/lib/**/.*

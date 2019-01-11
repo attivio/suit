@@ -18,15 +18,6 @@ type AutoCompleteInputProps = {
   style: any;
 };
 
-type AutoCompleteInputDefaultProps = {
-  id: string;
-  placeholder: string;
-  value: string;
-  disabled: boolean;
-  className: string;
-  style: any;
-};
-
 type AutoCompleteInputState = {
   isLoading: boolean;
   suggestions: Array<string>;
@@ -36,7 +27,7 @@ type AutoCompleteInputState = {
   queryValue: string;
 };
 
-export default class AutoCompleteInput extends React.Component<AutoCompleteInputDefaultProps, AutoCompleteInputProps, AutoCompleteInputState> { // eslint-disable-line max-len
+export default class AutoCompleteInput extends React.Component<AutoCompleteInputProps, AutoCompleteInputState> {
   static defaultProps = {
     id: 'autocomplete',
     placeholder: '',

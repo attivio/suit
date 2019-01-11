@@ -107,20 +107,7 @@ type MenuProps = {
   style: any;
 };
 
-type MenuDefaultProps = {
-  selection: Array<string> | string | null;
-  right: boolean;
-  multiSelect: boolean;
-  selectAllNone: null | (selectAll: boolean) => void;
-  block: boolean;
-  promptLabel: string | null;
-  allLabel: string | null;
-  maxLabelCharacters: number | null;
-  width: number | null;
-  style: any;
-};
-
-export default class Menu extends React.Component<MenuDefaultProps, MenuProps, void> {
+export default class Menu extends React.Component<MenuProps> {
   static defaultProps = {
     selection: null,
     right: false,
@@ -136,7 +123,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
 
   static displayName = 'Menu';
 
-  static MenuItemDef;
+  static MenuItemDef: typeof MenuItemDef;
 
   constructor(props: MenuProps) {
     super(props);

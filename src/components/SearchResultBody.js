@@ -5,16 +5,12 @@ type SearchResultBodyProps = {
   body: string,
 };
 
-type SearchResultBodyDefaultProps = {
-  onClick: null | () => {},
-};
-
 /**
  * The body of a given document in the search results, including its title
  * and text. Any HTML markup in the title and body are preserved so that
  * highlighting, entities, and sentiment can be displayed.
  */
-export default class SearchResultBody extends React.Component<SearchResultBodyDefaultProps, SearchResultBodyProps, void> {
+export default class SearchResultBody extends React.Component<SearchResultBodyProps> {
   static defaultProps = {
     onClick: null,
   };

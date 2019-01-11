@@ -15,15 +15,11 @@ type DocumentPreviewProps = {
   onClose: () => void;
 };
 
-type DocumentPreviewDefaultProps = {
-  docTitle: string | null;
-};
-
 type DocumentPreviewState = {
   currentItem: number;
 };
 
-export default class DocumentPreview extends React.Component<DocumentPreviewDefaultProps, DocumentPreviewProps, DocumentPreviewState> { // eslint-disable-line max-len
+export default class DocumentPreview extends React.Component<DocumentPreviewProps, DocumentPreviewState> {
   static defaultProps = {
     docTitle: null,
   };

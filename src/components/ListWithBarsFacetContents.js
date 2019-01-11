@@ -4,7 +4,7 @@ import React from 'react';
 
 import SearchFacetBucket from '../api/SearchFacetBucket';
 
-type ListWithBarsFacetContentsProps = {
+type Props = {
   /** The facet’s buckets. */
   buckets: Array<SearchFacetBucket>;
   /** Callback to add a filter for this facet. */
@@ -23,16 +23,7 @@ type ListWithBarsFacetContentsProps = {
   noLink: boolean;
 };
 
-type ListWithBarsFacetContentsDefaultProps = {
-  right: boolean;
-  color: string;
-  noLink: boolean;
-  shortSize: number;
-  morePrompt: string;
-  fewerPrompt: string;
-};
-
-type ListWithBarsFacetContentsState = {
+type State = {
   allVisible: boolean;
 }
 
@@ -40,7 +31,7 @@ type ListWithBarsFacetContentsState = {
  * Component to display the buckets of a facet in a table with
  * horizontal bars showing relative size.
  */
-export default class ListWithBarsFacetContents extends React.Component<ListWithBarsFacetContentsDefaultProps, ListWithBarsFacetContentsProps, ListWithBarsFacetContentsState> { // eslint-disable-line max-len
+export default class ListWithBarsFacetContents extends React.Component<Props, State> {
   static defaultProps = {
     right: false,
     color: '#55B3E3',
@@ -52,7 +43,7 @@ export default class ListWithBarsFacetContents extends React.Component<ListWithB
 
   static displayName = 'ListWithBarsFacetContents';
 
-  constructor(props: ListWithBarsFacetContentsProps) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       allVisible: false,
@@ -60,7 +51,7 @@ export default class ListWithBarsFacetContents extends React.Component<ListWithB
     (this: any).toggleAllVisible = this.toggleAllVisible.bind(this);
   }
 
-  state: ListWithBarsFacetContentsState;
+  state: State;
 
   toggleButton: ?HTMLAnchorElement;
 
@@ -91,14 +82,16 @@ export default class ListWithBarsFacetContents extends React.Component<ListWithB
       const labelValue = this.props.noLink ? (
         <span>
           {label}
-        </span>) : (
-          <a
-            onClick={callback}
-            role="button"
-            tabIndex={0}
-          >
-            {label}
-          </a>);
+        </span>
+      ) : (
+        <a
+          onClick={callback}
+          role="button"
+          tabIndex={0}
+        >
+          {label}
+        </a>
+      );
       return (
         <tr key={bucket.bucketKey()}>
           <td style={{ width: '100px' }}>

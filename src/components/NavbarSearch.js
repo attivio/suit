@@ -12,16 +12,12 @@ type NavbarSearchProps = {
   onSearch: () => void;
 };
 
-type NavbarSearchDefaultProps = {
-  placeholder: string;
-};
-
 /**
  * A search bar to include inside a Navbar component. This isn't connected to
  * a Searcher component but is instead to be used for operations such as filtering.
  */
-export default class NavbarSearch extends React.Component<NavbarSearchDefaultProps, NavbarSearchProps, void> {
-  static defaultProps: NavbarSearchDefaultProps = {
+export default class NavbarSearch extends React.Component<NavbarSearchProps> {
+  static defaultProps = {
     placeholder: 'Search\u2026',
   };
 

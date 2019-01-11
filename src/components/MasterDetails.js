@@ -88,18 +88,6 @@ type MasterDetailsProps = {
   noEmptySelection: boolean;
 };
 
-type MasterDetailsDefaultProps = {
-  multiSelect: boolean;
-  onSelect: null | (rowsIds: Array<string>, newlySelectedRowId: string | null) => void;
-  sortColumn: number;
-  onSort: null | (sortColumn: number) => void;
-  header: any;
-  footer: any;
-  split: ColumnCount;
-  padding: number;
-  noEmptySelection: boolean;
-};
-
 type MasterDetailsState = {
   /** The IDs of the selected rows */
   selectedRows: Array<string>;
@@ -112,7 +100,7 @@ type MasterDetailsState = {
  * information about the item in the selected row. If the table allows selection of multiple rows
  * simultaneously, then the details pane shows information aobut the most recently selected row.
  */
-export default class MasterDetails extends React.Component<MasterDetailsDefaultProps, MasterDetailsProps, MasterDetailsState> {
+export default class MasterDetails extends React.Component<MasterDetailsProps, MasterDetailsState> {
   static defaultProps = {
     multiSelect: false,
     onSelect: null,

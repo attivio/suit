@@ -6,7 +6,7 @@ type Subheader360Props = {
   label: string;
 };
 
-export default class Subheader360 extends React.Component<void, Subheader360Props, void> {
+export default class Subheader360 extends React.Component<Subheader360Props> {
   static displayName = 'Subheader360';
 
   render() {

@@ -13,7 +13,7 @@ type SentimentFacetContentsProps = {
 };
 
 /** Display a facet's bucket values using a sentiment bar. */
-export default class SentimentFacetContents extends React.Component<void, SentimentFacetContentsProps, void> {
+export default class SentimentFacetContents extends React.Component<SentimentFacetContentsProps> {
   static displayName = 'SentimentFacetContents';
 
   constructor(props: SentimentFacetContentsProps) {

@@ -14,14 +14,10 @@ type PagerProps = {
   right: boolean;
 };
 
-type PagerDefaultProps = {
-  right: boolean;
-};
-
 /**
  * A simple control for paging through a set of results with forward and back buttons.
  */
-export default class Pager extends React.Component<PagerDefaultProps, PagerProps, void> {
+export default class Pager extends React.Component<PagerProps> {
   static defaultProps = {
     right: false,
   };

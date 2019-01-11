@@ -25,12 +25,6 @@ type DocumentThumbnailProps = {
   previewTitle: string | null;
 };
 
-type DocumentThumbnailDefaultProps = {
-  uri: string | null;
-  previewUris: Array<string>;
-  previewTitle: string | null;
-};
-
 type DocumentThumbnailState = {
   previewing: boolean;
 };
@@ -41,7 +35,7 @@ type DocumentThumbnailState = {
  * isn't valid, then the image is hidden rather than showing a
  * broken image in the browser.
  */
-export default class DocumentThumbnail extends React.Component<DocumentThumbnailDefaultProps, DocumentThumbnailProps, DocumentThumbnailState> { // eslint-disable-line max-len
+export default class DocumentThumbnail extends React.Component<DocumentThumbnailProps, DocumentThumbnailState> {
   static defaultProps = {
     uri: null,
     previewUris: [],

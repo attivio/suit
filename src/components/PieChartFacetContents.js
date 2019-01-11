@@ -41,19 +41,10 @@ type PieChartFacetContentsProps = {
   clickable: boolean;
 };
 
-type PieChartFacetContentsDefaultProps = {
-  entityColors: Map<string, string>;
-  legendAlign: 'left' | 'right' | 'center';
-  legendLayout: 'horizontal' | 'vertical';
-  legendVerticalAlign: 'top' | 'middle' | 'bottom';
-  height: string;
-  clickable: boolean;
-};
-
 /**
  * Component to display the buckets of a facet using a pie chart.
  */
-export default class PieChartFacetContents extends React.Component<PieChartFacetContentsDefaultProps, PieChartFacetContentsProps, void> { // eslint-disable-line max-len
+export default class PieChartFacetContents extends React.Component<PieChartFacetContentsProps> {
   static defaultProps = {
     entityColors: new Map(),
     legendAlign: 'center',

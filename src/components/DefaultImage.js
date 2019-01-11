@@ -13,10 +13,6 @@ type DefaultImageProps = {
   defaultSrc: string | null;
 };
 
-type DefaultImageDefaultProps = {
-  defaultSrc: string | null;
-}
-
 type DefaultImageState = {
   src: string | null;
 };
@@ -26,7 +22,7 @@ type DefaultImageState = {
  * If neither provided source is successfully displayed, then display nothing.
  * You can pass in any props that work for a standard <img> tag and they'll be added to the inserted image.
  */
-export default class DefaultImage extends React.Component<DefaultImageDefaultProps, DefaultImageProps, DefaultImageState> {
+export default class DefaultImage extends React.Component<DefaultImageProps, DefaultImageState> {
   static defaultProps = {
     defaultSrc: null,
   }

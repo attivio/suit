@@ -62,16 +62,10 @@ type NetworkDiagramProps = {
   onDoubleClick: (event: NetworkEventInfo) => void;
 };
 
-type NetworkDiagramDefaultProps = {
-  options: any;
-  style: any;
-  onDoubleClick: (event: NetworkEventInfo) => void;
-};
-
 /**
  * Component to display an arbitrary network diagram of nodes and edges.
  */
-export default class NetworkDiagram extends React.Component<NetworkDiagramDefaultProps, NetworkDiagramProps, void> {
+export default class NetworkDiagram extends React.Component<NetworkDiagramProps> {
   static defaultProps = {
     options: {},
     style: {},
@@ -80,8 +74,8 @@ export default class NetworkDiagram extends React.Component<NetworkDiagramDefaul
 
   static displayName = 'NetworkDiagram';
 
-  static Node;
-  static Edge;
+  static Node: typeof Node;
+  static Edge: typeof Edge;
 
   componentDidMount() {
     const data = {

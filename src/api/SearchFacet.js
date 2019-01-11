@@ -20,7 +20,14 @@ export default class SearchFacet {
     return new SearchFacet(json.name, json.field, json.label, json.count, buckets, statistics);
   }
 
-  constructor(name: string, field: string, label: string, count: number, buckets: Array<SearchFacetBucket> = [], statistics: SearchFacetStatistics | null = null) { // eslint-disable-line max-len
+  constructor(
+    name: string,
+    field: string,
+    label: string,
+    count: number,
+    buckets: Array<SearchFacetBucket> = [],
+    statistics: SearchFacetStatistics | null = null,
+  ) {
     this.name = name;
     this.field = field;
     this.label = label;
