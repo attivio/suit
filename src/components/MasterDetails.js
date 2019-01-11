@@ -24,7 +24,7 @@ type MasterDetailsProps = {
   columns: Array<Table.TableColumn>;
   /**
    * The details component to be rendered for the selected row object from table.
-   * It is passed a property called "rowData" which contains the object representing
+   * It is passed a property called "data" which contains the object representing
    * the selected row in the table.
    */
   details: any;
@@ -56,6 +56,11 @@ type MasterDetailsProps = {
    * in the Table component for more details.
    */
   onSort: null | (sortColumn: number) => void;
+  /**
+   * Key/value pairs representing extra properties to pass in to the custom details
+   * handler component. These will not be changed when the selection changes. Optional.
+   */
+  detailsProps: any;
   /**
    * A header component that can be inserted above the table (but to the left of the
    * details component). For example, this might be used to include controls that help the
@@ -105,6 +110,7 @@ type MasterDetailsDefaultProps = {
   onSelect: null | (rowsIds: Array<string>, newlySelectedRowId: string | null) => void;
   sortColumn: number;
   onSort: null | (sortColumn: number) => void;
+  detailsProps: any;
   header: any;
   footer: any;
   split: ColumnCount;
@@ -133,6 +139,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     onSelect: null,
     sortColumn: 0,
     onSort: null,
+    detailsProps: {},
     header: null,
     footer: null,
     split: 8,
@@ -222,7 +229,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
             </div>
           </Col>
           <Col lg={detailsWidth} md={detailsWidth} sm={12} xs={12} style={{ paddingLeft: halfPadding, paddingRight: 0 }}>
-            <Detail data={detailsRow} />
+            <Detail data={detailsRow} {...this.props.detailsProps} />
           </Col>
         </Row>
       </Grid>
