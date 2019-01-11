@@ -184,6 +184,10 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     this.setState({
       selectedRows: selectedRowIds,
       detailsRowId: newlySelectedRowId || '',
+    }, () => {
+      if (this.props.onSelect !== null) {
+        this.props.onSelect(selectedRowIds, newlySelectedRowId);
+      }
     });
   }
 

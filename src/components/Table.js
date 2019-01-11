@@ -103,12 +103,11 @@ type TableProps = {
    */
   onSort: null | (sortColumn: number) => void;
   /**
-   * If set, then the component will not allow the user to deselect all rows in the child table.
+   * If set, then the component will not allow the user to deselect all rows in the table.
    * For single-select components, the user will only be able to change the selection to
    * another row; for multi-select components, the user will not be able to deselect the last-
    * selected row without first selecting another one. This means that, unless the rows
-   * property is empty, there will always be an item selected in the table and, therefore,
-   * shown in the details view.
+   * property is empty, there will always be an item selected in the table.
    */
   noEmptySelection: boolean;
   /**
@@ -226,7 +225,28 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       return true;
     }
 
-    // just select the newly clicked row
+    let selectedRowIds;
+    if (Array.isArray(this.props.selection)) {
+      selectedRowIds = this.props.selection[0];
+    } else if (typeof this.props.selection === 'string') {
+      selectedRowIds = this.props.selection;
+    } else {
+      selectedRowIds = '';
+    }
+
+    // if this row is the currently selected row,
+    if (selectedRowIds === rowId) {
+      // if we don't allow empty selection
+      if (this.props.noEmptySelection) {
+        // do nothing
+        return false;
+      }
+      // otherwise, deselect the row
+      this.props.onSelect([], null);
+      return true;
+    }
+
+    // otherwise, just select the newly clicked row
     this.props.onSelect([rowId], rowId);
     return true;
   }
