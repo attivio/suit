@@ -29,6 +29,11 @@ type MasterDetailsProps = {
    */
   details: any;
   /**
+   * Custom properties to pass to the details component in addition to the "data" property.
+   * Optional.
+   */
+  detailsProps: any;
+  /**
    * If set, multiple rows in the table can be selected simultaneouysly. In this case, the
    * most recently selected row is shown in the details view.
    */
@@ -56,11 +61,6 @@ type MasterDetailsProps = {
    * in the Table component for more details.
    */
   onSort: null | (sortColumn: number) => void;
-  /**
-   * Key/value pairs representing extra properties to pass in to the custom details
-   * handler component. These will not be changed when the selection changes. Optional.
-   */
-  detailsProps: any;
   /**
    * A header component that can be inserted above the table (but to the left of the
    * details component). For example, this might be used to include controls that help the
@@ -106,11 +106,11 @@ type MasterDetailsProps = {
 };
 
 type MasterDetailsDefaultProps = {
+  detailsProps: any;
   multiSelect: boolean;
   onSelect: null | (rowsIds: Array<string>, newlySelectedRowId: string | null) => void;
   sortColumn: number;
   onSort: null | (sortColumn: number) => void;
-  detailsProps: any;
   header: any;
   footer: any;
   split: ColumnCount;
@@ -135,11 +135,11 @@ type MasterDetailsState = {
  */
 export default class MasterDetails extends React.Component<MasterDetailsDefaultProps, MasterDetailsProps, MasterDetailsState> {
   static defaultProps = {
+    detailsProps: {},
     multiSelect: false,
     onSelect: null,
     sortColumn: 0,
     onSort: null,
-    detailsProps: {},
     header: null,
     footer: null,
     split: 8,
@@ -229,7 +229,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
             </div>
           </Col>
           <Col lg={detailsWidth} md={detailsWidth} sm={12} xs={12} style={{ paddingLeft: halfPadding, paddingRight: 0 }}>
-            <Detail data={detailsRow} {...this.props.detailsProps} />
+            <Detail {...this.props.detailsProps} data={detailsRow} />
           </Col>
         </Row>
       </Grid>
