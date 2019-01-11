@@ -86,6 +86,18 @@ type MasterDetailsProps = {
    * See the noEmptySelection property of the Table component for details
    */
   noEmptySelection: boolean;
+  /**
+   * The class name to apply to the parent div element containing the table. Optional
+   */
+  tableContainerClassName: string | void;
+  /**
+   * The class name to apply only to tr elements of selected rows in the table. Optional
+   */
+  selectedClassName: string;
+  /**
+   * The class name to apply to the table element. Optional.
+   */
+  tableClassName: string;
 };
 
 type MasterDetailsDefaultProps = {
@@ -98,6 +110,9 @@ type MasterDetailsDefaultProps = {
   split: ColumnCount;
   padding: number;
   noEmptySelection: boolean;
+  tableContainerClassName: string | void;
+  selectedClassName: string;
+  tableClassName: string;
 };
 
 type MasterDetailsState = {
@@ -123,6 +138,9 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     split: 8,
     padding: 0,
     noEmptySelection: false,
+    tableContainerClassName: undefined,
+    selectedClassName: 'attivio-table-row-selected',
+    tableClassName: 'table table-striped attivio-table attivio-table-sm',
   };
 
   static displayName = 'MasterDetails';
@@ -182,7 +200,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
       <Grid fluid style={{ padding: 0 }}>
         <Row style={{ margin: 0 }}>
           <Col lg={tableWidth} md={tableWidth} sm={12} xs={12} style={{ paddingLeft: 0, paddingRight: halfPadding }}>
-            <div>
+            <div className={this.props.tableContainerClassName}>
               {this.props.header}
               <Table
                 columns={this.props.columns}
@@ -193,6 +211,8 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
                 selection={this.state.selectedRows}
                 multiSelect={this.props.multiSelect}
                 noEmptySelection={this.props.noEmptySelection}
+                selectedClassName={this.props.selectedClassName}
+                tableClassName={this.props.tableClassName}
               />
               {this.props.footer}
             </div>

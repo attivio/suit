@@ -12,10 +12,14 @@ class TableColumn {
     title: string,
     render: string | (value: any) => any,
     sort: boolean | (a: any, b: any, order: 'asc' | 'desc') => number = false,
-    ) {
+    className: string = '',
+    style: any = {},
+  ) {
     this.title = title;
     this.render = render;
     this.sort = sort;
+    this.className = className;
+    this.style = style;
   }
 
   /**
@@ -40,6 +44,14 @@ class TableColumn {
    * descending order.
    */
   sort: boolean | (a: any, b: any, order: 'asc' | 'desc') => number;
+  /**
+   * The class name to use for the html td and th elements representing this column in the table.
+   */
+  className: string = '';
+  /**
+   * Any css style attributes to apply to the html td and th elements representing this column in the table.
+   */
+  style: any = {};
 }
 
 type TableProps = {
@@ -103,6 +115,14 @@ type TableProps = {
    * If set, the table will have a border drawn around it.
    */
   bordered: booleaan;
+  /**
+   * The class name to apply only to tr elements of selected rows. Optional
+   */
+  selectedClassName: string;
+  /**
+   * The class name to apply to the table element. Optional.
+   */
+  tableClassName: string;
 };
 
 type TableDefaultProps = {
@@ -113,6 +133,8 @@ type TableDefaultProps = {
   onSort: null | (sortColumn: number) => void;
   noEmptySelection: boolean;
   bordered: boolean;
+  selectedClassName: string;
+  tableClassName: string;
 };
 
 type TableState = {
@@ -139,6 +161,8 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     onSort: null,
     noEmptySelection: false,
     bordered: false,
+    selectedClassName: 'attivio-table-row-selected',
+    tableClassName: 'table table-striped attivio-table attivio-table-sm',
   };
 
   static makeCustomRenderer(column) {
@@ -244,7 +268,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       mode: this.props.multiSelect ? 'checkbox' : 'radio',
       onSelect: this.rowSelect,
       clickToSelect: true,
-      bgColor: '#b3d9ff',
+      className: this.props.selectedClassName,
       hideSelectColumn: true,
       selected: selectedRowIds,
     } : null;
@@ -258,14 +282,32 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         const rendererFunction = Table.makeCustomRenderer(column);
 
         return (
-          <TableHeaderColumn key={column.title} dataFormat={rendererFunction} dataSort={sortable} sortFunc={sortFunc}>
+          <TableHeaderColumn
+            key={column.title}
+            dataFormat={rendererFunction}
+            dataSort={sortable}
+            sortFunc={sortFunc}
+            tdStyle={column.style}
+            thStyle={column.style}
+            className={column.className}
+            columnClassName={column.className}
+          >
             {column.title}
           </TableHeaderColumn>
         );
       }
       // Otherwise it's just the name of a field so use the string value of the field for the row object
       return (
-        <TableHeaderColumn key={column.title} dataField={column.render} dataSort={sortable} sortFunc={sortFunc}>
+        <TableHeaderColumn
+          key={column.title}
+          dataField={column.render}
+          dataSort={sortable}
+          sortFunc={sortFunc}
+          tdStyle={column.style}
+          thStyle={column.style}
+          className={column.className}
+          columnClassName={column.className}
+        >
           {column.title}
         </TableHeaderColumn>
       );
@@ -285,9 +327,9 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       <div>
         <BootstrapTable
           data={this.state.sortedRows}
-          tableStyle={{ backgroundColor: 'white' }}
+          tableHeaderClass={this.props.tableClassName}
+          tableBodyClass={this.props.tableClassName}
           selectRow={selectRow}
-          striped
           keyField="id"
           options={options}
           remote={this.remote}
