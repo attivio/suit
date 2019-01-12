@@ -8,12 +8,11 @@ rm -rf  node_modules && \
 rm -rf es && \
 rm -rf lib && \
 rm -rf styleguide && \
-npm install && \ 
-npm run lint && \
-npm run buildflow && \ 
+npm install && \
+npm run build && \
+npm run buildflow && \
 npm run validatecomponents && \
 npm run doclint && \
 npm run test && \
 npm run styleguide && \
-npm run doc && \
-npm run build
+npm run doc
