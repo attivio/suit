@@ -53,7 +53,7 @@ export default class FacetInsights extends React.Component<FacetInsightsProps> {
     sentimentFacets: null,
     geoMapFacets: null,
     maxFacetBuckets: 15,
-    entityColors: new Map(),
+    entityColors: (new Map(): Map<string, string>),
   };
 
   static contextTypes = {

@@ -46,7 +46,7 @@ type PieChartFacetContentsProps = {
  */
 export default class PieChartFacetContents extends React.Component<PieChartFacetContentsProps> {
   static defaultProps = {
-    entityColors: new Map(),
+    entityColors: (new Map(): Map<string, string>),
     legendAlign: 'center',
     legendLayout: 'horizontal',
     legendVerticalAlign: 'bottom',

@@ -58,7 +58,7 @@ export default class Facet extends React.Component<FacetProps> {
     maxBuckets: 15,
     collapse: false,
     bordered: false,
-    entityColors: new Map(),
+    entityColors: (new Map(): Map<string, string>),
     negativeKeyphrases: null,
     positiveKeyphrases: null,
   };

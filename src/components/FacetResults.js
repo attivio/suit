@@ -64,7 +64,7 @@ export default class FacetResults extends React.Component<FacetResultsProps> {
     geoMapFacets: null,
     maxFacetBuckets: 15,
     orderHint: [],
-    entityColors: new Map(),
+    entityColors: (new Map(): Map<string, string>),
     showEmptyFacets: false,
   };
 

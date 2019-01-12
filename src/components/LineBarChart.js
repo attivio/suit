@@ -71,7 +71,7 @@ export default class LineBarChart extends React.Component<LineBarChartProps> {
     yAxis2Label: null,
     yAxis2LabelValueFormat: null,
     barsSideBySide: false,
-    entityColors: new Map(),
+    entityColors: (new Map(): Map<string, string>),
   };
 
   static displayName = 'LineBarChart';
