@@ -44,15 +44,6 @@ type SearchResultsProps = {
    * which result in a single SearchResultRenderer that produces a result of that format.
    */
   format: Array<SearchResultRenderer> | SearchResultRenderer | 'list' | 'simple' | 'debug';
-  /**
-   * Whether or not the documents’ relevancy scores should be displayed.
-   * Defaults to false.
-   */
-  showScores: boolean;
-  /** Whether tags should be shown in the UI or not. Defaults to true. */
-  showTags: boolean;
-  /** Whether star ratings should be shown in the UI or not. Defaults to true. */
-  showRatings: boolean;
   /** A style to apply to the results list */
   style: any;
 };
