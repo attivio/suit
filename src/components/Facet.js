@@ -150,11 +150,11 @@ export default class Facet extends React.Component<FacetProps> {
               color={facetColor}
             />
           ) : (
-            <BarChartFacetContents
-              buckets={this.props.facet.buckets}
-              addFacetFilter={this.addFacetFilter}
-            />
-          );
+              <BarChartFacetContents
+                buckets={this.props.facet.buckets}
+                addFacetFilter={this.addFacetFilter}
+              />
+            );
           break;
         case 'columnchart':
           facetContents = facetColor ? (
@@ -165,12 +165,12 @@ export default class Facet extends React.Component<FacetProps> {
               color={facetColor}
             />
           ) : (
-            <BarChartFacetContents
-              buckets={this.props.facet.buckets}
-              addFacetFilter={this.addFacetFilter}
-              columns
-            />
-          );
+              <BarChartFacetContents
+                buckets={this.props.facet.buckets}
+                addFacetFilter={this.addFacetFilter}
+                columns
+              />
+            );
           break;
         case 'piechart':
           facetContents = (
@@ -189,11 +189,11 @@ export default class Facet extends React.Component<FacetProps> {
               color={facetColor}
             />
           ) : (
-            <ListWithBarsFacetContents
-              buckets={this.props.facet.buckets}
-              addFacetFilter={this.addFacetFilter}
-            />
-          );
+              <ListWithBarsFacetContents
+                buckets={this.props.facet.buckets}
+                addFacetFilter={this.addFacetFilter}
+              />
+            );
           break;
         case 'tagcloud':
           facetContents = (
@@ -229,6 +229,8 @@ export default class Facet extends React.Component<FacetProps> {
       }
     } else if (!this.props.positiveKeyphrases && !this.props.negativeKeyphrases) {
       facetContents = <span className="none">No values for this facet.</span>;
+    } else {
+      facetContents = null;
     }
 
     // Prefer the display name but fall back to the name field

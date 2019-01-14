@@ -16,7 +16,7 @@
 errors=0
 while read line
 do
-  if [[ $line =~ ^(src|docs|tests)/ ]]
+  if [[ $line =~ ^Error.*(src|docs|tests)/ ]]
   then
     echo $line
     (( errors++ ))
