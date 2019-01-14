@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ A short list of placements.
 
 ```jsx

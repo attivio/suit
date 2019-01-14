@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ An editor for keeping track of a shopping list.
 
 ```jsx

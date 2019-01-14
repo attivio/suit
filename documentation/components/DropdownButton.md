@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Simple dropdown button with Bootstrap-type menu items.
 
 ```jsx

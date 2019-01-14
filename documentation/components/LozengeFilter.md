@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Single-select filter with all items showing
 
 ```jsx

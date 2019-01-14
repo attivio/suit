@@ -11,6 +11,7 @@ __1.__ Button with just text.
     />
   </Navbar>
 ```
+
 __2.__ Button with just an icon.
 
 ```jsx
@@ -22,6 +23,7 @@ __2.__ Button with just an icon.
     />
   </Navbar>
 ```
+
 __3.__ Button with text and an icon.
 
 ```jsx

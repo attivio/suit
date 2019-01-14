@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Example showing an editor for list of phone numbers.
 
 ```jsx

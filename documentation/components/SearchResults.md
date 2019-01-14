@@ -1,6 +1,6 @@
 #### Examples:
 
-__1.__ Showing the built-in simnple format.
+__1.__ Showing the built-in simple format.
 
 ```jsx
   const QueryResponse = require('../../src/api/QueryResponse').default;
@@ -22,7 +22,6 @@ __1.__ Showing the built-in simnple format.
     />
   </DummySearcher>
 ```
-
 
 __2.__ Using a custom renderer for documents in the "country" table.
 

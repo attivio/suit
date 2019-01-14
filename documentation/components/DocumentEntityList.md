@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ A series of common entities.
 
 ```jsx
@@ -18,5 +17,5 @@ __1:__ A series of common entities.
   entities.set('agriprod', 'Agricultural Products');
   entities.set('industry', 'Industries');
 
-  <DocumentEntityList doc={sampleDocs.elsalvador} entityFields={entities} />
+  <DocumentEntityList doc={sampleDocs.elSalvador} entityFields={entities} />
 ```

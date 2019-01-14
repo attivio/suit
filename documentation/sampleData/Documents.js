@@ -2414,7 +2414,7 @@ const sampleDocs = {
   rawDocuments: documents,
   honduras: documents[1],
   caymans: documents[2],
-  elsalvador: documents[3],
+  elSalvador: documents[3],
   bolivia: documents[4],
   docWithChildren,
 };

@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__  Simple example.
 
 ```jsx
@@ -15,6 +14,6 @@ __1:__  Simple example.
       ],
       'ingesting data',
       'https://answers.attivio.com/display/extranet55/Content+Ingestion+-+Concepts+and+Tools',
-    )}    
+    )}
   />
 ```

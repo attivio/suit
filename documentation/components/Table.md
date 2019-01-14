@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Simple table allowing multiple selection.
 
 ```jsx
@@ -16,7 +15,7 @@ __1:__ Simple table allowing multiple selection.
     }}
     selection={state.selectedRows}
     multiSelect
-  /> 
+  />
 ```
 
 __2:__ Single-selection table with a border.
@@ -34,7 +33,7 @@ __2:__ Single-selection table with a border.
     }}
     selection={state.selectedRows}
     bordered
-  /> 
+  />
 ```
 
 __3:__ Table with a custom cell renderer for the Self-Service column showing percentage bars...
@@ -73,7 +72,7 @@ __3:__ Table with a custom cell renderer for the Self-Service column showing per
       setState({ selectedRow: row });
     }}
     selection={state.selectedRow}
-  /> 
+  />
 ```
 
 __4:__ Table with sortable columms handled by a global handler (useful when sorting in the back-end code).
@@ -122,10 +121,10 @@ __4:__ Table with sortable columms handled by a global handler (useful when sort
         });
       }
     }}
-  /> 
+  />
 ```
 
-__5:__ Table with sortable columms with sorting handled by the columns themselves.
+__5:__ Table with sortable columns with sorting handled by the columns themselves.
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
@@ -208,5 +207,5 @@ __5:__ Table with sortable columms with sorting handled by the columns themselve
       setState({ selectedRow: row });
     }}
     selection={state.selectedRow}
-  /> 
+  />
 ```

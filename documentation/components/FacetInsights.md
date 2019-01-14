@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Showing a set of common facets.
 
 ```jsx

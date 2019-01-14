@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ A successful image display.
 
 ```jsx

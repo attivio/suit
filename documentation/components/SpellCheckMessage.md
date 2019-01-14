@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__  Showing a suggested update to the user's query.
 
 ```jsx

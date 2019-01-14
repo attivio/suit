@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ A simple master detail example using the dummy &lt;Details&gt; component on the right side.
 
 ```jsx
@@ -14,7 +13,7 @@ __1:__ A simple master detail example using the dummy &lt;Details&gt; component 
   /> 
 ```
 
-__2:__ Another example showing the use of a header and footer and with a 50-50 split, widthwise, between
+__2:__ Another example showing the use of a header and footer and with a 50-50 split, width-wise, between
 the table and details, along with 20 pixels of padding between them.
 
 ```jsx

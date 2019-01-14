@@ -115,7 +115,8 @@ __3.__ Multi-select menu with CHECK ALL | NONE
   />
 ```
 
-__4.__ Block-style menu with a prompt (
+__4.__ Block-style menu with a prompt.
+
 ```jsx
   initialState = {
     selectedItem: null,
@@ -141,6 +142,7 @@ __4.__ Block-style menu with a prompt (
 ```
 
 __5.__ Menu with custom icons. If an item has an icon, it will appear in the menu when closed alongside the item’s label.
+
 ```jsx
   initialState = {
     selection: 'DESC',

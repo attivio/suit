@@ -8,7 +8,7 @@ __1.__ Basic example
   </TrianglePanel>
 ```
 
-__2.__ Initally collased example
+__2.__ Initially collapsed example
 
 ```jsx
   <TrianglePanel id="myCollapsiblePanel" title="Collapsible" initiallyCollapsed>
@@ -16,7 +16,7 @@ __2.__ Initally collased example
   </TrianglePanel>
 ```
 
-__3.__ Example using localstorage to save the open/closed state.
+__3.__ Example using local storage to save the open/closed state.
 
 ```jsx
   <TrianglePanel id="myCollapsiblePanel" title="Collapsible" localStorageKey="trianglepanelstyleguideexampple">

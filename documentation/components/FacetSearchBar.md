@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__  A simple example for finding values in a large facet.
 
 ```jsx

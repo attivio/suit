@@ -8,7 +8,7 @@ __1.__ Showing the debug search output for a document.
   const { StaticRouter } = require('react-router-dom');
   <StaticRouter context={{}}>
     <DebugSearchResult
-      document={sampleDocs.elsalvador}
+      document={sampleDocs.elSalvador}
       position={4}
       format="debug"
     />

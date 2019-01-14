@@ -25,7 +25,7 @@ const negativeTags = [
     positiveTags={positiveTags}
     negativeTags={negativeTags}
     callback={(value) => {
-      alert(`The user clicked the cloud item ${value.label} whose valus is ${value.value} and whose sentiment is ${value.sentiment}.`);
+      alert(`The user clicked the cloud item ${value.label} whose value is ${value.value} and whose sentiment is ${value.sentiment}.`);
     }}
   />
 ```

@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Example showing an inline date picker. Usually it would be in a dialog box or ther pop-up-like div.
 
 ```jsx

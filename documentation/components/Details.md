@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Placeholder component for testing the master-details component...
 
 ```jsx

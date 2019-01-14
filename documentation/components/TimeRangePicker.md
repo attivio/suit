@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ A control to choose a time range.
 
 ```jsx

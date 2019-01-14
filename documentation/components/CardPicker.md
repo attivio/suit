@@ -29,7 +29,7 @@ __1.__ Card picker.
   </div>
 ```
 
-__1.__ Card picker with 5 columns (with the same cards).
+__2.__ Card picker with 5 columns (with the same cards).
 
 ```jsx
   const cards = [

@@ -19,6 +19,7 @@ const { MemoryRouter } = require('react-router-dom');
 ```
 
 __3.__ Search bar with custom placeholder text, which also allows voice-recognition-based entry.
+
 ```jsx
 const { MemoryRouter } = require('react-router-dom');
   <MemoryRouter>

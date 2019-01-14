@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__  An example of the view from a user who is allowed to see the secret.
 
 ```jsx

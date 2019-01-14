@@ -7,7 +7,7 @@ __1.__ With the default label
     lines={[
       'My first query',
       'Another query',
-      'this is a super super long query with a whole bunch of characters and it just seems to keep going and going, like that silly rabbit from the commercials for batteries that playes the bass drum strapped to its little bunny chest', // eslint-disable-line max-len
+      'this is a super super long query with a whole bunch of characters and it just seems to keep going and going, like that silly rabbit from the commercials for batteries that plays the bass drum strapped to its little bunny chest', // eslint-disable-line max-len
     ]}
   />
 ```

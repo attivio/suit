@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Chart with both lines and bars.
 
 ```jsx

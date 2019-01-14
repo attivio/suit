@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__  A simple example using the search field.
 
 ```jsx
@@ -9,9 +8,9 @@ __1:__  A simple example using the search field.
   };
   <NavbarSearch
     placeholder="Whatcha want?"
-    value={state.vaue}
+    value={state.value}
     updateSearchString={(newValue) => {
-      setState({ vaue: newValue });
+      setState({ value: newValue });
     }}
     onSearch={() => {
       alert(`The user wants to search for ${state.value}.`);

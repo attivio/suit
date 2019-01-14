@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Showing some eographic facet data. Click the VIEW CODE link below and enter your own Mapbox key to see the map displayed.
 
 ```jsx

@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Steps for a wizard. In this example, steps 1 and 2 have been completed and the user
 is currently on step 3. Steps 4 through 6 are not yet accessible.
 

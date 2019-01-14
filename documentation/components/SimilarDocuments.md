@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Showing documents similar to the main one, using its `morelikethisquery` field.
 
 ```jsx

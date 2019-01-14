@@ -47,4 +47,3 @@ __3.__ Disabled toggle.
     disabled
   />
 ```
-

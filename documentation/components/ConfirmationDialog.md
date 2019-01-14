@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Straightforward confirmation dialog with default values.
 
 ```jsx

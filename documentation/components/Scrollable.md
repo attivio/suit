@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Scroll the contents both horizontally and vertically within a 800x800 pixel area.
 
 ```jsx

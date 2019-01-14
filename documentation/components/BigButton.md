@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Standard shape button with a "danger" coloration and various text inside. Clicking sends the user to the "/catalog" route.
 
 ```jsx
@@ -31,7 +30,10 @@ __2:__ Image button with no other styling that shows an alert when clicked.
 ```jsx
 const { MemoryRouter } = require('react-router-dom');
 <MemoryRouter>
-  <BigButton onClick={() => { alert('You clicked the big button!'); }} style={{ border: 'none', background: 'lightblue' }}>
+  <BigButton =
+    onClick={() => { alert('You clicked the big button!'); }}
+    style={{ border: 'none', background: 'lightblue' }}
+  >
     <img src="/img/attivio-logo.png" />
   </BigButton>
 </MemoryRouter>

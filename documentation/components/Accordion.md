@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Accordion whose second panel is the default open one.
 
 ```jsx

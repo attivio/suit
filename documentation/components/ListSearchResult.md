@@ -9,7 +9,7 @@ of showing the document’s relevancy score and a few entity values.
   const { StaticRouter } = require('react-router-dom');
   <StaticRouter context={{}}>
     <ListSearchResult
-      document={sampleDocs.elsalvador}
+      document={sampleDocs.elSalvador}
       position={4}
       format="list"
       showScores

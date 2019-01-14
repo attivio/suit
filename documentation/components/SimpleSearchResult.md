@@ -6,7 +6,7 @@ __1.__ Showing the 'simple' view of a document.
   sampleDocs = require('../sampleData/Documents').default;
 
   <SimpleSearchResult
-    document={sampleDocs.elsalvador}
+    document={sampleDocs.elSalvador}
     position={4}
     format="simple"
   />

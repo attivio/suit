@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Example showing both an array of values (for the Customer filters) and a single one (for the Topic filters).
 
 ```jsx

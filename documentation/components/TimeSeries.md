@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Combined bar and line chart values over time.
 
 ```jsx

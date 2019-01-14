@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ A simple placement showing a banner ad for Attivio.
 
 ```jsx

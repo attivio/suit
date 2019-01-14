@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__  A simple example of the mini search UI.
 
 ```jsx

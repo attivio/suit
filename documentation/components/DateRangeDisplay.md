@@ -1,6 +1,5 @@
 #### Examples:
 
-
 __1:__ Example with an interval (a month) and a custom label.
 
 ```jsx
@@ -37,7 +36,7 @@ __4:__ Example with a specified start and end time that are days apart.
   />
 ```
 
-__3:__ Example with a specified start and end time that are hours apart.
+__5:__ Example with a specified start and end time that are hours apart.
 
 ```jsx
   <DateRangeDisplay
@@ -46,7 +45,7 @@ __3:__ Example with a specified start and end time that are hours apart.
   />
 ```
 
-__3:__ Example with a specified start and end time that are minutes apart.
+__6:__ Example with a specified start and end time that are minutes apart.
 
 ```jsx
   <DateRangeDisplay
@@ -55,7 +54,7 @@ __3:__ Example with a specified start and end time that are minutes apart.
   />
 ```
 
-__3:__ Example with a specified start and end time that are the same.
+__7:__ Example with a specified start and end time that are the same.
 
 ```jsx
   <DateRangeDisplay

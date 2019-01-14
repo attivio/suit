@@ -1,12 +1,10 @@
 #### Examples:
 
-
 __1:__ Example showing a visible loading message.
 
 ```jsx
   <BusyIndicator show message="Loading" />
 ```
-
 
 __2:__ Another using a custom style.
 
@@ -22,7 +20,6 @@ __2:__ Another using a custom style.
   />
 ```
 
-
 __3:__ Example showing a loading indicator with the "spinny" animation.
 
 ```jsx
@@ -31,7 +28,6 @@ __3:__ Example showing a loading indicator with the "spinny" animation.
     type="spinny"
   />
 ```
-
 
 __4:__ Another "spinny" one, with a message.
 
@@ -42,7 +38,6 @@ __4:__ Another "spinny" one, with a message.
     message="Don't bother me right now"
   />
 ```
-
 
 __5:__ Another that can be shown and hidden...
 
