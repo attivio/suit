@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
 import Configurable from './Configurable';
-import AuthUtils from '../util/AuthUtils';
+import AuthUtils, { UserInfo } from '../util/AuthUtils';
 
 type AuthRouteProps = {
   /**
@@ -29,7 +29,7 @@ type AuthRouteProps = {
 };
 
 type AuthRouteState = {
-  user: any;
+  user: UserInfo | null;
 };
 
 // LJV TODO Create a no-permissions page to use for unauthorized users
@@ -43,7 +43,7 @@ class AuthRoute extends React.Component<AuthRouteProps, AuthRouteState> {
   static displayName = 'AuthRoute';
 
   static childContextTypes = {
-    user: PropTypes.any,
+    user: typeof UserInfo,
   }
 
   constructor(props: AuthRouteProps) {

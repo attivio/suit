@@ -110,12 +110,10 @@ export default class TagCloud extends React.Component<TagCloudProps> {
 
     const maxValue = tagCloudValues.reduce((max, tcv) => {
       return Math.max(tcv.value, max);
-    }, 0,
-    );
+    }, 0);
     const minValue = tagCloudValues.reduce((min, tcv) => {
       return Math.min(tcv.value, min);
-    }, maxValue,
-    );
+    }, maxValue);
 
     // Sort alphabetically by label
     tagCloudValues.sort((tcv1: TagCloudValue, tcv2: TagCloudValue) => {
@@ -130,16 +128,24 @@ export default class TagCloud extends React.Component<TagCloudProps> {
       };
       const className = TagCloud.getClassNameForLevel(size);
       return (
-        this.props.noLink ? (<li key={tcv.label}>
-          <span className={className}>
-            {tcv.label}
-          </span>
-        </li>) : (<li key={tcv.label}>
-          <a className={className} onClick={callback} role="button" tabIndex={0}>
-            {tcv.label}
-          </a>
-        </li>)
-      );
+        this.props.noLink ? (
+          <li key={tcv.label}>
+            <span className={className}>
+              {tcv.label}
+            </span>
+          </li>
+        ) : (
+          <li key={tcv.label}>
+            <a
+              className={className}
+              onClick={callback}
+              role="button"
+              tabIndex={0}
+            >
+              {tcv.label}
+            </a>
+          </li>
+        ));
     });
 
     return (

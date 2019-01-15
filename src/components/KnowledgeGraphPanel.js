@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import SearchDocument from '../api/SearchDocument';
 import SimpleQueryRequest from '../api/SimpleQueryRequest';
@@ -9,6 +8,7 @@ import FieldNames from '../api/FieldNames';
 import AuthUtils from '../util/AuthUtils';
 import KnowledgeGraphUtils from '../util/KnowledgeGraphUtils';
 import NetworkDiagram, { Node, Edge } from './NetworkDiagram';
+import Searcher from './Searcher';
 
 import type { NetworkEventInfo } from './NetworkDiagram';
 
@@ -60,7 +60,7 @@ export default class KnowledgeGraphPanel extends React.Component<KnowledgeGraphP
   };
 
   static contextTypes = {
-    searcher: PropTypes.any,
+    searcher: typeof Searcher,
   };
 
   static displayName = 'KnowledgeGraphPanel';
@@ -103,8 +103,10 @@ export default class KnowledgeGraphPanel extends React.Component<KnowledgeGraphP
   }
 
   componentWillReceiveProps(nextProps: KnowledgeGraphPanelProps) {
-    if (this.props.doc !== nextProps.doc || this.props.entityName !== nextProps.entityName ||
-        this.props.entityValue !== nextProps.entityValue) {
+    if (
+      this.props.doc !== nextProps.doc || this.props.entityName !== nextProps.entityName
+      || this.props.entityValue !== nextProps.entityValue
+    ) {
       this.loadGraphForDocument(nextProps.doc, nextProps.entityName, nextProps.entityValue);
     }
   }

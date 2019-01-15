@@ -14,8 +14,8 @@ import FieldNames from '../api/FieldNames';
 
 import ObjectUtils from '../util/ObjectUtils';
 
-import Configurable from '../components/Configurable';
-import Configuration from '../components/Configuration';
+import Configurable from './Configurable';
+import Configuration from './Configuration';
 
 /*
   A NOTE ABOUT THE SEARCHER, THE PAGE'S URL, AND WHEN QUERYING HAPPENS:
@@ -41,8 +41,8 @@ import Configuration from '../components/Configuration';
 */
 
 type SearcherProps = {
-  location: PropTypes.object.isRequired;
-  history: PropTypes.object.isRequired;
+  location: any;
+  history: any;
 
 
   /**
@@ -264,7 +264,7 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
   };
 
   static childContextTypes = {
-    searcher: PropTypes.any,
+    searcher: typeof Searcher,
   }
 
   static displayName = 'Searcher';

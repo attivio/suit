@@ -37,8 +37,8 @@ export default class SearchFacetBucket {
         // longitude and latitude values, show it within parentheses
         if (Object.prototype.hasOwnProperty.call(this.value, 'x') && Object.prototype.hasOwnProperty.call(this.value, 'y')) {
           result = `(${this.value.x}, ${this.value.y})`;
-        } else if (Object.prototype.hasOwnProperty.call(this.value, 'longitude') &&
-          Object.prototype.hasOwnProperty.call(this.value, 'latitude')) {
+        } else if (Object.prototype.hasOwnProperty.call(this.value, 'longitude')
+          && Object.prototype.hasOwnProperty.call(this.value, 'latitude')) {
           result = `(${this.value.longitude}, ${this.value.latitude})`;
         } else {
           // Always convert to a string in any case...

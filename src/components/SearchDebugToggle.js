@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import ToggleSwitch from './ToggleSwitch';
+import Searcher from './Searcher';
 
 type SearchDebugToggleProps = {
   /** The label to show for the menu. Defaults to "Details:". */
@@ -21,7 +21,7 @@ export default class SearchDebugToggle extends React.Component<SearchDebugToggle
   };
 
   static contextTypes = {
-    searcher: PropTypes.any,
+    searcher: typeof Searcher,
   };
 
   static displayName = 'SearchDebugToggle';

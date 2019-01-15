@@ -2,12 +2,11 @@
 import React from 'react';
 import type { Node } from 'react';
 
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 type BigButtonProps = {
-  location: PropTypes.object.isRequired;
-  history: PropTypes.object.isRequired;
+  location: any;
+  history: any;
   /** A CSS class name or names to apply to the button */
   className: string,
   /** A Bootstrap button style to apply to the button, such as <code>info</code> or <code>danger</code>. */

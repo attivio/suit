@@ -208,7 +208,7 @@ export default class TimeRangePicker extends React.Component<TimeRangePickerProp
           >
             Custom&hellip;
           </a>
-          {this.state.showCustomDatePicker &&
+          {this.state.showCustomDatePicker ? (
             <div
               className="DateRangePicker__picker DateRangePicker__picker--direction-left DateRangePicker__picker--open-down DateRangePicker__picker--horizontal" // eslint-disable-line max-len
               style={{ left: '-542px', top: '35px' }}
@@ -220,7 +220,7 @@ export default class TimeRangePicker extends React.Component<TimeRangePickerProp
                 onClose={this.hideCustomDatePicker}
               />
             </div>
-          }
+          ) : null}
         </li>
       );
     }

@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Menu, { MenuItemDef } from './Menu';
+import Searcher from './Searcher';
 
 type SearchLanguagePickerProps = {
   /** The label to show for the menu. Defaults to "Query Language". */
@@ -20,7 +20,6 @@ type SearchLanguagePickerProps = {
  */
 export default class SearchLanguagePicker extends React.Component<SearchLanguagePickerProps> {
   static defaultProps = {
-    initialValue: 'simple',
     label: 'Query Language:',
     simpleLabel: 'Simple',
     advancedLabel: 'Advanced',
@@ -28,7 +27,7 @@ export default class SearchLanguagePicker extends React.Component<SearchLanguage
   };
 
   static contextTypes = {
-    searcher: PropTypes.any,
+    searcher: typeof Searcher,
   };
 
   static displayName = 'SearchLanguagePicker';

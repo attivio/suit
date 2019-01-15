@@ -116,7 +116,6 @@ export default class Menu extends React.Component<MenuProps> {
     block: false,
     promptLabel: null,
     allLabel: 'All',
-    maxLabelCharacters: null,
     width: null,
     style: {},
   };
@@ -255,16 +254,15 @@ export default class Menu extends React.Component<MenuProps> {
     }
     const selectionLabel = this.calcSelectionLabel();
 
-    const buttonLabelPrefix = this.props.block && this.props.selection ?
-      (
-        <span>
-          <span
-            className="attivio-model-dot"
-            style={{ backgroundColor: '#f1c541' }}
-          />
-          {' '}
-        </span>
-      ) : null;
+    const buttonLabelPrefix = this.props.block && this.props.selection ? (
+      <span>
+        <span
+          className="attivio-model-dot"
+          style={{ backgroundColor: '#f1c541' }}
+        />
+        {' '}
+      </span>
+    ) : null;
 
     const buttonLabel = (
       <span>

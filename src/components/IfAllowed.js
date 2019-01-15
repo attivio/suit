@@ -3,9 +3,7 @@
 import React from 'react';
 import type { Node } from 'react';
 
-import PropTypes from 'prop-types';
-
-import AuthUtils from '../util/AuthUtils';
+import AuthUtils, { UserInfo } from '../util/AuthUtils';
 
 type IfAllowedProps = {
   /**
@@ -26,15 +24,15 @@ export default class IfAllowed extends React.Component<IfAllowedProps> {
   static displayName = 'IfAllowed';
 
   static contextTypes = {
-    user: PropTypes.any,
+    user: typeof UserInfo,
   };
 
   isAllowed(): boolean {
     let allowed: boolean = false;
     if (this.context.user) {
       allowed = (
-        this.context.user.roles.includes(this.props.requiredRole) ||
-        this.context.user.roles.includes(AuthUtils.ADMIN_ROLE)
+        this.context.user.roles.includes(this.props.requiredRole)
+        || this.context.user.roles.includes(AuthUtils.ADMIN_ROLE)
       );
     }
     return allowed;

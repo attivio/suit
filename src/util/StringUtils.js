@@ -182,7 +182,7 @@ export default class StringUtils {
     const [decimalPlaceString, overallFormatString] = formatString.split(':', 2);
 
     let decimalPlaces = parseInt(decimalPlaceString, 10);
-    if (isNaN(decimalPlaces)) {
+    if (Number.isNaN(decimalPlaces)) {
       decimalPlaces = 0;
     }
 

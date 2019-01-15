@@ -57,7 +57,8 @@ export default class SentimentTagCloud extends React.Component<SentimentTagCloud
       const outMin = 6;
       const outMax = 10;
       return (((num - inMin) * (outMax - outMin)) / (inMax - inMin)) + outMin;
-    } else if (sentiment === 'negative') {
+    }
+    if (sentiment === 'negative') {
       const inMin = 1;
       const inMax = 8;
       const outMin = 1;
@@ -79,8 +80,7 @@ export default class SentimentTagCloud extends React.Component<SentimentTagCloud
     let tagCloudValues = this.props.positiveTags.concat(this.props.negativeTags);
     const maxValue = tagCloudValues.reduce((max, tcv) => {
       return Math.max(tcv.value, max);
-    }, 0,
-    );
+    }, 0);
 
     if (tagCloudValues.length > this.props.maxValues) {
       // Sort numerically by value

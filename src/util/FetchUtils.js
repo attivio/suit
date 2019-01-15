@@ -12,7 +12,8 @@ export default class FetchUtils {
     uri: string,
     payload: any | null,
     callback: (response: any | null, error: string | null) => void,
-    method: string, errorMessage: string) {
+    method: string, errorMessage: string,
+  ) {
     const headers = new Headers({
       Accept: 'application/json',
       'Content-Type': 'application/json',

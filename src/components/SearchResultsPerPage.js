@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Menu, { MenuItemDef } from './Menu';
+import Searcher from './Searcher';
 
 type SearchResultsPerPageProps = {
   /** The options to show. Defaults to 10, 25, 50, and 100. */
@@ -20,7 +20,7 @@ export default class SearchResultsPerPage extends React.Component<SearchResultsP
   };
 
   static contextTypes = {
-    searcher: PropTypes.any,
+    searcher: typeof Searcher,
   };
 
   static displayName = 'SearchResultsPerPage';

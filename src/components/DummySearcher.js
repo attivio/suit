@@ -2,10 +2,9 @@
 import React from 'react';
 import type { Node } from 'react';
 
-import PropTypes from 'prop-types';
-
 import FacetFilter from '../api/FacetFilter';
 import QueryResponse from '../api/QueryResponse';
+import Searcher from './Searcher';
 import SimpleQueryRequest from '../api/SimpleQueryRequest';
 
 type DummySearcherProps = {
@@ -60,7 +59,7 @@ export default class DummySearcher extends React.Component<DummySearcherProps, D
   };
 
   static childContextTypes = {
-    searcher: PropTypes.any,
+    searcher: typeof Searcher,
   }
 
   static displayName = 'DummySearcher';

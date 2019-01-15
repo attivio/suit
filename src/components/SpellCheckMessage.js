@@ -1,15 +1,15 @@
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { withRouter } from 'react-router-dom';
 import QueryString from 'query-string';
 
 import Card from './Card';
+import Searcher from './Searcher';
 
 type SpellCheckMessageProps = {
-  location: PropTypes.object.isRequired;
-  history: PropTypes.object.isRequired;
+  location: any;
+  history: any;
 };
 
 /**
@@ -17,7 +17,7 @@ type SpellCheckMessageProps = {
  */
 class SpellCheckMessage extends React.Component<SpellCheckMessageProps> {
   static contextTypes = {
-    searcher: PropTypes.any,
+    searcher: typeof Searcher,
   };
 
   static displayName = 'SpellCheckMessage';

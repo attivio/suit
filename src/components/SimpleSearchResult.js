@@ -66,7 +66,7 @@ export default class SimpleSearchResult extends React.Component<SimpleSearchResu
 
     return (
       <Card key={docId} style={{ marginBottom: '5px' }}>
-        <div className="row" style={{ width: '100%', margin: 0 }} >
+        <div className="row" style={{ width: '100%', margin: 0 }}>
           <div className="col-sm-3 col-xs-4 col-md-3 col-lg-3" style={{ padding: 0 }}>
             <DocumentType docType={table} position={this.props.position} />
           </div>
@@ -74,7 +74,7 @@ export default class SimpleSearchResult extends React.Component<SimpleSearchResu
             <SearchResultTitle doc={doc} baseUri={this.props.baseUri} />
           </div>
         </div>
-        <div className="row" style={{ width: '100%', margin: 0 }} >
+        <div className="row" style={{ width: '100%', margin: 0 }}>
           <div
             className="col-sm-12 col-xs-12 col-md-12 col-lg-12"
             style={{

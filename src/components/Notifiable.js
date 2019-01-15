@@ -50,7 +50,14 @@ export default class Notifiable extends React.Component<NotifiableProps> {
     const autoClose = requireDismissal ? false : 5000;
     const contents = (
       <div>
-        <div style={{ float: 'left', color: mainColor, marginRight: '10px', fontSize: '18px' }}>
+        <div
+          style={{
+            float: 'left',
+            color: mainColor,
+            marginRight: '10px',
+            fontSize: '18px',
+          }}
+        >
           <Glyphicon glyph={icon} />
         </div>
         <div>

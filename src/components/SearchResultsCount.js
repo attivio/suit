@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
+
+import Searcher from './Searcher';
 
 /**
  * The count of search results or an indication
@@ -8,7 +9,7 @@ import PropTypes from 'prop-types';
  */
 export default class SearchResultsCount extends React.Component<{}, void> {
   static contextTypes = {
-    searcher: PropTypes.any,
+    searcher: typeof Searcher,
   };
 
   static displayName = 'SearchResultsCount';

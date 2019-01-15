@@ -5,6 +5,11 @@ import FetchUtils from './FetchUtils';
 import ObjectUtils from './ObjectUtils';
 import StringUtils from './StringUtils';
 
+export class UserInfo {
+  username: string;
+  roles: Array<string>;
+}
+
 /**
  * Utility class for handling auhentication in SUIT-based applications. Also handles
  * configuration of application including the configuration used for components
@@ -59,8 +64,8 @@ export default class AuthUtils {
     const copy = {};
     Object.entries(orig).forEach((entry: [string, any]) => {
       const [key: string, value: any] = entry;
-      if (typeof value === 'object' && value !== null &&
-          (!Array.isArray(value) || value instanceof Map)) {
+      if (typeof value === 'object' && value !== null
+        && (!Array.isArray(value) || value instanceof Map)) {
         // If the value is an object that's not null or an Array or a Map, convert it
         if (key.charAt(0) === key.charAt(0).toLowerCase()) {
           copy[key] = ObjectUtils.toMap(value);
@@ -156,7 +161,8 @@ export default class AuthUtils {
       const remainder = compTo.substring(4);
       const obfuscatedComp = AuthUtils.obfuscate(comp);
       return obfuscatedComp === remainder;
-    } else if (compTo.startsWith('MD5:')) {
+    }
+    if (compTo.startsWith('MD5:')) {
       const remainder = compTo.substring(4);
       const md5Comp = md5(comp).toString();
       return md5Comp === remainder;
@@ -229,11 +235,11 @@ export default class AuthUtils {
     if (AuthUtils.config && AuthUtils.config.ALL && AuthUtils.config.ALL.authType === 'NONE') {
       // check if the user has inherited or been directly assigned the provided role
       if (
-        user.roles &&
-        (
-          user.roles.includes(role) ||
+        user.roles
+        && (
+          user.roles.includes(role)
+          || user.roles.includes(AuthUtils.ADMIN_ROLE)
           // The admin role is equivalent to all roles
-          user.roles.includes(AuthUtils.ADMIN_ROLE)
         )
       ) {
         return true;
@@ -304,7 +310,8 @@ export default class AuthUtils {
         null,
         fetchResponseCallback,
         'GET',
-        'Got an error retrieving the current user\u2019s details.');
+        'Got an error retrieving the current user\u2019s details.',
+      );
     } else {
       // If we're doing our own authentication, and nobody is logged in, pass null to the callback
       callback(null);

@@ -1,13 +1,14 @@
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import QueryString from 'query-string';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
+import Searcher from './Searcher';
+
 type SearchResultTagsProps = {
-  location: PropTypes.object.isRequired;
-  history: PropTypes.object.isRequired;
+  location: any;
+  history: any;
   /** The list of tags on the document. */
   tags: Array<string>;
   /** If set, the list is rendered in a vertical column. */
@@ -43,7 +44,7 @@ type SearchResultTagsState = {
  */
 class SearchResultTags extends React.Component<SearchResultTagsProps, SearchResultTagsState> {
   static contextTypes = {
-    searcher: PropTypes.any,
+    searcher: typeof Searcher,
   };
 
   static defaultProps = {
@@ -153,17 +154,16 @@ class SearchResultTags extends React.Component<SearchResultTagsProps, SearchResu
 
   render() {
     const outerDivClassName = `attivio-tags ${this.props.vertical ? 'attivio-tags-vertical' : ''}`;
-    const moreLikeThisComponent =
-      this.props.moreLikeThisQuery.length > 0 ? (
-        <a
-          className="attivio-tags-more"
-          onClick={this.moreLikeThis}
-          role="button"
-          tabIndex={0}
-        >
-          More like this
-        </a>
-      ) : '';
+    const moreLikeThisComponent = this.props.moreLikeThisQuery.length > 0 ? (
+      <a
+        className="attivio-tags-more"
+        onClick={this.moreLikeThis}
+        role="button"
+        tabIndex={0}
+      >
+        More like this
+      </a>
+    ) : '';
     let tagList;
     if (this.state.tags.length > 0) {
       tagList = this.state.tags.map((tag) => {
@@ -191,19 +191,22 @@ class SearchResultTags extends React.Component<SearchResultTagsProps, SearchResu
     const extra = this.state.adding ? (
       <div className="form-inline attivio-tags-form">
         <div className="form-group">
-          <label htmlFor="attivio-tags-more-add" className="sr-only">Tag</label>
-          <input
-            type="email"
-            className="form-control"
-            id="attivio-tags-more-add"
-            placeholder={'Tag\u2026'}
-            value={this.state.newTag}
-            onChange={this.updateNewTag}
-            onKeyUp={this.keyUp}
-            ref={(comp) => {
-              this.inputField = comp;
-            }}
-          />
+          <label htmlFor="attivio-tags-more-add" className="sr-only">
+            Tag
+            {' '}
+            <input
+              type="email"
+              className="form-control"
+              id="attivio-tags-more-add"
+              placeholder={'Tag\u2026'}
+              value={this.state.newTag}
+              onChange={this.updateNewTag}
+              onKeyUp={this.keyUp}
+              ref={(comp) => {
+                this.inputField = comp;
+              }}
+            />
+          </label>
         </div>
         <button
           type="submit"

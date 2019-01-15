@@ -18,7 +18,7 @@ type ConfigurationState = any;
 
 export default class Configuration extends React.Component<ConfigurationProps, ConfigurationState> {
   static childContextTypes = {
-    configuration: PropTypes.any,
+    configuration: PropTypes.shape({ type: PropTypes.oneOf([Configuration]) }),
   }
 
   static displayName = 'Configuration';

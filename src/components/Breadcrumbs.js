@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 import StringUtils from '../util/StringUtils';
@@ -16,7 +15,7 @@ export class BreadcrumbInfo {
 }
 
 type BreadcrumbsProps = {
-  history: PropTypes.object.isRequired;
+  history: any;
   /** The breadcrumbs to display; their locations must all be unique. */
   crumbs: Array<BreadcrumbInfo>;
   /**

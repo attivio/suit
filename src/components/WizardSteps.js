@@ -62,6 +62,7 @@ export default class WizardSteps extends React.Component<WizardStepsProps> {
           style={stepStyle}
           key={step.key}
           className={classNames}
+          type="button"
         >
           {step.title}
         </button>

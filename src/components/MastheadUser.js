@@ -67,7 +67,7 @@ export default class MastheadUser extends React.Component<MastheadUserProps> {
             <Dropdown.Menu onSelect={this.handleLogoutMenuItem}>
               <MenuItem>Log Out</MenuItem>
             </Dropdown.Menu>
-          </Dropdown >
+          </Dropdown>
           {this.props.helpUri ? (
             <a href={this.props.helpUri} target="_blank" style={{ marginLeft: '8px' }} rel="noopener noreferrer">
               <img src="img/vector/help.svg" title="On-line Help" alt="On-line Help" />

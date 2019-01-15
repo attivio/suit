@@ -49,7 +49,6 @@ type InnerListSearchResultState = {
 class InnerListSearchResult extends React.Component<InnerListSearchResultProps, InnerListSearchResultState> {
   static defaultProps = {
     baseUri: '',
-    format: 'list',
     showScores: false,
     entityFields: new Map([['people', 'People'], ['location', 'Locations'], ['company', 'Companies']]),
     showTags: true,

@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 import Dropdown from 'react-bootstrap/lib/Dropdown';
@@ -9,11 +8,12 @@ import MenuItem from 'react-bootstrap/lib/MenuItem';
 
 import Configurable from './Configurable';
 import AutoCompleteInput from './AutoCompleteInput';
+import Searcher from './Searcher';
 
 declare var webkitSpeechRecognition: any; // Prevent complaints about this not existing
 
 type SearchBarProps = {
-  history: PropTypes.object.isRequired;
+  history: any;
   /** If set, this will be styled to live inside a Masthead component. */
   inMasthead: boolean;
   /**
@@ -79,7 +79,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
   };
 
   static contextTypes = {
-    searcher: PropTypes.any,
+    searcher: typeof Searcher,
   };
 
   static displayName = 'SearchBar';
@@ -312,25 +312,24 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
     }
 
     const suggestionList = this.getSuggestionList();
-    const inputComponent = this.props.autoCompleteUri ?
-      (
-        <AutoCompleteInput
-          uri={`${this.props.baseUri}${this.props.autoCompleteUri}`}
-          updateValue={this.updateQuery}
-          placeholder={placeholder || ''}
-          value={query}
-          className={inputClass}
-        />
-      ) : (
-        <input
-          type="search"
-          className={inputClass}
-          placeholder={placeholder}
-          onChange={this.queryChanged}
-          onKeyDown={this.doKeyPress}
-          value={query}
-        />
-      );
+    const inputComponent = this.props.autoCompleteUri ? (
+      <AutoCompleteInput
+        uri={`${this.props.baseUri}${this.props.autoCompleteUri}`}
+        updateValue={this.updateQuery}
+        placeholder={placeholder || ''}
+        value={query}
+        className={inputClass}
+      />
+    ) : (
+      <input
+        type="search"
+        className={inputClass}
+        placeholder={placeholder}
+        onChange={this.queryChanged}
+        onKeyDown={this.doKeyPress}
+        value={query}
+      />
+    );
 
     return (
       <div className={containerClass}>

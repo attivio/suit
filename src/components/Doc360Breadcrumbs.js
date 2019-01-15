@@ -1,7 +1,6 @@
 // @Flow
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import SearchDocument from '../api/SearchDocument';
 import Breadcrumbs, { BreadcrumbInfo } from './Breadcrumbs';
@@ -9,15 +8,15 @@ import Breadcrumbs, { BreadcrumbInfo } from './Breadcrumbs';
 type Doc360BreadcrumbsProps = {
   /** The document currently being displayed on the 360 page. */
   currentDoc: SearchDocument;
-  location: PropTypes.object.isRequired;
-  history: PropTypes.object.isRequired;
+  location: any;
+  history: any;
 };
 
 class HistoryEntry {
   label: string;
-  location: any & { pathname: string, search: string };
+  location: any;
 
-  constructor(label: string, location: any & { pathname: string, search: string }) {
+  constructor(label: string, location: any) {
     this.label = label;
     this.location = location;
   }

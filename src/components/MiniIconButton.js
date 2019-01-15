@@ -71,6 +71,7 @@ export default class MiniIconButton extends React.Component<MiniIconButtonProps>
         onClick={this.onClick}
         style={buttonStyle}
         className="btn btn-default"
+        type="button"
         ref={(c) => {
           this.button = c;
         }}

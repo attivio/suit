@@ -11,10 +11,6 @@ type SearchResultBodyProps = {
  * highlighting, entities, and sentiment can be displayed.
  */
 export default class SearchResultBody extends React.Component<SearchResultBodyProps> {
-  static defaultProps = {
-    onClick: null,
-  };
-
   static displayName = 'SearchResultBody';
 
   render() {

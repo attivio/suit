@@ -1,8 +1,6 @@
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-
 
 export class NavTabInfo {
   label: string;
@@ -15,8 +13,8 @@ export class NavTabInfo {
 }
 
 type MastheadNavTabsProps = {
-  location: PropTypes.object.isRequired;
-  history: PropTypes.object.isRequired;
+  location: any;
+  history: any;
   /**
    * An array of <code>NavTabInfo</code> objects describing the buttons to show.
    */

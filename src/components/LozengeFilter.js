@@ -68,6 +68,8 @@ export default class LozengeFilter extends React.Component<LozengeFilterProps, L
 
   static displayName = 'LozengeFilter';
 
+  divs: Map<string, ?HTMLDivElement> = new Map();
+
   constructor(props: LozengeFilterProps) {
     super(props);
     this.state = {
@@ -95,8 +97,6 @@ export default class LozengeFilter extends React.Component<LozengeFilterProps, L
     }
     return [];
   }
-
-  divs: Map<string, ?HTMLDivElement> = new Map();
 
   makeItem(label: string, value: string | null, current: boolean) {
     const baseStyle = {
@@ -219,7 +219,8 @@ export default class LozengeFilter extends React.Component<LozengeFilterProps, L
       // If the item is null or the selection is a single string,
       // this will tell us if it matches
       return true;
-    } else if (Array.isArray(this.props.currentValue)) {
+    }
+    if (Array.isArray(this.props.currentValue)) {
       // If the selection is an array, we need to check if item is in the array
       if (this.props.currentValue.includes(item)) {
         return true;
@@ -260,8 +261,7 @@ export default class LozengeFilter extends React.Component<LozengeFilterProps, L
             updateValue={(newValue: string, chosen: boolean) => {
               if (chosen) {
                 // Turn on the item with the text of newValue
-                const newSelection = this.props.multiSelect ?
-                  this.addToSelection(newValue) : newValue;
+                const newSelection = this.props.multiSelect ? this.addToSelection(newValue) : newValue;
 
                 this.setState({
                   filterString: '',

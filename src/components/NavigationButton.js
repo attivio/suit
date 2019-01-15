@@ -3,13 +3,12 @@ import React from 'react';
 import type { Node } from 'react';
 
 import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import Button from 'react-bootstrap/lib/Button';
 
 type NavigationButtonProps = {
-  location: PropTypes.object.isRequired;
-  history: PropTypes.object.isRequired;
+  location: any;
+  history: any;
   /* A CSS class to use on the button. Optional. */
   className: string,
   /** A Bootstrap style for the button. Defaults to "default". */

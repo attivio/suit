@@ -29,7 +29,9 @@ export default class SearchResultsSummary extends React.Component<SearchResultsS
       const results = totalResults === 1 ? (
         <span>Your search returned 1 document.</span>
       ) : (
-        <span>Your search returned {totalResults} documents.</span>
+        <span>
+          {`Your search returned ${totalResults} documents.`}
+        </span>
       );
       let range;
       if (firstResult !== 1 || lastResult < totalResults) {

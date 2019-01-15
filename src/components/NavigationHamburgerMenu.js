@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 import MenuItem from 'react-bootstrap/lib/MenuItem';
@@ -21,8 +20,8 @@ class NavMenuItem {
 }
 
 type NavigationHamburgerMenuProps = {
-  location: PropTypes.object.isRequired;
-  history: PropTypes.object.isRequired;
+  location: any;
+  history: any;
   /** The ID of the menu. Required for screen reader accessability. */
   id: string;
   /** The icon to display as the menu's button. It can be

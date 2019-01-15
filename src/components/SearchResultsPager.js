@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Pager from './Pager';
+import Searcher from './Searcher';
 
 type SearchResultsPagerProps = {
   /** If set, then the pager control will be "pulled right" in its parent. */
@@ -19,7 +19,7 @@ export default class SearchResultsPager extends React.Component<SearchResultsPag
   };
 
   static contextTypes = {
-    searcher: PropTypes.any,
+    searcher: typeof Searcher,
   };
 
   static displayName = 'SearchResultsPager';

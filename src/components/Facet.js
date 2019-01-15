@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import SearchFacet from '../api/SearchFacet';
 import SearchFacetBucket from '../api/SearchFacetBucket';
@@ -18,6 +17,7 @@ import SentimentFacetContents from './SentimentFacetContents';
 import MapFacetContents from './MapFacetContents';
 import SentimentTagCloudFacetContents from './SentimentTagCloudFacetContents';
 import FacetSearchBar from './FacetSearchBar';
+import Searcher from './Searcher';
 
 export type FacetType = 'barchart' | 'columnchart' | 'piechart' | 'barlist' |
   'tagcloud' | 'timeseries' | 'list' | 'sentiment' | 'geomap' |
@@ -64,7 +64,7 @@ export default class Facet extends React.Component<FacetProps> {
   };
 
   static contextTypes = {
-    searcher: PropTypes.any,
+    searcher: typeof Searcher,
   };
 
   static displayName = 'Facet';
@@ -150,11 +150,11 @@ export default class Facet extends React.Component<FacetProps> {
               color={facetColor}
             />
           ) : (
-              <BarChartFacetContents
-                buckets={this.props.facet.buckets}
-                addFacetFilter={this.addFacetFilter}
-              />
-            );
+            <BarChartFacetContents
+              buckets={this.props.facet.buckets}
+              addFacetFilter={this.addFacetFilter}
+            />
+          );
           break;
         case 'columnchart':
           facetContents = facetColor ? (
@@ -165,12 +165,12 @@ export default class Facet extends React.Component<FacetProps> {
               color={facetColor}
             />
           ) : (
-              <BarChartFacetContents
-                buckets={this.props.facet.buckets}
-                addFacetFilter={this.addFacetFilter}
-                columns
-              />
-            );
+            <BarChartFacetContents
+              buckets={this.props.facet.buckets}
+              addFacetFilter={this.addFacetFilter}
+              columns
+            />
+          );
           break;
         case 'piechart':
           facetContents = (
@@ -189,11 +189,11 @@ export default class Facet extends React.Component<FacetProps> {
               color={facetColor}
             />
           ) : (
-              <ListWithBarsFacetContents
-                buckets={this.props.facet.buckets}
-                addFacetFilter={this.addFacetFilter}
-              />
-            );
+            <ListWithBarsFacetContents
+              buckets={this.props.facet.buckets}
+              addFacetFilter={this.addFacetFilter}
+            />
+          );
           break;
         case 'tagcloud':
           facetContents = (

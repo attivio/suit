@@ -24,7 +24,8 @@ export default class StyleUtils {
           const blueString = hexColor.substr(4, 2);
           const blue = parseInt(blueString, 16);
           return [red, green, blue];
-        } else if (hexColor.length === 3) {
+        }
+        if (hexColor.length === 3) {
           const redString = hexColor.substr(0, 1);
           const red = parseInt(redString, 16) * 16;
           const greenString = hexColor.substr(1, 1);
@@ -33,7 +34,8 @@ export default class StyleUtils {
           const blue = parseInt(blueString, 16) * 16;
           return [red, green, blue];
         }
-      } else if (color.startsWith('rgb(') || color.startsWith('rgba(')) {
+      }
+      if (color.startsWith('rgb(') || color.startsWith('rgba(')) {
         const openingParenIndex = color.indexOf('(');
         const closingParenIndex = color.lastIndexOf(')');
         const numbersString = color.substr(openingParenIndex + 1, closingParenIndex - openingParenIndex);
@@ -44,7 +46,8 @@ export default class StyleUtils {
           const blue = parseInt(numbers[2].trim(), 10);
           return [red, green, blue];
         }
-      } else if (tryCssColorNames) {
+      }
+      if (tryCssColorNames) {
         // See if it's a valid named CSS color
         const d = document.createElement('div');
         d.style.color = color;

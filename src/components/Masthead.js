@@ -2,16 +2,16 @@
 import React from 'react';
 import type { Node } from 'react';
 
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
+import AuthUtils from '../util/AuthUtils';
 import Configurable from './Configurable';
 import MastheadUser from './MastheadUser';
-import AuthUtils from '../util/AuthUtils';
+import Searcher from './Searcher';
 
 type MastheadProps = {
-  location: PropTypes.object.isRequired;
-  history: PropTypes.object.isRequired;
+  location: any;
+  history: any;
   /** The logo to display. Defaults to an Attivio logo. */
   logoUri: string | null;
   /** Alt text for the logo. Defaults to "Attivio Home". */
@@ -69,7 +69,7 @@ class Masthead extends React.Component<MastheadProps, MastheadState> {
   }
 
   static contextTypes = {
-    searcher: PropTypes.any,
+    searcher: typeof Searcher,
   };
 
   static displayName = 'Masthead';
@@ -183,7 +183,7 @@ class Masthead extends React.Component<MastheadProps, MastheadState> {
             style={{ backgroundColor: 'transparent', borderWidth: 0 }}
             onClick={this.navigateHome}
             className="attivio-globalmast-logo attivio-globalmast-separator after"
-
+            type="button"
             ref={(c) => {
               this.homeLink = c;
             }}

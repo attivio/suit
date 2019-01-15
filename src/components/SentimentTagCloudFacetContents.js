@@ -36,9 +36,11 @@ export default class SentimentTagCloudFacetContents extends React.Component<Sent
         if (bucketList[i].count < currentBucket.count) {
           currentBucket.count -= bucketList[i].count;
           return currentBucket;
-        } else if (bucketList[i].count > currentBucket.count) {
+        }
+        if (bucketList[i].count > currentBucket.count) {
           return null;
-        } else if (bucketList[i].count === currentBucket.count) {
+        }
+        if (bucketList[i].count === currentBucket.count) {
           return currentBucket;
         }
       }
@@ -90,11 +92,13 @@ export default class SentimentTagCloudFacetContents extends React.Component<Sent
       }
     });
 
-    return (<SentimentTagCloud
-      positiveTags={positiveTagCloudValues}
-      negativeTags={negativeTagCloudValues}
-      maxValues={this.props.maxBuckets}
-      callback={this.tagCloudCallback}
-    />);
+    return (
+      <SentimentTagCloud
+        positiveTags={positiveTagCloudValues}
+        negativeTags={negativeTagCloudValues}
+        maxValues={this.props.maxBuckets}
+        callback={this.tagCloudCallback}
+      />
+    );
   }
 }

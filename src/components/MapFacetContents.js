@@ -7,14 +7,14 @@ import React from 'react';
 // import DrawControl from 'react-mapbox-gl-draw';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
-import PropTypes from 'prop-types';
 import sizeMe from 'react-sizeme';
 
-import Configurable from '../components/Configurable';
+import Configurable from './Configurable';
 import SearchFacetBucket from '../api/SearchFacetBucket';
 import PositionUtils from '../util/PositionUtils';
 import ObjectUtils from '../util/ObjectUtils';
 import StringUtils from '../util/StringUtils';
+import Searcher from './Searcher';
 
 const ReactMapboxGl = require('react-mapbox-gl');
 
@@ -51,7 +51,7 @@ class MapFacetContents extends React.Component<MapFacetContentsProps, MapFacetCo
   };
 
   static contextTypes = {
-    searcher: PropTypes.any,
+    searcher: typeof Searcher,
   };
 
   static displayName = 'MapFacetContents';
@@ -109,8 +109,7 @@ class MapFacetContents extends React.Component<MapFacetContentsProps, MapFacetCo
     nextStateTemp.geoFilters = [];
     nextStateTemp.proximityBoosts = [];
     nextStateTemp.updating = '';
-    return !ObjectUtils.deepEquals(this.props.buckets, nextProps.buckets) ||
-           !ObjectUtils.deepEquals(nextStateTemp, stateTemp);
+    return !ObjectUtils.deepEquals(this.props.buckets, nextProps.buckets) || !ObjectUtils.deepEquals(nextStateTemp, stateTemp);
   }
 
   create(e: any) {

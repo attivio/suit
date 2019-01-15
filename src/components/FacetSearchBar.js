@@ -1,10 +1,10 @@
 // @flow
 import React from 'react';
 import type { Node } from 'react';
-import PropTypes from 'prop-types';
 
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import Configurable from './Configurable';
+import Searcher from './Searcher';
 import QueryResponse from '../api/QueryResponse';
 import SimpleQueryRequest from '../api/SimpleQueryRequest';
 import ObjectUtils from '../util/ObjectUtils';
@@ -48,7 +48,7 @@ type FacetSearchBarState = {
  */
 class FacetSearchBar extends React.Component<FacetSearchBarProps, FacetSearchBarState> {
   static contextTypes = {
-    searcher: PropTypes.any,
+    searcher: typeof Searcher,
   };
 
   static defaultProps = {
@@ -126,23 +126,36 @@ class FacetSearchBar extends React.Component<FacetSearchBarProps, FacetSearchBar
         suggestionsAdded += 1;
         returnVal = (
           <button
-            className={'facet-suggestion'}
+            className="facet-suggestion"
             key={suggestionsAdded}
             onClick={() => { return this.addFilter(index); }}
-            style={{ width: '100%', textAlign: 'left', borderWidth: '0px', backgroundColor: '#FFFFFF' }}
+            style={{
+              width: '100%',
+              textAlign: 'left',
+              borderWidth: '0px',
+              backgroundColor: '#FFFFFF',
+            }}
+            type="button"
           >
             <MenuItem eventKey={index} key={suggestionsAdded} onSelect={this.addFilter} tabIndex={index}>
               {`${suggestion.displayLabel()} (${suggestion.count})`}
             </MenuItem>
-          </button>);
+          </button>
+        );
       }
       return returnVal;
     });
     if (contents.length > 0) {
       return (
         <div
-          className={'facet-suggestion'}
-          style={{ width: '100%', border: '1px solid #D2D2D2', borderTop: 'none', passingTop: '11px', position: 'absolute' }}
+          className="facet-suggestion"
+          style={{
+            width: '100%',
+            border: '1px solid #D2D2D2',
+            borderTop: 'none',
+            passingTop: '11px',
+            position: 'absolute',
+          }}
         >
           <ul role="menu" style={{ marginBottom: 0 }}>
             {contents}
@@ -303,7 +316,8 @@ class FacetSearchBar extends React.Component<FacetSearchBarProps, FacetSearchBar
           {searchButton}
         </div>
         {suggestionList}
-      </div>) : null;
+      </div>
+    ) : null;
 
     const exportButton = this.props.showExportButton ? (
       <div>
@@ -316,7 +330,8 @@ class FacetSearchBar extends React.Component<FacetSearchBarProps, FacetSearchBar
         >
           {this.props.exportButtonLabel}
         </a>
-      </div>) : null;
+      </div>
+    ) : null;
 
     return (
       <div>
