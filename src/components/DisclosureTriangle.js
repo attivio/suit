@@ -5,11 +5,25 @@ import React from 'react';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 type DisclosureTriangleProps = {
+  /**
+   * If set, then the triangle is drawn in the downward, or open, direction.
+   * Otherwise it's drawn pointing to the right.
+   */
   open: boolean;
+  /**
+   * Callback used when the user toggles the button.
+   */
   onToggle: (open: boolean) => void;
+  /**
+   * Any style information you want on the icon (you can style it as a font).
+   * By default, it will be black, in the current text size.
+   */
   style: any;
 };
 
+/**
+ * A component to render a toggle button in the shape of a triangle.
+ */
 export default class DisclosureTriangle extends React.Component<void, DisclosureTriangleProps, void> {
   static defaultProps = {
     open: false,

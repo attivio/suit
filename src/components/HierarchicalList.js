@@ -5,6 +5,9 @@ import type { Node } from 'react';
 
 import DisclosureTriangle from './DisclosureTriangle';
 
+/**
+ * Class representing a single node in the hierarchical list's tree.
+ */
 export class HierarchicalNode {
   constructor(contents: Node, key: string, children: Array<HierarchicalNode> = []) {
     this.contents = contents;
@@ -12,18 +15,27 @@ export class HierarchicalNode {
     this.children = children;
   }
 
+  /** The contents to render for the node. */
   contents: Node;
+  /** A unique key for the node. */
   key: string;
+  /** Any children of the node. */
   children: Array<HierarchicalNode>;
 }
 
 type HierarchicalListProps = {
+  /** The root node. Should have its key set to null. */
   root: HierarchicalNode;
+  /** An array containing the keys of all open nodes in the tree. This is maintained by the par rent. */
   openNodes: Array<string>;
+  /** Callback when the node's disclosure triangle is clicked to open/close it. */
   onToggle: (key: string, open: boolean) => void;
-
 };
 
+/**
+ * Component to render tree of data in a hierarchical list format where nodes which have children
+ * can be opened/closed by the user.
+ */
 export default class HierarchicalList extends React.Component<void, HierarchicalListProps, void> {
   static defaultProps = {
     openNodes: [],
@@ -73,6 +85,8 @@ export default class HierarchicalList extends React.Component<void, Hierarchical
                 style={{
                   display: 'inline-block',
                   width: '20px',
+                  fontSize: '0.8em',
+                  color: '#333',
                 }}
               />
               {child.contents}
