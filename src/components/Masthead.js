@@ -1,13 +1,13 @@
 // @flow
 import React from 'react';
 import type { Node } from 'react';
+import PropTypes from 'prop-types';
 
 import { withRouter } from 'react-router-dom';
 
 import AuthUtils from '../util/AuthUtils';
 import Configurable from './Configurable';
 import MastheadUser from './MastheadUser';
-import Searcher from './Searcher';
 
 type MastheadProps = {
   location: any;
@@ -69,7 +69,7 @@ class Masthead extends React.Component<MastheadProps, MastheadState> {
   }
 
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static displayName = 'Masthead';

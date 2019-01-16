@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
-
-import Searcher from './Searcher';
+import PropTypes from 'prop-types';
 
 type SearchButtonProps = {
   /** The button’s label. Defaults to "Go". */
@@ -20,7 +19,7 @@ export default class SearchButton extends React.Component<SearchButtonProps> {
   };
 
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static displayName = 'SearchButton';

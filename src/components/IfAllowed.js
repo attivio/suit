@@ -1,9 +1,9 @@
 // flow
-
 import React from 'react';
 import type { Node } from 'react';
+import PropTypes from 'prop-types';
 
-import AuthUtils, { UserInfo } from '../util/AuthUtils';
+import AuthUtils from '../util/AuthUtils';
 
 type IfAllowedProps = {
   /**
@@ -24,7 +24,7 @@ export default class IfAllowed extends React.Component<IfAllowedProps> {
   static displayName = 'IfAllowed';
 
   static contextTypes = {
-    user: typeof UserInfo,
+    user: PropTypes.object,
   };
 
   isAllowed(): boolean {

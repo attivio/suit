@@ -1,10 +1,10 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { withRouter } from 'react-router-dom';
 import QueryString from 'query-string';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-
-import Searcher from './Searcher';
 
 type SearchResultTagsProps = {
   location: any;
@@ -44,7 +44,7 @@ type SearchResultTagsState = {
  */
 class SearchResultTags extends React.Component<SearchResultTagsProps, SearchResultTagsState> {
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static defaultProps = {

@@ -1,9 +1,9 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import PlacementResult from './PlacementResult';
 import Placement from '../api/Placement';
-import Searcher from './Searcher';
+import PlacementResult from './PlacementResult';
 
 /**
  * A container for showing a list of business center promotional placements from the search results.
@@ -11,7 +11,7 @@ import Searcher from './Searcher';
  */
 export default class PlacementResults extends React.Component<{}, void> {
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static displayName = 'PlacementResults';

@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Menu, { MenuItemDef } from './Menu';
-import Searcher from './Searcher';
 
 type NavbarSortProps = {
   /** If set, the menu will be pulled to the right side of its parent. */
@@ -31,7 +31,7 @@ export default class NavbarSort extends React.Component<NavbarSortProps> {
   };
 
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static displayName = 'NavbarSort';

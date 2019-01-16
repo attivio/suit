@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import type { Node } from 'react';
+import PropTypes from 'prop-types';
 
 import FacetFilter from '../api/FacetFilter';
 import QueryResponse from '../api/QueryResponse';
@@ -59,7 +60,7 @@ export default class DummySearcher extends React.Component<DummySearcherProps, D
   };
 
   static childContextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   }
 
   static displayName = 'DummySearcher';
@@ -73,7 +74,7 @@ export default class DummySearcher extends React.Component<DummySearcherProps, D
 
   getChildContext() {
     return {
-      searcher: this,
+      searcher: (this: Searcher),
     };
   }
 

@@ -1,14 +1,14 @@
 // @flow
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
+import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 
-import Configurable from './Configurable';
 import AutoCompleteInput from './AutoCompleteInput';
-import Searcher from './Searcher';
+import Configurable from './Configurable';
 
 declare var webkitSpeechRecognition: any; // Prevent complaints about this not existing
 
@@ -79,7 +79,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
   };
 
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static displayName = 'SearchBar';

@@ -1,14 +1,15 @@
 // @flow
 import React from 'react';
 import type { Node } from 'react';
+import PropTypes from 'prop-types';
 
 import MenuItem from 'react-bootstrap/lib/MenuItem';
+
 import Configurable from './Configurable';
-import Searcher from './Searcher';
-import QueryResponse from '../api/QueryResponse';
-import SimpleQueryRequest from '../api/SimpleQueryRequest';
 import ObjectUtils from '../util/ObjectUtils';
+import QueryResponse from '../api/QueryResponse';
 import SearchFacetBucket from '../api/SearchFacetBucket';
+import SimpleQueryRequest from '../api/SimpleQueryRequest';
 
 type FacetSearchBarProps = {
   /** Whether the FacetSearchBar should be shown */
@@ -48,7 +49,7 @@ type FacetSearchBarState = {
  */
 class FacetSearchBar extends React.Component<FacetSearchBarProps, FacetSearchBarState> {
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static defaultProps = {

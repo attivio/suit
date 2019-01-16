@@ -1,17 +1,17 @@
 // @flow
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 
-import SearchDocument from '../api/SearchDocument';
-import FieldNames from '../api/FieldNames';
 import Configurable from './Configurable';
-import Configuration from './Configuration';
 import DocumentEntityList from './DocumentEntityList';
 import DocumentThumbnail from './DocumentThumbnail';
 import DocumentType from './DocumentType';
+import FieldNames from '../api/FieldNames';
 import RelevancyScore from './RelevancyScore';
+import SearchDocument from '../api/SearchDocument';
 import SearchResultBody from './SearchResultBody';
 import SearchResultTags from './SearchResultTags';
 import SearchResultTitle from './SearchResultTitle';
@@ -58,7 +58,7 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultProps, 
   static displayName = 'ListSearchResult';
 
   static contextTypes = {
-    configuration: PropTypes.instanceOf(Configuration),
+    configuration: PropTypes.object,
   };
 
   /**

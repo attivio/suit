@@ -1,13 +1,12 @@
 // @flow
 import React from 'react';
-
-import FieldNames from '../api/FieldNames';
+import PropTypes from 'prop-types';
 
 import DebugSearchResult from './DebugSearchResult';
+import FieldNames from '../api/FieldNames';
 import ListSearchResult from './ListSearchResult';
-import SimpleSearchResult from './SimpleSearchResult';
 import SearchDocument from '../api/SearchDocument';
-import Searcher from './Searcher';
+import SimpleSearchResult from './SimpleSearchResult';
 
 /**
  * This is the definition of a search result renderer. It is passed the document
@@ -60,7 +59,7 @@ export default class SearchResults extends React.Component<SearchResultsProps> {
   };
 
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static displayName = 'SearchResults';

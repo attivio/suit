@@ -1,12 +1,11 @@
 // @flow
-
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import NavbarSearch from './NavbarSearch';
-import SearchResults from './SearchResults';
 import Scrollable from './Scrollable';
+import SearchResults from './SearchResults';
 import SearchResultsCount from './SearchResultsCount';
-import Searcher from './Searcher';
 
 type MiniSearchUIProps = {
   /**
@@ -28,7 +27,7 @@ export default class MiniSearchUI extends React.Component<MiniSearchUIProps> {
   };
 
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static displayName = 'MiniSearchUI';

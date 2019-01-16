@@ -1,11 +1,10 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Facet from './Facet';
-
-import SearchFacet from '../api/SearchFacet';
 import ObjectUtils from '../util/ObjectUtils';
-import Searcher from './Searcher';
+import SearchFacet from '../api/SearchFacet';
 
 type FacetInsightsProps = {
   /** The facet field names that should be displayed as pie charts */
@@ -57,7 +56,7 @@ export default class FacetInsights extends React.Component<FacetInsightsProps> {
   };
 
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static displayName = 'FacetInsights';

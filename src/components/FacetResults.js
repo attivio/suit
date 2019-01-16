@@ -1,9 +1,9 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Facet from './Facet';
 import SearchFacet from '../api/SearchFacet';
-import Searcher from './Searcher';
 
 type FacetResultsProps = {
   /** The facet field names that should be displayed as pie charts */
@@ -69,7 +69,7 @@ export default class FacetResults extends React.Component<FacetResultsProps> {
   };
 
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static displayName = 'FacetResults';

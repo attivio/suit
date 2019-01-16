@@ -17,6 +17,7 @@ module.exports = {
     'strict': 0,
     'no-console': ['error', { allow: ['warn', 'error'] }],
     'react/default-props-match-prop-types': ['error', { allowRequiredDefaults: true }],
+    'react/forbid-prop-types': ['error', { checkContextTypes: false, checkChildContextTypes: false }],
     // Consider removing these?
     'react/no-access-state-in-setstate': 0,
     'react/jsx-one-expression-per-line': 0,

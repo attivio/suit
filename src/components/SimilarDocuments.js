@@ -1,13 +1,12 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import FieldNames from '../api/FieldNames';
-
-import SimpleSearchResult from './SimpleSearchResult';
-import SearchDocument from '../api/SearchDocument';
-import Searcher from './Searcher';
-import SimpleQueryRequest from '../api/SimpleQueryRequest';
 import QueryResponse from '../api/QueryResponse';
+import SearchDocument from '../api/SearchDocument';
+import SimpleQueryRequest from '../api/SimpleQueryRequest';
+import SimpleSearchResult from './SimpleSearchResult';
 
 type SimilarDocumentsProps = {
   /**
@@ -40,7 +39,7 @@ export default class SimilarDocuments extends React.Component<SimilarDocumentsPr
   }
 
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static displayName = 'SimilarDocuments';

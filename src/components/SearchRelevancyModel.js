@@ -1,9 +1,10 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import axios from 'axios';
 
 import Menu, { MenuItemDef } from './Menu';
-import Searcher from './Searcher';
 
 type SearchRelevancyModelProps = {
   /**
@@ -43,7 +44,7 @@ export default class SearchRelevancyModel extends React.Component<SearchRelevanc
   };
 
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static displayName = 'SearchRelevancyModel';

@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import SearchButton from './SearchButton';
-import Searcher from './Searcher';
 
 type SearchInputFieldProps = {
   /** The placeholder to display if the field is empty. Defaults to "Search…". */
@@ -22,7 +22,7 @@ export default class SearchInputField extends React.Component<SearchInputFieldPr
   };
 
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static displayName = 'SearchInputField';

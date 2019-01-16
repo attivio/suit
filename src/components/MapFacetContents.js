@@ -1,20 +1,19 @@
 // @flow
-import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
-
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 // Uncommenting DrawControl import would enable Polygon selection
 // feature and render it in Chrome but won't render in IE11.
 // import DrawControl from 'react-mapbox-gl-draw';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-
 import sizeMe from 'react-sizeme';
 
 import Configurable from './Configurable';
-import SearchFacetBucket from '../api/SearchFacetBucket';
-import PositionUtils from '../util/PositionUtils';
 import ObjectUtils from '../util/ObjectUtils';
+import PositionUtils from '../util/PositionUtils';
+import SearchFacetBucket from '../api/SearchFacetBucket';
 import StringUtils from '../util/StringUtils';
-import Searcher from './Searcher';
 
 const ReactMapboxGl = require('react-mapbox-gl');
 
@@ -51,7 +50,7 @@ class MapFacetContents extends React.Component<MapFacetContentsProps, MapFacetCo
   };
 
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static displayName = 'MapFacetContents';

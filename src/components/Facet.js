@@ -1,23 +1,23 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import SearchFacet from '../api/SearchFacet';
-import SearchFacetBucket from '../api/SearchFacetBucket';
-import DateUtils from '../util/DateUtils';
-import DateFormat from '../api/DateFormat';
+import BarChartFacetContents from './BarChartFacetContents';
 import Card from './Card';
 import CollapsiblePanel from './CollapsiblePanel';
-import BarChartFacetContents from './BarChartFacetContents';
-import PieChartFacetContents from './PieChartFacetContents';
-import MoreListFacetContents from './MoreListFacetContents';
+import DateFormat from '../api/DateFormat';
+import DateUtils from '../util/DateUtils';
+import FacetSearchBar from './FacetSearchBar';
 import ListWithBarsFacetContents from './ListWithBarsFacetContents';
+import MapFacetContents from './MapFacetContents';
+import MoreListFacetContents from './MoreListFacetContents';
+import PieChartFacetContents from './PieChartFacetContents';
+import SearchFacet from '../api/SearchFacet';
+import SearchFacetBucket from '../api/SearchFacetBucket';
+import SentimentFacetContents from './SentimentFacetContents';
+import SentimentTagCloudFacetContents from './SentimentTagCloudFacetContents';
 import TagCloudFacetContents from './TagCloudFacetContents';
 import TimeSeriesFacetContents from './TimeSeriesFacetContents';
-import SentimentFacetContents from './SentimentFacetContents';
-import MapFacetContents from './MapFacetContents';
-import SentimentTagCloudFacetContents from './SentimentTagCloudFacetContents';
-import FacetSearchBar from './FacetSearchBar';
-import Searcher from './Searcher';
 
 export type FacetType = 'barchart' | 'columnchart' | 'piechart' | 'barlist' |
   'tagcloud' | 'timeseries' | 'list' | 'sentiment' | 'geomap' |
@@ -64,7 +64,7 @@ export default class Facet extends React.Component<FacetProps> {
   };
 
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static displayName = 'Facet';

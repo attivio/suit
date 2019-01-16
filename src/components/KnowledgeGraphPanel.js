@@ -1,14 +1,14 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import SearchDocument from '../api/SearchDocument';
-import SimpleQueryRequest from '../api/SimpleQueryRequest';
-import QueryResponse from '../api/QueryResponse';
-import FieldNames from '../api/FieldNames';
 import AuthUtils from '../util/AuthUtils';
+import FieldNames from '../api/FieldNames';
 import KnowledgeGraphUtils from '../util/KnowledgeGraphUtils';
 import NetworkDiagram, { Node, Edge } from './NetworkDiagram';
-import Searcher from './Searcher';
+import QueryResponse from '../api/QueryResponse';
+import SearchDocument from '../api/SearchDocument';
+import SimpleQueryRequest from '../api/SimpleQueryRequest';
 
 import type { NetworkEventInfo } from './NetworkDiagram';
 
@@ -60,7 +60,7 @@ export default class KnowledgeGraphPanel extends React.Component<KnowledgeGraphP
   };
 
   static contextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   };
 
   static displayName = 'KnowledgeGraphPanel';

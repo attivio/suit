@@ -1,21 +1,18 @@
 // @flow
 import React from 'react';
 import type { Node } from 'react';
+import PropTypes from 'prop-types';
 
 import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import QueryString from 'query-string';
 
-import Search from '../api/Search';
-import SimpleQueryRequest from '../api/SimpleQueryRequest';
-import QueryResponse from '../api/QueryResponse';
+import Configurable from './Configurable';
 import FacetFilter from '../api/FacetFilter';
 import FieldNames from '../api/FieldNames';
-
 import ObjectUtils from '../util/ObjectUtils';
-
-import Configurable from './Configurable';
-import Configuration from './Configuration';
+import QueryResponse from '../api/QueryResponse';
+import Search from '../api/Search';
+import SimpleQueryRequest from '../api/SimpleQueryRequest';
 
 /*
   A NOTE ABOUT THE SEARCHER, THE PAGE'S URL, AND WHEN QUERYING HAPPENS:
@@ -260,11 +257,11 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
   };
 
   static contextTypes = {
-    configuration: PropTypes.instanceOf(Configuration),
+    configuration: PropTypes.object,
   };
 
   static childContextTypes = {
-    searcher: typeof Searcher,
+    searcher: PropTypes.object,
   }
 
   static displayName = 'Searcher';
