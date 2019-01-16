@@ -2,8 +2,9 @@
 
 import React from 'react';
 
-import SearchFacetBucket from '../api/SearchFacetBucket';
 import HierarchicalList, { HierarchicalNode } from './HierarchicalList';
+import SearchFacetBucket from '../api/SearchFacetBucket';
+import ObjectUtils from '../util/ObjectUtils';
 
 type HierarchicalFacetContentsProps = {
   buckets: Array<SearchFacetBucket>;
@@ -34,6 +35,12 @@ export default class HierarchicalFacetContents extends React.Component<void, Hie
     (this: any).toggleNode = this.toggleNode.bind(this);
     (this: any).handleMore = this.handleMore.bind(this);
     (this: any).handleClick = this.handleClick.bind(this);
+  }
+
+  componentWillReceiveProps(newProps: HierarchicalFacetContentsProps) {
+    if (!ObjectUtils.deepEquals(this.props.buckets, newProps.buckets)) {
+      this.setState(this.getStateForBuckets(newProps.buckets));
+    }
   }
 
   getStateForBuckets(): HierarchicalFacetContentsState {
@@ -70,7 +77,12 @@ export default class HierarchicalFacetContents extends React.Component<void, Hie
   }
 
   handleMore(key: string) {
-    const bucket = this.state.bucketMap.get(key);
+    // Note that the key here is for the parent bucket...
+    const newOpenness = new Map(this.state.openness);
+    newOpenness.set(key, 'full');
+    this.setState({
+      openness: newOpenness,
+    });
   }
 
   handleClick(key: string) {
