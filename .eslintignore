@@ -1,3 +1,6 @@
 node_modules
 webpack.config.js
 img
+docs
+documentation
+tests

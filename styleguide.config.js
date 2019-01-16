@@ -1,7 +1,7 @@
 const path = require('path');
 // const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const createNwbWebpackConfig = require('create-nwb-webpack-config'); // eslint-disable-line import/no-extraneous-dependencies
-const merge = require('webpack-merge');
+const merge = require('webpack-merge'); // eslint-disable-line import/no-extraneous-dependencies
 
 // Use the webpack configuration that NWB generate since there's no actual
 // file for the style guide to use
@@ -287,7 +287,7 @@ module.exports = {
           components: () => {
             return [
               'src/components/AuthRoute.js',
-              'src/components/AutoCompleteInput.js',        
+              'src/components/AutoCompleteInput.js',
               'src/components/Configuration.js',
               'src/components/Logger.js',
             ];
