@@ -236,7 +236,9 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
     // At the same time, find the Y axes...
     let yAxes = [];
     const series = this.props.dataSources.map((source: SeriesDataSource) => {
-      let currentYAxisIndex = Math.min(yAxes.length - 1, 0);
+      // Assume this series will have the same y axis as the most recent one
+      // (or the first one, if no y axes exist yet)
+      let currentYAxisIndex = Math.max(yAxes.length - 1, 0);
 
       if (source.yAxisLabel) {
         const yAxisInfo = {
@@ -315,7 +317,7 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
         showInLegend: source.name ? source.name : '',
         color: source.color,
         yAxis: currentYAxisIndex,
-        stacking: (source.type === 'BAR' && !this.props.barsSideBySide) ? 'normal' : null,
+        stacking: (source.type === 'BAR' && !this.props.barsSideBySide) ? 'normal' : undefined,
         zIndex,
         tooltip: {
           formatter: (value: number) => {
