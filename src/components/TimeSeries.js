@@ -194,10 +194,10 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
    */
   static normalizeYAxisMax(yAxis: any): any {
     const maxValue = yAxis.max;
-    const roundUpTo = [10, 50, 100, 250, 500, 750, 1000, 5000, 10000];
+    const roundUpTo = [10, 50, 100, 250, 500, 750, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 10000];
     let roundMax = -1;
     roundUpTo.forEach((cap: number) => {
-      if (roundMax < 0 && maxValue < cap) {
+      if (roundMax < 0 && maxValue <= cap) {
         roundMax = cap;
       }
     });
@@ -248,6 +248,8 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
           visible: true,
           minRange: 0.1, // This makes sure the 0 is always at the bottom of the chart
           max: source.percentage ? 100 : null,
+          alignTicks: !source.percentage,
+          gridLineColor: source.percentage ? 'transparent' : undefined,
           allowDecimals: !source.integer,
         };
         if (yAxes.length === 1) {
@@ -281,13 +283,16 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
       });
 
       const previousMax = yAxes[currentYAxisIndex].max || 0;
-      if (source.type === 'BAR' && !this.props.barsSideBySide) {
-        // If there are multiple series for this y-axis, and they're bars, and the bars are stacked,
-        // add the max values together since they'll be stacked.
-        yAxes[currentYAxisIndex].max = previousMax + maxValue;
-      } else {
-        // Otherwise, find the bigger maxValue and use that.
-        yAxes[currentYAxisIndex].max = Math.max(previousMax, maxValue);
+      if (!source.percentage) {
+        // If it's a percentage, we've already set the max to 100
+        if (source.type === 'BAR' && !this.props.barsSideBySide) {
+          // If there are multiple series for this y-axis, and they're bars, and the bars are stacked,
+          // add the max values together since they'll be stacked.
+          yAxes[currentYAxisIndex].max = previousMax + maxValue;
+        } else {
+          // Otherwise, find the bigger maxValue and use that.
+          yAxes[currentYAxisIndex].max = Math.max(previousMax, maxValue);
+        }
       }
 
       // Make sure bar charts are in front of area charts and line charts are in front of everything
@@ -350,26 +355,31 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
       marginTop: 40,
       height: this.props.height,
       ignoreHiddenSeries: true,
-    };
+      };
 
-    const legend = this.props.legendAtRight ? {
-      backgroundColor: '#fff',
-      enabled: true,
-      align: 'right',
-      borderWidth: 1,
-      layout: 'vertical',
-      verticalAlign: 'bottom',
-      y: -10,
-      itemMarginBottom: 10,
-      itemStyle: {
-        'font-size': '.8em',
-      },
-    } : {
-      backgroundColor: '#fff',
-      itemStyle: {
-        'font-size': '.8em',
-      },
-    };
+    let legend;
+    if (this.props.legendAtRight) {
+      legend = {
+        backgroundColor: '#fff',
+        enabled: true,
+        align: 'right',
+        borderWidth: 1,
+        layout: 'vertical',
+        verticalAlign: 'bottom',
+        y: -10,
+        itemMarginBottom: 10,
+        itemStyle: {
+          'font-size': '.8em',
+        },
+      };
+    } else {
+      legend = {
+        backgroundColor: '#fff',
+        itemStyle: {
+          'font-size': '.8em',
+        },
+      };
+    }
 
     const config = {
       chart,

@@ -1,6 +1,6 @@
 #### Examples:
 
-__1:__ Combined bar and line chart values over time.
+__1:__ Combined bar and line chart values over time. The bar represents percentages.
 
 ```jsx
   const DataPoint = require('../../src/api/DataPoint').default;
@@ -38,7 +38,7 @@ __1:__ Combined bar and line chart values over time.
   const getBarValues = function() {
     const startTime = Date.UTC(2018, 6, 16);
     const increment = 1000 * 60 * 60 * 24; // 1 day
-    const articleCounts = getValues(30, 230);
+    const articleCounts = getValues(30, 100);
     return getPoints(articleCounts, startTime, increment);
   };
 
@@ -53,7 +53,8 @@ __1:__ Combined bar and line chart values over time.
     return new DataPoint(dataPoint.date, dataPoint.endDate, dataPoint.value);
   });
 
-  const source1 = new TimeSeries.SeriesDataSource('New Documents', 'BAR', dataPoints1, '#0000c2', ':1 document|{} documents', 'New Document Count');
+  const source1 = new TimeSeries.SeriesDataSource('Goodness', 'BAR', dataPoints1, '#0000c2', ':{}%', '% Goodness', true, true);
+
   const dataPoints2 = getLineValues().map((dataPoint) => {
     return new DataPoint(dataPoint.date, dataPoint.endDate, dataPoint.value);
   });
