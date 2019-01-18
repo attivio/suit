@@ -355,7 +355,7 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
       marginTop: 40,
       height: this.props.height,
       ignoreHiddenSeries: true,
-      };
+    };
 
     let legend;
     if (this.props.legendAtRight) {
