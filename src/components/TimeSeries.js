@@ -192,25 +192,22 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
    * update the Y-axis to use it instead. Return the new Y-axis
    * definition.
    */
-  static normalizeYAxisMax(yAxis: any, maxValue: number): any {
-    if (!yAxis.max || maxValue > yAxis.max) {
-      // If it's not yet set, or if it's lower than the new max, update it
-      const roundUpTo = [10, 50, 100, 250, 500, 750, 1000, 5000, 10000];
-      let roundMax = -1;
-      roundUpTo.forEach((cap: number) => {
-        if (roundMax < 0 && maxValue < cap) {
-          roundMax = cap;
-        }
-      });
-      if (roundMax < 0) {
-        // We didn't find one... just round up to nearest multiple of 10,000
-        roundMax = Math.floor((maxValue + 9999) / 10000) * 10000;
+  static normalizeYAxisMax(yAxis: any): any {
+    const maxValue = yAxis.max;
+    const roundUpTo = [10, 50, 100, 250, 500, 750, 1000, 5000, 10000];
+    let roundMax = -1;
+    roundUpTo.forEach((cap: number) => {
+      if (roundMax < 0 && maxValue < cap) {
+        roundMax = cap;
       }
-      const newYAxis = Object.assign({}, yAxis);
-      newYAxis.max = roundMax;
-      return newYAxis;
+    });
+    if (roundMax < 0) {
+      // We didn't find one... just round up to nearest multiple of 10,000
+      roundMax = Math.floor((maxValue + 9999) / 10000) * 10000;
     }
-    return yAxis;
+    const newYAxis = Object.assign({}, yAxis);
+    newYAxis.max = roundMax;
+    return newYAxis;
   }
 
   constructor(props: TimeSeriesProps) {
@@ -237,9 +234,9 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
 
     // Convert the data series passed to us into something HighCharts understands
     // At the same time, find the Y axes...
-    const yAxis = [];
+    let yAxes = [];
     const series = this.props.dataSources.map((source: SeriesDataSource) => {
-      let currentYAxisIndex = Math.min(yAxis.length - 1, 0);
+      let currentYAxisIndex = Math.min(yAxes.length - 1, 0);
 
       if (source.yAxisLabel) {
         const yAxisInfo = {
@@ -253,14 +250,14 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
           max: source.percentage ? 100 : null,
           allowDecimals: !source.integer,
         };
-        if (yAxis.length === 1) {
+        if (yAxes.length === 1) {
           // This is the second label, put it on the right
           yAxisInfo.opposite = true;
         }
-        if (yAxis.length < 2) {
+        if (yAxes.length < 2) {
           // Make sure we never have more than two labels...
-          yAxis.push(yAxisInfo);
-          currentYAxisIndex = yAxis.length - 1;
+          yAxes.push(yAxisInfo);
+          currentYAxisIndex = yAxes.length - 1;
         } else {
           // We're configured for too many Y axes... we only deal with up to 2
           console.warn(`Ignoring Y-axis named ${yAxisInfo.title.text}`);
@@ -282,7 +279,16 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
 
         return dataPoint;
       });
-      yAxis[currentYAxisIndex] = TimeSeries.normalizeYAxisMax(yAxis[currentYAxisIndex], maxValue);
+
+      const previousMax = yAxes[currentYAxisIndex].max || 0;
+      if (source.type === 'BAR' && !this.props.barsSideBySide) {
+        // If there are multiple series for this y-axis, and they're bars, and the bars are stacked,
+        // add the max values together since they'll be stacked.
+        yAxes[currentYAxisIndex].max = previousMax + maxValue;
+      } else {
+        // Otherwise, find the bigger maxValue and use that.
+        yAxes[currentYAxisIndex].max = Math.max(previousMax, maxValue);
+      }
 
       // Make sure bar charts are in front of area charts and line charts are in front of everything
       let zIndex;
@@ -292,7 +298,7 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
         zIndex = 2;
       }
 
-      // Ensure we always have something to show for non-emtpy data points in bar charts
+      // Ensure we always have something to show for non-empty data points in bar charts
       // Note that we use a height of 2 pixels instead of 1 because 1-pixel bars get hidden
       // by the X-axis' line.
       const minPointLength = type === 'column' ? 2 : 0;
@@ -314,6 +320,11 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
         minPointLength,
       };
       return seriesInfo;
+    });
+
+    // Go through the y axes and round up the max values in a consistent way, so they're pretty
+    yAxes = yAxes.map((notNormal) => {
+      return TimeSeries.normalizeYAxisMax(notNormal);
     });
 
     const chart = this.props.onSelect ? {
@@ -416,7 +427,7 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
           autoRotation: [45],
         },
       },
-      yAxis,
+      yAxis: yAxes,
       tooltip: {
         shared: true,
         formatter: TimeSeries.tooltipFormatter,
