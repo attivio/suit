@@ -9,7 +9,7 @@ import ObjectUtils from '../util/ObjectUtils';
 type HierarchicalFacetContentsProps = {
   buckets: Array<SearchFacetBucket>;
   addFacetFilter: (bucket: SearchFacetBucket) => void;
-  bucketsPerLevel: number;
+  // bucketsPerLevel: number;
 };
 
 type OpenState = 'closed' | 'open' | 'full';
@@ -86,11 +86,17 @@ export default class HierarchicalFacetContents extends React.Component<void, Hie
   }
 
   handleClick(key: string) {
+    const element = this.linkRefs.get(key);
+    if (element) {
+      element.blur();
+    }
     const bucket = this.state.bucketMap.get(key);
     if (bucket) {
       this.props.addFacetFilter(bucket);
     }
   }
+
+  linkRefs: Map<string, any> = new Map();
 
   createNodeContents(bucket: SearchFacetBucket) {
     const key = bucket.bucketKey();
@@ -100,6 +106,9 @@ export default class HierarchicalFacetContents extends React.Component<void, Hie
           onClick={() => { this.handleClick(key); }}
           role="button"
           tabIndex={0}
+          ref={(a) => {
+            this.linkRefs.set(key, a);
+          }}
         >
           {bucket.displayLabel()}
         </a>
