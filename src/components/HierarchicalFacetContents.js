@@ -72,6 +72,9 @@ export default class HierarchicalFacetContents extends React.Component<void, Hie
       buckets.forEach((bucket: SearchFacetBucket) => {
         this.addNodesToMap(bucket, map);
         map.set(bucket.bucketKey(), bucket);
+        if (bucket.children && bucket.children.length > 0) {
+          this.addNodesToMap(bucket.children, map);
+        }
       });
     }
   }
