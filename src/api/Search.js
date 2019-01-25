@@ -113,7 +113,7 @@ export default class Search {
           });
           const jsonRequest = {
             id: docId,
-            fieldName: FieldNames.TAGS,
+            fieldName,
             values: fieldValues,
           };
 
