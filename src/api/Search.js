@@ -1,7 +1,6 @@
 // @flow
 import SimpleQueryRequest from './SimpleQueryRequest';
 import QueryResponse from './QueryResponse';
-import FieldNames from './FieldNames';
 import AuthUtils from '../util/AuthUtils';
 import FetchUtils from '../util/FetchUtils';
 import ObjectUtils from '../util/ObjectUtils';
