@@ -6,8 +6,8 @@
 export default class SearchFacetBucket {
   static fromJson(json: any): SearchFacetBucket {
     let children;
-    if (json.children && Array.isArray(json.children)) {
-      children = json.children.map((jsonChild: any) => {
+    if (json.children && json.children.buckets && Array.isArray(json.children.buckets)) {
+      children = json.children.buckets.map((jsonChild: any) => {
         return SearchFacetBucket.fromJson(jsonChild);
       });
     } else {
@@ -77,9 +77,6 @@ export default class SearchFacetBucket {
 
   /** Get a key to use for this bucket */
   bucketKey(): string {
-    if (this.value && this.value.length > 0) {
-      return this.value;
-    }
     return `${this.displayLabel()}:${this.filter}`;
   }
 
