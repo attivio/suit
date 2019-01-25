@@ -1,7 +1,6 @@
 // @flow
 import SimpleQueryRequest from './SimpleQueryRequest';
 import QueryResponse from './QueryResponse';
-import FieldNames from './FieldNames';
 import AuthUtils from '../util/AuthUtils';
 import FetchUtils from '../util/FetchUtils';
 import ObjectUtils from '../util/ObjectUtils';
@@ -113,7 +112,7 @@ export default class Search {
           });
           const jsonRequest = {
             id: docId,
-            fieldName: FieldNames.TAGS,
+            fieldName,
             values: fieldValues,
           };
 
