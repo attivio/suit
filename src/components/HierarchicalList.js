@@ -4,6 +4,7 @@ import React from 'react';
 import type { Node } from 'react';
 
 import DisclosureTriangle from './DisclosureTriangle';
+import ObjectUtils from '../util/ObjectUtils';
 
 /**
  * Class representing a single node in the hierarchical list's tree.
@@ -26,7 +27,7 @@ export class HierarchicalNode {
 type HierarchicalListProps = {
   /** The root node. Should have its key set to null. */
   root: HierarchicalNode;
-  /** An array containing the keys of all open nodes in the tree. This is maintained by the par rent. */
+  /** An array containing the keys of all open nodes in the tree. This is maintained by the parent. */
   openNodes: Array<string>;
   /** Callback when the node's disclosure triangle is clicked to open/close it. */
   onToggle: (key: string, open: boolean) => void;
@@ -37,10 +38,6 @@ type HierarchicalListProps = {
  * can be opened/closed by the user.
  */
 export default class HierarchicalList extends React.Component<void, HierarchicalListProps, void> {
-  static defaultProps = {
-    openNodes: [],
-  };
-
   static HierarchicalNode;
 
   static displayName = 'HierarchicalList';
@@ -48,7 +45,10 @@ export default class HierarchicalList extends React.Component<void, Hierarchical
   constructor(props: HierarchicalListProps) {
     super(props);
     (this: any).toggleRow = this.toggleRow.bind(this);
-    (this: any).renderChildren = this.renderChildren.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps: HierarchicalListProps) {
+    return !ObjectUtils.deepEquals(this.props, nextProps);
   }
 
   toggleRow(key: string) {
@@ -56,7 +56,7 @@ export default class HierarchicalList extends React.Component<void, Hierarchical
     this.props.onToggle(key, newOpen);
   }
 
-  renderChildren(parent: HierarchicalNode, level: number = 0) {
+  renderChildren(parent: HierarchicalNode, level: number = 0): Array<Node> {
     // We only get here if the parent node is open...
     if (parent.children && parent.children.length > 0) {
       const contents = parent.children.map((child: HierarchicalNode) => {
@@ -113,7 +113,7 @@ export default class HierarchicalList extends React.Component<void, Hierarchical
       });
       return contents;
     }
-    return null;
+    return [];
   }
 
   render() {

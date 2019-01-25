@@ -12,8 +12,9 @@ type NavbarFilterProps = {
   removeCallback: () => void;
   /**
    * The limit (in characters) for the segments to display when
-   * displaying a hierarchical facet filter. Defaults to 6. Set to 0
-   * to prevent truncation of the segments.
+   * displaying a hierarchical facet filter. Defaults to 0, which
+   * means no truncation, but you can change this to trigger truncation
+   * of the segments.
    */
   maxHierarchicalSegmentLength: number;
 }
@@ -25,7 +26,7 @@ type NavbarFilterDefaultProps = {
 /** Displays a currently applied facet filter. */
 class NavbarFilter extends React.Component<NavbarFilterDefaultProps, NavbarFilterProps, void> {
   static defaultProps = {
-    maxHierarchicalSegmentLength: 6,
+    maxHierarchicalSegmentLength: 0,
   };
 
   static displayName = 'NavbarFilter';
