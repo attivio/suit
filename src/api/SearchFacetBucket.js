@@ -5,6 +5,15 @@
  */
 export default class SearchFacetBucket {
   static fromJson(json: any): SearchFacetBucket {
+    let children;
+    if (json.children && json.children.buckets && Array.isArray(json.children.buckets)) {
+      children = json.children.buckets.map((jsonChild: any) => {
+        return SearchFacetBucket.fromJson(jsonChild);
+      });
+    } else {
+      children = [];
+    }
+
     return new SearchFacetBucket(
       json.value,
       json.label,
@@ -12,16 +21,26 @@ export default class SearchFacetBucket {
       json.filter,
       json.min,
       json.max,
+      children,
     );
   }
 
-  constructor(value: any, label: string, count: number, filter: string, min: string | null = null, max: string | null = null) {
+  constructor(
+    value: any,
+    label: string,
+    count: number,
+    filter: string,
+    min: string | null = null,
+    max: string | null = null,
+    children: Array<SearchFacetBucket> = [],
+  ) {
     this.value = value;
     this.label = label;
     this.count = count;
     this.filter = filter;
     this.min = min;
     this.max = max;
+    this.children = children;
   }
 
   /** Get the label to display for this bucket */
@@ -58,9 +77,6 @@ export default class SearchFacetBucket {
 
   /** Get a key to use for this bucket */
   bucketKey(): string {
-    if (this.value && this.value.length > 0) {
-      return this.value;
-    }
     return `${this.displayLabel()}:${this.filter}`;
   }
 
@@ -79,4 +95,6 @@ export default class SearchFacetBucket {
   min: string | null;
   /** The maximum, or "to," value for the bucket's range (for range facets only) */
   max: string | null;
+  /** Any child buckets */
+  children: Array<SearchFacetBucket>;
 }

@@ -2,22 +2,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import SearchFacet from '../api/SearchFacet';
-import SearchFacetBucket from '../api/SearchFacetBucket';
-import DateUtils from '../util/DateUtils';
-import DateFormat from '../api/DateFormat';
+import BarChartFacetContents from './BarChartFacetContents';
 import Card from './Card';
 import CollapsiblePanel from './CollapsiblePanel';
-import BarChartFacetContents from './BarChartFacetContents';
-import PieChartFacetContents from './PieChartFacetContents';
-import MoreListFacetContents from './MoreListFacetContents';
+import DateFormat from '../api/DateFormat';
+import DateUtils from '../util/DateUtils';
+import FacetSearchBar from './FacetSearchBar';
+import HierarchicalFacetContents from './HierarchicalFacetContents';
 import ListWithBarsFacetContents from './ListWithBarsFacetContents';
+import MapFacetContents from './MapFacetContents';
+import MoreListFacetContents from './MoreListFacetContents';
+import PieChartFacetContents from './PieChartFacetContents';
+import SearchFacet from '../api/SearchFacet';
+import SearchFacetBucket from '../api/SearchFacetBucket';
+import SentimentFacetContents from './SentimentFacetContents';
+import SentimentTagCloudFacetContents from './SentimentTagCloudFacetContents';
 import TagCloudFacetContents from './TagCloudFacetContents';
 import TimeSeriesFacetContents from './TimeSeriesFacetContents';
-import SentimentFacetContents from './SentimentFacetContents';
-import MapFacetContents from './MapFacetContents';
-import SentimentTagCloudFacetContents from './SentimentTagCloudFacetContents';
-import FacetSearchBar from './FacetSearchBar';
 
 export type FacetType = 'barchart' | 'columnchart' | 'piechart' | 'barlist' |
   'tagcloud' | 'timeseries' | 'list' | 'sentiment' | 'geomap' |
@@ -72,6 +73,17 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
   static contextTypes = {
     searcher: PropTypes.any,
   };
+
+  static isHierarchical(facet: SearchFacet): boolean {
+    if (facet && facet.buckets) {
+      // Look for a bucket that has child buckets
+      const parentBucket = facet.buckets.find((bucket) => {
+        return bucket.children && bucket.children.length > 0;
+      });
+      return !!parentBucket;
+    }
+    return false;
+  }
 
   static displayName = 'Facet';
 
@@ -147,90 +159,105 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
     }
 
     if (this.props.facet && this.props.facet.buckets && this.props.facet.buckets.length > 0) {
-      switch (this.props.type) {
-        case 'barchart':
-          facetContents = facetColor ? (
-            <BarChartFacetContents
-              buckets={this.props.facet.buckets}
-              addFacetFilter={this.addFacetFilter}
-              color={facetColor}
-            />
-          ) : (
-            <BarChartFacetContents
-              buckets={this.props.facet.buckets}
-              addFacetFilter={this.addFacetFilter}
-            />
+      if (Facet.isHierarchical(this.props.facet)) {
+        // Hierarchical facets are a special case... ignore the type
+        facetContents = (
+          <HierarchicalFacetContents
+            buckets={this.props.facet.buckets}
+            addFacetFilter={this.addFacetFilter}
+          />
+        );
+      } else {
+        switch (this.props.type) {
+          case 'barchart':
+            facetContents = facetColor ? (
+              <BarChartFacetContents
+                buckets={this.props.facet.buckets}
+                addFacetFilter={this.addFacetFilter}
+                color={facetColor}
+              />
+            ) : (
+              <BarChartFacetContents
+                buckets={this.props.facet.buckets}
+                addFacetFilter={this.addFacetFilter}
+              />
             );
-          break;
-        case 'columnchart':
-          facetContents = facetColor ? (
-            <BarChartFacetContents
-              buckets={this.props.facet.buckets}
-              addFacetFilter={this.addFacetFilter}
-              columns
-              color={facetColor}
-            />
-          ) : (
-            <BarChartFacetContents
-              buckets={this.props.facet.buckets}
-              addFacetFilter={this.addFacetFilter}
-              columns
-            />
+            break;
+          case 'columnchart':
+            facetContents = facetColor ? (
+              <BarChartFacetContents
+                buckets={this.props.facet.buckets}
+                addFacetFilter={this.addFacetFilter}
+                columns
+                color={facetColor}
+              />
+            ) : (
+              <BarChartFacetContents
+                buckets={this.props.facet.buckets}
+                addFacetFilter={this.addFacetFilter}
+                columns
+              />
             );
-          break;
-        case 'piechart':
-          facetContents = (
-            <PieChartFacetContents
-              buckets={this.props.facet.buckets}
-              addFacetFilter={this.addFacetFilter}
-              entityColors={this.props.entityColors}
-            />
-          );
-          break;
-        case 'barlist':
-          facetContents = facetColor ? (
-            <ListWithBarsFacetContents
-              buckets={this.props.facet.buckets}
-              addFacetFilter={this.addFacetFilter}
-              color={facetColor}
-            />
-          ) : (
-            <ListWithBarsFacetContents
-              buckets={this.props.facet.buckets}
-              addFacetFilter={this.addFacetFilter}
-            />
-          );
-          break;
-        case 'tagcloud':
-          facetContents = (
-            <TagCloudFacetContents
-              buckets={this.props.facet.buckets}
-              maxBuckets={this.props.maxBuckets}
-              addFacetFilter={this.addFacetFilter}
-            />
-          );
-          break;
-        case 'timeseries':
-          facetContents = <TimeSeriesFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addTimeSeriesFilter} />;
-          break;
-        case 'sentiment':
-          facetContents = <SentimentFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />;
-          break;
-        case 'geomap':
-          facetContents = <MapFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />;
-          break;
-        case 'list':
-        default: {
-          facetContents = (
-            <FacetSearchBar
-              name={this.props.facet.field}
-              label={this.props.facet.label}
-              addFacetFilter={this.addFacetFilter}
-            >
-              <MoreListFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />
-            </FacetSearchBar>
-          );
-          break;
+            break;
+          case 'piechart':
+            facetContents = (
+              <PieChartFacetContents
+                buckets={this.props.facet.buckets}
+                addFacetFilter={this.addFacetFilter}
+                entityColors={this.props.entityColors}
+              />
+            );
+            break;
+          case 'barlist':
+            facetContents = facetColor ? (
+              <ListWithBarsFacetContents
+                buckets={this.props.facet.buckets}
+                addFacetFilter={this.addFacetFilter}
+                color={facetColor}
+              />
+            ) : (
+              <ListWithBarsFacetContents
+                buckets={this.props.facet.buckets}
+                addFacetFilter={this.addFacetFilter}
+              />
+            );
+            break;
+          case 'tagcloud':
+            facetContents = (
+              <TagCloudFacetContents
+                buckets={this.props.facet.buckets}
+                maxBuckets={this.props.maxBuckets}
+                addFacetFilter={this.addFacetFilter}
+              />
+            );
+            break;
+          case 'timeseries':
+            facetContents = (
+              <TimeSeriesFacetContents
+                buckets={this.props.facet.buckets}
+                addFacetFilter={this.addTimeSeriesFilter}
+              />
+            );
+            break;
+          case 'sentiment':
+            facetContents = <SentimentFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />;
+            break;
+          case 'geomap':
+            facetContents = <MapFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />;
+            break;
+          case 'list':
+          default: {
+            facetContents = (
+              <FacetSearchBar
+                name={this.props.facet.field}
+                label={this.props.facet.label}
+                addFacetFilter={this.addFacetFilter}
+              >
+                <MoreListFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />
+              </FacetSearchBar>
+            );
+            break;
+          }
         }
       }
     } else if (!this.props.positiveKeyphrases && !this.props.negativeKeyphrases) {
