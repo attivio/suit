@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 
 class ExpertInfo {
@@ -52,3 +51,5 @@ export default class SimilarAuthorCard extends React.Component<void, SimilarAuth
 }
 
 SimilarAuthorCard.ExpertInfo = ExpertInfo;
+
+// cspell:ignore labeldata

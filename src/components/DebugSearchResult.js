@@ -150,3 +150,5 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
     );
   }
 }
+
+// cspell:ignore labeldata, morelikethisquery

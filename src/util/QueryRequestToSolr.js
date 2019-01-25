@@ -41,11 +41,11 @@ export default class QueryRequestToSolr {
   }
 
   static buildFacets(facets: Array<any>): any {
-    const aggs = {};
+    const solrFacet = {};
     facets.forEach((f) => {
-      aggs[f.field] = { terms: { field: f.field } };
+      solrFacet[f.field] = { terms: { field: f.field } };
     });
-    return aggs;
+    return solrFacet;
   }
 
   static buildSort(sort, customConfig): string {

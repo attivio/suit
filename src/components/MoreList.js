@@ -63,11 +63,11 @@ export default class MoreList extends React.Component<MoreListDefaultProps, More
     }
   }
 
-  shortenChildrenList(numChildrenToShow: number) {
+  shortenChildrenList(numberOfChildrenToShow: number) {
     const childrenToShow = [];
     let i = 0;
     React.Children.forEach(this.props.children, (child) => {
-      if (i < numChildrenToShow) {
+      if (i < numberOfChildrenToShow) {
         childrenToShow.push(child);
       }
       i += 1;
@@ -76,19 +76,19 @@ export default class MoreList extends React.Component<MoreListDefaultProps, More
   }
 
   render() {
-    const numChildren = this.props.children ? React.Children.count(this.props.children) : 0;
+    const numberOfChildren = this.props.children ? React.Children.count(this.props.children) : 0;
     // If we're showing everything, then show all of the children.
     // If not, then show either shortSize children or, if there aren't that many, all of them
 
     const shortSize = this.props.shortSize ? this.props.shortSize : 5;
 
-    const numChildrenToShow = this.state.allVisible ? numChildren : Math.min(shortSize, numChildren);
+    const numberOfChildrenToShow = this.state.allVisible ? numberOfChildren : Math.min(shortSize, numberOfChildren);
 
     let prompt;
-    if (numChildrenToShow < numChildren) {
+    if (numberOfChildrenToShow < numberOfChildren) {
       // Show a "More…" link
       prompt = this.props.morePrompt;
-    } else if (numChildrenToShow > shortSize) {
+    } else if (numberOfChildrenToShow > shortSize) {
       // Show a "Fewer…" link
       prompt = this.props.fewerPrompt;
     }
@@ -109,7 +109,7 @@ export default class MoreList extends React.Component<MoreListDefaultProps, More
       );
     }
 
-    const childrenToShow = numChildrenToShow === numChildren ? this.props.children : this.shortenChildrenList(numChildrenToShow);
+    const childrenToShow = numberOfChildrenToShow === numberOfChildren ? this.props.children : this.shortenChildrenList(numberOfChildrenToShow);
 
     return (
       <ul className="list-unstyled">

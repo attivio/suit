@@ -1,6 +1,4 @@
-
 // @flow
-
 import React from 'react';
 import ReactHighcharts from 'react-highcharts';
 
@@ -458,3 +456,5 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
 }
 
 TimeSeries.SeriesDataSource = SeriesDataSource;
+
+// cspell:ignore fmt

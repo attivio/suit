@@ -91,3 +91,5 @@ export default class CollapsiblePanel extends React.Component<CollapsiblePanelDe
     );
   }
 }
+
+// cspell:ignore hed

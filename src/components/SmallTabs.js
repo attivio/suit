@@ -1,5 +1,4 @@
 // @flow
-
 import React, { Children } from 'react';
 
 type SmallTabsProps = {
@@ -55,3 +54,5 @@ export default class SmallTabs extends React.Component<SmallTabsDefaultProps, Sm
     );
   }
 }
+
+// cspell:ignore smalltabs

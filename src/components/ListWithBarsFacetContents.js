@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 
 import SearchFacetBucket from '../api/SearchFacetBucket';
@@ -170,3 +169,5 @@ export default class ListWithBarsFacetContents extends React.Component<ListWithB
     );
   }
 }
+
+// cspell:ignore linksbar

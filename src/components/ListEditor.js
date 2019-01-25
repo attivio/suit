@@ -28,7 +28,7 @@ type ListEditorProps = {
   /**
    * Get the object representing the current value of the control so that it can be
    * added to the list. Return null if the current value isn't valid and cannot
-   * theeefore be added.
+   * therefore be added.
    */
   getValue: () => any;
   /**

@@ -1,4 +1,5 @@
 // @flow
+
 import md5 from 'crypto-js/md5';
 
 import FetchUtils from './FetchUtils';
@@ -6,7 +7,7 @@ import ObjectUtils from './ObjectUtils';
 import StringUtils from './StringUtils';
 
 /**
- * Utility class for handling auhentication in SUIT-based applications. Also handles
+ * Utility class for handling authentication in SUIT-based applications. Also handles
  * configuration of application including the configuration used for components
  * wrapped with the Configurable higher-order component.
  */
@@ -29,7 +30,7 @@ export default class AuthUtils {
    *                    maps converted already
    * @param simpleValidation if set to true, then a lot of the validation
    *                    specific to search applications won't be done
-   * @returns a configuraiton error message, if one occurred
+   * @returns a configuration error message, if one occurred
    */
   static configure(users: any, config: any, simpleValidation: boolean = false): string | null {
     const mappifiedConfig = AuthUtils.mappify(config);
@@ -50,7 +51,7 @@ export default class AuthUtils {
     return null;
   }
 
-  /** Go through the passed in object and conver any nested objects to JavaScript
+  /** Go through the passed in object and convert any nested objects to JavaScript
    * Map objects if and only if their name starts with a lowercase letter. Thus
    * orig.ALL and orig.Masthead won't be converted but orig.ALL.entityColors
    * will.
@@ -106,7 +107,7 @@ export default class AuthUtils {
       };
       const fetchRequest = new Request('login?action=logout', params);
       fetch(fetchRequest).then((/* response: Response */) => {
-        const loggedOutUri = `${baseUri}?action=loggedout`;
+        const loggedOutUri = `${baseUri}?action=loggedout`; // cspell:disable-line
         // let loggedOutUri = baseUri;
         // if (AuthUtils.getConfig() && AuthUtils.getConfig().ALL && AuthUtils.getConfig().ALL.authType === 'XML') {
         //   // If we're doing XML authentication, go to the login page with the "We've logged you out" flag set
@@ -152,7 +153,7 @@ export default class AuthUtils {
    * Validate a password against a hashed one.
    */
   static passwordMatches(comp: string, compTo: string): boolean {
-    if (compTo.startsWith('OBF:')) {
+    if (compTo.startsWith('OBF:')) { // cspell:disable-line
       const remainder = compTo.substring(4);
       const obfuscatedComp = AuthUtils.obfuscate(comp);
       return obfuscatedComp === remainder;
@@ -408,7 +409,7 @@ export default class AuthUtils {
       return `The configuration object has an invalid value for 'ALL.authType': it must be 'XML,' 'SAML,' or 'NONE' but it is '${config.ALL.authType}.'`; // eslint-disable-line max-len
     }
     if (config.ALL.authType === 'XML' && !config.ALL.loginPage) {
-      return 'The configuration is missing the \'All.loginPage\' value whiich is required when authentication is set to XML.';
+      return 'The configuration is missing the \'All.loginPage\' value which is required when authentication is set to XML.';
     }
     if (!StringUtils.notEmpty(config.ALL.defaultRealm)) {
       return 'The configuration object is missing the \'ALL.defaultRealm\' value.';
@@ -487,3 +488,5 @@ export default class AuthUtils {
     return this.config;
   }
 }
+
+// cspell:ignore mappify, mappified, morelikethisquery

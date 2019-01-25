@@ -353,3 +353,5 @@ const hoc = sizeMe({
 });
 
 export default hoc(Configurable(MapFacetContents));
+
+// cspell:ignore sizeme, btn, uncombine, mapbox

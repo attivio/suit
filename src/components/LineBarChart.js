@@ -82,7 +82,7 @@ export default class LineBarChart extends React.Component<LineBarChartDefaultPro
 
   static displayName = 'LineBarChart';
 
-  static getDatasourceType(type: 'BAR' | 'LINE' | 'AREA' | 'SPLINE') {
+  static getDataSourceType(type: 'BAR' | 'LINE' | 'AREA' | 'SPLINE') {
     switch (type) {
       case 'SPLINE':
         return 'spline';
@@ -112,7 +112,7 @@ export default class LineBarChart extends React.Component<LineBarChartDefaultPro
     return !ObjectUtils.deepEquals(this.props.dataSources, nextProps.dataSources);
   }
 
-  getDatasourceColor(color: string | null, index: number) {
+  getDataSourceColor(color: string | null, index: number) {
     if (color) {
       return color;
     }
@@ -126,7 +126,7 @@ export default class LineBarChart extends React.Component<LineBarChartDefaultPro
 
   render() {
     const series = this.props.dataSources.map((source: ChartDataSource, index) => {
-      const color = this.getDatasourceColor(source.color, index);
+      const color = this.getDataSourceColor(source.color, index);
       const data = source.values.map((value: Point) => {
         return {
           x: value.x,
@@ -134,7 +134,7 @@ export default class LineBarChart extends React.Component<LineBarChartDefaultPro
         };
       });
       const seriesInfo = {
-        type: LineBarChart.getDatasourceType(source.type),
+        type: LineBarChart.getDataSourceType(source.type),
         name: source.name,
         data,
         color,

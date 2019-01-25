@@ -124,3 +124,5 @@ export default class ExpertCard extends React.Component<ExpertCardDefaultProps, 
 }
 
 ExpertCard.ExpertiseItem = ExpertiseItem;
+
+// cspell:ignore fmt, labeldata

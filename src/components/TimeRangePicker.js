@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 
 import Menu, { MenuItemDef } from './Menu';
@@ -270,3 +269,5 @@ export default class TimeRangePicker extends React.Component<TimeRangePickerDefa
     );
   }
 }
+
+// cspell:ignore smalltabs

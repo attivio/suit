@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 import ReactHighcharts from 'react-highcharts';
 
@@ -107,3 +106,5 @@ export default class BarChartFacetContents extends React.Component<BarChartFacet
     return <ReactHighcharts config={config} />;
   }
 }
+
+// cspell:ignore fmt

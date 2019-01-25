@@ -79,7 +79,7 @@ export default class KnowledgeGraphPanel extends React.Component<KnowledgeGraphP
   static updatePrimaryDoc(primaryDoc: SearchDocument, results: Array<SearchDocument>): SearchDocument {
     let newPrimaryDoc = primaryDoc;
     if (results.length > 0) {
-      // If the primary doc is already in the results, remove it and add the remiaing ones as children
+      // If the primary doc is already in the results, remove it and add the remaining ones as children
       const primaryDocId = primaryDoc.getFirstValue(FieldNames.ID);
       const docIds = results.map((value: SearchDocument) => {
         return value.getFirstValue(FieldNames.ID);

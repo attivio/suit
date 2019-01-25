@@ -113,3 +113,5 @@ export default class Pager extends React.Component<PagerDefaultProps, PagerProps
     );
   }
 }
+
+// cspell:ignore globalmastnavbar, btn

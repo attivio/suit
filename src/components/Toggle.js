@@ -1,5 +1,4 @@
 // @flow
-
 import React, { Children } from 'react';
 
 type ToggleProps = {
@@ -33,3 +32,5 @@ export default class Toggle extends React.Component<void, ToggleProps, void> {
     );
   }
 }
+
+// cspell:ignore smalltoolbar, btn

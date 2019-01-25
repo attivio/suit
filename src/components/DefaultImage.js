@@ -8,7 +8,7 @@ type DefaultImageProps = {
    */
   src: string;
   /**
-   * The address of a default image to display if there's an issue displaying the prefered image address. Optional.
+   * The address of a default image to display if there's an issue displaying the preferred image address. Optional.
    */
   defaultSrc: string | null;
 };

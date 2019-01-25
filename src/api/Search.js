@@ -179,3 +179,5 @@ export default class Search {
     });
   }
 }
+
+// cspell:ignore stopwords

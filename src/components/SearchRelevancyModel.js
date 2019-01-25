@@ -192,3 +192,5 @@ export default class SearchRelevancyModel extends React.Component<SearchRelevanc
     );
   }
 }
+
+// cspell:ignore globalmastnavbar

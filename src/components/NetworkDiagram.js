@@ -135,3 +135,5 @@ export default class NetworkDiagram extends React.Component<NetworkDiagramDefaul
 
 NetworkDiagram.Node = Node;
 NetworkDiagram.Edge = Edge;
+
+// cspell:ignore vis

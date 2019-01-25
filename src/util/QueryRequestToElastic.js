@@ -16,7 +16,7 @@ export default class QueryRequestToElastic {
       size: rows,
       from: offset.pop(),
       sort: QueryRequestToElastic.buildSort(sort, customOptions),
-      aggs: QueryRequestToElastic.buildFacets(customOptions.facets),
+      elasticFacet: QueryRequestToElastic.buildFacets(customOptions.facets),
     });
 
     const headers = new Headers({
@@ -48,11 +48,11 @@ export default class QueryRequestToElastic {
   }
 
   static buildFacets(facets: Array<any>) {
-    const aggs = {};
+    const elasticFacet = {};
     facets.forEach((f) => {
-      aggs[f.field] = { terms: { field: f.field } };
+      elasticFacet[f.field] = { terms: { field: f.field } };
     });
-    return aggs;
+    return elasticFacet;
   }
 
   static buildSort(sort, customConfig) {

@@ -60,3 +60,5 @@ describe('Test StringUtils', () => {
     expect(StringUtils.formatNumber('0:1 Ringy-Dingy|{} Ringy-Dingies', 7)).toBe('7 Ringy-Dingies');
   });
 });
+
+// cspell:ignore fmt

@@ -17,3 +17,5 @@ export default class NavbarResults extends React.Component<void, NavbarResultsPr
     return <div className="attivio-globalmastnavbar-results">{this.props.message}</div>;
   }
 }
+
+// cspell:ignore globalmastnavbar

@@ -1,4 +1,5 @@
 // @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -20,8 +21,8 @@ import SentimentTagCloudFacetContents from './SentimentTagCloudFacetContents';
 import TagCloudFacetContents from './TagCloudFacetContents';
 import TimeSeriesFacetContents from './TimeSeriesFacetContents';
 
-export type FacetType = 'barchart' | 'columnchart' | 'piechart' | 'barlist' |
-  'tagcloud' | 'timeseries' | 'list' | 'sentiment' | 'geomap' |
+export type FacetType = 'barChart' | 'columnCart' | 'pieChart' | 'barList' |
+  'tagCloud' | 'timeSeries' | 'list' | 'sentiment' | 'geoMap' | 'sentimentTagCloud' |
   (facetName: string) => React$Element<*>;
 
 type FacetProps = {
@@ -111,7 +112,7 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
   /**
    * Create a facet filter for the starting and ending dates...
    * If start is set but end is not, filters on the specific time
-   * set by start, otherwises filters on the range. (If start is not
+   * set by start, otherwise filters on the range. (If start is not
    * set, this simply returns).
    */
   addTimeSeriesFilter(start: Date | null, end: Date | null) {
@@ -143,7 +144,7 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
     }
 
     let facetContents;
-    if (this.props.type === 'sentimenttagcloud' && this.props.positiveKeyphrases && this.props.negativeKeyphrases) {
+    if (this.props.type === 'sentimentTagCloud' && this.props.positiveKeyphrases && this.props.negativeKeyphrases) {
       if (this.props.positiveKeyphrases.buckets && this.props.negativeKeyphrases.buckets) {
         if (this.props.positiveKeyphrases.buckets.length > 0 || this.props.negativeKeyphrases.buckets.length > 0) {
           facetContents = (
@@ -169,7 +170,7 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
         );
       } else {
         switch (this.props.type) {
-          case 'barchart':
+          case 'barChart':
             facetContents = facetColor ? (
               <BarChartFacetContents
                 buckets={this.props.facet.buckets}
@@ -183,7 +184,7 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
               />
             );
             break;
-          case 'columnchart':
+          case 'columnChart':
             facetContents = facetColor ? (
               <BarChartFacetContents
                 buckets={this.props.facet.buckets}
@@ -199,7 +200,7 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
               />
             );
             break;
-          case 'piechart':
+          case 'pieChart':
             facetContents = (
               <PieChartFacetContents
                 buckets={this.props.facet.buckets}
@@ -208,7 +209,7 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
               />
             );
             break;
-          case 'barlist':
+          case 'barList':
             facetContents = facetColor ? (
               <ListWithBarsFacetContents
                 buckets={this.props.facet.buckets}
@@ -222,7 +223,7 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
               />
             );
             break;
-          case 'tagcloud':
+          case 'tagCloud':
             facetContents = (
               <TagCloudFacetContents
                 buckets={this.props.facet.buckets}
@@ -231,7 +232,7 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
               />
             );
             break;
-          case 'timeseries':
+          case 'timeSeries':
             facetContents = (
               <TimeSeriesFacetContents
                 buckets={this.props.facet.buckets}
@@ -242,7 +243,7 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
           case 'sentiment':
             facetContents = <SentimentFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />;
             break;
-          case 'geomap':
+          case 'geoMap':
             facetContents = <MapFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />;
             break;
           case 'list':
@@ -282,3 +283,5 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
     );
   }
 }
+
+// cspell:ignore borderless, keyphrases

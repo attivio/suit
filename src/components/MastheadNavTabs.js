@@ -100,3 +100,5 @@ class MastheadNavTabs extends React.Component<MastheadNavTabsDefaultProps, Masth
 MastheadNavTabs.NavTabInfo = NavTabInfo;
 
 export default withRouter(MastheadNavTabs);
+
+// cspell:ignore globalmast

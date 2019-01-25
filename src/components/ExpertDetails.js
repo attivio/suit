@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 
 import SimilarAuthorCard from './SimilarAuthorCard';
@@ -26,3 +25,5 @@ export default class ExpertDetails extends React.Component<void, ExpertDetailsPr
 }
 
 ExpertDetails.ExpertInfo = SimilarAuthorCard.ExpertInfo;
+
+// cspell:ignore labeldata

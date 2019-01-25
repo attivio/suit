@@ -27,7 +27,7 @@ type TagCloudProps = {
    * A function that will get called with the selected TagCloudValue
    * object if one is clicked.
    */
-  callback: (tcv: TagCloudValue) => void;
+  callback: (value: TagCloudValue) => void;
 
   noLink: boolean;
 };
@@ -99,11 +99,11 @@ export default class TagCloud extends React.Component<TagCloudDefaultProps, TagC
     let tagCloudValues = this.props.tags;
     if (tagCloudValues.length > this.props.maxValues) {
       // Sort numerically by value
-      tagCloudValues.sort((tcv1: TagCloudValue, tcv2: TagCloudValue) => {
-        if (tcv1.value === tcv2.value) {
+      tagCloudValues.sort((value1: TagCloudValue, value2: TagCloudValue) => {
+        if (value1.value === value2.value) {
           return 0;
         }
-        if (tcv1.value < tcv2.value) {
+        if (value1.value < value2.value) {
           return 1;
         }
         return -1;
@@ -112,35 +112,35 @@ export default class TagCloud extends React.Component<TagCloudDefaultProps, TagC
       tagCloudValues = tagCloudValues.slice(0, this.props.maxValues);
     }
 
-    const maxValue = tagCloudValues.reduce((max, tcv) => {
-      return Math.max(tcv.value, max);
+    const maxValue = tagCloudValues.reduce((max, value) => {
+      return Math.max(value.value, max);
     }, 0,
     );
-    const minValue = tagCloudValues.reduce((min, tcv) => {
-      return Math.min(tcv.value, min);
+    const minValue = tagCloudValues.reduce((min, value) => {
+      return Math.min(value.value, min);
     }, maxValue,
     );
 
     // Sort alphabetically by label
-    tagCloudValues.sort((tcv1: TagCloudValue, tcv2: TagCloudValue) => {
-      return tcv1.label.localeCompare(tcv2.label);
+    tagCloudValues.sort((value1: TagCloudValue, value2: TagCloudValue) => {
+      return value1.label.localeCompare(value2.label);
     });
 
-    const cloudItems = tagCloudValues.map((tcv) => {
-      const size = TagCloud.getAdjustedValue(tcv.value, minValue, maxValue);
+    const cloudItems = tagCloudValues.map((value) => {
+      const size = TagCloud.getAdjustedValue(value.value, minValue, maxValue);
       const callback = (event: Event & { target: HTMLAnchorElement }) => {
-        this.props.callback(tcv);
+        this.props.callback(value);
         event.target.blur();
       };
       const className = TagCloud.getClassNameForLevel(size);
       return (
-        this.props.noLink ? (<li key={tcv.label}>
+        this.props.noLink ? (<li key={value.label}>
           <span className={className}>
-            {tcv.label}
+            {value.label}
           </span>
-        </li>) : (<li key={tcv.label}>
+        </li>) : (<li key={value.label}>
           <a className={className} onClick={callback} role="button" tabIndex={0}>
-            {tcv.label}
+            {value.label}
           </a>
         </li>)
       );

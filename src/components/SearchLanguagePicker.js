@@ -78,3 +78,5 @@ export default class SearchLanguagePicker extends React.Component<SearchLanguage
     );
   }
 }
+
+// cspell:ignore globalmastnavbar

@@ -74,3 +74,5 @@ export default class SimpleQueryRequest {
   /** Any additional REST parameters to pass. Note that the values MUST be arrays, even if there's only one instance. */
   restParams: Map<string, Array<string>>;
 }
+
+// cspell:ignore rlm, fds

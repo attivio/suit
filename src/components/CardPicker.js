@@ -88,7 +88,7 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
     const cardComponents = this.props.cards.map((cardItem) => {
       return (
         <CardPickerCard
-          key={`${cardItem.label}|${cardItem.iconUri ? cardItem.iconUri : 'noicon'}`}
+          key={`${cardItem.label}|${cardItem.iconUri ? cardItem.iconUri : 'noIcon'}`}
           label={cardItem.label}
           iconUri={cardItem.iconUri || this.props.defaultIconUri}
           description={cardItem.description}

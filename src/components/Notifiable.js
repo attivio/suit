@@ -105,3 +105,5 @@ export default class Notifiable extends React.Component<void, NotifiableProps, v
     );
   }
 }
+
+// cspell:ignore toastify

@@ -48,13 +48,13 @@ export default class SearchResultsPager extends React.Component<SearchResultsPag
         if (pageSize > 0) {
           const currentPage = Math.floor(searcher.state.resultsOffset / pageSize);
           const totalHits = searcher.state.response.totalHits;
-          const numPages = Math.ceil(totalHits / pageSize);
+          const numberOfPages = Math.ceil(totalHits / pageSize);
 
           return (
             <Pager
               onPageChange={this.changePage}
               currentPage={currentPage}
-              totalPages={numPages}
+              totalPages={numberOfPages}
               right={this.props.right}
             />
           );

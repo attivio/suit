@@ -23,7 +23,7 @@ export default class PlacementResults extends React.Component<void, {}, void> {
       const placements = response.placements;
       const results = [];
       placements.forEach((placement: Placement) => {
-        const key = `${placement.linkUrl ? placement.linkUrl : 'nourl'}-${placement.linkText ? placement.linkText : 'notext'}-${placement.imageUrl ? placement.imageUrl : 'noimg'}`; // eslint-disable-line max-len
+        const key = `${placement.linkUrl ? placement.linkUrl : 'noUrl'}-${placement.linkText ? placement.linkText : 'noText'}-${placement.imageUrl ? placement.imageUrl : 'noImg'}`; // eslint-disable-line max-len
         results.push(
           <PlacementResult
             linkUrl={placement.linkUrl}

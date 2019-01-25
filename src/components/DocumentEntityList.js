@@ -1,4 +1,4 @@
-// @Flow
+// @flow
 import React from 'react';
 
 import SearchDocument from '../api/SearchDocument';

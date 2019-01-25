@@ -20,3 +20,5 @@ export default class SecondaryNavBar extends React.Component<void, SecondaryNavB
     );
   }
 }
+
+// cspell:ignore globalmastnavbar, minwidth

@@ -34,7 +34,7 @@ type MasterDetailsProps = {
    */
   detailsProps: any;
   /**
-   * If set, multiple rows in the table can be selected simultaneouysly. In this case, the
+   * If set, multiple rows in the table can be selected simultaneously. In this case, the
    * most recently selected row is shown in the details view.
    */
   multiSelect: boolean;
@@ -129,9 +129,9 @@ type MasterDetailsState = {
 };
 
 /**
- * A componnent which marries a Table componnent with a details pane on the right to show more
+ * A component which marries a Table component with a details pane on the right to show more
  * information about the item in the selected row. If the table allows selection of multiple rows
- * simultaneously, then the details pane shows information aobut the most recently selected row.
+ * simultaneously, then the details pane shows information about the most recently selected row.
  */
 export default class MasterDetails extends React.Component<MasterDetailsDefaultProps, MasterDetailsProps, MasterDetailsState> {
   static defaultProps = {

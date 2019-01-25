@@ -88,3 +88,5 @@ class SpellCheckMessage extends React.Component<void, SpellCheckMessageProps, vo
 }
 
 export default withRouter(SpellCheckMessage);
+
+// cspell:ignore borderless

@@ -91,7 +91,7 @@ type MenuProps = {
    */
   promptLabel: string | null;
   /**
-   * For a multiSelect menmu, this is the label to show when all
+   * For a multiSelect menu, this is the label to show when all
    * of the items have been selected. Defaults to "All" but you
    * can override this if your "All" has a different meaning, such
    * as "Show the average instead of an aggregate value."
@@ -360,6 +360,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
         pullRight={this.props.right}
         style={outerStyle}
       >
+        { /* cspell: disable */ }
         <Dropdown.Toggle
           noCaret
           useAnchor
@@ -367,6 +368,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
           bsClass="attivio-smalltoolbar-btn"
           style={this.props.width ? { width: `${this.props.width}px` } : {}}
         >
+          { /* cspell: enable */ }
           <div
             style={this.props.width ? {
               // adjusted to fit the caret

@@ -50,3 +50,5 @@ DocumentMode.initEnum([
   PARTIAL_REMOVE_VALUES,
   CREATE,
 ]);
+
+// cspell:ignore enumify

@@ -66,8 +66,8 @@ export default class StarRating extends React.Component<StarRatingDefaultProps, 
 
   render() {
     const origStars = this.state.stars;
-    const numFull = Math.trunc(origStars);
-    const halfIndex = origStars - numFull > 0 ? numFull : -1;
+    const fullCount = Math.trunc(origStars);
+    const halfIndex = origStars - fullCount > 0 ? fullCount : -1;
     const starCount = origStars === 1 ? '1 star' : `${origStars} stars`;
 
     const starDivs = [];
@@ -80,7 +80,7 @@ export default class StarRating extends React.Component<StarRatingDefaultProps, 
         ref: (elem) => { this.starDivElements.push(elem); },
       };
 
-      if (i < numFull) {
+      if (i < fullCount) {
         starDivs.push(
           (
             <div

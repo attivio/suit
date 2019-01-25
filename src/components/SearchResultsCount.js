@@ -55,3 +55,5 @@ export default class SearchResultsCount extends React.Component<void, {}, void> 
     );
   }
 }
+
+// cspell:ignore globalmastnavbar

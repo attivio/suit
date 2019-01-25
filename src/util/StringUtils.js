@@ -47,8 +47,8 @@ export default class StringUtils {
     return pieceForValue.replace('{}', valueString);
   }
 
-  static regexLastIndexOf(s: string, regex: RegExp, startPos: number | null = null) {
-    const sp = startPos !== null ? startPos : s.length;
+  static regexLastIndexOf(s: string, regex: RegExp, startPosition: number | null = null) {
+    const sp = startPosition !== null ? startPosition : s.length;
     let re;
     if (regex.global) {
       re = regex;
@@ -56,7 +56,7 @@ export default class StringUtils {
       let flags;
       // (this rigamarole is required to make Flow happy)
       if (regex.ignoreCase && regex.multiline) {
-        flags = 'gim';
+        flags = 'gim'; // cspell:disable-line
       } else if (regex.ignoreCase) {
         flags = 'gi';
       } else if (regex.multiline) {
@@ -163,12 +163,12 @@ export default class StringUtils {
 
 
   /**
-   * Take a number and format it as a string accordning to the specified format.
+   * Take a number and format it as a string according to the specified format.
    * The format string must consist of two main parts separated by a colon—
    * before the colon is the number of decimal points that should be used when formatting the
    * number. The remainder of the format string describes how to format the overall
    * string with instances of "{}" being replaced with the formatted value—it can
-   * contanin separate to use if the number is 0, 1, or more than one, separated by
+   * contain multiple formats to use if the number is 0, 1, or more than one, separated by
    * pipe characters.
    * For example:
    *    "2:${}" with 3.215 will produce the string "$3.22"
@@ -211,3 +211,5 @@ export default class StringUtils {
     return formatToUse.replace('{}', formattedValue);
   }
 }
+
+// cspell:ignore fmt

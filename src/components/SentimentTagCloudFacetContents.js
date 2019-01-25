@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 
 import SearchFacetBucket from '../api/SearchFacetBucket';
@@ -51,18 +50,18 @@ export default class SentimentTagCloudFacetContents extends React.Component<void
     (this: any).tagCloudCallback = this.tagCloudCallback.bind(this);
   }
 
-  tagCloudCallback(tcv: SentimentTagCloudValue) {
+  tagCloudCallback(value: SentimentTagCloudValue) {
     const selectedBucket = {};
-    if (tcv.sentiment === 'positive') {
+    if (value.sentiment === 'positive') {
       selectedBucket.value = this.props.positiveBuckets.find((bucket) => {
         const bucketLabel = bucket.displayLabel();
-        return (bucketLabel === tcv.label);
+        return (bucketLabel === value.label);
       });
       selectedBucket.sentiment = 'positive';
-    } else if (tcv.sentiment === 'negative') {
+    } else if (value.sentiment === 'negative') {
       selectedBucket.value = this.props.negativeBuckets.find((bucket) => {
         const bucketLabel = bucket.displayLabel();
-        return (bucketLabel === tcv.label);
+        return (bucketLabel === value.label);
       });
       selectedBucket.sentiment = 'negative';
     }
@@ -98,3 +97,5 @@ export default class SentimentTagCloudFacetContents extends React.Component<void
     />);
   }
 }
+
+// cspell:ignore keyphrase, keyphrases

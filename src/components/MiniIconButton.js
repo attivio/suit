@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
@@ -85,3 +84,5 @@ export default class MiniIconButton extends React.Component<MiniIconButtonDefaul
     );
   }
 }
+
+// cspell:ignore btn

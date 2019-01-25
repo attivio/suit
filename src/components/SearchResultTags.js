@@ -274,3 +274,5 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
 }
 
 export default withRouter(SearchResultTags);
+
+// cspell:ignore btn, morelikethisquery

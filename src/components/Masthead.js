@@ -180,7 +180,7 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
     let logoutFunction = this.props.logoutFunction;
     if (this.state.userInfo) {
       if (this.state.userInfo.saml) {
-        // If the user is logged in via SAML, diable logging out.
+        // If the user is logged in via SAML, disable logging out.
         logoutFunction = null;
       }
     } else {
@@ -220,3 +220,5 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
 }
 
 export default withRouter(Configurable(Masthead));
+
+// cspell:ignore minwidth, globalmast, appname

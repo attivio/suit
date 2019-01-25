@@ -74,7 +74,7 @@ export default class FieldNames {
   /** The field that contains organizations mentioned in the document. */
   static ORGANIZATIONS = 'orgs';
 
-  /** The field that contains the MIME type. Value = 'mimetype' */
+/** The field that contains the MIME type. Value = 'mimetype' */ 
   static MIME_TYPE = 'mimetype';
 
   /** The field that holds the parent MIME type, if any. */
@@ -198,7 +198,7 @@ export default class FieldNames {
   /** This field holds a list of duplicate uris or doc ids of this page/document. */
   static DUPLICATES = 'duplicates';
 
-  /** This field holds the SHA-256 checksum of this page/document. */
+  /** This field holds the SHA-256 checksum of this page/document. */ 
   static CHECKSUM = 'checksum';
 
   /** Field for unparsed JSON text */
@@ -222,3 +222,8 @@ export default class FieldNames {
   /** Dynamic field containing any user-added tags on the document */
   static TAGS = 'tags';
 }
+
+// cspell:ignore sourceuri, sourcepath, parentdoctype, parentmimetype, orgs, parentid, PROGENATOR
+// cspell:ignore progenatortid, ancestorids, lineageids, childpath, connectortype, docstatus
+// cspell:ignore convertedfilepath, childcount, childindex, anchortext, linkcount, linkfactor
+// cspell:ignore SHA, staticfields

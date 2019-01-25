@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 
 export class SentimentTagCloudValue {
@@ -32,7 +31,7 @@ type SentimentTagCloudProps = {
    * A function that will get called with the selected SentimentTagCloudValue
    * object if one is clicked.
    */
-  callback: (tcv: SentimentTagCloudValue) => void;
+  callback: (value: SentimentTagCloudValue) => void;
 };
 
 type SentimentTagCloudDefaultProps = {
@@ -52,19 +51,19 @@ export default class SentimentTagCloud extends React.Component<SentimentTagCloud
 
   static SentimentTagCloudValue;
 
-  static mapRange(num, sentiment) {
+  static mapRange(value, sentiment) {
     if (sentiment === 'positive') {
       const inMin = 1;
       const inMax = 8;
       const outMin = 6;
       const outMax = 10;
-      return (((num - inMin) * (outMax - outMin)) / (inMax - inMin)) + outMin;
+      return (((value - inMin) * (outMax - outMin)) / (inMax - inMin)) + outMin;
     } else if (sentiment === 'negative') {
       const inMin = 1;
       const inMax = 8;
       const outMin = 1;
       const outMax = 5;
-      return (((num - inMin) * (outMin - outMax)) / (inMax - inMin)) + outMax;
+      return (((value - inMin) * (outMin - outMax)) / (inMax - inMin)) + outMax;
     }
     return -1;
   }
@@ -79,18 +78,18 @@ export default class SentimentTagCloud extends React.Component<SentimentTagCloud
 
   render() {
     let tagCloudValues = this.props.positiveTags.concat(this.props.negativeTags);
-    const maxValue = tagCloudValues.reduce((max, tcv) => {
-      return Math.max(tcv.value, max);
+    const maxValue = tagCloudValues.reduce((max, value) => {
+      return Math.max(value.value, max);
     }, 0,
     );
 
     if (tagCloudValues.length > this.props.maxValues) {
       // Sort numerically by value
-      tagCloudValues.sort((tcv1: SentimentTagCloudValue, tcv2: SentimentTagCloudValue) => {
-        if (tcv1.value === tcv2.value) {
+      tagCloudValues.sort((value1: SentimentTagCloudValue, value2: SentimentTagCloudValue) => {
+        if (value1.value === value2.value) {
           return 0;
         }
-        if (tcv1.value < tcv2.value) {
+        if (value1.value < value2.value) {
           return 1;
         }
         return -1;
@@ -100,20 +99,20 @@ export default class SentimentTagCloud extends React.Component<SentimentTagCloud
     }
 
     // Sort alphabetically by label
-    tagCloudValues.sort((tcv1: SentimentTagCloudValue, tcv2: SentimentTagCloudValue) => {
-      return tcv1.label.localeCompare(tcv2.label);
+    tagCloudValues.sort((value1: SentimentTagCloudValue, value2: SentimentTagCloudValue) => {
+      return value1.label.localeCompare(value2.label);
     });
 
-    const cloudItems = tagCloudValues.map((tcv) => {
-      const size = SentimentTagCloud.getAdjustedValue(tcv.value, maxValue, tcv.sentiment);
+    const cloudItems = tagCloudValues.map((value) => {
+      const size = SentimentTagCloud.getAdjustedValue(value.value, maxValue, value.sentiment);
       const callback = (event: Event & { target: HTMLAnchorElement }) => {
-        this.props.callback(tcv);
+        this.props.callback(value);
         event.target.blur();
       };
       return (
-        <li key={tcv.label}>
+        <li key={value.label}>
           <a className={`attivio-sentiment-cloud-level-${size}`} onClick={callback} role="button" tabIndex={0}>
-            {tcv.label}
+            {value.label}
           </a>
         </li>
       );
@@ -128,3 +127,5 @@ export default class SentimentTagCloud extends React.Component<SentimentTagCloud
 }
 
 SentimentTagCloud.SentimentTagCloudValue = SentimentTagCloudValue;
+
+// cspell:ignore keyphrases

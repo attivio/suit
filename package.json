@@ -45,7 +45,8 @@
     "validatecomponents": "./scripts/validatecomponents.sh",
     "fullbuild": "./scripts/fullbuild.sh",
     "updateversion": "./scripts/updateversion.sh",
-    "publishlib": "./scripts/publishlib.sh"
+    "publishlib": "./scripts/publishlib.sh",
+    "spell": "cspell \"src/**/*.js\""
   },
   "dependencies": {
     "@mapbox/extent": "0.4.0",
@@ -81,6 +82,7 @@
   "devDependencies": {
     "babel-eslint": "7.2.3",
     "create-nwb-webpack-config": "1.0.0",
+    "cspell": "3.1.3",
     "css-loader": "1.0.1",
     "documentation": "8.1.2",
     "eslint": "3.19.0",

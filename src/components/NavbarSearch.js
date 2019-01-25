@@ -76,3 +76,5 @@ export default class NavbarSearch extends React.Component<NavbarSearchDefaultPro
     );
   }
 }
+
+// cspell:ignore btn

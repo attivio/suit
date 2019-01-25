@@ -38,7 +38,7 @@ type AuthRouteState = {
   user: any;
 };
 
-// LJV TODO Create a no-permissions page to use for unauthorized users
+// TODO Create a no-permissions page to use for unauthorized users
 class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, AuthRouteState> {
   static defaultProps = {
     requiredRole: null,

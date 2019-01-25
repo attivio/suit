@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 
 type SentimentBarProps = {
@@ -125,3 +126,5 @@ export default class SentimentBar extends React.Component<SentimentBarDefaultPro
     );
   }
 }
+
+// cspell:ignore pos, neg

@@ -86,3 +86,5 @@ class NavbarFilter extends React.Component<NavbarFilterDefaultProps, NavbarFilte
 }
 
 export default Configurable(NavbarFilter);
+
+// cspell:ignore globalmastnavbar

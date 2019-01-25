@@ -37,10 +37,10 @@ export default class TagCloudFacetContents extends React.Component<TagCloudFacet
     (this: any).tagCloudCallback = this.tagCloudCallback.bind(this);
   }
 
-  tagCloudCallback(tcv: TagCloudValue) {
+  tagCloudCallback(value: TagCloudValue) {
     const selectedBucket = this.props.buckets.find((bucket) => {
       const bucketLabel = bucket.displayLabel();
-      return (bucketLabel === tcv.label);
+      return (bucketLabel === value.label);
     });
     if (selectedBucket) {
       this.props.addFacetFilter(selectedBucket);

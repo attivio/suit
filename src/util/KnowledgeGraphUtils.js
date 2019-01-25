@@ -1,4 +1,4 @@
-// @Flow
+// @flow
 
 import SearchDocument from '../api/SearchDocument';
 import FieldNames from '../api/FieldNames';
@@ -269,8 +269,8 @@ export default class KnowledgeGraphUtils {
     });
 
     // Now, position doc nodes
-    const numDocNodes = docNodes.size;
-    const step = (2 * Math.PI) / numDocNodes;
+    const docNodeCount = docNodes.size;
+    const step = (2 * Math.PI) / docNodeCount;
     let angle = step / 2; // Starting point not straight up...
     const angledDocNodes = new Map();
     const entries = Array.from(docNodes.entries());
@@ -351,3 +351,5 @@ export default class KnowledgeGraphUtils {
     return options;
   }
 }
+
+// cspell:ignore qlang, arial

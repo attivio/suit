@@ -22,7 +22,7 @@ export default class ObjectUtils {
    */
   static mapEquals(mapA: Map<any, any>, mapB: Map<any, any>): boolean {
     if (mapA === mapB) {
-      // If theyr'e the exact same object...
+      // If they're the exact same object...
       return true;
     }
     const keysA = Array.from(mapA.keys());
@@ -119,8 +119,8 @@ export default class ObjectUtils {
       return true;
     }
     if (a && b && a.length === b.length) {
-      const mismatch = a.find((aElement, idx) => {
-        const bElement = b[idx];
+      const mismatch = a.find((aElement, i) => {
+        const bElement = b[i];
         // If the corresponding values aren't equal, then squawk.
         return !ObjectUtils.deepEquals(aElement, bElement);
       });

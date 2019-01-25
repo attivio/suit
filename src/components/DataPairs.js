@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 
 export class DataPairInfo {
@@ -108,3 +107,5 @@ export default class DataPairs extends React.Component<void, DataPairsProps, Dat
 }
 
 DataPairs.DataPairInfo = DataPairInfo;
+
+// cspell:ignore labeldata

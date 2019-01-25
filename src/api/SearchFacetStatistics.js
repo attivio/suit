@@ -36,3 +36,5 @@ export default class SearchFacetStatistics {
   /** The statistical variance for all values in the field */
   var: number;
 }
+
+// cspell:ignore stdev

@@ -117,7 +117,7 @@ export default class DateRangeDisplay extends React.Component<DateRangeDisplayDe
         format = DateFormat.MEDIUM;
       }
 
-      let startDate = ''; // Crazy hoop-jumping to deal with flow not remembering the previous if (thius.props.start)
+      let startDate = ''; // Crazy hoop-jumping to deal with flow not remembering the previous if (this.props.start)
       if (this.props.start) {
         startDate = DateUtils.formatDate(this.props.start, format);
       }

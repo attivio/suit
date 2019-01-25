@@ -40,12 +40,12 @@ export default class ElasticToQueryResponse {
 
   static getElasticDocuments(documents: any, customOptions: any) {
     return documents.map((doc) => {
-      const mapp = customOptions.mappings;
+      const map = customOptions.mappings;
       const fields = {};
 
-      Object.keys(mapp).forEach((k) => {
-        if (mapp[k] && doc._source[mapp[k]]) { // eslint-disable-line no-underscore-dangle
-          fields[k] = ElasticToQueryResponse.wrapIfNotArray(doc._source[mapp[k]]); // eslint-disable-line no-underscore-dangle
+      Object.keys(map).forEach((k) => {
+        if (map[k] && doc._source[map[k]]) { // eslint-disable-line no-underscore-dangle
+          fields[k] = ElasticToQueryResponse.wrapIfNotArray(doc._source[map[k]]); // eslint-disable-line no-underscore-dangle
         }
       });
 

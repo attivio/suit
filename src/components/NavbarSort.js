@@ -116,3 +116,5 @@ export default class NavbarSort extends React.Component<NavbarSortDefaultProps, 
     );
   }
 }
+
+// cspell:ignore globalmastnavbar

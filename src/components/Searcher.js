@@ -46,7 +46,7 @@ type SearcherProps = {
 
   /**
    * The engine backing the SUIT application. Defaults to 'attivio'.
-   * Set to 'solr' or 'elastic' to use one of those engines instesd.
+   * Set to 'solr' or 'elastic' to use one of those engines instead.
    */
   searchEngineType: 'attivio' | 'solr' | 'elastic';
   /**
@@ -107,7 +107,7 @@ type SearcherProps = {
    * defaults to 'img.uri.preview'
    */
   previewImageUri: string;
-  /** A field expression to override what is used for the UTI to the document’s
+  /** A field expression to override what is used for the URI to the document’s
    * thumbnail, defaults to 'img.uri.thumbnail' */
   thumbnailImageUri: string;
   /** A field expression to override what is used for the latitude, defaults to 'latitude' */
@@ -421,18 +421,18 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     const restParams = new Map();
     restParams.set('offset', [`${this.state.resultsOffset}`]);
     if (this.state.relevancyModels && this.state.relevancyModels.length > 0) {
-      restParams.set('relevancymodelnames', [this.state.relevancyModels.join(',')]);
+      restParams.set('relevancymodelnames', [this.state.relevancyModels.join(',')]); // cspell:disable-line
     } else if (this.props.relevancyModels && this.props.relevancyModels.length > 0) {
-      restParams.set('relevancymodelnames', [this.props.relevancyModels.join(',')]);
+      restParams.set('relevancymodelnames', [this.props.relevancyModels.join(',')]); // cspell:disable-line
     }
-    restParams.set('includemetadatainresponse', ['true']);
+    restParams.set('includemetadatainresponse', ['true']); // cspell:disable-line
     if (this.props.highlightResults) {
       restParams.set('highlight', ['true']);
       restParams.set('highlight.mode', ['HTML']);
     }
     if (this.props.facetFinderCount > 0) {
       restParams.set('facet.ff', ['RESULTS']);
-      restParams.set('facet.ffcount', [this.props.facetFinderCount.toString(10)]);
+      restParams.set('facet.ffcount', [this.props.facetFinderCount.toString(10)]); // cspell:disable-line
     }
     restParams.set('join.rollup', [this.props.joinRollupMode]);
     if (this.props.businessCenterProfile) {
@@ -461,9 +461,9 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     result.push(`${this.props.thumbnailImageUri} as thumbnailImageUri`);
     result.push(`${this.props.latitude} as latitude`);
     result.push(`${this.props.longitude} as longitude`);
-    result.push(`${this.props.moreLikeThisQuery} as morelikethisquery`);
+    result.push(`${this.props.moreLikeThisQuery} as morelikethisquery`); // cspell:disable-line
     result.push(`${this.props.mimetype} as mimetype`);
-    result.push(`${this.props.sourcePath} as sourcepath`);
+    result.push(`${this.props.sourcePath} as sourcepath`); // cspell:disable-line
     // Add the fields we always want
     result.push('tags');
     return result;
@@ -532,7 +532,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       basicState.facetFilters = Searcher.serializeFacetFilters(state.facetFilters);
     }
     if (state.sort) {
-      // LJV TODO compare with default version
+      // TODO compare with default version
       basicState.sort = state.sort;
     }
     if (state.relevancyModels && state.relevancyModels.length > 0) {
@@ -629,7 +629,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     // DEFAULT: '.score:DESC'
     let sort;
     if (typeof parsed.sort === 'string') {
-      // LJV TODO Validate the sort column and direction
+      // TODO Validate the sort column and direction
       sort = parsed.sort;
     }
     if (!sort) {
@@ -650,7 +650,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       relevancyModels = [];
     }
 
-    // LJV TODO
+    // TODO
     // Get the business center profile to use.
     // DEFAULT: none
 
@@ -988,3 +988,5 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
 }
 
 export default withRouter(Configurable(Searcher));
+
+// cspell:ignore morelikethisquery, sourcepath, SCOPETEASER, num

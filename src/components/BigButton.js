@@ -98,3 +98,5 @@ class BigButton extends React.Component<BigButtonDefaultProps, BigButtonProps, v
 }
 
 export default withRouter(BigButton);
+
+// cspell:ignore btn

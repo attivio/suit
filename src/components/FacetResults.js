@@ -101,28 +101,28 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
 
   getFacetDisplayType(field: string) {
     if (FacetResults.matchesFacetList(field, this.props.pieChartFacets)) {
-      return 'piechart';
+      return 'pieChart';
     }
     if (FacetResults.matchesFacetList(field, this.props.barChartFacets)) {
-      return 'barchart';
+      return 'barChart';
     }
     if (FacetResults.matchesFacetList(field, this.props.columnChartFacets)) {
-      return 'columnchart';
+      return 'columnChart';
     }
     if (FacetResults.matchesFacetList(field, this.props.barListFacets)) {
-      return 'barlist';
+      return 'barList';
     }
     if (FacetResults.matchesFacetList(field, this.props.tagCloudFacets)) {
-      return 'tagcloud';
+      return 'tagCloud';
     }
     if (FacetResults.matchesFacetList(field, this.props.timeSeriesFacets)) {
-      return 'timeseries';
+      return 'timeSeries';
     }
     if (FacetResults.matchesFacetList(field, this.props.sentimentFacets)) {
       return 'sentiment';
     }
     if (FacetResults.matchesFacetList(field, this.props.geoMapFacets)) {
-      return 'geomap';
+      return 'geoMap';
     }
 
     return 'list';

@@ -13,7 +13,7 @@ type TrianglePanelProps = {
   /** If set, then the panel's initial state will be collapsed. */
   initiallyCollapsed: boolean;
   /**
-   * If set, then the open/closed state of this componenent will be saved
+   * If set, then the open/closed state of this component will be saved
    * in the browser's local storage using this key. In this case, the
    * initial value of the open property will be obtained from the local
    * storage if possible, otherwise it will be determined by the
@@ -56,7 +56,7 @@ export default class TrianglePanel extends React.Component<TrianglePanelDefaultP
     super(props);
 
     // If the localStorageKey is set, try to get the initial value for "open" from there.
-    // Otherwise use the value passed in as initallyCollapsed.
+    // Otherwise use the value passed in as initiallyCollapsed.
     let initiallyCollapsed = this.props.initiallyCollapsed;
     if (this.props.localStorageKey) {
       const collapsedString = window.localStorage.getItem(this.props.localStorageKey);
@@ -125,3 +125,5 @@ export default class TrianglePanel extends React.Component<TrianglePanelDefaultP
     );
   }
 }
+
+// cspell:ignore hed

@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 
 import SearchFacetBucket from '../api/SearchFacetBucket';
@@ -56,3 +55,5 @@ export default class SentimentFacetContents extends React.Component<void, Sentim
     );
   }
 }
+
+// cspell:ignore pos, neg

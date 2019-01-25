@@ -343,3 +343,5 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
 }
 
 export default Configurable(FacetSearchBar);
+
+// cspell:ignore globalmast, btn

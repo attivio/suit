@@ -36,10 +36,10 @@ class TableColumn {
   /**
    * This indicates whether the table is sortable on this column's values. If the parent of the table
    * wants/needs to make additional calls to a back-end API to get the newly sorted table data, then it
-   * should just pass a boolean value of true for this propety on the column. This will result in the
-   * function passed to the table's onSort property being called with the new sorting informaitopn. If
+   * should just pass a boolean value of true for this property on the column. This will result in the
+   * function passed to the table's onSort property being called with the new sorting information. If
    * the data is all in the list to start with, then this can be a sorting function which behaves like
-   * the callback psased to the JavaScript Array class' sort() method, taking two rows' data as parameters,
+   * the callback passed to the JavaScript Array class' sort() method, taking two rows' data as parameters,
    * as well as a third parameter indicating whether the result should be reversed due to sorting in
    * descending order.
    */
@@ -74,7 +74,7 @@ type TableProps = {
    */
   onSelect: null | (selectedRowsIds: Array<string>, newlySelectedRowId: string | null) => void;
   /**
-   * The IDs of the selected rows, if any. May be an array, for muili-select tables,
+   * The IDs of the selected rows, if any. May be an array, for multiselect tables,
    * or a single string, for single-select tables. If null, nothing is selected.
    */
   selection: null | string | Array<string>;
@@ -113,7 +113,7 @@ type TableProps = {
   /**
    * If set, the table will have a border drawn around it.
    */
-  bordered: booleaan;
+  bordered: boolean;
   /**
    * The class name to apply only to tr elements of selected rows. Optional
    */
@@ -126,7 +126,7 @@ type TableProps = {
 
 type TableDefaultProps = {
   onSelect: null | (selectedRowsIds: Array<string>, newlySelectedRowId: string | null) => void;
-  selection: Array<srting>;
+  selection: Array<string>;
   multiSelect: boolean;
   sortColumn: number;
   onSort: null | (sortColumn: number) => void;
@@ -145,7 +145,7 @@ type TableState = {
 };
 
 /**
- * A component to render tablular data. It can allow for rows in the table to be selected (either a
+ * A component to render tabular data. It can allow for rows in the table to be selected (either a
  * single row or multiple rows). You can define any number of columns for the table that use the
  * row data to display the contents of the cell at each row/column. For each column, the value can
  * be the contents of a property in the row's data object or the result of calling a function on that
@@ -261,16 +261,16 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   }
 
   handleSort(colName: string, order: 'asc' | 'desc') {
-    let colNum = 0;
+    let columnNumber = 0;
     this.props.columns.forEach((col: TableColumn, index: number) => {
       if (col.title === colName || (typeof col.render === 'string' && col.render === colName)) {
-        colNum = index + 1;
+        columnNumber = index + 1;
       }
     });
     if (order === 'desc') {
-      colNum = -colNum;
+      columnNumber = -columnNumber;
     }
-    this.props.onSort(colNum);
+    this.props.onSort(columnNumber);
   }
 
   render() {

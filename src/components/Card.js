@@ -1,5 +1,4 @@
 // @flow
-
 import React, { Children } from 'react';
 
 type CardProps = {
@@ -47,3 +46,5 @@ export default class Card extends React.Component<CardDefaultProps, CardProps, v
     );
   }
 }
+
+// cspell:ignore borderless

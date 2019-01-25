@@ -61,7 +61,7 @@ export default class SimilarDocuments extends React.Component<SimilarDocumentsDe
 
   componentDidMount() {
     if (this.props.baseDoc) {
-      const query = this.props.baseDoc.getFirstValue('morelikethisquery');
+      const query = this.props.baseDoc.getFirstValue('morelikethisquery'); // cspell:disable-line
       if (query) {
         if (this.context.searcher) {
           const searcher = this.context.searcher;
@@ -129,3 +129,5 @@ export default class SimilarDocuments extends React.Component<SimilarDocumentsDe
     );
   }
 }
+
+// cspell:ignore morelikethisquery

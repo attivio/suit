@@ -63,3 +63,5 @@ DateFormat.initEnum([
   HOUR,
   AGO,
 ]);
+
+// cspell:ignore enumify

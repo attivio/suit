@@ -41,7 +41,7 @@ export default class TimeSeriesFacetContents extends React.Component<void, TimeS
       const maxMS = bucket.max ? DateUtils.stringToDate(bucket.max).getTime() : 0;
       return new DataPoint(minMS, maxMS, bucket.count);
     });
-    const series = [new SeriesDataSource('Documents', 'AREA', dataPoints, 'lightblue', '0:{}', 'Documents', false, true)];
+    const series = [new SeriesDataSource('Documents', 'AREA', dataPoints, '#ADD8E6', '0:{}', 'Documents', false, true)];
 
     return (
       <TimeSeries

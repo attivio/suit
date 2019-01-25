@@ -52,7 +52,7 @@ type FacetInsightsDefaultProps = {
  * It must be contained within a Searcher component and
  * will obtain the list of facets from there. Via properties,
  * you can specify how to display specific facets. Any facet
- * not coveed by one of these property's lists will be displayed
+ * not covered by one of these property's lists will be displayed
  * in a standard "More…" list.
  */
 export default class FacetInsights extends React.Component<FacetInsightsDefaultProps, FacetInsightsProps, void> {
@@ -98,28 +98,28 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
 
   getFacetDisplayType(field: string) {
     if (FacetInsights.matchesFacetList(field, this.props.pieChartFacets)) {
-      return 'piechart';
+      return 'pieChart';
     }
     if (FacetInsights.matchesFacetList(field, this.props.barChartFacets)) {
-      return 'barchart';
+      return 'barChart';
     }
     if (FacetInsights.matchesFacetList(field, this.props.columnChartFacets)) {
-      return 'columnchart';
+      return 'columnChart';
     }
     if (FacetInsights.matchesFacetList(field, this.props.barListFacets)) {
-      return 'barlist';
+      return 'barList';
     }
     if (FacetInsights.matchesFacetList(field, this.props.tagCloudFacets)) {
-      return 'tagcloud';
+      return 'tagCloud';
     }
     if (FacetInsights.matchesFacetList(field, this.props.timeSeriesFacets)) {
-      return 'timeseries';
+      return 'timeSeries';
     }
     if (FacetInsights.matchesFacetList(field, this.props.sentimentFacets)) {
       return 'sentiment';
     }
     if (FacetInsights.matchesFacetList(field, this.props.geoMapFacets)) {
-      return 'geomap';
+      return 'geoMap';
     }
     return 'list';
   }
@@ -203,3 +203,5 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
     );
   }
 }
+
+// cspell:ignore keyphrases

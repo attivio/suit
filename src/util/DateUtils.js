@@ -25,9 +25,9 @@ export default class DateUtils {
       case DateFormat.SHORT_TIME:
         return m.format('LT');
       case DateFormat.LONG_TIME:
-        return m.format('LTS');
+        return m.format('LTS'); // cspell:disable-line
       case DateFormat.SHORT_MONTH:
-        return m.format('MMM. YYYY');
+        return m.format('MMM. YYYY'); // cspell:disable-line
       case DateFormat.LONG_MONTH:
         return m.format('MMMM YYYY');
       case DateFormat.SHORT_YEAR:
@@ -37,7 +37,7 @@ export default class DateUtils {
       case DateFormat.SHORT:
         return m.format('L LT');
       case DateFormat.MEDIUM:
-        return m.format('lll');
+        return m.format('lll'); // cspell:disable-line
       case DateFormat.LONG:
         return m.format('LLLL');
       case DateFormat.DAY_OF_MONTH:
@@ -129,7 +129,7 @@ export default class DateUtils {
       // If they're a week apart, format to the range of the first day to the last day
       if (startMoment.year() !== endMoment.year()) {
         // Need to include both years
-        // E.g., Decembeer 28, 2017 - January 3, 2018
+        // E.g., December 28, 2017 - January 3, 2018
         const formattedStart = moment(start).format('LL');
         const formattedEnd = moment(end).format('LL');
         result = `${formattedStart} - ${formattedEnd}`;
@@ -140,7 +140,7 @@ export default class DateUtils {
         const formattedEnd = endMoment.format('LL');
         result = `${formattedStart} - ${formattedEnd}`;
       } else {
-        // Otherwise, we can just include the momnth and year once
+        // Otherwise, we can just include the month and year once
         // E.g., June 14 - 21, 2018
         const formattedStart = startMoment.format('MMMM D');
         const formattedEnd = endMoment.format('D, YYYY');
@@ -151,7 +151,7 @@ export default class DateUtils {
       // E.g., March, 2018
       result = moment(middle).format('MMMM, YYYY');
     } else if (diff <= 1000 * 60 * 60 * 24 * 366) {
-      // If they'e a year apart, format to the range of months
+      // If they're a year apart, format to the range of months
       if (startMoment.year() !== endMoment.year()) {
         // If they're in different years, include both years
         // E.g., December, 2017 - January, 2018

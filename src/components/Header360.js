@@ -17,3 +17,5 @@ export default class Header360 extends React.Component<void, Header360Props, voi
     return <h1 className="attivio-360-hed">{this.props.label}</h1>;
   }
 }
+
+// cspell:ignore hed

@@ -56,3 +56,5 @@ export default class SearchDebugToggle extends React.Component<SearchDebugToggle
     );
   }
 }
+
+// cspell:ignore globalmastnavbar

@@ -24,7 +24,7 @@ export default class SolrToQueryResponse {
     }
 
     if (json.response) {
-      result.totalHits = json.response.numFound;
+      result.totalHits = json.response.numFound; // cspell:disable-line
     }
     if (json.response.docs.length > 0) {
       result.documents = SolrToQueryResponse.getSolrDocuments(json.response.docs, customOptions);
@@ -45,12 +45,12 @@ export default class SolrToQueryResponse {
 
   static getSolrDocuments(documents: any, customOptions: any) {
     return documents.map((doc) => {
-      const mapp = customOptions.mappings;
+      const map = customOptions.mappings;
       const fields = {};
 
-      Object.keys(mapp).forEach((k) => {
-        if (mapp[k] && doc[mapp[k]]) {
-          fields[k] = SolrToQueryResponse.wrapIfNotArray(doc[mapp[k]]);
+      Object.keys(map).forEach((k) => {
+        if (map[k] && doc[map[k]]) {
+          fields[k] = SolrToQueryResponse.wrapIfNotArray(doc[map[k]]);
         }
       });
 

@@ -1,7 +1,7 @@
-// @Flow
+// @flow
 
 /**
- * Utility class that provdides CSS-related functionality.
+ * Utility class that provides CSS-related functionality.
  */
 export default class StyleUtils {
   /**
@@ -48,11 +48,13 @@ export default class StyleUtils {
         // See if it's a valid named CSS color
         const d = document.createElement('div');
         d.style.color = color;
-        document.body.appendChild(d);
-        const rgbColor = window.getComputedStyle(d).color;
-        document.body.removeChild(d);
-        if (rgbColor.startsWith('rgb(')) {
-          return StyleUtils.parseColor(rgbColor, false);
+        if (document.body) {
+          document.body.appendChild(d);
+          const rgbColor = window.getComputedStyle(d).color;
+          document.body.removeChild(d);
+          if (rgbColor.startsWith('rgb(')) {
+            return StyleUtils.parseColor(rgbColor, false);
+          }
         }
       }
     }
@@ -65,7 +67,7 @@ export default class StyleUtils {
    * way from "from" to "to." Percentage is a number between 0 and 1.0. This is
    * done over the squares of the numbers.
    */
-  static blendInts(from: number, to: number, percentage: number = 0.5): number {
+  static blendIntegers(from: number, to: number, percentage: number = 0.5): number {
     let pct = percentage;
     if (pct > 1.0) {
       pct = 1.0;
@@ -126,9 +128,9 @@ export default class StyleUtils {
     const fromParsed = StyleUtils.parseColor(from);
     const toParsed = StyleUtils.parseColor(to);
 
-    const newRed = StyleUtils.blendInts(fromParsed[0], toParsed[0], percentage);
-    const newGreen = StyleUtils.blendInts(fromParsed[1], toParsed[1], percentage);
-    const newBlue = StyleUtils.blendInts(fromParsed[2], toParsed[2], percentage);
+    const newRed = StyleUtils.blendIntegers(fromParsed[0], toParsed[0], percentage);
+    const newGreen = StyleUtils.blendIntegers(fromParsed[1], toParsed[1], percentage);
+    const newBlue = StyleUtils.blendIntegers(fromParsed[2], toParsed[2], percentage);
 
     return StyleUtils.toHexColor([newRed, newGreen, newBlue]);
   }
@@ -148,9 +150,9 @@ export default class StyleUtils {
   static lightenColor(orig: string, percentage: number = 0.5): string {
     const origParsed = StyleUtils.parseColor(orig);
 
-    const newRed = StyleUtils.blendInts(origParsed[0], 255, percentage);
-    const newGreen = StyleUtils.blendInts(origParsed[0], 255, percentage);
-    const newBlue = StyleUtils.blendInts(origParsed[0], 255, percentage);
+    const newRed = StyleUtils.blendIntegers(origParsed[0], 255, percentage);
+    const newGreen = StyleUtils.blendIntegers(origParsed[0], 255, percentage);
+    const newBlue = StyleUtils.blendIntegers(origParsed[0], 255, percentage);
 
     return StyleUtils.toHexColor([newRed, newGreen, newBlue]);
   }
@@ -170,9 +172,9 @@ export default class StyleUtils {
   static darkenColor(orig: string, percentage: number = 0.5): string {
     const origParsed = StyleUtils.parseColor(orig);
 
-    const newRed = StyleUtils.blendInts(origParsed[0], 0, percentage);
-    const newGreen = StyleUtils.blendInts(origParsed[0], 0, percentage);
-    const newBlue = StyleUtils.blendInts(origParsed[0], 0, percentage);
+    const newRed = StyleUtils.blendIntegers(origParsed[0], 0, percentage);
+    const newGreen = StyleUtils.blendIntegers(origParsed[0], 0, percentage);
+    const newBlue = StyleUtils.blendIntegers(origParsed[0], 0, percentage);
 
     return StyleUtils.toHexColor([newRed, newGreen, newBlue]);
   }

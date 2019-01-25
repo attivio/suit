@@ -36,10 +36,10 @@ describe('Test StyleUtils', () => {
   });
 
   it('Blends integers', () => {
-    expect(StyleUtils.blendInts(0, 255)).toEqual(180);
-    expect(StyleUtils.blendInts(0, 255, 0)).toEqual(0);
-    expect(StyleUtils.blendInts(0, 255, 1)).toEqual(255);
-    expect(StyleUtils.blendInts(100, 200, 0.35)).toEqual(143);
+    expect(StyleUtils.blendIntegers(0, 255)).toEqual(180);
+    expect(StyleUtils.blendIntegers(0, 255, 0)).toEqual(0);
+    expect(StyleUtils.blendIntegers(0, 255, 1)).toEqual(255);
+    expect(StyleUtils.blendIntegers(100, 200, 0.35)).toEqual(143);
   });
 
   it('Blends colors', () => {

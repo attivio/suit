@@ -3,7 +3,7 @@ import React from 'react';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 
-// LJV TODO Move help link to configuration and don't show if not set.
+// TODO Move help link to configuration and don't show if not set.
 
 type MastheadUserProps = {
   /**
@@ -93,3 +93,5 @@ export default class MastheadUser extends React.Component<MastheadUserDefaultPro
     return null;
   }
 }
+
+// cspell:ignore globalmast

@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 import ReactHighcharts from 'react-highcharts';
 import SearchFacetBucket from '../api/SearchFacetBucket';
@@ -78,7 +77,8 @@ export default class PieChartFacetContents extends React.Component<PieChartFacet
     // Note that Flow gets upset because it thinks this will refer to the PieChartFacetContents object
     // so we cast it to "any" to avoid any brouhaha.
     const percentage = Number(`${Math.round(Number(`${(this: any).percentage.toString()}e2`))}e-2`);
-    const docCount = StringUtils.fmt('no documents|one document|{} documents', (this: any).y.toLocaleString());
+    const docCount = StringUtils.fmt('no documents|one document|{} documents',
+      (this: any).y.toLocaleString()); // cspell:disable-line
     const tooltip = `<b>${(this: any).point.name}</b><br>${docCount} (${percentage}%)`;
     return tooltip;
   }
@@ -169,3 +169,5 @@ export default class PieChartFacetContents extends React.Component<PieChartFacet
     return <ReactHighcharts config={config} />;
   }
 }
+
+// cspell:ignore fmt

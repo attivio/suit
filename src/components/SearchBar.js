@@ -138,10 +138,10 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
   startSpeechRecognition() {
     const recognition = new webkitSpeechRecognition(); // eslint-disable-line new-cap,no-undef
     recognition.continuous = true;
-    recognition.interrimResults = true;
+    recognition.interimResults = true;
     // recognition.lang = 'en';
 
-    recognition.onresult = (e: any) => {
+    recognition.onresult = (e: any) => { // cspell: disable-line
       recognition.stop();
       const newQuery = e.results[0][0].transcript;
       if (e.results[0].isFinal) {
@@ -376,3 +376,5 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
 }
 
 export default withRouter(Configurable(SearchBar));
+
+// cspell:ignore globalmast, smalltoolbar, btn

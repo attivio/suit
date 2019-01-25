@@ -1,0 +1,65 @@
+{
+  "version": "0.1",
+  "language": "en",
+  "words": [
+    "AIE",
+    "AQL",
+    "attivio",
+    "choosable",
+    "crosshair",
+    "deserialize",
+    "divs",
+    "enablement",
+    "filepath",
+    "glyphicon",
+    "glyphicons",
+    "halflings",
+    "hellip",
+    "highcharts",
+    "JSESSIONID",
+    "mimetype",
+    "labelledby",
+    "minmax",
+    "monospaced",
+    "multiselect",
+    "noopener",
+    "noreferrer",
+    "polyfill",
+    "react",
+    "realtime",
+    "recurse",
+    "RGB",
+    "SAML",
+    "scrollable",
+    "searchui",
+    "selectable",
+    "servlet",
+    "servlet's",
+    "solr",
+    "subheader",
+    "tablist",
+    "tabpanel",
+    "tooltips",
+    "UIs",
+    "uncomment",
+    "uncommenting",
+    "unmount",
+    "unparsed",
+    "unstyled",
+    "utf"
+  ],
+  "flagWords": [
+    "hte"
+  ],
+  "minWordLength": 3,
+  "languageSettings": [
+    {
+      "languageId": "javascript",
+      "dictionaries": [
+        "softwareTerms",
+        "html",
+        "typescript"
+      ]
+    }
+  ]
+}

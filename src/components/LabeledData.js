@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 import validator from 'validator';
 
@@ -71,3 +70,5 @@ export default class LabeledData extends React.Component<LabeledDataDefaultProps
 }
 
 LabeledData.LabeledDataPair = LabeledDataPair;
+
+// cspell:ignore labeldata

@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 
 type ExpertsHeaderProps = {
@@ -44,3 +43,5 @@ export default class ExpertsHeader extends React.Component<ExpertsHeaderDefaultP
     );
   }
 }
+
+// cspell:ignore hed

@@ -234,3 +234,5 @@ const ListSearchResult = Configurable(InnerListSearchResult);
 ListSearchResult.renderer = InnerListSearchResult.renderer;
 
 export default ListSearchResult;
+
+// cspell:ignore labeldata, morelikethisquery
