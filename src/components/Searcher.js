@@ -919,7 +919,7 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
     const updatedFacetFilters = [];
     const facetFilters = this.state.facetFilters;
     facetFilters.forEach((facetFilter) => {
-      if (facetFilter.facetName !== removeFilter.facetName) {
+      if (facetFilter.filter !== removeFilter.filter) {
         updatedFacetFilters.push(facetFilter);
       }
     });

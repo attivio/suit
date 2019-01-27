@@ -144,6 +144,42 @@ const negativeSentimentFacetCount = negativeSentimentFacetBuckets.reduce((acc, b
 }, 0);
 const negativeSentimentFacet = new SearchFacet('negative', 'negative', 'Negative', negativeSentimentFacetCount, negativeSentimentFacetBuckets);
 
+const hierarchicalFacetBuckets = [
+  new SearchFacetBucket('', 'North America', 60, 'filter string', null, null, [
+    new SearchFacetBucket('', 'United States', 30, 'filter string', null, null, [
+      new SearchFacetBucket('', 'Georgia', 5, 'filter string'),
+      new SearchFacetBucket('', 'Massachusetts', 5, 'filter string'),
+      new SearchFacetBucket('', 'Virginia', 5, 'filter string'),
+      new SearchFacetBucket('', 'Washington', 5, 'filter string'),
+      new SearchFacetBucket('', 'Iowa', 5, 'filter string'),
+      new SearchFacetBucket('', 'Kansas', 5, 'filter string'),
+    ]),
+    new SearchFacetBucket('', 'Canada', 20, 'filter string', null, null, [
+      new SearchFacetBucket('', 'Alberta', 5, 'filter string'),
+      new SearchFacetBucket('', 'Prince Edward Island', 5, 'filter string'),
+      new SearchFacetBucket('', 'North America', 5, 'filter string'),
+      new SearchFacetBucket('', 'North America', 5, 'filter string'),
+
+    ]),
+    new SearchFacetBucket('', 'Mexico', 10, 'filter string', null, null, [
+      new SearchFacetBucket('', 'Chihuahua', 5, 'filter string', null, null, []),
+      new SearchFacetBucket('', 'Baja California', 5, 'filter string', null, null, []),
+    ]),
+  ]),
+  new SearchFacetBucket('', 'Europe', 20, 'filter string', null, null, [
+    new SearchFacetBucket('', 'France', 20, 'filter string', null, null, [
+      new SearchFacetBucket('', 'Paris', 5, 'filter string'),
+      new SearchFacetBucket('', 'Marseilles', 5, 'filter string'),
+      new SearchFacetBucket('', 'Lyon', 5, 'filter string'),
+      new SearchFacetBucket('', 'Toulouse', 5, 'filter string'),
+    ]),
+
+  ]),
+  new SearchFacetBucket('', 'Antarctica', 5, 'filter string'),
+];
+
+const hierarchicalFacet = new SearchFacet('location', 'location', 'Location', 85, hierarchicalFacetBuckets);
+
 const sampleFacets = {
   relevancyScoreFacet,
   sentimentFacet,
@@ -153,6 +189,7 @@ const sampleFacets = {
   positiveSentimentFacet,
   negativeSentimentFacet,
   positionFacet,
+  hierarchicalFacet,
 };
 
 export default sampleFacets;

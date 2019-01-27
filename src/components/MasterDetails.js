@@ -21,13 +21,18 @@ type MasterDetailsProps = {
   /**
    * The columns to display in the table
    */
-  columns: Array<Table.ColumnDef>;
+  columns: Array<Table.TableColumn>;
   /**
    * The details component to be rendered for the selected row object from table.
-   * It is passed a property called "rowData" which contains the object representing
+   * It is passed a property called "data" which contains the object representing
    * the selected row in the table.
    */
   details: any;
+  /**
+   * Custom properties to pass to the details component in addition to the "data" property.
+   * Optional.
+   */
+  detailsProps: any;
   /**
    * If set, multiple rows in the table can be selected simultaneouysly. In this case, the
    * most recently selected row is shown in the details view.
@@ -86,6 +91,18 @@ type MasterDetailsProps = {
    * See the noEmptySelection property of the Table component for details
    */
   noEmptySelection: boolean;
+  /**
+   * The class name to apply to the parent div element containing the table. Optional
+   */
+  tableContainerClassName: string | void;
+  /**
+   * The class name to apply only to tr elements of selected rows in the table. Optional
+   */
+  selectedClassName: string;
+  /**
+   * The class name to apply to the table element. Optional.
+   */
+  tableClassName: string;
 };
 
 type MasterDetailsState = {
@@ -102,6 +119,7 @@ type MasterDetailsState = {
  */
 export default class MasterDetails extends React.Component<MasterDetailsProps, MasterDetailsState> {
   static defaultProps = {
+    detailsProps: {},
     multiSelect: false,
     onSelect: null,
     sortColumn: 0,
@@ -111,6 +129,9 @@ export default class MasterDetails extends React.Component<MasterDetailsProps, M
     split: 8,
     padding: 0,
     noEmptySelection: false,
+    tableContainerClassName: undefined,
+    selectedClassName: 'attivio-table-row-selected',
+    tableClassName: 'table table-striped attivio-table attivio-table-sm',
   };
 
   static displayName = 'MasterDetails';
@@ -150,24 +171,14 @@ export default class MasterDetails extends React.Component<MasterDetailsProps, M
   /**
    * Update the table's selection and update the details view's input.
    */
-  selectionChanged(selectedRowsIds: Array<string>, newlySelectedRowId: string | null) {
-    let detailsRowId;
-    if (this.props.multiSelect) {
-      if (newlySelectedRowId) {
-        // We're adding a new row to the selection or reverting
-        // to the previously selected one
-        detailsRowId = newlySelectedRowId;
-      }
-    // Rows should be an array of 0 or 1 row ID
-    } else if (selectedRowsIds.length > 0) {
-      detailsRowId = selectedRowsIds[0];
-    }
-    if (this.props.onSelect) {
-      this.props.onSelect(selectedRowsIds, newlySelectedRowId);
-    }
+  selectionChanged(selectedRowIds: Array<string>, newlySelectedRowId: string | null) {
     this.setState({
-      selectedRows: selectedRowsIds,
-      detailsRowId: detailsRowId || '',
+      selectedRows: selectedRowIds,
+      detailsRowId: newlySelectedRowId || '',
+    }, () => {
+      if (this.props.onSelect !== null) {
+        this.props.onSelect(selectedRowIds, newlySelectedRowId);
+      }
     });
   }
 
@@ -184,7 +195,7 @@ export default class MasterDetails extends React.Component<MasterDetailsProps, M
       <Grid fluid style={{ padding: 0 }}>
         <Row style={{ margin: 0 }}>
           <Col lg={tableWidth} md={tableWidth} sm={12} xs={12} style={{ paddingLeft: 0, paddingRight: halfPadding }}>
-            <div>
+            <div className={this.props.tableContainerClassName}>
               {this.props.header}
               <Table
                 columns={this.props.columns}
@@ -195,12 +206,14 @@ export default class MasterDetails extends React.Component<MasterDetailsProps, M
                 selection={this.state.selectedRows}
                 multiSelect={this.props.multiSelect}
                 noEmptySelection={this.props.noEmptySelection}
+                selectedClassName={this.props.selectedClassName}
+                tableClassName={this.props.tableClassName}
               />
               {this.props.footer}
             </div>
           </Col>
           <Col lg={detailsWidth} md={detailsWidth} sm={12} xs={12} style={{ paddingLeft: halfPadding, paddingRight: 0 }}>
-            <Detail data={detailsRow} />
+            <Detail {...this.props.detailsProps} data={detailsRow} />
           </Col>
         </Row>
       </Grid>

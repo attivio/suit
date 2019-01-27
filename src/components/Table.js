@@ -12,10 +12,14 @@ class TableColumn {
     title: string,
     render: string | (value: any) => any,
     sort: boolean | (a: any, b: any, order: 'asc' | 'desc') => number = false,
+    className: string = '',
+    style: any = {},
   ) {
     this.title = title;
     this.render = render;
     this.sort = sort;
+    this.className = className;
+    this.style = style;
   }
 
   /**
@@ -40,6 +44,14 @@ class TableColumn {
    * descending order.
    */
   sort: boolean | (a: any, b: any, order: 'asc' | 'desc') => number;
+  /**
+   * The class name to use for the html td and th elements representing this column in the table.
+   */
+  className: string = '';
+  /**
+   * Any css style attributes to apply to the html td and th elements representing this column in the table.
+   */
+  style: any = {};
 }
 
 type TableProps = {
@@ -91,18 +103,25 @@ type TableProps = {
    */
   onSort: null | (sortColumn: number) => void;
   /**
-   * If set, then the component will not allow the user to deselect all rows in the child table.
+   * If set, then the component will not allow the user to deselect all rows in the table.
    * For single-select components, the user will only be able to change the selection to
    * another row; for multi-select components, the user will not be able to deselect the last-
    * selected row without first selecting another one. This means that, unless the rows
-   * property is empty, there will always be an item selected in the table and, therefore,
-   * shown in the details view.
+   * property is empty, there will always be an item selected in the table.
    */
   noEmptySelection: boolean;
   /**
    * If set, the table will have a border drawn around it.
    */
   bordered: booleaan;
+  /**
+   * The class name to apply only to tr elements of selected rows. Optional
+   */
+  selectedClassName: string;
+  /**
+   * The class name to apply to the table element. Optional.
+   */
+  tableClassName: string;
 };
 
 type TableState = {
@@ -129,6 +148,8 @@ export default class Table extends React.Component<TableProps, TableState> {
     onSort: null,
     noEmptySelection: false,
     bordered: false,
+    selectedClassName: 'attivio-table-row-selected',
+    tableClassName: 'table table-striped attivio-table attivio-table-sm',
   };
 
   static makeCustomRenderer(column) {
@@ -162,38 +183,60 @@ export default class Table extends React.Component<TableProps, TableState> {
     }
   }
 
-  rowSelect(rowData: any, isSelected: boolean) {
-    const rowId = rowData.id;
+  rowSelect(rowData: any): boolean {
+    let rowId = rowData.id;
+
+    if (this.props.multiSelect) {
+      // if the list allows multiple selected rows
+      let selectedRowIds;
+      if (Array.isArray(this.props.selection)) {
+        selectedRowIds = this.props.selection;
+      } else if (typeof this.props.selection === 'string') {
+        selectedRowIds = [this.props.selection];
+      } else {
+        selectedRowIds = [];
+      }
+
+      if (!selectedRowIds.includes(rowId)) {
+        // if the row is not already in the selection, add it
+        selectedRowIds.push(rowId);
+        this.props.onSelect(selectedRowIds, rowId);
+      } else if (selectedRowIds.length === 1 && this.props.noEmptySelection) {
+        // if this is the only remaining selection and we don't allow empty selection, just don't update
+        return false;
+      } else {
+        // if it is already in the selection, remove it
+        selectedRowIds.splice(selectedRowIds.indexOf(rowId), 1);
+        rowId = selectedRowIds[selectedRowIds.length - 1];
+        this.props.onSelect(selectedRowIds, rowId);
+      }
+      return true;
+    }
 
     let selectedRowIds;
     if (Array.isArray(this.props.selection)) {
-      selectedRowIds = this.props.selection;
+      selectedRowIds = this.props.selection[0];
     } else if (typeof this.props.selection === 'string') {
-      selectedRowIds = [this.props.selection];
+      selectedRowIds = this.props.selection;
     } else {
-      selectedRowIds = [];
+      selectedRowIds = '';
     }
 
-    if (isSelected) {
-      if (this.props.multiSelect) {
-        // If it's not already in the selection, add it and call the callback
-        if (!selectedRowIds.includes(rowId)) {
-          selectedRowIds.push(rowId);
-        }
-      } else {
-        // Just set the selection to the single row if not multi-select
-        selectedRowIds = [rowId];
+    // if this row is the currently selected row,
+    if (selectedRowIds === rowId) {
+      // if we don't allow empty selection
+      if (this.props.noEmptySelection) {
+        // do nothing
+        return false;
       }
-      this.props.onSelect(selectedRowIds, rowId);
-    } else if ((this.props.noEmptySelection && selectedRowIds.length > 1) || this.props.multiSelect) {
-      const oldPosition = selectedRowIds.indexOf(rowId);
-      if (oldPosition >= 0) {
-        // If it was in the previous array, remove it...
-        selectedRowIds.splice(oldPosition, 1);
-        const mostRecent = selectedRowIds.length > 0 ? selectedRowIds[selectedRowIds.length - 1] : null;
-        this.props.onSelect(selectedRowIds, mostRecent);
-      }
+      // otherwise, deselect the row
+      this.props.onSelect([], null);
+      return true;
     }
+
+    // otherwise, just select the newly clicked row
+    this.props.onSelect([rowId], rowId);
+    return true;
   }
 
   remote(remoteObject: any): any {
@@ -233,7 +276,7 @@ export default class Table extends React.Component<TableProps, TableState> {
       mode: this.props.multiSelect ? 'checkbox' : 'radio',
       onSelect: this.rowSelect,
       clickToSelect: true,
-      bgColor: '#b3d9ff',
+      className: this.props.selectedClassName,
       hideSelectColumn: true,
       selected: selectedRowIds,
     } : null;
@@ -247,14 +290,32 @@ export default class Table extends React.Component<TableProps, TableState> {
         const rendererFunction = Table.makeCustomRenderer(column);
 
         return (
-          <TableHeaderColumn key={column.title} dataFormat={rendererFunction} dataSort={sortable} sortFunc={sortFunc}>
+          <TableHeaderColumn
+            key={column.title}
+            dataFormat={rendererFunction}
+            dataSort={sortable}
+            sortFunc={sortFunc}
+            tdStyle={column.style}
+            thStyle={column.style}
+            className={column.className}
+            columnClassName={column.className}
+          >
             {column.title}
           </TableHeaderColumn>
         );
       }
       // Otherwise it's just the name of a field so use the string value of the field for the row object
       return (
-        <TableHeaderColumn key={column.title} dataField={column.render} dataSort={sortable} sortFunc={sortFunc}>
+        <TableHeaderColumn
+          key={column.title}
+          dataField={column.render}
+          dataSort={sortable}
+          sortFunc={sortFunc}
+          tdStyle={column.style}
+          thStyle={column.style}
+          className={column.className}
+          columnClassName={column.className}
+        >
           {column.title}
         </TableHeaderColumn>
       );
@@ -274,9 +335,9 @@ export default class Table extends React.Component<TableProps, TableState> {
       <div>
         <BootstrapTable
           data={this.state.sortedRows}
-          tableStyle={{ backgroundColor: 'white' }}
+          tableHeaderClass={this.props.tableClassName}
+          tableBodyClass={this.props.tableClassName}
           selectRow={selectRow}
-          striped
           keyField="id"
           options={options}
           remote={this.remote}

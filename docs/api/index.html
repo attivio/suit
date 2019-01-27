@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>@attivio/suit 0.0.57 | Documentation</title>
+  <title>@attivio/suit 0.0.62 | Documentation</title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' type='text/css' rel='stylesheet' />
   <link href='assets/style.css' type='text/css' rel='stylesheet' />
@@ -15,7 +15,7 @@
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>@attivio/suit</h3>
-          <div class='mb1'><code>0.0.57</code></div>
+          <div class='mb1'><code>0.0.62</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -278,6 +278,12 @@
                         href='#searchfacetbucketmax'
                         class='regular pre-open'>
                         #max
+                      </a></li>
+                      
+                      <li><a
+                        href='#searchfacetbucketchildren'
+                        class='regular pre-open'>
+                        #children
                       </a></li>
                       
                     </ul>
@@ -1220,16 +1226,6 @@
               
                 
                 <li><a
-                  href='#simplepermission'
-                  class="">
-                  SimplePermission
-                  
-                </a>
-                
-                </li>
-              
-                
-                <li><a
                   href='#search'
                   class=" toggle-sibling">
                   Search
@@ -1253,6 +1249,16 @@
                   
                   
                 </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#simplepermission'
+                  class="">
+                  SimplePermission
+                  
+                </a>
                 
                 </li>
               
@@ -2652,7 +2658,7 @@ of "top", "left", etc.</p>
 
  
   
-    <div class='pre p1 fill-light mt0'>new SearchFacetBucket(value: any, label: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, count: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, filter: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, min: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), max: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null))</div>
+    <div class='pre p1 fill-light mt0'>new SearchFacetBucket(value: any, label: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, count: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, filter: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, min: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), max: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), children: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#searchfacetbucket">SearchFacetBucket</a>>)</div>
    
   
   
@@ -2713,6 +2719,15 @@ of "top", "left", etc.</p>
           <div>
             <span class='code bold'>max</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null)
             = <code>null</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>children</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#searchfacetbucket">SearchFacetBucket</a>>
+            = <code>[]</code>)</code>
 	    
           </div>
           
@@ -3129,6 +3144,59 @@ as the facet bucket's value instead of the value field</p>
     <p>
       Type:
       (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null)
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='searchfacetbucketchildren'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>children</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Any child buckets</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>children</div>
+   
+  
+    <p>
+      Type:
+      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#searchfacetbucket">SearchFacetBucket</a>>
     </p>
   
   
@@ -9864,78 +9932,6 @@ make a query of the Attivio index.</p>
   
   <div class='clearfix'>
     
-    <h3 class='fl m0' id='simplepermission'>
-      SimplePermission
-    </h3>
-    
-    
-  </div>
-  
-
-  <p>A simplified version of the AttivioPermission class used by the Attivio
-REST APIs.</p>
-
- 
-  
-    <div class='pre p1 fill-light mt0'>new SimplePermission(principal: (<a href="#simpleprincipal">SimplePrincipal</a> | null), readable: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</div>
-   
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>principal</span> <code class='quiet'>((<a href="#simpleprincipal">SimplePrincipal</a> | null)
-            = <code>null</code>)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>readable</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>
-            = <code>true</code>)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-        
-          
-          <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
     <h3 class='fl m0' id='search'>
       Search
     </h3>
@@ -10107,6 +10103,78 @@ with no trailing slash)
     </div>
   
 </div>
+
+  
+
+  
+</section>
+
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='simplepermission'>
+      SimplePermission
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>A simplified version of the AttivioPermission class used by the Attivio
+REST APIs.</p>
+
+ 
+  
+    <div class='pre p1 fill-light mt0'>new SimplePermission(principal: (<a href="#simpleprincipal">SimplePrincipal</a> | null), readable: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</div>
+   
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>principal</span> <code class='quiet'>((<a href="#simpleprincipal">SimplePrincipal</a> | null)
+            = <code>null</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>readable</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>
+            = <code>true</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
 
   
 
