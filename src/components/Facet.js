@@ -226,7 +226,12 @@ export default class Facet extends React.Component<FacetProps> {
             );
             break;
           case 'timeseries':
-            facetContents = <TimeSeriesFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addTimeSeriesFilter} />;
+            facetContents = (
+              <TimeSeriesFacetContents
+                buckets={this.props.facet.buckets}
+                addFacetFilter={this.addTimeSeriesFilter}
+              />
+            );
             break;
           case 'sentiment':
             facetContents = <SentimentFacetContents buckets={this.props.facet.buckets} addFacetFilter={this.addFacetFilter} />;

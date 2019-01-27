@@ -37,8 +37,8 @@ type HierarchicalListProps = {
  * Component to render tree of data in a hierarchical list format where nodes which have children
  * can be opened/closed by the user.
  */
-export default class HierarchicalList extends React.Component<void, HierarchicalListProps, void> {
-  static HierarchicalNode;
+export default class HierarchicalList extends React.Component<HierarchicalListProps> {
+  static HierarchicalNode: typeof HierarchicalNode;
 
   static displayName = 'HierarchicalList';
 

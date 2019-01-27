@@ -40,12 +40,12 @@ export default class TabPanel extends React.Component<TabPanelProps> {
 
   static TabInfo: typeof TabInfo;
 
-  tabElements: Array<?HTMLAnchorElement> = [];
-
   constructor(props: TabPanelProps) {
     super(props);
     (this: any).doClick = this.doClick.bind(this);
   }
+
+  tabElements: Array<?HTMLAnchorElement> = [];
 
   doClick(newTabId: string) {
     this.props.tabChanged(newTabId);
