@@ -1,3 +1,5 @@
+// cspell:ignore flowtype, validators
+
 module.exports = {
   'env': {
     'browser': true
@@ -19,7 +21,7 @@ module.exports = {
     'react/default-props-match-prop-types': ['error', { allowRequiredDefaults: true }],
     'react/forbid-prop-types': ['error', { checkContextTypes: false, checkChildContextTypes: false }],
     // Consider removing these?
-    'react/no-access-state-in-setstate': 0,
+    'react/no-access-state-in-setstate': 0, // cspell:disable-line
     'react/jsx-one-expression-per-line': 0,
     'jsx-a11y/click-events-have-key-events': 0,
     'object-curly-newline': 0,
@@ -29,5 +31,6 @@ module.exports = {
     'react/no-unused-state': 0,
     'react/require-default-props': 0,
     'jsx-a11y/anchor-is-valid': 0,
+    'react/prop-types': 0,
   },
 };
