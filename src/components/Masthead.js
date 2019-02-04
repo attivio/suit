@@ -129,7 +129,7 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
     }
   }
 
-  navigateHome() {
+  navigateHome = () => {
     if (this.homeLink) {
       this.homeLink.blur();
     }
