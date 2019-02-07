@@ -18,6 +18,10 @@ type MastheadProps = {
   logoAlt: string | null;
   /** The route to navigate to when the user clicks the logo. Defaults to '/' */
   homeRoute: string | null;
+  /** The optional url to navigate to when the user clicks the logo. If homeRoute
+   *  and homeUrl are both specified, homeUrl takes precedence.
+   */
+  homeUrl: string | null;
   /** The name of the application. */
   applicationName: string | null;
   /** If set, then the application name will wrap to two lines. */
