@@ -18,7 +18,8 @@ type MastheadProps = {
   logoAlt: string | null;
   /** The route to navigate to when the user clicks the logo. Defaults to '/' */
   homeRoute: string | null;
-  /** The optional url to navigate to when the user clicks the logo. If homeRoute
+  /**
+   * The optional url to navigate to when the user clicks the logo. If homeRoute
    *  and homeUrl are both specified, homeUrl takes precedence.
    */
   homeUrl: string | null;
@@ -52,7 +53,7 @@ type MastheadDefaultProps = {
   logoUri: string | null;
   logoAlt: string | null;
   homeRoute: string | null;
-  homeUrl: ?string;
+  homeUrl: string | null;
   applicationName: string | null;
   multiline: boolean;
   searchEngineType: 'attivio' | 'solr' | 'elastic';
