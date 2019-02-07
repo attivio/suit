@@ -48,6 +48,7 @@ type MastheadDefaultProps = {
   logoUri: string | null;
   logoAlt: string | null;
   homeRoute: string | null;
+  homeUrl: ?string;
   applicationName: string | null;
   multiline: boolean;
   searchEngineType: 'attivio' | 'solr' | 'elastic';
@@ -72,6 +73,7 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
     logoUri: 'img/attivio-logo-reverse.png',
     logoAlt: 'Attivio Home',
     homeRoute: '/',
+    homeUrl: null,
     logoutFunction: null,
     applicationName: 'Cognitive Search',
     multiline: false,
@@ -97,12 +99,14 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
 
   state: MastheadState;
 
-  componentWillMount() {
+  componentDidMount() {
     this.updateUser();
   }
 
-  componentWillReceiveProps() {
-    this.updateUser();
+  componentWillReceiveProps(nextProps) {
+    if (this.props.username !== nextProps.username) {
+      this.updateUser();
+    }
   }
 
   updateUser() {
@@ -129,17 +133,22 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
     }
   }
 
-  navigateHome = () => {
+  navigateHome() {
     if (this.homeLink) {
       this.homeLink.blur();
     }
-    this.context.searcher.reset();
-    this.props.history.push({ pathname: this.props.homeRoute, search: this.props.location.search });
+    if (this.context && this.context.searcher) {
+      this.context.searcher.reset();
+    }
+    this.props.history.push({
+      pathname: this.props.homeRoute,
+      search: this.props.location.search,
+    });
   }
 
   homeLink: ?HTMLAnchorElement;
 
-  render() {
+  renderButton() {
     let engineInfo = null;
     if (this.props.searchEngineType === 'solr') {
       engineInfo = (
@@ -177,6 +186,48 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
       );
     }
 
+    const logo = (
+      <img
+        src={this.props.logoUri}
+        alt={this.props.logoAlt}
+        className="attivio-globalmast-logo-img"
+      />
+    );
+
+    if (this.props.homeUrl) {
+      return (
+        <a
+          style={{
+            backgroundColor: 'transparent',
+            borderWidth: 0,
+            textDecoration: 'none',
+          }}
+          role="button"
+          href={this.props.homeUrl}
+          className="attivio-globalmast-logo attivio-globalmast-separator after"
+        >
+          {logo}
+          {engineInfo}
+        </a>
+      );
+    }
+
+    return (
+      <button
+        style={{ backgroundColor: 'transparent', borderWidth: 0 }}
+        onClick={this.navigateHome}
+        className="attivio-globalmast-logo attivio-globalmast-separator after"
+        ref={(c) => {
+          this.homeLink = c;
+        }}
+      >
+        {logo}
+        {engineInfo}
+      </button>
+    );
+  }
+
+  render() {
     let logoutFunction = this.props.logoutFunction;
     if (this.state.userInfo) {
       if (this.state.userInfo.saml) {
@@ -191,18 +242,7 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
     return (
       <header className="attivio-globalmast attivio-minwidth">
         <div className="attivio-container">
-          <button
-            style={{ backgroundColor: 'transparent', borderWidth: 0 }}
-            onClick={this.navigateHome}
-            className="attivio-globalmast-logo attivio-globalmast-separator after"
-
-            ref={(c) => {
-              this.homeLink = c;
-            }}
-          >
-            <img src={this.props.logoUri} alt={this.props.logoAlt} className="attivio-globalmast-logo-img" />
-            {engineInfo}
-          </button>
+          {this.renderButton()}
           <div className={`attivio-globalmast-appname attivio-globalmast-separator after ${this.props.multiline ? '' : 'nowrap'}`}>
             {this.props.applicationName}
           </div>
