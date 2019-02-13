@@ -168,7 +168,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
         selectedRows: [],
         detailsRowId: '',
       });
-    } else {
+    } else { // FIXME: Never perform unconditional side effects in this lifecycle method.
       const ids = newProps.rows.map((row) => {
         return row.id;
       });
@@ -199,37 +199,57 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
   }
 
   render() {
-    const Detail = this.props.details;
-    const tableWidth = this.props.split;
+    const {
+      columns,
+      details: Detail,
+      detailsProps,
+      footer,
+      header,
+      multiSelect,
+      noEmptySelection,
+      onSort,
+      padding,
+      rows,
+      selectedClassName,
+      sortColumn,
+      split: tableWidth,
+      tableClassName,
+      tableContainerClassName,
+    } = this.props;
+    const {
+      detailsRowId,
+      selectedRows,
+    } = this.state;
+
     const detailsWidth = 12 - tableWidth;
-    const halfPadding = `${this.props.padding / 2}px`;
-    const detailsRow = this.props.rows.find((row) => {
-      return row.id === this.state.detailsRowId;
+    const halfPadding = `${padding / 2}px`;
+    const detailsRow = rows.find(({ id }) => {
+      return id === detailsRowId;
     });
 
     return (
       <Grid fluid style={{ padding: 0 }}>
         <Row style={{ margin: 0 }}>
           <Col lg={tableWidth} md={tableWidth} sm={12} xs={12} style={{ paddingLeft: 0, paddingRight: halfPadding }}>
-            <div className={this.props.tableContainerClassName}>
-              {this.props.header}
+            <div className={tableContainerClassName}>
+              {header(selectedRows)}
               <Table
-                columns={this.props.columns}
-                rows={this.props.rows}
+                columns={columns}
+                rows={rows}
                 onSelect={this.selectionChanged}
-                sortColumn={this.props.sortColumn}
-                onSort={this.props.onSort}
-                selection={this.state.selectedRows}
-                multiSelect={this.props.multiSelect}
-                noEmptySelection={this.props.noEmptySelection}
-                selectedClassName={this.props.selectedClassName}
-                tableClassName={this.props.tableClassName}
+                sortColumn={sortColumn}
+                onSort={onSort}
+                selection={selectedRows}
+                multiSelect={multiSelect}
+                noEmptySelection={noEmptySelection}
+                selectedClassName={selectedClassName}
+                tableClassName={tableClassName}
               />
-              {this.props.footer}
+              {footer}
             </div>
           </Col>
           <Col lg={detailsWidth} md={detailsWidth} sm={12} xs={12} style={{ paddingLeft: halfPadding, paddingRight: 0 }}>
-            <Detail {...this.props.detailsProps} data={detailsRow} />
+            <Detail {...detailsProps} data={detailsRow} />
           </Col>
         </Row>
       </Grid>
