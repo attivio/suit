@@ -5,6 +5,7 @@ import React from 'react';
 import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
+import { deepEquals } from '../util/ObjectUtils';
 
 import Table from './Table';
 
@@ -64,7 +65,8 @@ type MasterDetailsProps = {
   /**
    * A header component that can be inserted above the table (but to the left of the
    * details component). For example, this might be used to include controls that help the
-   * user filter the list of items in the table. Optional; if not set, the table will be
+   * user filter the list of items in the table. May also be a function that uses selectedRows and
+   * renders a header component. Optional; if not set, the table will be
    * flush with the top of the details component.
    */
   header: any;
@@ -124,8 +126,10 @@ type MasterDetailsDefaultProps = {
 type MasterDetailsState = {
   /** The IDs of the selected rows */
   selectedRows: Array<string>;
-  /** The object for the most-recently selected row, to be displayed in the details pane.  */
+  /** The id for the most-recently selected row, to be displayed in the details pane. */
   detailsRowId: string;
+  /** The object for the most-recently selected row, to be displayed in the details pane.  */
+  detailsRow: any;
 };
 
 /**
@@ -155,32 +159,47 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
   constructor(props: MasterDetailsProps) {
     super(props);
     this.state = {
-      selectedRows: this.props.rows.length > 0 ? [this.props.rows[0].id] : [],
-      detailsRowId: this.props.rows.length > 0 ? this.props.rows[0].id : '',
+      selectedRows: this.props.rows.length > 0 && this.props.rows[0] ? [this.props.rows[0].id] : [],
+      detailsRowId: this.props.rows.length > 0 && this.props.rows[0] ? this.props.rows[0].id : '',
     };
     (this: any).selectionChanged = this.selectionChanged.bind(this);
   }
   state: MasterDetailsState;
 
-  componentWillReceiveProps(newProps: MasterDetailsProps) {
-    if (newProps.rows.length === 0) {
-      this.setState({
-        selectedRows: [],
-        detailsRowId: '',
-      });
-    } else { // FIXME: Never perform unconditional side effects in this lifecycle method.
-      const ids = newProps.rows.map((row) => {
-        return row.id;
-      });
-      const newSelectedRows = this.state.selectedRows.filter((row) => { return ids.includes(row); });
-      if (this.props.noEmptySelection && newSelectedRows.length === 0) {
-        newSelectedRows.push(newProps.rows[0].id);
+  componentWillReceiveProps(newProps: MasterDetailsProps, newState: MasterDetailsState) {
+    const { rows, noEmptySelection } = this.props;
+    const { selectedRows } = this.state;
+
+    const rowDataChanged = !deepEquals(rows, newProps.rows);
+    const selectedRowsChanged = !deepEquals(selectedRows, newState.selectedRows);
+
+    if (rowDataChanged || selectedRowsChanged) {
+      if (newProps.rows.length === 0) {
+        this.setState({
+          selectedRows: [],
+          detailsRowId: '',
+          detailsRow: null,
+        });
+      } else {
+        const ids = newProps.rows.map((row) => {
+          return row.id;
+        });
+        const newSelectedRows = newState.selectedRows.filter((row) => { return ids.includes(row); });
+        if (noEmptySelection && newSelectedRows.length === 0) {
+          newSelectedRows.push(newProps.rows[0].id);
+        }
+        const newDetailsRowId = (newSelectedRows.length > 0) ? (newSelectedRows[newSelectedRows.length - 1]) : '';
+
+        const detailsRow = newProps.rows.find(({ id }) => {
+          return id === newDetailsRowId;
+        });
+
+        this.setState({
+          selectedRows: newSelectedRows,
+          detailsRowId: newDetailsRowId,
+          detailsRow,
+        });
       }
-      const newDetailsRowId = (newSelectedRows.length > 0) ? (newSelectedRows[newSelectedRows.length - 1]) : '';
-      this.setState({
-        selectedRows: newSelectedRows,
-        detailsRowId: newDetailsRowId,
-      });
     }
   }
 
@@ -188,14 +207,18 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
    * Update the table's selection and update the details view's input.
    */
   selectionChanged(selectedRowIds: Array<string>, newlySelectedRowId: string | null) {
-    this.setState({
-      selectedRows: selectedRowIds,
-      detailsRowId: newlySelectedRowId || '',
-    }, () => {
-      if (this.props.onSelect !== null) {
-        this.props.onSelect(selectedRowIds, newlySelectedRowId);
-      }
-    });
+    if (this.props.onSelect) {
+      this.props.onSelect(selectedRowIds, newlySelectedRowId);
+    }
+  }
+
+  renderHeader() {
+    const { header } = this.props;
+    const { selectedRows } = this.state;
+    if (typeof header === 'function') {
+      return header(selectedRows);
+    }
+    return header;
   }
 
   render() {
@@ -204,7 +227,6 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
       details: Detail,
       detailsProps,
       footer,
-      header,
       multiSelect,
       noEmptySelection,
       onSort,
@@ -217,22 +239,19 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
       tableContainerClassName,
     } = this.props;
     const {
-      detailsRowId,
       selectedRows,
+      detailsRow,
     } = this.state;
 
     const detailsWidth = 12 - tableWidth;
     const halfPadding = `${padding / 2}px`;
-    const detailsRow = rows.find(({ id }) => {
-      return id === detailsRowId;
-    });
 
     return (
       <Grid fluid style={{ padding: 0 }}>
         <Row style={{ margin: 0 }}>
           <Col lg={tableWidth} md={tableWidth} sm={12} xs={12} style={{ paddingLeft: 0, paddingRight: halfPadding }}>
             <div className={tableContainerClassName}>
-              {header(selectedRows)}
+              {this.renderHeader()}
               <Table
                 columns={columns}
                 rows={rows}

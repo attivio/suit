@@ -67,7 +67,7 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     AuthUtils.getLoggedInUserInfo((userInfo: any) => {
       this.setState({
         user: userInfo,

@@ -137,11 +137,14 @@ type TableDefaultProps = {
 };
 
 type TableState = {
+  controlKeyDown: Boolean;
+  lastSelectedRowIndex: number | null;
   /**
    * The sorted list of rows. If not sorting in the table, this will always just be
    * the same as the rows property.
    */
   sortedRows: Array<any>;
+  selectedRowIndices: Set<number>;
 };
 
 /**
@@ -177,7 +180,12 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   constructor(props: TableProps) {
     super(props);
     this.state = {
-      sortedRows: this.props.rows,
+      sortedRows: this.props.rows.map((row, index) => {
+        return { ...row, index };
+      }),
+      selectedRowIndices: new Set([0]),
+      controlKeyDown: false,
+      lastSelectedRowIndex: null,
     };
     (this: any).handleSort = this.handleSort.bind(this);
     (this: any).rowSelect = this.rowSelect.bind(this);
@@ -186,50 +194,121 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
   state: TableState;
 
+  componentDidMount() {
+    if (this.props.multiSelect) {
+      window.addEventListener('keydown', this.keyDown);
+    }
+  }
+
   componentWillReceiveProps(newProps: TableProps) {
     if (!ObjectUtils.arrayEquals(newProps.rows, this.props.rows)) {
       // Reset the sorted rows if the actual rows have changed.
       this.setState({
-        sortedRows: newProps.rows,
+        sortedRows: newProps.rows.map((row, index) => {
+          return { ...row, index };
+        }),
       });
     }
   }
 
+  componentWillUnmount() {
+    if (this.props.multiSelect) {
+      window.removeEventListener('keydown', this.keyDown);
+      // window.removeEventListener('keyup', this.keyUp);
+    }
+  }
+
+  keyDown = (e: KeyboardEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.group('keyDown function');
+    console.log('multiSelect: ', this.props.multiSelect);
+    console.log('code: ', e.code);
+    console.log('is control key: ', e.ctrlKey);
+    console.log('is meta key: ', e.metaKey);
+    console.groupEnd();
+    if (this.props.multiSelect && (e.ctrlKey || e.metaKey)) {
+      this.setState({ controlKeyDown: true });
+    }
+  }
+
   rowSelect(rowData: any): boolean {
+    const { multiSelect, selection, noEmptySelection, onSelect } = this.props;
+    console.group('rowSelect()');
+    console.log('controlKeyPressed: ', this.state.controlKeyDown);
+    console.groupEnd();
+    let selectedRowIds = [];
     let rowId = rowData.id;
 
-    if (this.props.multiSelect) {
+    this.setState(({
+      selectedRowIndices: prevSelectedRowIndices,
+      controlKeyDown: prevControlKeyDown,
+      lastSelectedRowIndex: prevLastSelectedRowIndex,
+    }) => {
+      const alreadySelected = prevSelectedRowIndices.has(rowData.index);
+      const notOnlySelection = prevSelectedRowIndices.length > 1;
+      const selectedRowIndices = multiSelect && alreadySelected && (notOnlySelection || !noEmptySelection)
+        ? prevSelectedRowIndices.delete(rowData.index)
+        : prevSelectedRowIndices.add(rowData.index);
+
+      const lastSelectedRowIndex = rowData.index;
+      if (prevControlKeyDown && multiSelect && prevLastSelectedRowIndex) {
+        const count = rowData.index - prevLastSelectedRowIndex;
+
+        const startIndex = count > 0 ? prevLastSelectedRowIndex + 1 : rowData.index + 1;
+        const endIndex = count > 0 ? rowData.index : prevLastSelectedRowIndex;
+
+        let currentIndex = startIndex;
+
+        const findSelectionIndex = (row) => {
+          return row.index === currentIndex;
+        };
+        while (currentIndex < endIndex) {
+          selectedRowIndices.add(currentIndex);
+          const newSelection = selection.find(findSelectionIndex);
+          if (newSelection) {
+            selectedRowIds = [...selectedRowIds, newSelection.id];
+          }
+          currentIndex += 1;
+        }
+      }
+
+      console.log('selectedRowIndices: ', selectedRowIndices);
+      return {
+        selectedRowIndices,
+        controlKeyDown: false,
+        lastSelectedRowIndex,
+      };
+    });
+
+    if (multiSelect) {
       // if the list allows multiple selected rows
-      let selectedRowIds;
-      if (Array.isArray(this.props.selection)) {
-        selectedRowIds = this.props.selection;
-      } else if (typeof this.props.selection === 'string') {
-        selectedRowIds = [this.props.selection];
-      } else {
-        selectedRowIds = [];
+      if (Array.isArray(selection)) {
+        selectedRowIds = [...selectedRowIds, ...selection];
+      } else if (typeof selection === 'string') {
+        selectedRowIds = [...selectedRowIds, [selection]];
       }
 
       if (!selectedRowIds.includes(rowId)) {
         // if the row is not already in the selection, add it
         selectedRowIds.push(rowId);
-        this.props.onSelect(selectedRowIds, rowId);
-      } else if (selectedRowIds.length === 1 && this.props.noEmptySelection) {
+        onSelect(selectedRowIds, rowId);
+      } else if (selectedRowIds.length === 1 && noEmptySelection) {
         // if this is the only remaining selection and we don't allow empty selection, just don't update
         return false;
       } else {
         // if it is already in the selection, remove it
         selectedRowIds.splice(selectedRowIds.indexOf(rowId), 1);
         rowId = selectedRowIds[selectedRowIds.length - 1];
-        this.props.onSelect(selectedRowIds, rowId);
+        onSelect(selectedRowIds, rowId);
       }
       return true;
     }
 
-    let selectedRowIds;
-    if (Array.isArray(this.props.selection)) {
-      selectedRowIds = this.props.selection[0];
-    } else if (typeof this.props.selection === 'string') {
-      selectedRowIds = this.props.selection;
+    if (Array.isArray(selection)) {
+      selectedRowIds = selection[0];
+    } else if (typeof selection === 'string') {
+      selectedRowIds = selection;
     } else {
       selectedRowIds = '';
     }
@@ -237,17 +316,17 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     // if this row is the currently selected row,
     if (selectedRowIds === rowId) {
       // if we don't allow empty selection
-      if (this.props.noEmptySelection) {
+      if (noEmptySelection) {
         // do nothing
         return false;
       }
       // otherwise, deselect the row
-      this.props.onSelect([], null);
+      onSelect([], null);
       return true;
     }
 
     // otherwise, just select the newly clicked row
-    this.props.onSelect([rowId], rowId);
+    onSelect([rowId], rowId);
     return true;
   }
 
@@ -274,18 +353,38 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   }
 
   render() {
+    const { multiSelect, selection } = this.props;
+    const { selectedRowIndices } = this.state;
+
     let selectedRowIds;
-    if (Array.isArray(this.props.selection)) {
-      selectedRowIds = this.props.selection;
-    } else if (typeof this.props.selection === 'string') {
-      selectedRowIds = [this.props.selection];
+    if (Array.isArray(selection)) {
+      selectedRowIds = selection;
+    } else if (typeof selection === 'string') {
+      selectedRowIds = [selection];
     } else {
       selectedRowIds = [];
     }
 
+    // FIXME: Move data manipulation outside of render function.
+    // If multiSelect include row index selections made using keyboard
+    if (multiSelect && selectedRowIndices.size > 0) {
+      selectedRowIndices.forEach((index) => {
+        const selectionId = selectedRowIds[index];
+        if (selectionId) {
+          selectedRowIds = [...selectedRowIds, selectionId];
+        }
+      });
+    }
+    console.group('<Table />');
+    console.log('selectedRowIds: ', selectedRowIds);
+    console.log('selectedRowIndices: ', selectedRowIndices);
+    console.log('selection: ', selection);
+    console.log('controlKeyDown: ', this.state.controlKeyDown);
+    console.groupEnd();
+
     // If the selection function isn't set, then don't let user select rows
     const selectRow = this.props.onSelect ? {
-      mode: this.props.multiSelect ? 'checkbox' : 'radio',
+      mode: multiSelect ? 'checkbox' : 'radio',
       onSelect: this.rowSelect,
       clickToSelect: true,
       className: this.props.selectedClassName,

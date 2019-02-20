@@ -28,12 +28,9 @@ function Configurable(WrappedComponent: React.Component): React.Component {
       };
     }
 
+    // FIXME: Never set state in componentDidMount
     componentDidMount() {
       this.fillWithDefaults(this.props);
-    }
-
-    componentWillReceiveProps(nextProps: any) {
-      this.fillWithDefaults(nextProps);
     }
 
     fillWithDefaults(props: any) {
@@ -46,6 +43,7 @@ function Configurable(WrappedComponent: React.Component): React.Component {
           filled[property] = this.context.configuration.get(name, property, props[property]);
         });
       }
+      console.log('<Configurable /> fillWithDefaults() : ', WrappedComponent.displayName);
       this.setState({
         filled: true,
         props: filled,
