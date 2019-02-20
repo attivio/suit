@@ -66,8 +66,7 @@ type MasterDetailsProps = {
    * A header component that can be inserted above the table (but to the left of the
    * details component). For example, this might be used to include controls that help the
    * user filter the list of items in the table. May also be a function that uses selectedRows and
-   * renders a header component. Optional; if not set, the table will be
-   * flush with the top of the details component.
+   * renders a header component. Optional; if not set, the table will be flush with the top of the details component.
    */
   header: any;
   /**
@@ -159,8 +158,8 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
   constructor(props: MasterDetailsProps) {
     super(props);
     this.state = {
-      selectedRows: this.props.rows.length > 0 && this.props.rows[0] ? [this.props.rows[0].id] : [],
-      detailsRowId: this.props.rows.length > 0 && this.props.rows[0] ? this.props.rows[0].id : '',
+      selectedRows: props.rows.length > 0 && props.rows[0] ? [props.rows[0].id] : [],
+      detailsRowId: props.rows.length > 0 && props.rows[0] ? props.rows[0].id : '',
     };
     (this: any).selectionChanged = this.selectionChanged.bind(this);
   }
@@ -207,9 +206,14 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
    * Update the table's selection and update the details view's input.
    */
   selectionChanged(selectedRowIds: Array<string>, newlySelectedRowId: string | null) {
-    if (this.props.onSelect) {
-      this.props.onSelect(selectedRowIds, newlySelectedRowId);
-    }
+    this.setState({
+      selectedRows: selectedRowIds,
+      detailsRowId: newlySelectedRowId || '',
+    }, () => {
+      if (this.props.onSelect) {
+        this.props.onSelect(selectedRowIds, newlySelectedRowId);
+      }
+    });
   }
 
   renderHeader() {

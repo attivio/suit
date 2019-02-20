@@ -180,9 +180,11 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   constructor(props: TableProps) {
     super(props);
     this.state = {
-      sortedRows: this.props.rows.map((row, index) => {
-        return { ...row, index };
-      }),
+      sortedRows: props.rows && props.rows.length > 0
+        ? props.rows.map((row, index) => {
+          return { ...row, index };
+        })
+        : [],
       selectedRowIndices: new Set([0]),
       controlKeyDown: false,
       lastSelectedRowIndex: null,
@@ -204,9 +206,11 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     if (!ObjectUtils.arrayEquals(newProps.rows, this.props.rows)) {
       // Reset the sorted rows if the actual rows have changed.
       this.setState({
-        sortedRows: newProps.rows.map((row, index) => {
-          return { ...row, index };
-        }),
+        sortedRows: newProps.rows && newProps.rows.length > 0
+          ? newProps.rows.map((row, index) => {
+            return { ...row, index };
+          })
+          : [],
       });
     }
   }
@@ -214,7 +218,6 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   componentWillUnmount() {
     if (this.props.multiSelect) {
       window.removeEventListener('keydown', this.keyDown);
-      // window.removeEventListener('keyup', this.keyUp);
     }
   }
 
