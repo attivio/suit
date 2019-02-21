@@ -5,7 +5,7 @@ import React from 'react';
 import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
-import { deepEquals } from '../util/ObjectUtils';
+import ObjectUtils from '../util/ObjectUtils';
 
 import Table from './Table';
 
@@ -165,38 +165,28 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
   }
   state: MasterDetailsState;
 
-  componentWillReceiveProps(newProps: MasterDetailsProps, newState: MasterDetailsState) {
-    const { rows, noEmptySelection } = this.props;
-    const { selectedRows } = this.state;
+  componentWillReceiveProps(newProps: MasterDetailsProps) {
+    const rowsChanged = !ObjectUtils.arrayEquals(newProps.rows, this.props.rows);
 
-    const rowDataChanged = !deepEquals(rows, newProps.rows);
-    const selectedRowsChanged = !deepEquals(selectedRows, newState.selectedRows);
-
-    if (rowDataChanged || selectedRowsChanged) {
+    if (rowsChanged) {
       if (newProps.rows.length === 0) {
         this.setState({
           selectedRows: [],
           detailsRowId: '',
-          detailsRow: null,
         });
       } else {
         const ids = newProps.rows.map((row) => {
           return row.id;
         });
-        const newSelectedRows = newState.selectedRows.filter((row) => { return ids.includes(row); });
-        if (noEmptySelection && newSelectedRows.length === 0) {
+        const newSelectedRows = this.state.selectedRows.filter((row) => { return ids.includes(row); });
+        if (this.props.noEmptySelection && newSelectedRows.length === 0) {
           newSelectedRows.push(newProps.rows[0].id);
         }
         const newDetailsRowId = (newSelectedRows.length > 0) ? (newSelectedRows[newSelectedRows.length - 1]) : '';
 
-        const detailsRow = newProps.rows.find(({ id }) => {
-          return id === newDetailsRowId;
-        });
-
         this.setState({
           selectedRows: newSelectedRows,
           detailsRowId: newDetailsRowId,
-          detailsRow,
         });
       }
     }
@@ -244,11 +234,15 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     } = this.props;
     const {
       selectedRows,
-      detailsRow,
     } = this.state;
 
     const detailsWidth = 12 - tableWidth;
     const halfPadding = `${padding / 2}px`;
+
+    // FIXME: Move out of render function
+    const detailsRow = this.props.rows.find((row) => {
+      return row.id === this.state.detailsRowId;
+    });
 
     return (
       <Grid fluid style={{ padding: 0 }}>

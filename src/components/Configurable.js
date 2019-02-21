@@ -43,7 +43,7 @@ function Configurable(WrappedComponent: React.Component): React.Component {
           filled[property] = this.context.configuration.get(name, property, props[property]);
         });
       }
-      console.log('<Configurable /> fillWithDefaults() : ', WrappedComponent.displayName);
+
       this.setState({
         filled: true,
         props: filled,

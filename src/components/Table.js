@@ -187,7 +187,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         : [],
       selectedRowIndices: new Set([0]),
       controlKeyDown: false,
-      lastSelectedRowIndex: null,
+      lastSelectedRowIndex: 0,
     };
     (this: any).handleSort = this.handleSort.bind(this);
     (this: any).rowSelect = this.rowSelect.bind(this);
@@ -224,12 +224,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   keyDown = (e: KeyboardEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    console.group('keyDown function');
-    console.log('multiSelect: ', this.props.multiSelect);
-    console.log('code: ', e.code);
-    console.log('is control key: ', e.ctrlKey);
-    console.log('is meta key: ', e.metaKey);
-    console.groupEnd();
+
     if (this.props.multiSelect && (e.ctrlKey || e.metaKey)) {
       this.setState({ controlKeyDown: true });
     }
@@ -237,59 +232,63 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
   rowSelect(rowData: any): boolean {
     const { multiSelect, selection, noEmptySelection, onSelect } = this.props;
-    console.group('rowSelect()');
-    console.log('controlKeyPressed: ', this.state.controlKeyDown);
-    console.groupEnd();
-    let selectedRowIds = [];
+    const {
+      selectedRowIndices: prevSelectedRowIndices,
+      controlKeyDown,
+      lastSelectedRowIndex: prevLastSelectedRowIndex,
+      sortedRows,
+    } = this.state;
+    const newSelectedRowIndices = prevSelectedRowIndices;
+
     let rowId = rowData.id;
 
-    this.setState(({
-      selectedRowIndices: prevSelectedRowIndices,
-      controlKeyDown: prevControlKeyDown,
-      lastSelectedRowIndex: prevLastSelectedRowIndex,
-    }) => {
-      const alreadySelected = prevSelectedRowIndices.has(rowData.index);
-      const notOnlySelection = prevSelectedRowIndices.length > 1;
-      const selectedRowIndices = multiSelect && alreadySelected && (notOnlySelection || !noEmptySelection)
-        ? prevSelectedRowIndices.delete(rowData.index)
-        : prevSelectedRowIndices.add(rowData.index);
+    let keyboardSelectedIds = [];
+    let selectedRowIds = [];
+    if (multiSelect && rowData) {
+      const alreadySelected = newSelectedRowIndices.has(rowData.index);
+      const notOnlySelection = newSelectedRowIndices.size > 1;
 
-      const lastSelectedRowIndex = rowData.index;
-      if (prevControlKeyDown && multiSelect && prevLastSelectedRowIndex) {
-        const count = rowData.index - prevLastSelectedRowIndex;
+      if (alreadySelected && (notOnlySelection || !noEmptySelection)) {
+        newSelectedRowIndices.delete(rowData.index);
 
-        const startIndex = count > 0 ? prevLastSelectedRowIndex + 1 : rowData.index + 1;
-        const endIndex = count > 0 ? rowData.index : prevLastSelectedRowIndex;
+        this.setState({
+          selectedRowIndices: newSelectedRowIndices,
+          controlKeyDown: false,
+        });
+      } else {
+        newSelectedRowIndices.add(rowData.index);
 
-        let currentIndex = startIndex;
+        if (controlKeyDown && (prevLastSelectedRowIndex || prevLastSelectedRowIndex === 0)) {
+          const count = rowData.index - prevLastSelectedRowIndex;
 
-        const findSelectionIndex = (row) => {
-          return row.index === currentIndex;
-        };
-        while (currentIndex < endIndex) {
-          selectedRowIndices.add(currentIndex);
-          const newSelection = selection.find(findSelectionIndex);
-          if (newSelection) {
-            selectedRowIds = [...selectedRowIds, newSelection.id];
+          const startIndex = count > 0 ? prevLastSelectedRowIndex + 1 : rowData.index + 1;
+          const endIndex = count > 0 ? rowData.index : prevLastSelectedRowIndex;
+
+          let currentIndex = startIndex;
+
+          while (currentIndex < endIndex) {
+            newSelectedRowIndices.add(currentIndex);
+            const newSelection = sortedRows[currentIndex];
+
+            if (newSelection) {
+              keyboardSelectedIds = [...keyboardSelectedIds, newSelection.id];
+            }
+            currentIndex += 1;
           }
-          currentIndex += 1;
         }
+
+        this.setState({
+          selectedRowIndices: newSelectedRowIndices,
+          controlKeyDown: false,
+          lastSelectedRowIndex: rowData.index,
+        });
       }
 
-      console.log('selectedRowIndices: ', selectedRowIndices);
-      return {
-        selectedRowIndices,
-        controlKeyDown: false,
-        lastSelectedRowIndex,
-      };
-    });
-
-    if (multiSelect) {
       // if the list allows multiple selected rows
       if (Array.isArray(selection)) {
-        selectedRowIds = [...selectedRowIds, ...selection];
+        selectedRowIds = [...keyboardSelectedIds, ...selection];
       } else if (typeof selection === 'string') {
-        selectedRowIds = [...selectedRowIds, [selection]];
+        selectedRowIds = [...keyboardSelectedIds, [selection]];
       }
 
       if (!selectedRowIds.includes(rowId)) {
@@ -378,12 +377,6 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         }
       });
     }
-    console.group('<Table />');
-    console.log('selectedRowIds: ', selectedRowIds);
-    console.log('selectedRowIndices: ', selectedRowIndices);
-    console.log('selection: ', selection);
-    console.log('controlKeyDown: ', this.state.controlKeyDown);
-    console.groupEnd();
 
     // If the selection function isn't set, then don't let user select rows
     const selectRow = this.props.onSelect ? {
