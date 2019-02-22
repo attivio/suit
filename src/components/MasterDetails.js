@@ -131,8 +131,6 @@ type MasterDetailsState = {
   selectedRows: Array<string>;
   /** The id for the most-recently selected row, to be displayed in the details pane. */
   detailsRowId: string;
-  /** The object for the most-recently selected row, to be displayed in the details pane.  */
-  detailsRow: any;
 };
 
 /**
