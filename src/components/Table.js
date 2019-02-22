@@ -146,7 +146,7 @@ type TableDefaultProps = {
 };
 
 type TableState = {
-  controlKeyDown: Boolean;
+  shiftKeyDown: Boolean;
   lastSelectedRowIndex: number | null;
   /**
    * The sorted list of rows. If not sorting in the table, this will always just be
@@ -196,7 +196,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         })
         : [],
       selectedRowIndices: new Set([0]),
-      controlKeyDown: false,
+      shiftKeyDown: false,
       lastSelectedRowIndex: 0,
     };
     (this: any).handleSort = this.handleSort.bind(this);
@@ -232,8 +232,8 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   }
 
   keyDown = (e: KeyboardEvent) => {
-    if (this.props.multiSelect && (e.ctrlKey || e.metaKey)) {
-      this.setState({ controlKeyDown: true });
+    if (this.props.multiSelect && e.shiftKey) {
+      this.setState({ shiftKeyDown: true });
     }
   }
 
@@ -241,7 +241,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     const { multiSelect, selection, noEmptySelection, onSelect } = this.props;
     const {
       selectedRowIndices: prevSelectedRowIndices,
-      controlKeyDown,
+      shiftKeyDown,
       lastSelectedRowIndex: prevLastSelectedRowIndex,
       sortedRows,
     } = this.state;
@@ -260,12 +260,12 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
         this.setState({
           selectedRowIndices: newSelectedRowIndices,
-          controlKeyDown: false,
+          shiftKeyDown: false,
         });
       } else {
         newSelectedRowIndices.add(rowData.index);
 
-        if (controlKeyDown && (prevLastSelectedRowIndex || prevLastSelectedRowIndex === 0)) {
+        if (shiftKeyDown && (prevLastSelectedRowIndex || prevLastSelectedRowIndex === 0)) {
           const count = rowData.index - prevLastSelectedRowIndex;
 
           const startIndex = count > 0 ? prevLastSelectedRowIndex + 1 : rowData.index + 1;
@@ -286,7 +286,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
         this.setState({
           selectedRowIndices: newSelectedRowIndices,
-          controlKeyDown: false,
+          shiftKeyDown: false,
           lastSelectedRowIndex: rowData.index,
         });
       }
