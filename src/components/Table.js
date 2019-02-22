@@ -122,17 +122,26 @@ type TableProps = {
    * The class name to apply to the table element. Optional.
    */
   tableClassName: string;
+  /**
+   * The id of the row displayed in MasterDetails.
+   */
+  detailsRowId: string;
+    /** Optional background color to apply to the last selected row. Only used if multiSelect is specified as well. Takes precedence
+   *  over all other background colors specified through classNames.
+   */
+  lastSelectedRowBackgroundColor: ?string;
 };
 
 type TableDefaultProps = {
-  onSelect: null | (selectedRowsIds: Array<string>, newlySelectedRowId: string | null) => void;
-  selection: Array<srting>;
-  multiSelect: boolean;
-  sortColumn: number;
-  onSort: null | (sortColumn: number) => void;
-  noEmptySelection: boolean;
   bordered: boolean;
+  detailsRowId: string;
+  multiSelect: boolean;
+  noEmptySelection: boolean;
+  onSelect: null | (selectedRowsIds: Array<string>, newlySelectedRowId: string | null) => void;
+  onSort: null | (sortColumn: number) => void;
   selectedClassName: string;
+  selection: Array<srting>;
+  sortColumn: number;
   tableClassName: string;
 };
 
@@ -156,14 +165,15 @@ type TableState = {
  */
 export default class Table extends React.Component<TableDefaultProps, TableProps, TableState> {
   static defaultProps = {
-    onSelect: null,
-    selection: [],
-    multiSelect: false,
-    sortColumn: 0,
-    onSort: null,
-    noEmptySelection: false,
     bordered: false,
+    detailsRowId: '',
+    multiSelect: false,
+    noEmptySelection: false,
+    onSelect: null,
+    onSort: null,
     selectedClassName: 'attivio-table-row-selected',
+    selection: [],
+    sortColumn: 0,
     tableClassName: 'table table-striped attivio-table attivio-table-sm',
   };
 
@@ -198,7 +208,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
   componentDidMount() {
     if (this.props.multiSelect) {
-      window.addEventListener('keydown', this.keyDown);
+      document.addEventListener('keydown', this.keyDown);
     }
   }
 
@@ -217,14 +227,11 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
   componentWillUnmount() {
     if (this.props.multiSelect) {
-      window.removeEventListener('keydown', this.keyDown);
+      document.removeEventListener('keydown', this.keyDown);
     }
   }
 
   keyDown = (e: KeyboardEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
     if (this.props.multiSelect && (e.ctrlKey || e.metaKey)) {
       this.setState({ controlKeyDown: true });
     }
@@ -355,7 +362,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   }
 
   render() {
-    const { multiSelect, selection } = this.props;
+    const { multiSelect, selection, detailsRowId, lastSelectedRowBackgroundColor } = this.props;
     const { selectedRowIndices } = this.state;
 
     let selectedRowIds;
@@ -384,6 +391,12 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       onSelect: this.rowSelect,
       clickToSelect: true,
       className: this.props.selectedClassName,
+      bgColor: (row) => {
+        if (multiSelect && row.id === detailsRowId && lastSelectedRowBackgroundColor) {
+          return lastSelectedRowBackgroundColor;
+        }
+        return null;
+      },
       hideSelectColumn: true,
       selected: selectedRowIds,
     } : null;

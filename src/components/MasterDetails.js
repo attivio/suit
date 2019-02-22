@@ -104,6 +104,10 @@ type MasterDetailsProps = {
    * The class name to apply to the table element. Optional.
    */
   tableClassName: string;
+  /** Optional background color to apply to the last selected row. Only used if multiSelect is specified as well. Takes precedence
+   *  over all other background colors specified through classNames.
+   */
+  lastSelectedRowBackgroundColor: ?string;
 };
 
 type MasterDetailsDefaultProps = {
@@ -221,6 +225,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
       details: Detail,
       detailsProps,
       footer,
+      lastSelectedRowBackgroundColor,
       multiSelect,
       noEmptySelection,
       onSort,
@@ -261,6 +266,8 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
                 noEmptySelection={noEmptySelection}
                 selectedClassName={selectedClassName}
                 tableClassName={tableClassName}
+                detailsRowId={detailsRow ? detailsRow.id : ''}
+                lastSelectedRowBackgroundColor={lastSelectedRowBackgroundColor}
               />
               {footer}
             </div>
