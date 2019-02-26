@@ -1,0 +1,20 @@
+# See https://EditorConfig.org for more about this file
+# To use this with Visual Studio Code, install a plug-in from here: https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig
+# To use this with Eclipse, install a plug-in from here: https://github.com/ncjones/editorconfig-eclipse#readme
+# To use this with IntelliJ IDEA, no plug-in is needed.
+# To use this with Sublime, install a plug-in from here: https://github.com/sindresorhus/editorconfig-sublime#readme
+# See the EditorConfig website for support in additional editors
+
+# This is the topmost  EditorConfig file
+root = true
+
+# Global file configuration
+# All files should have Unix line endings, with a final new line
+# All files should use the utf-8 encoding
+# All files should use 2 spaces for indentation, never tabs
+[*]
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+indent_style = space
+indent_size = 2
