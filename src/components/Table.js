@@ -126,10 +126,10 @@ type TableProps = {
    * The id of the row displayed in MasterDetails.
    */
   detailsRowId: string;
-    /** Optional background color to apply to the last selected row. Only used if multiSelect is specified as well. Takes precedence
+  /** Optional background color to apply to the last selected row. Only used if multiSelect is specified as well. Takes precedence
    *  over all other background colors specified through classNames.
    */
-  lastSelectedRowBackgroundColor: ?string;
+  anchorRowBackgroundColor: ?string;
 };
 
 type TableDefaultProps = {
@@ -140,19 +140,26 @@ type TableDefaultProps = {
   onSelect: null | (selectedRowsIds: Array<string>, newlySelectedRowId: string | null) => void;
   onSort: null | (sortColumn: number) => void;
   selectedClassName: string;
-  selection: Array<srting>;
+  selection: Array<string>;
   sortColumn: number;
   tableClassName: string;
 };
 
 type TableState = {
-  shiftKeyDown: Boolean;
-  lastSelectedRowIndex: number | null;
+  /** The index of the anchor row. Only relevant with multiSelect option enabled.*/
+  anchorRowIndex: number | null;
+  /** Indicates whether or not the shift key is pressed down. Only relevant with multiSelect option enabled. */
+  shiftKeyDown: boolean;
+  /** Indicates whether or not the ctrl key is pressed down. Only relevant with multiSelect option enabled. */
+  ctrlKeyDown: boolean;
   /**
    * The sorted list of rows. If not sorting in the table, this will always just be
    * the same as the rows property.
    */
   sortedRows: Array<any>;
+  /** If the multiselect option is enabled, the set of indices of rows selected using the ctrl, meta, or shift
+   *  modifier keys.
+  */
   selectedRowIndices: Set<number>;
 };
 
@@ -195,13 +202,11 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
           return { ...row, index };
         })
         : [],
-      selectedRowIndices: new Set([0]),
+      selectedRowIndices: props.noEmptySelection ? new Set([0]) : new Set([]),
       shiftKeyDown: false,
-      lastSelectedRowIndex: 0,
+      ctrlKeyDown: false,
+      anchorRowIndex: props.multiSelect ? 0 : null,
     };
-    (this: any).handleSort = this.handleSort.bind(this);
-    (this: any).rowSelect = this.rowSelect.bind(this);
-    (this: any).remote = this.remote.bind(this);
   }
 
   state: TableState;
@@ -209,6 +214,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   componentDidMount() {
     if (this.props.multiSelect) {
       document.addEventListener('keydown', this.keyDown);
+      document.addEventListener('keyup', this.keyup);
     }
   }
 
@@ -228,102 +234,179 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   componentWillUnmount() {
     if (this.props.multiSelect) {
       document.removeEventListener('keydown', this.keyDown);
+      document.removeEventListener('keyup', this.keyup);
     }
+  }
+
+  getFormattedSelection = (): string => {
+    const { selection } = this.props;
+    if (Array.isArray(selection)) {
+      return selection[0];
+    } else if (typeof selection === 'string') {
+      return selection;
+    }
+    return '';
+  }
+
+  getSelectedIds = (newSelectedRowIndices: Set<number>): Array => {
+    const { sortedRows } = this.state;
+    const selectedRowArray = [];
+    newSelectedRowIndices.forEach((rowIndex) => {
+      selectedRowArray.push(rowIndex);
+    });
+    const selectedRowIds = selectedRowArray.map((rowIndex) => {
+      console.log('rowIndex: ', rowIndex);
+      console.log('sortedRows[rowIndex]: ', sortedRows[rowIndex]);
+      return sortedRows[rowIndex] ? `${sortedRows[rowIndex].id}` : null;
+    });
+    console.group('getSelectedIds()');
+    console.log('newSelectedRowIndices: ', newSelectedRowIndices);
+    console.log('selectedRowArray: ', selectedRowArray);
+    console.log('selectedRowIds: ', selectedRowIds);
+    console.groupEnd();
+    return selectedRowIds;
   }
 
   keyDown = (e: KeyboardEvent) => {
-    if (this.props.multiSelect && e.shiftKey) {
-      this.setState({ shiftKeyDown: true });
+    if (e.shiftKey || e.ctrlKey || e.metaKey) {
+      const shiftKeyDown = e.shiftKey;
+      const ctrlKeyDown = e.ctrlKey || e.metaKey;
+      this.setState({ shiftKeyDown, ctrlKeyDown });
     }
   }
 
-  rowSelect(rowData: any): boolean {
-    const { multiSelect, selection, noEmptySelection, onSelect } = this.props;
+  keyUp = (e: KeyboardEvent) => {
+    if (e.shiftKey || e.ctrlKey || e.metaKey) {
+      const shiftKeyDown = !e.shiftKey;
+      const ctrlKeyDown = !(e.ctrlKey || e.metaKey);
+      this.setState({ shiftKeyDown, ctrlKeyDown });
+    }
+  }
+
+  rowSelect = (rowData: any): boolean => {
     const {
+      anchorRowIndex,
+      ctrlKeyDown,
       selectedRowIndices: prevSelectedRowIndices,
       shiftKeyDown,
-      lastSelectedRowIndex: prevLastSelectedRowIndex,
       sortedRows,
     } = this.state;
+    const shiftKeyPressed = shiftKeyDown;
+    const ctrlKeyPressed = ctrlKeyDown;
     const newSelectedRowIndices = prevSelectedRowIndices;
 
-    let rowId = rowData.id;
+    const { multiSelect, selection, noEmptySelection, onSelect } = this.props;
 
-    let keyboardSelectedIds = [];
-    let selectedRowIds = [];
-    if (multiSelect && rowData) {
-      const alreadySelected = newSelectedRowIndices.has(rowData.index);
-      const notOnlySelection = newSelectedRowIndices.size > 1;
+    console.group('rowSelect');
+    console.log('shiftKeyPressed: ', shiftKeyPressed);
+    console.log('ctrlKeyPressed: ', ctrlKeyPressed);
+    console.groupEnd();
 
-      if (alreadySelected && (notOnlySelection || !noEmptySelection)) {
-        newSelectedRowIndices.delete(rowData.index);
+    if (!rowData) {
+      console.error('Error: <Table /> rowSelect called without providing rowData param.');
+      return false;
+    }
 
-        this.setState({
-          selectedRowIndices: newSelectedRowIndices,
-          shiftKeyDown: false,
-        });
-      } else {
-        newSelectedRowIndices.add(rowData.index);
+    const formattedSelection = this.getFormattedSelection();
 
-        if (shiftKeyDown && (prevLastSelectedRowIndex || prevLastSelectedRowIndex === 0)) {
-          const count = rowData.index - prevLastSelectedRowIndex;
+    if (multiSelect) {
+      if (shiftKeyPressed) {
+        // The shift key was pressed. The anchor row and active rows do not change. All previously selected rows are purged.
+        // All rows between the anchor row and the selected row are selected.
+        const count = rowData.index - anchorRowIndex;
 
-          const startIndex = count > 0 ? prevLastSelectedRowIndex + 1 : rowData.index + 1;
-          const endIndex = count > 0 ? rowData.index : prevLastSelectedRowIndex;
+        const startIndex = count > 0 ? anchorRowIndex : rowData.index;
+        const endIndex = count > 0 ? rowData.index : anchorRowIndex;
 
-          let currentIndex = startIndex;
+        let currentIndex = startIndex;
+        let keyboardSelectedIds = [];
+        while (currentIndex <= endIndex) {
+          newSelectedRowIndices.add(currentIndex);
+          const newSelection = sortedRows[currentIndex];
 
-          while (currentIndex < endIndex) {
-            newSelectedRowIndices.add(currentIndex);
-            const newSelection = sortedRows[currentIndex];
-
-            if (newSelection) {
-              keyboardSelectedIds = [...keyboardSelectedIds, newSelection.id];
-            }
-            currentIndex += 1;
+          if (newSelection) {
+            keyboardSelectedIds = [...keyboardSelectedIds, newSelection.id];
           }
+          currentIndex += 1;
         }
 
         this.setState({
-          selectedRowIndices: newSelectedRowIndices,
           shiftKeyDown: false,
-          lastSelectedRowIndex: rowData.index,
+          selectedRowIndices: newSelectedRowIndices,
         });
-      }
+        onSelect(keyboardSelectedIds, selection);
+        return true;
+      } else if (ctrlKeyPressed) {
+        const alreadySelected = newSelectedRowIndices.has(rowData.index);
+        const notOnlySelection = newSelectedRowIndices.size > 1;
 
-      // if the list allows multiple selected rows
-      if (Array.isArray(selection)) {
-        selectedRowIds = [...keyboardSelectedIds, ...selection];
-      } else if (typeof selection === 'string') {
-        selectedRowIds = [...keyboardSelectedIds, [selection]];
-      }
+        // If the row is already selected, attempt to deselect it.
+        if (alreadySelected && (notOnlySelection || !noEmptySelection)) {
+          newSelectedRowIndices.delete(rowData.index);
 
-      if (!selectedRowIds.includes(rowId)) {
-        // if the row is not already in the selection, add it
-        selectedRowIds.push(rowId);
-        onSelect(selectedRowIds, rowId);
-      } else if (selectedRowIds.length === 1 && noEmptySelection) {
-        // if this is the only remaining selection and we don't allow empty selection, just don't update
-        return false;
-      } else {
-        // if it is already in the selection, remove it
-        selectedRowIds.splice(selectedRowIds.indexOf(rowId), 1);
-        rowId = selectedRowIds[selectedRowIds.length - 1];
-        onSelect(selectedRowIds, rowId);
+          // Is the row we're deselecting the active row?
+          const updateActiveRow = rowData.id === formattedSelection;
+          // Is the row we're deselecting the anchor row?
+          const updateAnchorRow = rowData.index === anchorRowIndex;
+
+          if (updateActiveRow || updateAnchorRow) {
+            // if the row we're deselecting is the anchor row we need to derive a new anchor row index.
+            const newAnchorRowIndex = updateAnchorRow
+            ? newSelectedRowIndices.reduce((minimumRowIndex, currentRowIndex) => {
+              return Math.min(currentRowIndex, minimumRowIndex);
+            }, Infinity)
+            : anchorRowIndex;
+            // if the row we're deselectings is the active row, we need to derive a new active row index.
+            const newActiveRowId = updateActiveRow
+            ? newSelectedRowIndices.reduce((minimumRowIndex, currentRowIndex) => {
+              return Math.min(currentRowIndex, minimumRowIndex);
+            }, Infinity)
+            : formattedSelection;
+
+            const newSelectedRowIds = this.getSelectedIds(newSelectedRowIndices);
+            this.setState({
+              ctrlKeyDown: false,
+              selectedRowIndices: newSelectedRowIndices,
+              anchorRowIndex: newAnchorRowIndex,
+            });
+            onSelect(newSelectedRowIds, newActiveRowId);
+            return true;
+          }
+            // If the row we're deselecting is not the anchor row or active row, just deselect it.
+          this.setState({
+            ctrlKeyDown: false,
+            selectedRowIndices: newSelectedRowIndices,
+          });
+          const newSelectedRowIds = this.getSelectedIds(newSelectedRowIndices);
+          onSelect(newSelectedRowIds, null);
+          return true;
+        }
+        // This row was not previously selected. The new row becomes the anchor row, but the active row does not change.
+        // The previous anchor row, always included in selectedRowIndices, is now just a normal selection.
+        newSelectedRowIndices.add(rowData.index);
+        const newSelectedRowIds = this.getSelectedIds(newSelectedRowIndices);
+        this.setState({
+          ctrlKeyDown: false,
+          selectedRowIndices: newSelectedRowIndices,
+          anchorRowIndex: rowData.index,
+        });
+        onSelect(newSelectedRowIds, null);
+        return true;
       }
+      // If no modifier keys were pressed, all previously selected indices are cleared and the row selected becomes the
+      // new anchor row, is passed to the onSelect function to update MasterDetails active displayed row, and becomes
+      // the only selection.
+      this.setState({
+        selectedRowIndices: new Set([rowData.index]),
+        anchorRowIndex: rowData.index,
+      });
+      onSelect([rowData.id], rowData.id);
       return true;
     }
 
-    if (Array.isArray(selection)) {
-      selectedRowIds = selection[0];
-    } else if (typeof selection === 'string') {
-      selectedRowIds = selection;
-    } else {
-      selectedRowIds = '';
-    }
-
-    // if this row is the currently selected row,
-    if (selectedRowIds === rowId) {
+    // multiSelect is not enabled
+    // if this row is already the currently selected row,
+    if (formattedSelection === rowData.id) {
       // if we don't allow empty selection
       if (noEmptySelection) {
         // do nothing
@@ -335,11 +418,11 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     }
 
     // otherwise, just select the newly clicked row
-    onSelect([rowId], rowId);
+    onSelect([rowData.id], rowData.id);
     return true;
   }
 
-  remote(remoteObject: any): any {
+  remote = (remoteObject: any): any => {
     const remoteCopy = Object.assign({}, remoteObject);
     if (this.props.onSort) {
       // Caller wants to handle sorting themselves
@@ -348,7 +431,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     return remoteCopy;
   }
 
-  handleSort(colName: string, order: 'asc' | 'desc') {
+  handleSort = (colName: string, order: 'asc' | 'desc') => {
     let colNum = 0;
     this.props.columns.forEach((col: TableColumn, index: number) => {
       if (col.title === colName || (typeof col.render === 'string' && col.render === colName)) {
@@ -362,7 +445,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   }
 
   render() {
-    const { multiSelect, selection, detailsRowId, lastSelectedRowBackgroundColor } = this.props;
+    const { multiSelect, selection, detailsRowId, anchorRowBackgroundColor } = this.props;
     const { selectedRowIndices } = this.state;
 
     let selectedRowIds;
@@ -392,8 +475,8 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       clickToSelect: true,
       className: this.props.selectedClassName,
       bgColor: (row) => {
-        if (multiSelect && row.id === detailsRowId && lastSelectedRowBackgroundColor) {
-          return lastSelectedRowBackgroundColor;
+        if (multiSelect && row.id === detailsRowId && anchorRowBackgroundColor) {
+          return anchorRowBackgroundColor;
         }
         return null;
       },
