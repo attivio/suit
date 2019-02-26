@@ -146,7 +146,7 @@ type TableDefaultProps = {
 };
 
 type TableState = {
-  /** The index of the anchor row. Only relevant with multiSelect option enabled.*/
+  /** The index of the anchor row. Only relevant with multiSelect option enabled. */
   anchorRowIndex: number | null;
   /** Indicates whether or not the shift key is pressed down. Only relevant with multiSelect option enabled. */
   shiftKeyDown: boolean;
@@ -214,7 +214,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   componentDidMount() {
     if (this.props.multiSelect) {
       document.addEventListener('keydown', this.keyDown);
-      document.addEventListener('keyup', this.keyup);
+      document.addEventListener('keyup', this.keyUp);
     }
   }
 
@@ -234,7 +234,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   componentWillUnmount() {
     if (this.props.multiSelect) {
       document.removeEventListener('keydown', this.keyDown);
-      document.removeEventListener('keyup', this.keyup);
+      document.removeEventListener('keyup', this.keyUp);
     }
   }
 
@@ -255,15 +255,8 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       selectedRowArray.push(rowIndex);
     });
     const selectedRowIds = selectedRowArray.map((rowIndex) => {
-      console.log('rowIndex: ', rowIndex);
-      console.log('sortedRows[rowIndex]: ', sortedRows[rowIndex]);
       return sortedRows[rowIndex] ? `${sortedRows[rowIndex].id}` : null;
     });
-    console.group('getSelectedIds()');
-    console.log('newSelectedRowIndices: ', newSelectedRowIndices);
-    console.log('selectedRowArray: ', selectedRowArray);
-    console.log('selectedRowIds: ', selectedRowIds);
-    console.groupEnd();
     return selectedRowIds;
   }
 
@@ -276,10 +269,10 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   }
 
   keyUp = (e: KeyboardEvent) => {
-    if (e.shiftKey || e.ctrlKey || e.metaKey) {
-      const shiftKeyDown = !e.shiftKey;
-      const ctrlKeyDown = !(e.ctrlKey || e.metaKey);
-      this.setState({ shiftKeyDown, ctrlKeyDown });
+    const shiftKeyUp = e.key === 'Shift';
+    const ctrlKeyUp = e.key === 'Control' || e.key === 'Meta';
+    if (shiftKeyUp || ctrlKeyUp) {
+      this.setState({ shiftKeyDown: false, ctrlKeyDown: false });
     }
   }
 
@@ -296,11 +289,6 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     const newSelectedRowIndices = prevSelectedRowIndices;
 
     const { multiSelect, selection, noEmptySelection, onSelect } = this.props;
-
-    console.group('rowSelect');
-    console.log('shiftKeyPressed: ', shiftKeyPressed);
-    console.log('ctrlKeyPressed: ', ctrlKeyPressed);
-    console.groupEnd();
 
     if (!rowData) {
       console.error('Error: <Table /> rowSelect called without providing rowData param.');
@@ -331,7 +319,6 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         }
 
         this.setState({
-          shiftKeyDown: false,
           selectedRowIndices: newSelectedRowIndices,
         });
         onSelect(keyboardSelectedIds, selection);
@@ -365,7 +352,6 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
             const newSelectedRowIds = this.getSelectedIds(newSelectedRowIndices);
             this.setState({
-              ctrlKeyDown: false,
               selectedRowIndices: newSelectedRowIndices,
               anchorRowIndex: newAnchorRowIndex,
             });
@@ -374,7 +360,6 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
           }
             // If the row we're deselecting is not the anchor row or active row, just deselect it.
           this.setState({
-            ctrlKeyDown: false,
             selectedRowIndices: newSelectedRowIndices,
           });
           const newSelectedRowIds = this.getSelectedIds(newSelectedRowIndices);
@@ -386,7 +371,6 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         newSelectedRowIndices.add(rowData.index);
         const newSelectedRowIds = this.getSelectedIds(newSelectedRowIndices);
         this.setState({
-          ctrlKeyDown: false,
           selectedRowIndices: newSelectedRowIndices,
           anchorRowIndex: rowData.index,
         });
