@@ -187,7 +187,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
         const newDetailsRowId = (newSelectedRows.length > 0) ? (newSelectedRows[newSelectedRows.length - 1]) : '';
 
         this.setState({
-          selectedRows: newSelectedRows,
+          selectedRows: [newDetailsRowId],
           detailsRowId: newDetailsRowId,
         });
       }

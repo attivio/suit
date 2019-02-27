@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ObjectUtils from '../util/ObjectUtils';
 
 type ConfigurableState = {
   filled: boolean;
@@ -31,6 +32,12 @@ function Configurable(WrappedComponent: React.Component): React.Component {
     // FIXME: Never set state in componentDidMount
     componentDidMount() {
       this.fillWithDefaults(this.props);
+    }
+
+    componentWillReceiveProps(nextProps: any) {
+      if (!ObjectUtils.deepEquals(this.props, nextProps)) {
+        this.fillWithDefaults(nextProps);
+      }
     }
 
     fillWithDefaults(props: any) {

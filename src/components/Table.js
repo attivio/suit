@@ -227,6 +227,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
             return { ...row, index };
           })
           : [],
+        selectedRowIndices: new Set([]),
       });
     }
   }
