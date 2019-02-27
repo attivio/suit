@@ -107,7 +107,7 @@ type MasterDetailsProps = {
   /** Optional background color to apply to the last selected row. Only used if multiSelect is specified as well. Takes precedence
    *  over all other background colors specified through classNames.
    */
-  lastSelectedRowBackgroundColor: ?string;
+  anchorRowBackgroundColor: ?string;
 };
 
 type MasterDetailsDefaultProps = {
@@ -174,7 +174,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
       if (newProps.rows.length === 0) {
         this.setState({
           selectedRows: [],
-          detailsRowId: '',
+          detailsRowId: null,
         });
       } else {
         const ids = newProps.rows.map((row) => {
@@ -200,7 +200,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
   selectionChanged(selectedRowIds: Array<string>, newlySelectedRowId: string | null) {
     this.setState({
       selectedRows: selectedRowIds,
-      detailsRowId: newlySelectedRowId || '',
+      detailsRowId: newlySelectedRowId || null,
     }, () => {
       if (this.props.onSelect) {
         this.props.onSelect(selectedRowIds, newlySelectedRowId);
@@ -223,7 +223,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
       details: Detail,
       detailsProps,
       footer,
-      lastSelectedRowBackgroundColor,
+      anchorRowBackgroundColor,
       multiSelect,
       noEmptySelection,
       onSort,
@@ -264,8 +264,8 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
                 noEmptySelection={noEmptySelection}
                 selectedClassName={selectedClassName}
                 tableClassName={tableClassName}
-                detailsRowId={detailsRow ? detailsRow.id : ''}
-                lastSelectedRowBackgroundColor={lastSelectedRowBackgroundColor}
+                detailsRowId={this.state.detailsRowId}
+                anchorRowBackgroundColor={anchorRowBackgroundColor}
               />
               {footer}
             </div>
