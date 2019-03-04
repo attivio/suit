@@ -336,7 +336,8 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
             if (noEmptySelection) {
               return false;
             }
-            // The row is already selected, and it's the only selection, but the table allows no selections, so clear out selections.
+            // The row is already selected, and it's the only selection, but the table allows no selections,
+            // so clear out selections.
             this.setState({
               selectedRowIndices: new Set([]),
               anchorRowIndex: null,
