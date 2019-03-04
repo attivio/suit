@@ -28,9 +28,14 @@ export default class Toggle extends React.Component<void, ToggleProps, void> {
 
   render() {
     const { customClassName = '' } = this.props;
-    const className = customClassName ? `attivio-smalltoolbar-btn ${customClassName}` : 'attivio-smalltoolbar-btn';
+    const className = customClassName || 'attivio-smalltoolbar-btn';
+
     return (
-      <a href className={className} onClick={this.handleClick}>
+      <a
+        href
+        className={className}
+        onClick={this.handleClick}
+      >
         {this.props.children}
       </a>
     );

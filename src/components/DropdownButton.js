@@ -6,6 +6,8 @@ import Dropdown from 'react-bootstrap/lib/Dropdown';
 import Toggle from './Toggle';
 
 type DropdownButtonProps = {
+  /** An optional custom className for the dropdown button */
+  buttonClassName: ?string;
   /** The DOM element's id property */
   id: string;
   /** The title to display on the un-opened dropdown button */
@@ -18,6 +20,8 @@ type DropdownButtonProps = {
   onOpen: (e: Event) => void;
   /** The callback to run when a menu item is selected */
   onSelect: (value: any, e: Event) => void;
+  /** An optional custom className for the dropdown options */
+  optionsClassName: ?string;
 };
 
 /**
@@ -27,13 +31,18 @@ export default class DropdownButton extends React.Component<void, DropdownButton
   static displayName = 'DropdownButton';
 
   render() {
-    const { titleClassName = '' } = this.props;
+    const { titleClassName = '', buttonClassName = '', optionsClassName = '' } = this.props;
+
     return (
-      <Dropdown id={this.props.id} className="attivio-dropdown" style={{ verticalAlign: 'unset' }}>
+      <Dropdown
+        id={this.props.id}
+        className={buttonClassName || 'attivio-dropdown'}
+        style={{ verticalAlign: 'unset' }}
+      >
         <Toggle bsRole="toggle" onClick={this.props.onOpen} customClassName={titleClassName}>
           {this.props.title}
         </Toggle>
-        <Dropdown.Menu bsRole="menu" onSelect={this.props.onSelect}>
+        <Dropdown.Menu bsRole="menu" onSelect={this.props.onSelect} className={optionsClassName}>
           {this.props.children}
         </Dropdown.Menu>
       </Dropdown>
