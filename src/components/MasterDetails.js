@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
@@ -68,13 +68,13 @@ type MasterDetailsProps = {
    * user filter the list of items in the table. May also be a function that uses selectedRows and
    * renders a header component. Optional; if not set, the table will be flush with the top of the details component.
    */
-  header: any;
+  header?: null | React.Node | (selectedRows: Array<string>) => React.Node;
   /**
    * A footer component that can be inserted below the table (but to the left of the
    * details component). For example, this might be used to include controls to paginate
    * the table. Optional.
    */
-  footer: any;
+  footer?: null | React.Node | (selectedRows: Array<string>) => React.Node;
   /**
    * This determines the ratio of table to details, based on Bootstrap's 12-column grid.
    * This is the width of the table; the details component will use the remainder. Optional;
@@ -104,33 +104,34 @@ type MasterDetailsProps = {
    * The class name to apply to the table element. Optional.
    */
   tableClassName: string;
-  /** Optional background color to apply to the last selected row. Only used if multiSelect is specified as well. Takes precedence
-   *  over all other background colors specified through classNames.
+  /**
+   * Optional background color to apply to the last selected row. Only used if multiSelect is specified as well.
+   * Takes precedence over all other background colors specified through classNames.
    */
   anchorRowBackgroundColor: ?string;
 };
 
 type MasterDetailsDefaultProps = {
   detailsProps: any;
+  footer?: null | React.Node | (selectedRows: Array<string>) => React.Node;
+  header?: null | React.Node | (selectedRows: Array<string>) => React.Node;
   multiSelect: boolean;
-  onSelect: null | (rowsIds: Array<string>, newlySelectedRowId: string | null) => void;
-  sortColumn: number;
-  onSort: null | (sortColumn: number) => void;
-  header: any;
-  footer: any;
-  split: ColumnCount;
-  padding: number;
   noEmptySelection: boolean;
-  tableContainerClassName: string | void;
+  onSelect: null | (rowsIds: Array<string>, newlySelectedRowId: string | null) => void;
+  onSort: null | (sortColumn: number) => void;
+  padding: number;
   selectedClassName: string;
+  sortColumn: number;
+  split: ColumnCount;
   tableClassName: string;
+  tableContainerClassName: string | void;
 };
 
 type MasterDetailsState = {
-  /** The IDs of the selected rows */
-  selectedRows: Array<string>;
   /** The id for the most-recently selected row, to be displayed in the details pane. */
   detailsRowId: string;
+  /** The IDs of the selected rows */
+  selectedRows: Array<string>;
 };
 
 /**
@@ -141,18 +142,18 @@ type MasterDetailsState = {
 export default class MasterDetails extends React.Component<MasterDetailsDefaultProps, MasterDetailsProps, MasterDetailsState> {
   static defaultProps = {
     detailsProps: {},
-    multiSelect: false,
-    onSelect: null,
-    sortColumn: 0,
-    onSort: null,
-    header: null,
     footer: null,
-    split: 8,
-    padding: 0,
+    header: null,
+    multiSelect: false,
     noEmptySelection: false,
-    tableContainerClassName: undefined,
+    onSelect: null,
+    onSort: null,
+    padding: 0,
     selectedClassName: 'attivio-table-row-selected',
+    sortColumn: 0,
+    split: 8,
     tableClassName: 'table table-striped attivio-table attivio-table-sm',
+    tableContainerClassName: undefined,
   };
 
   static displayName = 'MasterDetails';
@@ -174,7 +175,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
       if (newProps.rows.length === 0) {
         this.setState({
           selectedRows: [],
-          detailsRowId: null,
+          detailsRowId: '',
         });
       } else {
         const ids = newProps.rows.map((row) => {
@@ -200,7 +201,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
   selectionChanged(selectedRowIds: Array<string>, newlySelectedRowId: string | null) {
     this.setState({
       selectedRows: selectedRowIds,
-      detailsRowId: newlySelectedRowId || null,
+      detailsRowId: newlySelectedRowId || '',
     }, () => {
       if (this.props.onSelect) {
         this.props.onSelect(selectedRowIds, newlySelectedRowId);
@@ -217,12 +218,20 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     return header;
   }
 
+  renderFooter() {
+    const { footer } = this.props;
+    const { selectedRows } = this.state;
+    if (typeof footer === 'function') {
+      return footer(selectedRows);
+    }
+    return footer;
+  }
+
   render() {
     const {
       columns,
       details: Detail,
       detailsProps,
-      footer,
       anchorRowBackgroundColor,
       multiSelect,
       noEmptySelection,
@@ -264,10 +273,10 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
                 noEmptySelection={noEmptySelection}
                 selectedClassName={selectedClassName}
                 tableClassName={tableClassName}
-                detailsRowId={this.state.detailsRowId}
+                activeRowId={this.state.detailsRowId}
                 anchorRowBackgroundColor={anchorRowBackgroundColor}
               />
-              {footer}
+              {this.renderFooter()}
             </div>
           </Col>
           <Col lg={detailsWidth} md={detailsWidth} sm={12} xs={12} style={{ paddingLeft: halfPadding, paddingRight: 0 }}>

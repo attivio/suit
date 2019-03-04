@@ -123,9 +123,9 @@ type TableProps = {
    */
   tableClassName: string;
   /**
-   * The id of the row displayed in MasterDetails.
+   * The id of the active row.
    */
-  detailsRowId: string;
+  activeRowId: string;
   /** Optional background color to apply to the last selected row. Only used if multiSelect is specified as well. Takes precedence
    *  over all other background colors specified through classNames.
    */
@@ -134,7 +134,7 @@ type TableProps = {
 
 type TableDefaultProps = {
   bordered: boolean;
-  detailsRowId: string;
+  activeRowId: string;
   multiSelect: boolean;
   noEmptySelection: boolean;
   onSelect: null | (selectedRowsIds: Array<string>, newlySelectedRowId: string | null) => void;
@@ -173,7 +173,7 @@ type TableState = {
 export default class Table extends React.Component<TableDefaultProps, TableProps, TableState> {
   static defaultProps = {
     bordered: false,
-    detailsRowId: '',
+    activeRowId: '',
     multiSelect: false,
     noEmptySelection: false,
     onSelect: null,
@@ -289,7 +289,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     const ctrlKeyPressed = ctrlKeyDown;
     const newSelectedRowIndices = prevSelectedRowIndices;
 
-    const { multiSelect, noEmptySelection, onSelect, detailsRowId } = this.props;
+    const { multiSelect, noEmptySelection, onSelect, activeRowId } = this.props;
 
     if (!rowData) {
       return false;
@@ -302,7 +302,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
             selectedRowIndices: new Set([rowData.index]),
             anchorRowIndex: rowData.index,
           });
-          onSelect([rowData.id], detailsRowId);
+          onSelect([rowData.id], activeRowId);
           return true;
         }
         // The shift key was pressed. The anchor row and active rows do not change. All previously selected rows are purged.
@@ -321,7 +321,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         this.setState({
           newSelectedRowIndices,
         });
-        onSelect(newSelectedRowIds, detailsRowId);
+        onSelect(newSelectedRowIds, activeRowId);
 
         return true;
       } else if (ctrlKeyPressed) {
@@ -347,7 +347,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
           // This row is not the only selection, deselect it.
           newSelectedRowIndices.delete(rowData.index);
           // Is the row we're deselecting the active row?
-          const updateActiveRow = rowData.id === detailsRowId;
+          const updateActiveRow = rowData.id === activeRowId;
           // Is the row we're deselecting the anchor row?
           const updateAnchorRow = rowData.index === anchorRowIndex;
           if (updateActiveRow || updateAnchorRow) {
@@ -364,7 +364,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
                 return Math.min(currentRowIndex, minimumRowIndex);
               }, Infinity)
             ].id
-            : detailsRowId;
+            : activeRowId;
 
             const newSelectedRowIds = this.getSelectedIds(newSelectedRowIndices);
             this.setState({
@@ -379,7 +379,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
             selectedRowIndices: newSelectedRowIndices,
           });
           const newSelectedRowIds = this.getSelectedIds(newSelectedRowIndices);
-          onSelect(newSelectedRowIds, detailsRowId);
+          onSelect(newSelectedRowIds, activeRowId);
           return true;
         }
         // This row was not previously selected. The new row becomes the anchor row, but the active row does not change.
@@ -390,7 +390,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
           selectedRowIndices: newSelectedRowIndices,
           anchorRowIndex: rowData.index,
         });
-        onSelect(newSelectedRowIds, detailsRowId);
+        onSelect(newSelectedRowIds, activeRowId);
         return true;
       }
       // If no modifier keys were pressed, all previously selected indices are cleared and the row selected becomes the
@@ -406,7 +406,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
     // multiSelect is not enabled
     // if this row is already the currently selected row,
-    if (detailsRowId === rowData.id) {
+    if (activeRowId === rowData.id) {
       // if we don't allow empty selection
       if (noEmptySelection) {
         // do nothing
@@ -445,7 +445,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   }
 
   render() {
-    const { multiSelect, selection, detailsRowId, anchorRowBackgroundColor } = this.props;
+    const { multiSelect, selection, activeRowId, anchorRowBackgroundColor } = this.props;
     const { selectedRowIndices } = this.state;
 
     let selectedRowIds;
@@ -475,7 +475,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       clickToSelect: true,
       className: this.props.selectedClassName,
       bgColor: (row) => {
-        if (multiSelect && row.id === detailsRowId && anchorRowBackgroundColor) {
+        if (multiSelect && row.id === activeRowId && anchorRowBackgroundColor) {
           return anchorRowBackgroundColor;
         }
         return null;
