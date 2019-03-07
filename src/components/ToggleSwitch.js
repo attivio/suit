@@ -52,19 +52,18 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
 
     const disabledClass = disabled ? 'disabled' : '';
     const containerClass = `toggle-switch-container ${disabledClass}`;
+
     const onClass = `toggle-switch toggle-switch-on ${on ? 'selected' : ''} ${disabledClass}`;
     const offClass = `toggle-switch toggle-switch-off ${on ? '' : 'selected'} ${disabledClass}`;
 
     if (noLabel) {
-      const buttonStyle = on && !disabled
-        ? {
-          background: '#2F75B0',
-          right: '12px',
-        }
-        : {};
-      const sliderStyle = on && !disabled
-        ? { backgroundColor: '#2F75B0', opacity: '0.7' }
-        : { backgroundColor: '#221f1f', opacity: '0.25' };
+      const buttonStyle = on && !disabled ? { right: '12px' } : { right: '32px', backgroundColor: '#ffffff' };
+      const buttonClassName = on && !disabled ? `attivio-primary-background ${onClass}` : offClass;
+
+      const sliderClassName = on && !disabled
+        ? 'attivio-primary-background'
+        : 'attivio-gray-light-background';
+
       return (
         <div
           className={containerClass}
@@ -77,15 +76,16 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
           }}
         >
           <div
+            className={sliderClassName}
             style={{
               width: '28px',
               height: '12px',
               borderRadius: '10px',
-              ...sliderStyle,
+              opacity: '0.7',
             }}
           />
           <div
-            className={on ? onClass : offClass}
+            className={buttonClassName}
             onClick={() => {
               if (!on && !disabled) {
                 // Off now, turn it on
@@ -104,8 +104,6 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
               width: '17px',
               borderRadius: '100%',
               position: 'relative',
-              background: '#FFFFFF',
-              right: '32px',
               transitionDuration: '100ms',
               zIndex: '1',
               cursor: disabled ? 'default' : 'pointer',
