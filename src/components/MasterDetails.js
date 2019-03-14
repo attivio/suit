@@ -168,13 +168,13 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
   /**
    * Update the table's selection and update the details view's input.
    */
-  selectionChanged(selectedRows: Array<{}>, newlySelectedRow: {} | null) {
+  selectionChanged(selectedRows: Array<{}>, activeRow: {} | null) {
     this.setState({
       selectedRows,
-      detailsRow: newlySelectedRow,
+      detailsRow: activeRow,
     }, () => {
       if (this.props.onSelect) {
-        this.props.onSelect(selectedRows, newlySelectedRow);
+        this.props.onSelect(selectedRows, activeRow);
       }
     });
   }
@@ -199,10 +199,10 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
 
   render() {
     const {
+      anchorRowBackgroundColor,
       columns,
       details: Detail,
       detailsProps,
-      anchorRowBackgroundColor,
       multiSelect,
       noEmptySelection,
       onSort,

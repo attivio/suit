@@ -1,7 +1,7 @@
 import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/css/react-bootstrap-table.css';
-import { reduce as lodashReduce } from 'lodash';
+import { reduce as lodashReduce, map as lodashMap } from 'lodash';
 
 import ObjectUtils from '../util/ObjectUtils';
 
@@ -69,8 +69,9 @@ type TableProps = {
    * set, the rows will be selectable, but the parent component won't have access to the
    * selected rows or active row. Will always be called with an array of row objects, though the array
    * will be empty if nothing is selected and an object or null as the second parameter.
+   * The second parameter is not necessary if multiselect is not enabled.
    */
-  onSelect?: (selectedRows: Array<{}>, newlySelectedRow: {} | null) => void;
+  onSelect?: (selectedRows: Array<{}>, activeRow: {} | null) => void;
   /**
    * If set, the user can select multiple rows in the table.
    */
@@ -127,7 +128,7 @@ type TableDefaultProps = {
   bordered?: boolean;
   multiSelect?: boolean;
   noEmptySelection?: boolean;
-  onSelect?: (selectedRows: Array<{}>, newlySelectedRow: {} | null) => void;
+  onSelect?: (selectedRows: Array<{}>, activeRow: {} | null) => void;
   onSort?: (sortColumn: number) => void;
   selectedClassName?: string;
   sortColumn?: number;
@@ -135,6 +136,8 @@ type TableDefaultProps = {
 };
 
 type TableState = {
+  /** The index of the active row. Only relevant with multiSelect option enabled. */
+  activeRowIndex: number | null;
   /** The index of the anchor row. Only relevant with multiSelect option enabled. */
   anchorRowIndex: number | null;
   /** Indicates whether or not the shift key is pressed down. Only relevant with multiSelect option enabled. */
@@ -160,7 +163,6 @@ type TableState = {
 export default class Table extends React.Component<TableDefaultProps, TableProps, TableState> {
   static defaultProps = {
     bordered: false,
-    activeRowIndex: null,
     multiSelect: false,
     noEmptySelection: false,
     selectedClassName: 'attivio-table-row-selected',
@@ -191,7 +193,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       ctrlKeyDown: false,
       anchorRowIndex: defaultIndex,
       activeRowIndex: defaultIndex,
-      selectedIndices: new Set([defaultIndex]),
+      selectedIndices: props.multiSelect ? new Set([0]) : new Set([]),
     };
     (this: any).renderColumns = this.renderColumns.bind(this);
   }
@@ -207,7 +209,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
       // If the parent provided an update hook, initialize the parent with selection values.
       if (onSelect) {
-        const selectedRows = selectedIndices.map((index) => {
+        const selectedRows = lodashMap(selectedIndices, (index) => {
           return sortedRows[index];
         });
         onSelect(selectedRows, activeRowIndex);
@@ -366,7 +368,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
             newSelectedRowIndices.add(newActiveRowIndex);
             newSelectedRowIndices.add(newAnchorRowIndex);
 
-            const selectedRows = newSelectedRowIndices.map((index) => {
+            const selectedRows = lodashMap(newSelectedRowIndices, (index) => {
               return sortedRows[index];
             });
 
@@ -383,7 +385,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
             return true;
           }
 
-          const selectedRows = newSelectedRowIndices.map((index) => {
+          const selectedRows = lodashMap(newSelectedRowIndices, (index) => {
             return sortedRows[index];
           });
 
@@ -397,7 +399,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         // This row becomes the anchor row, but the active row does not change.
         newSelectedRowIndices.add(rowData.index);
 
-        const selectedRows = newSelectedRowIndices.map((index) => {
+        const selectedRows = lodashMap(newSelectedRowIndices, (index) => {
           return sortedRows[index];
         });
 
@@ -528,6 +530,10 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
     const { sortedRows, selectedIndices, activeRowIndex } = this.state;
 
+    const selected = lodashMap(selectedIndices, (index) => {
+      return sortedRows[index];
+    });
+
     // If the selectedIndices function isn't set, then don't let user select rows
     const selectRow = onSelect ? {
       mode: multiSelect ? 'checkbox' : 'radio',
@@ -541,7 +547,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         return null;
       },
       hideSelectColumn: true,
-      selected: selectedIndices,
+      selected: selected || [],
     } : null;
 
     // Fill out the options with sorting-related properties
