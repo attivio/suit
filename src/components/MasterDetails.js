@@ -5,7 +5,6 @@ import * as React from 'react';
 import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
-import ObjectUtils from '../util/ObjectUtils';
 
 import Table from './Table';
 
@@ -117,7 +116,7 @@ type MasterDetailsDefaultProps = {
   header?: null | React.Node | (selectedRows: Array<string>) => React.Node;
   multiSelect: boolean;
   noEmptySelection: boolean;
-  onSelect: null | (rowsIds: Array<string>, newlySelectedRowId: string | null) => void;
+  onSelect: ?(rowsIndices: Array<number>, newlySelectedRowIndex: number | null) => void;
   onSort: null | (sortColumn: number) => void;
   padding: number;
   selectedClassName: string;
@@ -128,10 +127,10 @@ type MasterDetailsDefaultProps = {
 };
 
 type MasterDetailsState = {
-  /** The id for the most-recently selected row, to be displayed in the details pane. */
-  detailsRowId: string;
-  /** The IDs of the selected rows */
-  selectedRows: Array<string>;
+  /** The index for the most-recently selected row, to be displayed in the details pane. */
+  detailsRowIndex: number | null;
+  /** The indices of the selected rows */
+  selectedRows: Set<number>;
 };
 
 /**
@@ -161,50 +160,24 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
   constructor(props: MasterDetailsProps) {
     super(props);
     this.state = {
-      selectedRows: props.rows.length > 0 && props.rows[0] ? [props.rows[0].id] : [],
-      detailsRowId: props.rows.length > 0 && props.rows[0] ? props.rows[0].id : '',
+      detailsRowIndex: null,
+      selectedRows: [],
     };
     (this: any).selectionChanged = this.selectionChanged.bind(this);
   }
+
   state: MasterDetailsState;
-
-  componentWillReceiveProps(newProps: MasterDetailsProps) {
-    const rowsChanged = !ObjectUtils.arrayEquals(newProps.rows, this.props.rows);
-
-    if (rowsChanged) {
-      if (newProps.rows.length === 0) {
-        this.setState({
-          selectedRows: [],
-          detailsRowId: '',
-        });
-      } else {
-        const ids = newProps.rows.map((row) => {
-          return row.id;
-        });
-        const newSelectedRows = this.state.selectedRows.filter((row) => { return ids.includes(row); });
-        if (this.props.noEmptySelection && newSelectedRows.length === 0) {
-          newSelectedRows.push(newProps.rows[0].id);
-        }
-        const newDetailsRowId = (newSelectedRows.length > 0) ? (newSelectedRows[newSelectedRows.length - 1]) : '';
-
-        this.setState({
-          selectedRows: [newDetailsRowId],
-          detailsRowId: newDetailsRowId,
-        });
-      }
-    }
-  }
 
   /**
    * Update the table's selection and update the details view's input.
    */
-  selectionChanged(selectedRowIds: Array<string>, newlySelectedRowId: string | null) {
+  selectionChanged(selectedRowIndices: Array<number>, newlySelectedRowIndex: number | null) {
     this.setState({
-      selectedRows: selectedRowIds,
-      detailsRowId: newlySelectedRowId || '',
+      selectedRows: selectedRowIndices,
+      detailsRowIndex: newlySelectedRowIndex,
     }, () => {
       if (this.props.onSelect) {
-        this.props.onSelect(selectedRowIds, newlySelectedRowId);
+        this.props.onSelect(selectedRowIndices, newlySelectedRowIndex);
       }
     });
   }
@@ -246,15 +219,12 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     } = this.props;
     const {
       selectedRows,
+      detailsRowIndex,
     } = this.state;
 
     const detailsWidth = 12 - tableWidth;
     const halfPadding = `${padding / 2}px`;
-
-    // FIXME: Move out of render function
-    const detailsRow = this.props.rows.find((row) => {
-      return row.id === this.state.detailsRowId;
-    });
+    const detailsRow = rows[detailsRowIndex];
 
     return (
       <Grid fluid style={{ padding: 0 }}>
@@ -273,7 +243,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
                 noEmptySelection={noEmptySelection}
                 selectedClassName={selectedClassName}
                 tableClassName={tableClassName}
-                activeRowId={this.state.detailsRowId}
+                activeRowIndex={detailsRowIndex}
                 anchorRowBackgroundColor={anchorRowBackgroundColor}
               />
               {this.renderFooter()}
