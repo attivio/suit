@@ -32,12 +32,12 @@ type MasterDetailsProps = {
    * Custom properties to pass to the details component in addition to the "data" property.
    * Optional.
    */
-  detailsProps: any;
+  detailsProps?: any;
   /**
    * If set, multiple rows in the table can be selected simultaneouysly. In this case, the
    * most recently selected row is shown in the details view.
    */
-  multiSelect: boolean;
+  multiSelect?: boolean;
   /**
    * This callback is called when the user changes the selection in the table. However the
    * MasterDetails component and not its parent is responsible for maintaining the selection
@@ -45,35 +45,33 @@ type MasterDetailsProps = {
    * as change the enablement of buttons, etc., based on the selection. See the onSelect
    * property of the Table component for more details.
    */
-  onSelect: null | (rowsIds: Array<string>, newlySelectedRowId: string | null) => void;
-  /**
-   * If set, the user can select multiple rows in the table.
-   */
-  multiSelect: boolean;
+  onSelect?: (selectedRows: Array<{}>, newlySelectedRow: {} | null) => void;
   /**
    * The column being sorted by, if any.
    * A callback used when the owner of the rows is doing any sorting. See the onSort property
    * in the Table component for more details.
    */
-  sortColumn: number;
+  sortColumn?: number;
   /**
    * A callback used when the owner of the rows is doing any sorting. See the onSort property
    * in the Table component for more details.
    */
-  onSort: null | (sortColumn: number) => void;
+  onSort?: (sortColumn: number) => void;
   /**
-   * A header component that can be inserted above the table (but to the left of the
+   * May be a component or a render function. If a function is passed it will be provided with the selected rows.
+   * It can be inserted above the table (but to the left of the
    * details component). For example, this might be used to include controls that help the
-   * user filter the list of items in the table. May also be a function that uses selectedRows and
-   * renders a header component. Optional; if not set, the table will be flush with the top of the details component.
+   * user filter the list of items in the table. Optional; if not set, the table will be flush with the 
+   * top of the details component.
    */
-  header?: null | React.Node | (selectedRows: Array<string>) => React.Node;
+  header?: React.Node | (selectedRows: Array<{}>) => React.Node;
   /**
-   * A footer component that can be inserted below the table (but to the left of the
+   * May be a component or render function. If a function is passed it will be provided the selectedRows.
+   * It can be inserted below the table (but to the left of the
    * details component). For example, this might be used to include controls to paginate
    * the table. Optional.
    */
-  footer?: null | React.Node | (selectedRows: Array<string>) => React.Node;
+  footer?: React.Node | (selectedRows: Array<{}>) => React.Node;
   /**
    * This determines the ratio of table to details, based on Bootstrap's 12-column grid.
    * This is the width of the table; the details component will use the remainder. Optional;
@@ -86,51 +84,51 @@ type MasterDetailsProps = {
    * The number of pixels of padding to include between the table and the details component.
    * Optional; defaults to 0 pixels.
    */
-  padding: number;
+  padding?: number;
   /**
-   * See the noEmptySelection property of the Table component for details
+   * See the noEmptySelection property of the Table component for details. Defaults to false.
    */
-  noEmptySelection: boolean;
+  noEmptySelection?: boolean;
   /**
    * The class name to apply to the parent div element containing the table. Optional
    */
-  tableContainerClassName: string | void;
+  tableContainerClassName?: string;
   /**
    * The class name to apply only to tr elements of selected rows in the table. Optional
    */
-  selectedClassName: string;
+  selectedClassName?: string;
   /**
    * The class name to apply to the table element. Optional.
    */
-  tableClassName: string;
+  tableClassName?: string;
   /**
    * Optional background color to apply to the last selected row. Only used if multiSelect is specified as well.
    * Takes precedence over all other background colors specified through classNames.
    */
-  anchorRowBackgroundColor: ?string;
+  anchorRowBackgroundColor?: string;
 };
 
 type MasterDetailsDefaultProps = {
   detailsProps: any;
-  footer?: null | React.Node | (selectedRows: Array<string>) => React.Node;
-  header?: null | React.Node | (selectedRows: Array<string>) => React.Node;
-  multiSelect: boolean;
-  noEmptySelection: boolean;
-  onSelect: ?(rowsIndices: Array<number>, newlySelectedRowIndex: number | null) => void;
-  onSort: null | (sortColumn: number) => void;
-  padding: number;
-  selectedClassName: string;
-  sortColumn: number;
+  footer?: React.Node | (selectedRows: Array<{}>) => React.Node;
+  header?: React.Node | (selectedRows: Array<{}>) => React.Node;
+  multiSelect?: boolean;
+  noEmptySelection?: boolean;
+  onSelect?: (selectedRows: Array<{}>, newlySelectedRows: {} | null) => void;
+  onSort?: (sortColumn: number) => void;
+  padding?: number;
+  selectedClassName?: string;
+  sortColumn?: number;
   split: ColumnCount;
-  tableClassName: string;
-  tableContainerClassName: string | void;
+  tableClassName?: string;
+  tableContainerClassName?: string;
 };
 
 type MasterDetailsState = {
   /** The index for the most-recently selected row, to be displayed in the details pane. */
-  detailsRowIndex: number | null;
+  detailsRow: {} | null;
   /** The indices of the selected rows */
-  selectedRows: Set<number>;
+  selectedRows: Array<{}>;
 };
 
 /**
@@ -160,7 +158,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
   constructor(props: MasterDetailsProps) {
     super(props);
     this.state = {
-      detailsRowIndex: null,
+      detailsRow: null,
       selectedRows: [],
     };
     (this: any).selectionChanged = this.selectionChanged.bind(this);
@@ -171,13 +169,13 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
   /**
    * Update the table's selection and update the details view's input.
    */
-  selectionChanged(selectedRowIndices: Array<number>, newlySelectedRowIndex: number | null) {
+  selectionChanged(selectedRows: Array<{}>, newlySelectedRow: {} | null) {
     this.setState({
-      selectedRows: selectedRowIndices,
-      detailsRowIndex: newlySelectedRowIndex,
+      selectedRows,
+      detailsRow: newlySelectedRow,
     }, () => {
       if (this.props.onSelect) {
-        this.props.onSelect(selectedRowIndices, newlySelectedRowIndex);
+        this.props.onSelect(selectedRows, newlySelectedRow);
       }
     });
   }
@@ -217,14 +215,10 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
       tableClassName,
       tableContainerClassName,
     } = this.props;
-    const {
-      selectedRows,
-      detailsRowIndex,
-    } = this.state;
+    const { detailsRow } = this.state;
 
     const detailsWidth = 12 - tableWidth;
     const halfPadding = `${padding / 2}px`;
-    const detailsRow = rows[detailsRowIndex];
 
     return (
       <Grid fluid style={{ padding: 0 }}>
@@ -238,12 +232,11 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
                 onSelect={this.selectionChanged}
                 sortColumn={sortColumn}
                 onSort={onSort}
-                selection={selectedRows}
                 multiSelect={multiSelect}
                 noEmptySelection={noEmptySelection}
                 selectedClassName={selectedClassName}
                 tableClassName={tableClassName}
-                activeRowIndex={detailsRowIndex}
+                activeRowIndex={detailsRow}
                 anchorRowBackgroundColor={anchorRowBackgroundColor}
               />
               {this.renderFooter()}
