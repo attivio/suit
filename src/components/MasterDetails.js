@@ -5,7 +5,6 @@ import * as React from 'react';
 import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
-
 import Table from './Table';
 
 type ColumnCount = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
@@ -32,7 +31,7 @@ type MasterDetailsProps = {
    * Custom properties to pass to the details component in addition to the "data" property.
    * Optional.
    */
-  detailsProps?: any;
+  detailsProps?: {};
   /**
    * If set, multiple rows in the table can be selected simultaneouysly. In this case, the
    * most recently selected row is shown in the details view.
@@ -61,7 +60,7 @@ type MasterDetailsProps = {
    * May be a component or a render function. If a function is passed it will be provided with the selected rows.
    * It can be inserted above the table (but to the left of the
    * details component). For example, this might be used to include controls that help the
-   * user filter the list of items in the table. Optional; if not set, the table will be flush with the 
+   * user filter the list of items in the table. Optional; if not set, the table will be flush with the
    * top of the details component.
    */
   header?: React.Node | (selectedRows: Array<{}>) => React.Node;
@@ -109,12 +108,12 @@ type MasterDetailsProps = {
 };
 
 type MasterDetailsDefaultProps = {
-  detailsProps: any;
+  detailsProps?: {};
   footer?: React.Node | (selectedRows: Array<{}>) => React.Node;
   header?: React.Node | (selectedRows: Array<{}>) => React.Node;
   multiSelect?: boolean;
   noEmptySelection?: boolean;
-  onSelect?: (selectedRows: Array<{}>, newlySelectedRows: {} | null) => void;
+  onSelect?: (selectedRows: Array<{}>, newlySelectedRow: {} | null) => void;
   onSort?: (sortColumn: number) => void;
   padding?: number;
   selectedClassName?: string;
@@ -137,7 +136,7 @@ type MasterDetailsState = {
  * simultaneously, then the details pane shows information aobut the most recently selected row.
  */
 export default class MasterDetails extends React.Component<MasterDetailsDefaultProps, MasterDetailsProps, MasterDetailsState> {
-  static defaultProps = {
+  static defaultProps: MasterDetailsDefaultProps = {
     detailsProps: {},
     footer: null,
     header: null,
@@ -207,7 +206,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
       multiSelect,
       noEmptySelection,
       onSort,
-      padding,
+      padding = 0,
       rows,
       selectedClassName,
       sortColumn,
@@ -236,7 +235,6 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
                 noEmptySelection={noEmptySelection}
                 selectedClassName={selectedClassName}
                 tableClassName={tableClassName}
-                activeRowIndex={detailsRow}
                 anchorRowBackgroundColor={anchorRowBackgroundColor}
               />
               {this.renderFooter()}
