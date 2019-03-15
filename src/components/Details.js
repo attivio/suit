@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-type DetailsProps = {
+export type DetailsProps = {
   /**
    * The object to display in the details. May be null, in which case there is no selection
    * to display.

@@ -341,7 +341,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // When the searcher is first created, this is called.
     // Pull a state object out of the location's query string
     const location = this.props.location;

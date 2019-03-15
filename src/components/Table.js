@@ -1,8 +1,7 @@
 import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/css/react-bootstrap-table.css';
-
-import ObjectUtils from '../util/ObjectUtils';
+import { isEqualWith, isEqual } from 'lodash';
 
 /**
  * This defines a single column within the table.
@@ -11,9 +10,9 @@ class TableColumn {
   constructor(
     title: string,
     render: string | (value: any) => any,
-    sort: boolean | (a: any, b: any, order: 'asc' | 'desc') => number = false,
-    className: string = '',
-    style: any = {},
+    sort?: boolean | (a: any, b: any, order: 'asc' | 'desc') => number = false,
+    className?: string = '',
+    style?: any = {},
   ) {
     this.title = title;
     this.render = render;
@@ -60,28 +59,21 @@ type TableProps = {
    */
   columns: Array<TableColumn>;
   /**
-   * Rows of the table to be rendered
+   * Rows of the table to be rendered. Rows must be objects.
    */
-  rows: Array<any>;
+  rows: Array<{}>;
   /**
-   * Method to display details of the row selected in the table. Optional. If not
-   * set, the rows won't be selectable. Will always be called with an array of
-   * row IDs, though the array will be empty if nothing is selected. If a row
-   * was added to the selection of a multi-select table, then that row's ID will
-   * be passed as the second parameter, if one was deselected, the previous last-
-   * selected row will be passed as the newlySelectedRowId; if there are no more
-   * rows selected, then this parameter will be null.
+   * Hook to get details of the row(s) selected in the table. Optional. If not
+   * set, the rows will be selectable, but the parent component won't have access to the
+   * selected rows or active row. Will always be called with an array of row objects, though the array
+   * will be empty if nothing is selected and an object or null as the second parameter.
+   * The second parameter is not necessary if multiselect is not enabled.
    */
-  onSelect: null | (selectedRowsIds: Array<string>, newlySelectedRowId: string | null) => void;
-  /**
-   * The IDs of the selected rows, if any. May be an array, for muili-select tables,
-   * or a single string, for single-select tables. If null, nothing is selected.
-   */
-  selection: null | string | Array<string>;
+  onSelect?: (selectedRows: Array<{}>, activeRow: {} | null) => void;
   /**
    * If set, the user can select multiple rows in the table.
    */
-  multiSelect: boolean;
+  multiSelect?: boolean;
   /**
    * The column being sorted by, if any. The absolute value of this is the 1-based index
    * of the sort column in the array specified by the columns property. If the value is
@@ -91,7 +83,7 @@ type TableProps = {
    * highest to lowest (in the reverse order). This should be set only if the caller
    * is handling the sorting of the table rows.
    */
-  sortColumn: number;
+  sortColumn?: number;
   /**
    * A callback used if the parent wants to handle sorting of the rows in the table.
    * It is passed the 1-based index of the column by which the user wants to sort (if the
@@ -101,47 +93,74 @@ type TableProps = {
    * definition. Once the callback has obtained the new data, the Table component should
    * be re-rendered with new values for the sortColumn and rows properties.
    */
-  onSort: null | (sortColumn: number) => void;
+  onSort?: (sortColumn: number) => void;
   /**
    * If set, then the component will not allow the user to deselect all rows in the table.
-   * For single-select components, the user will only be able to change the selection to
+   * For single-select components, the user will only be able to change the selectedIndices to
    * another row; for multi-select components, the user will not be able to deselect the last-
    * selected row without first selecting another one. This means that, unless the rows
    * property is empty, there will always be an item selected in the table.
    */
-  noEmptySelection: boolean;
+  noEmptySelection?: boolean;
   /**
    * If set, the table will have a border drawn around it.
    */
-  bordered: booleaan;
+  bordered?: boolean;
   /**
    * The class name to apply only to tr elements of selected rows. Optional
    */
-  selectedClassName: string;
+  selectedClassName?: string;
   /**
    * The class name to apply to the table element. Optional.
    */
-  tableClassName: string;
+  tableClassName?: string;
+  /**
+   *  Optional background color to apply to the active row. Takes precedence
+   *  over all other background colors specified through classNames.
+   */
+  activeRowBackgroundColor?: string;
+  /**
+   *  Optional background color to apply all selected rows except for the active row. Only used if multiSelect is specified as well.
+   *  Takes precedence over all other background colors specified through classNames.
+   */
+  multiSelectBackgroundColor?: string;
+  /**
+   * Row comparator function used to determine when rows have changed due to paging, sorting, or filtering. If
+   * Any row is determined to have changed, the row selection is reset. If no rowComparator is set, defaults to a
+   * deep row comparison and row selection will reset anytime anything in rows changes.
+   * The comparator is given two row objects to compare. If the rows are equal, the function should return true.
+   * If the two rows are not equal, the function should return false.
+   */
+  // eslint-disable-next-line react/no-unused-prop-types
+  rowComparator: (rowA: {}, rowB: {}) => boolean; // This prop is referenced as a newProp in componentWillReceiveProps.
 };
 
 type TableDefaultProps = {
-  onSelect: null | (selectedRowsIds: Array<string>, newlySelectedRowId: string | null) => void;
-  selection: Array<srting>;
-  multiSelect: boolean;
-  sortColumn: number;
-  onSort: null | (sortColumn: number) => void;
-  noEmptySelection: boolean;
   bordered: boolean;
+  multiSelect: boolean;
+  noEmptySelection: boolean;
+  rows: Array<{}>;
   selectedClassName: string;
+  sortColumn: number;
   tableClassName: string;
 };
 
 type TableState = {
+  /** The index of the active row. Only relevant with multiSelect option enabled. */
+  activeRowIndex: number | null;
+  /** The index of the anchor row. Only relevant with multiSelect option enabled. */
+  anchorRowIndex: number | null;
+  /** Indicates whether or not the shift key is pressed down. Only relevant with multiSelect option enabled. */
+  shiftKeyDown: boolean;
+  /** Indicates whether or not the ctrl key is pressed down. Only relevant with multiSelect option enabled. */
+  ctrlKeyDown: boolean;
+  /** The indices of the selected rows. */
+  selectedIndices: Set<number>;
   /**
    * The sorted list of rows. If not sorting in the table, this will always just be
    * the same as the rows property.
    */
-  sortedRows: Array<any>;
+  sortedRows: Array<{}>;
 };
 
 /**
@@ -153,14 +172,12 @@ type TableState = {
  */
 export default class Table extends React.Component<TableDefaultProps, TableProps, TableState> {
   static defaultProps = {
-    onSelect: null,
-    selection: [],
-    multiSelect: false,
-    sortColumn: 0,
-    onSort: null,
-    noEmptySelection: false,
     bordered: false,
+    multiSelect: false,
+    noEmptySelection: false,
+    rows: [],
     selectedClassName: 'attivio-table-row-selected',
+    sortColumn: 0,
     tableClassName: 'table table-striped attivio-table attivio-table-sm',
   };
 
@@ -170,89 +187,298 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     };
   }
 
+  static compareRows
+
   static displayName = 'Table';
 
   static TableColumn;
 
   constructor(props: TableProps) {
     super(props);
+    const defaultIndex = props.noEmptySelection ? 0 : null;
     this.state = {
-      sortedRows: this.props.rows,
+      sortedRows: props.rows && props.rows.length > 0
+        ? props.rows.map((row, index) => {
+          return { ...row, index };
+        })
+        : [],
+      shiftKeyDown: false,
+      ctrlKeyDown: false,
+      anchorRowIndex: defaultIndex,
+      activeRowIndex: defaultIndex,
+      selectedIndices: props.noEmptySelection ? new Set([0]) : new Set([]),
     };
-    (this: any).handleSort = this.handleSort.bind(this);
-    (this: any).rowSelect = this.rowSelect.bind(this);
-    (this: any).remote = this.remote.bind(this);
+    (this: any).renderColumns = this.renderColumns.bind(this);
   }
 
   state: TableState;
 
-  componentWillReceiveProps(newProps: TableProps) {
-    if (!ObjectUtils.arrayEquals(newProps.rows, this.props.rows)) {
-      // Reset the sorted rows if the actual rows have changed.
-      this.setState({
-        sortedRows: newProps.rows,
-      });
+  componentDidMount() {
+    const { multiSelect, onSelect } = this.props;
+    const { activeRowIndex } = this.state;
+
+    if (multiSelect) {
+      document.addEventListener('keydown', this.keyDown);
+      document.addEventListener('keyup', this.keyUp);
+    }
+
+    // If the parent provided an update hook, initialize the parent with selection values.
+    if (onSelect) {
+      onSelect([], activeRowIndex);
     }
   }
 
-  rowSelect(rowData: any): boolean {
-    let rowId = rowData.id;
+  componentWillReceiveProps(newProps: TableProps) {
+    // If a rowComparator is specified, use it, otherwise, do a deep row comparison and reset selection if anything changed.
+    if ((newProps.rows && this.props.rows && newProps.rows.length !== this.props.rows.length)
+      || (newProps.rows && !this.props.rows)
+      || (!newProps.rows && this.props.rows)
+      || (newProps.rowComparator && !isEqualWith(newProps.rows, this.props.rows, newProps.rowComparator))
+      || (!newProps.rowComparator && !isEqual(newProps.rows, this.props.rows))
+    ) {
+      // Reset the sorted rows if the actual rows have changed.
+      const sortedRows = newProps.rows && newProps.rows.length > 0
+        ? newProps.rows.map((row, index) => {
+          return { ...row, index };
+        })
+        : [];
+      // Reset row selection if the actual rows have changed.
 
+      const selectedRowIndices = sortedRows.length > 0 ? new Set([0]) : new Set([]);
+      const anchorRowIndex = sortedRows.length > 0 ? 0 : null;
+      const activeRowIndex = sortedRows.length > 0 ? 0 : null;
+
+      this.setState({
+        sortedRows,
+        selectedRowIndices,
+        anchorRowIndex,
+        activeRowIndex,
+      });
+
+      // If the parent provided an update hook, update the parent with the changes.
+      if (newProps.onSelect) {
+        const selectedRows = sortedRows.length > 0 ? [0] : [];
+        newProps.onSelect(selectedRows, activeRowIndex);
+      }
+    }
+  }
+
+  componentWillUnmount() {
     if (this.props.multiSelect) {
-      // if the list allows multiple selected rows
-      let selectedRowIds;
-      if (Array.isArray(this.props.selection)) {
-        selectedRowIds = this.props.selection;
-      } else if (typeof this.props.selection === 'string') {
-        selectedRowIds = [this.props.selection];
-      } else {
-        selectedRowIds = [];
+      document.removeEventListener('keydown', this.keyDown);
+      document.removeEventListener('keyup', this.keyUp);
+    }
+  }
+
+  keyDown = (e: KeyboardEvent) => {
+    if (e.shiftKey || e.ctrlKey || e.metaKey) {
+      const shiftKeyDown = e.shiftKey;
+      const ctrlKeyDown = e.ctrlKey || e.metaKey;
+      this.setState({ shiftKeyDown, ctrlKeyDown });
+    }
+  }
+
+  keyUp = (e: KeyboardEvent) => {
+    const shiftKeyUp = e.key === 'Shift';
+    const ctrlKeyUp = e.key === 'Control' || e.key === 'Meta';
+    if (shiftKeyUp || ctrlKeyUp) {
+      this.setState({ shiftKeyDown: false, ctrlKeyDown: false });
+    }
+  }
+
+  rowSelect = (rowData: any): boolean => {
+    const {
+      activeRowIndex,
+      anchorRowIndex,
+      ctrlKeyDown,
+      shiftKeyDown,
+      selectedIndices,
+      sortedRows,
+    } = this.state;
+
+    const shiftKeyPressed = shiftKeyDown;
+    const ctrlKeyPressed = ctrlKeyDown;
+
+    const { multiSelect, noEmptySelection, onSelect } = this.props;
+    const newSelectedRowIndices = selectedIndices;
+
+    // Safety Check - if no row data is passed, do nothing.
+    if (!rowData) {
+      return false;
+    }
+    // If multiselect is enabled, check for modifier keys.
+    if (multiSelect) {
+      // If empty selections are allowed, then clicking a row (with or without a modifier) when there are
+      // no selections will make this row the active row, the anchor row, and the only selectedIndices.
+      if (anchorRowIndex === null) {
+        this.setState({
+          selectedIndices: new Set([rowData.index]),
+          anchorRowIndex: rowData.index,
+          activeRowIndex: rowData.index,
+        });
+        onSelect([rowData], rowData);
+        return true;
+      }
+      if (shiftKeyPressed) {
+        // The shift key was pressed. The anchor row and active rows do not change.
+        // All rows between the anchor row and the selected row are selected and added onto the current selectedIndices.
+        const count = rowData.index - anchorRowIndex;
+        const startIndex = count > 0 ? anchorRowIndex : rowData.index;
+        const endIndex = count > 0 ? rowData.index : anchorRowIndex;
+        let currentIndex = startIndex;
+
+        // Add the rows in range onto the selectedIndices of row indices.
+        while (currentIndex <= endIndex) {
+          newSelectedRowIndices.add(currentIndex);
+
+          currentIndex += 1;
+        }
+        this.setState({ selectedIndices: newSelectedRowIndices });
+
+        const selectedRows = [];
+        newSelectedRowIndices.forEach((index) => {
+          selectedRows.push(sortedRows[index]);
+        });
+        onSelect(selectedRows, sortedRows[activeRowIndex]);
+
+        return true;
+      } else if (ctrlKeyPressed) {
+        const alreadySelected = selectedIndices.has(rowData.index);
+        const onlySelection = selectedIndices.size <= 1;
+        // If the row is already selected, this is a deselection attempt.
+
+        if (alreadySelected) {
+          // Is this row the only selectedIndices?
+          if (onlySelection) {
+            // Does this table allow no selections?
+            if (noEmptySelection) {
+              // This row is already selected, it's the only row selected, and the table does not allow
+              // empty selections. Do nothing.
+              return false;
+            }
+            // The row is already selected, it's the only selectedIndices, and the table allows no selections,
+            // clear out selections.
+            this.setState({
+              selectedIndices: new Set([]),
+              anchorRowIndex: null,
+              activeRowIndex: null,
+            });
+            onSelect([], null);
+            return true;
+          }
+          // Is the row we're deselecting the active row?
+          const updateActiveRow = rowData.index === activeRowIndex;
+          // Is the row we're deselecting the anchor row?
+          const updateAnchorRow = rowData.index === anchorRowIndex;
+
+          // This row is not the only selectedIndices, deselect it.
+          newSelectedRowIndices.delete(rowData.index);
+
+          if (updateActiveRow || updateAnchorRow) {
+            // We need a fallback index for the anchor and/or active row. Use the selected row
+            // (excluding the current row) with the least index.
+            let minimiumIndex = Infinity;
+            newSelectedRowIndices.forEach((selectedIndex) => {
+              minimiumIndex = Math.min(selectedIndex, minimiumIndex);
+            });
+
+            const fallbackIndex = minimiumIndex === Infinity ? null : minimiumIndex;
+
+            // If the row we're deselecting is the anchor row we need to use a fallback anchor row index.
+            const newActiveRowIndex = updateActiveRow ? fallbackIndex : activeRowIndex;
+
+            // If the row we're deselecting is the active row, we need to use a fallback active row index.
+            const baseValue = anchorRowIndex === null ? 0 : anchorRowIndex;
+            const newAnchorRowIndex = updateAnchorRow ? fallbackIndex : baseValue;
+
+            newSelectedRowIndices.add(newActiveRowIndex);
+            newSelectedRowIndices.add(newAnchorRowIndex);
+
+            const selectedRows = [];
+            newSelectedRowIndices.forEach((index) => {
+              selectedRows.push(sortedRows[index]);
+            });
+
+            const activeRow = sortedRows[newActiveRowIndex];
+
+            // The control or meta key was pressed, and this row was previously selected. This row was an anchor or active row.
+            // The anchor and/or active row may have been updated to a fallback index.
+            this.setState({
+              selectedIndices: newSelectedRowIndices,
+              anchorRowIndex: newAnchorRowIndex,
+              activeRowIndex: newActiveRowIndex,
+            });
+            onSelect(selectedRows, activeRow);
+            return true;
+          }
+          const selectedRows = [];
+          newSelectedRowIndices.forEach((index) => {
+            selectedRows.push(sortedRows[index]);
+          });
+
+          this.setState({ selectedIndices: newSelectedRowIndices });
+          // The control or meta key was pressed and this row was previously selected. This row is not an anchor or active row.
+          // It may be safely removed. The active row does not change. The anchor row does not change.
+          onSelect(selectedRows, sortedRows[activeRowIndex]);
+          return true;
+        }
+        // The control or meta key was pressed, and this row was not previously selected, so select it.
+        // This row becomes the anchor row, but the active row does not change.
+        newSelectedRowIndices.add(rowData.index);
+
+        const selectedRows = [];
+        newSelectedRowIndices.forEach((index) => {
+          selectedRows.push(sortedRows[index]);
+        });
+
+        this.setState({
+          selectedIndices: newSelectedRowIndices,
+          anchorRowIndex: rowData.index,
+        });
+        onSelect(selectedRows, sortedRows[activeRowIndex]);
+        return true;
       }
 
-      if (!selectedRowIds.includes(rowId)) {
-        // if the row is not already in the selection, add it
-        selectedRowIds.push(rowId);
-        this.props.onSelect(selectedRowIds, rowId);
-      } else if (selectedRowIds.length === 1 && this.props.noEmptySelection) {
-        // if this is the only remaining selection and we don't allow empty selection, just don't update
-        return false;
-      } else {
-        // if it is already in the selection, remove it
-        selectedRowIds.splice(selectedRowIds.indexOf(rowId), 1);
-        rowId = selectedRowIds[selectedRowIds.length - 1];
-        this.props.onSelect(selectedRowIds, rowId);
-      }
+      // No modifier keys were pressed, all previously selected indices are cleared and this row becomes the
+      // anchor row, active row, and only selectedIndices.
+      this.setState({
+        anchorRowIndex: rowData.index,
+        activeRowIndex: rowData.index,
+        selectedIndices: new Set([rowData.index]),
+      });
+
+      onSelect([rowData], rowData);
       return true;
     }
 
-    let selectedRowIds;
-    if (Array.isArray(this.props.selection)) {
-      selectedRowIds = this.props.selection[0];
-    } else if (typeof this.props.selection === 'string') {
-      selectedRowIds = this.props.selection;
-    } else {
-      selectedRowIds = '';
-    }
-
-    // if this row is the currently selected row,
-    if (selectedRowIds === rowId) {
-      // if we don't allow empty selection
-      if (this.props.noEmptySelection) {
-        // do nothing
+    // multiSelect is not enabled
+    // Is this row already the currently selected row?
+    if (activeRowIndex === rowData.index) {
+      // Is it ok if no rows are selected?
+      if (noEmptySelection) {
+        // This row is the active row, and we don't allow empty selections, do nothing.
         return false;
       }
-      // otherwise, deselect the row
-      this.props.onSelect([], null);
+      // This row is the active row, and we do allow empty selections, deselect the row.
+      this.setState({
+        selectedIndices: new Set([]),
+        activeRowIndex: null,
+      });
+      onSelect([], null);
       return true;
     }
 
-    // otherwise, just select the newly clicked row
-    this.props.onSelect([rowId], rowId);
+    // Multiselect is not enabled and this is not the currently selected row, just select the row.
+    this.setState({
+      selectedIndices: [rowData.index],
+      selectedRowIndex: rowData.index,
+    });
+    onSelect([rowData], rowData);
     return true;
   }
 
-  remote(remoteObject: any): any {
-    const remoteCopy = Object.assign({}, remoteObject);
+  remote = (remoteObject: any): any => {
+    const remoteCopy = { ...remoteObject };
     if (this.props.onSort) {
       // Caller wants to handle sorting themselves
       remoteCopy.sort = true;
@@ -260,7 +486,8 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     return remoteCopy;
   }
 
-  handleSort(colName: string, order: 'asc' | 'desc') {
+  handleSort = (colName: string, order: 'asc' | 'desc') => {
+    const { rows, noEmptySelection, onSelect } = this.props;
     let colNum = 0;
     this.props.columns.forEach((col: TableColumn, index: number) => {
       if (col.title === colName || (typeof col.render === 'string' && col.render === colName)) {
@@ -270,30 +497,34 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     if (order === 'desc') {
       colNum = -colNum;
     }
+    const sortedRows = rows && rows.length > 0
+      ? rows.map((row, index) => {
+        return { ...row, index };
+      })
+      : [];
+
+    // Reset table selection.
+    const tableContainsRows = this.state.sortedRows.length > 0;
+
+    const defaultIndex = noEmptySelection && tableContainsRows ? 0 : null;
+    if (onSelect) {
+      const selectedRows = defaultIndex ? [defaultIndex] : [];
+      onSelect(selectedRows, defaultIndex);
+    }
+    const selectedRowIndices = defaultIndex ? new Set([defaultIndex]) : new Set([]);
+    this.setState({
+      activeRowIndex: defaultIndex,
+      anchorRowIndex: defaultIndex,
+      selectedRowIndices,
+      sortedRows,
+    });
     this.props.onSort(colNum);
   }
 
-  render() {
-    let selectedRowIds;
-    if (Array.isArray(this.props.selection)) {
-      selectedRowIds = this.props.selection;
-    } else if (typeof this.props.selection === 'string') {
-      selectedRowIds = [this.props.selection];
-    } else {
-      selectedRowIds = [];
-    }
+  renderColumns() {
+    const { columns } = this.props;
 
-    // If the selection function isn't set, then don't let user select rows
-    const selectRow = this.props.onSelect ? {
-      mode: this.props.multiSelect ? 'checkbox' : 'radio',
-      onSelect: this.rowSelect,
-      clickToSelect: true,
-      className: this.props.selectedClassName,
-      hideSelectColumn: true,
-      selected: selectedRowIds,
-    } : null;
-
-    const columns = this.props.columns.map((column: TableColumn) => {
+    return columns.map((column: TableColumn) => {
       const sortable = !!column.sort;
       const sortFunc = typeof column.sort === 'function' ? column.sort : null;
 
@@ -332,30 +563,70 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         </TableHeaderColumn>
       );
     });
+  }
+
+  render() {
+    const {
+      activeRowBackgroundColor,
+      bordered,
+      columns,
+      multiSelect,
+      onSelect,
+      onSort,
+      multiSelectBackgroundColor,
+      selectedClassName,
+      sortColumn,
+      tableClassName,
+    } = this.props;
+
+    const { sortedRows, selectedIndices, activeRowIndex } = this.state;
+    const selected = [];
+    selectedIndices.forEach((index) => {
+      selected.push(index);
+    });
+
+    // If the selectedIndices function isn't set, then don't let user select rows
+    const selectRow = onSelect ? {
+      mode: multiSelect ? 'checkbox' : 'radio',
+      onSelect: this.rowSelect,
+      clickToSelect: true,
+      className: selectedClassName,
+      bgColor: (row, isSelected) => {
+        if (activeRowBackgroundColor && row.index === activeRowIndex) {
+          return activeRowBackgroundColor;
+        }
+        if (multiSelect && multiSelectBackgroundColor && isSelected) {
+          return multiSelectBackgroundColor;
+        }
+        return null;
+      },
+      hideSelectColumn: true,
+      selected,
+    } : null;
 
     // Fill out the options with sorting-related properties
     const options = {};
-    if (this.props.sortColumn !== 0) {
-      options.defaultSortOrder = this.props.sortColumn > 0 ? 'asc' : 'desc';
-      options.defaultSortName = this.props.columns[Math.abs(this.props.sortColumn) - 1].title;
+    if (sortColumn !== 0) {
+      options.defaultSortOrder = sortColumn > 0 ? 'asc' : 'desc';
+      options.defaultSortName = columns[Math.abs(sortColumn) - 1].title;
     }
-    if (this.props.onSort) {
+    if (onSort) {
       options.onSortChange = this.handleSort;
     }
 
     return (
       <div>
         <BootstrapTable
-          data={this.state.sortedRows}
-          tableHeaderClass={this.props.tableClassName}
-          tableBodyClass={this.props.tableClassName}
+          data={sortedRows}
+          tableHeaderClass={tableClassName}
+          tableBodyClass={tableClassName}
           selectRow={selectRow}
-          keyField="id"
+          keyField="index"
           options={options}
           remote={this.remote}
-          bordered={this.props.bordered}
+          bordered={bordered}
         >
-          {columns}
+          {this.renderColumns()}
         </BootstrapTable>
       </div>
     );

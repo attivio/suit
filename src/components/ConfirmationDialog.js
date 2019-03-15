@@ -74,8 +74,8 @@ export default class ConfirmationDialog extends React.Component<ConfirmationDial
 
   render() {
     const okButtonStyle = this.props.dangerous ? 'danger' : 'primary';
-    return this.props.show ? (
-      <Modal show>
+    return (
+      <Modal show={this.props.show} onHide={this.props.onCancel}>
         <Modal.Header>
           <Modal.Title>{this.props.title}</Modal.Title>
         </Modal.Header>
@@ -87,6 +87,6 @@ export default class ConfirmationDialog extends React.Component<ConfirmationDial
           <Button onClick={this.props.onConfirm} bsStyle={okButtonStyle}>{this.props.confirmButtonLabel}</Button>
         </Modal.Footer>
       </Modal>
-    ) : null;
+    );
   }
 }
