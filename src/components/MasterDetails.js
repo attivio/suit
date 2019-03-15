@@ -104,6 +104,10 @@ type MasterDetailsProps = {
    * Takes precedence over all other background colors specified through classNames.
    */
   activeRowBackgroundColor?: string;
+  /**
+   * Row comparator function passed through to the Table component. See Table component for details.
+   */
+  rowComparator: (rowA: {}, rowB: {}) => boolean;
 };
 
 type MasterDetailsDefaultProps = {
@@ -202,6 +206,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
       noEmptySelection,
       onSort,
       padding = 0,
+      rowComparator,
       rows,
       selectedClassName,
       sortColumn,
@@ -231,6 +236,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
                 selectedClassName={selectedClassName}
                 tableClassName={tableClassName}
                 activeRowBackgroundColor={activeRowBackgroundColor}
+                rowComparator={rowComparator}
               />
               {this.renderFooter()}
             </div>
