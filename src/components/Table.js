@@ -482,6 +482,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   }
 
   handleSort = (colName: string, order: 'asc' | 'desc') => {
+    const { rows, noEmptySelection, onSelect } = this.props;
     let colNum = 0;
     this.props.columns.forEach((col: TableColumn, index: number) => {
       if (col.title === colName || (typeof col.render === 'string' && col.render === colName)) {
@@ -491,6 +492,27 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     if (order === 'desc') {
       colNum = -colNum;
     }
+    const sortedRows = rows && rows.length > 0
+      ? rows.map((row, index) => {
+        return { ...row, index };
+      })
+      : [];
+
+    // Reset table selection.
+    const tableContainsRows = this.state.sortedRows.length > 0;
+
+    const defaultIndex = noEmptySelection && tableContainsRows ? 0 : null;
+    if (onSelect) {
+      const selectedRows = defaultIndex ? [defaultIndex] : [];
+      onSelect(selectedRows, defaultIndex);
+    }
+    const selectedRowIndices = defaultIndex ? new Set([defaultIndex]) : new Set([]);
+    this.setState({
+      activeRowIndex: defaultIndex,
+      anchorRowIndex: defaultIndex,
+      selectedRowIndices,
+      sortedRows,
+    });
     this.props.onSort(colNum);
   }
 
