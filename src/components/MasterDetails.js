@@ -62,14 +62,14 @@ type MasterDetailsProps = {
    * user filter the list of items in the table. Optional; if not set, the table will be flush with the
    * top of the details component.
    */
-  header?: React.Node | (selectedRows: Array<{}>) => React.Node;
+  header?: null | React.Node | (selectedRows: Array<{}>) => React.Node;
   /**
    * May be a component or render function. If a function is passed it will be provided the selectedRows.
    * It can be inserted below the table (but to the left of the
    * details component). For example, this might be used to include controls to paginate
    * the table. Optional.
    */
-  footer?: React.Node | (selectedRows: Array<{}>) => React.Node;
+  footer?: null | React.Node | (selectedRows: Array<{}>) => React.Node;
   /**
    * This determines the ratio of table to details, based on Bootstrap's 12-column grid.
    * This is the width of the table; the details component will use the remainder. Optional;
@@ -107,19 +107,17 @@ type MasterDetailsProps = {
 };
 
 type MasterDetailsDefaultProps = {
-  detailsProps?: {};
-  footer?: React.Node | (selectedRows: Array<{}>) => React.Node;
-  header?: React.Node | (selectedRows: Array<{}>) => React.Node;
-  multiSelect?: boolean;
-  noEmptySelection?: boolean;
-  onSelect?: (selectedRows: Array<{}>, newlySelectedRow: {} | null) => void;
-  onSort?: (sortColumn: number) => void;
-  padding?: number;
-  selectedClassName?: string;
-  sortColumn?: number;
+  detailsProps: {};
+  footer: null | React.Node | (selectedRows: Array<{}>) => React.Node;
+  header: null | React.Node | (selectedRows: Array<{}>) => React.Node;
+  multiSelect: boolean;
+  noEmptySelection: boolean;
+  padding: number;
+  selectedClassName: string;
+  sortColumn: number;
   split: ColumnCount;
-  tableClassName?: string;
-  tableContainerClassName?: string;
+  tableClassName: string;
+  tableContainerClassName: string;
 };
 
 type MasterDetailsState = {
@@ -141,14 +139,12 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     header: null,
     multiSelect: false,
     noEmptySelection: false,
-    onSelect: null,
-    onSort: null,
     padding: 0,
     selectedClassName: 'attivio-table-row-selected',
     sortColumn: 0,
     split: 8,
     tableClassName: 'table table-striped attivio-table attivio-table-sm',
-    tableContainerClassName: undefined,
+    tableContainerClassName: '',
   };
 
   static displayName = 'MasterDetails';

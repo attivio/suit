@@ -131,7 +131,8 @@ type TableProps = {
    * The comparator is given two row objects to compare. If the rows are equal, the function should return true.
    * If the two rows are not equal, the function should return false.
    */
-  rowComparator: (rowA: {}, rowB: {}) => boolean;
+  // eslint-disable-next-line react/no-unused-prop-types
+  rowComparator: (rowA: {}, rowB: {}) => boolean; // This prop is referenced as a newProp in componentWillReceiveProps.
 };
 
 type TableDefaultProps = {
