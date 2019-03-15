@@ -1,9 +1,7 @@
 import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/css/react-bootstrap-table.css';
-import { reduce as lodashReduce, map as lodashMap } from 'lodash';
-
-import ObjectUtils from '../util/ObjectUtils';
+import { isEqualWith, isEqual } from 'lodash';
 
 /**
  * This defines a single column within the table.
@@ -12,9 +10,9 @@ class TableColumn {
   constructor(
     title: string,
     render: string | (value: any) => any,
-    sort: ?boolean | (a: any, b: any, order: 'asc' | 'desc') => number = false,
-    className: ?string = '',
-    style: ?any = {},
+    sort?: boolean | (a: any, b: any, order: 'asc' | 'desc') => number = false,
+    className?: string = '',
+    style?: any = {},
   ) {
     this.title = title;
     this.render = render;
@@ -117,19 +115,29 @@ type TableProps = {
    */
   tableClassName?: string;
   /**
-   *  Optional background color to apply to the last selected row. Only used if multiSelect is specified as well. Takes precedence
+   *  Optional background color to apply to the active row. Takes precedence
    *  over all other background colors specified through classNames.
    */
-  anchorRowBackgroundColor?: string;
+  activeRowBackgroundColor?: string;
+  /**
+   *  Optional background color to apply all selected rows except for the active row. Only used if multiSelect is specified as well.
+   *  Takes precedence over all other background colors specified through classNames.
+   */
+  multiSelectBackgroundColor?: string;
+  /**
+   * Row comparator function used to determine when rows have changed due to paging, sorting, or filtering. If
+   * Any row is determined to have changed, the row selection is reset. If no rowComparator is set, defaults to a
+   * deep row comparison and row selection will reset anytime anything in rows changes.
+   * The comparator is given two row objects to compare. If the rows are equal, the function should return true.
+   * If the two rows are not equal, the function should return false.
+   */
+  rowComparator: (rowA: {}, rowB: {}) => boolean;
 };
 
 type TableDefaultProps = {
-  activeRowIndex: number | null;
   bordered?: boolean;
   multiSelect?: boolean;
   noEmptySelection?: boolean;
-  onSelect?: (selectedRows: Array<{}>, activeRow: {} | null) => void;
-  onSort?: (sortColumn: number) => void;
   selectedClassName?: string;
   sortColumn?: number;
   tableClassName?: string;
@@ -150,7 +158,7 @@ type TableState = {
    * The sorted list of rows. If not sorting in the table, this will always just be
    * the same as the rows property.
    */
-  sortedRows: Array<any>;
+  sortedRows: Array<{}>;
 };
 
 /**
@@ -176,13 +184,15 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     };
   }
 
+  static compareRows
+
   static displayName = 'Table';
 
   static TableColumn;
 
   constructor(props: TableProps) {
     super(props);
-    const defaultIndex = props.multiSelect ? 0 : null;
+    const defaultIndex = props.noEmptySelection ? 0 : null;
     this.state = {
       sortedRows: props.rows && props.rows.length > 0
         ? props.rows.map((row, index) => {
@@ -193,7 +203,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       ctrlKeyDown: false,
       anchorRowIndex: defaultIndex,
       activeRowIndex: defaultIndex,
-      selectedIndices: props.multiSelect ? new Set([0]) : new Set([]),
+      selectedIndices: props.noEmptySelection ? new Set([0]) : new Set([]),
     };
     (this: any).renderColumns = this.renderColumns.bind(this);
   }
@@ -202,23 +212,24 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
   componentDidMount() {
     const { multiSelect, onSelect } = this.props;
-    const { selectedIndices, sortedRows, activeRowIndex } = this.state;
+    const { activeRowIndex } = this.state;
+
     if (multiSelect) {
       document.addEventListener('keydown', this.keyDown);
       document.addEventListener('keyup', this.keyUp);
+    }
 
-      // If the parent provided an update hook, initialize the parent with selection values.
-      if (onSelect) {
-        const selectedRows = lodashMap(selectedIndices, (index) => {
-          return sortedRows[index];
-        });
-        onSelect(selectedRows, activeRowIndex);
-      }
+    // If the parent provided an update hook, initialize the parent with selection values.
+    if (onSelect) {
+      onSelect([], activeRowIndex);
     }
   }
 
   componentWillReceiveProps(newProps: TableProps) {
-    if (!ObjectUtils.arrayEquals(newProps.rows, this.props.rows)) {
+    // If a rowComparator is specified, use it, otherwise, do a deep row comparison and reset selection if anything changed.
+    if ((newProps.rowComparator && !isEqualWith(newProps.rows, this.props.rows, newProps.rowComparator))
+      || (!newProps.rowComparator && !isEqual(newProps.rows, this.props.rows))
+    ) {
       // Reset the sorted rows if the actual rows have changed.
       const sortedRows = newProps.rows && newProps.rows.length > 0
         ? newProps.rows.map((row, index) => {
@@ -317,13 +328,19 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
           currentIndex += 1;
         }
         this.setState({ selectedIndices: newSelectedRowIndices });
-        onSelect(newSelectedRowIndices, activeRowIndex);
+
+        const selectedRows = [];
+        newSelectedRowIndices.forEach((index) => {
+          selectedRows.push(sortedRows[index]);
+        });
+        onSelect(selectedRows, sortedRows[activeRowIndex]);
 
         return true;
       } else if (ctrlKeyPressed) {
         const alreadySelected = selectedIndices.has(rowData.index);
-        const onlySelection = selectedIndices.length <= 1;
+        const onlySelection = selectedIndices.size <= 1;
         // If the row is already selected, this is a deselection attempt.
+
         if (alreadySelected) {
           // Is this row the only selectedIndices?
           if (onlySelection) {
@@ -349,14 +366,17 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
           const updateAnchorRow = rowData.index === anchorRowIndex;
 
           // This row is not the only selectedIndices, deselect it.
-          newSelectedRowIndices.remove(rowData.index);
+          newSelectedRowIndices.delete(rowData.index);
 
           if (updateActiveRow || updateAnchorRow) {
             // We need a fallback index for the anchor and/or active row. Use the selected row
             // (excluding the current row) with the least index.
-            const fallbackIndex = lodashReduce(newSelectedRowIndices, (minimumRowIndex, currentRowIndex) => {
-              return Math.min(currentRowIndex, minimumRowIndex);
-            }, Infinity);
+            let minimiumIndex = Infinity;
+            newSelectedRowIndices.forEach((selectedIndex) => {
+              minimiumIndex = Math.min(selectedIndex, minimiumIndex);
+            });
+
+            const fallbackIndex = minimiumIndex === Infinity ? null : minimiumIndex;
 
             // If the row we're deselecting is the anchor row we need to use a fallback anchor row index.
             const newActiveRowIndex = updateActiveRow ? fallbackIndex : activeRowIndex;
@@ -368,8 +388,9 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
             newSelectedRowIndices.add(newActiveRowIndex);
             newSelectedRowIndices.add(newAnchorRowIndex);
 
-            const selectedRows = lodashMap(newSelectedRowIndices, (index) => {
-              return sortedRows[index];
+            const selectedRows = [];
+            newSelectedRowIndices.forEach((index) => {
+              selectedRows.push(sortedRows[index]);
             });
 
             const activeRow = sortedRows[newActiveRowIndex];
@@ -384,9 +405,9 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
             onSelect(selectedRows, activeRow);
             return true;
           }
-
-          const selectedRows = lodashMap(newSelectedRowIndices, (index) => {
-            return sortedRows[index];
+          const selectedRows = [];
+          newSelectedRowIndices.forEach((index) => {
+            selectedRows.push(sortedRows[index]);
           });
 
           this.setState({ selectedIndices: newSelectedRowIndices });
@@ -399,8 +420,9 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         // This row becomes the anchor row, but the active row does not change.
         newSelectedRowIndices.add(rowData.index);
 
-        const selectedRows = lodashMap(newSelectedRowIndices, (index) => {
-          return sortedRows[index];
+        const selectedRows = [];
+        newSelectedRowIndices.forEach((index) => {
+          selectedRows.push(sortedRows[index]);
         });
 
         this.setState({
@@ -416,7 +438,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       this.setState({
         anchorRowIndex: rowData.index,
         activeRowIndex: rowData.index,
-        selectedIndices: new Set([]),
+        selectedIndices: new Set([rowData.index]),
       });
 
       onSelect([rowData], rowData);
@@ -450,7 +472,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   }
 
   remote = (remoteObject: any): any => {
-    const remoteCopy = Object.assign({}, remoteObject);
+    const remoteCopy = { ...remoteObject };
     if (this.props.onSort) {
       // Caller wants to handle sorting themselves
       remoteCopy.sort = true;
@@ -517,21 +539,22 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
   render() {
     const {
-      anchorRowBackgroundColor,
+      activeRowBackgroundColor,
       bordered,
       columns,
       multiSelect,
       onSelect,
       onSort,
+      multiSelectBackgroundColor,
       selectedClassName,
       sortColumn,
       tableClassName,
     } = this.props;
 
     const { sortedRows, selectedIndices, activeRowIndex } = this.state;
-
-    const selected = lodashMap(selectedIndices, (index) => {
-      return sortedRows[index];
+    const selected = [];
+    selectedIndices.forEach((index) => {
+      selected.push(index);
     });
 
     // If the selectedIndices function isn't set, then don't let user select rows
@@ -540,14 +563,17 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       onSelect: this.rowSelect,
       clickToSelect: true,
       className: selectedClassName,
-      bgColor: (row) => {
-        if (multiSelect && row.index === activeRowIndex && anchorRowBackgroundColor) {
-          return anchorRowBackgroundColor;
+      bgColor: (row, isSelected) => {
+        if (activeRowBackgroundColor && row.index === activeRowIndex) {
+          return activeRowBackgroundColor;
+        }
+        if (multiSelect && multiSelectBackgroundColor && isSelected) {
+          return multiSelectBackgroundColor;
         }
         return null;
       },
       hideSelectColumn: true,
-      selected: selected || [],
+      selected,
     } : null;
 
     // Fill out the options with sorting-related properties

@@ -39,10 +39,9 @@ type MasterDetailsProps = {
   multiSelect?: boolean;
   /**
    * This callback is called when the user changes the selection in the table. However the
-   * MasterDetails component and not its parent is responsible for maintaining the selection
-   * in the table; this callback is just a "courtesy" so the parent can do something such
-   * as change the enablement of buttons, etc., based on the selection. See the onSelect
-   * property of the Table component for more details.
+   * Table component is responsible for maintaining the selection in the table; this callback
+   * is just a "courtesy" so the parent can do something such as change the enablement of buttons,
+   * etc., based on the selection. See the onSelect property of the Table component for more details.
    */
   onSelect?: (selectedRows: Array<{}>, newlySelectedRow: {} | null) => void;
   /**
@@ -104,7 +103,7 @@ type MasterDetailsProps = {
    * Optional background color to apply to the last selected row. Only used if multiSelect is specified as well.
    * Takes precedence over all other background colors specified through classNames.
    */
-  anchorRowBackgroundColor?: string;
+  activeRowBackgroundColor?: string;
 };
 
 type MasterDetailsDefaultProps = {
@@ -199,7 +198,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
 
   render() {
     const {
-      anchorRowBackgroundColor,
+      activeRowBackgroundColor,
       columns,
       details: Detail,
       detailsProps,
@@ -235,7 +234,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
                 noEmptySelection={noEmptySelection}
                 selectedClassName={selectedClassName}
                 tableClassName={tableClassName}
-                anchorRowBackgroundColor={anchorRowBackgroundColor}
+                activeRowBackgroundColor={activeRowBackgroundColor}
               />
               {this.renderFooter()}
             </div>
