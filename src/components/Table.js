@@ -136,12 +136,13 @@ type TableProps = {
 };
 
 type TableDefaultProps = {
-  bordered?: boolean;
-  multiSelect?: boolean;
-  noEmptySelection?: boolean;
-  selectedClassName?: string;
-  sortColumn?: number;
-  tableClassName?: string;
+  bordered: boolean;
+  multiSelect: boolean;
+  noEmptySelection: boolean;
+  rows: Array<{}>;
+  selectedClassName: string;
+  sortColumn: number;
+  tableClassName: string;
 };
 
 type TableState = {
@@ -174,6 +175,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     bordered: false,
     multiSelect: false,
     noEmptySelection: false,
+    rows: [],
     selectedClassName: 'attivio-table-row-selected',
     sortColumn: 0,
     tableClassName: 'table table-striped attivio-table attivio-table-sm',
@@ -228,7 +230,10 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
   componentWillReceiveProps(newProps: TableProps) {
     // If a rowComparator is specified, use it, otherwise, do a deep row comparison and reset selection if anything changed.
-    if ((newProps.rowComparator && !isEqualWith(newProps.rows, this.props.rows, newProps.rowComparator))
+    if ((newProps.rows && this.props.rows && newProps.rows.length !== this.props.rows.length)
+      || (newProps.rows && !this.props.rows)
+      || (!newProps.rows && this.props.rows)
+      || (newProps.rowComparator && !isEqualWith(newProps.rows, this.props.rows, newProps.rowComparator))
       || (!newProps.rowComparator && !isEqual(newProps.rows, this.props.rows))
     ) {
       // Reset the sorted rows if the actual rows have changed.
