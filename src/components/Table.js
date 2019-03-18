@@ -178,7 +178,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     rows: [],
     selectedClassName: 'attivio-table-row-selected attivio-table-row',
     sortColumn: 0,
-    tableClassName: 'table table-striped attivio-table attivio-table-sm attivio-table-no-outline ',
+    tableClassName: 'table table-striped attivio-table attivio-table-sm attivio-table-no-outline',
   };
 
   static makeCustomRenderer(column) {
