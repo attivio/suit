@@ -1,48 +1,80 @@
 #### Examples:
 
-
 __1:__ Simple table allowing multiple selection.
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
   initialState = {
-    selectedRows: tableData.customerEngagementRows[0],
+    activeRow: tableData.customerEngagementRows[0],
+    selectedRows: [tableData.customerEngagementRows[0], tableData.customerEngagementRows[1]],
   };
+
   <Table
     columns={tableData.customerEngagementSimpleColumns}
     rows={tableData.customerEngagementRows}
-    onSelect={(row) => {
-      setState({ selectedRows: row });
+    onSelect={(selectedRows, activeRow) => {
+      setState({ selectedRows, activeRow });
     }}
-    selection={state.selectedRows}
     multiSelect
-  /> 
+    activeRowBackgroundColor="#d08afc"
+    multiSelectBackgroundColor="#dcaef9"
+    rowComparator={(rowA, rowB) => {
+      return rowA.id === rowB.id
+    }}
+  />
 ```
 
-__2:__ Single-selection table with a border.
+__3:__ Simple table allowing multiple selection that requires a row to always be selected.
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
   initialState = {
-    selectedRows: tableData.customerEngagementRows[0],
+    activeRow: tableData.customerEngagementRows[0],
+    selectedRows: [tableData.customerEngagementRows[0], tableData.customerEngagementRows[1]],
+  };
+
+  <Table
+    columns={tableData.customerEngagementSimpleColumns}
+    rows={tableData.customerEngagementRows}
+    onSelect={(selectedRows, activeRow) => {
+      // The table will support multiselect without this function.
+      // Use this function to get access to the selected rows.
+      setState({ selectedRows, activeRow });
+    }}
+    multiSelect
+    noEmptySelection
+    rowComparator={(rowA, rowB) => {
+      return rowA.id === rowB.id
+    }}
+  />
+```
+
+__4:__ Single-selection table with a border.
+
+```jsx
+  const tableData = require('../sampleData/TableData').default;
+  initialState = {
+    selectedRows: [tableData.customerEngagementRows[0]],
   };
   <Table
     columns={tableData.customerEngagementSimpleColumns}
     rows={tableData.customerEngagementRows}
-    onSelect={(row) => {
-      setState({ selectedRows: row });
+    onSelect={(selectedRows) => {
+      setState({ selectedRows});
     }}
-    selection={state.selectedRows}
+    rowComparator={(rowA, rowB) => {
+      return rowA.id === rowB.id
+    }}
     bordered
-  /> 
+  />
 ```
 
-__3:__ Table with a custom cell renderer for the Self-Service column showing percentage bars...
+__5:__ Table with a custom cell renderer for the Self-Service column showing percentage bars...
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
   initialState = {
-    selectedRow: tableData.customerEngagementRows[0],
+    selectedRows: [tableData.customerEngagementRows[0]],
   };
   const cols = tableData.customerEngagementSimpleColumns.slice();
   const maxSelfServe = tableData.customerEngagementRows.reduce((acc, row) => {
@@ -69,19 +101,18 @@ __3:__ Table with a custom cell renderer for the Self-Service column showing per
   <Table
     columns={cols}
     rows={tableData.customerEngagementRows}
-    onSelect={(row) => {
-      setState({ selectedRow: row });
+    onSelect={(selectedRows) => {
+      setState({ selectedRows });
     }}
-    selection={state.selectedRow}
-  /> 
+  />
 ```
 
-__4:__ Table with sortable columms handled by a global handler (useful when sorting in the back-end code).
+__6:__ Table with sortable columms handled by a global handler (useful when sorting in the back-end code).
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
   initialState = {
-    selectedRow: tableData.customerEngagementRows[0],
+    selectedRows: [tableData.customerEngagementRows[0]],
     sortCol: 0,
     rows: tableData.customerEngagementRows.slice(),
   };
@@ -91,10 +122,9 @@ __4:__ Table with sortable columms handled by a global handler (useful when sort
   <Table
     columns={columns}
     rows={state.rows}
-    onSelect={(row) => {
-      setState({ selectedRow: row });
+    onSelect={(selectedRows) => {
+      setState({ selectedRows });
     }}
-    selection={state.selectedRow}
     sortColumn={state.sortCol}
     onSort={(col) => {
       if (col !== 0) {
@@ -122,15 +152,15 @@ __4:__ Table with sortable columms handled by a global handler (useful when sort
         });
       }
     }}
-  /> 
+  />
 ```
 
-__5:__ Table with sortable columms with sorting handled by the columns themselves.
+__7:__ Table with sortable columms with sorting handled by the columns themselves.
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
   initialState = {
-    selectedRow: tableData.customerEngagementRows[0],
+    selectedRows: [tableData.customerEngagementRows[0]],
     sortCol: 0,
   };
   const numberToText = (n) => {
@@ -204,9 +234,8 @@ __5:__ Table with sortable columms with sorting handled by the columns themselve
   <Table
     columns={columns}
     rows={tableData.customerEngagementRows}
-    onSelect={(row) => {
-      setState({ selectedRow: row });
+    onSelect={(selectedRows) => {
+      setState({ selectedRows });
     }}
-    selection={state.selectedRow}
-  /> 
+  />
 ```
