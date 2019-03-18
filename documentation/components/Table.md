@@ -24,7 +24,7 @@ __1:__ Simple table allowing multiple selection.
   />
 ```
 
-__3:__ Simple table allowing multiple selection that requires a row to always be selected.
+__2:__ Simple table allowing multiple selection that requires a row to always be selected.
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
@@ -49,7 +49,7 @@ __3:__ Simple table allowing multiple selection that requires a row to always be
   />
 ```
 
-__4:__ Single-selection table with a border.
+__3:__ Single-selection table with a border.
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
@@ -69,7 +69,7 @@ __4:__ Single-selection table with a border.
   />
 ```
 
-__5:__ Table with a custom cell renderer for the Self-Service column showing percentage bars...
+__4:__ Table with a custom cell renderer for the Self-Service column showing percentage bars...
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
@@ -107,7 +107,7 @@ __5:__ Table with a custom cell renderer for the Self-Service column showing per
   />
 ```
 
-__6:__ Table with sortable columms handled by a global handler (useful when sorting in the back-end code).
+__5:__ Table with sortable columms handled by a global handler (useful when sorting in the back-end code).
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
@@ -155,7 +155,7 @@ __6:__ Table with sortable columms handled by a global handler (useful when sort
   />
 ```
 
-__7:__ Table with sortable columms with sorting handled by the columns themselves.
+__6:__ Table with sortable columms with sorting handled by the columns themselves.
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;

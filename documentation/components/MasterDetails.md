@@ -13,8 +13,8 @@ __1:__ A simple master detail example using the dummy &lt;Details&gt; component 
   />
 ```
 
-__2:__ A master detail example using the dummy &lt;Details&gt; component on the right side, 
-multiselect table option, that always requires a table selection.
+__2:__ A master detail example using the dummy &lt;Details&gt; component on the right side and
+multiselect table option that always requires a table selection.
 
 ```jsx
   const tableData = require('../sampleData/TableData').default;
