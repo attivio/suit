@@ -36,4 +36,4 @@ Selection tracking has been moved to `<Table />`. `onSelect` is no longer a requ
 
 * `<Table />` now supports key selection in multi-select mode.
 * `rowComparator` is now required for comparison equality checking between rows.
-* `<Table />` and `<MasterDetails />` now optionally accept `activeRowBackgroundColor` and `multiSelectBackgroundColor` props which, if specified, override any other className specifications for those colors. This change is intended to make it easier to indicate color selections. `selectedClassName` is may still optionally be passed in, but takes a second seat to those props.
+* `<Table />` and `<MasterDetails />` now optionally accept `activeRowBackgroundColor` and `multiSelectBackgroundColor` props which, if specified, override any other className specifications for those colors. This change is intended to make it easier to indicate color selections. `selectedClassName` may still optionally be passed in, but takes a second seat to those props.
