@@ -27,3 +27,13 @@ If you are _using_ the SUIT library and want to upgrade to a newer version, plea
 *	Added the new TrianglePanel component, similar to the CollapsiblePanel component, but with a “disclosure triangle” to the left of the panel’s title instead of the caret off to the right. This is especially useful for cases where the panel will be wide and the caret won’t be visible way off to the right.
 *	Fix an issue in AuthUtils where we could have been checking for permissions on a null user.roles array.
 *	Updated the version of the react-styleguidist library from 6.0.20 to 7.3.6 and updated the configuration appropriately.
+
+### Version 0.1.0
+
+This introduces breaking changes to the `<Table />` and `<MasterDetails />` components.
+
+Selection tracking has been moved to `<Table />`. `onSelect` is no longer a required function, it is now considered a convenience hook so a consumer may respond to selection changes and/or be aware of the current selection. This is a breaking change. Previously, the consumer of `<Table />` was responsible for passing in the current selection and `onSelect` drove the selection within `<Table />`. That is no longer true. `onSelect` no longer impacts the selections within `<Table />` and `<Table />` no longer accepts a `selection` prop to dictate the current selection.
+
+* `<Table />` now supports key selection in multi-select mode.
+* `rowComparator` is now required for comparison equality checking between rows.
+* `<Table />` and `<MasterDetails />` now optionally accept `activeRowBackgroundColor` and `multiSelectBackgroundColor` props which, if specified, override any other className specifications for those colors. This change is intended to make it easier to indicate color selections. `selectedClassName` is may still optionally be passed in, but takes a second seat to those props.
