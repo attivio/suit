@@ -229,7 +229,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       const selectedRows = selectedRow ? [selectedRow] : [];
 
       onSelect(selectedRows, selectedRow);
-      // TODO: Look at redux/reselect pattern as alternative to manipulating data coming from api for component consumption. (sortedRows)
+      // TODO: Look at redux/reselect pattern as alternative to manipulating data coming from api for component consumption.
       // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({
         activeRowIndex,
@@ -268,6 +268,16 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         selectedRowIndices,
         anchorRowIndex,
         activeRowIndex,
+      });
+    } else if (!isEqual(newProps.rows, this.props.rows)) {
+      // Selection hasn't changed, but other row data has update row data
+      const sortedRows = newProps.rows && newProps.rows.length > 0
+      ? newProps.rows.map((row, index) => {
+        return { ...row, index };
+      })
+      : [];
+      this.setState({
+        sortedRows,
       });
     }
   }
