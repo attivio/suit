@@ -215,7 +215,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
   componentDidMount() {
     const { multiSelect, onSelect } = this.props;
-    const { activeRowIndex } = this.state;
+    const { sortedRows } = this.state;
 
     if (multiSelect) {
       document.addEventListener('keydown', this.keyDown);
@@ -224,15 +224,24 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
     // If the parent provided an update hook, initialize the parent with selection values.
     if (onSelect) {
-      onSelect([], activeRowIndex);
+      const activeRowIndex = sortedRows.length > 0 ? 0 : null;
+      const selectedRow = sortedRows.length > 0 ? sortedRows[0] : null;
+      const selectedRows = selectedRow ? [selectedRow] : [];
+
+      onSelect(selectedRows, selectedRow);
+      // TODO: Look at redux/reselect pattern as alternative to manipulating data coming from api for component consumption. (sortedRows)
+      // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState({
+        activeRowIndex,
+        anchorRowIndex: activeRowIndex,
+        selectedRowIndices: sortedRows.length > 0 ? new Set(selectedRows) : new Set(),
+      });
     }
   }
 
   componentWillReceiveProps(newProps: TableProps) {
     // If a rowComparator is specified, use it, otherwise, do a deep row comparison and reset selection if anything changed.
-    if ((newProps.rows && this.props.rows && newProps.rows.length !== this.props.rows.length)
-      || (newProps.rows && !this.props.rows)
-      || (!newProps.rows && this.props.rows)
+    if (newProps.rows.length !== this.props.rows.length
       || (newProps.rowComparator && !isEqualWith(newProps.rows, this.props.rows, newProps.rowComparator))
       || (!newProps.rowComparator && !isEqual(newProps.rows, this.props.rows))
     ) {
@@ -248,18 +257,18 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       const anchorRowIndex = sortedRows.length > 0 ? 0 : null;
       const activeRowIndex = sortedRows.length > 0 ? 0 : null;
 
+      // If the parent provided an update hook, update the parent with the changes.
+      if (newProps.onSelect) {
+        const selectedRows = activeRowIndex ? [sortedRows[activeRowIndex]] : [];
+        const selectedRow = activeRowIndex ? sortedRows[activeRowIndex] : null;
+        newProps.onSelect(selectedRows, selectedRow);
+      }
       this.setState({
         sortedRows,
         selectedRowIndices,
         anchorRowIndex,
         activeRowIndex,
       });
-
-      // If the parent provided an update hook, update the parent with the changes.
-      if (newProps.onSelect) {
-        const selectedRows = sortedRows.length > 0 ? [0] : [];
-        newProps.onSelect(selectedRows, activeRowIndex);
-      }
     }
   }
 

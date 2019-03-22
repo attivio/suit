@@ -130,9 +130,9 @@ type MasterDetailsDefaultProps = {
 };
 
 type MasterDetailsState = {
-  /** The index for the most-recently selected row, to be displayed in the details pane. */
+  /** The data for the active row, to be displayed in the details pane. */
   detailsRow: {} | null;
-  /** The indices of the selected rows */
+  /** The data for the selected rows */
   selectedRows: Array<{}>;
 };
 
