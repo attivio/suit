@@ -59,7 +59,7 @@ type TableProps = {
    */
   columns: Array<TableColumn>;
   /**
-   * Rows of the table to be rendered. Rows must be objects.
+   * Rows of the table to be rendered. Each row will be treated as an object.
    */
   rows: Array<{}>;
   /**
@@ -198,8 +198,8 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     const defaultIndex = props.noEmptySelection ? 0 : null;
     this.state = {
       sortedRows: props.rows && props.rows.length > 0
-        ? props.rows.map((row, index) => {
-          return { ...row, index };
+        ? props.rows.map((row, tableRowIndex) => {
+          return { ...row, tableRowIndex };
         })
         : [],
       shiftKeyDown: false,
@@ -215,7 +215,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
   componentDidMount() {
     const { multiSelect, onSelect } = this.props;
-    const { activeRowIndex } = this.state;
+    const { sortedRows } = this.state;
 
     if (multiSelect) {
       document.addEventListener('keydown', this.keyDown);
@@ -224,22 +224,31 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
     // If the parent provided an update hook, initialize the parent with selection values.
     if (onSelect) {
-      onSelect([], activeRowIndex);
+      const activeRowIndex = sortedRows.length > 0 ? 0 : null;
+      const selectedRow = sortedRows.length > 0 ? sortedRows[0] : null;
+      const selectedRows = selectedRow ? [selectedRow] : [];
+
+      onSelect(selectedRows, selectedRow);
+      // TODO: Look at redux/reselect pattern as alternative to manipulating data coming from api for component consumption.
+      // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState({
+        activeRowIndex,
+        anchorRowIndex: activeRowIndex,
+        selectedRowIndices: sortedRows.length > 0 ? new Set(selectedRows) : new Set(),
+      });
     }
   }
 
   componentWillReceiveProps(newProps: TableProps) {
     // If a rowComparator is specified, use it, otherwise, do a deep row comparison and reset selection if anything changed.
-    if ((newProps.rows && this.props.rows && newProps.rows.length !== this.props.rows.length)
-      || (newProps.rows && !this.props.rows)
-      || (!newProps.rows && this.props.rows)
+    if (newProps.rows.length !== this.props.rows.length
       || (newProps.rowComparator && !isEqualWith(newProps.rows, this.props.rows, newProps.rowComparator))
       || (!newProps.rowComparator && !isEqual(newProps.rows, this.props.rows))
     ) {
       // Reset the sorted rows if the actual rows have changed.
       const sortedRows = newProps.rows && newProps.rows.length > 0
-        ? newProps.rows.map((row, index) => {
-          return { ...row, index };
+        ? newProps.rows.map((row, tableRowIndex) => {
+          return { ...row, tableRowIndex };
         })
         : [];
       // Reset row selection if the actual rows have changed.
@@ -248,18 +257,28 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       const anchorRowIndex = sortedRows.length > 0 ? 0 : null;
       const activeRowIndex = sortedRows.length > 0 ? 0 : null;
 
+      // If the parent provided an update hook, update the parent with the changes.
+      if (newProps.onSelect) {
+        const selectedRows = activeRowIndex ? [sortedRows[activeRowIndex]] : [];
+        const selectedRow = activeRowIndex ? sortedRows[activeRowIndex] : null;
+        newProps.onSelect(selectedRows, selectedRow);
+      }
       this.setState({
         sortedRows,
         selectedRowIndices,
         anchorRowIndex,
         activeRowIndex,
       });
-
-      // If the parent provided an update hook, update the parent with the changes.
-      if (newProps.onSelect) {
-        const selectedRows = sortedRows.length > 0 ? [0] : [];
-        newProps.onSelect(selectedRows, activeRowIndex);
-      }
+    } else if (!isEqual(newProps.rows, this.props.rows)) {
+      // Selection hasn't changed, but other row data has update row data
+      const sortedRows = newProps.rows && newProps.rows.length > 0
+      ? newProps.rows.map((row, tableRowIndex) => {
+        return { ...row, tableRowIndex };
+      })
+      : [];
+      this.setState({
+        sortedRows,
+      });
     }
   }
 
@@ -312,9 +331,9 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       // no selections will make this row the active row, the anchor row, and the only selectedIndices.
       if (anchorRowIndex === null) {
         this.setState({
-          selectedIndices: new Set([rowData.index]),
-          anchorRowIndex: rowData.index,
-          activeRowIndex: rowData.index,
+          selectedIndices: new Set([rowData.tableRowIndex]),
+          anchorRowIndex: rowData.tableRowIndex,
+          activeRowIndex: rowData.tableRowIndex,
         });
         onSelect([rowData], rowData);
         return true;
@@ -322,9 +341,9 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       if (shiftKeyPressed) {
         // The shift key was pressed. The anchor row and active rows do not change.
         // All rows between the anchor row and the selected row are selected and added onto the current selectedIndices.
-        const count = rowData.index - anchorRowIndex;
-        const startIndex = count > 0 ? anchorRowIndex : rowData.index;
-        const endIndex = count > 0 ? rowData.index : anchorRowIndex;
+        const count = rowData.tableRowIndex - anchorRowIndex;
+        const startIndex = count > 0 ? anchorRowIndex : rowData.tableRowIndex;
+        const endIndex = count > 0 ? rowData.tableRowIndex : anchorRowIndex;
         let currentIndex = startIndex;
 
         // Add the rows in range onto the selectedIndices of row indices.
@@ -343,7 +362,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
         return true;
       } else if (ctrlKeyPressed) {
-        const alreadySelected = selectedIndices.has(rowData.index);
+        const alreadySelected = selectedIndices.has(rowData.tableRowIndex);
         const onlySelection = selectedIndices.size <= 1;
         // If the row is already selected, this is a deselection attempt.
 
@@ -367,12 +386,12 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
             return true;
           }
           // Is the row we're deselecting the active row?
-          const updateActiveRow = rowData.index === activeRowIndex;
+          const updateActiveRow = rowData.tableRowIndex === activeRowIndex;
           // Is the row we're deselecting the anchor row?
-          const updateAnchorRow = rowData.index === anchorRowIndex;
+          const updateAnchorRow = rowData.tableRowIndex === anchorRowIndex;
 
           // This row is not the only selectedIndices, deselect it.
-          newSelectedRowIndices.delete(rowData.index);
+          newSelectedRowIndices.delete(rowData.tableRowIndex);
 
           if (updateActiveRow || updateAnchorRow) {
             // We need a fallback index for the anchor and/or active row. Use the selected row
@@ -424,7 +443,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         }
         // The control or meta key was pressed, and this row was not previously selected, so select it.
         // This row becomes the anchor row, but the active row does not change.
-        newSelectedRowIndices.add(rowData.index);
+        newSelectedRowIndices.add(rowData.tableRowIndex);
 
         const selectedRows = [];
         newSelectedRowIndices.forEach((index) => {
@@ -433,7 +452,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
         this.setState({
           selectedIndices: newSelectedRowIndices,
-          anchorRowIndex: rowData.index,
+          anchorRowIndex: rowData.tableRowIndex,
         });
         onSelect(selectedRows, sortedRows[activeRowIndex]);
         return true;
@@ -442,9 +461,9 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       // No modifier keys were pressed, all previously selected indices are cleared and this row becomes the
       // anchor row, active row, and only selectedIndices.
       this.setState({
-        anchorRowIndex: rowData.index,
-        activeRowIndex: rowData.index,
-        selectedIndices: new Set([rowData.index]),
+        anchorRowIndex: rowData.tableRowIndex,
+        activeRowIndex: rowData.tableRowIndex,
+        selectedIndices: new Set([rowData.tableRowIndex]),
       });
 
       onSelect([rowData], rowData);
@@ -453,7 +472,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
     // multiSelect is not enabled
     // Is this row already the currently selected row?
-    if (activeRowIndex === rowData.index) {
+    if (activeRowIndex === rowData.tableRowIndex) {
       // Is it ok if no rows are selected?
       if (noEmptySelection) {
         // This row is the active row, and we don't allow empty selections, do nothing.
@@ -470,8 +489,8 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
     // Multiselect is not enabled and this is not the currently selected row, just select the row.
     this.setState({
-      selectedIndices: [rowData.index],
-      selectedRowIndex: rowData.index,
+      selectedIndices: [rowData.tableRowIndex],
+      selectedRowIndex: rowData.tableRowIndex,
     });
     onSelect([rowData], rowData);
     return true;
@@ -498,8 +517,8 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       colNum = -colNum;
     }
     const sortedRows = rows && rows.length > 0
-      ? rows.map((row, index) => {
-        return { ...row, index };
+      ? rows.map((row, tableRowIndex) => {
+        return { ...row, tableRowIndex };
       })
       : [];
 
@@ -592,7 +611,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       clickToSelect: true,
       className: selectedClassName,
       bgColor: (row, isSelected) => {
-        if (activeRowBackgroundColor && row.index === activeRowIndex) {
+        if (activeRowBackgroundColor && row.tableRowIndex === activeRowIndex) {
           return activeRowBackgroundColor;
         }
         if (multiSelect && multiSelectBackgroundColor && isSelected) {
@@ -621,7 +640,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
           tableHeaderClass={tableClassName}
           tableBodyClass={tableClassName}
           selectRow={selectRow}
-          keyField="index"
+          keyField="tableRowIndex"
           options={options}
           remote={this.remote}
           bordered={bordered}
