@@ -51,7 +51,7 @@ __3.__ Disabled toggle.
 __4.__ A toggle without a label.
 
 ```jsx
-  initialState = { toggleOn: false };
+  initialState = { toggleOn: true };
 
   <ToggleSwitch
     on={state.toggleOn}
