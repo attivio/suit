@@ -41,3 +41,7 @@ Selection tracking has been moved to `<Table />`. `onSelect` is no longer a requ
 ### Version 0.1.1
 
 Fixes a bug introduced by the `<Table />` refactor in v0.1.0. Rows were not being properly updated when data within them changed.
+
+### Version 0.1.2
+
+Introduces optional no label version of `<ToggleSwitch />` similar to Material UI in styling.
