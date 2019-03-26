@@ -37,3 +37,11 @@ Selection tracking has been moved to `<Table />`. `onSelect` is no longer a requ
 * `<Table />` now supports key selection in multi-select mode.
 * `rowComparator` is now required for comparison equality checking between rows.
 * `<Table />` and `<MasterDetails />` now optionally accept `activeRowBackgroundColor` and `multiSelectBackgroundColor` props which, if specified, override any other className specifications for those colors. This change is intended to make it easier to indicate color selections. `selectedClassName` may still optionally be passed in, but takes a second seat to those props.
+
+### Version 0.1.1
+
+Fixes a bug introduced by the `<Table />` refactor in v0.1.0. Rows were not being properly updated when data within them changed.
+
+### Version 0.1.2
+
+Introduces optional no label version of `<ToggleSwitch />` similar to Material UI in styling.
