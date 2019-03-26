@@ -142,6 +142,10 @@ type SearcherProps = {
    * control its properties and display the search results.
    */
   children: Children;
+  /**
+   * The max resubmits property for enabling features such as And-To-Or resubmission, if desired
+   */
+  maxResubmits: number;
 };
 
 type SearcherDefaultProps = {
@@ -173,6 +177,7 @@ type SearcherDefaultProps = {
   resultsPerPage: number;
   businessCenterProfile: string | null;
   defaultQueryLanguage: 'simple' | 'advanced';
+  maxResubmits: number;
 };
 
 /*
@@ -287,6 +292,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     resultsPerPage: 10,
     businessCenterProfile: null,
     defaultQueryLanguage: 'simple',
+    maxResubmits: 1,
   };
 
   static contextTypes = {
@@ -440,6 +446,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       restParams.set('abc.enabled', ['true']);
       restParams.set('searchProfile', profiles);
     }
+    restParams.set('q.maxresubmits', [`${this.props.maxResubmits}`]);
 
     qr.restParams = restParams;
     return qr;
