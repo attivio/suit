@@ -116,7 +116,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
       this.setState({
         updating: true,
       }, () => {
-        this.context.searcher.updateTags(tags, this.props.docId).then(() => {
+        const completionCallback = () => {
           this.setState({
             tags,
             newTag: '',
@@ -124,14 +124,18 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
             tagError: null,
             updating: false,
           });
-        }).catch((error) => {
+        };
+
+        const errorCallback = (error) => {
           this.setState({
             newTag: '',
             adding: false,
             tagError: error.toString(),
             updating: false,
           });
-        });
+        };
+
+        this.context.searcher.updateTags(tags, this.props.docId, completionCallback, errorCallback);
       });
     }
   }
