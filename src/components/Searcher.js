@@ -719,8 +719,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   /**
    * Update the list of tags for the given document.
    */
-  updateTags(tags: Array<string>, docId: string): Promise<any> {
-    return this.search.updateRealtimeField(docId, FieldNames.TAGS, tags);
+  updateTags(tags: Array<string>, docId: string, onCompletion: () => void, onError: (error: string) => void): Promise<any> {
+    return this.search.updateRealtimeField(docId, FieldNames.TAGS, tags, onCompletion, onError);
   }
 
   props: SearcherProps;
