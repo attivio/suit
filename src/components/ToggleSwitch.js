@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 
 type ToggleSwitchProps = {
@@ -13,6 +12,8 @@ type ToggleSwitchProps = {
   onChange: (newValue: boolean) => void;
   /** If set, the toggle switch is disabled. */
   disabled: boolean;
+  /** Any extra css style parameters to apply to the container div */
+  style?: any;
 };
 
 type ToggleSwitchDefaultProps = {
@@ -37,20 +38,21 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
   offButton: ?HTMLDivElement;
 
   render() {
-    const disabledClass = this.props.disabled ? 'disabled' : '';
+    const { disabled, style, on, onLabel, offLabel, onChange } = this.props;
+    const disabledClass = disabled ? 'disabled' : '';
     const containerClass = `toggle-switch-container ${disabledClass}`;
-    const onClass = `toggle-switch toggle-switch-on ${this.props.on ? 'selected' : ''} ${disabledClass}`;
-    const offClass = `toggle-switch toggle-switch-off ${this.props.on ? '' : 'selected'} ${disabledClass}`;
+    const onClass = `toggle-switch toggle-switch-on ${on ? 'selected' : ''} ${disabledClass}`;
+    const offClass = `toggle-switch toggle-switch-off ${on ? '' : 'selected'} ${disabledClass}`;
 
-    if (!this.props.disabled) {
+    if (!disabled) {
       return (
-        <div className={containerClass}>
+        <div className={containerClass} style={style}>
           <div
             className={offClass}
             onClick={() => {
-              if (this.props.on && !this.props.disabled) {
+              if (on && !disabled) {
                 // On now, turn it off
-                this.props.onChange(false);
+                onChange(false);
               }
               if (this.offButton) {
                 this.offButton.blur();
@@ -62,14 +64,14 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
               this.offButton = c;
             }}
           >
-            {this.props.offLabel}
+            {offLabel}
           </div>
           <div
             className={onClass}
             onClick={() => {
-              if (!this.props.on && !this.props.disabled) {
+              if (!on && !disabled) {
                 // Off now, turn it on
-                this.props.onChange(true);
+                onChange(true);
               }
               if (this.onButton) {
                 this.onButton.blur();
@@ -81,22 +83,22 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
               this.onButton = c;
             }}
           >
-            {this.props.onLabel}
+            {onLabel}
           </div>
         </div>
       );
     }
     return (
-      <div className={containerClass}>
+      <div className={containerClass} style={style}>
         <div
           className={offClass}
         >
-          {this.props.offLabel}
+          {offLabel}
         </div>
         <div
           className={onClass}
         >
-          {this.props.onLabel}
+          {onLabel}
         </div>
       </div>
     );
