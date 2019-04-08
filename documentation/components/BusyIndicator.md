@@ -41,15 +41,15 @@ __4:__ Another "spinny" one, with a message.
   />
 ```
 
-__5:__ Another "spinny" one, with a message positioned to the right of the spinner and customized.
+__5:__ Displays a customized message positioned to the right of a spinner.
 
 ```jsx
   <BusyIndicator
     show
     type="spinny"
     message="Dusting keyboards..."
-    messagePosition="right"
     messageStyle={{ fontWeight: 600, color: '#2f75b0' }}
+    positionMessageRight
   />
 ```
 

@@ -16,10 +16,10 @@ type BusyIndicatorProps = {
    */
   message?: string;
   /**
-   * Indicates message placement in relation to the spinner. Has no impact on ellipsis type. If type is spinner,
-   * and this prop is omitted, the message will be positioned to the left of the spinner.
+   * Indicates message placement in relation to the spinner. Has no impact on ellipsis type. Defaults to false.
+   * If type is spinner, and this prop is omitted, the message will be positioned to the left of the spinner by default.
   */
-  messagePosition?: 'right';
+  positionMessageRight?: boolean;
   /**
    * An optional CSS style to apply to the message.
    */
@@ -36,7 +36,7 @@ type BusyIndicatorProps = {
 
 type BusyIndicatorDefaultProps = {
   message: string;
-  messagePosition: 'right' | '';
+  positionMessageRight: boolean;
   style: any;
   type: BusyIndicatorType;
 };
@@ -51,7 +51,7 @@ type BusyIndicatorState = {
 export default class BusyIndicator extends React.Component<BusyIndicatorDefaultProps, BusyIndicatorProps, BusyIndicatorState> { // eslint-disable-line max-len
   static defaultProps = {
     message: '',
-    messagePosition: '',
+    positionMessageRight: false,
     style: {},
     type: 'ellipsis',
   };
@@ -116,6 +116,7 @@ export default class BusyIndicator extends React.Component<BusyIndicatorDefaultP
   renderBusySymbol = () => {
     const { type } = this.props;
     const { dotCount } = this.state;
+
     switch (type) {
       case 'ellipsis':
         return '.'.repeat(dotCount);
@@ -129,7 +130,7 @@ export default class BusyIndicator extends React.Component<BusyIndicatorDefaultP
   render() {
     const {
       message,
-      messagePosition,
+      positionMessageRight,
       messageStyle,
       show,
       style,
@@ -144,8 +145,8 @@ export default class BusyIndicator extends React.Component<BusyIndicatorDefaultP
         ...style,
       };
 
-      const messageRightPositioned = type === 'spinny' && message && messagePosition === 'right';
-      const messageMargin = messageRightPositioned
+      const validRightPosition = type === 'spinny' && message && positionMessageRight;
+      const messageMargin = validRightPosition
         ? 'marginLeft'
         : 'marginRight';
 
@@ -157,11 +158,11 @@ export default class BusyIndicator extends React.Component<BusyIndicatorDefaultP
         ? <div style={mergedMessageStyle}>{message}</div>
         : '';
 
-      const leftContents = messageRightPositioned
+      const leftContents = validRightPosition
         ? this.renderBusySymbol()
         : messageToShow;
 
-      const rightContents = messageRightPositioned
+      const rightContents = validRightPosition
         ? messageToShow
         : this.renderBusySymbol();
 
