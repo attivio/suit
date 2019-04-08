@@ -45,3 +45,7 @@ Fixes a bug introduced by the `<Table />` refactor in v0.1.0. Rows were not bein
 ### Version 0.1.2
 
 Introduces optional no label version of `<ToggleSwitch />` similar to Material UI in styling.
+
+### Version 0.1.3
+
+Introduces option to disable the confirmation button in `<ConfirmationDialog />`.
