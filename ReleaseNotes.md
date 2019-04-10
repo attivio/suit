@@ -48,4 +48,5 @@ Introduces optional no label version of `<ToggleSwitch />` similar to Material U
 
 ### Version 0.1.3
 
+Adds optional `messagePositionRight` and `messageStyle` to `<BusyIndicator />`.
 Introduces option to disable the confirmation button in `<ConfirmationDialog />`.
