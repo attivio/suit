@@ -214,7 +214,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   state: TableState;
 
   componentDidMount() {
-    const { multiSelect, onSelect } = this.props;
+    const { multiSelect, onSelect, noEmptySelection } = this.props;
     const { sortedRows } = this.state;
 
     if (multiSelect) {
@@ -224,9 +224,9 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
     // If the parent provided an update hook, initialize the parent with selection values.
     if (onSelect) {
-      const activeRowIndex = sortedRows.length > 0 ? 0 : null;
-      const selectedRow = sortedRows.length > 0 ? sortedRows[0] : null;
-      const selectedRows = selectedRow ? [selectedRow] : [];
+      const activeRowIndex = noEmptySelection && sortedRows.length > 0 ? 0 : null;
+      const selectedRow = noEmptySelection && sortedRows.length > 0 ? sortedRows[0] : null;
+      const selectedRows = noEmptySelection && selectedRow ? [selectedRow] : [];
 
       onSelect(selectedRows, selectedRow);
       // TODO: Look at redux/reselect pattern as alternative to manipulating data coming from api for component consumption.
@@ -253,9 +253,15 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         : [];
       // Reset row selection if the actual rows have changed.
 
-      const selectedRowIndices = sortedRows.length > 0 ? new Set([0]) : new Set([]);
-      const anchorRowIndex = sortedRows.length > 0 ? 0 : null;
-      const activeRowIndex = sortedRows.length > 0 ? 0 : null;
+      const selectedRowIndices = sortedRows.length > 0 && newProps.noEmptySelection
+        ? new Set([0])
+        : new Set([]);
+      const anchorRowIndex = sortedRows.length > 0 && newProps.noEmptySelection
+        ? 0
+        : null;
+      const activeRowIndex = sortedRows.length > 0 && newProps.noEmptySelection
+        ? 0
+        : null;
 
       // If the parent provided an update hook, update the parent with the changes.
       if (newProps.onSelect) {
