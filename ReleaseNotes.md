@@ -53,4 +53,4 @@ Introduces option to disable the confirmation button in `<ConfirmationDialog />`
 
 ## Version 0.1.4
 
-Fixes issue where `onSelect` was passed a `null` value for `activeRow` after row data change causing `<MasterDetails />` to be empty.
+Fixes issue in `<Table />` where `onSelect` was passed a `null` value for `activeRow` after row data change causing `<MasterDetails />` to be empty and causing any consumer to have incorrect selection data.
