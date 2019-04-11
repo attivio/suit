@@ -259,8 +259,8 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
       // If the parent provided an update hook, update the parent with the changes.
       if (newProps.onSelect) {
-        const selectedRows = activeRowIndex ? [sortedRows[activeRowIndex]] : [];
-        const selectedRow = activeRowIndex ? sortedRows[activeRowIndex] : null;
+        const selectedRows = activeRowIndex !== null && newProps.noEmptySelection ? [sortedRows[activeRowIndex]] : [];
+        const selectedRow = activeRowIndex !== null && newProps.noEmptySelection ? sortedRows[activeRowIndex] : null;
         newProps.onSelect(selectedRows, selectedRow);
       }
       this.setState({
