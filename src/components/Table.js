@@ -234,7 +234,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       this.setState({
         activeRowIndex,
         anchorRowIndex: activeRowIndex,
-        selectedRowIndices: sortedRows.length > 0 ? new Set(selectedRows) : new Set(),
+        selectedIndices: noEmptySelection ? new Set([0]) : new Set([]),
       });
     }
   }
@@ -253,7 +253,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         : [];
       // Reset row selection if the actual rows have changed.
 
-      const selectedRowIndices = sortedRows.length > 0 && newProps.noEmptySelection
+      const selectedIndices = sortedRows.length > 0 && newProps.noEmptySelection
         ? new Set([0])
         : new Set([]);
       const anchorRowIndex = sortedRows.length > 0 && newProps.noEmptySelection
@@ -271,7 +271,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       }
       this.setState({
         sortedRows,
-        selectedRowIndices,
+        selectedIndices,
         anchorRowIndex,
         activeRowIndex,
       });
@@ -325,7 +325,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     const ctrlKeyPressed = ctrlKeyDown;
 
     const { multiSelect, noEmptySelection, onSelect } = this.props;
-    const newSelectedRowIndices = selectedIndices;
+    const newSelectedIndices = selectedIndices;
 
     // Safety Check - if no row data is passed, do nothing.
     if (!rowData) {
@@ -354,14 +354,14 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
         // Add the rows in range onto the selectedIndices of row indices.
         while (currentIndex <= endIndex) {
-          newSelectedRowIndices.add(currentIndex);
+          newSelectedIndices.add(currentIndex);
 
           currentIndex += 1;
         }
-        this.setState({ selectedIndices: newSelectedRowIndices });
+        this.setState({ selectedIndices: newSelectedIndices });
 
         const selectedRows = [];
-        newSelectedRowIndices.forEach((index) => {
+        newSelectedIndices.forEach((index) => {
           selectedRows.push(sortedRows[index]);
         });
         onSelect(selectedRows, sortedRows[activeRowIndex]);
@@ -397,13 +397,13 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
           const updateAnchorRow = rowData.tableRowIndex === anchorRowIndex;
 
           // This row is not the only selectedIndices, deselect it.
-          newSelectedRowIndices.delete(rowData.tableRowIndex);
+          newSelectedIndices.delete(rowData.tableRowIndex);
 
           if (updateActiveRow || updateAnchorRow) {
             // We need a fallback index for the anchor and/or active row. Use the selected row
             // (excluding the current row) with the least index.
             let minimiumIndex = Infinity;
-            newSelectedRowIndices.forEach((selectedIndex) => {
+            newSelectedIndices.forEach((selectedIndex) => {
               minimiumIndex = Math.min(selectedIndex, minimiumIndex);
             });
 
@@ -416,11 +416,11 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
             const baseValue = anchorRowIndex === null ? 0 : anchorRowIndex;
             const newAnchorRowIndex = updateAnchorRow ? fallbackIndex : baseValue;
 
-            newSelectedRowIndices.add(newActiveRowIndex);
-            newSelectedRowIndices.add(newAnchorRowIndex);
+            newSelectedIndices.add(newActiveRowIndex);
+            newSelectedIndices.add(newAnchorRowIndex);
 
             const selectedRows = [];
-            newSelectedRowIndices.forEach((index) => {
+            newSelectedIndices.forEach((index) => {
               selectedRows.push(sortedRows[index]);
             });
 
@@ -429,7 +429,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
             // The control or meta key was pressed, and this row was previously selected. This row was an anchor or active row.
             // The anchor and/or active row may have been updated to a fallback index.
             this.setState({
-              selectedIndices: newSelectedRowIndices,
+              selectedIndices: newSelectedIndices,
               anchorRowIndex: newAnchorRowIndex,
               activeRowIndex: newActiveRowIndex,
             });
@@ -437,11 +437,11 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
             return true;
           }
           const selectedRows = [];
-          newSelectedRowIndices.forEach((index) => {
+          newSelectedIndices.forEach((index) => {
             selectedRows.push(sortedRows[index]);
           });
 
-          this.setState({ selectedIndices: newSelectedRowIndices });
+          this.setState({ selectedIndices: newSelectedIndices });
           // The control or meta key was pressed and this row was previously selected. This row is not an anchor or active row.
           // It may be safely removed. The active row does not change. The anchor row does not change.
           onSelect(selectedRows, sortedRows[activeRowIndex]);
@@ -449,15 +449,15 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         }
         // The control or meta key was pressed, and this row was not previously selected, so select it.
         // This row becomes the anchor row, but the active row does not change.
-        newSelectedRowIndices.add(rowData.tableRowIndex);
+        newSelectedIndices.add(rowData.tableRowIndex);
 
         const selectedRows = [];
-        newSelectedRowIndices.forEach((index) => {
+        newSelectedIndices.forEach((index) => {
           selectedRows.push(sortedRows[index]);
         });
 
         this.setState({
-          selectedIndices: newSelectedRowIndices,
+          selectedIndices: newSelectedIndices,
           anchorRowIndex: rowData.tableRowIndex,
         });
         onSelect(selectedRows, sortedRows[activeRowIndex]);
@@ -536,11 +536,11 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       const selectedRows = defaultIndex ? [defaultIndex] : [];
       onSelect(selectedRows, defaultIndex);
     }
-    const selectedRowIndices = defaultIndex ? new Set([defaultIndex]) : new Set([]);
+    const selectedIndices = defaultIndex ? new Set([defaultIndex]) : new Set([]);
     this.setState({
       activeRowIndex: defaultIndex,
       anchorRowIndex: defaultIndex,
-      selectedRowIndices,
+      selectedIndices,
       sortedRows,
     });
     this.props.onSort(colNum);
