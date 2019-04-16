@@ -33,12 +33,12 @@ type SearchResultTagsProps = {
    * Otherwise, the search bar will not autocomplete.
    * Note that this is relative to the baseUri field in the configuration.
   */
-  autoCompleteUri: string,
+  autoCompleteUri?: string,
   /**
    * Optional. The location of the node through which to interact with Attivio.
    * Defaults to the value in the configuration.
    */
-  baseUri: string,
+  baseUri?: string,
 };
 
 type SearchResultTagsDefaultProps = {
