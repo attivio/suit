@@ -45,3 +45,16 @@ Fixes a bug introduced by the `<Table />` refactor in v0.1.0. Rows were not bein
 ### Version 0.1.2
 
 Introduces optional no label version of `<ToggleSwitch />` similar to Material UI in styling.
+
+### Version 0.1.3
+
+Adds optional `messagePositionRight` and `messageStyle` to `<BusyIndicator />`.
+Introduces option to disable the confirmation button in `<ConfirmationDialog />`.
+
+## Version 0.1.4
+
+Fixes issue in `<Table />` where `onSelect` was passed a `null` value for `activeRow` after row data change causing `<MasterDetails />` to be empty and causing any consumer to have incorrect selection data.
+
+## Version 0.1.5
+
+Fixes typo in `<Table />` where `selectedRowIndices` was updated in place of `selectedIndices`.

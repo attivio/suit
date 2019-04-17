@@ -13,11 +13,10 @@ __2:__ Another using a custom style.
 ```jsx
   <BusyIndicator
     show
-    message="I'm getting your stuff"
+    message="Smashing bugs"
     style={{
-      color: 'darkgreen',
-      fontWeight: 'bold',
-      backgroundColor: 'yellow',
+      color: '#2f75b0',
+      fontWeight: 600,
     }}
   />
 ```
@@ -32,19 +31,29 @@ __3:__ Example showing a loading indicator with the "spinny" animation.
   />
 ```
 
-
 __4:__ Another "spinny" one, with a message.
 
 ```jsx
   <BusyIndicator
     show
     type="spinny"
-    message="Don't bother me right now"
+    message="Building new features"
   />
 ```
 
+__5:__ Displays a customized message positioned to the right of a spinner.
 
-__5:__ Another that can be shown and hidden...
+```jsx
+  <BusyIndicator
+    show
+    type="spinny"
+    message="Dusting keyboards..."
+    messageStyle={{ fontWeight: 600, color: '#2f75b0' }}
+    positionMessageRight
+  />
+```
+
+__6:__ Another that can be shown and hidden...
 
 ```jsx
   initialState = { shown: false };
