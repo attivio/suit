@@ -13,17 +13,12 @@ type ConfirmationDialogProps = {
   /**
    * The Label for the submit button. Optional; defaults to "OK."
    */
-  confirmButtonLabel?: string;
+  confirmButtonLabel: string;
 
   /**
    * The Label for the cancel button. Optional; defaults to "Cancel."
    */
-  cancelButtonLabel?: string;
-
-  /**
-   * If true, the confirmation button is disabled. Defaults to false. Optional.
-   */
-  confirmButtonDisabled?: boolean;
+  cancelButtonLabel: string;
 
   /**
    * If set, then the dialog box is shown. Otherwise, it's hidden.
@@ -47,7 +42,7 @@ type ConfirmationDialogProps = {
    * displayed using the "danger" color (generally red) instead of
    * the default "primary" color (generally blue).
   */
-  dangerous?: boolean;
+  dangerous: boolean;
 
   /**
    * The contents to display in body of the dialog box. May be a simple string
@@ -57,11 +52,10 @@ type ConfirmationDialogProps = {
 };
 
 type ConfirmationDialogDefaultProps = {
-  cancelButtonLabel: string;
-  confirmButtonDisabled: boolean;
   confirmButtonLabel: string;
-  dangerous: boolean;
+  cancelButtonLabel: string;
   show: boolean;
+  dangerous: boolean;
 };
 
 /**
@@ -70,41 +64,27 @@ type ConfirmationDialogDefaultProps = {
 export default class ConfirmationDialog extends React.Component<ConfirmationDialogDefaultProps,
   ConfirmationDialogProps, void> {
   static defaultProps = {
-    cancelButtonLabel: 'Cancel',
-    confirmButtonDisabled: false,
     confirmButtonLabel: 'OK',
-    dangerous: false,
+    cancelButtonLabel: 'Cancel',
     show: false,
+    dangerous: false,
   };
 
   static displayName = 'ConfirmationDialog';
 
   render() {
-    const {
-      cancelButtonLabel,
-      children,
-      confirmButtonDisabled,
-      confirmButtonLabel,
-      dangerous,
-      onCancel,
-      onConfirm,
-      show,
-      title,
-    } = this.props;
-    const okButtonStyle = dangerous ? 'danger' : 'primary';
+    const okButtonStyle = this.props.dangerous ? 'danger' : 'primary';
     return (
-      <Modal show={show} onHide={onCancel}>
+      <Modal show={this.props.show} onHide={this.props.onCancel}>
         <Modal.Header>
-          <Modal.Title>{title}</Modal.Title>
+          <Modal.Title>{this.props.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div>{children}</div>
+          <div>{this.props.children}</div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={onCancel}>{cancelButtonLabel}</Button>
-          <Button onClick={onConfirm} bsStyle={okButtonStyle} disabled={confirmButtonDisabled}>
-            {confirmButtonLabel}
-          </Button>
+          <Button onClick={this.props.onCancel}>{this.props.cancelButtonLabel}</Button>
+          <Button onClick={this.props.onConfirm} bsStyle={okButtonStyle}>{this.props.confirmButtonLabel}</Button>
         </Modal.Footer>
       </Modal>
     );

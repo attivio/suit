@@ -14,30 +14,20 @@ type BusyIndicatorProps = {
   /**
    * Optional message to show before the animated part. Defaults to the empty string.
    */
-  message?: string;
-  /**
-   * Indicates message placement in relation to the spinner. Has no impact on ellipsis type. Defaults to false.
-   * If type is spinner, and this prop is omitted, the message will be positioned to the left of the spinner by default.
-  */
-  positionMessageRight?: boolean;
-  /**
-   * An optional CSS style to apply to the message.
-   */
-  messageStyle?: {};
+  message: string;
   /**
    * The type of busy indicator to show. Defaults to 'ellipsis'
    */
-  type?: BusyIndicatorType;
+  type: BusyIndicatorType;
   /**
    * An optional CSS style to show for the component.
    */
-  style?: {};
+  style: any;
 };
 
 type BusyIndicatorDefaultProps = {
-  message: string;
-  positionMessageRight: boolean;
   style: any;
+  message: string;
   type: BusyIndicatorType;
 };
 
@@ -50,9 +40,8 @@ type BusyIndicatorState = {
  */
 export default class BusyIndicator extends React.Component<BusyIndicatorDefaultProps, BusyIndicatorProps, BusyIndicatorState> { // eslint-disable-line max-len
   static defaultProps = {
-    message: '',
-    positionMessageRight: false,
     style: {},
+    message: '',
     type: 'ellipsis',
   };
 
@@ -104,71 +93,39 @@ export default class BusyIndicator extends React.Component<BusyIndicatorDefaultP
   timer: number;
 
   advance() {
-    this.setState(({ dotCount }) => {
-      const incrementedCount = dotCount + 1;
-      const newCount = incrementedCount > 3 ? 0 : incrementedCount;
-      return {
-        dotCount: newCount,
-      };
+    let newCount = this.state.dotCount + 1;
+    if (newCount > 3) {
+      newCount = 0;
+    }
+    this.setState({
+      dotCount: newCount,
     });
   }
 
-  renderBusySymbol = () => {
-    const { type } = this.props;
-    const { dotCount } = this.state;
-
-    switch (type) {
-      case 'ellipsis':
-        return '.'.repeat(dotCount);
-      case 'spinny':
-        return <DefaultImage src={spinnyImage} style={{ height: '1em' }} />;
-      default:
-        return null;
-    }
-  }
-
   render() {
-    const {
-      message,
-      positionMessageRight,
-      messageStyle,
-      show,
-      style,
-      type,
-    } = this.props;
-
-    if (show) {
-      const containerStyle = {
-        display: 'flex',
-        flexFlow: 'row nowrap',
-        alignItems: 'center',
-        ...style,
-      };
-
-      const validRightPosition = type === 'spinny' && message && positionMessageRight;
-      const messageMargin = validRightPosition
-        ? 'marginLeft'
-        : 'marginRight';
-
-      const mergedMessageStyle = type === 'spinny'
-        ? { [messageMargin]: '10px', ...messageStyle }
-        : messageStyle;
-
-      const messageToShow = message
-        ? <div style={mergedMessageStyle}>{message}</div>
-        : '';
-
-      const leftContents = validRightPosition
-        ? this.renderBusySymbol()
-        : messageToShow;
-
-      const rightContents = validRightPosition
-        ? messageToShow
-        : this.renderBusySymbol();
-
+    if (this.props.show) {
+      const style = Object.assign({ display: 'inline-block' }, this.props.style);
+      let contents;
+      let messageToShow = this.props.message;
+      switch (this.props.type) {
+        case 'ellipsis':
+          contents = '.'.repeat(this.state.dotCount);
+          break;
+        case 'spinny':
+          if (messageToShow.length > 0) {
+            // If we're showing a message, append a non-breaking space
+            // so it doesn't butt up against the image
+            messageToShow = `${messageToShow}\u00a0`;
+          }
+          contents = <DefaultImage src={spinnyImage} style={{ height: '1em' }} />;
+          break;
+        default:
+          contents = null;
+          break;
+      }
       return (
-        <div style={containerStyle}>
-          {leftContents}{rightContents}
+        <div style={style}>
+          {messageToShow}{contents}
         </div>
       );
     }
