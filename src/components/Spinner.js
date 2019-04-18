@@ -25,6 +25,8 @@ class Spinner extends React.Component<SpinnerDefaultProps, SpinnerProps, void> {
     spinnerLabel: '',
   };
 
+  static displayName = 'Spinner';
+
   render() {
     const label = this.props.spinnerLabel ? (
       <div>
