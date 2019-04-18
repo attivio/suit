@@ -35,7 +35,7 @@ class Spinner extends React.Component<SpinnerDefaultProps, SpinnerProps, void> {
         ''
       );
     return (
-      <div className="attivio-custom-spinner">
+      <div className="attivio-spinner">
         <img src={this.props.spinner} alt="Spinner" width={this.props.spinnerWidth} height={this.props.spinnerHeight} />
         {label}
       </div>
