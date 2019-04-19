@@ -130,7 +130,7 @@ type SearcherProps = {
   /** The workflow to use when updating document properties, defaults to 'ingest' */
   // ingestWorkflow: string;
   /** Whether to override the format with the debug format. */
-  debug: boolean;
+  debug: boolean,
   /** The number of document results to display on each page of the results set */
   resultsPerPage: number;
   /**
