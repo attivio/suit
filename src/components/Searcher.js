@@ -41,143 +41,143 @@ import Configuration from '../components/Configuration';
 */
 
 type SearcherProps = {
-  location: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired;
+  history: PropTypes.object.isRequired;
 
   /**
    * The engine backing the SUIT application. Defaults to 'attivio'.
    * Set to 'solr' or 'elastic' to use one of those engines instead.
    */
-  searchEngineType: 'attivio' | 'solr' | 'elastic',
+  searchEngineType: 'attivio' | 'solr' | 'elastic';
   /**
    * If a search engine than 'attivio' is specified, this property contains
    * configuration mappings and other options for it. It is ignored when the
    * engine is 'attivio'.
    */
-  customOptions: any,
+  customOptions: any;
   /**
    * Optional. The location of the node through which to interact with Attivio.
    * Defaults to the value in the configuration.
    */
-  baseUri: string,
+  baseUri: string;
   /** The workflow to use when performing the search. Defaults to the "search" workflow. */
-  searchWorkflow: string,
+  searchWorkflow: string;
   /** The list of document fields to return when performing the search. Defaults to all fields (*). */
-  fields: Array<string>,
+  fields: Array<string>;
   /** The list of facets to request when performing the search. Defaults to just 'table'. */
-  facets: Array<string>,
+  facets: Array<string>;
   /** The list of relevancy models to use when performing the search. Defaults to the 'default' model. */
-  relevancyModels: Array<string>,
+  relevancyModels: Array<string>;
   /** The maximum number of facets for FacetFinder to add. Defaults to 0, which means FF is disabled. */
-  facetFinderCount: number,
+  facetFinderCount: number;
   /** An optional filter to apply to all queries. */
-  queryFilter?: string | null,
+  queryFilter?: string | null;
   /**
    * Highlight mode for the results of your query: 'on' enables highlighting
    * using your schema preferences and field expressions, 'off' disables
    * highlighting on the request, only highlighting field expressions specified, and
    * 'all' adds a teaser field expression to all your display fields when not in debug mode.
    */
-  highlightResults: 'on' | 'off' | 'all',
+  highlightResults: 'on' | 'off' | 'all';
   /** The join rollup mode to use. Defaults to 'TREE'. */
-  joinRollupMode: 'TREE' | 'AGGREGATE' | 'SQL',
+  joinRollupMode: 'TREE' | 'AGGREGATE' | 'SQL';
   /** An optional locale to use for the search. */
-  locale?: string | null,
+  locale?: string | null;
   /** The default language to use for querying. Defaults to 'simple' if not specified. */
-  defaultQueryLanguage: 'simple' | 'advanced',
+  defaultQueryLanguage: 'simple' | 'advanced';
 
   /** A field expression to override what is used for the title, defaults to 'title' */
-  title: string,
+  title: string;
   /** A field expression to override what is used for the URI, defaults to 'uri' */
-  uri: string,
+  uri: string;
   /** A field expression to override what is used for the table, defaults to 'table' */
-  table: string,
+  table: string;
   /**
    * A field expression to override what is used for the teaser, defaults to
    * 'SCOPETEASER(text, fragment=true, numFragments=4, fragmentScope=sentence)'
    */
-  teaser: string,
+  teaser: string;
   /**
    * A field expression to override what is used for the text, defaults to
    * 'SCOPETEASER(text, fragment=true, numFragments=1, fragmentSize=2147483647)'
    */
-  text: string,
+  text: string;
   /**
    * A field expression to override what is used for the URI to the preview image,
    * defaults to 'img.uri.preview'
    */
-  previewImageUri: string,
+  previewImageUri: string;
   /** A field expression to override what is used for the UTI to the document’s
    * thumbnail, defaults to 'img.uri.thumbnail' */
-  thumbnailImageUri: string,
+  thumbnailImageUri: string;
   /** A field expression to override what is used for the latitude, defaults to 'latitude' */
-  latitude: string,
+  latitude: string;
   /** A field expression to override what is used for the longitude, defaults to 'longitude' */
-  longitude: string,
+  longitude: string;
   /**
    * A field expression to override what is used for the query to use when asking
    * for similar documents, defaults to 'morelikethisquery' */
-  moreLikeThisQuery: string,
+  moreLikeThisQuery: string;
   /** A field expression to override what is used for the MIME type, defaults to 'mimetype' */
-  mimetype: string,
+  mimetype: string;
   /**
    * A field expression to override what is used for the path to the ingested document,
    * defaults to 'sourcepath'
    */
-  sourcePath: string,
+  sourcePath: string;
   /** If true, include fields added by the query workflow, defaults to true */
   // showWorkflowFields: boolean;
   /** The workflow to use when updating document properties, defaults to 'ingest' */
   // ingestWorkflow: string;
   /** Whether to override the format with the debug format. */
-  debug: boolean,
+  debug: boolean;
   /** The number of document results to display on each page of the results set */
-  resultsPerPage: number,
+  resultsPerPage: number;
   /**
    * The name of the Business Center profile to use for queries. If set, this will enable Profile level campaigns and promotions.
    */
-  businessCenterProfile: string | null,
+  businessCenterProfile: string | null;
   /**
    * The Searcher contains arbitrary children, including the components that
    * control its properties and display the search results.
    */
-  children: Children,
+  children: Children;
   /**
    * The max resubmits property for enabling features such as And-To-Or resubmission, if desired
    */
-  maxResubmits: number,
+  maxResubmits: number;
 };
 
 type SearcherDefaultProps = {
-  searchEngineType: 'attivio' | 'elastic' | 'solr',
-  customOptions: any,
-  baseUri: string,
-  searchWorkflow: string,
-  fields: Array<string>,
-  facets: Array<string>,
-  relevancyModels: Array<string>,
-  facetFinderCount: number,
-  queryFilter: string | null,
-  highlightResults: 'on' | 'off' | 'all',
-  joinRollupMode: 'TREE' | 'AGGREGATE' | 'SQL',
-  locale: string | null,
-  title: string,
-  uri: string,
-  table: string,
-  teaser: string,
-  text: string,
-  previewImageUri: string,
-  thumbnailImageUri: string,
-  latitude: string,
-  longitude: string,
-  moreLikeThisQuery: string,
-  mimetype: string,
-  sourcePath: string,
-  debug: boolean,
-  resultsPerPage: number,
-  businessCenterProfile: string | null,
-  defaultQueryLanguage: 'simple' | 'advanced',
-  maxResubmits: number,
+  searchEngineType: 'attivio' | 'elastic' | 'solr';
+  customOptions: any;
+  baseUri: string;
+  searchWorkflow: string;
+  fields: Array<string>;
+  facets: Array<string>;
+  relevancyModels: Array<string>;
+  facetFinderCount: number;
+  queryFilter: string | null;
+  highlightResults: 'on' | 'off' | 'all';
+  joinRollupMode: 'TREE' | 'AGGREGATE' | 'SQL';
+  locale: string | null;
+  title: string;
+  uri: string;
+  table: string;
+  teaser: string;
+  text: string;
+  previewImageUri: string;
+  thumbnailImageUri: string;
+  latitude: string;
+  longitude: string;
+  moreLikeThisQuery: string;
+  mimetype: string;
+  sourcePath: string;
+  debug: boolean;
+  resultsPerPage: number;
+  businessCenterProfile: string | null;
+  defaultQueryLanguage: 'simple' | 'advanced';
+  maxResubmits: number;
 };
 
 /*
@@ -192,19 +192,19 @@ type SearcherDefaultProps = {
  *   getDefaultState()
  */
 type SearcherState = {
-  haveSearched: boolean,
-  response?: QueryResponse,
-  error?: string,
-  query: string,
-  queryLanguage: 'advanced' | 'simple',
+  haveSearched: boolean;
+  response?: QueryResponse;
+  error?: string;
+  query: string;
+  queryLanguage: 'advanced' | 'simple';
   sort: Array<string>,
-  relevancyModels: Array<string>,
-  facetFilters: Array<FacetFilter>,
-  geoFilters: Array<string>,
-  resultsPerPage: number,
-  resultsOffset: number,
-  debug: boolean,
-  isSearching: boolean,
+  relevancyModels: Array<string>;
+  facetFilters: Array<FacetFilter>;
+  geoFilters: Array<string>;
+  resultsPerPage: number;
+  resultsOffset: number;
+  debug: boolean;
+  isSearching: boolean;
 };
 
 /**
@@ -302,7 +302,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
 
   static childContextTypes = {
     searcher: PropTypes.any,
-  };
+  }
 
   static displayName = 'Searcher';
 
@@ -312,27 +312,23 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * Convert an array of facet filters to an array of string representations thereof.
    */
   static serializeFacetFilters(facetFilters: Array<FacetFilter>): Array<string> {
-    return facetFilters.map(
-      (facetFilter: FacetFilter): string => {
-        return `${facetFilter.facetName},+${facetFilter.bucketLabel},+${facetFilter.filter}`;
-      },
-    );
+    return facetFilters.map((facetFilter: FacetFilter): string => {
+      return `${facetFilter.facetName},+${facetFilter.bucketLabel},+${facetFilter.filter}`;
+    });
   }
 
   /**
    * Convert an array of stringified facet filters to an array of actual FacetFilter objects.
    */
   static deserializeFacetFilters(facetFilters: Array<string>): Array<FacetFilter> {
-    return facetFilters.map(
-      (facetFilterString: string): FacetFilter => {
-        const parts: Array<string> = facetFilterString.split(',+');
-        const facetFilter = new FacetFilter();
-        facetFilter.facetName = parts[0];
-        facetFilter.bucketLabel = parts[1];
-        facetFilter.filter = parts[2];
-        return facetFilter;
-      },
-    );
+    return facetFilters.map((facetFilterString: string): FacetFilter => {
+      const parts: Array<string> = facetFilterString.split(',+');
+      const facetFilter = new FacetFilter();
+      facetFilter.facetName = parts[0];
+      facetFilter.bucketLabel = parts[1];
+      facetFilter.filter = parts[2];
+      return facetFilter;
+    });
   }
 
   constructor(props: SearcherProps) {
@@ -851,25 +847,24 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   doSearch() {
     const qr = this.getQueryRequest();
 
-    const localCallBack = () => {
-      this.search.search(qr, (response: QueryResponse | null, error: string | null) => {
-        this.setState({ isSearching: false }, () => {
-          this.updateSearchResults(response, error);
+    if (!this.state.isSearching) {
+      this.setState({ isSearching: true }, () => {
+        this.search.search(qr, (response: QueryResponse | null, error: string | null) => {
+          this.setState({ isSearching: false }, () => {
+            this.updateSearchResults(response, error);
 
-          // potentially do window.scrollTo(0, 0)?
+            // potentially do window.scrollTo(0, 0)?
 
-          // Update the URL if needed.
-          const oldQueryString = this.props.location.query;
-          const updatedQueryString = this.generateLocationQueryStringFromState(this.state, oldQueryString);
-          if (oldQueryString !== updatedQueryString) {
-            this.props.history.push(`?${updatedQueryString}`);
-          }
-          this.updateSearchResults(response, error);
+            // Update the URL if needed.
+            const oldQueryString = this.props.location.query;
+            const updatedQueryString = this.generateLocationQueryStringFromState(this.state, oldQueryString);
+            if (oldQueryString !== updatedQueryString) {
+              this.props.history.push(`?${updatedQueryString}`);
+            }
+            this.updateSearchResults(response, error);
+          });
         });
       });
-    };
-    if (!this.state.isSearching) {
-      this.setState({ isSearching: true }, localCallBack);
     }
   }
 
@@ -898,14 +893,11 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     const callBackWrapper = () => {
       this.updateStateResetAndSearch(this.getDefaultState());
     };
-    this.setState(
-      {
-        haveSearched: false,
-        response: undefined,
-        error: undefined,
-      },
-      callBackWrapper,
-    );
+    this.setState({
+      haveSearched: false,
+      response: undefined,
+      error: undefined,
+    }, callBackWrapper);
   }
 
   /**
@@ -1011,7 +1003,11 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
 
   render() {
     // Nothing special to do here. The children will all look at our state to decide what to render
-    return <div>{this.props.children}</div>;
+    return (
+      <div>
+        {this.props.children}
+      </div>
+    );
   }
 }
 
