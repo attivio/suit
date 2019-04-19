@@ -68,3 +68,14 @@ __6:__ Another that can be shown and hidden...
     {button}
   </div>
 ```
+
+__7:__ Example of type 'spinnyCentered' with custom height and width.
+
+```jsx
+  <BusyIndicator
+    type="spinnyCentered"
+    message="Loading Results..."
+    spinnerHeight= '100px',
+    spinnerWidth= '100px',
+  />
+```

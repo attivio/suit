@@ -2,21 +2,34 @@
 import React from 'react';
 
 import DefaultImage from './DefaultImage';
+import Configurable from './Configurable';
 import spinnyImage from '../img/spinner.gif';
 
 type BusyIndicatorType = 'ellipsis' | 'spinny';
 
 type BusyIndicatorProps = {
   /**
-   * If true, the component will be visible.
+   * Indicates if the component will be visible, default is true.
    */
   show: boolean;
+  /**
+   * Optional path to the spinner file, defaults to 'img/spinner.gif'.
+   */
+  spinner?: string;
+  /**
+   * Optional height for the spinner, default is the actual height of the spinner file.
+   */
+  spinnerHeight?: string;
+  /**
+   * Optional width for the spinner, default is the actual height of the spinner file.
+   */
+  spinnerWidth?: string;
   /**
    * Optional message to show before the animated part. Defaults to the empty string.
    */
   message?: string;
   /**
-   * Indicates message placement in relation to the spinner. Has no impact on ellipsis type. Defaults to false.
+   * Indicates message placement in relation to the spinner. Has no impact on ellipsis or spinnyCentered type. Defaults to false.
    * If type is spinner, and this prop is omitted, the message will be positioned to the left of the spinner by default.
   */
   positionMessageRight?: boolean;
@@ -26,19 +39,24 @@ type BusyIndicatorProps = {
   messageStyle?: {};
   /**
    * The type of busy indicator to show. Defaults to 'ellipsis'
+   * 'SpinnyCentered' type shows a spinner that is centered in the middle of it's container.
    */
   type?: BusyIndicatorType;
   /**
-   * An optional CSS style to show for the component.
+   * An optional CSS style to show for the component. Has no impact on the spinnyCentered type.
    */
   style?: {};
 };
 
 type BusyIndicatorDefaultProps = {
+  show: boolean,
   message: string;
   positionMessageRight: boolean;
   style: any;
   type: BusyIndicatorType;
+  spinner: string;
+  spinnerHeight: string;
+  spinnerWidth: string;
 };
 
 type BusyIndicatorState = {
@@ -48,12 +66,16 @@ type BusyIndicatorState = {
 /**
  * Component to indicate the app is busy with an animation and optional message.
  */
-export default class BusyIndicator extends React.Component<BusyIndicatorDefaultProps, BusyIndicatorProps, BusyIndicatorState> { // eslint-disable-line max-len
+class BusyIndicator extends React.Component<BusyIndicatorDefaultProps, BusyIndicatorProps, BusyIndicatorState> { // eslint-disable-line max-len
   static defaultProps = {
+    show: true,
     message: '',
     positionMessageRight: false,
     style: {},
     type: 'ellipsis',
+    spinner: 'img/spinner.gif',
+    spinnerHeight: '',
+    spinnerWidth: '',
   };
 
   static displayName = 'BusyIndicator';
@@ -114,14 +136,23 @@ export default class BusyIndicator extends React.Component<BusyIndicatorDefaultP
   }
 
   renderBusySymbol = () => {
-    const { type } = this.props;
+    const { type, spinner, spinnerHeight, spinnerWidth } = this.props;
     const { dotCount } = this.state;
 
     switch (type) {
       case 'ellipsis':
         return '.'.repeat(dotCount);
       case 'spinny':
-        return <DefaultImage src={spinnyImage} style={{ height: '1em' }} />;
+        return <DefaultImage src={spinner} defaultSrc={spinnyImage} style={{ height: '1em' }} />;
+      case 'spinnyCentered':
+        return (
+          <img
+            src={this.props.spinner}
+            alt="Spinner"
+            width={spinnerWidth}
+            height={spinnerHeight}
+          />
+        );
       default:
         return null;
     }
@@ -138,13 +169,6 @@ export default class BusyIndicator extends React.Component<BusyIndicatorDefaultP
     } = this.props;
 
     if (show) {
-      const containerStyle = {
-        display: 'flex',
-        flexFlow: 'row nowrap',
-        alignItems: 'center',
-        ...style,
-      };
-
       const validRightPosition = type === 'spinny' && message && positionMessageRight;
       const messageMargin = validRightPosition
         ? 'marginLeft'
@@ -157,6 +181,24 @@ export default class BusyIndicator extends React.Component<BusyIndicatorDefaultP
       const messageToShow = message
         ? <div style={mergedMessageStyle}>{message}</div>
         : '';
+
+      if (type === 'spinnyCentered') {
+        return (
+          <div className="attivio-spinner">
+            {this.renderBusySymbol()}
+            <br />
+            <br />
+            <b>{messageToShow}</b>
+          </div>
+        );
+      }
+
+      const containerStyle = {
+        display: 'flex',
+        flexFlow: 'row nowrap',
+        alignItems: 'center',
+        ...style,
+      };
 
       const leftContents = validRightPosition
         ? this.renderBusySymbol()
@@ -175,3 +217,5 @@ export default class BusyIndicator extends React.Component<BusyIndicatorDefaultP
     return null;
   }
 }
+
+export default Configurable(BusyIndicator);

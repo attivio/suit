@@ -150,7 +150,6 @@ export SimpleSearchResult from './components/SimpleSearchResult';
 export SimpleAutoCompleteInput from './components/SimpleAutoCompleteInput';
 export SmallTabs from './components/SmallTabs';
 export SpellCheckMessage from './components/SpellCheckMessage';
-export Spinner from './components/Spinner';
 export SqlLog from './components/SqlLog';
 export StarRating from './components/StarRating';
 export StringListEditor from './components/StringListEditor';

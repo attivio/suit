@@ -273,7 +273,6 @@ module.exports = {
               'src/components/SecondaryNavBar.js',
               'src/components/SeparatedList.js',
               'src/components/SentimentTagCloud.js',
-              'src/components/Spinner.js',
               'src/components/SqlLog.js',
               'src/components/StarRating.js',
               'src/components/Subheader360.js',
