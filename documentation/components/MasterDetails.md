@@ -10,10 +10,29 @@ __1:__ A simple master detail example using the dummy &lt;Details&gt; component 
     columns={tableData.experts.columns}
     rows={tableData.experts.rows}
     details={Details}
-  /> 
+  />
 ```
 
-__2:__ Another example showing the use of a header and footer and with a 50-50 split, width-wise, between
+__2:__ A master detail example using the dummy &lt;Details&gt; component on the right side and
+multiselect table option that always requires a table selection.
+
+```jsx
+  const tableData = require('../sampleData/TableData').default;
+  const Details = require('../../src/components/Details').default;
+
+  <MasterDetails
+    columns={tableData.experts.columns}
+    rows={tableData.experts.rows}
+    details={Details}
+    rowComparator={(rowA, rowB) => rowA.id === rowB.id}
+    multiSelect
+    activeRowBackgroundColor="#d08afc"
+    multiSelectBackgroundColor="#dcaef9"
+    noEmptySelection
+  />
+```
+
+__3:__ Another example showing the use of a header and footer and with a 50-50 split, widthwise, between
 the table and details, along with 20 pixels of padding between them.
 
 ```jsx
@@ -32,10 +51,10 @@ the table and details, along with 20 pixels of padding between them.
     )}
     split={6}
     padding={20}
-  /> 
+  />
 ```
 
-__3:__ A multi-select variation with a custom details component. In real life, it's recommended that you
+__4:__ A multi-select variation with a custom details component. In real life, it's recommended that you
 create a full class-based component for the details pane.
 
 ```jsx
@@ -100,5 +119,5 @@ create a full class-based component for the details pane.
     columns={tableData.experts.columns}
     rows={tableData.experts.rows}
     details={details}
-  /> 
+  />
 ```

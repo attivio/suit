@@ -13,7 +13,7 @@ fi
 git pull && \
 npm version $VERSION_TYPE --commit-hooks false --no-git-tag-version && \
 git add . && \
-git commit -m "Updaing $VERSION_TYPE version" --no-verify && \
+git commit -m "Updating $VERSION_TYPE version" --no-verify && \
 git push && \
 PACKAGE_VERSION=$(cat package.json \
   | grep version \

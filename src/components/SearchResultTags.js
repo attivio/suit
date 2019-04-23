@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import QueryString from 'query-string';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import AutoCompleteInput from './AutoCompleteInput';
+import Configurable from './Configurable';
 
 type SearchResultTagsProps = {
   location: any;
@@ -25,6 +27,19 @@ type SearchResultTagsProps = {
    * Set to null to not show a link. Defaults to "Show 360° View."
    */
   view360Label: string | null;
+  /**
+   * If set, the search bar’s input field will use autocomplete via this URI.
+   * Otherwise, if the configuration is available, the autoCompleteUri in the
+   * configuration will be used.
+   * Otherwise, the search bar will not autocomplete.
+   * Note that this is relative to the baseUri field in the configuration.
+  */
+  autoCompleteUri?: string,
+  /**
+   * Optional. The location of the node through which to interact with Attivio.
+   * Defaults to the value in the configuration.
+   */
+  baseUri?: string,
 };
 
 type SearchResultTagsState = {
@@ -51,6 +66,8 @@ class SearchResultTags extends React.Component<SearchResultTagsProps, SearchResu
     moreLikeThisQuery: '',
     vertical: false,
     view360Label: 'Show 360\u00B0 View',
+    autoCompleteUri: null,
+    baseUri: '',
   };
 
   static displayName = 'SearchResultTags';
@@ -68,20 +85,31 @@ class SearchResultTags extends React.Component<SearchResultTagsProps, SearchResu
     (this: any).removeTag = this.removeTag.bind(this);
     (this: any).addTag = this.addTag.bind(this);
     (this: any).updateNewTag = this.updateNewTag.bind(this);
+    (this: any).updateNewTagFromString = this.updateNewTagFromString.bind(this);
     (this: any).keyUp = this.keyUp.bind(this);
+    (this: any).onEscape = this.onEscape.bind(this);
     (this: any).moreLikeThis = this.moreLikeThis.bind(this);
     (this: any).show360View = this.show360View.bind(this);
   }
 
   state: SearchResultTagsState;
+
+  onEscape() {
+    this.setState({
+      newTag: '',
+      adding: false,
+    });
+  }
+
   inputField: ?HTMLInputElement;
+
 
   updateTags(tags: Array<string>) {
     if (this.context.searcher) {
       this.setState({
         updating: true,
       }, () => {
-        this.context.searcher.updateTags(tags, this.props.docId).then(() => {
+        const completionCallback = () => {
           this.setState({
             tags,
             newTag: '',
@@ -89,14 +117,18 @@ class SearchResultTags extends React.Component<SearchResultTagsProps, SearchResu
             tagError: null,
             updating: false,
           });
-        }).catch((error) => {
+        };
+
+        const errorCallback = (error) => {
           this.setState({
             newTag: '',
             adding: false,
             tagError: error.toString(),
             updating: false,
           });
-        });
+        };
+
+        this.context.searcher.updateTags(tags, this.props.docId, completionCallback, errorCallback);
       });
     }
   }
@@ -125,16 +157,26 @@ class SearchResultTags extends React.Component<SearchResultTagsProps, SearchResu
     });
   }
 
+  updateNewTagFromString(tagValue: string, addNow?: boolean) {
+    if (addNow) {
+      this.setState({
+        newTag: tagValue,
+      }, this.addTag);
+    } else {
+      this.setState({
+        newTag: tagValue,
+      });
+    }
+  }
+
   keyUp(event: SyntheticKeyboardEvent<HTMLInputElement>) {
     if (event.key === 'Enter') {
       // If the user presses enter, then add the new tag
       this.addTag();
     } else if (event.key === 'Escape') {
       // Otherwise, if the press escape, to back to showing the Add… link instead of the input field
-      this.setState({
-        newTag: '',
-        adding: false,
-      });
+      this.onEscape();
+      }
     }
   }
 
@@ -187,26 +229,37 @@ class SearchResultTags extends React.Component<SearchResultTagsProps, SearchResu
       tagList = <span className="attivio-tags-link none">None</span>;
     }
 
+    const inputComponent = this.props.autoCompleteUri && this.props.autoCompleteUri.length > 0 ?
+    (<AutoCompleteInput
+      uri={`${this.props.baseUri}${this.props.autoCompleteUri}`}
+      onChange={this.updateNewTagFromString}
+      updateValue={this.updateNewTagFromString}
+      onEscape={this.onEscape}
+      placeholder={'Tag\u2026'}
+      value={this.state.newTag}
+      className="form-control"
+    />
+    ) : (
+      <input
+        type="email"
+        className="form-control"
+        id="attivio-tags-more-add"
+        placeholder={'Tag\u2026'}
+        value={this.state.newTag}
+        onChange={this.updateNewTag}
+        onKeyUp={this.keyUp}
+        ref={(comp) => {
+          this.inputField = comp;
+        }}
+      />
+    );
+
     const addButtonText = this.state.updating ? 'Adding\u2026' : 'Add';
     const extra = this.state.adding ? (
       <div className="form-inline attivio-tags-form">
         <div className="form-group">
-          <label htmlFor="attivio-tags-more-add" className="sr-only">
-            Tag
-            {' '}
-            <input
-              type="email"
-              className="form-control"
-              id="attivio-tags-more-add"
-              placeholder={'Tag\u2026'}
-              value={this.state.newTag}
-              onChange={this.updateNewTag}
-              onKeyUp={this.keyUp}
-              ref={(comp) => {
-                this.inputField = comp;
-              }}
-            />
-          </label>
+          <label htmlFor="attivio-tags-more-add" className="sr-only">Tag</label>
+          {inputComponent}
         </div>
         <button
           type="submit"
@@ -266,4 +319,4 @@ class SearchResultTags extends React.Component<SearchResultTagsProps, SearchResu
   }
 }
 
-export default withRouter(SearchResultTags);
+export default withRouter(Configurable(SearchResultTags));

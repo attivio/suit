@@ -8,6 +8,7 @@ type ToggleProps = {
   onClick: (e: Event) => void;
   /** The child components */
   children: Node;
+  customClassName: ?string;
 };
 
 /**
@@ -27,8 +28,15 @@ export default class Toggle extends React.Component<ToggleProps> {
   }
 
   render() {
+    const { customClassName = '' } = this.props;
+    const className = customClassName || 'attivio-smalltoolbar-btn';
+
     return (
-      <a href className="attivio-smalltoolbar-btn" onClick={this.handleClick}>
+      <a
+        href
+        className={className}
+        onClick={this.handleClick}
+      >
         {this.props.children}
       </a>
     );

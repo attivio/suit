@@ -1,4 +1,12 @@
 /* GENERAL */
+.attivio-primary-background {
+  background-color: @brand-primary;
+}
+
+.attivio-gray-darker-background {
+  background-color: @gray-darker;
+}
+
 .attivio-overlay-icon {
   position: absolute;
   bottom: 0;
@@ -31,7 +39,6 @@ a.mapboxgl-ctrl-logo {
 .attivio-listing-props .attivio-listing-propdef.spider-conf {
   word-break: break-all;
 }
-
 
 .attivio-tabpanel-radio > .nav-tabs .attivio-icon{
   float: left;
@@ -130,4 +137,21 @@ dd{
 .label.label-primary a {
   color: lighten(@gray-base, 80%);
   font-weight: normal;
+}
+
+.attivio-table-row {
+  ::selection {
+    background: inherit;
+  }
+}
+
+.attivio-table-no-outline tr td {
+  outline: none;
+  cursor: pointer;
+}
+
+.attivio-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

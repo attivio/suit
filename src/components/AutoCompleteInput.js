@@ -16,6 +16,7 @@ type AutoCompleteInputProps = {
   disabled: boolean;
   className: string;
   style: any;
+  onEscape?: () => void;
 };
 
 type AutoCompleteInputState = {
@@ -157,6 +158,9 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
         cursor: newCursor,
         queryValue: value,
       });
+    } else if (event.keyCode === 27 && this.props.onEscape) {
+      // This condition is satisfied when a user presses the escape key
+      this.props.onEscape();
     }
   }
 

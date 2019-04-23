@@ -26,7 +26,46 @@ __1:__ Straightforward confirmation dialog with default values.
   </div>
 ```
 
-__2:__ Customized button labels to confirm a "dangerous" action and more elaborate contents.
+__2:__ Disable the confirmation button until there is something to submit.
+
+```jsx
+  initialState = {
+    open: false,
+    inputValue: '',
+  };
+  <div>
+    <button
+      onClick={() => {
+        setState({ open: true });
+      }}>
+      Open Dialog
+    </button>
+    <ConfirmationDialog
+      show={state.open}
+      title="Transportation"
+      onCancel={() => {
+        setState({ open: false });
+      }}
+      onConfirm={() => {
+        alert('Thanks, Dad. I promise not to crash it!');
+        setState({ open: false });
+      }}
+      confirmButtonDisabled={!state.inputValue}
+    >
+      <div className="attivio-centered">
+        <div style={{ marginRight: '15px' }}>What is the magic word?</div>
+        <input
+          value={state.inputValue}
+          onChange={(e) => setState({ inputValue: e.target.value })}
+          tabIndex={0}
+          type="text"
+        />
+      </div>
+    </ConfirmationDialog>
+  </div>
+```
+
+__3:__ Customized button labels to confirm a "dangerous" action and more elaborate contents.
 
 ```jsx
   initialState = {

@@ -1,6 +1,6 @@
 {
   "name": "@attivio/suit",
-  "version": "0.0.62",
+  "version": "0.1.5",
   "description": "Attivio SUIT, the Search UI Toolkit, is a library for creating search clients for searching the Attivio platform.",
   "keywords": [
     "Attivio",
@@ -57,6 +57,7 @@
     "enumify": "1.0.4",
     "glamor": "2.20.40",
     "hygen": "1.5.8",
+    "lodash": "^4.17.11",
     "mapbox-gl": "0.40.1",
     "moment": "2.20.1",
     "prop-types": "15.6.2",
