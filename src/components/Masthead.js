@@ -203,7 +203,7 @@ class Masthead extends React.Component<MastheadProps, MastheadState> {
         </a>
       );
     }
-    
+
     return (
       <button
         style={{ backgroundColor: 'transparent', borderWidth: 0 }}
@@ -212,6 +212,7 @@ class Masthead extends React.Component<MastheadProps, MastheadState> {
         ref={(c) => {
           this.homeLink = c;
         }}
+        type="button"
       >
         {logo}
         {engineInfo}

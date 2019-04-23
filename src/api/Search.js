@@ -102,7 +102,8 @@ export default class Search {
     fieldName: string,
     fieldValues: Array<string>,
     onCompletion: () => void,
-    onError: (error: string) => void): Promise<any> {
+    onError: (error: string) => void,
+  ): Promise<any> {
     return new Promise((resolve, reject) => {
       // Get session
       const connectUri = `${this.baseUri}/rest/ingestApi/connect`;

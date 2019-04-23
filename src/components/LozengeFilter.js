@@ -68,6 +68,8 @@ export default class LozengeFilter extends React.Component<LozengeFilterProps, L
 
   static displayName = 'LozengeFilter';
 
+  divs: Map<string, ?HTMLDivElement> = new Map();
+
   constructor(props: LozengeFilterProps) {
     super(props);
     this.state = {
@@ -95,8 +97,6 @@ export default class LozengeFilter extends React.Component<LozengeFilterProps, L
     }
     return [];
   }
-
-  divs: Map<string, ?HTMLDivElement> = new Map();
 
   makeItem(label: string, value: string | null, current: boolean) {
     const baseStyle = {

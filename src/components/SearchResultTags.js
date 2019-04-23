@@ -34,12 +34,12 @@ type SearchResultTagsProps = {
    * Otherwise, the search bar will not autocomplete.
    * Note that this is relative to the baseUri field in the configuration.
   */
-  autoCompleteUri?: string,
+  autoCompleteUri: string,
   /**
    * Optional. The location of the node through which to interact with Attivio.
    * Defaults to the value in the configuration.
    */
-  baseUri?: string,
+  baseUri: string,
 };
 
 type SearchResultTagsState = {
@@ -102,7 +102,6 @@ class SearchResultTags extends React.Component<SearchResultTagsProps, SearchResu
   }
 
   inputField: ?HTMLInputElement;
-
 
   updateTags(tags: Array<string>) {
     if (this.context.searcher) {
@@ -176,7 +175,6 @@ class SearchResultTags extends React.Component<SearchResultTagsProps, SearchResu
     } else if (event.key === 'Escape') {
       // Otherwise, if the press escape, to back to showing the Add… link instead of the input field
       this.onEscape();
-      }
     }
   }
 
@@ -229,37 +227,43 @@ class SearchResultTags extends React.Component<SearchResultTagsProps, SearchResu
       tagList = <span className="attivio-tags-link none">None</span>;
     }
 
-    const inputComponent = this.props.autoCompleteUri && this.props.autoCompleteUri.length > 0 ?
-    (<AutoCompleteInput
-      uri={`${this.props.baseUri}${this.props.autoCompleteUri}`}
-      onChange={this.updateNewTagFromString}
-      updateValue={this.updateNewTagFromString}
-      onEscape={this.onEscape}
-      placeholder={'Tag\u2026'}
-      value={this.state.newTag}
-      className="form-control"
-    />
-    ) : (
-      <input
-        type="email"
-        className="form-control"
-        id="attivio-tags-more-add"
-        placeholder={'Tag\u2026'}
-        value={this.state.newTag}
-        onChange={this.updateNewTag}
-        onKeyUp={this.keyUp}
-        ref={(comp) => {
-          this.inputField = comp;
-        }}
-      />
-    );
+    const inputComponent = this.props.autoCompleteUri && this.props.autoCompleteUri.length > 0
+      ? (
+        <AutoCompleteInput
+          uri={`${this.props.baseUri}${this.props.autoCompleteUri}`}
+          onChange={this.updateNewTagFromString}
+          updateValue={this.updateNewTagFromString}
+          onEscape={this.onEscape}
+          placeholder={'Tag\u2026'}
+          value={this.state.newTag}
+          className="form-control"
+        />
+      ) : (
+        <input
+          type="email"
+          className="form-control"
+          id="attivio-tags-more-add"
+          placeholder={'Tag\u2026'}
+          value={this.state.newTag}
+          onChange={this.updateNewTag}
+          onKeyUp={this.keyUp}
+          ref={(comp) => {
+            this.inputField = comp;
+          }}
+        />
+      );
 
     const addButtonText = this.state.updating ? 'Adding\u2026' : 'Add';
     const extra = this.state.adding ? (
       <div className="form-inline attivio-tags-form">
         <div className="form-group">
-          <label htmlFor="attivio-tags-more-add" className="sr-only">Tag</label>
-          {inputComponent}
+          <label
+            htmlFor="attivio-tags-more-add"
+            className="sr-only"
+          >
+            Tag
+            {inputComponent}
+          </label>
         </div>
         <button
           type="submit"

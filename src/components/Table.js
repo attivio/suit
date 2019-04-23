@@ -177,9 +177,9 @@ export default class Table extends React.Component<TableProps, TableState> {
     };
   }
 
-  static compareRows
-
   static displayName = 'Table';
+
+  static compareRows;
 
   static TableColumn;
 
@@ -268,10 +268,10 @@ export default class Table extends React.Component<TableProps, TableState> {
     } else if (!isEqual(newProps.rows, this.props.rows)) {
       // Selection hasn't changed, but other row data has update row data
       const sortedRows = newProps.rows && newProps.rows.length > 0
-      ? newProps.rows.map((row, tableRowIndex) => {
-        return { ...row, tableRowIndex };
-      })
-      : [];
+        ? newProps.rows.map((row, tableRowIndex) => {
+          return { ...row, tableRowIndex };
+        })
+        : [];
       this.setState({
         sortedRows,
       });
@@ -357,7 +357,8 @@ export default class Table extends React.Component<TableProps, TableState> {
         onSelect(selectedRows, sortedRows[activeRowIndex]);
 
         return true;
-      } else if (ctrlKeyPressed) {
+      }
+      if (ctrlKeyPressed) {
         const alreadySelected = selectedIndices.has(rowData.tableRowIndex);
         const onlySelection = selectedIndices.size <= 1;
         // If the row is already selected, this is a deselection attempt.

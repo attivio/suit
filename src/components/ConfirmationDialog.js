@@ -88,7 +88,7 @@ export default class ConfirmationDialog extends React.Component<ConfirmationDial
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {this.props.children}
+          {children}
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={onCancel}>{cancelButtonLabel}</Button>

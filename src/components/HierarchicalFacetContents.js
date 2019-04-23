@@ -22,6 +22,8 @@ type HierarchicalFacetContentsState = {
 export default class HierarchicalFacetContents extends React.Component<HierarchicalFacetContentsProps, HierarchicalFacetContentsState> { // eslint-disable-line max-len
   static displayName = 'HierarchicalFacetContents';
 
+  linkRefs: Map<string, any> = new Map();
+
   constructor(props: HierarchicalFacetContentsProps) {
     super(props);
 
@@ -139,8 +141,6 @@ export default class HierarchicalFacetContents extends React.Component<Hierarchi
       openness: newOpenness,
     });
   }
-
-  linkRefs: Map<string, any> = new Map();
 
   createNodeContents(bucket: SearchFacetBucket) {
     const key = bucket.bucketKey();
