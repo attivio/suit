@@ -9,6 +9,7 @@ import MenuItem from 'react-bootstrap/lib/MenuItem';
 
 import Configurable from './Configurable';
 import AutoCompleteInput from './AutoCompleteInput';
+import AuthUtils from '../util/AuthUtils';
 
 declare var webkitSpeechRecognition: any; // Prevent complaints about this not existing
 
@@ -54,6 +55,8 @@ type SearchBarProps = {
   buttonLabel: string;
   /** If set, this is the route to navigate to upon executing a search. By default, no navigation will occur when searching. */
   route: string | null;
+  /** Specifies if share search option should be displayed or not, false by default */
+  shareSearch: boolean;
 };
 
 type SearchBarDefaultProps = {
@@ -66,6 +69,7 @@ type SearchBarDefaultProps = {
   autoCompleteUri: string | null;
   route: string | null;
   baseUri: string;
+  shareSearch: boolean;
 };
 
 type SearchBarState = {
@@ -88,6 +92,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     autoCompleteUri: null,
     route: null,
     baseUri: '',
+    shareSearch: false,
   };
 
   static contextTypes = {
@@ -112,6 +117,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     (this: any).queryChanged = this.queryChanged.bind(this);
     (this: any).updateQuery = this.updateQuery.bind(this);
     (this: any).languageChanged = this.languageChanged.bind(this);
+    (this: any).shareSearch = this.shareSearch.bind(this);
     if (this.props.allowVoice && !('webkitSpeechRecognition' in window)) {
       console.log('Requested speech recognition but the browser doesn’t support it'); // eslint-disable-line no-console
     }
@@ -232,6 +238,18 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     }
   }
 
+  //eslint-disable-next-line
+  shareSearch() {
+    const username = AuthUtils.getUserName(AuthUtils.getSavedUser());
+    const yourMessage =
+      'Hey,\n\nI think you would be interested in these search results that I found using the most cognitive and ' +
+      `intuitive search platform called Attivio. Here is the link :)\n${window.location.href}
+      \nLet me know if you have any questions!\n\nBest,\n${username}`;
+    const subject = 'Search results I found using Attivio!';
+    const emailLink = 'email@example.com';
+    document.location.href = `mailto:${emailLink}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(yourMessage)}`;
+  }
+
   render() {
     const showMicrophone = this.props.allowVoice && ('webkitSpeechRecognition' in window);
     const micStyle = {};
@@ -240,6 +258,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     }
 
     const containerClass = this.props.inMasthead ? 'attivio-globalmast-search-container' : '';
+    const subContainerClass = this.props.shareSearch ? 'attivio-globalmast-search-share-search' : 'attivio-globalmast-search';
     const inputClass = this.props.inMasthead ? 'form-control attivio-globalmast-search-input' : 'form-control';
 
     let query = '';
@@ -348,6 +367,26 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
         />
       );
 
+    const shareSearch = this.props.shareSearch ? (
+      <span
+        className="attivio-smalltoolbar-btn"
+        title="Share this search via Email"
+        style={{
+          position: 'relative',
+          top: '2px',
+          left: '-1px',
+          color: '#fff',
+          border: 'none',
+          background: 'transparent',
+          cursor: 'pointer',
+        }}
+      >
+        <Glyphicon onClick={this.shareSearch} glyph="share" style={{ color: 'white', fontSize: '1.1em' }} />
+      </span>
+    ) : (
+      ''
+    );
+
     return (
       <div className={containerClass}>
         <div className="attivio-globalmast-search" role="search">
@@ -370,6 +409,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
           {suggestionList}
         </div>
         {languageControl}
+        {shareSearch}
       </div>
     );
   }
