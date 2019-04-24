@@ -4,6 +4,7 @@ import ReactSwipe from 'react-swipe';
 import { Row, Col, Glyphicon } from 'react-bootstrap';
 
 type SwipeViewsProps = {
+  /** array of different views/screens (anything that can be rendered) */
   views: Array<any>,
 };
 
@@ -13,6 +14,8 @@ class SwipeViews extends React.Component<void, SwipeViewsProps, void> {
     (this: any).next = this.next.bind(this);
     (this: any).prev = this.prev.bind(this);
   }
+
+  static displayName = 'SwipeViews';
 
   next() {
     this.refs.reactSwipe.next();
