@@ -389,7 +389,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
 
     return (
       <div className={containerClass}>
-        <div className="attivio-globalmast-search" role="search">
+        <div className={subContainerClass} role="search">
           <div className="form-group">
             {inputComponent}
             {showMicrophone ? (
