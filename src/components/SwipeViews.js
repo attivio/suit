@@ -5,17 +5,38 @@ import { Row, Col, Glyphicon } from 'react-bootstrap';
 
 type SwipeViewsProps = {
   /** array of different views/screens (anything that can be rendered) */
-  views: Array<any>,
+  views: Array<any>;
+  /** if true, create an infinite feel with no endpoints. True by default  */
+  continuous: boolean;
+  /** index position Swipe should start at, 0 by default */
+  startSlide: number;
+  /** speed of view transition in milliseconds, 10 by default */
+  speed: number;
+  /** begin with auto slideshow (time in milliseconds between slides), 3000 by default */
+  auto: number;
+  /** stops any touches on this container from scrolling the page, false by default */
+  disableScroll: boolean;
 };
 
-class SwipeViews extends React.Component<void, SwipeViewsProps, void> {
+type SwipeViewsDefaultProps = {
+  continuous: boolean;
+};
+
+class SwipeViews extends React.Component<SwipeViewsDefaultProps, SwipeViewsProps, void> {
+  static defaultProps = {
+    continuous: true,
+    startSlide: 0,
+    auto: 3000,
+    speed: 10,
+    disableScroll: false,
+  }
+  static displayName = 'SwipeViews';
+
   constructor(props) {
     super(props);
     (this: any).next = this.next.bind(this);
     (this: any).prev = this.prev.bind(this);
   }
-
-  static displayName = 'SwipeViews';
 
   next() {
     this.refs.reactSwipe.next();
@@ -27,11 +48,11 @@ class SwipeViews extends React.Component<void, SwipeViewsProps, void> {
 
   render() {
     const swipeOptions = {
-      startSlide: 0,
-      auto: 0,
-      speed: 10,
-      disableScroll: false,
-      continuous: true,
+      startSlide: this.props.startSlide,
+      auto: this.props.auto,
+      speed: this.props.speed,
+      disableScroll: this.props.disableScroll,
+      continuous: this.props.continuous,
     };
     return (
       <Row>
