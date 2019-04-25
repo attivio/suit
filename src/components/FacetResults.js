@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import Facet from './Facet';
 import SearchFacet from '../api/SearchFacet';
+import Configurable from './Configurable';
 
 type FacetResultsProps = {
   /** The facet field names that should be displayed as pie charts */
@@ -42,6 +43,10 @@ type FacetResultsProps = {
    * buckets. By default, facets with no buckets will be hidden.
    */
   showEmptyFacets: boolean;
+  /**
+   * An optional list of facets that should not be shown but are needed for other reasons
+   */
+   hideFacet: Array<string>;
 };
 
 type FacetResultsDefaultProps = {
@@ -57,6 +62,7 @@ type FacetResultsDefaultProps = {
   orderHint: Array<string>;
   entityColors: Map<string, string>;
   showEmptyFacets: boolean;
+  hideFacet: Array<string>,
 };
 
 /**
@@ -67,7 +73,7 @@ type FacetResultsDefaultProps = {
  * not covered by one of these property's lists will be displayed
  * in a standard "More…" list.
  */
-export default class FacetResults extends React.Component<FacetResultsDefaultProps, FacetResultsProps, void> {
+class FacetResults extends React.Component<FacetResultsDefaultProps, FacetResultsProps, void> {
   static defaultProps = {
     pieChartFacets: null,
     barChartFacets: null,
@@ -81,6 +87,7 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
     orderHint: [],
     entityColors: new Map(),
     showEmptyFacets: false,
+    hideFacet: [],
   };
 
   static contextTypes = {
@@ -129,6 +136,11 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
   }
 
   shouldShow(facet: SearchFacet): boolean {
+    if (this.props.hideFacet && this.props.hideFacet.length > 0) {
+      if (this.props.hideFacet.includes(facet.field)) {
+        return false;
+      }
+    }
     if (this.props.showEmptyFacets || (facet && facet.buckets && facet.buckets.length > 0)) {
       return true;
     }
@@ -186,3 +198,5 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
     );
   }
 }
+
+export default Configurable(FacetResults);
