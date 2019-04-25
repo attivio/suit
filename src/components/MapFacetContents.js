@@ -5,7 +5,7 @@ import React from 'react';
 // Uncommenting DrawControl import would enable Polygon selection
 // feature and render it in Chrome but won't render in IE11.
 // import DrawControl from 'react-mapbox-gl-draw';
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import { Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 import PropTypes from 'prop-types';
 import sizeMe from 'react-sizeme';
@@ -31,11 +31,20 @@ type MapFacetContentsProps = {
   size: any;
   /** The public key with which to connect to the mapbox public apis. */
   mapboxKey: string;
+  /** Custom location pointer glyphicon, default is the map-marker glyphicon */
+  glyph: string | null;
+  /** Custom location pointer image uri, if available image is shown instead of glyphicon */
+  uri: string | null;
+  /** Custom tooltip text to convey what the location pointers are for, for e.g. customers, transaction location etc */
+  tooltip: string;
 };
 
 type MapFacetContentsDefaultProps = {
   size: any;
   mapboxKey: string;
+  glyph: string;
+  uri: string;
+  tooltip: string;
 };
 
 type MapFacetContentsState = {
@@ -53,6 +62,9 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
   static defaultProps = {
     size: null,
     mapboxKey: '',
+    glyph: 'map-marker',
+    uri: null,
+    tooltip: 'occurrence(s)',
   };
 
   static contextTypes = {
@@ -198,6 +210,12 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
         attributionControl: false,
       });
 
+      let locationPointer;
+      if (this.props.uri) {
+        locationPointer = <img src={this.props.uri} alt="location pointer" style={{ height: '20px', width: '20px' }} />;
+      } else if (this.props.glyph) {
+        locationPointer = <Glyphicon glyph={this.props.glyph} style={{ fontSize: '18px', color: '#2a689c' }} />;
+      }
       const points = this.props.buckets.map((bucket) => {
         const value = bucket.value; // JSON.parse(bucket.value);
         // Keep track of the boundaries of the coordinates
@@ -210,7 +228,9 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
             key={`${value.longitude || 0},${value.latitude || 0}`}
             style={{ cursor: 'pointer' }}
           >
-            <Glyphicon glyph="map-marker" style={{ fontSize: '18px', color: '#2a689c' }} />
+            <OverlayTrigger overlay={<Tooltip id="tooltip-bottom">{bucket.count} {this.props.tooltip} in this region</Tooltip>}>
+              {locationPointer}
+            </OverlayTrigger>
           </Marker>
         );
       });
