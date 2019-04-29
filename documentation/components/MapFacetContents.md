@@ -28,7 +28,7 @@ __2:__ Showing Conifer trees data with custom location pointers and tooltip
     }}
     size={{ height: 300, width: 700 }}
     mapboxKey=""
-    uri="img/tree.png"
-    tooltip="Conifer Tree(s)"
+    pointerImageUri="img/tree.png"
+    tooltip="{} Conifer Tree|{} Conifer Trees"
   />
 ```

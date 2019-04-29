@@ -31,19 +31,25 @@ type MapFacetContentsProps = {
   size: any;
   /** The public key with which to connect to the mapbox public apis. */
   mapboxKey: string;
-  /** Custom location pointer glyphicon, default is the map-marker glyphicon */
-  glyph: string | null;
+  /** Custom location pointer pointerGlyphicon, default is the map-marker glyphicon */
+  pointerGlyph: string | null;
   /** Custom location pointer image uri, if available image is shown instead of glyphicon */
-  uri: string | null;
-  /** Custom tooltip text to convey what the location pointers are for, for e.g. customers, transaction location etc */
+  pointerImageUri: string | null;
+  /**
+   * Custom tooltip text to convey what the location pointers are for, for e.g. customers, transactions etc
+   * It should specify the singular and plural forms to be used
+   * For example a tooltip for cats would be '{} cat|{} cats'
+   * If the string is not in the format specified above,
+   * it would be used as it is concatenated with the count.
+  */
   tooltip: string;
 };
 
 type MapFacetContentsDefaultProps = {
   size: any;
   mapboxKey: string;
-  glyph: string;
-  uri: string;
+  pointerGlyph: string;
+  pointerImageUri: string;
   tooltip: string;
 };
 
@@ -62,9 +68,9 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
   static defaultProps = {
     size: null,
     mapboxKey: '',
-    glyph: 'map-marker',
-    uri: null,
-    tooltip: 'occurrence(s)',
+    pointerGlyph: 'map-marker',
+    pointerImageUri: null,
+    tooltip: '{} occurrence|{} occurrences',
   };
 
   static contextTypes = {
@@ -210,15 +216,20 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
         attributionControl: false,
       });
 
-      let locationPointer;
-      if (this.props.uri) {
-        locationPointer = <img src={this.props.uri} alt="location pointer" style={{ height: '20px', width: '20px' }} />;
-      } else if (this.props.glyph) {
-        locationPointer = <Glyphicon glyph={this.props.glyph} style={{ fontSize: '18px', color: '#2a689c' }} />;
+      let locationPointer = <Glyphicon glyph="map-marker" style={{ fontSize: '18px', color: '#2a689c' }} />;
+      if (this.props.pointerImageUri) {
+        locationPointer = <img src={this.props.pointerImageUri} alt="location pointer" style={{ height: '20px', width: '20px' }} />;
+      } else if (this.props.pointerGlyph) {
+        locationPointer = <Glyphicon glyph={this.props.pointerGlyph} style={{ fontSize: '18px', color: '#2a689c' }} />;
       }
       const points = this.props.buckets.map((bucket) => {
         const value = bucket.value; // JSON.parse(bucket.value);
         // Keep track of the boundaries of the coordinates
+        let formattedTooltip;
+        formattedTooltip = StringUtils.fmt(this.props.tooltip, bucket.count);
+        if (formattedTooltip === this.props.tooltip) {
+          formattedTooltip = `${bucket.count} ${this.props.tooltip}`;
+        }
         return (
           <Marker
             coordinates={[value.longitude || 0, value.latitude || 0]}
@@ -228,7 +239,11 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
             key={`${value.longitude || 0},${value.latitude || 0}`}
             style={{ cursor: 'pointer' }}
           >
-            <OverlayTrigger overlay={<Tooltip id="tooltip-bottom">{bucket.count} {this.props.tooltip} in this region</Tooltip>}>
+            <OverlayTrigger overlay={
+              <Tooltip id="tooltip-bottom">
+                {formattedTooltip} in this region
+              </Tooltip>}
+            >
               {locationPointer}
             </OverlayTrigger>
           </Marker>
