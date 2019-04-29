@@ -40,7 +40,7 @@ type MapFacetContentsProps = {
    * It should specify the singular and plural forms to be used
    * For example a tooltip for cats would be '{} cat|{} cats'
    * If the string is not in the format specified above,
-   * it would be used as it is concatenated with the count.
+   * it would be used as it is appended to the count.
   */
   tooltip: string;
 };
