@@ -9,5 +9,5 @@ __1.__ Standard
 __2.__ Subheader with tooltip
 
 ```jsx
-  <Subheader360 label="My sub-header for the 360° page" description descriptionText="Additional information..." />
+  <Subheader360 label="My sub-header for the 360° page" tooltip="Additional information about my sub-header for the 360° page" />
 ```
