@@ -276,6 +276,7 @@ module.exports = {
               'src/components/SqlLog.js',
               'src/components/StarRating.js',
               'src/components/Subheader360.js',
+              'src/components/SwipeViews.js',
               'src/components/Table.js',
               'src/components/TabPanel.js',
               'src/components/TagCloud.js',
