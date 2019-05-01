@@ -15,14 +15,14 @@ __1.__ Simple on-off toggle.
   />
 ```
 
-__2.__ Customized toggle.
+__2.__ Toggle switch with custom labels.
 
 ```jsx
   initialState = { toggleOn: false };
 
   <ToggleSwitch
-    onLabel="1"
-    offLabel="0"
+    onLabel="¡Claro que sí!"
+    offLabel="¡De ninguna manera!"
     on={state.toggleOn}
     onChange={(newState) => {
       setState({
