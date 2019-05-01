@@ -1,6 +1,6 @@
 {
   "name": "@attivio/suit",
-  "version": "0.0.63",
+  "version": "0.1.5",
   "description": "Attivio SUIT, the Search UI Toolkit, is a library for creating search clients for searching the Attivio platform.",
   "keywords": [
     "Attivio",
@@ -74,6 +74,7 @@
     "react-router": "4.1.1",
     "react-router-dom": "4.1.1",
     "react-sizeme": "2.3.4",
+    "react-swipe": "^5.0.8",
     "react-toastify": "4.4.3",
     "validator": "8.2.0",
     "vis": "4.20.1",

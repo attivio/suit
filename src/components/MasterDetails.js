@@ -38,7 +38,7 @@ type MasterDetailsProps = {
    */
   multiSelect?: boolean;
   /**
-   * This callback is called when the user changes the selection in the table. However the
+   * This optional callback is called when the user changes the selection in the table. However the
    * Table component is responsible for maintaining the selection in the table; this callback
    * is just a "courtesy" so the parent can do something such as change the enablement of buttons,
    * etc., based on the selection. See the onSelect property of the Table component for more details.
@@ -105,6 +105,11 @@ type MasterDetailsProps = {
    */
   activeRowBackgroundColor?: string;
   /**
+   *  Optional background color to apply all selected rows except for the active row. Only used if multiSelect is specified as well.
+   *  Takes precedence over all other background colors specified through classNames.
+   */
+  multiSelectBackgroundColor?: string;
+  /**
    * Row comparator function passed through to the Table component. See Table component for details.
    */
   rowComparator: (rowA: {}, rowB: {}) => boolean;
@@ -125,9 +130,9 @@ type MasterDetailsDefaultProps = {
 };
 
 type MasterDetailsState = {
-  /** The index for the most-recently selected row, to be displayed in the details pane. */
+  /** The data for the active row, to be displayed in the details pane. */
   detailsRow: {} | null;
-  /** The indices of the selected rows */
+  /** The data for the selected rows */
   selectedRows: Array<{}>;
 };
 
@@ -144,10 +149,10 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
     multiSelect: false,
     noEmptySelection: false,
     padding: 0,
-    selectedClassName: 'attivio-table-row-selected',
+    selectedClassName: 'attivio-table-row-selected attivio-table-row',
     sortColumn: 0,
     split: 8,
-    tableClassName: 'table table-striped attivio-table attivio-table-sm',
+    tableClassName: 'table table-striped attivio-table attivio-table-sm attivio-table-no-outline',
     tableContainerClassName: '',
   };
 
@@ -203,6 +208,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
       details: Detail,
       detailsProps,
       multiSelect,
+      multiSelectBackgroundColor,
       noEmptySelection,
       onSort,
       padding = 0,
@@ -236,6 +242,7 @@ export default class MasterDetails extends React.Component<MasterDetailsDefaultP
                 selectedClassName={selectedClassName}
                 tableClassName={tableClassName}
                 activeRowBackgroundColor={activeRowBackgroundColor}
+                multiSelectBackgroundColor={multiSelectBackgroundColor}
                 rowComparator={rowComparator}
               />
               {this.renderFooter()}
