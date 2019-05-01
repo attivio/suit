@@ -97,7 +97,7 @@ export default class Pager extends React.Component<PagerDefaultProps, PagerProps
         Previous
       </a>
     );
-    let canGoRight;
+    let canGoRight = false;
     if (totalPages > 0 && currentPage < (totalPages - 1)) {
       canGoRight = true;
     } else if (totalPages === -1 && hasMore) {

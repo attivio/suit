@@ -14,8 +14,15 @@ type ToggleSwitchProps = {
   disabled: ?boolean;
   /** If set, the toggle will show no label and use the no label toggle styling. */
   noLabel: ?boolean;
-  /** Any extra css style parameters to apply to the container div */
+  /** Any extra css style parameters to apply to the container div (optional) */
   style?: any;
+  /**
+   * Any extra CSS class name(s) to apply to the container div (optional). Your CSS
+   * can use this in conjunction with the styles applied to the inner buttons
+   * (toggle-switch.toggle-switch-on or toggle-switch toggle-switch-off) to style them
+   * as well.
+   */
+  className?: string;
 };
 
 type ToggleSwitchDefaultProps = {
@@ -24,6 +31,7 @@ type ToggleSwitchDefaultProps = {
   disabled: ?boolean;
   noLabel: ?boolean;
   style: ?any;
+  className: ?string;
 };
 
 /**
@@ -36,6 +44,7 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
     disabled: false,
     noLabel: false,
     style: {},
+    className: '',
   };
 
   static displayName = 'ToggleSwitch';
@@ -52,10 +61,11 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
       onChange,
       onLabel,
       style,
+      className,
     } = this.props;
 
     const disabledClass = disabled ? 'disabled' : '';
-    const containerClass = `toggle-switch-container ${disabledClass}`;
+    const containerClass = `toggle-switch-container ${className} ${disabledClass}`;
 
     const onClass = `toggle-switch toggle-switch-on ${on ? 'selected' : ''} ${disabledClass}`;
     const offClass = `toggle-switch toggle-switch-off ${on ? '' : 'selected'} ${disabledClass}`;

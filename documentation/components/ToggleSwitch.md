@@ -80,3 +80,24 @@ __5.__ A disabled toggle switch without a label.
     disabled
   />
 ```
+
+__6.__ A toggle switch with a custom style applied.
+```jsx
+  initialState = { toggleOn: false };
+
+  <ToggleSwitch
+    on={state.toggleOn}
+    onChange={(newState) => {
+      setState({
+        toggleOn: newState,
+      });
+    }}
+    style={{
+      padding: '5px',
+      paddingLeft: '30px',
+      backgroundColor: '#ff0',
+      fontSize: '4em',
+      fontFamily: 'cursive',
+    }}
+  />
+```
