@@ -81,6 +81,37 @@ export default class DateUtils {
   }
 
   /**
+   * Given a string, return a Date object created by parsing it.
+   */
+  static stringToUTCDate(dateString: string): Date {
+    return moment.utc(dateString);
+  }
+
+   /**
+   * Given a string, date format and locale, return a formatted date in the specified locale using
+   * the format specified.
+   * @param dateString date as string
+   * @param format given format for coversion
+   * @param locale given locale
+   * @return a formatted date in the specified locale using
+   * the format specified.
+   * @author Shruti Shetty
+   * @date 2nd May 2019
+   */
+
+  static formatDateStringToUTC(
+    dateString: string | null,
+    format: DateFormat,
+    locale: string = "en"
+  ): string {
+    if (dateString) {
+      const date = DateUtils.stringToUTCDate(dateString);
+      return DateUtils.formatDate(date, format, locale);
+    }
+    return "";
+  }
+
+  /**
  * Format the date range presented for display in places such as
  * tooltips on TimeSeries charts. Based on the difference in the
  * start and end times, it will display either a single value or

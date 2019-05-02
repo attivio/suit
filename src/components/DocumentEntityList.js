@@ -38,7 +38,7 @@ export default class DocumentEntityList extends React.Component<void, DocumentEn
       dataPairs = dataPairs.filter((dataPair: DataPairInfo) => {
         return dataPair.type !== FieldNames.DATE;
       });
-      const dateString = DateUtils.formatDateString(date, DateFormat.LONG_DATE);
+      const dateString = DateUtils.formatDateStringToUTC(date, DateFormat.LONG_DATE); // Updating dateFormat for 
       // We always want the date to come first
       dataPairs.unshift(new DataPairInfo('Date', dateString));
     }
