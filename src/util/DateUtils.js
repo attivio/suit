@@ -102,13 +102,13 @@ export default class DateUtils {
   static formatDateStringToUTC(
     dateString: string | null,
     format: DateFormat,
-    locale: string = "en"
+    locale: string = 'en',
   ): string {
     if (dateString) {
       const date = DateUtils.stringToUTCDate(dateString);
       return DateUtils.formatDate(date, format, locale);
     }
-    return "";
+    return '';
   }
 
   /**
