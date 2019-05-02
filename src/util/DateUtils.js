@@ -96,7 +96,6 @@ export default class DateUtils {
    * @return a formatted date in the specified locale using
    * the format specified.
    * @author Shruti Shetty
-   * @date 2nd May 2019
    */
 
   static formatDateStringToUTC(
