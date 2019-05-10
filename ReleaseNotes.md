@@ -58,3 +58,11 @@ Fixes issue in `<Table />` where `onSelect` was passed a `null` value for `activ
 ## Version 0.1.5
 
 Fixes typo in `<Table />` where `selectedRowIndices` was updated in place of `selectedIndices`.
+
+## Version 0.1.6
+
+Adds a new component called `<SwipeViews />` which uses the `react-swipe` library to show multiple views that you can navigated through by using the left and right buttons.
+
+## Version 0.1.7
+
+Fixes issue in `<Table />` where selected row values became stale after data changed and selection did not.
