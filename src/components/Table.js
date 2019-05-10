@@ -276,14 +276,17 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         activeRowIndex,
       });
     } else if (!isEqual(newProps.rows, this.props.rows)) {
-      // Selection hasn't changed, but other row data has update row data
+      // Selection hasn't changed, but other row data has, update row data
       const sortedRows = newProps.rows && newProps.rows.length > 0
       ? newProps.rows.map((row, tableRowIndex) => {
         return { ...row, tableRowIndex };
       })
       : [];
-      this.setState({
-        sortedRows,
+      this.setState({ sortedRows }, () => {
+        const activeRow = sortedRows[this.state.activeRowIndex];
+        if (newProps.onSelect) {
+          newProps.onSelect(this.state.sortedRows, activeRow);
+        }
       });
     }
   }
