@@ -46,6 +46,10 @@ export default class FetchUtils {
                 // that it's a redirect to a login page. If so, then we then reload the whole
                 // page to let the user log in again.
                 window.location.reload();
+              } else if (text.startsWith('<html') && text.includes('j_security_check')) {
+                 // FIXME: This is triggered whenever the api call returns login because the user's session has ended.
+                //  Instead of throwing an error, check if html for login was returned and redirect user to login.
+                window.location.reload();
               } else {
                 // We've received some other sort of error, so let's just log it and stop.
                 const msg = `REST call to ${uri} failed to return JSON.`;
