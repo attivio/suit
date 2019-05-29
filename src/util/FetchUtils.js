@@ -46,7 +46,7 @@ export default class FetchUtils {
                 // that it's a redirect to a login page. If so, then we then reload the whole
                 // page to let the user log in again.
                 window.location.reload();
-              } else if (text.startsWith('<html') && text.includes('j_security_check')) {
+              } else if (text && text.includes('j_security_check')) {
                 window.location.reload();
               } else {
                 // We've received some other sort of error, so let's just log it and stop.
