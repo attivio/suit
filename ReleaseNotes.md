@@ -66,3 +66,11 @@ Adds a new component called `<SwipeViews />` which uses the `react-swipe` librar
 ## Version 0.1.7
 
 Fixes issue in `<Table />` where selected row values became stale after data changed and selection did not.
+
+## Version 0.1.8
+
+Fixes issue in `AuthUtils.logout` where logout sometimes failed immediately after a page refresh.
+
+## Version 0.1.9
+
+Fixes issue in `FetchUtils.fetch` to properly redirect to login when html login page is returned.
