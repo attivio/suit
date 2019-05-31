@@ -43,12 +43,18 @@ type CardPickerProps = {
    * the width of each card. Defaults to 3 columns.
    */
   columns: number;
+  /** 
+   * Property that contains the prefix for data-test attribute added to elements to be uniquely
+   * identified by testing tools like Selenium
+   */
+  dataTestPrefix : string | null;
 };
 
 type CardPickerDefaultProps = {
   initialSelection: string | null;
   defaultIconUri: string | null;
   columns: number;
+  dataTestPrefix : string | null;
 };
 
 type CardPickerState = {
@@ -60,6 +66,7 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
     initialSelection: null,
     defaultIconUri: null,
     columns: 3,
+    dataTestPrefix: null,
   };
 
   static displayName = 'CardPicker';
@@ -85,7 +92,9 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
   }
 
   render() {
-    const cardComponents = this.props.cards.map((cardItem) => {
+    const dataTestPrefix = this.props.dataTestPrefix;
+    const cardComponents = this.props.cards.map((cardItem, index) => {
+      const cardItemLabel = (cardItem.label) ? `${cardItem.label}-` : '';
       return (
         <CardPickerCard
           key={`${cardItem.label}|${cardItem.iconUri ? cardItem.iconUri : 'noicon'}`}
@@ -96,6 +105,7 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
           selected={cardItem.key === this.state.selection}
           onClick={() => { this.onClick(cardItem.key); }}
           columns={this.props.columns}
+          dataTestPrefix={ (dataTestPrefix) ? `${dataTestPrefix}-${cardItemLabel}${index}` : null }
         />
       );
     });

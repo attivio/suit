@@ -84,9 +84,12 @@ export default class MastheadUser extends React.Component<MastheadUserDefaultPro
     }
     if (this.props.username && this.props.username.length > 0) {
       return (
-        <div className="attivio-globalmast-user attivio-globalmast-separator before">
-          {this.props.username}
-          {dropdown}
+        <div 
+          className="attivio-globalmast-user attivio-globalmast-separator before"
+          data-test="Attivio-LoggedIn-User"
+        >
+            {this.props.username}
+            {dropdown}
         </div>
       );
     }

@@ -22,12 +22,18 @@ type TrianglePanelProps = {
   localStorageKey: string | null;
   /** The contents of the panel can be whatever you like. */
   children: Children;
+  /** 
+   * Property that contains the value for data-test attribute added to elements to be uniquely
+   * identified by testing tools like Selenium
+   */
+  dataTestValue : string | null;
 }
 
 type TrianglePanelDefaultProps = {
   bordered: boolean;
   initiallyCollapsed: boolean;
   localStorageKey: string | null;
+  dataTestValue: string | null;
 }
 
 type TrianglePanelState = {
@@ -48,6 +54,7 @@ export default class TrianglePanel extends React.Component<TrianglePanelDefaultP
     bordered: false,
     initiallyCollapsed: false,
     localStorageKey: null,
+    dataTestValue: null,
   };
 
   static displayName = 'TrianglePanel';
@@ -91,6 +98,7 @@ export default class TrianglePanel extends React.Component<TrianglePanelDefaultP
     const outerClassName = this.props.bordered ? 'attivio-facet attivio-card' : 'attivio-facet';
     const bottomClassName = this.state.open ? 'panel-collapse collapse in' : 'panel-collapse collapse';
     const glyph = this.state.open ? 'triangle-bottom' : 'triangle-right';
+    const dataTestValue = this.props.dataTestValue;
 
     return (
       <div className={outerClassName}>
@@ -106,6 +114,7 @@ export default class TrianglePanel extends React.Component<TrianglePanelDefaultP
             ref={(c) => {
               this.link = c;
             }}
+            data-test={dataTestValue}
           >
             <Glyphicon glyph={glyph} />
             &nbsp;
