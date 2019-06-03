@@ -26,7 +26,7 @@ type PagerProps = {
    * Property that contains the prefix for data-test attribute added to elements to be uniquely
    * identified by testing tools like Selenium
    */
-  dataTestPrefix : string | null;
+  dataTestPrefix? : string | null;
 };
 
 type PagerDefaultProps = {

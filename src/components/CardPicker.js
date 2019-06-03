@@ -47,7 +47,7 @@ type CardPickerProps = {
    * Property that contains the prefix for data-test attribute added to elements to be uniquely
    * identified by testing tools like Selenium
    */
-  dataTestPrefix : string | null;
+  dataTestPrefix? : string | null;
 };
 
 type CardPickerDefaultProps = {
@@ -92,8 +92,8 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
   }
 
   render() {
-    const dataTestPrefix = this.props.dataTestPrefix;
-    const cardComponents = this.props.cards.map((cardItem, index) => {
+    const { dataTestPrefix, cards } = this.props;
+    const cardComponents = cards.map((cardItem, index) => {
       const cardItemLabel = (cardItem.label) ? `${cardItem.label}-` : '';
       return (
         <CardPickerCard
@@ -105,7 +105,7 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
           selected={cardItem.key === this.state.selection}
           onClick={() => { this.onClick(cardItem.key); }}
           columns={this.props.columns}
-          dataTestPrefix={ (dataTestPrefix) ? `${dataTestPrefix}-${cardItemLabel}${index}` : null }
+          dataTestValue={ (dataTestPrefix) ? `${dataTestPrefix}-${cardItemLabel}${index}` : null }
         />
       );
     });
