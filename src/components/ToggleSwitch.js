@@ -5,15 +5,15 @@ type ToggleSwitchProps = {
   /** Whether the switch is in the “on” position. */
   on: boolean;
   /** An optional label to show for the “on” position. Defaults to “On”. */
-  onLabel: ?string;
+  onLabel?: string;
   /** An optional label to show for the “off” position. Defaults to “Off”. */
-  offLabel: ?string;
+  offLabel?: string;
   /** A callback used when the switch is toggled. */
   onChange: (newValue: boolean) => void;
   /** If set, the toggle switch is disabled. */
-  disabled: ?boolean;
+  disabled?: boolean;
   /** If set, the toggle will show no label and use the no label toggle styling. */
-  noLabel: ?boolean;
+  noLabel?: boolean;
   /** Any extra css style parameters to apply to the container div (optional) */
   style?: any;
   /**
@@ -26,12 +26,12 @@ type ToggleSwitchProps = {
 };
 
 type ToggleSwitchDefaultProps = {
-  onLabel: ?string;
-  offLabel: ?string;
-  disabled: ?boolean;
-  noLabel: ?boolean;
-  style: ?any;
-  className: ?string;
+  onLabel: string;
+  offLabel: string;
+  disabled: boolean;
+  noLabel: boolean;
+  style: any;
+  className: string;
 };
 
 /**
@@ -61,7 +61,7 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
       onChange,
       onLabel,
       style,
-      className,
+      className = '',
     } = this.props;
 
     const disabledClass = disabled ? 'disabled' : '';
