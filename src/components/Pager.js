@@ -22,7 +22,7 @@ type PagerProps = {
   hasMore: boolean;
   /** If set, then the pager control will be "pulled right" in its parent. */
   right: boolean;
-  /** 
+  /**
    * Property that contains the prefix for data-test attribute added to elements to be uniquely
    * identified by testing tools like Selenium
    */
@@ -94,14 +94,14 @@ export default class Pager extends React.Component<PagerDefaultProps, PagerProps
         ref={(c) => {
           this.backButton = c;
         }}
-        data-test={ (dataTestPrefix) ? `${dataTestPrefix}-Pager-Previous-Button` : null }
+        data-test={(dataTestPrefix) ? `${dataTestPrefix}-Pager-Previous-Button` : null}
       >
         Previous
       </a>
     ) : (
       <a
         className="attivio-globalmastnavbar-pagination-previous attivio-globalmastnavbar-btn attivio-icon-arrow-left-gray disabled" // eslint-disable-line max-len
-        data-test={ (dataTestPrefix) ? `${dataTestPrefix}-Pager-Previous-Button-disabled` : null }
+        data-test={(dataTestPrefix) ? `${dataTestPrefix}-Pager-Previous-Button-disabled` : null}
       >
         Previous
       </a>
@@ -121,14 +121,14 @@ export default class Pager extends React.Component<PagerDefaultProps, PagerProps
         ref={(c) => {
           this.nextButton = c;
         }}
-        data-test={ (dataTestPrefix) ? `${dataTestPrefix}-Pager-Next-Button` : null }
+        data-test={(dataTestPrefix) ? `${dataTestPrefix}-Pager-Next-Button` : null}
       >
         Next
       </a>
     ) : (
       <a
         className="attivio-globalmastnavbar-pagination-next attivio-globalmastnavbar-btn attivio-icon-arrow-right-gray disabled" // eslint-disable-line max-len
-        data-test={ (dataTestPrefix) ? `${dataTestPrefix}-Pager-Next-Button-disabled` : null }
+        data-test={(dataTestPrefix) ? `${dataTestPrefix}-Pager-Next-Button-disabled` : null}
       >
         Next
       </a>

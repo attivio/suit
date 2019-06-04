@@ -36,7 +36,7 @@ type CardPickerCardProps = {
    * the width of each card. Defaults to 3 columns.
    */
   columns: number;
-  /** 
+  /**
    * Property that contains the prefix for data-test attribute added to elements to be uniquely
    * identified by testing tools like Selenium
    */
@@ -122,7 +122,7 @@ export default class CardPickerCard extends React.Component<CardPickerCardDefaul
         ref={(c) => {
           this.card = c;
         }}
-        data-test={ (this.props.dataTestValue) ? `${this.props.dataTestValue}` : null }
+        data-test={(this.props.dataTestValue) ? `${this.props.dataTestValue}` : null}
       >
         <div
           style={{

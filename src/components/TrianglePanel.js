@@ -22,7 +22,7 @@ type TrianglePanelProps = {
   localStorageKey: string | null;
   /** The contents of the panel can be whatever you like. */
   children: Children;
-  /** 
+  /**
    * Property that contains the value for data-test attribute added to elements to be uniquely
    * identified by testing tools like Selenium
    */
