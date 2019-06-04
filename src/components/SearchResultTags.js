@@ -205,9 +205,17 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
   }
 
   render() {
-    const outerDivClassName = `attivio-tags ${this.props.vertical ? 'attivio-tags-vertical' : ''}`;
+    const {
+      autoCompleteUri = '',
+      baseUri = '',
+      moreLikeThisQuery,
+      vertical,
+      view360Label,
+    } = this.props;
+
+    const outerDivClassName = `attivio-tags ${vertical ? 'attivio-tags-vertical' : ''}`;
     const moreLikeThisComponent =
-      this.props.moreLikeThisQuery.length > 0 ? (
+      moreLikeThisQuery.length > 0 ? (
         <a
           className="attivio-tags-more"
           onClick={this.moreLikeThis}
@@ -240,9 +248,9 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
       tagList = <span className="attivio-tags-link none">None</span>;
     }
 
-    const inputComponent = this.props.autoCompleteUri && this.props.autoCompleteUri.length > 0 ?
+    const inputComponent = autoCompleteUri && autoCompleteUri.length > 0 ?
     (<AutoCompleteInput
-      uri={`${this.props.baseUri}${this.props.autoCompleteUri}`}
+      uri={`${baseUri}${autoCompleteUri}`}
       onChange={this.updateNewTagFromString}
       updateValue={this.updateNewTagFromString}
       onEscape={this.onEscape}
@@ -300,14 +308,14 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
       </a>
     );
 
-    const show360Component = this.props.view360Label ? (
+    const show360Component = view360Label ? (
       <a
         className="attivio-tags-more"
         onClick={this.show360View}
         role="button"
         tabIndex={0}
       >
-        {this.props.view360Label}
+        {view360Label}
       </a>
     ) : '';
 

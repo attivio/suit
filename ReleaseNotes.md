@@ -74,3 +74,7 @@ Fixes issue in `AuthUtils.logout` where logout sometimes failed immediately afte
 ## Version 0.1.9
 
 Fixes issue in `FetchUtils.fetch` to properly redirect to login when html login page is returned.
+
+## Version 0.1.10
+
+Add support for `data-test` attribute to `<CardPicker />`, `<CardPickerCard />`, `<Pager />`, and `<TrianglePanel />`.
