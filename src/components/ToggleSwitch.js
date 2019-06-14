@@ -101,6 +101,7 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        cursor: disabled ? 'default' : 'cursor',
       };
       sliderStyle = { ...sliderStyle, opacity: 0.5 };
       if (on) {
@@ -165,6 +166,9 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
       <div
         className={container.className}
         style={container.style}
+        onClick={this.onClick}
+        role="button"
+        tabIndex={0}
       >
         <div
           className={slider.className}
@@ -172,9 +176,6 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
         />
         <div
           className={button.className}
-          onClick={this.onClick}
-          role="button"
-          tabIndex={0}
           style={button.style}
         />
       </div>
@@ -219,7 +220,7 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
       );
     }
     return (
-      <div className={container.class} style={container.style}>
+      <div className={container.className} style={container.style}>
         <div className={offClassName}>
           {offLabel}
         </div>
