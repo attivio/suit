@@ -78,3 +78,7 @@ Fixes issue in `FetchUtils.fetch` to properly redirect to login when html login 
 ## Version 0.1.10
 
 Add support for `data-test` attribute to `<CardPicker />`, `<CardPickerCard />`, `<Pager />`, and `<TrianglePanel />`.
+
+## Version 0.1.11
+
+Updates `noLabel` `<ToggleSwitch />` to distinguish between disabled off and disabled on. Makes all of the `noLabel` `<ToggleSwitch />` clickable, not just the circle.
