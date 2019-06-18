@@ -283,9 +283,12 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       })
       : [];
       this.setState({ sortedRows }, () => {
-        const activeRow = sortedRows[this.state.activeRowIndex];
+        const activeRow = this.state.activeRowIndex !== null && newProps.noEmptySelection
+        ? sortedRows[this.state.activeRowIndex] : null;
+        const selectedRows = this.state.activeRowIndex !== null && newProps.noEmptySelection
+        ? [sortedRows[this.state.activeRowIndex]] : [];
         if (newProps.onSelect) {
-          newProps.onSelect(this.state.sortedRows, activeRow);
+          newProps.onSelect(selectedRows, activeRow);
         }
       });
     }
