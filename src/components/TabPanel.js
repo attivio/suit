@@ -28,17 +28,25 @@ type TabPanelProps = {
    * class assigned, for use in nested search results.
    */
   nested: boolean;
+  /**
+   * Property that contains the prefix for data-test attribute
+   * added to elements to be uniquely identified by testing tools
+   * like Selenium.
+   */
+  dataTestPrefix?: string | null;
 };
 
 type TabPanelDefaultProps = {
   tabLabel: string | null;
   nested: boolean;
+  dataTestPrefix : string | null;
 };
 
 export default class TabPanel extends React.Component<TabPanelDefaultProps, TabPanelProps, void> {
   static defaultProps = {
     tabLabel: null,
     nested: false,
+    dataTestPrefix: null,
   };
 
   static displayName = 'TabPanel';
@@ -62,7 +70,9 @@ export default class TabPanel extends React.Component<TabPanelDefaultProps, TabP
   tabElements: Array<?HTMLAnchorElement> = [];
 
   render() {
+    const dataTestPrefix = this.props.dataTestPrefix;
     const tabTabs = this.props.tabInfos.map((tabInfo) => {
+      const dataTestValue = dataTestPrefix ? dataTestPrefix.concat(tabInfo.id) : '';
       const className = tabInfo.id === this.props.activeTabId ? 'active' : '';
       const clickHandler = () => { this.doClick(tabInfo.id); };
       return (
@@ -74,6 +84,7 @@ export default class TabPanel extends React.Component<TabPanelDefaultProps, TabP
             onClick={clickHandler}
             tabIndex={0}
             ref={(elem) => { this.tabElements.push(elem); }}
+            data-test={dataTestValue}
           >
             {tabInfo.label}
           </a>

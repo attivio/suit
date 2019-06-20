@@ -105,6 +105,12 @@ type MenuProps = {
   width: number | null;
   /** Any CSS style you need to apply to the menu. Optional. */
   style: any;
+  /**
+   * Property that contains the value for data-test attribute
+   * added to elements to be uniquely identified by testing tools
+   * like Selenium.
+   */
+  dataTestValue?: string | null;
 };
 
 type MenuDefaultProps = {
@@ -118,6 +124,7 @@ type MenuDefaultProps = {
   maxLabelCharacters: number | null;
   width: number | null;
   style: any;
+  dataTestValue : string | null;
 };
 
 export default class Menu extends React.Component<MenuDefaultProps, MenuProps, void> {
@@ -132,6 +139,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
     maxLabelCharacters: null,
     width: null,
     style: {},
+    dataTestValue: null,
   };
 
   static displayName = 'Menu';
@@ -261,6 +269,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
    * Generate the label to show inside the button itself.
    */
   calcButtonLabel() {
+    const dataTestValue = this.props.dataTestValue;
     if (this.props.promptLabel && !this.props.selection) {
       // If the user wants a prompt and there's no current selection,
       // show the prompt.
@@ -280,7 +289,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
       ) : null;
 
     const buttonLabel = (
-      <span>
+      <span data-test={dataTestValue}>
         {buttonLabelPrefix}
         {this.props.label}
         {' '}
