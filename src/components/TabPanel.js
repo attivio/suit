@@ -31,7 +31,12 @@ type TabPanelProps = {
   /**
    * Property that contains the prefix for data-test attribute
    * added to elements to be uniquely identified by testing tools
-   * like Selenium.
+   * like Selenium. The prefix should contain information about
+   * where the Tab is placed and the tab id (which contains the
+   * name of the tab) will be appended to this prefix making it unique.
+   * For example, if prefix like "InspectorDetails-TabPanel-" is provided,
+   * the final data-test value would be "InspectorDetails-TabPanel-configuration"
+   * for the configuration page.
    */
   dataTestPrefix?: string | null;
 };

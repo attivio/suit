@@ -110,7 +110,7 @@ type MenuProps = {
    * added to elements to be uniquely identified by testing tools
    * like Selenium.
    */
-  dataTestValue?: string | null;
+  dataTest?: string | null;
 };
 
 type MenuDefaultProps = {
@@ -124,7 +124,7 @@ type MenuDefaultProps = {
   maxLabelCharacters: number | null;
   width: number | null;
   style: any;
-  dataTestValue : string | null;
+  dataTest : string | null;
 };
 
 export default class Menu extends React.Component<MenuDefaultProps, MenuProps, void> {
@@ -139,7 +139,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
     maxLabelCharacters: null,
     width: null,
     style: {},
-    dataTestValue: null,
+    dataTest: null,
   };
 
   static displayName = 'Menu';
@@ -269,7 +269,6 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
    * Generate the label to show inside the button itself.
    */
   calcButtonLabel() {
-    const dataTestValue = this.props.dataTestValue;
     if (this.props.promptLabel && !this.props.selection) {
       // If the user wants a prompt and there's no current selection,
       // show the prompt.
@@ -289,7 +288,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
       ) : null;
 
     const buttonLabel = (
-      <span data-test={dataTestValue}>
+      <span>
         {buttonLabelPrefix}
         {this.props.label}
         {' '}
@@ -359,6 +358,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
 
     const classNames = this.props.block ? 'attivio-dropdown attivio-dropdown-block' : 'attivio-dropdown';
     const outerStyle = this.props.width ? Object.assign({ width: `${this.props.width}px` }, this.props.style) : this.props.style;
+    const dataTest = this.props.dataTest;
 
     return (
       <Dropdown
@@ -375,6 +375,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
           className="attivio-smalltoolbar-btn"
           bsClass="attivio-smalltoolbar-btn"
           style={this.props.width ? { width: `${this.props.width}px` } : {}}
+          data-test={dataTest}
         >
           <div
             style={this.props.width ? {

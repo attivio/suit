@@ -28,7 +28,7 @@ type ToggleSwitchProps = {
    * added to elements to be uniquely identified by testing tools
    * like Selenium.
    */
-  dataTestValue?: string | null;
+  dataTest?: string | null;
 };
 
 type ToggleSwitchDefaultProps = {
@@ -38,7 +38,7 @@ type ToggleSwitchDefaultProps = {
   noLabel: boolean;
   style: any;
   className: string;
-  dataTestValue : string | null;
+  dataTest : string | null;
 };
 
 /**
@@ -52,7 +52,7 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
     noLabel: false,
     style: {},
     className: '',
-    dataTestValue: null,
+    dataTest: null,
   };
 
   static displayName = 'ToggleSwitch';
@@ -169,7 +169,7 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
 
   renderNoLabel() {
     const { container, slider, button } = this.getStyles();
-    const dataTestValue = this.props.dataTestValue;
+    const dataTest = this.props.dataTest;
 
     return (
       <div
@@ -178,7 +178,7 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
         onClick={this.onClick}
         role="button"
         tabIndex={0}
-        data-test={dataTestValue}
+        data-test={dataTest}
       >
         <div
           className={slider.className}
@@ -197,7 +197,7 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
       disabled,
       offLabel,
       onLabel,
-      dataTestValue,
+      dataTest,
     } = this.props;
 
     const { container, onClassName, offClassName } = this.getStyles();
@@ -207,7 +207,7 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
         <div
           className={container.className}
           style={container.style}
-          data-test={dataTestValue}
+          data-test={dataTest}
         >
           <div
             className={offClassName}
@@ -238,7 +238,7 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
       <div
         className={container.className}
         style={container.style}
-        data-test={dataTestValue}
+        data-test={dataTest}
       >
         <div className={offClassName}>
           {offLabel}
