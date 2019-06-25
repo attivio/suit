@@ -86,3 +86,11 @@ Updates `noLabel` `<ToggleSwitch />` to distinguish between disabled off and dis
 ## Version 0.1.13
 
 Added support for data-test attribute for testing components `<Menu />`, `<TabPanel />`, and `<ToggleSwitch />`.
+
+## Version 0.1.14
+
+Adds an event listener for window blur to `<Table />` and unconditionally marks meta keys as not pressed.
+
+## Version 0.1.15
+
+Fixes issue where onSelect is incorrectly called. Cleaned up `componentWillReceiveProps` in `<Table />` and DRYed out the logic.
