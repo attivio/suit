@@ -304,10 +304,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   }
 
   onWindowBlur = () => {
-    this.setState({
-      shiftKeyDown: false,
-      ctrlKeyDown: false,
-    });
+    this.setState({ shiftKeyDown: false, ctrlKeyDown: false });
   }
 
   keyDown = (e: KeyboardEvent) => {
@@ -325,8 +322,8 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   }
 
   keyUp = (e: KeyboardEvent) => {
-    const shiftKeyUp = e.shiftKey;
-    const ctrlKeyUp = e.ctrlKey || e.metaKey;
+    const shiftKeyUp = e.key === 'Shift';
+    const ctrlKeyUp = e.key === 'Control' || e.key === 'Meta';
     if (shiftKeyUp || ctrlKeyUp) {
       this.setState({ shiftKeyDown: false, ctrlKeyDown: false });
     }
