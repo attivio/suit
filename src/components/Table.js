@@ -69,7 +69,7 @@ type TableProps = {
    * will be empty if nothing is selected and an object or null as the second parameter.
    * The second parameter is not necessary if multiselect is not enabled.
    */
-  onSelect?: (selectedRows: Array<{}>, activeRow: {} | null) => void;
+  onSelect?: (selectedRows: Array<{}>, activeRow: {} | null, selectEvent: Event | null) => void;
   /**
    * If set, the user can select multiple rows in the table.
    */
@@ -218,8 +218,9 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     const { sortedRows } = this.state;
 
     if (multiSelect) {
-      document.addEventListener('keydown', this.keyDown);
-      document.addEventListener('keyup', this.keyUp);
+      window.addEventListener('keydown', this.keyDown);
+      window.addEventListener('keyup', this.keyUp);
+      window.addEventListener('blur', this.onWindowBlur);
     }
 
     // If the parent provided an update hook, initialize the parent with selection values.
@@ -228,8 +229,8 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       const selectedRow = noEmptySelection && sortedRows.length > 0 ? sortedRows[0] : null;
       const selectedRows = noEmptySelection && selectedRow ? [selectedRow] : [];
 
-      onSelect(selectedRows, selectedRow);
-      // TODO: Look at redux/reselect pattern as alternative to manipulating data coming from api for component consumption.
+      onSelect(selectedRows, selectedRow, null);
+      // TODO: Look at reselect pattern as alternative to manipulating data coming from api for component consumption.
       // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({
         activeRowIndex,
@@ -267,7 +268,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       if (newProps.onSelect) {
         const selectedRows = activeRowIndex !== null && newProps.noEmptySelection ? [sortedRows[activeRowIndex]] : [];
         const selectedRow = activeRowIndex !== null && newProps.noEmptySelection ? sortedRows[activeRowIndex] : null;
-        newProps.onSelect(selectedRows, selectedRow);
+        newProps.onSelect(selectedRows, selectedRow, null);
       }
       this.setState({
         sortedRows,
@@ -288,7 +289,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         const selectedRows = this.state.activeRowIndex !== null && newProps.noEmptySelection
         ? [sortedRows[this.state.activeRowIndex]] : [];
         if (newProps.onSelect) {
-          newProps.onSelect(selectedRows, activeRow);
+          newProps.onSelect(selectedRows, activeRow, null);
         }
       });
     }
@@ -296,28 +297,42 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
   componentWillUnmount() {
     if (this.props.multiSelect) {
-      document.removeEventListener('keydown', this.keyDown);
-      document.removeEventListener('keyup', this.keyUp);
+      window.removeEventListener('keydown', this.keyDown);
+      window.removeEventListener('keyup', this.keyUp);
+      window.removeEventListener('blur', this.onWindowBlur);
     }
   }
 
+  onWindowBlur = () => {
+    this.setState({
+      shiftKeyDown: false,
+      ctrlKeyDown: false,
+    });
+  }
+
   keyDown = (e: KeyboardEvent) => {
-    if (e.shiftKey || e.ctrlKey || e.metaKey) {
-      const shiftKeyDown = e.shiftKey;
-      const ctrlKeyDown = e.ctrlKey || e.metaKey;
-      this.setState({ shiftKeyDown, ctrlKeyDown });
+    const shiftKeyDown = e.shiftKey;
+    const ctrlKeyDown = e.ctrlKey || e.metaKey;
+    const isValidKey = shiftKeyDown || ctrlKeyDown;
+
+    if (isValidKey) {
+      if (shiftKeyDown) {
+        this.setState({ shiftKeyDown });
+      } else if (ctrlKeyDown) {
+        this.setState({ ctrlKeyDown });
+      }
     }
   }
 
   keyUp = (e: KeyboardEvent) => {
-    const shiftKeyUp = e.key === 'Shift';
-    const ctrlKeyUp = e.key === 'Control' || e.key === 'Meta';
+    const shiftKeyUp = e.shiftKey;
+    const ctrlKeyUp = e.ctrlKey || e.metaKey;
     if (shiftKeyUp || ctrlKeyUp) {
       this.setState({ shiftKeyDown: false, ctrlKeyDown: false });
     }
   }
 
-  rowSelect = (rowData: any): boolean => {
+  rowSelect = (rowData: any, isSelected: boolean, selectEvent: Event | null): boolean => {
     const {
       activeRowIndex,
       anchorRowIndex,
@@ -347,7 +362,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
           anchorRowIndex: rowData.tableRowIndex,
           activeRowIndex: rowData.tableRowIndex,
         });
-        onSelect([rowData], rowData);
+        onSelect([rowData], rowData, selectEvent);
         return true;
       }
       if (shiftKeyPressed) {
@@ -370,7 +385,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         newSelectedIndices.forEach((index) => {
           selectedRows.push(sortedRows[index]);
         });
-        onSelect(selectedRows, sortedRows[activeRowIndex]);
+        onSelect(selectedRows, sortedRows[activeRowIndex], selectEvent);
 
         return true;
       } else if (ctrlKeyPressed) {
@@ -394,7 +409,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
               anchorRowIndex: null,
               activeRowIndex: null,
             });
-            onSelect([], null);
+            onSelect([], null, null);
             return true;
           }
           // Is the row we're deselecting the active row?
@@ -439,7 +454,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
               anchorRowIndex: newAnchorRowIndex,
               activeRowIndex: newActiveRowIndex,
             });
-            onSelect(selectedRows, activeRow);
+            onSelect(selectedRows, activeRow, selectEvent);
             return true;
           }
           const selectedRows = [];
@@ -450,7 +465,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
           this.setState({ selectedIndices: newSelectedIndices });
           // The control or meta key was pressed and this row was previously selected. This row is not an anchor or active row.
           // It may be safely removed. The active row does not change. The anchor row does not change.
-          onSelect(selectedRows, sortedRows[activeRowIndex]);
+          onSelect(selectedRows, sortedRows[activeRowIndex], selectEvent);
           return true;
         }
         // The control or meta key was pressed, and this row was not previously selected, so select it.
@@ -466,7 +481,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
           selectedIndices: newSelectedIndices,
           anchorRowIndex: rowData.tableRowIndex,
         });
-        onSelect(selectedRows, sortedRows[activeRowIndex]);
+        onSelect(selectedRows, sortedRows[activeRowIndex], selectEvent);
         return true;
       }
 
@@ -478,7 +493,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         selectedIndices: new Set([rowData.tableRowIndex]),
       });
 
-      onSelect([rowData], rowData);
+      onSelect([rowData], rowData, selectEvent);
       return true;
     }
 
@@ -495,7 +510,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         selectedIndices: new Set([]),
         activeRowIndex: null,
       });
-      onSelect([], null);
+      onSelect([], null, null);
       return true;
     }
 
@@ -504,7 +519,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       selectedIndices: [rowData.tableRowIndex],
       selectedRowIndex: rowData.tableRowIndex,
     });
-    onSelect([rowData], rowData);
+    onSelect([rowData], rowData, selectEvent);
     return true;
   }
 
@@ -540,7 +555,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     const defaultIndex = noEmptySelection && tableContainsRows ? 0 : null;
     if (onSelect) {
       const selectedRows = defaultIndex ? [defaultIndex] : [];
-      onSelect(selectedRows, defaultIndex);
+      onSelect(selectedRows, defaultIndex, null);
     }
     const selectedIndices = defaultIndex ? new Set([defaultIndex]) : new Set([]);
     this.setState({
@@ -551,6 +566,8 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     });
     this.props.onSort(colNum);
   }
+
+  componentRef: Node = null;
 
   renderColumns() {
     const { columns } = this.props;
