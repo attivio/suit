@@ -241,57 +241,48 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   }
 
   componentWillReceiveProps(newProps: TableProps) {
+    const { rows, noEmptySelection } = newProps;
+    const { rows: prevRows } = this.props;
+
     // If a rowComparator is specified, use it, otherwise, do a deep row comparison and reset selection if anything changed.
-    if (newProps.rows.length !== this.props.rows.length
-      || (newProps.rowComparator && !isEqualWith(newProps.rows, this.props.rows, newProps.rowComparator))
-      || (!newProps.rowComparator && !isEqual(newProps.rows, this.props.rows))
-    ) {
-      // Reset the sorted rows if the actual rows have changed.
-      const sortedRows = newProps.rows && newProps.rows.length > 0
-        ? newProps.rows.map((row, tableRowIndex) => {
+    const shouldUpdateRows = !isEqual(rows, prevRows);
+    const shouldResetSelection = rows.length !== prevRows.length
+      || (newProps.rowComparator && !isEqualWith(rows, prevRows, newProps.rowComparator))
+      || (!newProps.rowComparator && shouldUpdateRows);
+
+    if (shouldResetSelection || shouldUpdateRows) {
+      const sortedRows = rows && rows.length > 0
+        ? rows.map((row, tableRowIndex) => {
           return { ...row, tableRowIndex };
         })
         : [];
-      // Reset row selection if the actual rows have changed.
-
-      const selectedIndices = sortedRows.length > 0 && newProps.noEmptySelection
+      const selectedIndices = sortedRows.length > 0 && noEmptySelection
         ? new Set([0])
         : new Set([]);
-      const anchorRowIndex = sortedRows.length > 0 && newProps.noEmptySelection
+      const anchorRowIndex = sortedRows.length > 0 && noEmptySelection
         ? 0
         : null;
-      const activeRowIndex = sortedRows.length > 0 && newProps.noEmptySelection
+      const activeRowIndex = sortedRows.length > 0 && noEmptySelection
         ? 0
         : null;
+      const selectedRows = activeRowIndex !== null && noEmptySelection ? [sortedRows[activeRowIndex]] : [];
+      const selectedRow = activeRowIndex !== null && noEmptySelection ? sortedRows[activeRowIndex] : null;
 
       // If the parent provided an update hook, update the parent with the changes.
       if (newProps.onSelect) {
-        const selectedRows = activeRowIndex !== null && newProps.noEmptySelection ? [sortedRows[activeRowIndex]] : [];
-        const selectedRow = activeRowIndex !== null && newProps.noEmptySelection ? sortedRows[activeRowIndex] : null;
         newProps.onSelect(selectedRows, selectedRow);
       }
-      this.setState({
-        sortedRows,
-        selectedIndices,
-        anchorRowIndex,
-        activeRowIndex,
-      });
-    } else if (!isEqual(newProps.rows, this.props.rows)) {
-      // Selection hasn't changed, but other row data has, update row data
-      const sortedRows = newProps.rows && newProps.rows.length > 0
-      ? newProps.rows.map((row, tableRowIndex) => {
-        return { ...row, tableRowIndex };
-      })
-      : [];
-      this.setState({ sortedRows }, () => {
-        const activeRow = this.state.activeRowIndex !== null && newProps.noEmptySelection
-        ? sortedRows[this.state.activeRowIndex] : null;
-        const selectedRows = this.state.activeRowIndex !== null && newProps.noEmptySelection
-        ? [sortedRows[this.state.activeRowIndex]] : [];
-        if (newProps.onSelect) {
-          newProps.onSelect(selectedRows, activeRow);
-        }
-      });
+
+      if (shouldResetSelection) {
+        this.setState({
+          sortedRows,
+          selectedIndices,
+          anchorRowIndex,
+          activeRowIndex,
+        });
+      } else if (shouldUpdateRows) {
+        this.setState({ sortedRows });
+      }
     }
   }
 
