@@ -218,8 +218,9 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     const { sortedRows } = this.state;
 
     if (multiSelect) {
-      document.addEventListener('keydown', this.keyDown);
-      document.addEventListener('keyup', this.keyUp);
+      window.addEventListener('keydown', this.keyDown);
+      window.addEventListener('keyup', this.keyUp);
+      window.addEventListener('blur', this.onWindowBlur);
     }
 
     // If the parent provided an update hook, initialize the parent with selection values.
@@ -229,7 +230,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       const selectedRows = noEmptySelection && selectedRow ? [selectedRow] : [];
 
       onSelect(selectedRows, selectedRow);
-      // TODO: Look at redux/reselect pattern as alternative to manipulating data coming from api for component consumption.
+      // TODO: Look at reselect pattern as alternative to manipulating data coming from api for component consumption.
       // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({
         activeRowIndex,
@@ -296,16 +297,27 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
 
   componentWillUnmount() {
     if (this.props.multiSelect) {
-      document.removeEventListener('keydown', this.keyDown);
-      document.removeEventListener('keyup', this.keyUp);
+      window.removeEventListener('keydown', this.keyDown);
+      window.removeEventListener('keyup', this.keyUp);
+      window.removeEventListener('blur', this.onWindowBlur);
     }
   }
 
+  onWindowBlur = () => {
+    this.setState({ shiftKeyDown: false, ctrlKeyDown: false });
+  }
+
   keyDown = (e: KeyboardEvent) => {
-    if (e.shiftKey || e.ctrlKey || e.metaKey) {
-      const shiftKeyDown = e.shiftKey;
-      const ctrlKeyDown = e.ctrlKey || e.metaKey;
-      this.setState({ shiftKeyDown, ctrlKeyDown });
+    const shiftKeyDown = e.shiftKey;
+    const ctrlKeyDown = e.ctrlKey || e.metaKey;
+    const isValidKey = shiftKeyDown || ctrlKeyDown;
+
+    if (isValidKey) {
+      if (shiftKeyDown) {
+        this.setState({ shiftKeyDown });
+      } else if (ctrlKeyDown) {
+        this.setState({ ctrlKeyDown });
+      }
     }
   }
 
