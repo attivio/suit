@@ -564,8 +564,6 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     this.props.onSort(colNum);
   }
 
-  componentRef: Node = null;
-
   renderColumns() {
     const { columns } = this.props;
 
