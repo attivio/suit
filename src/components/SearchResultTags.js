@@ -6,6 +6,7 @@ import QueryString from 'query-string';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import AutoCompleteInput from './AutoCompleteInput';
 import Configurable from './Configurable';
+import Comments from './Comments';
 
 type SearchResultTagsProps = {
   location: PropTypes.object.isRequired;
@@ -39,6 +40,10 @@ type SearchResultTagsProps = {
    * Defaults to the value in the configuration.
    */
   baseUri?: string,
+  /** Whether to show a Comment option. Defaults to false. */
+  comments: boolean;
+  /** Table field for the comment documents */
+  commentsTable: string | null;
 };
 
 type SearchResultTagsDefaultProps = {
@@ -47,6 +52,7 @@ type SearchResultTagsDefaultProps = {
   view360Label: string | null;
   autoCompleteUri: string | null,
   baseUri: string,
+  comments: boolean,
 };
 
 type SearchResultTagsState = {
@@ -75,6 +81,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
     view360Label: 'Show 360\u00B0 View',
     autoCompleteUri: null,
     baseUri: '',
+    comments: false,
   };
 
   static displayName = 'SearchResultTags';
@@ -317,10 +324,15 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
       </span>
     ) : '';
 
+    const comments = this.props.comments ? (
+      <Comments docId={this.props.docId} commentsTable={this.props.commentsTable} />
+    ) : '';
+
     return (
       <div className={outerDivClassName}>
         {show360Component}
         {moreLikeThisComponent}
+        {comments}
         <span className="attivio-tags-label">Tags:</span>
         {tagError}
         {tagList}
