@@ -129,10 +129,18 @@ export default class KnowledgeGraphPanel extends React.Component<KnowledgeGraphP
           const node = this.state.nodes.find((n) => {
             return n.id === nodeId;
           });
-          if (node && node.docId) {
-            this.props.navigateToDoc(node.docId);
-          } else if (node) {
-            this.props.navigateToEntity(node.group, node.label);
+          /**
+           * we do not want any action to be performed
+           * on the double click of the selected node
+           * i.e. the zeroth node.
+           * */
+          if (nodeId !== 0) {
+            // document id is null for the selected node
+            if (node && node.docId) {
+              this.props.navigateToDoc(node.docId);
+            } else if (node) {
+              this.props.navigateToEntity(node.group, node.label);
+            }
           }
         }
       }
