@@ -52,6 +52,7 @@ export CardPickerCard from './components/CardPickerCard';
 export ChartTrends from './components/ChartTrends';
 export Code from './components/Code';
 export CollapsiblePanel from './components/CollapsiblePanel';
+export Comments from './components/Comments';
 export Configurable from './components/Configurable';
 export Configuration from './components/Configuration';
 export ConfirmationDialog from './components/ConfirmationDialog';
