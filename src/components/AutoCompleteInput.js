@@ -4,13 +4,14 @@ import React from 'react';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import { RootCloseWrapper } from 'react-overlays';
+import SignalData from '../api/SignalData';
 
 import FetchUtils from '../util/FetchUtils';
 
 type AutoCompleteInputProps = {
   id: string;
   uri: string | null;
-  updateValue: (newValue: string, doSearch: boolean, signalData?: any) => void;
+  updateValue: (newValue: string, doSearch: boolean, signalData?: SignalData) => void;
   placeholder: string;
   value: string;
   disabled: boolean;
@@ -151,16 +152,17 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
   }
 
   updateValueAndAddSignal(newQuery: string, doSearch: boolean = false) {
-    const docOrdinal = this.state.suggestions.findIndex((suggestion) => {
+    const { suggestions, queryTimestamp, userInput } = this.state;
+    const { updateValue } = this.props;
+    const docOrdinal = suggestions.findIndex((suggestion) => {
       return suggestion === newQuery;
     });
-    const signalData = {
-      // index starts at 1
-      docOrdinal: docOrdinal + 1,
-      query: this.state.userInput,
-      queryTimestamp: this.state.queryTimestamp,
-    };
-    this.props.updateValue(newQuery, doSearch, signalData);
+    const signalData = new SignalData();
+    // index starts at 1
+    signalData.docOrdinal = docOrdinal + 1;
+    signalData.query = userInput;
+    signalData.queryTimestamp = queryTimestamp;
+    updateValue(newQuery, doSearch, signalData);
   }
 
   doKeyPress(event: Event & { currentTarget: HTMLInputElement, keyCode: number }) {
