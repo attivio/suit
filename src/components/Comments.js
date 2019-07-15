@@ -47,6 +47,7 @@ class Comments extends React.Component<CommentsDefaultProps, CommentsProps, Comm
     (this: any).hideCommentModal = this.hideCommentModal.bind(this);
     (this: any).captureComment = this.captureComment.bind(this);
     (this: any).saveComment = this.saveComment.bind(this);
+    (this: any).clearComment = this.clearComment.bind(this);
     (this: any).getComments = this.getComments.bind(this);
     (this: any).deleteComment = this.deleteComment.bind(this);
   }
@@ -68,6 +69,7 @@ class Comments extends React.Component<CommentsDefaultProps, CommentsProps, Comm
           this.setState(
             {
               response,
+              comment: '',
             },
             this.populateComments,
           );
@@ -166,6 +168,12 @@ class Comments extends React.Component<CommentsDefaultProps, CommentsProps, Comm
     searcher.search.addOrDeleteDocument(JSON.parse(jsonDoc), this.getComments);
   }
 
+  clearComment() {
+    this.setState({
+      comment: '',
+    });
+  }
+
   render() {
     const noCommentLabel = (
       <div style={{ width: '100%', textAlign: 'center', padding: '1em', color: 'gray' }}>
@@ -192,6 +200,10 @@ class Comments extends React.Component<CommentsDefaultProps, CommentsProps, Comm
                 rows={5}
               />
               <div style={{ float: 'right' }}>
+                <Button onClick={this.clearComment}>
+                  Clear
+                </Button>
+                &nbsp;
                 <Button onClick={this.saveComment}>
                   Add Comment
                 </Button>
@@ -215,6 +227,8 @@ class Comments extends React.Component<CommentsDefaultProps, CommentsProps, Comm
       </Modal>
     );
 
+    const commentCount = this.state.commentList && this.state.commentList.length > 0 ? this.state.commentList.length : '';
+    const commentLabel = commentCount > 0 ? `Comment (${commentCount})` : 'Comment';
     const commentLink = (
       <a
         className="attivio-tags-more"
@@ -223,7 +237,7 @@ class Comments extends React.Component<CommentsDefaultProps, CommentsProps, Comm
         tabIndex={0}
         title="Add/View Comments"
       >
-        Comment
+        {commentLabel}
       </a>
     );
 
