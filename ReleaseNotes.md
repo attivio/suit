@@ -58,3 +58,39 @@ Fixes issue in `<Table />` where `onSelect` was passed a `null` value for `activ
 ## Version 0.1.5
 
 Fixes typo in `<Table />` where `selectedRowIndices` was updated in place of `selectedIndices`.
+
+## Version 0.1.6
+
+Adds a new component called `<SwipeViews />` which uses the `react-swipe` library to show multiple views that you can navigated through by using the left and right buttons.
+
+## Version 0.1.7
+
+Fixes issue in `<Table />` where selected row values became stale after data changed and selection did not.
+
+## Version 0.1.8
+
+Fixes issue in `AuthUtils.logout` where logout sometimes failed immediately after a page refresh.
+
+## Version 0.1.9
+
+Fixes issue in `FetchUtils.fetch` to properly redirect to login when html login page is returned.
+
+## Version 0.1.10
+
+Add support for `data-test` attribute to `<CardPicker />`, `<CardPickerCard />`, `<Pager />`, and `<TrianglePanel />`.
+
+## Version 0.1.11
+
+Updates `noLabel` `<ToggleSwitch />` to distinguish between disabled off and disabled on. Makes all of the `noLabel` `<ToggleSwitch />` clickable, not just the circle.
+
+## Version 0.1.13
+
+Added support for data-test attribute for testing components `<Menu />`, `<TabPanel />`, and `<ToggleSwitch />`.
+
+## Version 0.1.14
+
+Adds an event listener for window blur to `<Table />` and unconditionally marks meta keys as not pressed.
+
+## Version 0.1.15
+
+Fixes issue where the selection for multiselect is stale. Cleaned up componentWillReceiveProps in <Table /> and DRYed out the logic.

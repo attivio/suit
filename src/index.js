@@ -155,6 +155,7 @@ export SqlLog from './components/SqlLog';
 export StarRating from './components/StarRating';
 export StringListEditor from './components/StringListEditor';
 export Subheader360 from './components/Subheader360';
+export SwipeViews from './components/SwipeViews';
 export Table from './components/Table';
 export TabPanel from './components/TabPanel';
 export TagCloud from './components/TagCloud';
