@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, Col, Row, Glyphicon } from 'react-bootstrap';
