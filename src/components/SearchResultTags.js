@@ -43,7 +43,7 @@ type SearchResultTagsProps = {
   /** Whether to show a Comment option. Defaults to false. */
   comments: boolean;
   /** Table field for the comment documents */
-  commentsTable: string | null;
+  commentsTable?: string;
 };
 
 type SearchResultTagsDefaultProps = {
@@ -332,9 +332,9 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
       </span>
     ) : '';
 
-    const comments = this.props.comments ? (
+    const comments = this.props.comments && (
       <Comments docId={this.props.docId} commentsTable={this.props.commentsTable} />
-    ) : '';
+    );
 
     return (
       <div className={outerDivClassName}>
