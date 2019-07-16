@@ -41,7 +41,7 @@ type SearchResultTagsProps = {
    */
   baseUri?: string,
   /** Whether to show a Comment option. Defaults to false. */
-  comments: boolean;
+  comments?: boolean;
   /** Table field for the comment documents */
   commentsTable?: string;
 };
