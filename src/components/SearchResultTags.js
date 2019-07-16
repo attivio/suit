@@ -53,6 +53,7 @@ type SearchResultTagsDefaultProps = {
   autoCompleteUri: string | null,
   baseUri: string,
   comments: boolean,
+  commentsTable: string,
 };
 
 type SearchResultTagsState = {
@@ -82,6 +83,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
     autoCompleteUri: null,
     baseUri: '',
     comments: false,
+    commentsTable: 'comments',
   };
 
   static displayName = 'SearchResultTags';

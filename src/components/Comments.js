@@ -12,32 +12,24 @@ type CommentsProps = {
   /** The document's ID, needed for adding/removing comments */
   docId: string,
   /** Optional. The table name to be used for comments document stored in the index */
-  commentsTable?: string,
-}
-
-type CommentsDefaultProps = {
   commentsTable: string,
-}
+};
 
 type CommentsState = {
   comment: string;
   commentList: Array<Comment>;
   error: string | null;
   showCommentModal: boolean,
-}
+};
 
-class Comments extends React.Component<CommentsDefaultProps, CommentsProps, CommentsState> {
+class Comments extends React.Component<void, CommentsProps, CommentsState> {
   static contextTypes = {
     searcher: PropTypes.any,
   };
 
-  static defaultProps = {
-    commentsTable: 'comments',
-  };
-
   static displayName = 'Comments';
 
-  constructor(props) {
+  constructor(props: CommentsProps) {
     super(props);
     this.state = {
       comment: '',
