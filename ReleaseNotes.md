@@ -94,3 +94,10 @@ Adds an event listener for window blur to `<Table />` and unconditionally marks 
 ## Version 0.1.15
 
 Fixes issue where the selection for multiselect is stale. Cleaned up componentWillReceiveProps in <Table /> and DRYed out the logic.
+
+## Version 0.1.16
+
+Fixes an issue where clicking on the main document from within the knowledge graph of 360 view gave an exception.
+
+Adds machinery to optionally provide signal data to <AutoCompleteInput /> whenever user clicks/selects an entry.
+
