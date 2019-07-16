@@ -1,5 +1,6 @@
 // API classes
 export AbstractDocument from './api/AbstractDocument';
+export Comment from './api/Comment';
 export DataPoint from './api/DataPoint';
 export DataSet from './api/DataSet';
 export DateFormat from './api/DateFormat';
