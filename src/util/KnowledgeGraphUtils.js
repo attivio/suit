@@ -327,7 +327,8 @@ export default class KnowledgeGraphUtils {
     return result;
   }
 
-  //eslint-disable-next-line
+  // Generates a color hexcode based on ASCII codes of characters in a string;
+  // The hex codes generated are unique for each string.
   static stringToColor(str) {
     let hash = 0;
     let i = 0;
