@@ -160,7 +160,7 @@ class Comments extends React.Component<CommentsDefaultProps, CommentsProps, Comm
     const { searcher } = this.context;
     const username = AuthUtils.getUserName(AuthUtils.getSavedUser());
     const d = new Date();
-    const timestamp = `Posted on ${d.toLocaleDateString()} at ${d.toLocaleTimeString()}`;
+    // const timestamp = `Posted on ${d.toLocaleDateString()} at ${d.toLocaleTimeString()}`;
     const loggedDateTime = d.toISOString();
     const id = username.concat(loggedDateTime);
     const body = {
@@ -169,7 +169,6 @@ class Comments extends React.Component<CommentsDefaultProps, CommentsProps, Comm
         docId_s: [docId],
         username_s: [username],
         date: [loggedDateTime],
-        timestamp_s: [timestamp],
         table: ['comments'],
       },
       id,
