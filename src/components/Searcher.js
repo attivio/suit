@@ -488,6 +488,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       error: undefined,
       response: undefined,
       facetFilters: [],
+      geoFilters: [],
       query,
     });
   }
@@ -895,6 +896,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       response: undefined,
       queryLanguage: advanced ? 'advanced' : 'simple',
       facetFilters: [],
+      geoFilters: [],
       query,
     });
   }
