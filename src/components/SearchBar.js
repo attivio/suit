@@ -61,7 +61,7 @@ type SearchBarProps = {
   /**
    * If set, a new signal of this type would be added when an autocomplete item is selected.
    */
-  autoCompleteSignalType?: string | null;
+  createAutoCompleteSignal?: boolean;
 };
 
 type SearchBarDefaultProps = {
@@ -74,7 +74,7 @@ type SearchBarDefaultProps = {
   autoCompleteUri: string | null;
   route: string | null;
   baseUri: string;
-  autoCompleteSignalType: string | null;
+  createAutoCompleteSignal: boolean;
 };
 
 type SearchBarState = {
@@ -97,7 +97,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     autoCompleteUri: null,
     route: null,
     baseUri: '',
-    autoCompleteSignalType: null,
+    createAutoCompleteSignal: false,
   };
 
   static contextTypes = {
@@ -187,7 +187,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
   }
 
   addSignal(query: string, signalData: SignalData) {
-    const signalType = this.props.autoCompleteSignalType;
+    const signalType = this.props.createAutoCompleteSignal;
     const savedUser = AuthUtils.getSavedUser();
     if (!signalType || !savedUser) {
       return;
@@ -208,7 +208,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
 
     const doc = new SearchDocument(new Map(), signal);
 
-    new Signals(this.props.baseUri).addSignal(doc, signalType);
+    new Signals(this.props.baseUri).addSignal(doc, 'autocomplete');
   }
 
   updateQuery(newQuery: string, doSearch: boolean = false, signalData?: SignalData) {
