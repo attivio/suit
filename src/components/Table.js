@@ -251,12 +251,6 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       || (!rowComparator && shouldUpdateRows);
 
     if (shouldResetSelection || shouldUpdateRows) {
-      console.group('<Table /> componentWillReceiveProps()');
-      console.log('prevRows: ', prevRows);
-      console.log('new rows: ', rows);
-      console.log('prevSelectedIndices: ', prevSelectedIndices);
-      console.log('prevActiveRowIndex: ', activeRowIndex);
-      console.log('shouldUpdateRows:');
       const updatedSelectedRows = [];
 
       const sortedRows = rows && rows.length > 0
@@ -268,21 +262,14 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
           return updatedRow;
         })
         : [];
-      console.log('previous sorted rows: ', this.state.sortedRows);
-      console.log('new sorted rows: ', sortedRows);
-      console.log('updatedSelectedRows: ', updatedSelectedRows);
 
       const numPreviousSelections = prevSelectedIndices.size;
       const numUpdatedSelections = updatedSelectedRows.length;
 
-      console.log('numPreviousSelections: ', numPreviousSelections);
-      console.log('numUpdatedSelections: ', numUpdatedSelections);
       // Indicates one of the previously selected rows can no longer be found.
       if (numPreviousSelections !== numUpdatedSelections) {
-        console.log('setting shouldResetSelection to true, the number of selected rows changed');
         shouldResetSelection = true;
       }
-      console.log('shouldResetSelection: ', shouldResetSelection);
 
       const resetIndices = sortedRows.length > 0 && noEmptySelection
         ? new Set([0])
@@ -294,13 +281,9 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       const resetSelectedRow = resetIndex !== null ? sortedRows[resetIndex] : null;
       const resetSelectedRows = resetSelectedRow !== null ? [resetSelectedRow] : [];
 
-      console.log('resetIndices: ', resetIndices);
-      console.log('resetIndex: ', resetIndex);
-
       if (shouldResetSelection) {
         // If the parent provided an update hook, update the parent with the changes.
         if (onSelect) {
-          console.log('calling onSelect() with resetSelectedRows: ', resetSelectedRows, ' resetSelectedRow: ', resetSelectedRow);
           onSelect(resetSelectedRows, resetSelectedRow);
         }
 
@@ -315,9 +298,6 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         if (onSelect) {
           const selectedRowIsStillValid = sortedRows && sortedRows.length > activeRowIndex;
 
-          console.log('updatedSelectedRows: ', updatedSelectedRows);
-          console.log('selectedRowIsStillValid: ', selectedRowIsStillValid);
-
           const selectedRow = selectedRowIsStillValid
             ? sortedRows[activeRowIndex]
             : resetSelectedRow;
@@ -325,13 +305,10 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
           const selectedRows = updatedSelectedRows && updatedSelectedRows.length > 0
             ? updatedSelectedRows
             : resetSelectedRows;
-          // FIXME: After running a connector, selectedRow is undefined...
-          console.log('calling onSelect() with selectedRows: ', selectedRows, ' selectedRow: ', selectedRow);
           onSelect(selectedRows, selectedRow);
         }
         this.setState({ sortedRows });
       }
-      console.groupEnd();
     }
   }
 
