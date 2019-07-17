@@ -18,9 +18,6 @@ const testDoc1 = {
     "comment_s": [
       "Interesting!"
     ],
-    "timestamp_s": [
-      "Posted on 7/16/2019 at 11:58:02 AM"
-    ],
     "username_s": [
       "Jack Donaghy"
     ],
@@ -117,7 +114,7 @@ const testDoc1 = {
 describe('Test Comment', () => {
   it('Can be constructed properly from a SearchDocument', () => {
     expect(Comment.fromDoc(SearchDocument.fromJson(testDoc1))).toEqual(
-      new Comment('docID1', 'Interesting!', 'Posted on 7/16/2019 at 11:58:02 AM', 'Jack Donaghy')
+      new Comment('docID1', 'Interesting!', 'Posted on Mon Aug 14 2017 at 4:03:48 PM EDT', 'Jack Donaghy')
     );
   });
   it('Populates fields correctly when instantiated', () => {
@@ -127,11 +124,11 @@ describe('Test Comment', () => {
     expect(Comment.fromDoc(SearchDocument.fromJson(testDoc1)).id).toEqual(
       'docID1'
     );
+    expect(Comment.fromDoc(SearchDocument.fromJson(testDoc1)).timestamp).toEqual(
+      'Posted on Mon Aug 14 2017 at 4:03:48 PM EDT'
+    );
     expect(Comment.fromDoc(SearchDocument.fromJson(testDoc1)).username).toEqual(
       'Jack Donaghy'
-    );
-    expect(Comment.fromDoc(SearchDocument.fromJson(testDoc1)).timestamp).toEqual(
-      'Posted on 7/16/2019 at 11:58:02 AM'
     );
   });
 });
