@@ -241,48 +241,97 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   }
 
   componentWillReceiveProps(newProps: TableProps) {
-    const { rows, noEmptySelection } = newProps;
+    const { rows, noEmptySelection, rowComparator, onSelect } = newProps;
     const { rows: prevRows } = this.props;
+    const { selectedIndices: prevSelectedIndices, activeRowIndex } = this.state;
 
     // If a rowComparator is specified, use it, otherwise, do a deep row comparison and reset selection if anything changed.
     const shouldUpdateRows = !isEqual(rows, prevRows);
-    const shouldResetSelection = rows.length !== prevRows.length
-      || (newProps.rowComparator && !isEqualWith(rows, prevRows, newProps.rowComparator))
-      || (!newProps.rowComparator && shouldUpdateRows);
+    let shouldResetSelection = (rowComparator && !isEqualWith(rows, prevRows, rowComparator))
+      || (!rowComparator && shouldUpdateRows);
 
     if (shouldResetSelection || shouldUpdateRows) {
+      console.group('<Table /> componentWillReceiveProps()');
+      console.log('prevRows: ', prevRows);
+      console.log('new rows: ', rows);
+      console.log('prevSelectedIndices: ', prevSelectedIndices);
+      console.log('prevActiveRowIndex: ', activeRowIndex);
+      console.log('shouldUpdateRows:');
+      const updatedSelectedRows = [];
+
       const sortedRows = rows && rows.length > 0
         ? rows.map((row, tableRowIndex) => {
-          return { ...row, tableRowIndex };
+          const updatedRow = { ...row, tableRowIndex };
+          if (prevSelectedIndices.has(tableRowIndex)) {
+            updatedSelectedRows.push(updatedRow);
+          }
+          return updatedRow;
         })
         : [];
-      const selectedIndices = sortedRows.length > 0 && noEmptySelection
+      console.log('previous sorted rows: ', this.state.sortedRows);
+      console.log('new sorted rows: ', sortedRows);
+      console.log('updatedSelectedRows: ', updatedSelectedRows);
+
+      const numPreviousSelections = prevSelectedIndices.size;
+      const numUpdatedSelections = updatedSelectedRows.length;
+
+      console.log('numPreviousSelections: ', numPreviousSelections);
+      console.log('numUpdatedSelections: ', numUpdatedSelections);
+      // Indicates one of the previously selected rows can no longer be found.
+      if (numPreviousSelections !== numUpdatedSelections) {
+        console.log('setting shouldResetSelection to true, the number of selected rows changed');
+        shouldResetSelection = true;
+      }
+      console.log('shouldResetSelection: ', shouldResetSelection);
+
+      const resetIndices = sortedRows.length > 0 && noEmptySelection
         ? new Set([0])
         : new Set([]);
-      const anchorRowIndex = sortedRows.length > 0 && noEmptySelection
+      const resetIndex = sortedRows.length > 0 && noEmptySelection
         ? 0
         : null;
-      const activeRowIndex = sortedRows.length > 0 && noEmptySelection
-        ? 0
-        : null;
-      const selectedRows = activeRowIndex !== null && noEmptySelection ? [sortedRows[activeRowIndex]] : [];
-      const selectedRow = activeRowIndex !== null && noEmptySelection ? sortedRows[activeRowIndex] : null;
 
-      // If the parent provided an update hook, update the parent with the changes.
-      if (newProps.onSelect) {
-        newProps.onSelect(selectedRows, selectedRow);
-      }
+      const resetSelectedRow = resetIndex !== null ? sortedRows[resetIndex] : null;
+      const resetSelectedRows = resetSelectedRow !== null ? [resetSelectedRow] : [];
+
+      console.log('resetIndices: ', resetIndices);
+      console.log('resetIndex: ', resetIndex);
 
       if (shouldResetSelection) {
+        // If the parent provided an update hook, update the parent with the changes.
+        if (onSelect) {
+          console.log('calling onSelect() with resetSelectedRows: ', resetSelectedRows, ' resetSelectedRow: ', resetSelectedRow);
+          onSelect(resetSelectedRows, resetSelectedRow);
+        }
+
         this.setState({
           sortedRows,
-          selectedIndices,
-          anchorRowIndex,
-          activeRowIndex,
+          selectedIndices: resetIndices,
+          anchorRowIndex: resetIndex,
+          activeRowIndex: resetIndex,
         });
-      } else if (shouldUpdateRows) {
+      } else {
+        // If the parent provided an update hook, update the parent with the changes.
+        if (onSelect) {
+          const selectedRowIsStillValid = sortedRows && sortedRows.length > activeRowIndex;
+
+          console.log('updatedSelectedRows: ', updatedSelectedRows);
+          console.log('selectedRowIsStillValid: ', selectedRowIsStillValid);
+
+          const selectedRow = selectedRowIsStillValid
+            ? sortedRows[activeRowIndex]
+            : resetSelectedRow;
+
+          const selectedRows = updatedSelectedRows && updatedSelectedRows.length > 0
+            ? updatedSelectedRows
+            : resetSelectedRows;
+          // FIXME: After running a connector, selectedRow is undefined...
+          console.log('calling onSelect() with selectedRows: ', selectedRows, ' selectedRow: ', selectedRow);
+          onSelect(selectedRows, selectedRow);
+        }
         this.setState({ sortedRows });
       }
+      console.groupEnd();
     }
   }
 
