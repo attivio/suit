@@ -114,7 +114,7 @@ const testDoc1 = {
 describe('Test Comment', () => {
   it('Can be constructed properly from a SearchDocument', () => {
     expect(Comment.fromDoc(SearchDocument.fromJson(testDoc1))).toEqual(
-      new Comment('docID1', 'Interesting!', 'Posted on Mon Aug 14 2017 at 4:03:48 PM EDT', 'Jack Donaghy')
+      new Comment('docID1', 'Interesting!', 'Posted on Mon Aug 14 2017 at 4:03:48 PM GMT', 'Jack Donaghy')
     );
   });
   it('Populates fields correctly when instantiated', () => {
@@ -125,7 +125,7 @@ describe('Test Comment', () => {
       'docID1'
     );
     expect(Comment.fromDoc(SearchDocument.fromJson(testDoc1)).timestamp).toEqual(
-      'Posted on Mon Aug 14 2017 at 4:03:48 PM EDT'
+      'Posted on Mon Aug 14 2017 at 4:03:48 PM GMT'
     );
     expect(Comment.fromDoc(SearchDocument.fromJson(testDoc1)).username).toEqual(
       'Jack Donaghy'
