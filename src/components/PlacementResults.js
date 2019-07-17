@@ -22,14 +22,19 @@ export default class PlacementResults extends React.Component<void, {}, void> {
     if (response && response.placements && response.documents.length > 0) {
       const placements = response.placements;
       const results = [];
+      let markupCount = 0;
       placements.forEach((placement: Placement) => {
-        const key = `${placement.linkUrl ? placement.linkUrl : 'nourl'}-${placement.linkText ? placement.linkText : 'notext'}-${placement.imageUrl ? placement.imageUrl : 'noimg'}`; // eslint-disable-line max-len
+        if (placement.markup) {
+          markupCount += 1;
+        }
+        const key = `${placement.linkUrl ? placement.linkUrl : 'nourl'}-${placement.linkText ? placement.linkText : 'notext'}-${placement.imageUrl ? placement.imageUrl : 'noimg'}-${placement.markup ? `markup${markupCount}` : 'nomarkup'}`; // eslint-disable-line max-len
         results.push(
           <PlacementResult
             linkUrl={placement.linkUrl}
             linkText={placement.linkText}
             imageUrl={placement.imageUrl}
             markup={placement.markup}
+            markupCount={markupCount}
             key={key}
           />,
         );

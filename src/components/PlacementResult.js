@@ -12,6 +12,8 @@ type PlacementResultProps = {
   imageUrl: string | null;
   /** The raw html markup to display. Optional. */
   markup: string | null;
+  /** The position of the markup element in the placements array */
+  markupCount: number;
 }
 
 type PlacementResultDefaultProps = {
@@ -19,6 +21,7 @@ type PlacementResultDefaultProps = {
   linkText: string | null;
   imageUrl: string | null;
   markup: string | null;
+  markupCount: number;
 }
 
 /**
@@ -30,16 +33,41 @@ export default class PlacementResult extends React.Component<PlacementResultDefa
     linkText: null,
     imageUrl: null,
     markup: null,
+    markupCount: -1,
   }
 
   static displayName = 'PlacementResult';
 
+  renderMarkupIframe() {
+    const getBlobURL = (code) => {
+      const blob = new Blob([code], { type: 'text/html' });
+      return URL.createObjectURL(blob);
+    };
+
+    const source = `
+      <html>
+        <body>
+          ${this.props.markup || ''}
+        </body>
+      </html>
+    `;
+    const iframeSource = getBlobURL(source);
+
+    return (
+      <iframe
+        title={`Markup Iframe ${this.props.markupCount}`}
+        style={{ margin: '0px', border: '0px', width: '100%', height: '100%', frameBorder: '0', overflow: 'hidden' }}
+        src={iframeSource}
+      />
+    );
+  }
+
   render() {
     if (this.props.markup) {
       return (
-        <Card style={{ marginBottom: '10px' }}>
+        <Card style={{ marginBottom: '10px', border: '0px', padding: '0px' }}>
           {
-            <div dangerouslySetInnerHTML={{ __html: this.props.markup }} /> // eslint-disable-line react/no-danger
+            this.renderMarkupIframe()
           }
         </Card>
       );
