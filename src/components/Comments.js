@@ -46,6 +46,8 @@ class Comments extends React.Component<void, CommentsProps, CommentsState> {
     (this: any).deleteComment = this.deleteComment.bind(this);
   }
 
+  state: CommentsState;
+
   componentDidMount() {
     this.getComments();
   }
@@ -152,7 +154,6 @@ class Comments extends React.Component<void, CommentsProps, CommentsState> {
     const { searcher } = this.context;
     const username = AuthUtils.getUserName(AuthUtils.getSavedUser());
     const d = new Date();
-    // const timestamp = `Posted on ${d.toLocaleDateString()} at ${d.toLocaleTimeString()}`;
     const loggedDateTime = d.toISOString();
     const id = username.concat(loggedDateTime);
     const body = {
