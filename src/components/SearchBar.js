@@ -219,8 +219,15 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     }
     if (searcher) {
       if (doSearch) {
-        searcher.setQueryAndSearch(newQuery);
-        this.route();
+        if (!searcher.state.haveSearched) {
+          // on click of Enter, if a new query is being searched
+          // reset filters & display results
+          searcher.setQueryAndSearch(newQuery);
+          this.route();
+        } else {
+          // do not reset only search
+          searcher.doSearch();
+        }
       } else {
         searcher.updateQuery(newQuery);
       }
@@ -254,7 +261,12 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     const searcher = this.context.searcher;
     if (this.props.route && searcher) {
       this.route();
-    } else {
+    } else if (searcher.state.query && !searcher.state.haveSearched) {
+      // on click of Go, if a new query is being searched
+      // reset filters & display results
+      searcher.setQueryAndSearch(searcher.state.query);
+    } else if (searcher.state.query && searcher.state.haveSearched) {
+      // do not reset only search
       searcher.doSearch();
     }
     if (this.submitButton) {
@@ -284,6 +296,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     let query = '';
     let language = 'simple';
     const searcher = this.context.searcher;
+
     if (searcher) {
       query = searcher.state.query;
       language = searcher.state.queryLanguage;

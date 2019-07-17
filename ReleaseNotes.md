@@ -101,3 +101,6 @@ Fixes an issue where clicking on the main document from within the knowledge gra
 
 Adds machinery to optionally provide signal data to <AutoCompleteInput /> whenever user clicks/selects an entry.
 
+## Version 0.1.17
+
+Fixes an issue where on the click of Go the filters of the old query were not being cleared. Unified the behavior on the click of Go & Enter to reset and search on new query being searched and on the same query being searched again no reset of filters is performed.
