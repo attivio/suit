@@ -327,6 +327,22 @@ export default class KnowledgeGraphUtils {
     return result;
   }
 
+  // Generates a color hexcode based on ASCII codes of characters in a string;
+  // The hex codes generated are unique for each string.
+  static stringToColor(str) {
+    let hash = 0;
+    let i = 0;
+    for (i = 0; i < str.length; i += 1) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash); // eslint-disable-line no-bitwise
+    }
+    let color = '#';
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff; // eslint-disable-line no-bitwise
+      color += `00${value.toString(16)}`.substr(-2);
+    }
+    return color;
+  }
+
   static calculateGraphOptions(entityNames: Array<string> = [], entityColors: Map<string, any>): any {
     const options = JSON.parse(JSON.stringify(BASE_GRAPH_OPTIONS));
     const groups = options.groups;
@@ -341,7 +357,7 @@ export default class KnowledgeGraphUtils {
       if (!entityColors.has(entityName)) {
         // Make up a random color for this unknown entity
         const entityOptions = JSON.parse(JSON.stringify(BASE_GROUP_OPTIONS));
-        const customColor = 'purple';
+        const customColor = KnowledgeGraphUtils.stringToColor(entityName);
         entityOptions.color.border = customColor;
         entityOptions.color.highlight.border = customColor;
         entityOptions.color.hover.border = customColor;
