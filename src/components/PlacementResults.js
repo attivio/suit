@@ -34,7 +34,6 @@ export default class PlacementResults extends React.Component<void, {}, void> {
             linkText={placement.linkText}
             imageUrl={placement.imageUrl}
             markup={placement.markup}
-            markupCount={markupCount}
             key={key}
           />,
         );
