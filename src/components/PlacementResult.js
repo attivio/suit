@@ -12,8 +12,6 @@ type PlacementResultProps = {
   imageUrl: string | null;
   /** The raw html markup to display. Optional. */
   markup: string | null;
-  /** The position of the markup element in the placements array */
-  markupCount: number;
 }
 
 type PlacementResultDefaultProps = {
@@ -21,7 +19,6 @@ type PlacementResultDefaultProps = {
   linkText: string | null;
   imageUrl: string | null;
   markup: string | null;
-  markupCount: number;
 }
 
 /**
@@ -33,7 +30,6 @@ export default class PlacementResult extends React.Component<PlacementResultDefa
     linkText: null,
     imageUrl: null,
     markup: null,
-    markupCount: -1,
   }
 
   static displayName = 'PlacementResult';
@@ -55,7 +51,7 @@ export default class PlacementResult extends React.Component<PlacementResultDefa
 
     return (
       <iframe
-        title={`Markup Iframe ${this.props.markupCount}`}
+        title="Promotions frame"
         style={{ margin: '0px', border: '0px', width: '100%', height: '100%', frameBorder: '0', overflow: 'hidden' }}
         src={iframeSource}
       />
