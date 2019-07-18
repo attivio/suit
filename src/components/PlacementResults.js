@@ -27,7 +27,11 @@ export default class PlacementResults extends React.Component<void, {}, void> {
         if (placement.markup) {
           markupCount += 1;
         }
-        const key = `${placement.linkUrl ? placement.linkUrl : 'nourl'}-${placement.linkText ? placement.linkText : 'notext'}-${placement.imageUrl ? placement.imageUrl : 'noimg'}-${placement.markup ? `markup${markupCount}` : 'nomarkup'}`; // eslint-disable-line max-len
+        const urlKey = placement.linkUrl ? placement.linkUrl : 'nourl';
+        const textKey = placement.linkText ? placement.linkText : 'notext';
+        const imageKey = placement.imageUrl ? placement.imageUrl : 'noimg';
+        const markupKey = placement.markup ? `markup${markupCount}` : 'nomarkup';
+        const key = `${urlKey}-${textKey}-${imageKey}-${markupKey}`;
         results.push(
           <PlacementResult
             linkUrl={placement.linkUrl}
