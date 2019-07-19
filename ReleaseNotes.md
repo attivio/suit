@@ -108,3 +108,5 @@ Fixes an issue where on the click of Go the filters of the old query were not be
 ## Unpublished Changes
 
 Adds the ability to comment on a search result.
+
+Fixes issue where row data updates, unrelated to rowcomparator results, would erroneously reset the current selection.
