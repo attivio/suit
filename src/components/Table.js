@@ -218,8 +218,9 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
     const { sortedRows } = this.state;
 
     if (multiSelect) {
-      document.addEventListener('keydown', this.keyDown);
-      document.addEventListener('keyup', this.keyUp);
+      window.addEventListener('keydown', this.keyDown);
+      window.addEventListener('keyup', this.keyUp);
+      window.addEventListener('blur', this.onWindowBlur);
     }
 
     // If the parent provided an update hook, initialize the parent with selection values.
@@ -229,7 +230,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
       const selectedRows = noEmptySelection && selectedRow ? [selectedRow] : [];
 
       onSelect(selectedRows, selectedRow);
-      // TODO: Look at redux/reselect pattern as alternative to manipulating data coming from api for component consumption.
+      // TODO: Look at reselect pattern as alternative to manipulating data coming from api for component consumption.
       // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({
         activeRowIndex,
@@ -240,69 +241,74 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   }
 
   componentWillReceiveProps(newProps: TableProps) {
+    const { rows, noEmptySelection } = newProps;
+    const { rows: prevRows } = this.props;
+
     // If a rowComparator is specified, use it, otherwise, do a deep row comparison and reset selection if anything changed.
-    if (newProps.rows.length !== this.props.rows.length
-      || (newProps.rowComparator && !isEqualWith(newProps.rows, this.props.rows, newProps.rowComparator))
-      || (!newProps.rowComparator && !isEqual(newProps.rows, this.props.rows))
-    ) {
-      // Reset the sorted rows if the actual rows have changed.
-      const sortedRows = newProps.rows && newProps.rows.length > 0
-        ? newProps.rows.map((row, tableRowIndex) => {
+    const shouldUpdateRows = !isEqual(rows, prevRows);
+    const shouldResetSelection = rows.length !== prevRows.length
+      || (newProps.rowComparator && !isEqualWith(rows, prevRows, newProps.rowComparator))
+      || (!newProps.rowComparator && shouldUpdateRows);
+
+    if (shouldResetSelection || shouldUpdateRows) {
+      const sortedRows = rows && rows.length > 0
+        ? rows.map((row, tableRowIndex) => {
           return { ...row, tableRowIndex };
         })
         : [];
-      // Reset row selection if the actual rows have changed.
-
-      const selectedIndices = sortedRows.length > 0 && newProps.noEmptySelection
+      const selectedIndices = sortedRows.length > 0 && noEmptySelection
         ? new Set([0])
         : new Set([]);
-      const anchorRowIndex = sortedRows.length > 0 && newProps.noEmptySelection
+      const anchorRowIndex = sortedRows.length > 0 && noEmptySelection
         ? 0
         : null;
-      const activeRowIndex = sortedRows.length > 0 && newProps.noEmptySelection
+      const activeRowIndex = sortedRows.length > 0 && noEmptySelection
         ? 0
         : null;
+      const selectedRows = activeRowIndex !== null && noEmptySelection ? [sortedRows[activeRowIndex]] : [];
+      const selectedRow = activeRowIndex !== null && noEmptySelection ? sortedRows[activeRowIndex] : null;
 
       // If the parent provided an update hook, update the parent with the changes.
       if (newProps.onSelect) {
-        const selectedRows = activeRowIndex !== null && newProps.noEmptySelection ? [sortedRows[activeRowIndex]] : [];
-        const selectedRow = activeRowIndex !== null && newProps.noEmptySelection ? sortedRows[activeRowIndex] : null;
         newProps.onSelect(selectedRows, selectedRow);
       }
-      this.setState({
-        sortedRows,
-        selectedIndices,
-        anchorRowIndex,
-        activeRowIndex,
-      });
-    } else if (!isEqual(newProps.rows, this.props.rows)) {
-      // Selection hasn't changed, but other row data has, update row data
-      const sortedRows = newProps.rows && newProps.rows.length > 0
-      ? newProps.rows.map((row, tableRowIndex) => {
-        return { ...row, tableRowIndex };
-      })
-      : [];
-      this.setState({ sortedRows }, () => {
-        const activeRow = sortedRows[this.state.activeRowIndex];
-        if (newProps.onSelect) {
-          newProps.onSelect(this.state.sortedRows, activeRow);
-        }
-      });
+
+      if (shouldResetSelection) {
+        this.setState({
+          sortedRows,
+          selectedIndices,
+          anchorRowIndex,
+          activeRowIndex,
+        });
+      } else if (shouldUpdateRows) {
+        this.setState({ sortedRows });
+      }
     }
   }
 
   componentWillUnmount() {
     if (this.props.multiSelect) {
-      document.removeEventListener('keydown', this.keyDown);
-      document.removeEventListener('keyup', this.keyUp);
+      window.removeEventListener('keydown', this.keyDown);
+      window.removeEventListener('keyup', this.keyUp);
+      window.removeEventListener('blur', this.onWindowBlur);
     }
   }
 
+  onWindowBlur = () => {
+    this.setState({ shiftKeyDown: false, ctrlKeyDown: false });
+  }
+
   keyDown = (e: KeyboardEvent) => {
-    if (e.shiftKey || e.ctrlKey || e.metaKey) {
-      const shiftKeyDown = e.shiftKey;
-      const ctrlKeyDown = e.ctrlKey || e.metaKey;
-      this.setState({ shiftKeyDown, ctrlKeyDown });
+    const shiftKeyDown = e.shiftKey;
+    const ctrlKeyDown = e.ctrlKey || e.metaKey;
+    const isValidKey = shiftKeyDown || ctrlKeyDown;
+
+    if (isValidKey) {
+      if (shiftKeyDown) {
+        this.setState({ shiftKeyDown });
+      } else if (ctrlKeyDown) {
+        this.setState({ ctrlKeyDown });
+      }
     }
   }
 
