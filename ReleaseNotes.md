@@ -6,15 +6,26 @@ If you are _publishing_ a new build of the library that has changes users will n
 
 If you are _using_ the SUIT library and want to upgrade to a newer version, please check here to see if there have been changes that will affect your project and, if there are, what you will need to do about them.
 
-## Unpublished Changes
-
-### Search Result Comments
-
-Adds the ability to comment on a search result.
+## Version 0.1.18
 
 ### Row Update Bug
 
 Fixes issue where row data updates, unrelated to rowcomparator results, would erroneously reset the current selection.
+
+### Promotions
+
+Fixes issues where promotions with markup didn't render correctly in SUIT
+
+If the markup in promotions contained javascript code in `<script>`, the code was not rendered.
+To overcome this, the `<div>` wrapper for the markup in `<PlacementResult>` is changed to `<iframe>`.
+The markup is added in the body of the iframe to ensure script as well as html is rendered.
+
+Additionally, `iframe` also required a unique title which is created using the new `markupCount` prop passed
+to `PlacementResult`.
+
+### Subheader360
+
+Modifies the Subheader360 component to show an information icon that shows additional information about the components when hovered over.
 
 ### Date Formats
 
@@ -28,18 +39,9 @@ Update the comments in DateFormat.js to match these.
 
 Fixed Flow/ESLint errors in `SearchResultTags.js` and `ToggleSwitch.js`.
 
-### Subheader360
-Modifies the Subheader360 component to show an information icon that shows additional information about the components when hovered over.
+### Search Result Comments
 
-### Promotions
-Fixes issues where promotions with markup didn't render correctly in SUIT
-
-If the markup in promotions contained javascript code in `<script>`, the code was not rendered.
-To overcome this, the `<div>` wrapper for the markup in `<PlacementResult>` is changed to `<iframe>`.
-The markup is added in the body of the iframe to ensure script as well as html is rendered.
-
-Additionally, `iframe` also required a unique title which is created using the new `markupCount` prop passed
-to `PlacementResult`.
+Adds the ability to comment on a search result.
 
 ## Version 0.1.17
 
