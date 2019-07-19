@@ -27,3 +27,84 @@ If you are _using_ the SUIT library and want to upgrade to a newer version, plea
 *	Added the new TrianglePanel component, similar to the CollapsiblePanel component, but with a “disclosure triangle” to the left of the panel’s title instead of the caret off to the right. This is especially useful for cases where the panel will be wide and the caret won’t be visible way off to the right.
 *	Fix an issue in AuthUtils where we could have been checking for permissions on a null user.roles array.
 *	Updated the version of the react-styleguidist library from 6.0.20 to 7.3.6 and updated the configuration appropriately.
+
+### Version 0.1.0
+
+This introduces breaking changes to the `<Table />` and `<MasterDetails />` components.
+
+Selection tracking has been moved to `<Table />`. `onSelect` is no longer a required function, it is now considered a convenience hook so a consumer may respond to selection changes and/or be aware of the current selection. This is a breaking change. Previously, the consumer of `<Table />` was responsible for passing in the current selection and `onSelect` drove the selection within `<Table />`. That is no longer true. `onSelect` no longer impacts the selections within `<Table />` and `<Table />` no longer accepts a `selection` prop to dictate the current selection.
+
+* `<Table />` now supports key selection in multi-select mode.
+* `rowComparator` is now required for comparison equality checking between rows.
+* `<Table />` and `<MasterDetails />` now optionally accept `activeRowBackgroundColor` and `multiSelectBackgroundColor` props which, if specified, override any other className specifications for those colors. This change is intended to make it easier to indicate color selections. `selectedClassName` may still optionally be passed in, but takes a second seat to those props.
+
+### Version 0.1.1
+
+Fixes a bug introduced by the `<Table />` refactor in v0.1.0. Rows were not being properly updated when data within them changed.
+
+### Version 0.1.2
+
+Introduces optional no label version of `<ToggleSwitch />` similar to Material UI in styling.
+
+### Version 0.1.3
+
+Adds optional `messagePositionRight` and `messageStyle` to `<BusyIndicator />`.
+Introduces option to disable the confirmation button in `<ConfirmationDialog />`.
+
+## Version 0.1.4
+
+Fixes issue in `<Table />` where `onSelect` was passed a `null` value for `activeRow` after row data change causing `<MasterDetails />` to be empty and causing any consumer to have incorrect selection data.
+
+## Version 0.1.5
+
+Fixes typo in `<Table />` where `selectedRowIndices` was updated in place of `selectedIndices`.
+
+## Version 0.1.6
+
+Adds a new component called `<SwipeViews />` which uses the `react-swipe` library to show multiple views that you can navigated through by using the left and right buttons.
+
+## Version 0.1.7
+
+Fixes issue in `<Table />` where selected row values became stale after data changed and selection did not.
+
+## Version 0.1.8
+
+Fixes issue in `AuthUtils.logout` where logout sometimes failed immediately after a page refresh.
+
+## Version 0.1.9
+
+Fixes issue in `FetchUtils.fetch` to properly redirect to login when html login page is returned.
+
+## Version 0.1.10
+
+Add support for `data-test` attribute to `<CardPicker />`, `<CardPickerCard />`, `<Pager />`, and `<TrianglePanel />`.
+
+## Version 0.1.11
+
+Updates `noLabel` `<ToggleSwitch />` to distinguish between disabled off and disabled on. Makes all of the `noLabel` `<ToggleSwitch />` clickable, not just the circle.
+
+## Version 0.1.13
+
+Added support for data-test attribute for testing components `<Menu />`, `<TabPanel />`, and `<ToggleSwitch />`.
+
+## Version 0.1.14
+
+Adds an event listener for window blur to `<Table />` and unconditionally marks meta keys as not pressed.
+
+## Version 0.1.15
+
+Fixes issue where the selection for multiselect is stale. Cleaned up componentWillReceiveProps in <Table /> and DRYed out the logic.
+
+## Version 0.1.16
+
+Fixes an issue where clicking on the main document from within the knowledge graph of 360 view gave an exception.
+
+Adds machinery to optionally provide signal data to <AutoCompleteInput /> whenever user clicks/selects an entry.
+
+## Version 0.1.17
+
+Fixes an issue where on the click of Go the filters of the old query were not being cleared. Unified the behavior on the click of Go & Enter to reset and search on new query being searched and on the same query being searched again no reset of filters is performed.
+
+## Unpublished Changes
+
+Adds the ability to comment on a search result.

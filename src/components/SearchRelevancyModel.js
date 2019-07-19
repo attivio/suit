@@ -60,7 +60,7 @@ export default class SearchRelevancyModel extends React.Component<SearchRelevanc
 
   state: SearchRelevancyModelState;
 
-  componentWillMount() {
+  componentDidMount() {
     // If our parent didn't set a list of models for us
     // to use, ask the server what we should do.
     const uri = `${this.props.baseUri}/rest/relevancyModelApi/getRelevancyModelNames`;

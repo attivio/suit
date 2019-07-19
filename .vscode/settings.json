@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "attivio",
     "glyphicon",
     "glyphicons",
     "highcharts",
@@ -7,6 +8,8 @@
     "keyphrases",
     "mapbox",
     "react",
-    "solr"
+    "servlet",
+    "solr",
+    "stopwords"
   ]
 }

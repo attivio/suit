@@ -142,6 +142,10 @@ type SearcherProps = {
    * control its properties and display the search results.
    */
   children: Children;
+  /**
+   * The max resubmits property for enabling features such as And-To-Or resubmission, if desired
+   */
+  maxResubmits: number;
 };
 
 type SearcherDefaultProps = {
@@ -173,6 +177,7 @@ type SearcherDefaultProps = {
   resultsPerPage: number;
   businessCenterProfile: string | null;
   defaultQueryLanguage: 'simple' | 'advanced';
+  maxResubmits: number;
 };
 
 /*
@@ -287,6 +292,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     resultsPerPage: 10,
     businessCenterProfile: null,
     defaultQueryLanguage: 'simple',
+    maxResubmits: 1,
   };
 
   static contextTypes = {
@@ -341,7 +347,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // When the searcher is first created, this is called.
     // Pull a state object out of the location's query string
     const location = this.props.location;
@@ -440,6 +446,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       restParams.set('abc.enabled', ['true']);
       restParams.set('searchProfile', profiles);
     }
+    restParams.set('q.maxresubmits', [`${this.props.maxResubmits}`]);
 
     qr.restParams = restParams;
     return qr;
@@ -481,6 +488,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       error: undefined,
       response: undefined,
       facetFilters: [],
+      geoFilters: [],
       query,
     });
   }
@@ -712,8 +720,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   /**
    * Update the list of tags for the given document.
    */
-  updateTags(tags: Array<string>, docId: string): Promise<any> {
-    return this.search.updateRealtimeField(docId, FieldNames.TAGS, tags);
+  updateTags(tags: Array<string>, docId: string, onCompletion: () => void, onError: (error: string) => void): Promise<any> {
+    return this.search.updateRealtimeField(docId, FieldNames.TAGS, tags, onCompletion, onError);
   }
 
   props: SearcherProps;
@@ -888,6 +896,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       response: undefined,
       queryLanguage: advanced ? 'advanced' : 'simple',
       facetFilters: [],
+      geoFilters: [],
       query,
     });
   }
@@ -952,7 +961,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     const updatedFacetFilters = [];
     const facetFilters = this.state.facetFilters;
     facetFilters.forEach((facetFilter) => {
-      if (facetFilter.facetName !== removeFilter.facetName) {
+      if (facetFilter.filter !== removeFilter.filter) {
         updatedFacetFilters.push(facetFilter);
       }
     });

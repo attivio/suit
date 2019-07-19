@@ -6,16 +6,34 @@ type PagerProps = {
    * The callback used when the user changes the page. It is passed the new page number (0-based).
    */
   onPageChange: (newPage: number) => void;
-  /** The total number of pages in the data set. */
-  totalPages: number;
   /** The current page in the data set (0-based). */
   currentPage: number;
+  /**
+   * The total number of pages in the data set if known. Used to determine whether the next button
+   * is enabled. If not set, then the hasMore property must be set for the next button to be
+   * enabled. (The previous button is always enabled based on whether the current page is 0 (disabled)
+   * or greater than 0 (enabled).
+   */
+  totalPages: number;
+  /**
+   * If the totalPages property is not set, then this property is used to determine whether there are
+   * more pages beyond the current one. (If totalPages is set, then hasMore is ignored.)
+   */
+  hasMore: boolean;
   /** If set, then the pager control will be "pulled right" in its parent. */
   right: boolean;
+  /**
+   * Property that contains the prefix for data-test attribute added to elements to be uniquely
+   * identified by testing tools like Selenium
+   */
+  dataTestPrefix? : string | null;
 };
 
 type PagerDefaultProps = {
   right: boolean;
+  totalPages: number;
+  hasMore: boolean;
+  dataTestPrefix : string | null;
 };
 
 /**
@@ -24,6 +42,9 @@ type PagerDefaultProps = {
 export default class Pager extends React.Component<PagerDefaultProps, PagerProps, void> {
   static defaultProps = {
     right: false,
+    totalPages: -1,
+    hasMore: false,
+    dataTestPrefix: null,
   };
 
   static displayName = 'Pager';
@@ -38,27 +59,31 @@ export default class Pager extends React.Component<PagerDefaultProps, PagerProps
   nextButton: ?HTMLAnchorElement;
 
   back(): void {
+    const { currentPage, onPageChange } = this.props;
     if (this.backButton) {
       this.backButton.blur();
     }
-    if (this.props.currentPage > 0) {
-      const newPage = this.props.currentPage - 1;
-      this.props.onPageChange(newPage);
+    if (currentPage > 0) {
+      const newPage = currentPage - 1;
+      onPageChange(newPage);
     }
   }
 
   next(): void {
+    const { currentPage, totalPages, hasMore, onPageChange } = this.props;
+
     if (this.nextButton) {
       this.nextButton.blur();
     }
-    if (this.props.currentPage < (this.props.totalPages - 1)) {
-      const newPage = this.props.currentPage + 1;
-      this.props.onPageChange(newPage);
+    if ((totalPages >= 0 && currentPage < (totalPages - 1)) || (totalPages === -1 && hasMore)) {
+      const newPage = currentPage + 1;
+      onPageChange(newPage);
     }
   }
 
   render() {
-    const currentDisplayPage = Number(this.props.currentPage + 1).toLocaleString();
+    const { currentPage, totalPages, hasMore, dataTestPrefix } = this.props;
+    const currentDisplayPage = Number(currentPage + 1).toLocaleString();
     const canGoLeft = this.props.currentPage > 0;
     const leftButton = canGoLeft ? (
       <a
@@ -69,17 +94,24 @@ export default class Pager extends React.Component<PagerDefaultProps, PagerProps
         ref={(c) => {
           this.backButton = c;
         }}
+        data-test={(dataTestPrefix) ? `${dataTestPrefix}-Pager-Previous-Button` : null}
       >
         Previous
       </a>
     ) : (
       <a
         className="attivio-globalmastnavbar-pagination-previous attivio-globalmastnavbar-btn attivio-icon-arrow-left-gray disabled" // eslint-disable-line max-len
+        data-test={(dataTestPrefix) ? `${dataTestPrefix}-Pager-Previous-Button-disabled` : null}
       >
         Previous
       </a>
     );
-    const canGoRight = this.props.currentPage < (this.props.totalPages - 1);
+    let canGoRight = false;
+    if (totalPages > 0 && currentPage < (totalPages - 1)) {
+      canGoRight = true;
+    } else if (totalPages === -1 && hasMore) {
+      canGoRight = true;
+    }
     const rightButton = canGoRight ? (
       <a
         role="button"
@@ -89,12 +121,14 @@ export default class Pager extends React.Component<PagerDefaultProps, PagerProps
         ref={(c) => {
           this.nextButton = c;
         }}
+        data-test={(dataTestPrefix) ? `${dataTestPrefix}-Pager-Next-Button` : null}
       >
         Next
       </a>
     ) : (
       <a
         className="attivio-globalmastnavbar-pagination-next attivio-globalmastnavbar-btn attivio-icon-arrow-right-gray disabled" // eslint-disable-line max-len
+        data-test={(dataTestPrefix) ? `${dataTestPrefix}-Pager-Next-Button-disabled` : null}
       >
         Next
       </a>

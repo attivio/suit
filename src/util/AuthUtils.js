@@ -111,7 +111,9 @@ export default class AuthUtils {
         // if (AuthUtils.getConfig() && AuthUtils.getConfig().ALL && AuthUtils.getConfig().ALL.authType === 'XML') {
         //   // If we're doing XML authentication, go to the login page with the "We've logged you out" flag set
         // }
-        document.location.assign(loggedOutUri);
+        setTimeout(() => {
+          document.location.assign(loggedOutUri);
+        }, 100);
       }).catch((error: any) => {
         console.warn('Failed to log out:', error);
       });

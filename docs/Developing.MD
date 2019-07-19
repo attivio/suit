@@ -1,10 +1,10 @@
 # Developing with SUIT
 
-This document describes some techniques you may find helpful while developing with the SUIT library project.
+This document describes some techniques you may find helpful while developing with the SUIT library project. In general, we hope you will be able to simply include the SUIT library as a dependency in your application project, but there may be times when you need to modify SUIT itself (e.g., if you want to fix a bug or add a new feature), and these guidelines should help.
 
 ## Development Environment
 
-You will need to have Node and the Node Package Manager (NPM) installed directly on your developmnent machine to build the SUIT library. While not required, having an IDE designed for working with JavaScript is very useful.
+You will need to have Node and the Node Package Manager (NPM) installed directly on your developmnent machine to build the SUIT library. Generally, the latest version of these tools should work, but you should be using at least version 8 of Node. Also, while certianly not required, having an IDE designed for working with JavaScript is very useful.
 
 ### Node and NPM
 
@@ -16,24 +16,32 @@ You are free to use whatever IDE or code editor you enjoy working with. However,
 
 ### Building SUIT
 
-First, make sure you’ve built the SUIT library. Use the `npm install` command to install all of SUIT’s dependencies and then execute `npm run build` to create the library’s output in the es and lib directories. Once your application is pointing to your local build of SUIT as described in the next step, you can re-run `npm run build` to update it every time you've made a change.
+Before building the SUIT library, you will need to install its dependencies using NPM. From the directory where you cloned the repository, run the `npm ci` command. This will pull down all of the library's dependencies from the NPM repository so you'll be able to build SUIT's code locally.
 
-### Putting SUIT to Work
+Note that you should not run the `npm install` command to do this as it can create undesired changes in the versions of the dependencies that are used. The `npm ci` command will use the versions as they are set in the package-lock.json file and won't automatically pull down more recent ones, so you know that you're building using the same versions of dependencies that Attivio is using (it's also significantly faster since it doesn't have to do all of the version resolution that `npm install` does). You should, however, use the `npm install <library>@<version>` command when you need to add dependencies to the library (or use `npm remove <library>` to remove them), instead of editing the package.json file directly.
 
-NPM has a feature that lets you pull the contents of a dependency from someplace other than the [npmjs.com](npmjs.com) repository. We'll use this to have your Search UI project get the contents of the SUIT library from your local copy rather than the server. To set this up, do the following:
+Once you've installed SUIT's dependencies, you can execute the `npm run build` command to do build the SUIT code. Run `npm run fullbuild` to do a build plus all validation steps. You will also need to run `npm run fullbuild` prior to submitting any pull requests to the repoisitory. You can use the `npm run styleguide:serve` command to build and launch the SUIT styleguide where you can see examples of the components and verify that any changes you've made to them work as expected.
+all all of SUIT’s dependencies and then execute `npm run build` to create the library’s output in the es and lib directories. Once your application is pointing to your local build of SUIT as described in the next step, you can re-run `npm run build` to update it every time you've made a change.
 
-1. Open a terminal window in the directory where you cloned SUIT, making sure you have run `npm install` and `npm run build` to get it ready.
-2. In your copy of the Search UI repository, edit the file `frontend/package.json` to replace the version of the `@attivio/suit` library dependency with the location of your local copy. For example, if the line was originally `"@attivio/suit": "0.0.29"` you would change it to something like `"@attivio/suit": "file:///home/myuser/dev/suit"` (substituting, naturally, the path to your local SUIT).
-3. The next time you run `mvn install` or run the command `npm install` from the `frontend` directory, you will start seeing your changes to SUIT in the Search UI builds.
+## Seeing Your SUIT Changes in Search UI
 
-If you are making changes that you are submitting to the master SUIT repository via a pull request, once your pull request has been accepted and incorporated, and a new version of SUIT has been published to NPM, you can use that new version in the dependency instead of the URL.
+Once you've completed any changes you need to make to the SUIT library, you can submit a pull request to have them incorporated into the main SUIT project. Once they're incorporated, a new version of SUIT will be built and published to the NPM repository, and you can update your copy of Search UI (or other SUIT-based application) to depend on this new version.
 
-**IMPORTANT:** If you are building Search UI on a Windows system, and you are using a version of Search UI prior to 1.0.2, you should not use Maven's `clean` command. There is a bug in Maven that affects running this command (including with other commands such as `mvn clean install`, etc.) that can inadvertently delete your entire SUIT project when it tries to clean up the `node_modules` directory. Starting with version 1.0.2, Search UI no longer cleans the `node_modules` directory, so running `mvn clean` is OK. This issue doen't affect Linux build systems. Again, **on Windows build systems, do not use `mvn clean`**.
+### Seeing SUIT Changes Immediately
 
-**Note:** You may or may not want to commit the changes to the `package.json` file to your local repository. If you do, you can set the URL so that it's relative to the Search UI directory (e.g., `"file:///../../suit"` or similar) and if you always clone both the Search UI and SUIT repositories as siblings, this will work on any build machine.
+In the meantime, you can use a feature of NPM to have the application project depend on your local copy of SUIT rather than a version in the NPM repository, by using the path to the cloned SUIT repository as the "version" of the @attivio/suit dependency. To do so:
+1. Make sure you've built the SUIT library.
+2. In your Search UI's "frontend" directory, update the version of SUIT to use using `npm install @attivio/suit@../../suit`, where "../../suit" is replaced by the path to your instance of the SUIT repository (if you cloned both Search UI and SUIT into the same directory, so "searchui" and "suit" are sibling directories, then the relative path given here will work; if you've renamed them or have them in other locations, you can use a different relative path or even an absolute pth).
+3. Be careful about checking the version change to the package.json file into source control as you may not want to do this.
 
-**Note:** You should also note that NPM has a feature called `link` which allows a similar change to a local dependency without having to alter the `package.json` file. However, using it will not work when using Maven to build the Search UI because the Maven build uses its own copy of NPM and the link functionality adds the link to the version of NPM installed on the computer it's run on. Therefore, when building, NPM still uses the version of SUIT in the online NPM respository. You can read more about the link command [here](https://docs.npmjs.com/cli/link).
+Now that you've set up this path, changes you make to the SUIT code will, once the library is rebuilt, appear in the Search UI you're building.
 
 ### Watching for Changes
 
-In order to avoid constantly repeating the `npm run build` command, you can use the `npm run watch` command in the SUIT project to continuously build the library as changes are made to the source files. This will continue until you press control-C to stop it. (Note that building the module does a complete build every time and so takes a few seconds longer after saving a change than rebuilding the application itself.) Due to the links you've set up, if the application project is also `npm run watch`ing, then each time the SUIT library gets rebuilt, the application rebuild will be triggered.
+In order to avoid constantly repeating the `npm run build` command, you can use the `npm run watch` command in the SUIT project to continuously build the library as changes are made to the source files. This will continue until you press control-C to stop it. (Note that building the module does a complete build every time and so takes a few seconds longer after saving a change than rebuilding the application itself.)
+
+### Avoid NPM's Link Functionality
+
+NPM has a function that lets you alias a remote version of a library with a local directory, the `npm link` command. While this technique has the advantage of not changing to the project's package.json file, we recommend that you instead use the path method mentioned above when developing Search UI. This is for two reasons: 1) the aliases are global, so if you're developing multiple SUIT-based applications, this change will apply to them all and 2) more importanty, the change won't affect the version of NPM used when Maven builds the project, whereas the "path-version" solution will work with Maven.
+
+**IMPORTANT:** If you are building Search UI on a Windows system, and you are using a version of Search UI prior to 1.0.2, you should not use Maven's `clean` command. There is a bug in Maven that affects running this command (including with other commands such as `mvn clean install`, etc.) that can inadvertently delete your entire SUIT project when it tries to clean up the `node_modules` directory. Starting with version 1.0.2, Search UI no longer cleans the `node_modules` directory, so running `mvn clean` is OK. This issue doen't affect Linux build systems. Again, **on Windows build systems, do not use `mvn clean`**.
