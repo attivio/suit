@@ -132,6 +132,7 @@ module.exports = {
           content: 'documentation/searchResultsDocuments.md',
           components: () => {
             return [
+              'src/components/Comments.js',
               'src/components/DebugSearchResult.js',
               'src/components/DocumentEntityList.js',
               'src/components/DocumentPreview.js',
@@ -277,6 +278,7 @@ module.exports = {
               'src/components/SqlLog.js',
               'src/components/StarRating.js',
               'src/components/Subheader360.js',
+              'src/components/SwipeViews.js',
               'src/components/Table.js',
               'src/components/TabPanel.js',
               'src/components/TagCloud.js',
@@ -291,7 +293,7 @@ module.exports = {
           components: () => {
             return [
               'src/components/AuthRoute.js',
-              'src/components/AutoCompleteInput.js',        
+              'src/components/AutoCompleteInput.js',
               'src/components/Configuration.js',
               'src/components/Logger.js',
             ];

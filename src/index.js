@@ -1,5 +1,6 @@
 // API classes
 export AbstractDocument from './api/AbstractDocument';
+export Comment from './api/Comment';
 export DataPoint from './api/DataPoint';
 export DataSet from './api/DataSet';
 export DateFormat from './api/DateFormat';
@@ -52,6 +53,7 @@ export CardPickerCard from './components/CardPickerCard';
 export ChartTrends from './components/ChartTrends';
 export Code from './components/Code';
 export CollapsiblePanel from './components/CollapsiblePanel';
+export Comments from './components/Comments';
 export Configurable from './components/Configurable';
 export Configuration from './components/Configuration';
 export ConfirmationDialog from './components/ConfirmationDialog';
@@ -155,6 +157,7 @@ export SqlLog from './components/SqlLog';
 export StarRating from './components/StarRating';
 export StringListEditor from './components/StringListEditor';
 export Subheader360 from './components/Subheader360';
+export SwipeViews from './components/SwipeViews';
 export Table from './components/Table';
 export TabPanel from './components/TabPanel';
 export TagCloud from './components/TagCloud';
