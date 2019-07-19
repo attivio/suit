@@ -257,6 +257,7 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
         ? rows.map((row, tableRowIndex) => {
           const updatedRow = { ...row, tableRowIndex };
           if (prevSelectedIndices.has(tableRowIndex)) {
+            // Derive the full row using the existing selected indices. If index no longer exists, omit the row.
             updatedSelectedRows.push(updatedRow);
           }
           return updatedRow;
