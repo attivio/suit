@@ -21,10 +21,25 @@ Fixes issue where row data updates, unrelated to rowcomparator results, would er
 Update several of the date formats to use proper American English punctuation:
 
 There is always a comma after the day of the week, if present, separating it from the rest of the date.
-There is never a comma between the month and the year, if there's no day of the month in between (e.g., Sep 11, 2001 but Sep 2001)
+There is never a comma between the month and the year, if there's no day of the month in between 
+(e.g., Sep 11, 2001 but Sep 2001)
+
 Update the comments in DateFormat.js to match these.
 
-Also fixed Flow/ESLint errors in SearchResultTags.js and ToggleSwitch.js
+Fixed Flow/ESLint errors in `SearchResultTags.js` and `ToggleSwitch.js`.
+
+### Subheader360
+Modifies the Subheader360 component to show an information icon that shows additional information about the components when hovered over.
+
+### Promotions
+Fixes issues where promotions with markup didn't render correctly in SUIT
+
+If the markup in promotions contained javascript code in `<script>`, the code was not rendered.
+To overcome this, the `<div>` wrapper for the markup in `<PlacementResult>` is changed to `<iframe>`.
+The markup is added in the body of the iframe to ensure script as well as html is rendered.
+
+Additionally, `iframe` also required a unique title which is created using the new `markupCount` prop passed
+to `PlacementResult`.
 
 ## Version 0.1.17
 
