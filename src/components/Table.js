@@ -241,46 +241,73 @@ export default class Table extends React.Component<TableDefaultProps, TableProps
   }
 
   componentWillReceiveProps(newProps: TableProps) {
-    const { rows, noEmptySelection } = newProps;
+    const { rows, noEmptySelection, rowComparator, onSelect } = newProps;
     const { rows: prevRows } = this.props;
+    const { selectedIndices: prevSelectedIndices, activeRowIndex } = this.state;
 
     // If a rowComparator is specified, use it, otherwise, do a deep row comparison and reset selection if anything changed.
     const shouldUpdateRows = !isEqual(rows, prevRows);
-    const shouldResetSelection = rows.length !== prevRows.length
-      || (newProps.rowComparator && !isEqualWith(rows, prevRows, newProps.rowComparator))
-      || (!newProps.rowComparator && shouldUpdateRows);
+    let shouldResetSelection = (rowComparator && !isEqualWith(rows, prevRows, rowComparator))
+      || (!rowComparator && shouldUpdateRows);
 
     if (shouldResetSelection || shouldUpdateRows) {
+      const updatedSelectedRows = [];
+
       const sortedRows = rows && rows.length > 0
         ? rows.map((row, tableRowIndex) => {
-          return { ...row, tableRowIndex };
+          const updatedRow = { ...row, tableRowIndex };
+          if (prevSelectedIndices.has(tableRowIndex)) {
+            // Derive the full row using the existing selected indices. If index no longer exists, omit the row.
+            updatedSelectedRows.push(updatedRow);
+          }
+          return updatedRow;
         })
         : [];
-      const selectedIndices = sortedRows.length > 0 && noEmptySelection
-        ? new Set([0])
-        : new Set([]);
-      const anchorRowIndex = sortedRows.length > 0 && noEmptySelection
-        ? 0
-        : null;
-      const activeRowIndex = sortedRows.length > 0 && noEmptySelection
-        ? 0
-        : null;
-      const selectedRows = activeRowIndex !== null && noEmptySelection ? [sortedRows[activeRowIndex]] : [];
-      const selectedRow = activeRowIndex !== null && noEmptySelection ? sortedRows[activeRowIndex] : null;
 
-      // If the parent provided an update hook, update the parent with the changes.
-      if (newProps.onSelect) {
-        newProps.onSelect(selectedRows, selectedRow);
+      const numPreviousSelections = prevSelectedIndices.size;
+      const numUpdatedSelections = updatedSelectedRows.length;
+
+      // Indicates one of the previously selected rows can no longer be found.
+      if (numPreviousSelections !== numUpdatedSelections) {
+        shouldResetSelection = true;
       }
 
+      const resetIndices = sortedRows.length > 0 && noEmptySelection
+        ? new Set([0])
+        : new Set([]);
+      const resetIndex = sortedRows.length > 0 && noEmptySelection
+        ? 0
+        : null;
+
+      const resetSelectedRow = resetIndex !== null ? sortedRows[resetIndex] : null;
+      const resetSelectedRows = resetSelectedRow !== null ? [resetSelectedRow] : [];
+
       if (shouldResetSelection) {
+        // If the parent provided an update hook, update the parent with the changes.
+        if (onSelect) {
+          onSelect(resetSelectedRows, resetSelectedRow);
+        }
+
         this.setState({
           sortedRows,
-          selectedIndices,
-          anchorRowIndex,
-          activeRowIndex,
+          selectedIndices: resetIndices,
+          anchorRowIndex: resetIndex,
+          activeRowIndex: resetIndex,
         });
-      } else if (shouldUpdateRows) {
+      } else {
+        // If the parent provided an update hook, update the parent with the changes.
+        if (onSelect) {
+          const selectedRowIsStillValid = sortedRows && sortedRows.length > activeRowIndex;
+
+          const selectedRow = selectedRowIsStillValid
+            ? sortedRows[activeRowIndex]
+            : resetSelectedRow;
+
+          const selectedRows = updatedSelectedRows && updatedSelectedRows.length > 0
+            ? updatedSelectedRows
+            : resetSelectedRows;
+          onSelect(selectedRows, selectedRow);
+        }
         this.setState({ sortedRows });
       }
     }
