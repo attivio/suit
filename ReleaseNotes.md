@@ -8,9 +8,23 @@ If you are _using_ the SUIT library and want to upgrade to a newer version, plea
 
 ## Unpublished Changes
 
+### Search Result Comments
+
 Adds the ability to comment on a search result.
 
+### Row Update Bug
+
 Fixes issue where row data updates, unrelated to rowcomparator results, would erroneously reset the current selection.
+
+### Date Formats
+
+Update several of the date formats to use proper American English punctuation:
+
+There is always a comma after the day of the week, if present, separating it from the rest of the date.
+There is never a comma between the month and the year, if there's no day of the month in between (e.g., Sep 11, 2001 but Sep 2001)
+Update the comments in DateFormat.js to match these.
+
+Also fixed Flow/ESLint errors in SearchResultTags.js and ToggleSwitch.js
 
 ## Version 0.1.17
 
