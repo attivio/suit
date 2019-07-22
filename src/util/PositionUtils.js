@@ -3,7 +3,7 @@
 import Position from '../api/Position';
 
 export default class PositionUtils {
-  static calcBounds(values: Array<any>) {
+  static calcBounds(values: Array<any>): Array<Array<number>> {
     // Set default bounds in case there are no values in the array
     let minLatitude = -90;
     let maxLatitude = 90;
