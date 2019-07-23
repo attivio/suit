@@ -268,8 +268,6 @@ export default class Search {
           FetchUtils.fetch(updateUri, jsonRequest, callbackWithSessionID, 'POST');
         } else if (error) {
           reject(new Error(`Failed to connect to the ingest API: ${error}`));
-        } else {
-          reject(new Error(`Failed to connect to the ingest API: ${error}`));
         }
       };
 
