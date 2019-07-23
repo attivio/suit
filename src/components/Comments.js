@@ -263,7 +263,7 @@ class Comments extends React.Component<CommentsDefaultProps, CommentsProps, Comm
   renderCommentLink() {
     const { commentList } = this.state;
     const commentCount = commentList && commentList.length > 0 ? commentList.length : 0;
-    const commentLabelFormat = `Add a comment | 1 Comment | ${commentCount} Comments`;
+    const commentLabelFormat = 'Add a Comment|1 Comment|{} Comments';
     const commentLabel = StringUtils.fmt(commentLabelFormat, commentCount);
     return (
       <a
