@@ -287,7 +287,7 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
     const placeholder = this.props.placeholder;
     const suggestionList = this.getSuggestionList();
     // Only show the search button once the user has typed something in the field
-    const searchButton = this.state.facetValue === '' ? null : (
+    const searchButton = this.state.query.length > 0 ? (
       <button
         type="submit"
         className="btn attivio-globalmast-search-submit"
@@ -301,7 +301,7 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
       >
         {this.props.buttonLabel}
       </button>
-    );
+    ) : '';
     const inputComponent = this.props.showSearchBar ? (
       <div className="attivio-globalmast-search" role="search" style={{ display: 'inline-block' }}>
         <div className="form-group" style={{ position: 'relative' }}>
@@ -312,7 +312,7 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
             onChange={this.queryChanged}
             onKeyDown={this.doKeyPress}
             value={query}
-            style={{ minWidth: '300px', paddingRight: '75px', height: '1.75em' }}
+            style={{ width: '100%', height: '1.75em' }}
           />
           {searchButton}
         </div>

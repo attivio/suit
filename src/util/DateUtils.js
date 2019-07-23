@@ -19,27 +19,27 @@ export default class DateUtils {
       case DateFormat.SHORT_DATE:
         return m.format('L');
       case DateFormat.MEDIUM_DATE:
-        return m.format('ll');
+        return m.format('MMM D, YYYY');
       case DateFormat.LONG_DATE:
-        return m.format('dddd, LL');
+        return m.format('dddd, MMMM D, YYYY');
       case DateFormat.SHORT_TIME:
         return m.format('LT');
       case DateFormat.LONG_TIME:
         return m.format('LTS');
       case DateFormat.SHORT_MONTH:
-        return m.format('MMM. YYYY');
+        return m.format('MMM YYYY');
       case DateFormat.LONG_MONTH:
         return m.format('MMMM YYYY');
       case DateFormat.SHORT_YEAR:
-        return m.format('\u2019YY');
+        return m.format('\u2019YY'); // preceeding apostrophe
       case DateFormat.LONG_YEAR:
         return m.format('YYYY');
       case DateFormat.SHORT:
         return m.format('L LT');
       case DateFormat.MEDIUM:
-        return m.format('lll');
+        return m.format('MMM D, YYYY LT');
       case DateFormat.LONG:
-        return m.format('LLLL');
+        return m.format('dddd, MMMM D, YYYY LTS');
       case DateFormat.DAY_OF_MONTH:
         return m.format('MMMM D');
       case DateFormat.HOUR:

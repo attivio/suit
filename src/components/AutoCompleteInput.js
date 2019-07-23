@@ -4,13 +4,14 @@ import React from 'react';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import { RootCloseWrapper } from 'react-overlays';
+import SignalData from '../api/SignalData';
 
 import FetchUtils from '../util/FetchUtils';
 
 type AutoCompleteInputProps = {
   id: string;
   uri: string | null;
-  updateValue: (newValue: string, doSearch: boolean) => void;
+  updateValue: (newValue: string, doSearch: boolean, signalData?: SignalData) => void;
   placeholder: string;
   value: string;
   disabled: boolean;
@@ -35,6 +36,9 @@ type AutoCompleteInputState = {
   open: boolean;
   cursor: number;
   queryValue: string;
+  userInput: string;
+  queryTimestamp: number;
+  queryIsAutocomplete: boolean;
 };
 
 export default class AutoCompleteInput extends React.Component<AutoCompleteInputDefaultProps, AutoCompleteInputProps, AutoCompleteInputState> { // eslint-disable-line max-len
@@ -61,6 +65,9 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
       open: false,
       cursor: -1,
       queryValue: this.props.value,
+      userInput: this.props.value,
+      queryTimestamp: 0,
+      queryIsAutocomplete: false,
     };
     (this: any).closeMenu = this.closeMenu.bind(this);
     (this: any).handleChange = this.handleChange.bind(this);
@@ -76,7 +83,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
   }
 
   valueSelected(newValue: string) {
-    this.props.updateValue(newValue, true);
+    this.updateValueAndAddSignal(newValue, true);
     this.setState({
       queryValue: newValue,
     });
@@ -105,6 +112,9 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
           error: '',
           suggestions: [],
           queryValue: query,
+          userInput: query,
+          queryTimestamp: Date.now(),
+          queryIsAutocomplete: false,
         });
 
         const callback = (response: any | null, errorString: string | null) => {
@@ -141,12 +151,32 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
     }
   }
 
+  updateValueAndAddSignal(newQuery: string, doSearch: boolean = false) {
+    const { suggestions, queryTimestamp, userInput } = this.state;
+    const { updateValue } = this.props;
+    const docOrdinal = suggestions.findIndex((suggestion) => {
+      return suggestion === newQuery;
+    });
+    const signalData = new SignalData();
+    // index starts at 1
+    signalData.docOrdinal = docOrdinal + 1;
+    signalData.query = userInput;
+    signalData.queryTimestamp = queryTimestamp;
+    updateValue(newQuery, doSearch, signalData);
+  }
+
   doKeyPress(event: Event & { currentTarget: HTMLInputElement, keyCode: number }) {
     const { suggestions } = this.state;
     // This condition is satisfied when a user presses the enter key.
     if (event.keyCode === 13) {
       const query = event.currentTarget.value;
-      this.props.updateValue(query, true);
+      // This condition is satisfied when the user presses the enter key
+      // after selecting entry from the autocomplete list
+      if (this.state.queryIsAutocomplete) {
+        this.updateValueAndAddSignal(query, true);
+      } else {
+        this.props.updateValue(query, true);
+      }
       this.setState({
         suggestions: [],
         open: false,
@@ -158,6 +188,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
       this.setState({
         cursor: newCursor,
         queryValue: value,
+        queryIsAutocomplete: true,
       });
     } else if (event.keyCode === 38 && this.state.cursor > 0) {
       // This condition is satisfied when a user presses the up arrow key.
@@ -166,6 +197,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
       this.setState({
         cursor: newCursor,
         queryValue: value,
+        queryIsAutocomplete: true,
       });
     } else if (event.keyCode === 27 && this.props.onEscape) {
       // This condition is satisfied when a user presses the escape key
