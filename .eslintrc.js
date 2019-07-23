@@ -8,7 +8,7 @@ module.exports = {
     'eslint-plugin-flowtype',
   ],
   'rules': {
-    'arrow-body-style': ['error', 'always'],
+    'arrow-body-style': ['off', 'always'],
     'flowtype/define-flow-type': 1,
     'jsx-a11y/label-has-for': 0,
     'max-len': [1, 132, 2],

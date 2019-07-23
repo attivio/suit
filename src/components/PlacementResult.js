@@ -34,12 +34,36 @@ export default class PlacementResult extends React.Component<PlacementResultDefa
 
   static displayName = 'PlacementResult';
 
+  renderMarkupIframe() {
+    const getBlobURL = (code) => {
+      const blob = new Blob([code], { type: 'text/html' });
+      return URL.createObjectURL(blob);
+    };
+
+    const source = `
+      <html>
+        <body>
+          ${this.props.markup || ''}
+        </body>
+      </html>
+    `;
+    const iframeSource = getBlobURL(source);
+
+    return (
+      <iframe
+        title="Promotions frame"
+        style={{ margin: '0px', border: '0px', width: '100%', height: '100%', frameBorder: '0', overflow: 'hidden' }}
+        src={iframeSource}
+      />
+    );
+  }
+
   render() {
     if (this.props.markup) {
       return (
-        <Card style={{ marginBottom: '10px' }}>
+        <Card style={{ marginBottom: '10px', border: '0px', padding: '0px' }}>
           {
-            <div dangerouslySetInnerHTML={{ __html: this.props.markup }} /> // eslint-disable-line react/no-danger
+            this.renderMarkupIframe()
           }
         </Card>
       );

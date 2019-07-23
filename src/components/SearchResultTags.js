@@ -218,13 +218,8 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
   }
 
   render() {
-    const {
-      autoCompleteUri = '',
-      baseUri = '',
-      moreLikeThisQuery,
-      vertical,
-      view360Label,
-    } = this.props;
+    const { vertical, moreLikeThisQuery, baseUri, autoCompleteUri, view360Label } = this.props;
+    const { tags, updating, adding, newTag, tagError } = this.state;
 
     const outerDivClassName = `attivio-tags ${vertical ? 'attivio-tags-vertical' : ''}`;
     const moreLikeThisComponent =
@@ -239,8 +234,8 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
         </a>
       ) : '';
     let tagList;
-    if (this.state.tags.length > 0) {
-      tagList = this.state.tags.map((tag) => {
+    if (tags.length > 0) {
+      tagList = tags.map((tag) => {
         return (
           <span key={tag}>
             <a
@@ -262,22 +257,23 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
     }
 
     const inputComponent = autoCompleteUri && autoCompleteUri.length > 0 ?
-    (<AutoCompleteInput
-      uri={`${baseUri}${autoCompleteUri}`}
-      onChange={this.updateNewTagFromString}
-      updateValue={this.updateNewTagFromString}
-      onEscape={this.onEscape}
-      placeholder={'Tag\u2026'}
-      value={this.state.newTag}
-      className="form-control"
-    />
+      (
+        <AutoCompleteInput
+          uri={`${baseUri || ''}${autoCompleteUri || ''}`}
+          onChange={this.updateNewTagFromString}
+          updateValue={this.updateNewTagFromString}
+          onEscape={this.onEscape}
+          placeholder={'Tag\u2026'}
+          value={newTag}
+          className="form-control"
+        />
     ) : (
       <input
         type="email"
         className="form-control"
         id="attivio-tags-more-add"
         placeholder={'Tag\u2026'}
-        value={this.state.newTag}
+        value={newTag}
         onChange={this.updateNewTag}
         onKeyUp={this.keyUp}
         ref={(comp) => {
@@ -286,8 +282,8 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
       />
     );
 
-    const addButtonText = this.state.updating ? 'Adding\u2026' : 'Add';
-    const extra = this.state.adding ? (
+    const addButtonText = updating ? 'Adding\u2026' : 'Add';
+    const extra = adding ? (
       <div className="form-inline attivio-tags-form">
         <div className="form-group">
           <label htmlFor="attivio-tags-more-add" className="sr-only">Tag</label>
@@ -297,7 +293,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
           type="submit"
           className="btn btn-primary btn-xs"
           onClick={this.addTag}
-          disabled={this.state.newTag.length === 0 || this.state.updating}
+          disabled={newTag.length === 0 || updating}
         >
           {addButtonText}
         </button>
@@ -332,8 +328,8 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
       </a>
     ) : '';
 
-    const tagError = this.state.tagError ? (
-      <span title={this.state.tagError}>
+    const tagErrorMsg = tagError ? (
+      <span title={tagError}>
         <Glyphicon glyph="exclamation-sign" style={{ color: '#d9534f', marginRight: '4px' }} />
       </span>
     ) : '';
@@ -352,7 +348,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
         {moreLikeThisComponent}
         {comments}
         <span className="attivio-tags-label">Tags:</span>
-        {tagError}
+        {tagErrorMsg}
         {tagList}
         {extra}
       </div>
