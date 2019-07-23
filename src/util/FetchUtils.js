@@ -40,7 +40,7 @@ export default class FetchUtils {
               callback(null, FetchUtils.getErrorMessage(error, errorMessage));
             });
           } else if (!contentType) {
-            // if we don't the content type of response, let callback handle it
+            // if we don't know the content type of response, let callback handle it
             callback(response, null);
           } else {
             response.text().then((text: string) => {
