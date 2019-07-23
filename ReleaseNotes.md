@@ -6,11 +6,16 @@ If you are _publishing_ a new build of the library that has changes users will n
 
 If you are _using_ the SUIT library and want to upgrade to a newer version, please check here to see if there have been changes that will affect your project and, if there are, what you will need to do about them.
 
-## Version 0.2.0
+## Version 1.0.0
 
 Updates to react v.16.8.3.
 https://github.com/facebook/react/releases?after=16.1.0-rc
 https://reactjs.org/blog/2017/09/26/react-v16.0.html
+
+To use attivio/suit `v1.x.x+`, consuming libraries must match the
+version of react in this library: `react` `v16.8.3`. If using
+`react-dom`, keep in mind that it must always match your version of
+react. 
 
 ## Version 0.1.18
 
