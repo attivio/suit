@@ -7,7 +7,6 @@ import DateUtils from '../util/DateUtils';
  */
 export default class Comment {
   static createTimestamp(date) {
-    const d = DateUtils.stringToDate(date);
     return `Posted on ${DateUtils.formatDateCustom(date, 'MMMM DD, YYYY hh:mm A')}`;
   }
 

@@ -219,8 +219,9 @@ export default class Search {
         if (response.ok) {
           callback();
           resolve();
+        } else if (error) {
+          reject(new Error(`Failed to disconnect from the ingest API: ${error}`));
         } else {
-          // The request came back other than a 200-type response code
           response.text().then((msg) => {
             reject(new Error(`Error disconnecting from the ingest API: ${msg}`));
           });
@@ -232,38 +233,41 @@ export default class Search {
           // Now we need to close the session
           const disconnectUri = `${this.baseUri}/rest/ingestApi/disconnect/${sessionId}`;
           FetchUtils.fetch(disconnectUri, null, disconnectCallback);
+        } else if (error) {
+          reject(new Error(`Failed to refresh the update: ${error}`));
         } else {
-          // The request came back other than a 200-type response code
           response.text().then((msg) => {
-              reject(new Error(`Failed to refresh the update: ${msg}`));
+            reject(new Error(`Failed to refresh the update: ${msg}`));
           });
         }
       };
 
       const updateResultCallback = (sessionId: string | null, response: any | null, error: string | null) => {
         if (response.ok) {
-          // Now need to refresh the update
           const refreshUri = `${this.baseUri}/rest/ingestApi/refresh/${sessionId}`;
-          const callbackWithSessionID = (response: any | null, error: string | null) => {
-            refreshResultCallback(sessionId, response, error);
+          const callbackWithSessionID = (updateResponse: any | null, updateError: string | null) => {
+            refreshResultCallback(sessionId, updateResponse, updateError);
           };
           FetchUtils.fetch(refreshUri, null, callbackWithSessionID);
+        } else if (error) {
+          reject(new Error(`Failed to update the field: ${error}`));
         } else {
-          // The request came back other than a 200-type response code
           response.text().then((msg) => {
-              reject(new Error(`Failed to update the field: ${msg}`));
+            reject(new Error(`Failed to update the field: ${msg}`));
           });
         }
       };
 
       const sessionConnectCallback = (response: any | null, error: string | null) => {
-        if(response) {
+        if (response) {
           const sessionId = response;
           const updateUri = `${this.baseUri}/rest/ingestApi/feedDocuments/${sessionId}`;
-          const callbackWithSessionID = (response: any | null, error: string | null) => {
-            updateResultCallback(sessionId, response, error);
+          const callbackWithSessionID = (connectResponse: any | null, connectError: string | null) => {
+            updateResultCallback(sessionId, connectResponse, connectError);
           };
           FetchUtils.fetch(updateUri, jsonRequest, callbackWithSessionID, 'POST');
+        } else if (error) {
+          reject(new Error(`Failed to connect to the ingest API: ${error}`));
         } else {
           reject(new Error(`Failed to connect to the ingest API: ${error}`));
         }

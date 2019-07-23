@@ -96,6 +96,15 @@ class Comments extends React.Component<CommentsDefaultProps, CommentsProps, Comm
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  getUserName() {
+    const currentUser = AuthUtils.getSavedUser();
+    if (currentUser) {
+      return AuthUtils.getUserName(currentUser);
+    }
+    return AuthUtils.getUserName(AuthUtils.getLoggedInUserInfo());
+  }
+
   deleteComment(id: string) {
     const jsonDoc = `{ "id" : "${id}", "mode" : "DELETE" }`;
     this.context.searcher.search.addOrDeleteDocument(JSON.parse(jsonDoc), this.getComments);
@@ -161,15 +170,6 @@ class Comments extends React.Component<CommentsDefaultProps, CommentsProps, Comm
       });
     }
   }
-  
-  getUserName() {
-    const currentUser = AuthUtils.getSavedUser();
-    if (currentUser) {
-      return AuthUtils.getUserName(currentUser);
-    } else {
-      return AuthUtils.getUserName(AuthUtils.getLoggedInUserInfo());
-    }
-  }
 
   saveComment() {
     const { docId, commentsTable, zoneName } = this.props;
@@ -215,7 +215,6 @@ class Comments extends React.Component<CommentsDefaultProps, CommentsProps, Comm
 
   renderCommentModal() {
     const { showCommentModal, comment } = this.state;
-    const disableButtons = comment && comment.length > 0 ? false : true;
     return (
       <Modal
         show={showCommentModal}
@@ -241,11 +240,11 @@ class Comments extends React.Component<CommentsDefaultProps, CommentsProps, Comm
                 rows={5}
               />
               <div style={{ float: 'right' }}>
-                <Button onClick={this.clearComment} disabled={disableButtons}>
+                <Button onClick={this.clearComment} disabled={!(comment && comment.length > 0)}>
                   Clear
                 </Button>
                 &nbsp;
-                <Button onClick={this.saveComment} disabled={disableButtons}>
+                <Button onClick={this.saveComment} disabled={!(comment && comment.length > 0)}>
                   Add Comment
                 </Button>
               </div>
