@@ -8,7 +8,7 @@ import DateUtils from '../util/DateUtils';
 export default class Comment {
   static createTimestamp(date) {
     const d = DateUtils.stringToDate(date);
-    return `Posted on ${d.toDateString()} at ${d.toLocaleTimeString()}`;
+    return `Posted on ${DateUtils.formatDateCustom(date, 'MMMM DD, YYYY hh:mm A')}`;
   }
 
   static fromDoc(doc: SearchDocument): Comment {

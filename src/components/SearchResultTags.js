@@ -42,8 +42,10 @@ type SearchResultTagsProps = {
   baseUri?: string,
   /** Whether to show a Comment option. Defaults to false. */
   comments?: boolean;
-  /** Table field for the comment documents */
+  /** Optional. The table name to be used for comment documents stored in the index */
   commentsTable?: string;
+  /** Optional. The zone name to be used for storing the comment documents */
+  zoneName?: string;
 };
 
 type SearchResultTagsDefaultProps = {
@@ -54,6 +56,7 @@ type SearchResultTagsDefaultProps = {
   baseUri: string,
   comments: boolean,
   commentsTable: string,
+  zoneName: string,
 };
 
 type SearchResultTagsState = {
@@ -84,6 +87,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
     baseUri: '',
     comments: false,
     commentsTable: 'comments',
+    zoneName: 'default',
   };
 
   static displayName = 'SearchResultTags';
@@ -335,7 +339,11 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
     ) : '';
 
     const comments = this.props.comments && (
-      <Comments docId={this.props.docId} commentsTable={this.props.commentsTable} />
+      <Comments
+        docId={this.props.docId}
+        commentsTable={this.props.commentsTable}
+        zoneName={this.props.zoneName}
+      />
     );
 
     return (

@@ -32,13 +32,16 @@ export default class FetchUtils {
       (response: Response) => {
         if (response.ok) {
           const contentType = response.headers.get('content-type');
-          if (!contentType || contentType.indexOf('text/html') === -1) {
+          if (contentType && contentType.indexOf('application/json') !== -1) {
             response.json().then((jsonResponse: any) => {
               callback(jsonResponse, null);
             }).catch((error: any) => {
               // Catch errors from converting the response's JSON
               callback(null, FetchUtils.getErrorMessage(error, errorMessage));
             });
+          } else if (!contentType) {
+            // if we don't the content type of response, let callback handle it
+            callback(response, null);
           } else {
             response.text().then((text: string) => {
               if (text.indexOf('SAML') !== -1) {

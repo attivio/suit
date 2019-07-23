@@ -5,6 +5,7 @@ import { Modal, Button, Col, Row, Glyphicon } from 'react-bootstrap';
 
 import QueryResponse from '../api/QueryResponse';
 import AuthUtils from '../util/AuthUtils';
+import StringUtils from '../util/StringUtils';
 import SimpleQueryRequest from '../api/SimpleQueryRequest';
 import Comment from '../api/Comment';
 
@@ -12,7 +13,14 @@ type CommentsProps = {
   /** The document's ID, needed for adding/removing comments */
   docId: string,
   /** Optional. The table name to be used for comments document stored in the index */
-  commentsTable: string,
+  commentsTable?: string,
+  /** Optional. The zone name to be used for storing the comment documents */
+  zoneName?: string,
+};
+
+type CommentsDefaultProps = {
+  commentsTable: string;
+  zoneName: string;
 };
 
 type CommentsState = {
@@ -22,10 +30,15 @@ type CommentsState = {
   showCommentModal: boolean,
 };
 
-class Comments extends React.Component<void, CommentsProps, CommentsState> {
+class Comments extends React.Component<CommentsDefaultProps, CommentsProps, CommentsState> {
   static contextTypes = {
     searcher: PropTypes.any,
   };
+
+  static defaulProps = {
+    commentsTable: 'comments',
+    zoneName: 'default',
+  }
 
   static displayName = 'Comments';
 
@@ -40,6 +53,7 @@ class Comments extends React.Component<void, CommentsProps, CommentsState> {
     (this: any).showCommentModal = this.showCommentModal.bind(this);
     (this: any).hideCommentModal = this.hideCommentModal.bind(this);
     (this: any).captureComment = this.captureComment.bind(this);
+    (this: any).getUserName = this.getUserName.bind(this);
     (this: any).saveComment = this.saveComment.bind(this);
     (this: any).clearComment = this.clearComment.bind(this);
     (this: any).getComments = this.getComments.bind(this);
@@ -54,13 +68,14 @@ class Comments extends React.Component<void, CommentsProps, CommentsState> {
 
   getComments() {
     const { searcher } = this.context;
-    const { docId, commentsTable } = this.props;
+    const { docId, commentsTable, zoneName } = this.props;
     const commentList = [];
     if (searcher) {
       const qr = new SimpleQueryRequest();
       qr.query = `AND(table:${commentsTable}, docId_s:FACET("${docId}"))`;
       qr.facets = [];
       qr.queryLanguage = 'advanced';
+      qr.restParams.set('zones', [`${zoneName}`]);
       searcher.doCustomSearch(qr, (response: QueryResponse | null, error: string | null) => {
         if (response && response.documents) {
           response.documents.forEach((doc) => {
@@ -89,39 +104,38 @@ class Comments extends React.Component<void, CommentsProps, CommentsState> {
   createFormattedCommentList() {
     const { commentList } = this.state;
     const loggedInUser = AuthUtils.getUserName(AuthUtils.getSavedUser());
-    const formattedCommentList = [];
+    let formattedCommentList = [];
+
     if (commentList && commentList.length > 0) {
-      commentList.forEach((comment) => {
+      formattedCommentList = commentList.map((comment) => {
         const isCommentByLoggedInUser = (comment.username === loggedInUser);
         const removeCommentOption = isCommentByLoggedInUser && (
           <Glyphicon
-            glyph="trash"
+            glyph="remove-circle"
             onClick={() => {
               this.deleteComment(comment.id);
             }}
-            style={{ fontSize: '1em', color: '#003c7e', cursor: 'pointer' }}
+            style={{ fontSize: '1.2em', color: '#003c7e', cursor: 'pointer' }}
             title="Delete this comment"
           />
         );
-        formattedCommentList.push(
-          <div key={comment.id}>
+
+        return (
+          <div key={comment.id} style={{ paddingBottom: '0.6em' }}>
             <div
               style={{ color: '#484848', backgroundColor: '#F5F5F5', borderRadius: '5px' }}
               title={comment.timestamp}
             >
-              <div style={{ padding: '0.5em' }}>
-                <b> <i> {comment.username} </i> </b>
+              <div style={{ padding: '0.5em', color: 'gray' }}>
                 <div style={{ float: 'right' }}>
                   { removeCommentOption }
                 </div>
-                <br />
                 <span style={{ whiteSpace: 'pre-wrap' }}>
-                  {comment.text}
+                  {comment.text} <i> — {comment.username} </i>
                 </span>
               </div>
             </div>
-            <br />
-          </div>,
+          </div>
         );
       });
     }
@@ -147,12 +161,21 @@ class Comments extends React.Component<void, CommentsProps, CommentsState> {
       });
     }
   }
+  
+  getUserName() {
+    const currentUser = AuthUtils.getSavedUser();
+    if (currentUser) {
+      return AuthUtils.getUserName(currentUser);
+    } else {
+      return AuthUtils.getUserName(AuthUtils.getLoggedInUserInfo());
+    }
+  }
 
   saveComment() {
-    const { docId } = this.props;
+    const { docId, commentsTable, zoneName } = this.props;
     const { comment } = this.state;
     const { searcher } = this.context;
-    const username = AuthUtils.getUserName(AuthUtils.getSavedUser());
+    const username = this.getUserName();
     const d = new Date();
     const loggedDateTime = d.toISOString();
     const id = username.concat(loggedDateTime);
@@ -162,9 +185,10 @@ class Comments extends React.Component<void, CommentsProps, CommentsState> {
         docId_s: [docId],
         username_s: [username],
         date: [loggedDateTime],
-        table: ['comments'],
+        table: [commentsTable],
       },
       id,
+      zone: zoneName,
     };
     searcher.search.addOrDeleteDocument(JSON.parse(JSON.stringify(body)), this.getComments);
   }
@@ -183,14 +207,15 @@ class Comments extends React.Component<void, CommentsProps, CommentsState> {
       return formattedCommentList;
     }
     return (
-      <div style={{ width: '100%', textAlign: 'center', padding: '1em', color: 'gray' }}>
-        <i> No Comments Available </i>
+      <div className="none">
+        <i> No comments yet </i>
       </div>
     );
   }
 
   renderCommentModal() {
     const { showCommentModal, comment } = this.state;
+    const disableButtons = comment && comment.length > 0 ? false : true;
     return (
       <Modal
         show={showCommentModal}
@@ -198,10 +223,16 @@ class Comments extends React.Component<void, CommentsProps, CommentsState> {
         backdrop="static"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add or View Comments</Modal.Title>
+          <Modal.Title>Comments</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
+            <Col xs={12} sm={12} md={12} lg={12} style={{ paddingBottom: '1em' }}>
+              <h5 style={{ borderBottom: '1px solid lightgray', fontWeight: 'bold' }}> Previously Added Comments : </h5>
+              <div style={{ width: '100%', maxHeight: '50vh', overflowY: 'auto' }}>
+                {this.renderComments()}
+              </div>
+            </Col>
             <Col xs={12} sm={12} md={12} lg={12}>
               <textarea
                 onChange={this.captureComment}
@@ -210,22 +241,14 @@ class Comments extends React.Component<void, CommentsProps, CommentsState> {
                 rows={5}
               />
               <div style={{ float: 'right' }}>
-                <Button onClick={this.clearComment}>
+                <Button onClick={this.clearComment} disabled={disableButtons}>
                   Clear
                 </Button>
                 &nbsp;
-                <Button onClick={this.saveComment}>
+                <Button onClick={this.saveComment} disabled={disableButtons}>
                   Add Comment
                 </Button>
               </div>
-            </Col>
-            <Col xs={12} sm={12} md={12} lg={12}>
-              <br />
-              <br />
-            </Col>
-            <Col xs={12} sm={12} md={12} lg={12}>
-              <h5 style={{ borderBottom: '1px solid lightgray', fontWeight: 'bold' }}> Previously Added Comments : </h5>
-              {this.renderComments()}
             </Col>
           </Row>
         </Modal.Body>
@@ -241,14 +264,15 @@ class Comments extends React.Component<void, CommentsProps, CommentsState> {
   renderCommentLink() {
     const { commentList } = this.state;
     const commentCount = commentList && commentList.length > 0 ? commentList.length : 0;
-    const commentLabel = commentCount > 0 ? `Comment (${commentCount})` : 'Comment';
+    const commentLabelFormat = `Add a comment | 1 Comment | ${commentCount} Comments`;
+    const commentLabel = StringUtils.fmt(commentLabelFormat, commentCount);
     return (
       <a
         className="attivio-tags-more"
         onClick={this.showCommentModal}
         role="button"
         tabIndex={0}
-        title="Add/View Comments"
+        title="Edit comments"
       >
         {commentLabel}
       </a>
