@@ -164,6 +164,7 @@ module.exports = {
               'src/components/FacetInsights.js',
               'src/components/FacetResults.js',
               'src/components/FacetSearchBar.js',
+              'src/components/FacetTabs.js',
               'src/components/HierarchicalFacetContents.js',
               'src/components/ListWithBarsFacetContents.js',
               'src/components/MapFacetContents.js',

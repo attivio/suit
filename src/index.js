@@ -79,6 +79,7 @@ export Facet from './components/Facet';
 export FacetInsights from './components/FacetInsights';
 export FacetResults from './components/FacetResults';
 export FacetSearchBar from './components/FacetSearchBar';
+export FacetTabs from './components/FacetTabs';
 export FormattedDate from './components/FormattedDate';
 export GridLayout from './components/GridLayout';
 export Header360 from './components/Header360';
