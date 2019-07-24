@@ -10,7 +10,7 @@ type Subheader360Props = {
   label: string;
   /**
    * Optional tooltip string. If provided, an infomation icon will be displayed next to
-   * the subheader with a tooltip containing this string. 
+   * the subheader with a tooltip containing this string.
    */
   tooltip?: string;
 };
