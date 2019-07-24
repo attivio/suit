@@ -10,7 +10,7 @@ applications on top of the index in an Attivio, Elasticsearch or Solr installati
 SUIT is built using React and is intended to be used by other applications also using React. To ensure your application functions as expected, the version of react in your application should match the version of react used in the version of suit you are using.
 
 SUIT v0.1.x - Uses React `v15.6.2`.
-SUIT v1.x.x - Uses React `v16.8.3`.
+SUIT v1.x.x - Uses React `v16.8.6`.
 
 For more information on updating from react 15 to react 16 in your own library see the react docs:
 https://github.com/facebook/react/releases?after=16.1.0-rc
