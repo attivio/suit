@@ -46,7 +46,7 @@ type SearcherProps = {
 
   /**
    * The engine backing the SUIT application. Defaults to 'attivio'.
-   * Set to 'solr' or 'elastic' to use one of those engines instesd.
+   * Set to 'solr' or 'elastic' to use one of those engines instead.
    */
   searchEngineType: 'attivio' | 'solr' | 'elastic';
   /**
@@ -204,6 +204,7 @@ type SearcherState = {
   resultsPerPage: number;
   resultsOffset: number;
   debug: boolean;
+  isSearching: boolean;
 };
 
 /**
@@ -391,6 +392,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       resultsPerPage: parseInt(this.props.resultsPerPage, 10),
       resultsOffset: 0,
       debug: this.props.debug,
+      isSearching: false,
     };
   }
 
@@ -549,6 +551,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     if (state.debug !== this.props.debug) {
       basicState.debug = state.debug;
     }
+    basicState.isSearching = this.state.isSearching;
 
     // See if there are any query parameters other than those set by the Searcher. If so, we want to maintain them.
     if (originalQueryString) {
@@ -563,6 +566,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         originalParsed.delete('sort');
         originalParsed.delete('relevancyModels');
         originalParsed.delete('debug');
+        originalParsed.delete('isSearching');
       }
       // Add any leftover fields back in to the basic state
       basicState = Object.assign({}, basicState, originalParsed);
@@ -572,10 +576,10 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   }
 
   /**
- * Given the query string from the location URL, parse it into the values of a SearcherState
- * object. Values which are missing are set to their default values. Any values in the
- * queryString which don't apply to the SearcherState are ignored.
- */
+   * Given the query string from the location URL, parse it into the values of a SearcherState
+   * object. Values which are missing are set to their default values. Any values in the
+   * queryString which don't apply to the SearcherState are ignored.
+   */
   parseLocationQueryStringToState(queryString: string): SearcherState {
     const parsed = QueryString.parse(queryString);
 
@@ -669,6 +673,11 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       debug = parsed.debug;
     }
 
+    let isSearching = false;
+    if (Object.prototype.hasOwnProperty.call(parsed, 'isSearching')) {
+      isSearching = parsed.isSearching === 'true';
+    }
+
     const result: SearcherState = {
       query,
       queryLanguage,
@@ -680,6 +689,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       relevancyModels,
       debug,
       haveSearched: this.state.haveSearched, // Make sure we don't change this
+      isSearching,
     };
 
     return result;
@@ -837,18 +847,26 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    */
   doSearch() {
     const qr = this.getQueryRequest();
-    this.search.search(qr, (response: QueryResponse | null, error: string | null) => {
-      this.updateSearchResults(response, error);
 
-      // potentially do window.scrollTo(0, 0)?
+    if (!this.state.isSearching) {
+      this.setState({ isSearching: true }, () => {
+        this.search.search(qr, (response: QueryResponse | null, error: string | null) => {
+          this.setState({ isSearching: false }, () => {
+            this.updateSearchResults(response, error);
 
-      // Update the URL if needed.
-      const oldQueryString = this.props.location.query;
-      const updatedQueryString = this.generateLocationQueryStringFromState(this.state, oldQueryString);
-      if (oldQueryString !== updatedQueryString) {
-        this.props.history.push(`?${updatedQueryString}`);
-      }
-    });
+            // potentially do window.scrollTo(0, 0)?
+
+            // Update the URL if needed.
+            const oldQueryString = this.props.location.query;
+            const updatedQueryString = this.generateLocationQueryStringFromState(this.state, oldQueryString);
+            if (oldQueryString !== updatedQueryString) {
+              this.props.history.push(`?${updatedQueryString}`);
+            }
+            this.updateSearchResults(response, error);
+          });
+        });
+      });
+    }
   }
 
   /**
@@ -900,7 +918,6 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       query,
     });
   }
-
 
   /**
    * Add multiple query filters (in AQL) to the query request.
