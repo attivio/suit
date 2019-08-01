@@ -956,7 +956,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     newFF.facetName = facetName;
     newFF.bucketLabel = bucketLabel;
     newFF.filter = filter;
-    this.addSignal(newFF, 1);
+    this.addFacetFilterSignal(newFF, 1);
 
     const updatedFacetFilters = [];
     const facetFilters = this.state.facetFilters;
@@ -979,7 +979,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   removeFacetFilter(removeFilter: FacetFilter) {
     const updatedFacetFilters = [];
     const facetFilters = this.state.facetFilters;
-    this.addSignal(removeFilter, 0);
+    this.addFacetFilterSignal(removeFilter, 0);
     facetFilters.forEach((facetFilter) => {
       if (facetFilter.filter !== removeFilter.filter) {
         updatedFacetFilters.push(facetFilter);
@@ -995,7 +995,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * When a filter is added, signal with weight 1 is created.
    * When a filter is removed, signal with weight 0 is created.
    */
-  addSignal(facetFilter: FacetFilter, weight: number) {
+  addFacetFilterSignal(facetFilter: FacetFilter, weight: number) {
     const { query, queryTimestamp } = this.state;
     const savedUser = AuthUtils.getSavedUser();
     const facets = this.state.response ? this.state.response.facets : null;
