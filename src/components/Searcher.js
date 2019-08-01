@@ -16,7 +16,6 @@ import SearchDocument from '../api/SearchDocument';
 import Signals from '../api/Signals';
 
 import ObjectUtils from '../util/ObjectUtils';
-import AuthUtils from '../util/AuthUtils';
 
 import Configurable from '../components/Configurable';
 import Configuration from '../components/Configuration';
@@ -996,10 +995,10 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * When a filter is removed, signal with weight 0 is created.
    */
   addFacetFilterSignal(facetFilter: FacetFilter, weight: number) {
-    const { query, queryTimestamp } = this.state;
-    const savedUser = AuthUtils.getSavedUser();
+    const queryDocuments = this.state.response ? this.state.response.documents : null;
+    const querySignal = queryDocuments ? queryDocuments[0].signal : null;
     const facets = this.state.response ? this.state.response.facets : null;
-    if (!savedUser || !facets) {
+    if (!querySignal || !facets) {
       return;
     }
     const facet = facets.find((searchFacet) => {
@@ -1014,13 +1013,13 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       return bucket.filter === facetFilter.filter;
     }) + 1; // index starts at 1
     signal.featureVector = '';
-    signal.locale = 'en';
-    signal.principal = `${AuthUtils.config.ALL.defaultRealm}:${savedUser.fullName}:${savedUser.userId}`;
-    signal.query = query;
-    signal.queryTimestamp = queryTimestamp;
-    signal.relevancyModelName = 'default';
-    signal.relevancyModelNames = ['default'];
-    signal.relevancyModelVersion = 1;
+    signal.locale = querySignal.locale;
+    signal.principal = querySignal.principal;
+    signal.query = querySignal.query;
+    signal.queryTimestamp = querySignal.queryTimestamp;
+    signal.relevancyModelName = querySignal.relevancyModelName;
+    signal.relevancyModelNames = querySignal.relevancyModelNames;
+    signal.relevancyModelVersion = querySignal.relevancyModelVersion;
     signal.signalTimestamp = Date.now();
     signal.ttl = false;
 
