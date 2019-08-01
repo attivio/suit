@@ -11,8 +11,12 @@ import SimpleQueryRequest from '../api/SimpleQueryRequest';
 import QueryResponse from '../api/QueryResponse';
 import FacetFilter from '../api/FacetFilter';
 import FieldNames from '../api/FieldNames';
+import SignalData from '../api/SignalData';
+import SearchDocument from '../api/SearchDocument';
+import Signals from '../api/Signals';
 
 import ObjectUtils from '../util/ObjectUtils';
+import AuthUtils from '../util/AuthUtils';
 
 import Configurable from '../components/Configurable';
 import Configuration from '../components/Configuration';
@@ -204,6 +208,7 @@ type SearcherState = {
   resultsPerPage: number;
   resultsOffset: number;
   debug: boolean;
+  queryTimestamp: number;
 };
 
 /**
@@ -391,6 +396,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       resultsPerPage: parseInt(this.props.resultsPerPage, 10),
       resultsOffset: 0,
       debug: this.props.debug,
+      queryTimestamp: 0,
     };
   }
 
@@ -503,11 +509,13 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     delete currentState.error;
     delete currentState.response;
     delete currentState.haveSearched;
+    delete currentState.queryTimestamp;
 
     const newState = Object.assign({}, compareWith);
     delete newState.error;
     delete newState.response;
     delete newState.haveSearched;
+    delete newState.queryTimestamp;
 
     return !ObjectUtils.deepEquals(currentState, newState);
   }
@@ -680,6 +688,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       relevancyModels,
       debug,
       haveSearched: this.state.haveSearched, // Make sure we don't change this
+      queryTimestamp: 0,
     };
 
     return result;
@@ -738,6 +747,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         response,
         error: undefined,
         haveSearched: true,
+        queryTimestamp: Date.now(),
       });
     } else if (error) {
       // Failed!
@@ -904,6 +914,10 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
 
   /**
    * Add multiple query filters (in AQL) to the query request.
+   * When DrawControl (in MapFacetContents) is re-enabled,
+   * ensure signal of type 'facet' is created when applying
+   * geofilters to the search.
+   * See PLAT-44214 for details of signals of type 'facet'.
    */
   addGeoFilters(filters: Array<string>) {
     let geoFilters = this.state.geoFilters.slice();
@@ -915,6 +929,10 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
 
   /**
    * Remove a query filter by name (in AQL) from the query request.
+   * When DrawControl (in MapFacetContents) is re-enabled,
+   * ensure signal of type 'facet' is created when removing
+   * geofilters from the search.
+   * See PLAT-44214 for details of signals of type 'facet'.
    */
   removeGeoFilter(filter: string) {
     const geoFilters = this.state.geoFilters.slice();
@@ -938,6 +956,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     newFF.facetName = facetName;
     newFF.bucketLabel = bucketLabel;
     newFF.filter = filter;
+    this.addSignal(newFF, 1);
 
     const updatedFacetFilters = [];
     const facetFilters = this.state.facetFilters;
@@ -960,6 +979,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   removeFacetFilter(removeFilter: FacetFilter) {
     const updatedFacetFilters = [];
     const facetFilters = this.state.facetFilters;
+    this.addSignal(removeFilter, 0);
     facetFilters.forEach((facetFilter) => {
       if (facetFilter.filter !== removeFilter.filter) {
         updatedFacetFilters.push(facetFilter);
@@ -968,6 +988,44 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     this.updateStateResetAndSearch({
       facetFilters: updatedFacetFilters,
     });
+  }
+
+  /**
+   * Add signal each time a filter is added/removed.
+   * When a filter is added, signal with weight 1 is created.
+   * When a filter is removed, signal with weight 0 is created.
+   */
+  addSignal(facetFilter: FacetFilter, weight: number) {
+    const { query, queryTimestamp } = this.state;
+    const savedUser = AuthUtils.getSavedUser();
+    const facets = this.state.response ? this.state.response.facets : null;
+    if (!savedUser || !facets) {
+      return;
+    }
+    const facet = facets.find((searchFacet) => {
+      return searchFacet.label === facetFilter.facetName;
+    });
+    if (!facet) {
+      return;
+    }
+    const signal = new SignalData();
+    signal.docId = facetFilter.filter;
+    signal.docOrdinal = facet.buckets.findIndex((bucket) => {
+      return bucket.filter === facetFilter.filter;
+    }) + 1; // index starts at 1
+    signal.featureVector = '';
+    signal.locale = 'en';
+    signal.principal = `${AuthUtils.config.ALL.defaultRealm}:${savedUser.fullName}:${savedUser.userId}`;
+    signal.query = query;
+    signal.queryTimestamp = queryTimestamp;
+    signal.relevancyModelName = 'default';
+    signal.relevancyModelNames = ['default'];
+    signal.relevancyModelVersion = 1;
+    signal.signalTimestamp = Date.now();
+    signal.ttl = false;
+
+    const doc = new SearchDocument(new Map(), signal);
+    new Signals(this.props.baseUri).addSignal(doc, 'facet', weight);
   }
 
   /**
