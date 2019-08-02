@@ -200,15 +200,20 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
 
       const points = this.props.buckets.map((bucket) => {
         const value = bucket.value; // JSON.parse(bucket.value);
-        let longitude = 0;
-        let latitude = 0;
+        let longitude = NaN;
+        let latitude = NaN;
         if (typeof value === 'string') {
           const valueArr = value.split(',');
-          longitude = valueArr[0];
-          latitude = valueArr[1];
+          if (valueArr.length === 2) {
+            longitude = Number.parseFloat(valueArr[0]);
+            latitude = Number.parseFloat(valueArr[1]);
+          }
         } else {
           longitude = value.longitude;
           latitude = value.latitude;
+        }
+        if (isNaN(longitude) || isNaN(latitude)) {
+          return null;
         }
         // Keep track of the boundaries of the coordinates
         return (
