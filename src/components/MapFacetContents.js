@@ -199,7 +199,7 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
       });
 
       const points = this.props.buckets.map((bucket) => {
-        const value = bucket.value; // JSON.parse(bucket.value);
+        const value = bucket.value;
         let longitude = NaN;
         let latitude = NaN;
         if (typeof value === 'string') {
@@ -212,7 +212,7 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
           longitude = value.longitude;
           latitude = value.latitude;
         }
-        if (isNaN(longitude) || isNaN(latitude)) {
+        if (Number.isNaN(longitude) || Number.isNaN(latitude)) {
           return null;
         }
         // Keep track of the boundaries of the coordinates
