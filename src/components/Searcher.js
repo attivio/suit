@@ -12,7 +12,6 @@ import QueryResponse from '../api/QueryResponse';
 import FacetFilter from '../api/FacetFilter';
 import FieldNames from '../api/FieldNames';
 import SignalData from '../api/SignalData';
-import SearchDocument from '../api/SearchDocument';
 import Signals from '../api/Signals';
 
 import ObjectUtils from '../util/ObjectUtils';
@@ -207,7 +206,6 @@ type SearcherState = {
   resultsPerPage: number;
   resultsOffset: number;
   debug: boolean;
-  queryTimestamp: number;
 };
 
 /**
@@ -395,7 +393,6 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       resultsPerPage: parseInt(this.props.resultsPerPage, 10),
       resultsOffset: 0,
       debug: this.props.debug,
-      queryTimestamp: 0,
     };
   }
 
@@ -508,13 +505,11 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     delete currentState.error;
     delete currentState.response;
     delete currentState.haveSearched;
-    delete currentState.queryTimestamp;
 
     const newState = Object.assign({}, compareWith);
     delete newState.error;
     delete newState.response;
     delete newState.haveSearched;
-    delete newState.queryTimestamp;
 
     return !ObjectUtils.deepEquals(currentState, newState);
   }
@@ -687,7 +682,6 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       relevancyModels,
       debug,
       haveSearched: this.state.haveSearched, // Make sure we don't change this
-      queryTimestamp: 0,
     };
 
     return result;
@@ -746,7 +740,6 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         response,
         error: undefined,
         haveSearched: true,
-        queryTimestamp: Date.now(),
       });
     } else if (error) {
       // Failed!
@@ -996,7 +989,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    */
   addFacetFilterSignal(facetFilter: FacetFilter, weight: number) {
     const queryDocuments = this.state.response ? this.state.response.documents : null;
-    const querySignal = queryDocuments ? queryDocuments[0].signal : null;
+    const querySignal = queryDocuments && queryDocuments.length >= 1 ? queryDocuments[0].signal : null;
     const facets = this.state.response ? this.state.response.facets : null;
     if (!querySignal || !facets) {
       return;
@@ -1022,9 +1015,10 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     signal.relevancyModelVersion = querySignal.relevancyModelVersion;
     signal.signalTimestamp = Date.now();
     signal.ttl = false;
+    signal.type = 'facet';
+    signal.weight = weight;
 
-    const doc = new SearchDocument(new Map(), signal);
-    new Signals(this.props.baseUri).addSignal(doc, 'facet', weight);
+    new Signals(this.props.baseUri).addRawSignal(signal);
   }
 
   /**

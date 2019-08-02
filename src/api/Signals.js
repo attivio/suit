@@ -1,6 +1,7 @@
 // @flow
 
 import SearchDocument from './SearchDocument';
+import SignalData from './SignalData';
 import FetchUtils from '../util/FetchUtils';
 
 /**
@@ -34,6 +35,21 @@ export default class Signals {
         }
       };
       FetchUtils.fetch(uri, updatedSignal, callback, 'POST', 'Failed to submit signal');
+    }
+  }
+
+  /**
+   * Add a signal for the given document.
+   */
+  addRawSignal(signal: SignalData) {
+    if (signal) {
+      const uri = `${this.baseUri}/rest/signals/add`;
+      const callback = (response: any | null, error: string | null) => {
+        if (error) {
+          console.warn('Failed to submit signal', signal, error);
+        }
+      };
+      FetchUtils.fetch(uri, signal, callback, 'POST', 'Failed to submit signal');
     }
   }
 }
