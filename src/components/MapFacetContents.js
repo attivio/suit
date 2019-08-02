@@ -200,14 +200,24 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
 
       const points = this.props.buckets.map((bucket) => {
         const value = bucket.value; // JSON.parse(bucket.value);
+        let longitude = 0;
+        let latitude = 0;
+        if (typeof value === 'string') {
+          const valueArr = value.split(',');
+          longitude = valueArr[0];
+          latitude = valueArr[1];
+        } else {
+          longitude = value.longitude;
+          latitude = value.latitude;
+        }
         // Keep track of the boundaries of the coordinates
         return (
           <Marker
-            coordinates={[value.longitude || 0, value.latitude || 0]}
+            coordinates={[longitude || 0, latitude || 0]}
             onClick={() => {
               this.props.addFacetFilter(bucket);
             }}
-            key={`${value.longitude || 0},${value.latitude || 0}`}
+            key={`${longitude || 0},${latitude || 0}`}
             style={{ cursor: 'pointer' }}
           >
             <Glyphicon glyph="map-marker" style={{ fontSize: '18px', color: '#2a689c' }} />
