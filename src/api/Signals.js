@@ -39,7 +39,7 @@ export default class Signals {
   }
 
   /**
-   * Add a signal for the given document.
+   * Add a signal for the given SignalData.
    */
   addRawSignal(signal: SignalData) {
     if (signal) {
