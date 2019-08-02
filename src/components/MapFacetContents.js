@@ -218,11 +218,11 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
         // Keep track of the boundaries of the coordinates
         return (
           <Marker
-            coordinates={[longitude || 0, latitude || 0]}
+            coordinates={[longitude, latitude]}
             onClick={() => {
               this.props.addFacetFilter(bucket);
             }}
-            key={`${longitude || 0},${latitude || 0}`}
+            key={`${longitude},${latitude}`}
             style={{ cursor: 'pointer' }}
           >
             <Glyphicon glyph="map-marker" style={{ fontSize: '18px', color: '#2a689c' }} />
