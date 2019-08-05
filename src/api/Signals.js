@@ -27,14 +27,8 @@ export default class Signals {
    */
   addSignal(doc: SearchDocument, type: string = 'click', weight: number = 1) {
     if (doc.signal) {
-      const uri = `${this.baseUri}/rest/signals/add`;
-      const updatedSignal = Object.assign({}, doc.signal, { type, weight });
-      const callback = (response: any | null, error: string | null) => {
-        if (error) {
-          console.warn('Failed to submit signal', updatedSignal, error);
-        }
-      };
-      FetchUtils.fetch(uri, updatedSignal, callback, 'POST', 'Failed to submit signal');
+      const updatedSignal = SignalData.fromJson(Object.assign({}, doc.signal, { type, weight }));
+      this.addRawSignal(updatedSignal);
     }
   }
 
