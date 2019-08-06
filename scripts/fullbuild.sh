@@ -8,7 +8,7 @@ rm -rf  node_modules && \
 rm -rf es && \
 rm -rf lib && \
 rm -rf styleguide && \
-npm install && \ 
+npm ci && \ 
 npm run lint && \
 npm run flow && \ 
 npm run validatecomponents && \
