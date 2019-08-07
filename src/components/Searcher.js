@@ -930,22 +930,22 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   /**
    * Add a facet filter to the current search. Will repeat the search
    * if it's already been performed. Note that if a filter for the
-   * same facet name already exists, it will be replaced with the
-   * new one.
+   * same facet name already exists, it will add the new filter
+   * instead of replacing.
    */
   addFacetFilter(facetName: string, bucketLabel: string, filter: string) {
+    const updatedFacetFilters = this.state.facetFilters ? this.state.facetFilters : [];
+    const filterAlreadyExisting = updatedFacetFilters.some((facetFilter: FacetFilter) => {
+      return facetFilter.filter === filter;
+    });
+    if (filterAlreadyExisting) {
+      return;
+    }
     const newFF = new FacetFilter();
     newFF.facetName = facetName;
     newFF.bucketLabel = bucketLabel;
     newFF.filter = filter;
 
-    const updatedFacetFilters = [];
-    const facetFilters = this.state.facetFilters;
-    facetFilters.forEach((facetFilter) => {
-      if (facetFilter.facetName !== facetName) {
-        updatedFacetFilters.push(facetFilter);
-      }
-    });
     updatedFacetFilters.push(newFF);
     this.updateStateResetAndSearch({
       facetFilters: updatedFacetFilters,
