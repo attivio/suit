@@ -202,6 +202,7 @@ type SearcherState = {
   profile: string | null,
   facetFilters: Array<FacetFilter>,
   geoFilters: Array<string>,
+  filters: Array<string>,
   resultsPerPage: number,
   resultsOffset: number,
   debug: boolean,
@@ -395,6 +396,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       profile: this.props.businessCenterProfile,
       facetFilters: [],
       geoFilters: [],
+      filters: [],
       resultsPerPage: parseInt(this.props.resultsPerPage, 10),
       resultsOffset: 0,
       debug: this.props.debug,
@@ -417,7 +419,9 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     } else {
       qr.filters = [];
     }
-    if (this.props.queryFilter) {
+    if (this.state.filters) {
+      qr.filters.concat(this.state.filters);
+    } else if (this.props.queryFilter) {
       qr.filters.push(this.props.queryFilter);
     }
     if (this.props.locale) {
@@ -496,6 +500,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       response: undefined,
       facetFilters: [],
       geoFilters: [],
+      filters: [],
+      facets: [],
       query,
     });
   }
@@ -537,6 +543,9 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     if (state.geoFilters && state.geoFilters.length > 0) {
       basicState.geoFilters = state.geoFilters;
     }
+    if (state.filters && state.filters.length > 0) {
+      basicState.filters = state.filters;
+    }
     if (state.resultsPerPage !== this.props.resultsPerPage) {
       basicState.resultsPerPage = state.resultsPerPage;
     }
@@ -567,6 +576,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         originalParsed.delete('query');
         originalParsed.delete('queryLanguage');
         originalParsed.delete('geoFilters');
+        originalParsed.delete('filters');
         originalParsed.delete('resultsPerPage');
         originalParsed.delete('resultsOffset');
         originalParsed.delete('facetFilters');
@@ -608,6 +618,13 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       geoFilters = [];
     } else if (typeof geoFilters === 'string') {
       geoFilters = [geoFilters];
+    }
+
+    let filters = parsed.filters;
+    if (!filters) {
+      filters = [];
+    } else if (typeof filters === 'string') {
+      filters = [filters];
     }
 
     // Get the number of results per page (as a positive integer)
@@ -691,6 +708,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       query,
       queryLanguage,
       geoFilters,
+      filters,
       resultsPerPage,
       resultsOffset,
       facetFilters,
@@ -877,6 +895,10 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     this.addGeoFilters([filter]);
   }
 
+  addFilter(filter: string) {
+    this.addFilters([filter]);
+  }
+
   /**
    * Perform a custom search given a query request. Calls the updateResults callback
    * and doesn't affect the state of the searcher itself.
@@ -919,6 +941,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       queryLanguage: advanced ? 'advanced' : 'simple',
       facetFilters: [],
       geoFilters: [],
+      filters: [],
       query,
     });
   }
@@ -934,6 +957,14 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     });
   }
 
+  addFilters(filtersList: Array<string>) {
+    let filters = this.state.filters.slice();
+    filters = filters.concat(filtersList);
+    this.updateStateResetAndSearch({
+      filters,
+    });
+  }
+
   /**
    * Remove a query filter by name (in AQL) from the query request.
    */
@@ -945,6 +976,17 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     }
     this.updateStateResetAndSearch({
       geoFilters,
+    });
+  }
+
+  removeFilter(filter: string) {
+    const filters = this.state.filters.slice();
+    const index = filters.indexOf(filter);
+    if (index !== -1) {
+      filters.splice(index, 1);
+    }
+    this.updateStateResetAndSearch({
+      filters,
     });
   }
 
