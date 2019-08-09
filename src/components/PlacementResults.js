@@ -19,7 +19,7 @@ export default class PlacementResults extends React.Component<void, {}, void> {
   renderResults() {
     const searcher = this.context.searcher;
     const response = searcher.state.response;
-    if (response && response.placements && response.documents.length > 0) {
+    if (response && response.placements) {
       const placements = response.placements;
       const results = [];
       let markupCount = 0;
