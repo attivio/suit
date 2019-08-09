@@ -290,7 +290,9 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
           >
             <ZoomControl position="bottom-right" />
             {/* DrawControl has no ES5 support yet, hence we won't use it until we have a fix for this.
-                Uncommenting below code would enable Polygon selection feature and render it in Chrome but won't render in IE11. */}
+                Uncommenting below code would enable Polygon selection feature and render it in Chrome but won't render in IE11.
+                When DrawControl is re-enabled, ensure signal of type 'facet' is created when applying geofilters to the search.
+                See PLAT-44214 for details on signals of type 'facet'. */}
             {/* <DrawControl
               controls={{
                 point: false,
