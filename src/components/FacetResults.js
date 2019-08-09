@@ -141,15 +141,10 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
    * Filter Buckets in Facet that are already applied to the search filters.
    * Buckets of type tagcloud and timeseries do not need to be filtered.
    */
-  filterFacetBuckets(facet: SearchFacet, type: string): SearchFacet {
+  filterFacetBuckets = (facet: SearchFacet, type: string, facetFiltersMap: Map<string, FacetFilter>): SearchFacet => {
     if (type === 'tagcloud' || type === 'timeseries') {
       return facet;
     }
-    const facetFilters = this.context.searcher.state.facetFilters;
-    const facetFiltersMap: Map<string, FacetFilter> = new Map();
-    facetFilters.forEach((facetFilter: FacetFilter) => {
-      facetFiltersMap.set(facetFilter.filter, facetFilter);
-    });
     const filteredBuckets = [];
     facet.buckets.forEach((bucket: SearchFacetBucket) => {
       if (!facetFiltersMap.get(bucket.filter)) {
@@ -167,12 +162,17 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
       facets.forEach((facet: SearchFacet) => {
         facetsMap.set(facet.name, facet);
       });
+      const facetFilters = this.context.searcher.state.facetFilters;
+      const facetFiltersMap: Map<string, FacetFilter> = new Map();
+      facetFilters.forEach((facetFilter: FacetFilter) => {
+        facetFiltersMap.set(facetFilter.filter, facetFilter);
+      });
       const results = [];
       this.props.orderHint.forEach((facetName) => {
         const facet = facetsMap.get(facetName);
         if (facet && this.shouldShow(facet)) {
           const type = this.getFacetDisplayType(facet.field);
-          const filteredFacet = this.filterFacetBuckets(facet, type);
+          const filteredFacet = this.filterFacetBuckets(facet, type, facetFiltersMap);
           results.push(<Facet
             facet={filteredFacet}
             type={type}
@@ -187,7 +187,7 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
         if (!this.props.orderHint.includes(facet.name)) {
           if (this.shouldShow(facet)) {
             const type = this.getFacetDisplayType(facet.field);
-            const filteredFacet = this.filterFacetBuckets(facet, type);
+            const filteredFacet = this.filterFacetBuckets(facet, type, facetFiltersMap);
             results.push(<Facet
               facet={filteredFacet}
               type={type}

@@ -7,10 +7,13 @@ export class TagCloudValue {
   label: string;
   /** The value for this item. */
   value: number;
+  /** Whether the tag should be clickable */
+  noLink: boolean;
 
-  constructor(label: string, value: number) {
+  constructor(label: string, value: number, noLink: boolean) {
     this.label = label;
     this.value = value;
+    this.noLink = noLink;
   }
 }
 
@@ -134,7 +137,8 @@ export default class TagCloud extends React.Component<TagCloudDefaultProps, TagC
       };
       const className = TagCloud.getClassNameForLevel(size);
       return (
-        this.props.noLink ? (<li key={tcv.label}>
+        (this.props.noLink || tcv.noLink) ? 
+        (<li key={tcv.label} className="attivio-cloud-noLink">
           <span className={className}>
             {tcv.label}
           </span>
