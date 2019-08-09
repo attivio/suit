@@ -935,12 +935,6 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    */
   addFacetFilter(facetName: string, bucketLabel: string, filter: string) {
     const updatedFacetFilters = this.state.facetFilters ? this.state.facetFilters : [];
-    const filterAlreadyExisting = updatedFacetFilters.some((facetFilter: FacetFilter) => {
-      return facetFilter.filter === filter;
-    });
-    if (filterAlreadyExisting) {
-      return;
-    }
     const newFF = new FacetFilter();
     newFF.facetName = facetName;
     newFF.bucketLabel = bucketLabel;

@@ -137,7 +137,7 @@ export default class TagCloud extends React.Component<TagCloudDefaultProps, TagC
       };
       const className = TagCloud.getClassNameForLevel(size);
       return (
-        (this.props.noLink || tcv.noLink) ? 
+        (this.props.noLink || tcv.noLink) ?
         (<li key={tcv.label} className="attivio-cloud-noLink">
           <span className={className}>
             {tcv.label}
