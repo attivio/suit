@@ -10,7 +10,6 @@ import MenuItem from 'react-bootstrap/lib/MenuItem';
 import Configurable from './Configurable';
 import AutoCompleteInput from './AutoCompleteInput';
 import SignalData from '../api/SignalData';
-import SearchDocument from '../api/SearchDocument';
 import AuthUtils from '../util/AuthUtils';
 import Signals from '../api/Signals';
 
@@ -205,10 +204,10 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     signal.relevancyModelVersion = 1;
     signal.signalTimestamp = Date.now();
     signal.ttl = false;
+    signal.type = 'autocomplete';
+    signal.weight = 1;
 
-    const doc = new SearchDocument(new Map(), signal);
-
-    new Signals(this.props.baseUri).addSignal(doc, 'autocomplete');
+    new Signals(this.props.baseUri).addRawSignal(signal);
   }
 
   updateQuery(newQuery: string, doSearch: boolean = false, signalData?: SignalData) {
