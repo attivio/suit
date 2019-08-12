@@ -199,15 +199,30 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
       });
 
       const points = this.props.buckets.map((bucket) => {
-        const value = bucket.value; // JSON.parse(bucket.value);
+        const value = bucket.value;
+        let longitude = NaN;
+        let latitude = NaN;
+        if (typeof value === 'string') {
+          const valueArr = value.split(',');
+          if (valueArr.length === 2) {
+            longitude = Number.parseFloat(valueArr[0]);
+            latitude = Number.parseFloat(valueArr[1]);
+          }
+        } else {
+          longitude = value.longitude;
+          latitude = value.latitude;
+        }
+        if (Number.isNaN(longitude) || Number.isNaN(latitude)) {
+          return null;
+        }
         // Keep track of the boundaries of the coordinates
         return (
           <Marker
-            coordinates={[value.longitude || 0, value.latitude || 0]}
+            coordinates={[longitude, latitude]}
             onClick={() => {
               this.props.addFacetFilter(bucket);
             }}
-            key={`${value.longitude || 0},${value.latitude || 0}`}
+            key={`${longitude},${latitude}`}
             style={{ cursor: 'pointer' }}
           >
             <Glyphicon glyph="map-marker" style={{ fontSize: '18px', color: '#2a689c' }} />
@@ -275,7 +290,9 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
           >
             <ZoomControl position="bottom-right" />
             {/* DrawControl has no ES5 support yet, hence we won't use it until we have a fix for this.
-                Uncommenting below code would enable Polygon selection feature and render it in Chrome but won't render in IE11. */}
+                Uncommenting below code would enable Polygon selection feature and render it in Chrome but won't render in IE11.
+                When DrawControl is re-enabled, ensure signal of type 'facet' is created when applying geofilters to the search.
+                See PLAT-44214 for details on signals of type 'facet'. */}
             {/* <DrawControl
               controls={{
                 point: false,
