@@ -1,8 +1,10 @@
 // @flow
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import SearchFacetBucket from '../api/SearchFacetBucket';
+import FacetFilter from '../api/FacetFilter';
 import TagCloud, { TagCloudValue } from './TagCloud';
 
 type TagCloudFacetContentsProps = {
@@ -32,6 +34,10 @@ export default class TagCloudFacetContents extends React.Component<TagCloudFacet
     noLink: false,
   };
 
+  static contextTypes = {
+    searcher: PropTypes.any,
+  };
+
   constructor(props: TagCloudFacetContentsProps) {
     super(props);
     (this: any).tagCloudCallback = this.tagCloudCallback.bind(this);
@@ -47,10 +53,24 @@ export default class TagCloudFacetContents extends React.Component<TagCloudFacet
     }
   }
 
+  /**
+   * Check if the search filter already has this bucket filter applied.
+   * The tag should be noLink or non-clickable if the respective tag is applied to the filter.
+   */
+  isTagNoLink(bucket: SearchFacetBucket): boolean {
+    const searcher = this.context.searcher;
+    const facetFilters = searcher ? searcher.state.facetFilters : [];
+    const isBucketFilterApplied = facetFilters.some((facetFilter: FacetFilter) => {
+      return facetFilter.filter === bucket.filter;
+    });
+    return isBucketFilterApplied;
+  }
+
   render() {
     const tagCloudValues = this.props.buckets.map((bucket) => {
       const bucketLabel = bucket.displayLabel();
-      return new TagCloudValue(bucketLabel, bucket.count);
+      const noLink = this.isTagNoLink(bucket);
+      return new TagCloudValue(bucketLabel, bucket.count, noLink);
     });
 
     return (
