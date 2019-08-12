@@ -58,7 +58,8 @@ export default class TagCloudFacetContents extends React.Component<TagCloudFacet
    * The tag should be noLink or non-clickable if the respective tag is applied to the filter.
    */
   isTagNoLink(bucket: SearchFacetBucket): boolean {
-    const facetFilters = this.context.searcher.state.facetFilters;
+    const searcher = this.context.searcher;
+    const facetFilters = searcher ? searcher.state.facetFilters : [];
     const isBucketFilterApplied = facetFilters.some((facetFilter: FacetFilter) => {
       return facetFilter.filter === bucket.filter;
     });
