@@ -6,6 +6,15 @@ If you are _publishing_ a new build of the library that has changes users will n
 
 If you are _using_ the SUIT library and want to upgrade to a newer version, please check here to see if there have been changes that will affect your project and, if there are, what you will need to do about them.
 
+## Version 1.0.1
+
+Update facet components to not render applied filters.
+Ensure promotions are rendered even if there are no search results.
+Allow (with configuraiton changes) adding signals when facet filters are applied or removed.
+Allow (with configuration changes)
+Fix issue with the Mabpox facet component where points were not showing up when running with Attivio 5.6.1.
+Fix the build script to use the `npm ci` command instead of `npm install` and documented this as the recommended behavior.
+
 ## Version 1.0.0
 
 Updates to react v.16.8.6.
