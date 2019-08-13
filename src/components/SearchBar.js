@@ -191,14 +191,11 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     if (!signalType || !savedUser) {
       return;
     }
-    const signal = new SignalData();
+    const signal = signalData.clone();
     signal.docId = query;
-    signal.docOrdinal = signalData.docOrdinal;
     signal.featureVector = '';
     signal.locale = 'en';
     signal.principal = `${AuthUtils.config.ALL.defaultRealm}:${savedUser.fullName}:${savedUser.userId}`;
-    signal.query = signalData.query;
-    signal.queryTimestamp = signalData.queryTimestamp;
     signal.relevancyModelName = 'default';
     signal.relevancyModelNames = ['default'];
     signal.relevancyModelVersion = 1;

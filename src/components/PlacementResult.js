@@ -39,16 +39,19 @@ export default class PlacementResult extends React.Component<PlacementResultDefa
     searcher: PropTypes.any,
   };
 
-  onPromotionClick() {
+  onPromotionClick = () => {
     const { linkUrl, linkText, imageUrl } = this.props;
     const searcher = this.context.searcher;
-    const addPromotionSignal = searcher ? searcher.addPromotionSignal : null;
-    if (!addPromotionSignal) {
+    if (!searcher) {
       return;
     }
-    const signalDocId = imageUrl ? `${imageUrl}-${linkUrl || ''}` : `${linkText || ''}-${linkUrl || ''}`;
+    // The docId for the signal is of the format:
+    // '{Display Text} - {Destination Link}' -- if the promotion is Link
+    // '{Image URL} - {Destination Link}' -- if the promotion is Image
+    // The docOrdinal for link promotion is 1 and image promotion is 2
+    const signalDocId = imageUrl ? `${imageUrl} - ${linkUrl || ''}` : `${linkText || ''} - ${linkUrl || ''}`;
     const signalDocOrdinal = imageUrl ? 2 : 1;
-    addPromotionSignal(signalDocId, signalDocOrdinal);
+    searcher.addPromotionSignal(signalDocId, signalDocOrdinal);
   }
 
   renderMarkupIframe() {
@@ -100,7 +103,7 @@ export default class PlacementResult extends React.Component<PlacementResultDefa
     return (
       <Card style={{ marginBottom: '10px' }}>
         {this.props.linkUrl ? (
-          <a href={this.props.linkUrl} onClick={() => this.onPromotionClick()} >
+          <a href={this.props.linkUrl} onClick={this.onPromotionClick} >
             {contents}
           </a>
         ) : contents}

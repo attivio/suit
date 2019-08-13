@@ -515,13 +515,14 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     if (createNewIfNotExisting) {
       const savedUser = AuthUtils.getSavedUser();
       const defaultSignalData = new SignalData();
+      const { query, queryTimestamp, relevancyModels } = this.state;
       if (savedUser) {
         defaultSignalData.locale = 'en';
         defaultSignalData.principal = `${AuthUtils.config.ALL.defaultRealm}:${savedUser.fullName}:${savedUser.userId}`;
-        defaultSignalData.query = this.state.query;
-        defaultSignalData.queryTimestamp = this.state.queryTimestamp;
-        defaultSignalData.relevancyModelName = 'default';
-        defaultSignalData.relevancyModelNames = ['default'];
+        defaultSignalData.query = query;
+        defaultSignalData.queryTimestamp = queryTimestamp;
+        defaultSignalData.relevancyModelName = relevancyModels[0] || 'default';
+        defaultSignalData.relevancyModelNames = relevancyModels && relevancyModels.length > 0 ? relevancyModels : ['default'];
         defaultSignalData.relevancyModelVersion = 1;
       }
       return defaultSignalData;
@@ -987,7 +988,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     newFF.facetName = facetName;
     newFF.bucketLabel = bucketLabel;
     newFF.filter = filter;
-    this.addFacetFilterSignal(newFF, 1);
+    this.addFacetFilterSignal(newFF, true);
 
     updatedFacetFilters.push(newFF);
     this.updateStateResetAndSearch({
@@ -1003,7 +1004,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   removeFacetFilter(removeFilter: FacetFilter) {
     const updatedFacetFilters = [];
     const facetFilters = this.state.facetFilters;
-    this.addFacetFilterSignal(removeFilter, 0);
+    this.addFacetFilterSignal(removeFilter, false);
     facetFilters.forEach((facetFilter) => {
       if (facetFilter.filter !== removeFilter.filter) {
         updatedFacetFilters.push(facetFilter);
@@ -1019,7 +1020,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * When a filter is added, signal with weight 1 is created.
    * When a filter is removed, signal with weight 0 is created.
    */
-  addFacetFilterSignal(facetFilter: FacetFilter, weight: number) {
+  addFacetFilterSignal(facetFilter: FacetFilter, facetAdded: boolean) {
     const querySignal = this.getDefaultQuerySignal();
     const facets = this.state.response ? this.state.response.facets : null;
     if (!querySignal || !facets) {
@@ -1031,23 +1032,20 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     if (!facet) {
       return;
     }
-    const docIDSuffix = (weight === 1) ? '-add' : '-remove';
-    const signal = new SignalData();
+    // The signals for adding and removing the facet have the same docId and
+    // thus same signal is created for them. Thus, we add a suffix '|add' or '\remove'
+    // to denote whether the signal is for adding or removing facts and
+    // also to differentiate both the signals on backend.
+    const docIDSuffix = facetAdded ? '|add' : '|remove';
+    const signal = querySignal.clone();
     signal.docId = facetFilter.filter.concat(docIDSuffix);
     signal.docOrdinal = facet.buckets.findIndex((bucket) => {
       return bucket.filter === facetFilter.filter;
     }) + 1; // index starts at 1
     signal.featureVector = '';
-    signal.locale = querySignal.locale;
-    signal.principal = querySignal.principal;
-    signal.query = querySignal.query;
-    signal.queryTimestamp = querySignal.queryTimestamp;
-    signal.relevancyModelName = querySignal.relevancyModelName;
-    signal.relevancyModelNames = querySignal.relevancyModelNames;
-    signal.relevancyModelVersion = querySignal.relevancyModelVersion;
     signal.signalTimestamp = Date.now();
     signal.type = 'facet';
-    signal.weight = weight;
+    signal.weight = facetAdded ? 1 : 0;
 
     new Signals(this.props.baseUri).addRawSignal(signal);
   }
@@ -1060,17 +1058,10 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     if (!querySignal) {
       return;
     }
-    const signal = new SignalData();
+    const signal = querySignal.clone();
     signal.docId = signalDocID;
     signal.docOrdinal = signalDocOrdinal;
     signal.featureVector = '';
-    signal.locale = querySignal.locale;
-    signal.principal = querySignal.principal;
-    signal.query = querySignal.query;
-    signal.queryTimestamp = querySignal.queryTimestamp;
-    signal.relevancyModelName = querySignal.relevancyModelName;
-    signal.relevancyModelNames = querySignal.relevancyModelNames;
-    signal.relevancyModelVersion = querySignal.relevancyModelVersion;
     signal.signalTimestamp = Date.now();
     signal.type = 'promotion';
     signal.weight = 1;
