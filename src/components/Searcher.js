@@ -1008,7 +1008,6 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     signal.relevancyModelNames = querySignal.relevancyModelNames;
     signal.relevancyModelVersion = querySignal.relevancyModelVersion;
     signal.signalTimestamp = Date.now();
-    signal.ttl = false;
     signal.type = 'facet';
     signal.weight = weight;
 

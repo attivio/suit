@@ -203,7 +203,6 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     signal.relevancyModelNames = ['default'];
     signal.relevancyModelVersion = 1;
     signal.signalTimestamp = Date.now();
-    signal.ttl = false;
     signal.type = 'autocomplete';
     signal.weight = 1;
 
