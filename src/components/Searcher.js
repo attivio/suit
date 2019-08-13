@@ -14,6 +14,7 @@ import FieldNames from '../api/FieldNames';
 import SignalData from '../api/SignalData';
 import Signals from '../api/Signals';
 
+import AuthUtils from '../util/AuthUtils';
 import ObjectUtils from '../util/ObjectUtils';
 
 import Configurable from '../components/Configurable';
@@ -206,6 +207,7 @@ type SearcherState = {
   resultsPerPage: number;
   resultsOffset: number;
   debug: boolean;
+  queryTimestamp: number;
 };
 
 /**
@@ -393,6 +395,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       resultsPerPage: parseInt(this.props.resultsPerPage, 10),
       resultsOffset: 0,
       debug: this.props.debug,
+      queryTimestamp: 0,
     };
   }
 
@@ -496,6 +499,37 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   }
 
   /**
+   * Fetches the signal data from the first document of the response.
+   * If the document or the signal does not exist, and createNewIfNotExisting = true,
+   * a new SignalData object is created with default values populated.
+   */
+  getDefaultQuerySignal = (createNewIfNotExisting?: boolean = false) => {
+    const queryDocuments = this.state.response ? this.state.response.documents : null;
+    const querySignal = queryDocuments && queryDocuments.length >= 1 ? queryDocuments[0].signal : null;
+    if (querySignal) {
+      if (!querySignal.relevancyModelVersion) {
+        querySignal.relevancyModelVersion = 1;
+      }
+      return querySignal;
+    }
+    if (createNewIfNotExisting) {
+      const savedUser = AuthUtils.getSavedUser();
+      const defaultSignalData = new SignalData();
+      if (savedUser) {
+        defaultSignalData.locale = 'en';
+        defaultSignalData.principal = `${AuthUtils.config.ALL.defaultRealm}:${savedUser.fullName}:${savedUser.userId}`;
+        defaultSignalData.query = this.state.query;
+        defaultSignalData.queryTimestamp = this.state.queryTimestamp;
+        defaultSignalData.relevancyModelName = 'default';
+        defaultSignalData.relevancyModelNames = ['default'];
+        defaultSignalData.relevancyModelVersion = 1;
+      }
+      return defaultSignalData;
+    }
+    return null;
+  }
+
+  /**
    * Check to see if the old and new state differ, only comparing the
    * properties we care about (non-transient ones).
    */
@@ -505,11 +539,13 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     delete currentState.error;
     delete currentState.response;
     delete currentState.haveSearched;
+    delete currentState.queryTimestamp;
 
     const newState = Object.assign({}, compareWith);
     delete newState.error;
     delete newState.response;
     delete newState.haveSearched;
+    delete newState.queryTimestamp;
 
     return !ObjectUtils.deepEquals(currentState, newState);
   }
@@ -682,6 +718,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       relevancyModels,
       debug,
       haveSearched: this.state.haveSearched, // Make sure we don't change this
+      queryTimestamp: 0,
     };
 
     return result;
@@ -740,6 +777,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         response,
         error: undefined,
         haveSearched: true,
+        queryTimestamp: Date.now(),
       });
     } else if (error) {
       // Failed!
@@ -982,8 +1020,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * When a filter is removed, signal with weight 0 is created.
    */
   addFacetFilterSignal(facetFilter: FacetFilter, weight: number) {
-    const queryDocuments = this.state.response ? this.state.response.documents : null;
-    const querySignal = queryDocuments && queryDocuments.length >= 1 ? queryDocuments[0].signal : null;
+    const querySignal = this.getDefaultQuerySignal();
     const facets = this.state.response ? this.state.response.facets : null;
     if (!querySignal || !facets) {
       return;
@@ -1011,6 +1048,32 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     signal.signalTimestamp = Date.now();
     signal.type = 'facet';
     signal.weight = weight;
+
+    new Signals(this.props.baseUri).addRawSignal(signal);
+  }
+
+  /**
+   * Add signal each time a promotion is clicked.
+   */
+  addPromotionSignal = (signalDocID: string, signalDocOrdinal: number) => {
+    const querySignal = this.getDefaultQuerySignal(true);
+    if (!querySignal) {
+      return;
+    }
+    const signal = new SignalData();
+    signal.docId = signalDocID;
+    signal.docOrdinal = signalDocOrdinal;
+    signal.featureVector = '';
+    signal.locale = querySignal.locale;
+    signal.principal = querySignal.principal;
+    signal.query = querySignal.query;
+    signal.queryTimestamp = querySignal.queryTimestamp;
+    signal.relevancyModelName = querySignal.relevancyModelName;
+    signal.relevancyModelNames = querySignal.relevancyModelNames;
+    signal.relevancyModelVersion = querySignal.relevancyModelVersion;
+    signal.signalTimestamp = Date.now();
+    signal.type = 'promotion';
+    signal.weight = 1;
 
     new Signals(this.props.baseUri).addRawSignal(signal);
   }

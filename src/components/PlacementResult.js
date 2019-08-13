@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Card from './Card';
 
@@ -33,6 +34,22 @@ export default class PlacementResult extends React.Component<PlacementResultDefa
   }
 
   static displayName = 'PlacementResult';
+
+  static contextTypes = {
+    searcher: PropTypes.any,
+  };
+
+  onPromotionClick() {
+    const { linkUrl, linkText, imageUrl } = this.props;
+    const searcher = this.context.searcher;
+    const addPromotionSignal = searcher ? searcher.addPromotionSignal : null;
+    if (!addPromotionSignal) {
+      return;
+    }
+    const signalDocId = imageUrl ? `${imageUrl}-${linkUrl}` : `${linkText}-${linkUrl}`;
+    const signalDocOrdinal = imageUrl ? 2 : 1;
+    addPromotionSignal(signalDocId, signalDocOrdinal);
+  }
 
   renderMarkupIframe() {
     const getBlobURL = (code) => {
@@ -83,7 +100,7 @@ export default class PlacementResult extends React.Component<PlacementResultDefa
     return (
       <Card style={{ marginBottom: '10px' }}>
         {this.props.linkUrl ? (
-          <a href={this.props.linkUrl} >
+          <a href={this.props.linkUrl} onClick={() => this.onPromotionClick()} >
             {contents}
           </a>
         ) : contents}
