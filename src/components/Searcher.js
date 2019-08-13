@@ -994,8 +994,9 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     if (!facet) {
       return;
     }
+    const docIDSuffix = (weight === 1) ? '-add' : '-remove';
     const signal = new SignalData();
-    signal.docId = facetFilter.filter;
+    signal.docId = facetFilter.filter.concat(docIDSuffix);
     signal.docOrdinal = facet.buckets.findIndex((bucket) => {
       return bucket.filter === facetFilter.filter;
     }) + 1; // index starts at 1
