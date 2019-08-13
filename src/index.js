@@ -109,6 +109,7 @@ export NavbarButton from './components/NavbarButton';
 export NavbarFilter from './components/NavbarFilter';
 export NavbarOr from './components/NavbarOr';
 export NavbarProfileSelector from './components/NavbarProfileSelector';
+export NavbarWorkflowSelector from './components/NavbarWorkflowSelector';
 export NavbarResults from './components/NavbarResults';
 export NavbarSearch from './components/NavbarSearch';
 export NavbarSort from './components/NavbarSort';
