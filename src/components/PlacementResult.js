@@ -46,7 +46,7 @@ export default class PlacementResult extends React.Component<PlacementResultDefa
     if (!addPromotionSignal) {
       return;
     }
-    const signalDocId = imageUrl ? `${imageUrl}-${linkUrl}` : `${linkText}-${linkUrl}`;
+    const signalDocId = imageUrl ? `${imageUrl}-${linkUrl || ''}` : `${linkText || ''}-${linkUrl || ''}`;
     const signalDocOrdinal = imageUrl ? 2 : 1;
     addPromotionSignal(signalDocId, signalDocOrdinal);
   }
