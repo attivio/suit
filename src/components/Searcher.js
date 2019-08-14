@@ -1033,8 +1033,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       return;
     }
     // The signals for adding and removing the facet have the same docId and
-    // thus same signal is created for them. Thus, we add a suffix '|add' or '\remove'
-    // to denote whether the signal is for adding or removing facts and
+    // thus same signal is created for them. Thus, we add a suffix '|add' or '|remove'
+    // to denote whether the signal is for adding or removing facets and
     // also to differentiate both the signals on backend.
     const docIDSuffix = facetAdded ? '|add' : '|remove';
     const signal = querySignal.clone();
