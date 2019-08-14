@@ -399,6 +399,15 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     };
   }
 
+  getRelevancyModels(): string[] {
+    if (this.state.relevancyModels && this.state.relevancyModels.length > 0) {
+      return this.state.relevancyModels;
+    } else if (this.props.relevancyModels && this.props.relevancyModels.length > 0) {
+      return this.props.relevancyModels;
+    }
+    return [];
+  }
+
   /**
    * Use the properties of the Searcher component and the values from its
    * current state to generate a query request object that will be passed
@@ -431,11 +440,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     // the restParams property.
     const restParams = new Map();
     restParams.set('offset', [`${this.state.resultsOffset}`]);
-    if (this.state.relevancyModels && this.state.relevancyModels.length > 0) {
-      restParams.set('relevancymodelnames', [this.state.relevancyModels.join(',')]);
-    } else if (this.props.relevancyModels && this.props.relevancyModels.length > 0) {
-      restParams.set('relevancymodelnames', [this.props.relevancyModels.join(',')]);
-    }
+    const relevancyModels = this.getRelevancyModels();
+    restParams.set('relevancymodelnames', [relevancyModels.join(',')]);
     restParams.set('includemetadatainresponse', ['true']);
     if (this.props.highlightResults) {
       restParams.set('highlight', ['true']);
@@ -515,14 +521,15 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     if (createNewIfNotExisting) {
       const savedUser = AuthUtils.getSavedUser();
       const defaultSignalData = new SignalData();
-      const { query, queryTimestamp, relevancyModels } = this.state;
+      const { query, queryTimestamp } = this.state;
+      const relevancyModels = this.getRelevancyModels();
       if (savedUser) {
         defaultSignalData.locale = 'en';
         defaultSignalData.principal = `${AuthUtils.config.ALL.defaultRealm}:${savedUser.fullName}:${savedUser.userId}`;
         defaultSignalData.query = query;
         defaultSignalData.queryTimestamp = queryTimestamp;
         defaultSignalData.relevancyModelName = relevancyModels[0] || 'default';
-        defaultSignalData.relevancyModelNames = relevancyModels && relevancyModels.length > 0 ? relevancyModels : ['default'];
+        defaultSignalData.relevancyModelNames = relevancyModels.length > 0 ? relevancyModels : ['default'];
         defaultSignalData.relevancyModelVersion = 1;
       }
       return defaultSignalData;
