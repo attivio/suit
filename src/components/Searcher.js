@@ -399,7 +399,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     };
   }
 
-  getRelevancyModels(): string[] {
+  getRelevancyModels(): Array<string> {
     if (this.state.relevancyModels && this.state.relevancyModels.length > 0) {
       return this.state.relevancyModels;
     } else if (this.props.relevancyModels && this.props.relevancyModels.length > 0) {
@@ -528,8 +528,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         defaultSignalData.principal = `${AuthUtils.config.ALL.defaultRealm}:${savedUser.fullName}:${savedUser.userId}`;
         defaultSignalData.query = query;
         defaultSignalData.queryTimestamp = queryTimestamp;
-        defaultSignalData.relevancyModelName = relevancyModels[0] || 'default';
-        defaultSignalData.relevancyModelNames = relevancyModels.length > 0 ? relevancyModels : ['default'];
+        defaultSignalData.relevancyModelName = relevancyModels[0] || '';
+        defaultSignalData.relevancyModelNames = relevancyModels.length > 0 ? relevancyModels : [];
         defaultSignalData.relevancyModelVersion = 1;
       }
       return defaultSignalData;
