@@ -14,6 +14,7 @@ import FieldNames from '../api/FieldNames';
 import SignalData from '../api/SignalData';
 import Signals from '../api/Signals';
 
+import AuthUtils from '../util/AuthUtils';
 import ObjectUtils from '../util/ObjectUtils';
 
 import Configurable from '../components/Configurable';
@@ -206,6 +207,7 @@ type SearcherState = {
   resultsPerPage: number;
   resultsOffset: number;
   debug: boolean;
+  queryTimestamp: number;
 };
 
 /**
@@ -393,7 +395,17 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       resultsPerPage: parseInt(this.props.resultsPerPage, 10),
       resultsOffset: 0,
       debug: this.props.debug,
+      queryTimestamp: 0,
     };
+  }
+
+  getRelevancyModels(): Array<string> {
+    if (this.state.relevancyModels && this.state.relevancyModels.length > 0) {
+      return this.state.relevancyModels;
+    } else if (this.props.relevancyModels && this.props.relevancyModels.length > 0) {
+      return this.props.relevancyModels;
+    }
+    return [];
   }
 
   /**
@@ -428,11 +440,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     // the restParams property.
     const restParams = new Map();
     restParams.set('offset', [`${this.state.resultsOffset}`]);
-    if (this.state.relevancyModels && this.state.relevancyModels.length > 0) {
-      restParams.set('relevancymodelnames', [this.state.relevancyModels.join(',')]);
-    } else if (this.props.relevancyModels && this.props.relevancyModels.length > 0) {
-      restParams.set('relevancymodelnames', [this.props.relevancyModels.join(',')]);
-    }
+    const relevancyModels = this.getRelevancyModels();
+    restParams.set('relevancymodelnames', [relevancyModels.join(',')]);
     restParams.set('includemetadatainresponse', ['true']);
     if (this.props.highlightResults) {
       restParams.set('highlight', ['true']);
@@ -496,6 +505,39 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   }
 
   /**
+   * Fetches the signal data from the first document of the response.
+   * If the document or the signal does not exist, and createNewIfNotExisting = true,
+   * a new SignalData object is created with default values populated.
+   */
+  getDefaultQuerySignal = (createNewIfNotExisting?: boolean = false) => {
+    const queryDocuments = this.state.response ? this.state.response.documents : null;
+    const querySignal = queryDocuments && queryDocuments.length >= 1 ? queryDocuments[0].signal : null;
+    if (querySignal) {
+      if (!querySignal.relevancyModelVersion) {
+        querySignal.relevancyModelVersion = 1;
+      }
+      return querySignal;
+    }
+    if (createNewIfNotExisting) {
+      const savedUser = AuthUtils.getSavedUser();
+      const defaultSignalData = new SignalData();
+      const { query, queryTimestamp } = this.state;
+      const relevancyModels = this.getRelevancyModels();
+      if (savedUser) {
+        defaultSignalData.locale = 'en';
+        defaultSignalData.principal = `${AuthUtils.config.ALL.defaultRealm}:${savedUser.fullName}:${savedUser.userId}`;
+        defaultSignalData.query = query;
+        defaultSignalData.queryTimestamp = queryTimestamp;
+        defaultSignalData.relevancyModelName = relevancyModels[0] || '';
+        defaultSignalData.relevancyModelNames = relevancyModels.length > 0 ? relevancyModels : [];
+        defaultSignalData.relevancyModelVersion = 1;
+      }
+      return defaultSignalData;
+    }
+    return null;
+  }
+
+  /**
    * Check to see if the old and new state differ, only comparing the
    * properties we care about (non-transient ones).
    */
@@ -505,11 +547,13 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     delete currentState.error;
     delete currentState.response;
     delete currentState.haveSearched;
+    delete currentState.queryTimestamp;
 
     const newState = Object.assign({}, compareWith);
     delete newState.error;
     delete newState.response;
     delete newState.haveSearched;
+    delete newState.queryTimestamp;
 
     return !ObjectUtils.deepEquals(currentState, newState);
   }
@@ -682,6 +726,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       relevancyModels,
       debug,
       haveSearched: this.state.haveSearched, // Make sure we don't change this
+      queryTimestamp: 0,
     };
 
     return result;
@@ -740,6 +785,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         response,
         error: undefined,
         haveSearched: true,
+        queryTimestamp: Date.now(),
       });
     } else if (error) {
       // Failed!
@@ -949,7 +995,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     newFF.facetName = facetName;
     newFF.bucketLabel = bucketLabel;
     newFF.filter = filter;
-    this.addFacetFilterSignal(newFF, 1);
+    this.addFacetFilterSignal(newFF, true);
 
     updatedFacetFilters.push(newFF);
     this.updateStateResetAndSearch({
@@ -965,7 +1011,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   removeFacetFilter(removeFilter: FacetFilter) {
     const updatedFacetFilters = [];
     const facetFilters = this.state.facetFilters;
-    this.addFacetFilterSignal(removeFilter, 0);
+    this.addFacetFilterSignal(removeFilter, false);
     facetFilters.forEach((facetFilter) => {
       if (facetFilter.filter !== removeFilter.filter) {
         updatedFacetFilters.push(facetFilter);
@@ -981,9 +1027,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * When a filter is added, signal with weight 1 is created.
    * When a filter is removed, signal with weight 0 is created.
    */
-  addFacetFilterSignal(facetFilter: FacetFilter, weight: number) {
-    const queryDocuments = this.state.response ? this.state.response.documents : null;
-    const querySignal = queryDocuments && queryDocuments.length >= 1 ? queryDocuments[0].signal : null;
+  addFacetFilterSignal(facetFilter: FacetFilter, facetAdded: boolean) {
+    const querySignal = this.getDefaultQuerySignal();
     const facets = this.state.response ? this.state.response.facets : null;
     if (!querySignal || !facets) {
       return;
@@ -994,23 +1039,39 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     if (!facet) {
       return;
     }
-    const signal = new SignalData();
-    signal.docId = facetFilter.filter;
+    // The signals for adding and removing the facet have the same docId and
+    // thus same signal is created for them. Thus, we add a suffix '|add' or '|remove'
+    // to denote whether the signal is for adding or removing facets and
+    // also to differentiate both the signals on backend.
+    const docIDSuffix = facetAdded ? '|add' : '|remove';
+    const signal = querySignal.clone();
+    signal.docId = facetFilter.filter.concat(docIDSuffix);
     signal.docOrdinal = facet.buckets.findIndex((bucket) => {
       return bucket.filter === facetFilter.filter;
     }) + 1; // index starts at 1
     signal.featureVector = '';
-    signal.locale = querySignal.locale;
-    signal.principal = querySignal.principal;
-    signal.query = querySignal.query;
-    signal.queryTimestamp = querySignal.queryTimestamp;
-    signal.relevancyModelName = querySignal.relevancyModelName;
-    signal.relevancyModelNames = querySignal.relevancyModelNames;
-    signal.relevancyModelVersion = querySignal.relevancyModelVersion;
     signal.signalTimestamp = Date.now();
-    signal.ttl = false;
     signal.type = 'facet';
-    signal.weight = weight;
+    signal.weight = facetAdded ? 1 : 0;
+
+    new Signals(this.props.baseUri).addRawSignal(signal);
+  }
+
+  /**
+   * Add signal each time a promotion is clicked.
+   */
+  addPromotionSignal = (signalDocID: string, signalDocOrdinal: number) => {
+    const querySignal = this.getDefaultQuerySignal(true);
+    if (!querySignal) {
+      return;
+    }
+    const signal = querySignal.clone();
+    signal.docId = signalDocID;
+    signal.docOrdinal = signalDocOrdinal;
+    signal.featureVector = '';
+    signal.signalTimestamp = Date.now();
+    signal.type = 'promotion';
+    signal.weight = 1;
 
     new Signals(this.props.baseUri).addRawSignal(signal);
   }
