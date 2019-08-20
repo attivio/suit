@@ -162,7 +162,6 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
           isLoading: true,
           open: true,
           error: '',
-          suggestions: [],
           queryValue: query,
           userInput: query,
           queryTimestamp: Date.now(),
