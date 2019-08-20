@@ -266,18 +266,14 @@ export default class StringUtils {
       const matchStart = matchEnd - thisMatch.length;
       const preceeding = original.substring(pos, matchStart);
       const cleanPreceeding = StringUtils.stripPunctuation(preceeding);
-      // result += ' ::::: ';
       result += cleanPreceeding; // If anyhthing came before this match, add it to the result
-      // result += ' ::::: ';
       result += match[0];
       pos = matchEnd;
     }
 
-    // result += ' ::::: ';
     const remainder = original.substring(pos);
     const cleanRemainder = StringUtils.stripPunctuation(remainder);
     result += cleanRemainder;
-    // result += ' ::::: ';
 
     return StringUtils.coalesceWhitespace(result);
   }
