@@ -59,4 +59,82 @@ describe('Test StringUtils', () => {
     expect(StringUtils.formatNumber('0:1 Ringy-Dingy|{} Ringy-Dingies', 1)).toBe('1 Ringy-Dingy');
     expect(StringUtils.formatNumber('0:1 Ringy-Dingy|{} Ringy-Dingies', 7)).toBe('7 Ringy-Dingies');
   });
+
+  it('Can strip punctuation characters', () => {
+    expect(StringUtils.stripPunctuation('and there are floating-point numbers like 123.582 and .0921 there'))
+      .toEqual('and there are floating point numbers like 123.582 and .0921 there');
+    expect(StringUtils.stripPunctuation('this period has punctuation.-after it'))
+      .toEqual('this period has punctuation  after it');
+    expect(StringUtils.stripPunctuation('sentence one. sentence two.'))
+      .toEqual('sentence one  sentence two ');
+  });
+
+  it('Can coalesce whitespace', () => {
+    expect(StringUtils.coalesceWhitespace('-this is some text 我们的车子是红 你们的车子是是 ： 中文 「毛 ？there are part numbers like BC-3-29 and like test@gmail.com & and     test2@gmail.com (  and there are floating-point numbers    like 123.582 and .0921 there')) // eslint-disable-line max-len
+      .toEqual('-this is some text 我们的车子是红 你们的车子是是 ： 中文 「毛 ？there are part numbers like BC-3-29 and like test@gmail.com & and test2@gmail.com ( and there are floating-point numbers like 123.582 and .0921 there'); // eslint-disable-line max-len
+  });
+
+  it('Can detect punctuation', () => {
+    expect(StringUtils.isPunctuation('.')).toBe(true);
+    expect(StringUtils.isPunctuation(':')).toBe(true);
+    expect(StringUtils.isPunctuation('(')).toBe(true);
+    expect(StringUtils.isPunctuation('“')).toBe(true);
+    expect(StringUtils.isPunctuation('。')).toBe(true);
+    expect(StringUtils.isPunctuation('，')).toBe(true);
+    expect(StringUtils.isPunctuation('…')).toBe(true);
+    expect(StringUtils.isPunctuation('·')).toBe(true);
+    expect(StringUtils.isPunctuation('《')).toBe(true);
+    expect(StringUtils.isPunctuation('》')).toBe(true);
+    expect(StringUtils.isPunctuation('「')).toBe(true);
+    expect(StringUtils.isPunctuation('」')).toBe(true);
+    expect(StringUtils.isPunctuation('『')).toBe(true);
+    expect(StringUtils.isPunctuation('』')).toBe(true);
+    expect(StringUtils.isPunctuation('【')).toBe(true);
+    expect(StringUtils.isPunctuation('】')).toBe(true);
+    expect(StringUtils.isPunctuation('、')).toBe(true);
+    expect(StringUtils.isPunctuation('；')).toBe(true);
+    expect(StringUtils.isPunctuation('？')).toBe(true);
+    expect(StringUtils.isPunctuation('¿')).toBe(true);
+    expect(StringUtils.isPunctuation('A')).toBe(false);
+    expect(StringUtils.isPunctuation('7')).toBe(false);
+    expect(StringUtils.isPunctuation('汉')).toBe(false);
+    expect(StringUtils.isPunctuation('א')).toBe(false);
+  });
+
+  it('Can detect whitespace', () => {
+    expect(StringUtils.isWhitespace('.')).toBe(false);
+    expect(StringUtils.isWhitespace(' ')).toBe(true);
+    expect(StringUtils.isWhitespace('\t')).toBe(true);
+    expect(StringUtils.isWhitespace(' ')).toBe(true);
+  });
+
+  it('Can find hyphens with numbers around them', () => {
+    const bad = 'and there are floating-point numbers like 123.582 and .0921 there';
+    const good = 'like BC-3-29 and like';
+    expect(bad.substring(22, 23)).toEqual('-');
+    expect(StringUtils.isNumericOnlyAfter(bad, 22)).toBe(false);
+    expect(StringUtils.isNumericOnlyBefore(bad, 22)).toBe(false);
+    expect(StringUtils.isNumericOnlyAfter(good, 7)).toBe(true);
+    expect(StringUtils.isNumericOnlyBefore(good, 7)).toBe(false);
+    expect(StringUtils.isNumericOnlyAfter(good, 9)).toBe(true);
+    expect(StringUtils.isNumericOnlyBefore(good, 9)).toBe(true);
+  });
+
+  it('Can normalize autocomplete strings', () => {
+    expect(StringUtils.normalizeAutocompleteSuggestion('    ')).toEqual('');
+    expect(StringUtils.normalizeAutocompleteSuggestion('foo')).toEqual('foo');
+    expect(StringUtils.normalizeAutocompleteSuggestion('foo lvaldez@attivio.com')).toEqual('foo lvaldez@attivio.com');
+    expect(StringUtils.normalizeAutocompleteSuggestion('question?')).toEqual('question');
+    expect(StringUtils.normalizeAutocompleteSuggestion('part A-432-5-B')).toEqual('part A-432-5-B');
+    expect(StringUtils.normalizeAutocompleteSuggestion('192.424')).toEqual('192.424');
+    expect(StringUtils.normalizeAutocompleteSuggestion('.1234')).toEqual('.1234');
+    expect(StringUtils.normalizeAutocompleteSuggestion('why is my bank balance 723.28?')).toEqual('why is my bank balance 723.28');
+    expect(StringUtils.normalizeAutocompleteSuggestion('    this is some text—我们的车子是红。你们的车子是是…：【中文】「毛」？there are part numbers like BC-3-29 and like test@gmail.com&& and     test2@gmail.com((& and there are floating-point numbers    like 123.582 and .0921 there   ')) // eslint-disable-line max-len
+      .toEqual('this is some text 我们的车子是红 你们的车子是是 中文 毛 there are part numbers like BC-3-29 and like test@gmail.com and test2@gmail.com and there are floating point numbers like 123.582 and .0921 there'); // eslint-disable-line max-len
+  });
+
+  it('Can normalize autocomplete strings', () => {
+    expect(StringUtils.stripQuestionMarks('How you doin\'?')).toEqual('How you doin\' ');
+    expect(StringUtils.stripQuestionMarks('What? When? Where? Why? How?')).toEqual('What  When  Where  Why  How ');
+  });
 });

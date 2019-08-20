@@ -7,6 +7,7 @@ import { RootCloseWrapper } from 'react-overlays';
 import SignalData from '../api/SignalData';
 
 import FetchUtils from '../util/FetchUtils';
+import StringUtils from '../util/StringUtils';
 
 type AutoCompleteInputProps = {
   id: string;
@@ -162,7 +163,15 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
     signalData.docOrdinal = docOrdinal + 1;
     signalData.query = userInput;
     signalData.queryTimestamp = queryTimestamp;
-    updateValue(newQuery, doSearch, signalData);
+
+    const normalizedQuery = StringUtils.normalizeAutocompleteSuggestion(newQuery);
+
+    this.setState({
+      queryValue: normalizedQuery,
+      userInput: normalizedQuery,
+    }, () => {
+      updateValue(normalizedQuery, doSearch, signalData);
+    });
   }
 
   doKeyPress(event: Event & { currentTarget: HTMLInputElement, keyCode: number }) {
