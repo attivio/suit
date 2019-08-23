@@ -7,17 +7,67 @@ import { RootCloseWrapper } from 'react-overlays';
 import SignalData from '../api/SignalData';
 
 import FetchUtils from '../util/FetchUtils';
+import StringUtils from '../util/StringUtils';
 
 type AutoCompleteInputProps = {
+  /**
+   * The ID to give the outer dropdown component for the
+   * menu of suggestions. Defaults to "autocomplete" and only
+   * needs to be provided (with unique values) if there are
+   * multiple AutoCompleteInput components on the same page.
+   */
   id: string;
+  /**
+   * The URI to call to get the list of autocomplete suggestions for
+   * the text the user has typed. It will be passed a single parameter
+   * called "term" that contains the user's query. The call should return
+   * an array of objects which each contain a "label" property containing
+   * the text of the suggestion.
+   */
   uri: string | null;
+  /**
+   * The callback used when the user edits the text in the <input> element
+   * or chooses an item from the suggestion menu. If a suggestion is chosen,
+   * then the doSearch parameter will be set to true and it is expected that
+   * the callee will trigger a new query with the given query string passed
+   * as newValue. A signal object is passed as well and the callee can use it
+   * to add a signal to the server tracking the user's autocomplete choice.
+   */
   updateValue: (newValue: string, doSearch: boolean, signalData?: SignalData) => void;
+  /**
+   * A placeholder string to display in the <input> element.
+   */
   placeholder: string;
+  /**
+   * The current value of the underlying <input> element.
+   */
   value: string;
+  /**
+   * If true, the component will be disabled.
+   */
   disabled: boolean;
+  /**
+   * Any CSS class that should be applied on the underlying <input> component.
+   */
   className: string;
+  /**
+   * Any CSS styling that should be applied on the underlying <input> component.
+   */
   style: any;
+  /**
+   * This is called when the user uses the escape key to close the
+   * autocomplete suggestion menu.
+   */
   onEscape?: () => void;
+  /**
+   * If set, then the autocomplete input will allow punctuation
+   * to be passed from suggestions to the underlying input. (By default,
+   * punctuation is stripped out to prevent issues with the Attivio
+   * Simple Query Language, except for a couple cases—see the method
+   * normalizeAutocompleteSuggestion() method in StringUtils.js for
+   * more detail.)
+   */
+  allowPunctuation: boolean;
 };
 
 type AutoCompleteInputDefaultProps = {
@@ -27,6 +77,7 @@ type AutoCompleteInputDefaultProps = {
   disabled: boolean;
   className: string;
   style: any;
+  allowPunctuation: boolean;
 };
 
 type AutoCompleteInputState = {
@@ -49,6 +100,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
     disabled: false,
     className: '',
     style: {},
+    allowPunctuation: false,
   };
 
   static displayName = 'AutoCompleteInput';
@@ -152,7 +204,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
 
   updateValueAndAddSignal(newQuery: string, doSearch: boolean = false) {
     const { suggestions, queryTimestamp, userInput } = this.state;
-    const { updateValue } = this.props;
+    const { updateValue, allowPunctuation } = this.props;
     const docOrdinal = suggestions.findIndex((suggestion) => {
       return suggestion === newQuery;
     });
@@ -161,7 +213,18 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
     signalData.docOrdinal = docOrdinal + 1;
     signalData.query = userInput;
     signalData.queryTimestamp = queryTimestamp;
-    updateValue(newQuery, doSearch, signalData);
+
+    let queryToSet = newQuery;
+    if (!allowPunctuation) {
+      queryToSet = StringUtils.normalizeAutocompleteSuggestion(newQuery);
+    }
+
+    this.setState({
+      queryValue: queryToSet,
+      userInput: queryToSet,
+    }, () => {
+      updateValue(queryToSet, doSearch, signalData);
+    });
   }
 
   doKeyPress(event: Event & { currentTarget: HTMLInputElement, keyCode: number }) {
