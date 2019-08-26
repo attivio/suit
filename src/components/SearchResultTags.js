@@ -7,6 +7,7 @@ import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import AutoCompleteInput from './AutoCompleteInput';
 import Configurable from './Configurable';
 import Comments from './Comments';
+import AddToBriefcaseLink from './AddToBriefcaseLink';
 
 type SearchResultTagsProps = {
   location: PropTypes.object.isRequired;
@@ -338,11 +339,16 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
       <Comments docId={this.props.docId} commentsTable={this.props.commentsTable} />
     );
 
+    const addToBriefcase = (
+      <AddToBriefcaseLink docId={this.props.docId} />
+    );
+
     return (
       <div className={outerDivClassName}>
         {show360Component}
         {moreLikeThisComponent}
         {comments}
+        {addToBriefcase}
         <span className="attivio-tags-label">Tags:</span>
         {tagError}
         {tagList}

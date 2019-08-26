@@ -9,6 +9,7 @@ import MenuItem from 'react-bootstrap/lib/MenuItem';
 
 import Configurable from './Configurable';
 import AutoCompleteInput from './AutoCompleteInput';
+import Briefcases from './Briefcases';
 import SignalData from '../api/SignalData';
 import SearchDocument from '../api/SearchDocument';
 import AuthUtils from '../util/AuthUtils';
@@ -62,6 +63,10 @@ type SearchBarProps = {
    * If set, a new signal of this type would be added when an autocomplete item is selected.
    */
   createAutoCompleteSignal?: boolean;
+  /**
+   * If set, briefcases would be enabled.
+   */
+  enableBriefcases?: boolean;
 };
 
 type SearchBarDefaultProps = {
@@ -75,6 +80,7 @@ type SearchBarDefaultProps = {
   route: string | null;
   baseUri: string;
   createAutoCompleteSignal: boolean;
+  enableBriefcases: boolean;
 };
 
 type SearchBarState = {
@@ -98,6 +104,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     route: null,
     baseUri: '',
     createAutoCompleteSignal: false,
+    enableBriefcases: false,
   };
 
   static contextTypes = {
@@ -291,6 +298,8 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     }
 
     const containerClass = this.props.inMasthead ? 'attivio-globalmast-search-container' : '';
+    const { enableBriefcases } = this.props;
+    const subContainerClass = enableBriefcases ? 'attivio-globalmast-search-with-briefcases' : 'attivio-globalmast-search';
     const inputClass = this.props.inMasthead ? 'form-control attivio-globalmast-search-input' : 'form-control';
 
     let query = '';
@@ -402,7 +411,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
 
     return (
       <div className={containerClass}>
-        <div className="attivio-globalmast-search" role="search">
+        <div className={subContainerClass} role="search">
           <div className="form-group">
             {inputComponent}
             {showMicrophone ? (
@@ -422,6 +431,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
           {suggestionList}
         </div>
         {languageControl}
+        <Briefcases />
       </div>
     );
   }
