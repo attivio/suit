@@ -208,6 +208,7 @@ type SearcherState = {
   resultsOffset: number;
   debug: boolean;
   queryTimestamp: number;
+  hideMast: boolean;
 };
 
 /**
@@ -396,6 +397,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       resultsOffset: 0,
       debug: this.props.debug,
       queryTimestamp: 0,
+      hideMast: (this.props.location.pathname && this.props.location.pathname.includes('/no-mast')),
     };
   }
 
@@ -548,12 +550,14 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     delete currentState.response;
     delete currentState.haveSearched;
     delete currentState.queryTimestamp;
+    delete currentState.hideMast;
 
     const newState = Object.assign({}, compareWith);
     delete newState.error;
     delete newState.response;
     delete newState.haveSearched;
     delete newState.queryTimestamp;
+    delete newState.hideMast;
 
     return !ObjectUtils.deepEquals(currentState, newState);
   }
@@ -727,6 +731,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       debug,
       haveSearched: this.state.haveSearched, // Make sure we don't change this
       queryTimestamp: 0,
+      hideMast: this.state.hideMast, // Ignored as it does not apply to the search string
     };
 
     return result;
