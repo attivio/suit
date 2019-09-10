@@ -6,6 +6,10 @@ If you are _publishing_ a new build of the library that has changes users will n
 
 If you are _using_ the SUIT library and want to upgrade to a newer version, please check here to see if there have been changes that will affect your project and, if there are, what you will need to do about them.
 
+## Version 1.0.4
+
+When the url contains `/no-mast`, hide the logo, application name, and user info in the <Masthead>. <Searcher> detects the url and tracks its presence with `context.searcher.state.hideMast`. <Masthead>, checks `context.searcher.state.hideMast` to decide what to include.
+
 ## Version 1.0.3
 
 The when a user chooses an autocomplete suggestion in the SearchBox component, the string is now filtered to remove punctuation that would interfere with it being used as a Simple Query Language query.
