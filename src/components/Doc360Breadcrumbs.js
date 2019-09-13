@@ -11,6 +11,7 @@ type Doc360BreadcrumbsProps = {
   currentDoc: SearchDocument;
   location: PropTypes.object.isRequired;
   history: PropTypes.object.isRequired;
+  urlResultsPage?: string;
 };
 
 class HistoryEntry {
@@ -99,8 +100,9 @@ class Doc360Breadcrumbs extends React.Component<void, Doc360BreadcrumbsProps, Do
   }
 
   render() {
+    const urlResultsPage = this.props.urlResultsPage || '/results';
     // Start with the base location, which is always the search results page
-    const crumbs = [new BreadcrumbInfo('Results List', { pathname: '/results', search: this.props.location.search })];
+    const crumbs = [new BreadcrumbInfo('Results List', { pathname: urlResultsPage, search: this.props.location.search })];
     this.state.history.forEach((entry) => {
       crumbs.push(new BreadcrumbInfo(entry.label, entry.location));
     });
