@@ -44,6 +44,7 @@ type SearchResultTagsProps = {
   comments?: boolean;
   /** Table field for the comment documents */
   commentsTable?: string;
+  url360Page?: string;
 };
 
 type SearchResultTagsDefaultProps = {
@@ -54,6 +55,7 @@ type SearchResultTagsDefaultProps = {
   baseUri: string,
   comments: boolean,
   commentsTable: string,
+  url360Page: string,
 };
 
 type SearchResultTagsState = {
@@ -84,6 +86,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
     baseUri: '',
     comments: false,
     commentsTable: 'comments',
+    url360Page: '',
   };
 
   static displayName = 'SearchResultTags';
@@ -207,7 +210,8 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
 
   show360View() {
     const escapedDocId = encodeURIComponent(this.props.docId);
-    const path = '/doc360';
+    const url360Page = this.props.url360Page;
+    const path = url360Page || '/doc360';
     const search = QueryString.parse(this.props.location.search);
     search.docId = escapedDocId;
     this.props.history.push({ pathname: path, search: `${QueryString.stringify(search)}` });

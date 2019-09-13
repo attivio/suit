@@ -37,6 +37,7 @@ type InnerListSearchResultProps = {
   showTags: boolean;
   /** Whether star ratings should be shown in the UI or not. Defaults to true. */
   showRatings: boolean;
+  url360Page: string;
 }
 
 type InnerListSearchResultDefaultProps = {
@@ -45,6 +46,7 @@ type InnerListSearchResultDefaultProps = {
   entityFields: Map<string, string>;
   showTags: boolean;
   showRatings: boolean;
+  url360Page: string;
 }
 
 type InnerListSearchResultState = {
@@ -62,6 +64,7 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
     entityFields: new Map([['people', 'People'], ['location', 'Locations'], ['company', 'Companies']]),
     showTags: true,
     showRatings: true,
+    url360Page: '',
   };
 
   static displayName = 'ListSearchResult';
@@ -73,9 +76,9 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
   /**
    * Renders a <ListSearchResult> component for the document.
    */
-  static renderer(doc: SearchDocument, position: number, baseUri: string, key: string) {
+  static renderer(doc: SearchDocument, position: number, baseUri: string, key: string, url360Page: string) {
     return (
-      <ListSearchResult document={doc} position={position} baseUri={baseUri} key={key} />
+      <ListSearchResult document={doc} position={position} baseUri={baseUri} key={key} url360Page={url360Page} />
     );
   }
 
@@ -133,6 +136,7 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
     const text = doc.getFirstValue('teaser');
     const moreLikeThisQuery = doc.getFirstValue('morelikethisquery');
     const docTags = doc.getAllValues('tags');
+    const url360Page = this.props.url360Page;
 
     let nestedDocs = null;
     if (doc.children && doc.children.length > 0) {
@@ -158,6 +162,7 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
               key={tableDoc.getFirstValue('.id')}
               position={childPosition}
               baseUri={this.props.baseUri}
+              url360Page={url360Page}
             />
           );
         });
@@ -215,7 +220,7 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
             <Col xs={7} sm={7}>
               <SearchResultBody body={text} />
               {this.props.showTags ? (
-                <SearchResultTags tags={docTags} moreLikeThisQuery={moreLikeThisQuery} docId={docId} />
+                <SearchResultTags tags={docTags} moreLikeThisQuery={moreLikeThisQuery} docId={docId} url360Page={url360Page} />
               ) : null}
             </Col>
             <Col xs={5} sm={5}>

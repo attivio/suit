@@ -18,7 +18,8 @@ import SearchDocument from '../api/SearchDocument';
  * rendered by this function. If no SearchResultRenderer functions handle the
  * rendering, then the document will be rendered by the 'list' renderer.
  */
-export type SearchResultRenderer = (doc: SearchDocument, position: number, baseUri: string, key: string) => any;
+export type SearchResultRenderer =
+  (doc: SearchDocument, position: number, baseUri: string, key: string, url360Page?: string) => any;
 
 type SearchResultsProps = {
   /**
@@ -55,6 +56,7 @@ type SearchResultsProps = {
   showRatings: boolean;
   /** A style to apply to the results list */
   style: any;
+  url360Page?: string;
 };
 
 type SearchResultsDefaultProps = {
@@ -64,6 +66,7 @@ type SearchResultsDefaultProps = {
   showTags: boolean;
   showRatings: boolean;
   style: any;
+  url360Page: string;
 };
 
 /**
@@ -78,6 +81,7 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
     showTags: true,
     showRatings: true,
     style: {},
+    url360Page: '',
   };
 
   static contextTypes = {
@@ -122,7 +126,7 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
         // will render a result.
         formats.forEach((format: SearchResultRenderer) => {
           if (!renderedDocument) {
-            const possibleResult = format(document, position, this.props.baseUri, key);
+            const possibleResult = format(document, position, this.props.baseUri, key, this.props.url360Page);
             if (possibleResult) {
               renderedDocument = possibleResult;
             }

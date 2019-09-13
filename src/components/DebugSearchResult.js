@@ -26,12 +26,14 @@ type DebugSearchResultProps = {
   showTags: boolean;
   /** Whether star ratings should be shown in the UI or not. Defaults to true. */
   showRatings: boolean;
+  url360Page?: string;
 }
 
 type DebugSearchResultDefaultProps = {
   baseUri: string;
   showTags: boolean;
   showRatings: boolean;
+  url360Page: string;
 }
 
 /**
@@ -42,6 +44,7 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
     baseUri: '',
     showTags: true,
     showRatings: true,
+    url360Page: '',
   };
 
   static displayName = 'DebugSearchResult';
@@ -49,9 +52,9 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
   /**
    * Renders a <DebugSearchResult> component for the document.
    */
-  static renderer(doc: SearchDocument, position: number, baseUri: string, key: string) {
+  static renderer(doc: SearchDocument, position: number, baseUri: string, key: string, url360Page: string) {
     return (
-      <DebugSearchResult document={doc} position={position} baseUri={baseUri} key={key} />
+      <DebugSearchResult document={doc} position={position} baseUri={baseUri} key={key} url360Page={url360Page} />
     );
   }
 
@@ -89,6 +92,7 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
     const scoreDescription = doc.getFirstValue(FieldNames.SCORE_EXPLAIN);
     const moreLikeThisQuery = doc.getFirstValue('morelikethisquery');
     const docTags = doc.getAllValues('tags');
+    const url360Page = this.props.url360Page;
 
     const fieldRows = [];
     const fieldNames = this.props.document.fields.keys();
@@ -143,7 +147,7 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
             {fieldRows}
           </dl>
           {this.props.showTags ? (
-            <SearchResultTags tags={docTags} moreLikeThisQuery={moreLikeThisQuery} vertical docId={docId} />
+            <SearchResultTags tags={docTags} moreLikeThisQuery={moreLikeThisQuery} vertical docId={docId} url360Page={url360Page} />
           ) : null}
         </div>
       </div>
