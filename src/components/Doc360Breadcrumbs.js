@@ -11,6 +11,12 @@ type Doc360BreadcrumbsProps = {
   currentDoc: SearchDocument;
   location: PropTypes.object.isRequired;
   history: PropTypes.object.isRequired;
+  /**
+   * Optional.
+   * The results page URL that should be rendered when the user clicks
+   * on "Results List" link. This would default to '/results' if
+   * nothing provided.
+   */
   urlResultsPage?: string;
 };
 

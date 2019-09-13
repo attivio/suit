@@ -26,6 +26,12 @@ type DebugSearchResultProps = {
   showTags: boolean;
   /** Whether star ratings should be shown in the UI or not. Defaults to true. */
   showRatings: boolean;
+  /**
+   * Optional.
+   * The Doc 360 page URL that should be rendered when the user clicks
+   * on "Show 360° View" button. This would default to '/doc360' if
+   * nothing provided.
+   */
   url360Page?: string;
 }
 
