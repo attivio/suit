@@ -47,6 +47,8 @@ type MastheadProps = {
   logoutFunction: null | () => void,
   /** The contents of the Masthead can be arbitrary components. */
   children: Children;
+  /** If set, renders a minimal view of the Masthead with only children components rendered */
+  simple: boolean;
 };
 
 type MastheadDefaultProps = {
@@ -60,6 +62,7 @@ type MastheadDefaultProps = {
   helpUri: string | null;
   username: string | null;
   logoutFunction: null | () => void,
+  simple: boolean;
 };
 
 type MastheadState = {
@@ -85,6 +88,7 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
     searchEngineType: 'attivio',
     helpUri: null,
     username: null,
+    simple: false,
   }
 
   static contextTypes = {
@@ -244,8 +248,8 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
       logoutFunction = null;
     }
 
-    const hideMast = this.context.searcher.state.hideMast || false;
-    if (hideMast) {
+    const simple = this.props.simple;
+    if (simple) {
       return (
         <header className="attivio-globalmast attivio-minwidth">
           <div className="attivio-container">
