@@ -63,9 +63,25 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
 
   static calcState(buckets: Array<SearchFacetBucket>, zoom: number,
     geoFilters: Array<string>, updating: string): MapFacetContentsState {
-    const center = PositionUtils.calcCenter(buckets.map((bucket) => {
-      return bucket.value;
-    }));
+    const center = PositionUtils.calcCenter(buckets.reduce((reduceResult, bucket) => {
+      const value = bucket.value;
+      let longitude = NaN;
+      let latitude = NaN;
+      if (typeof value === 'string') {
+        const valueArr = value.split(',');
+        if (valueArr.length === 2) {
+          longitude = Number.parseFloat(valueArr[0]);
+          latitude = Number.parseFloat(valueArr[1]);
+        }
+      } else {
+        longitude = value.longitude;
+        latitude = value.latitude;
+      }
+      if (!Number.isNaN(longitude) && !Number.isNaN(latitude)) {
+        reduceResult.push({ longitude, latitude });
+      }
+      return reduceResult;
+    }, []));
     return {
       latitude: center.latitude,
       longitude: center.longitude,
