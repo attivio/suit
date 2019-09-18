@@ -79,7 +79,7 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
   }
 
   /**
-   * Fetches the latitude and longitude from the SearchFacetBucket value.
+   * Gets the latitude and longitude from the SearchFacetBucket value.
    * The SearchFacetBucket value returned from backend can have 2 different formats:
    * 1. Comma separated string. Eg. "22.56,17.53"
    * 2. Plain JS Object. Eg. { longitude: 22.56, latitude: 17.53 }
