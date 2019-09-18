@@ -131,7 +131,24 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
         labelString = startLabelString;
         facetFilterString = `${this.props.facet.name}:FACET(RANGE("${startFacetFilterString}", ${startFacetFilterString}, upper=inclusive))`; // eslint-disable-line max-len
       }
-      this.context.searcher.addFacetFilter(this.props.facet.findLabel(), labelString, facetFilterString);
+      // If a timeseries filter is already applied, remove it using removeFacetFilter().
+      // And then add the new timeseries filter using addFacetFilter().
+      // This would ensure, signal for both removing and adding the filter is created.
+      // Also, add the new filter only if it is not already applied.
+      const existingFilters = this.context.searcher.state.facetFilters;
+      let addingExistingFilter = false;
+      existingFilters.forEach((facetFilter) => {
+        if (facetFilter.facetName === this.props.facet.findLabel()) {
+          if (facetFilter.filter === facetFilterString) {
+            addingExistingFilter = true;
+            return;
+          }
+          this.context.searcher.removeFacetFilter(facetFilter, false);
+        }
+      });
+      if (!addingExistingFilter) {
+        this.context.searcher.addFacetFilter(this.props.facet.findLabel(), labelString, facetFilterString);
+      }
     }
   }
 
