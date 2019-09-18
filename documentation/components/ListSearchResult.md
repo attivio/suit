@@ -3,10 +3,10 @@
 __1.__ Showing a List-type search result for a basic document, with the addition
 of showing the document’s relevancy score and a few entity values.
 
-```jsx
-  const sampleDocs = require('../sampleData/Documents').default;
+```js
+  import sampleDocs from '../sampleData/Documents';
+  import { StaticRouter } from 'react-router-dom';
 
-  const { StaticRouter } = require('react-router-dom');
   <StaticRouter context={{}}>
     <ListSearchResult
       document={sampleDocs.elsalvador}
@@ -23,12 +23,12 @@ of showing the document’s relevancy score and a few entity values.
   </StaticRouter>
 ```
 
-__6.__ Showing a document with child documents.
+__2.__ Showing a document with child documents.
 
-```jsx
-  const sampleDocs = require('../sampleData/Documents').default;
+```js
+  import sampleDocs from '../sampleData/Documents';
+  import { StaticRouter } from 'react-router-dom';
 
-  const { StaticRouter } = require('react-router-dom');
   <StaticRouter context={{}}>
     <ListSearchResult
       document={sampleDocs.docWithChildren}

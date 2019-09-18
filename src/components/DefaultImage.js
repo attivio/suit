@@ -62,7 +62,7 @@ export default class DefaultImage extends React.Component<DefaultImageDefaultPro
   }
 
   render() {
-    const { src, defaultSrc, ...props } = this.props;
+    const { src, defaultSrc, ...props } = this.props; // eslint-disable-line no-unused-vars
     if (this.state.src !== null) {
       return <img src={this.state.src} onError={this.onError} {...props} />; // eslint-disable-line jsx-a11y/alt-text
     }
