@@ -16,7 +16,7 @@ import PositionUtils from '../util/PositionUtils';
 import ObjectUtils from '../util/ObjectUtils';
 import StringUtils from '../util/StringUtils';
 
-const ReactMapboxGl = require('react-mapbox-gl');
+import ReactMapboxGl from 'react-mapbox-gl';
 
 type MapFacetContentsProps = {
   /** The facet’s buckets. */

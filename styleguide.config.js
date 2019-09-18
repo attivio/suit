@@ -1,63 +1,9 @@
 const path = require('path');
-// const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const createNwbWebpackConfig = require('create-nwb-webpack-config'); // eslint-disable-line import/no-extraneous-dependencies
-const merge = require('webpack-merge');
-
-// Use the webpack configuration that NWB generate since there's no actual
-// file for the style guide to use
-const nwbWebpackConfig = createNwbWebpackConfig();
-const ourWebpackConfig = {
-  node: {
-    fs: 'empty',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.less$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'less-loader',
-        ],
-      },
-      {
-        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'url-loader?limit=10000&minetype=application/font-woff',
-      },
-      {
-        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'file-loader',
-      },
-      {
-        test: /\.png$/,
-        loader: 'url-loader?limit=100000',
-      },
-      {
-        test: /\.jpg$/,
-        loader: 'file-loader',
-      },
-      {
-        test: /\.svg$/,
-        loader: 'url-loader?limit=10000&mimetype=image/svg+xml',
-      },
-      {
-        test: /\.xml$/,
-        loader: 'xml-loader',
-        options: {
-          trim: true,
-          explicitArray: false,
-          explicitRoot: false,
-        },
-      },
-    ],
-  },
-};
-
-const mergedWebpackConfig = merge(nwbWebpackConfig, ourWebpackConfig);
 
 module.exports = {
   title: 'Attivio SUIT Component Reference',
   verbose: true,
+  version: '1.0.3',
   assetsDir: 'documentation/static',
   template: {
     title: 'Attivio SUIT Style Guide',
@@ -88,15 +34,8 @@ module.exports = {
     },
     favicon: 'img/',
   },
-  ignore: [], // Add any componets we want to exclude here
-  defaultExample: false,
   usageMode: 'expand',
   styleguideDir: 'docs/styleguide',
-  editorConfig: {
-    theme: 'ambiance', // see http://codemirror.net/demo/theme.html
-  },
-  styles: {},
-
   sections: [
     {
       name: 'Introduction',
@@ -320,7 +259,6 @@ module.exports = {
   ],
   getComponentPathLine(componentPath) {
     const name = path.basename(componentPath, '.js');
-    // const dir = path.dirname(componentPath);
     return `import { ${name} } from '@attivio/suit';`;
   },
   getExampleFilename(componentPath) {
@@ -328,7 +266,7 @@ module.exports = {
     const mdName = `${name}.md`;
     const dir = path.dirname(componentPath);
     const fullMdPath = path.resolve(dir, '../../documentation/components', mdName);
+    console.log('fullMdPath: ', fullMdPath);
     return fullMdPath;
   },
-  webpackConfig: mergedWebpackConfig,
 };

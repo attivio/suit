@@ -49,7 +49,7 @@ export default class NavbarSearch extends React.Component<NavbarSearchDefaultPro
   button: ?HTMLDivElement;
 
   render() {
-    const { placeholder, value, updateSearchString, onSearch, ...otherProps } = this.props;
+    const { placeholder, value, updateSearchString, onSearch, ...otherProps } = this.props; // eslint-disable-line no-unused-vars
 
     return (
       <div className="navbar-form navbar-left attivio-search" {...otherProps}>

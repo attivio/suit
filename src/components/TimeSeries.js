@@ -194,7 +194,9 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
    */
   static normalizeYAxisMax(yAxis: any): any {
     const maxValue = yAxis.max;
-    const roundUpTo = [10, 20, 25, 30, 40, 50, 100, 200, 250, 300, 400, 500, 750, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 10000];
+    const roundUpTo = [
+      10, 20, 25, 30, 40, 50, 100, 200, 250, 300, 400, 500, 750, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 10000,
+    ];
     let roundMax = -1;
     roundUpTo.forEach((cap: number) => {
       if (roundMax < 0 && maxValue <= cap) {

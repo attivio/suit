@@ -438,7 +438,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     // And now, the fields that don't have explicit counterparts
     // in the simple query request, which need to be set using
     // the restParams property.
-    const restParams = new Map();
+    // eslint-disable-next-line no-undef 
+    const restParams = new Map();  
     restParams.set('offset', [`${this.state.resultsOffset}`]);
     const relevancyModels = this.getRelevancyModels();
     restParams.set('relevancymodelnames', [relevancyModels.join(',')]);
