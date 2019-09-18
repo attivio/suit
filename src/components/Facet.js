@@ -134,7 +134,7 @@ export default class Facet extends React.Component<FacetDefaultProps, FacetProps
       // If a timeseries filter is already applied, remove it using removeFacetFilter().
       // And then add the new timeseries filter using addFacetFilter().
       // This would ensure, signal for both removing and adding the filter is created.
-      // Also, add the new filter only if it is not already applied.
+      // Also, add the new filter only if the same filter is not already applied.
       const existingFilters = this.context.searcher.state.facetFilters;
       let addingExistingFilter = false;
       existingFilters.forEach((facetFilter) => {
