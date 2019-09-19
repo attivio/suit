@@ -7,6 +7,7 @@ __1:__  A simple example for finding values in a large facet.
   const AuthUtils = require('../../src/util/AuthUtils').default;
   const DummySearcher = require('../../src/components/DummySearcher').default;
   const QueryResponse = require('../../src/api/QueryResponse').default;
+  const MoreListFacetContents = require('../../src/MoreListFacetContents').default;
   const sampleFacets = require('../sampleData/Facets').default;
 
   const config = {
@@ -53,6 +54,7 @@ __2:__  An example that allows exporting values as a CSV file.
 ```jsx
   const AuthUtils = require('../../src/util/AuthUtils').default;
   const DummySearcher = require('../../src/components/DummySearcher').default;
+  const MoreListFacetContents = require('../../src/MoreListFacetContents').default;
   const QueryResponse = require('../../src/api/QueryResponse').default;
   const sampleFacets = require('../sampleData/Facets').default;
 
