@@ -125,6 +125,7 @@
     "jest": "^24.9.0",
     "jest-environment-jsdom-fourteen": "^0.1.0",
     "jest-resolve": "^24.9.0",
+    "jest-svg-transformer": "^1.0.0",
     "jest-watch-typeahead": "^0.4.0",
     "jsxobj": "^1.1.0",
     "less": "3.10.3",
