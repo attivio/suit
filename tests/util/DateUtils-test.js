@@ -1,6 +1,6 @@
 import expect from 'expect';
-import DateFormat from 'src/api/DateFormat';
-import DateUtils from 'src/util/DateUtils';
+import DateFormat from '../../src/api/DateFormat';
+import DateUtils from '../../src/util/DateUtils';
 
 describe('Test DateUtils', () => {
   /*

@@ -1,5 +1,5 @@
 import expect from 'expect';
-import StyleUtils from 'src/util/StyleUtils';
+import StyleUtils from '../../src/util/StyleUtils';
 
 describe('Test StyleUtils', () => {
   it('Parses CSS colors', () => {

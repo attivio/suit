@@ -1,5 +1,5 @@
 import expect from 'expect';
-import ObjectUtils from 'src/util/ObjectUtils';
+import ObjectUtils from '../../src/util/ObjectUtils';
 
 describe('Test ObjectUtils', () => {
   it('Checks array equality', () => {

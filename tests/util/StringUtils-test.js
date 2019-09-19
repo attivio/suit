@@ -1,5 +1,5 @@
 import expect from 'expect';
-import StringUtils from 'src/util/StringUtils';
+import StringUtils from '../../src/util/StringUtils';
 
 describe('Test StringUtils', () => {
   it('Can format strings properly', () => {

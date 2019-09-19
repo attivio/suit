@@ -162,14 +162,6 @@ module.exports = {
           loader: 'babel-loader',
         },
       },
-      // {
-      //   // Tell webpack how to load vis files.
-      //   //  https://github.com/almende/vis/blob/master/README.md#example-4-integrate-visjs-components-directly-in-your-webpack-build
-      //   test: /node_modules[\\\/]vis[\\\/].*\.js$/,
-      //   //  https://webpack.js.org/loaders/babel-loader/
-      //   loader: 'babel-loader',
-      //   type: 'javascript/auto',
-      // },
       {
         // Tell webpack how to load html pages.
         // https://webpack.js.org/loaders/html-loader/#root

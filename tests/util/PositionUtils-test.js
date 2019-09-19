@@ -1,7 +1,7 @@
 import expect from 'expect';
-import PositionUtils from 'src/util/PositionUtils';
-import ObjectUtils from 'src/util/ObjectUtils';
-import Position from 'src/api/Position';
+import PositionUtils from '../../src/util/PositionUtils';
+import ObjectUtils from '../../src/util/ObjectUtils';
+import Position from '../../src/api/Position';
 
 describe('Test PositionUtils', () => {
   const points = [

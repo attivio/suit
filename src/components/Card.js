@@ -44,7 +44,7 @@ export default class Card extends React.Component<CardDefaultProps, CardProps, v
     const cardClassName = borderless ? 'attivio-card attivio-card-borderless' : 'attivio-card';
     const finalClassName = `${cardClassName} ${className}`;
     return (
-      <div className={finalClassName} style={style}>
+      <div className={finalClassName} style={style} data-testid="Card">
         {title ? (
           <h2 className="attivio-card-title">
             {this.props.title}

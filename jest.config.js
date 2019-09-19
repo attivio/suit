@@ -1,7 +1,7 @@
 module.exports = {
   verbose: true,
   roots: [
-    "<rootDir>/src",
+    "<rootDir>",
   ],
   collectCoverageFrom: [
     "src/**/*.{js,jsx,ts,tsx}",
@@ -12,9 +12,9 @@ module.exports = {
   ],
   setupFilesAfterEnv: [],
   testMatch: [
-    "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-    "<rootDir>/src/**/*-test.{js,jsx,ts,tsx}",
-    "<rootDir>/src/**/*.test.{js,jsx,ts,tsx}",
+    "<rootDir>/tests/**/__tests__/**/*.{js,jsx,ts,tsx}",
+    "<rootDir>/tests/**/*-test.{js,jsx,ts,tsx}",
+    "<rootDir>/tests/**/*.test.{js,jsx,ts,tsx}",
     "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
     "<rootDir>/src/**/*-test.{js,jsx,ts,tsx}",
     "<rootDir>/src/**/*.test.{js,jsx,ts,tsx}",
@@ -32,8 +32,8 @@ module.exports = {
   moduleNameMapper: {
     "^react-native$": "react-native-web",
     "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
-    "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/mocks/fileMock.js",
-    "\\.(css|less)$": "<rootDir>/mocks/fileMock.js",
+    "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/mocks/fileMock.js",
+    "\\.(css|less)$": "<rootDir>/tests/mocks/fileMock.js",
   },
   moduleFileExtensions: [
     "web.js",
