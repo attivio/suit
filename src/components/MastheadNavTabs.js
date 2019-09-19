@@ -49,10 +49,10 @@ class MastheadNavTabs extends React.Component<MastheadNavTabsDefaultProps, Masth
 
   constructor(props: MastheadNavTabsProps) {
     super(props);
-    let initialTab = this.props.initialTab;
+    let initialTab = props.initialTab;
     if (!initialTab) {
-      if (this.props.tabInfo && this.props.tabInfo.length > 0 && this.props.tabInfo[0]) {
-        initialTab = this.props.tabInfo[0].route;
+      if (props.tabInfo && props.tabInfo.length > 0 && props.tabInfo[0]) {
+        initialTab = props.tabInfo[0].route;
       }
     }
     this.state = {

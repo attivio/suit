@@ -39,7 +39,7 @@ export default class CollapsiblePanel extends React.Component<CollapsiblePanelDe
   constructor(props: CollapsiblePanelProps) {
     super(props);
     this.state = {
-      open: !this.props.collapsed,
+      open: !props.collapsed,
     };
     (this: any).toggleState = this.toggleState.bind(this);
   }

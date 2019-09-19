@@ -40,13 +40,13 @@ module.exports = {
       filename: "./index.html",
     }),
 
-    // Replacement for deprecated extract-text-webpack-plugin
+// Replacement for deprecated extract-text-webpack-plugin
     // https://github.com/webpack-contrib/mini-css-extract-plugin
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css',
     }),
-    
+
     // https://github.com/Urthen/case-sensitive-paths-webpack-plugin#readme
     new CaseSensitivePathsPlugin(),
   ],
@@ -162,6 +162,14 @@ module.exports = {
           loader: 'babel-loader',
         },
       },
+      // {
+      //   // Tell webpack how to load vis files.
+      //   //  https://github.com/almende/vis/blob/master/README.md#example-4-integrate-visjs-components-directly-in-your-webpack-build
+      //   test: /node_modules[\\\/]vis[\\\/].*\.js$/,
+      //   //  https://webpack.js.org/loaders/babel-loader/
+      //   loader: 'babel-loader',
+      //   type: 'javascript/auto',
+      // },
       {
         // Tell webpack how to load html pages.
         // https://webpack.js.org/loaders/html-loader/#root

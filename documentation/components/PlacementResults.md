@@ -7,7 +7,9 @@ __1:__ A short list of placements.
   const QueryResponse = require('../../src/api/QueryResponse').default;
   const SearchPlacement = require('../../src/api/SearchPlacement').default;
   const sampleDocs = require('../sampleData/Documents').default;
+  const DummySearcher = require('../../src/components/DummySearcher').default;
   const response = new QueryResponse();
+
   response.documents = sampleDocs.rawDocuments;
   response.placements = [
     new SearchPlacement('Attivio is the best!', 'img/attivio-logo.png', 'Attivio\'s website', 'http://www.attivio.com'),

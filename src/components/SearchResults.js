@@ -133,9 +133,11 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
         // will render a result.
         formatRenderers.forEach((formatRenderer: SearchResultRenderer) => {
           if (!renderedDocument) {
-            const possibleResult = formatRenderer(document, position, baseUri, key, hide360Link);
-            if (possibleResult) {
-              renderedDocument = possibleResult;
+            if (typeof format === 'function') {
+              const possibleResult = format(document, position, this.props.baseUri, key);
+              if (possibleResult) {
+                renderedDocument = possibleResult;
+              }
             }
           }
         });

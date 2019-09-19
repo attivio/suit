@@ -337,9 +337,9 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   constructor(props: SearcherProps) {
     super(props);
 
-    this.search = new Search(this.props.baseUri, this.props.searchEngineType, this.props.customOptions);
+    this.search = new Search(props.baseUri, props.searchEngineType, props.customOptions);
 
-    this.state = this.getDefaultState();
+    this.state = this.getDefaultState(props);
     (this: any).updateSearchResults = this.updateSearchResults.bind(this);
   }
 
@@ -381,20 +381,20 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * separate method since it needs to be done both in the constructor
    * and in the reset method.
    */
-  getDefaultState(): SearcherState {
+  getDefaultState(props): SearcherState {
     return {
       haveSearched: false,
       response: undefined,
       error: undefined,
       query: Searcher.EVERYTHING,
-      queryLanguage: this.props.defaultQueryLanguage,
+      queryLanguage: props.defaultQueryLanguage,
       sort: ['.score:DESC'],
-      relevancyModels: this.props.relevancyModels,
+      relevancyModels: props.relevancyModels,
       facetFilters: [],
       geoFilters: [],
-      resultsPerPage: parseInt(this.props.resultsPerPage, 10),
+      resultsPerPage: parseInt(props.resultsPerPage, 10),
       resultsOffset: 0,
-      debug: this.props.debug,
+      debug: props.debug,
       queryTimestamp: 0,
     };
   }

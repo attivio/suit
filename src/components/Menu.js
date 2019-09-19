@@ -316,7 +316,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
             className="checkbox"
             componentClass="div"
           >
-            <Checkbox checked={selected}>
+            <Checkbox checked={selected} readOnly>
               {item.label}
             </Checkbox>
           </MenuItem>

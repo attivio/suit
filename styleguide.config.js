@@ -5,6 +5,21 @@ module.exports = {
   verbose: true,
   version: '1.0.3',
   assetsDir: 'documentation/static',
+  webpackConfig: require('./webpack.config.js'),
+  require: [
+    path.join(__dirname, 'documentation/style/main.less'),
+  ],
+  getComponentPathLine(componentPath) {
+    const name = path.basename(componentPath, '.js');
+    return `import { ${name} } from '@attivio/suit';`;
+  },
+  getExampleFilename(componentPath) {
+    const name = path.basename(componentPath, '.js');
+    const mdName = `${name}.md`;
+    const dir = path.dirname(componentPath);
+    const fullMdPath = path.resolve(dir, '../../documentation/components', mdName);
+    return fullMdPath;
+  },
   template: {
     title: 'Attivio SUIT Style Guide',
     head: {
@@ -253,20 +268,5 @@ module.exports = {
       name: 'Extra',
       content: 'documentation/extra.md',
     },
-  ],
-  require: [
-    path.join(__dirname, 'documentation/style/main.less'),
-  ],
-  getComponentPathLine(componentPath) {
-    const name = path.basename(componentPath, '.js');
-    return `import { ${name} } from '@attivio/suit';`;
-  },
-  getExampleFilename(componentPath) {
-    const name = path.basename(componentPath, '.js');
-    const mdName = `${name}.md`;
-    const dir = path.dirname(componentPath);
-    const fullMdPath = path.resolve(dir, '../../documentation/components', mdName);
-    console.log('fullMdPath: ', fullMdPath);
-    return fullMdPath;
-  },
+  ]
 };

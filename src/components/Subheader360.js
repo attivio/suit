@@ -24,23 +24,22 @@ export default class Subheader360 extends React.Component<Subheader360DefaultPro
     tooltip: undefined,
   };
 
-  static displayName = 'Subheader360';
-
   render() {
-    const subheader = this.props.tooltip ?
-      (
+    const { tooltip, label } = this.props;
+
+    if (tooltip) {
+      return (
         <div>
           <h2 className="attivio-360-subhed">
-            {this.props.label}
-            <OverlayTrigger overlay={<Tooltip> {this.props.tooltip} </Tooltip>}>
+            {label}
+            <OverlayTrigger overlay={<Tooltip> {tooltip} </Tooltip>}>
               <img src="img/info.png" alt="Info" style={{ width: '1em', margin: '0em 0em 0em 0.5em' }} />
             </OverlayTrigger>
           </h2>
         </div>
-      ) : (
-        <h2 className="attivio-360-subhed">{this.props.label}</h2>
       );
+    }
 
-    return subheader;
+    return <h2 className="attivio-360-subhed">{label}</h2>;
   }
 }

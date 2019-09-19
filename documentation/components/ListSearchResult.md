@@ -4,10 +4,12 @@ __1.__ Showing a List-type search result for a basic document, with the addition
 of showing the document’s relevancy score and a few entity values.
 
 ```js
-  import sampleDocs from '../sampleData/Documents';
-  import { StaticRouter } from 'react-router-dom';
+  const { Router } = require('react-router-dom');
+  const { createMemoryHistory } = require('history');
 
-  <StaticRouter context={{}}>
+  const history = createMemoryHistory();
+
+  <Router context={history}>
     <ListSearchResult
       document={sampleDocs.elsalvador}
       position={4}
@@ -20,19 +22,22 @@ of showing the document’s relevancy score and a few entity values.
           ['keyphrases', 'Key Phrases'],
         ])}
     />
-  </StaticRouter>
+  </Router>
 ```
 
 __2.__ Showing a document with child documents.
 
 ```js
   import sampleDocs from '../sampleData/Documents';
-  import { StaticRouter } from 'react-router-dom';
+  const { Router } = require('react-router-dom');
+  const { createMemoryHistory } = require('history');
 
-  <StaticRouter context={{}}>
+  const history = createMemoryHistory();
+
+  <Router context={history}>
     <ListSearchResult
       document={sampleDocs.docWithChildren}
       position={4}
     />
-  </StaticRouter>
+  </Router>
 ```

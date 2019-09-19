@@ -3,7 +3,7 @@
 __1.__ Toggle-able component.
 
 ```jsx
-const initialState = {
+initialState = {
   open: false,
 };
 
