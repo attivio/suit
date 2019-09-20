@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, within } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 import ToggleSwitch from '../../src/components/ToggleSwitch';
 
