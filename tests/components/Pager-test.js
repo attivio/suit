@@ -53,7 +53,7 @@ describe('Pager', () => {
         fireEvent.click(getByText('Next'));
         expect(currentPage).toBe(1);
     });
-    test('Test Next Page Change', () => {
+    test('Test Previous Page Change', () => {
         let currentPage = 1;
         const { container, getByText } = render(
             <Pager
