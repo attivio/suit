@@ -254,15 +254,17 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
 
   doSearch() {
     const searcher = this.context.searcher;
-    if (this.props.route && searcher) {
-      this.route();
-    } else if (searcher.state.query && !searcher.state.haveSearched) {
-      // on click of Go, if a new query is being searched
-      // reset filters & display results
-      searcher.setQueryAndSearch(searcher.state.query);
-    } else if (searcher.state.query && searcher.state.haveSearched) {
-      // do not reset only search
-      searcher.doSearch();
+    if (searcher) {
+      if (this.props.route) {
+        this.route();
+      } else if (searcher.state.query && !searcher.state.haveSearched) {
+        // on click of Go, if a new query is being searched
+        // reset filters & display results
+        searcher.setQueryAndSearch(searcher.state.query);
+      } else if (searcher.state.query && searcher.state.haveSearched) {
+        // do not reset only search
+        searcher.doSearch();
+      }
     }
     if (this.submitButton) {
       this.submitButton.blur();
@@ -386,6 +388,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
         />
       ) : (
         <input
+          data-testid="search-bar-input"
           type="search"
           className={inputClass}
           placeholder={placeholder}
@@ -396,9 +399,9 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
       );
 
     return (
-      <div className={containerClass}>
+      <div className={containerClass} data-testid="search-bar-container">
         <div className="attivio-globalmast-search" role="search">
-          <div className="form-group">
+          <div className="form-group" data-testid="search-bar-form">
             {inputComponent}
             {showMicrophone ? (
               <a onClick={this.startSpeechRecognition} role="button" tabIndex={0}>
@@ -407,6 +410,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
             ) : ''}
             <button
               type="submit"
+              data-testid="search-bar-button"
               className="btn attivio-globalmast-search-submit"
               onClick={this.doSearch}
               ref={(c) => { this.submitButton = c; }}

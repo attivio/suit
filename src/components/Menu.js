@@ -363,6 +363,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
     return (
       <Dropdown
         id="myDropdown"
+        data-testid="menu-dropdown"
         className={classNames}
         onSelect={this.onSelect}
         componentClass="div"
@@ -376,6 +377,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
           bsClass="attivio-smalltoolbar-btn"
           style={this.props.width ? { width: `${this.props.width}px` } : {}}
           data-test={dataTest}
+          data-testid={dataTest}
         >
           <div
             style={this.props.width ? {
@@ -395,7 +397,8 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
           style={{
             paddingTop: 0,
             paddingBottom: 0,
-          }}
+                }}
+            data-testid="menu-options"
         >
           {menuPrefix}
           {menuItems}

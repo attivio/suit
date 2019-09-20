@@ -82,6 +82,7 @@ class BigButton extends React.Component<BigButtonDefaultProps, BigButtonProps, v
     }
     return (
       <div
+        data-testid='big-button'
         onClick={this.doClick}
         className={className}
         style={this.props.style}

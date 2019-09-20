@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { renderToStaticMarkup as render } from 'react-dom/server';
 import Card from '../../src/components/Card';
 
 describe('Card', () => {
