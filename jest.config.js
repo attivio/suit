@@ -6,6 +6,7 @@ module.exports = {
   collectCoverageFrom: [
     "src/**/*.{js,jsx,ts,tsx}",
     "!src/**/*.d.ts",
+    "!src/**/*index.{js,jsx,ts,tsx}",
   ],
   setupFiles: [
     "react-app-polyfill/jsdom",

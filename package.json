@@ -41,6 +41,7 @@
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
     "test:debug-watch": "node --inspect node_modules/.bin/jest --watch --runInBand",
     "updateversion": "./scripts/updateversion.sh",
