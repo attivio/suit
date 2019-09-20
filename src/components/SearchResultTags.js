@@ -109,7 +109,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
 
   state: SearchResultTagsState;
 
-  onEscape() {
+  onEscape = () => {
     this.setState({
       newTag: '',
       adding: false,

@@ -32,7 +32,7 @@ export default class Subheader360 extends React.Component<Subheader360DefaultPro
         <div>
           <h2 className="attivio-360-subhed">
             {label}
-            <OverlayTrigger overlay={<Tooltip> {tooltip} </Tooltip>}>
+            <OverlayTrigger overlay={<Tooltip id="subheader"> {tooltip} </Tooltip>}>
               <img src="img/info.png" alt="Info" style={{ width: '1em', margin: '0em 0em 0em 0.5em' }} />
             </OverlayTrigger>
           </h2>

@@ -7,20 +7,26 @@ __1.__ Showing the built-in simple format.
   const DummySearcher = require('../../src/components/DummySearcher').default;
   const SimpleSearchResult = require('../../src/components/SimpleSearchResult').default;
   const sampleDocs = require('../sampleData/Documents').default;
+  const { Router } = require('react-router-dom');
+  const { createMemoryHistory } = require('history');
+
+  const history = createMemoryHistory();
 
   const queryResponse = new QueryResponse();
   queryResponse.totalTime = 3239;
   queryResponse.totalHits = sampleDocs.rawDocuments.length;
   queryResponse.documents = sampleDocs.rawDocuments;
 
-  <DummySearcher defaultQueryResponse={queryResponse}>
-    <SearchResults
-      format="simple"
-      showRatings={false}
-      showScores={false}
-      showTags={false}
-    />
-  </DummySearcher>
+  <Router history={history}>
+    <DummySearcher defaultQueryResponse={queryResponse}>
+      <SearchResults
+        format="simple"
+        showRatings={false}
+        showScores={false}
+        showTags={false}
+      />
+    </DummySearcher>
+  </Router>
 ```
 
 
@@ -33,6 +39,10 @@ __2.__ Using a custom renderer for documents in the "country" table.
   const DummySearcher = require('../../src/components/DummySearcher').default;
   const SimpleSearchResult = require('../../src/components/SimpleSearchResult').default;
   const sampleDocs = require('../sampleData/Documents').default;
+  const { Router } = require('react-router-dom');
+  const { createMemoryHistory } = require('history');
+
+  const history = createMemoryHistory();
 
   const queryResponse = new QueryResponse();
   queryResponse.totalTime = 3239;
@@ -74,12 +84,14 @@ __2.__ Using a custom renderer for documents in the "country" table.
     SimpleSearchResult.renderer,
   ];
 
-  <DummySearcher defaultQueryResponse={queryResponse}>
-    <SearchResults
-      format={formats}
-      showRatings={false}
-      showScores={false}
-      showTags={false}
-    />
-  </DummySearcher>
+  <Router history={history}>
+    <DummySearcher defaultQueryResponse={queryResponse}>
+      <SearchResults
+        format={formats}
+        showRatings={false}
+        showScores={false}
+        showTags={false}
+      />
+    </DummySearcher>
+  </Router>
 ```

@@ -4,11 +4,9 @@ __1.__ Showing a set of existing tags.
 
 ```jsx
 const { Router } = require('react-router-dom');
-const { createMemoryHistory } = require('history');
+const historyMock = require('../../tests/mocks/historyMock.js').default;
 
-const history = createMemoryHistory();
-
-<Router history={history}>
+<Router history={historyMock}>
   <SearchResultTags
     tags={[
       'Useful',
@@ -27,7 +25,12 @@ __2.__ Showing no existing tags.
 const { Router } = require('react-router-dom');
 const { createMemoryHistory } = require('history');
 
-const history = createMemoryHistory();
+const history = createMemoryHistory({
+  initialEntries: ['/'],
+  initialIndex: 0,
+  keyLength: 6,
+  getUserConfirmation: null
+});
 
 <Router history={history}>
   <SearchResultTags tags={[]} docId="foo" />
@@ -40,7 +43,12 @@ __3.__ Showing tags in a vertical layout.
 const { Router } = require('react-router-dom');
 const { createMemoryHistory } = require('history');
 
-const history = createMemoryHistory();
+const history = createMemoryHistory({
+  initialEntries: ['/'],
+  initialIndex: 0,
+  keyLength: 6,
+  getUserConfirmation: null
+});
 
 <Router history={history}>
   <SearchResultTags
