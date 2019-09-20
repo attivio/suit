@@ -335,9 +335,17 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
       } else {
         label = selected ? <b>{itemLabel}</b> : itemLabel;
       }
-      return <MenuItem eventKey={item.value} key={item.value}>{label}</MenuItem>;
+      return (
+        <MenuItem 
+          eventKey={item.value}
+          key={item.value}
+          data-testid={`menu-option-${item.value}`}
+        >
+          {label}
+        </MenuItem>
+      );
     });
-
+  
     const menuPrefix = this.props.multiSelect && this.props.selectAllNone ? (
       <MenuItem
         eventKey="allNone"

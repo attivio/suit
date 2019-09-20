@@ -1,6 +1,7 @@
 import React from 'react';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { render, fireEvent } from '@testing-library/react';
+// this import is for the 'toHaveClass' expectation
 import '@testing-library/jest-dom/extend-expect'
 
 import Menu, { MenuItemDef } from '../../src/components/Menu';
@@ -22,7 +23,7 @@ const promptLabel = 'Select a Test Option';
 
 const toggleDataTest = 'menu-dropdown-toggle';
 const dropdownDataTest = 'menu-dropdown';
-const optionsDataTest = 'menu-options';
+const optionDataTestPrefix = 'menu-option-';
 
 const simpleRender = (onSelect) => {
   return render(
@@ -59,15 +60,28 @@ test('menu opens', () => {
 test('selection changes', () => {
   let selected = null;
   const onSelect = (selection: MenuItemDef) => {
-    console.warn(`onSelect called with value "${selection.value}!"`);
-    selected = selection;
+    selected = selection.value;
   };
   const { getByTestId } = simpleRender(onSelect);
+  const option1 = getByTestId(`${optionDataTestPrefix}${optionValue1}`);
+  const option2 = getByTestId(`${optionDataTestPrefix}${optionValue2}`);
+  const option3 = getByTestId(`${optionDataTestPrefix}${optionValue3}`);
 
-  // select an option
-  expect(getByTestId(optionsDataTest)).toBeDefined();
-  expect(getByTestId(optionsDataTest).firstChild).toBeDefined();
-  expect(getByTestId(optionsDataTest).firstChild).toHaveTextContent(optionLabel1);
-  expect(fireEvent.click(getByTestId(optionsDataTest).firstChild)).toBe(true);
+  // select option 1
+  expect(option1).toBeDefined();
+  expect(option1).toHaveTextContent(optionLabel1);
+  fireEvent.click(option1);
   expect(selected).toBe(optionValue1);
+
+  // select option 2
+  expect(option2).toBeDefined();
+  expect(option2).toHaveTextContent(optionLabel2);
+  fireEvent.click(option2);
+  expect(selected).toBe(optionValue2);
+
+  // select option 3
+  expect(option3).toBeDefined();
+  expect(option3).toHaveTextContent(optionLabel3);
+  fireEvent.click(option3);
+  expect(selected).toBe(optionValue3);
 });
