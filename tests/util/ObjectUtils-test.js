@@ -1,8 +1,7 @@
-import expect from 'expect';
 import ObjectUtils from '../../src/util/ObjectUtils';
 
 describe('Test ObjectUtils', () => {
-  it('Checks array equality', () => {
+  test('Checks array equality', () => {
     const firstArray = [1, 4, 23, 63];
     const secondArray = [1, 4, 23];
     const thirdArray = [4, 4, 3, 69933];
@@ -22,13 +21,13 @@ describe('Test ObjectUtils', () => {
     expect(ObjectUtils.deepEquals(sixthArray, seventhArray)).toBeTruthy();
   });
 
-  it('Removes items from arrays', () => {
+  test('Removes items from arrays', () => {
     const bigArray = ['Hello', 'Goodbye', 'What\'s Up?'];
     const smallerArray = ['Hello', 'What\'s Up?'];
     expect(ObjectUtils.deepEquals(ObjectUtils.removeItem(bigArray, 'Goodbye'), smallerArray)).toBeTruthy();
   });
 
-  it('Does a deep equality comparison of objects', () => {
+  test('Does a deep equality comparison of objects', () => {
     const object1 = 'hello';
     const object2 = 4;
     const object3 = [1, 4, 23, 63];
@@ -55,7 +54,7 @@ describe('Test ObjectUtils', () => {
     expect(ObjectUtils.deepEquals(object7, object7)).toBeTruthy();
   });
 
-  it('Does an equality comparison of Map objects', () => {
+  test('Does an equality comparison of Map objects', () => {
     const map1: Map<string, any> = new Map();
     map1.set('greeting', 'goodbye');
     map1.set('nums', [4, 6, 2, 7]);
@@ -80,7 +79,7 @@ describe('Test ObjectUtils', () => {
     expect(ObjectUtils.deepEquals(map2, map3)).toBeFalsy();
   });
 
-  it('Creates a JS object from a map', () => {
+  test('Creates a JS object from a map', () => {
     const map: Map<string, any> = new Map();
     map.set('greeting', 'goodbye');
     map.set('nums', [4, 6, 2, 7]);
@@ -98,7 +97,7 @@ describe('Test ObjectUtils', () => {
     expect(ObjectUtils.deepEquals(mapObj, obj1)).toBeTruthy();
   });
 
-  it('Creates a map from a JS object', () => {
+  test('Creates a map from a JS object', () => {
     const obj1 = {
       greeting: 'goodbye',
       nums: [4, 6, 2, 7],
@@ -117,7 +116,7 @@ describe('Test ObjectUtils', () => {
     expect(ObjectUtils.deepEquals(objMap, map)).toBeTruthy();
   });
 
-  it('Removes items from arrays', () => {
+  test('Removes items from arrays', () => {
     const bigArray = ['Hello', 'Goodbye', 'What\'s Up?'];
     const smallerArray = ['Hello', 'What\'s Up?'];
     expect(ObjectUtils.deepEquals(ObjectUtils.removeItem(bigArray, 'Goodbye'), smallerArray)).toBeTruthy();

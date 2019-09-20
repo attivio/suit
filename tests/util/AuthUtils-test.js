@@ -1,19 +1,18 @@
-import expect from 'expect';
 import AuthUtils from '../../src/util/AuthUtils';
 import ObjectUtils from '../../src/util/ObjectUtils';
 
 describe('Test AuthUtils', () => {
-  it('Can do Jetty-style obfuscation', () => {
+  test('Can do Jetty-style obfuscation', () => {
     expect(AuthUtils.obfuscate('SecretPassword123')).toEqual('1fof1j1u1igh1vgt1vn61y101sgo1v1p1ym71v2p1siu1y0q1vnw1vg11idp1iz01fmn'); // eslint-disable-line max-len
   });
 
-  it('Can validate hashed passwords', () => {
+  test('Can validate hashed passwords', () => {
     expect(AuthUtils.passwordMatches('', '')).toBeTruthy();
     expect(AuthUtils.passwordMatches('SecretPassword123', 'OBF:1fof1j1u1igh1vgt1vn61y101sgo1v1p1ym71v2p1siu1y0q1vnw1vg11idp1iz01fmn')).toBeTruthy(); // eslint-disable-line max-len
     expect(AuthUtils.passwordMatches('SecretPassword123', 'MD5:512d9845442e46f891bafc22f06b171e')).toBeTruthy(); // eslint-disable-line max-len
   });
 
-  it('Can determine the proper username to display from a user object', () => {
+  test('Can determine the proper username to display from a user object', () => {
     const user1 = {
       $: {
         name: 'Fred',

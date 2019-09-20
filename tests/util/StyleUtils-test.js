@@ -1,5 +1,3 @@
-import React from 'react';
-import { render } from '@testing-library/react';
 import Card from '../../src/components/Card';
 import StyleUtils from '../../src/util/StyleUtils';
 
@@ -20,7 +18,6 @@ describe('Test StyleUtils', () => {
       expect(parsed[1]).toEqual(0);
       expect(parsed[2]).toEqual(0);
     });
-
 
     test('Parses rgb()', () => {
       const parsed = StyleUtils.parseColor('rgb( 15, 72, 229)');

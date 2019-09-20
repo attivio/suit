@@ -1,8 +1,7 @@
-import expect from 'expect';
 import StringUtils from '../../src/util/StringUtils';
 
 describe('Test StringUtils', () => {
-  it('Can format strings properly', () => {
+  test('Can format strings properly', () => {
     expect(StringUtils.fmt('Hey', 5)).toEqual('Hey');
     expect(StringUtils.fmt('Mark {}', 5)).toEqual('Mark 5');
     expect(StringUtils.fmt('Zero thingies|One thingy|{} thingies', 0)).toEqual('Zero thingies');
@@ -14,24 +13,24 @@ describe('Test StringUtils', () => {
     expect(StringUtils.fmt('One thingy|{} thingies', 17)).toEqual('17 thingies');
   });
 
-  it('Can find the last index of a regex-matched string', () => {
+  test('Can find the last index of a regex-matched string', () => {
     expect(StringUtils.regexLastIndexOf('Hello there, how are you?', /friend/)).toEqual(-1);
     expect(StringUtils.regexLastIndexOf('Hello there, how are you?', /\s/g)).toEqual(20);
   });
 
-  it('Can strip simnple HTML tags out of a string', () => {
+  test('Can strip simnple HTML tags out of a string', () => {
     const html = '<table class="infobox" style="width:22em"><caption style="font-size:130%; padding-bottom:0.15em;">HTML<br><span style="font-size:85%;"><span class="nowrap">(Hypertext Markup Language)</span></span></caption><tbody><tr><td colspan="2" style="text-align:center"><a href="/wiki/File:HTML5_logo_and_wordmark.svg" class="image"><img alt="HTML5 logo and wordmark.svg" src="//upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/120px-HTML5_logo_and_wordmark.svg.png" width="120" height="120" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/180px-HTML5_logo_and_wordmark.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/240px-HTML5_logo_and_wordmark.svg.png 2x" data-file-width="512" data-file-height="512"></a><div>The official logo of the last version – <a href="/wiki/HTML5" title="HTML5">HTML5</a>.<sup id="cite_ref-1" class="reference"><a href="#cite_note-1">[1]</a></sup></div></td></tr><tr><th scope="row" style="padding:0.2em 0;line-height:1.2em; padding-right:0.65em;"><a href="/wiki/Filename_extension" title="Filename extension">Filename extension</a></th><td style="line-height:1.35em;"><div class="plainlist"><ul><li><code>.html</code></li><li><code>.htm</code></li></ul></div></td></tr><tr><th scope="row" style="padding:0.2em 0;line-height:1.2em; padding-right:0.65em;"><a href="/wiki/Media_type" title="Media type">Internet media&nbsp;type</a></th><td style="line-height:1.35em;"><code>text/html'; // eslint-disable-line max-len
     const plain = 'HTML(Hypertext Markup Language)The official logo of the last version – HTML5.[1]Filename extension.html.htmInternet media\u00a0typetext/html'; // eslint-disable-line max-len
     expect(StringUtils.stripSimpleHtml(html)).toEqual(plain);
   });
 
-  it('Can smartly truncate long strings', () => {
+  test('Can smartly truncate long strings', () => {
     const gettysburg = 'Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal'; // eslint-disable-line max-len
     expect(StringUtils.smartTruncate(gettysburg, 20)).toEqual('Four score and seven\u2026');
     expect(StringUtils.smartTruncate(gettysburg, 27, false)).toEqual('Four score and seven years');
   });
 
-  it('Can wrap a long string into multiple lines', () => {
+  test('Can wrap a long string into multiple lines', () => {
     const gettysburg = 'Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal'; // eslint-disable-line max-len
     const defaultWrapped = 'Four score and seven years ago our fathers brought\nforth on this continent, a new nation, conceived\nin Liberty, and dedicated to the proposition that\nall men are created equal'; // eslint-disable-line max-len
     const shortWrappedWindows = 'Four score and seven\r\nyears ago our\r\nfathers brought\r\nforth on this\r\ncontinent, a new\r\nnation, conceived in\r\nLiberty, and\r\ndedicated to the\r\nproposition that all\r\nmen are created\r\nequal'; // eslint-disable-line max-len
@@ -40,14 +39,14 @@ describe('Test StringUtils', () => {
     expect(StringUtils.wrapLabel(gettysburg, '\r\n', 20)).toEqual(shortWrappedWindows);
   });
 
-  it('Can find empty strings', () => {
+  test('Can find empty strings', () => {
     expect(StringUtils.notEmpty('I\'m full')).toBeTruthy();
     expect(StringUtils.notEmpty('')).toBeFalsy();
     expect(StringUtils.notEmpty(undefined)).toBeFalsy();
     expect(StringUtils.notEmpty(null)).toBeFalsy();
   });
 
-  it('Can format numbers', () => {
+  test('Can format numbers', () => {
     expect(StringUtils.formatNumber('2:${}', 3.2151)).toBe('$3.22');
     expect(StringUtils.formatNumber('4:None|{}% More|{}% More', 0)).toBe('None');
     expect(StringUtils.formatNumber('4:None|{}% More|{}% More', 1)).toBe('1.0000% More');
@@ -60,7 +59,7 @@ describe('Test StringUtils', () => {
     expect(StringUtils.formatNumber('0:1 Ringy-Dingy|{} Ringy-Dingies', 7)).toBe('7 Ringy-Dingies');
   });
 
-  it('Can strip punctuation characters', () => {
+  test('Can strip punctuation characters', () => {
     expect(StringUtils.stripPunctuation('and there are floating-point numbers like 123.582 and .0921 there'))
       .toEqual('and there are floating point numbers like 123.582 and .0921 there');
     expect(StringUtils.stripPunctuation('this period has punctuation.-after it'))
@@ -69,12 +68,12 @@ describe('Test StringUtils', () => {
       .toEqual('sentence one  sentence two ');
   });
 
-  it('Can coalesce whitespace', () => {
+  test('Can coalesce whitespace', () => {
     expect(StringUtils.coalesceWhitespace('-this is some text 我们的车子是红 你们的车子是是 ： 中文 「毛 ？there are part numbers like BC-3-29 and like test@gmail.com & and     test2@gmail.com (  and there are floating-point numbers    like 123.582 and .0921 there')) // eslint-disable-line max-len
       .toEqual('-this is some text 我们的车子是红 你们的车子是是 ： 中文 「毛 ？there are part numbers like BC-3-29 and like test@gmail.com & and test2@gmail.com ( and there are floating-point numbers like 123.582 and .0921 there'); // eslint-disable-line max-len
   });
 
-  it('Can detect punctuation', () => {
+  test('Can detect punctuation', () => {
     expect(StringUtils.isPunctuation('.')).toBe(true);
     expect(StringUtils.isPunctuation(':')).toBe(true);
     expect(StringUtils.isPunctuation('(')).toBe(true);
@@ -101,14 +100,14 @@ describe('Test StringUtils', () => {
     expect(StringUtils.isPunctuation('א')).toBe(false);
   });
 
-  it('Can detect whitespace', () => {
+  test('Can detect whitespace', () => {
     expect(StringUtils.isWhitespace('.')).toBe(false);
     expect(StringUtils.isWhitespace(' ')).toBe(true);
     expect(StringUtils.isWhitespace('\t')).toBe(true);
     expect(StringUtils.isWhitespace(' ')).toBe(true);
   });
 
-  it('Can find hyphens with numbers around them', () => {
+  test('Can find hyphens with numbers around them', () => {
     const bad = 'and there are floating-point numbers like 123.582 and .0921 there';
     const good = 'like BC-3-29 and like';
     expect(bad.substring(22, 23)).toEqual('-');
@@ -120,7 +119,7 @@ describe('Test StringUtils', () => {
     expect(StringUtils.isNumericOnlyBefore(good, 9)).toBe(true);
   });
 
-  it('Can normalize autocomplete strings', () => {
+  test('Can normalize autocomplete strings', () => {
     expect(StringUtils.normalizeAutocompleteSuggestion('    ')).toEqual('');
     expect(StringUtils.normalizeAutocompleteSuggestion('foo')).toEqual('foo');
     expect(StringUtils.normalizeAutocompleteSuggestion('foo lvaldez@attivio.com')).toEqual('foo lvaldez@attivio.com');
@@ -133,7 +132,7 @@ describe('Test StringUtils', () => {
       .toEqual('this is some text 我们的车子是红 你们的车子是是 中文 毛 there are part numbers like BC-3-29 and like test@gmail.com and test2@gmail.com and there are floating point numbers like 123.582 and .0921 there'); // eslint-disable-line max-len
   });
 
-  it('Can normalize autocomplete strings', () => {
+  test('Can normalize autocomplete strings', () => {
     expect(StringUtils.stripQuestionMarks('How you doin\'?')).toEqual('How you doin\' ');
     expect(StringUtils.stripQuestionMarks('What? When? Where? Why? How?')).toEqual('What  When  Where  Why  How ');
   });
