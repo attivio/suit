@@ -63,9 +63,12 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
 
   static calcState(buckets: Array<SearchFacetBucket>, zoom: number,
     geoFilters: Array<string>, updating: string): MapFacetContentsState {
+    // Calculate the center from all the coordinates in the buckets.
+    // The output from map() is filtered to remove null values as
+    // getCoordinatesFromBucket() can return null.
     const center = PositionUtils.calcCenter(buckets.map((bucket) => {
-      return bucket.value;
-    }));
+      return MapFacetContents.getCoordinatesFromBucket(bucket);
+    }).filter(coordinates => coordinates !== null));
     return {
       latitude: center.latitude,
       longitude: center.longitude,
@@ -73,6 +76,33 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
       geoFilters,
       updating,
     };
+  }
+
+  /**
+   * Gets the latitude and longitude from the SearchFacetBucket value.
+   * The SearchFacetBucket value returned from backend can have 2 different formats:
+   * 1. Comma separated string. Eg. "22.56,17.53"
+   * 2. Plain JS Object. Eg. { longitude: 22.56, latitude: 17.53 }
+   * This method returns null if bucket.value is different from these above 2 formats.
+   */
+  static getCoordinatesFromBucket(bucket: SearchFacetBucket):any {
+    const value = bucket.value;
+    let longitude = NaN;
+    let latitude = NaN;
+    if (typeof value === 'string') {
+      const valueArr = value.split(',');
+      if (valueArr.length === 2) {
+        longitude = Number.parseFloat(valueArr[0]);
+        latitude = Number.parseFloat(valueArr[1]);
+      }
+    } else {
+      longitude = value.longitude;
+      latitude = value.latitude;
+    }
+    if (Number.isNaN(longitude) || Number.isNaN(latitude)) {
+      return null;
+    }
+    return { longitude, latitude };
   }
 
   static getFilter(e: any): string {
@@ -199,22 +229,12 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
       });
 
       const points = this.props.buckets.map((bucket) => {
-        const value = bucket.value;
-        let longitude = NaN;
-        let latitude = NaN;
-        if (typeof value === 'string') {
-          const valueArr = value.split(',');
-          if (valueArr.length === 2) {
-            longitude = Number.parseFloat(valueArr[0]);
-            latitude = Number.parseFloat(valueArr[1]);
-          }
-        } else {
-          longitude = value.longitude;
-          latitude = value.latitude;
-        }
-        if (Number.isNaN(longitude) || Number.isNaN(latitude)) {
+        // Return null if getCoordinatesFromBucket() returns null value
+        const coordinates = MapFacetContents.getCoordinatesFromBucket(bucket);
+        if (!coordinates) {
           return null;
         }
+        const { longitude, latitude } = coordinates;
         // Keep track of the boundaries of the coordinates
         return (
           <Marker
