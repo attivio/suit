@@ -1006,9 +1006,11 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   /**
    * Remove the specified facet filter from the current
    * search. If a search has already been performed, it
-   * will be repeated with the updated set of facet filters.
+   * will be repeated with the updated set of facet filters,
+   * unless repeatSearch is set to false the search will not
+   * be repeated.
    */
-  removeFacetFilter(removeFilter: FacetFilter) {
+  removeFacetFilter(removeFilter: FacetFilter, repeatSearch: boolean = true) {
     const updatedFacetFilters = [];
     const facetFilters = this.state.facetFilters;
     this.addFacetFilterSignal(removeFilter, false);
@@ -1017,9 +1019,15 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         updatedFacetFilters.push(facetFilter);
       }
     });
-    this.updateStateResetAndSearch({
-      facetFilters: updatedFacetFilters,
-    });
+    if (repeatSearch) {
+      this.updateStateResetAndSearch({
+        facetFilters: updatedFacetFilters,
+      });
+    } else {
+      this.setState({
+        facetFilters: updatedFacetFilters,
+      });
+    }
   }
 
   /**
