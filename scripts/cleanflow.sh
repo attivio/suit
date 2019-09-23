@@ -3,7 +3,7 @@
 ##################################################
 ### This script expects to be executed by NPM
 ### from the root of the project. For example,
-### with the command "npm run cleanFlow"
+### with the command "yarn cleanFlow"
 ##################################################
 
 # It is designed to be passed the output of calling the
