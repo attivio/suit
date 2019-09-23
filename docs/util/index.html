@@ -1,14 +1,14 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset='utf-8' />
+  <meta charset='utf-8'>
   <title>@attivio/suit 1.0.7 | Documentation</title>
-  <meta name='viewport' content='width=device-width,initial-scale=1'>
-  <link href='assets/bass.css' type='text/css' rel='stylesheet' />
-  <link href='assets/style.css' type='text/css' rel='stylesheet' />
-  <link href='assets/github.css' type='text/css' rel='stylesheet' />
-  <link href='assets/split.css' type='text/css' rel='stylesheet' />
   <meta name='description' content='Attivio SUIT, the Search UI Toolkit, is a library for creating search clients for searching the Attivio platform.'>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href='assets/bass.css' rel='stylesheet'>
+  <link href='assets/style.css' rel='stylesheet'>
+  <link href='assets/github.css' rel='stylesheet'>
+  <link href='assets/split.css' rel='stylesheet'>
 </head>
 <body class='documentation m0'>
     <div class='flex'>
@@ -549,7 +549,7 @@
             </ul>
           </div>
           <div class='mt1 h6 quiet'>
-            <a href='http://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
+            <a href='https://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
           </div>
         </div>
       </div>
@@ -571,10 +571,7 @@
 
   <p>Utility class to handle fetch requests.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new FetchUtils()</div>
-   
   
   
 
@@ -615,10 +612,7 @@
 This method ensures that all requests behave the same including handling
 SAML errors when a user's session times out.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>fetch(uri: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, payload: (any | null), callback: function (response: (any | null), error: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null)): void, method: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, errorMessage: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
-   
   
   
 
@@ -689,6 +683,8 @@ SAML errors when a user's session times out.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -708,10 +704,7 @@ SAML errors when a user's session times out.</p>
 
   <p>Get the error message out of the error object.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>getErrorMessage(error: any, errorMessage: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -767,6 +760,8 @@ SAML errors when a user's session times out.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -779,8 +774,11 @@ SAML errors when a user's session times out.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -798,10 +796,7 @@ SAML errors when a user's session times out.</p>
 
   <p>Utility class that provdides CSS-related functionality.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new StyleUtils()</div>
-   
   
   
 
@@ -843,10 +838,7 @@ SAML errors when a user's session times out.</p>
 ignores any alpha value if the color is in the "rgba()" format.</p>
 <p>NOTE: For now, it only handles HEX color values...</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>parseColor(colorToParse: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, tryCssColorNames: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>): [<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>]</div>
-   
   
   
 
@@ -899,6 +891,8 @@ ignores any alpha value if the color is in the "rgba()" format.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -920,10 +914,7 @@ ignores any alpha value if the color is in the "rgba()" format.</p>
 way from "from" to "to." Percentage is a number between 0 and 1.0. This is
 done over the squares of the numbers.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>blendInts(from: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, to: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, percentage: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></div>
-   
   
   
 
@@ -984,6 +975,8 @@ done over the squares of the numbers.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -1004,10 +997,7 @@ done over the squares of the numbers.</p>
   <p>Given a three-element array with the RGB values for a color, create
 a CSS hex color string starting with an octothorpe.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>toHexColor(color: [<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>]): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -1051,6 +1041,8 @@ a CSS hex color string starting with an octothorpe.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -1076,10 +1068,7 @@ names.
 It always returns a hex encoded number prefixed with an octothorpe, e.g., "#f2a902,"
 regardless of the format of the original colors.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>blendColors(from: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, to: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, percentage: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -1140,6 +1129,8 @@ regardless of the format of the original colors.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -1168,10 +1159,7 @@ It always returns the color as a hex string
 prefixed with an octothorpe, e.g., "#f2a902," regardless of the format of the
 original color.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>lightenColor(orig: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, percentage: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -1213,6 +1201,8 @@ original color.</p>
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
     
+  
+
   
 
   
@@ -1252,10 +1242,7 @@ It always returns the color as a hex string
 prefixed with an octothorpe, e.g., "#f2a902," regardless of the format of the
 original color.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>darkenColor(orig: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, percentage: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -1308,6 +1295,8 @@ original color.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -1320,8 +1309,11 @@ original color.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -1339,10 +1331,7 @@ original color.</p>
 
   <p>Utility class for working with various types of JavaScript objects.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new ObjectUtils()</div>
-   
   
   
 
@@ -1381,10 +1370,7 @@ original color.</p>
 
   <p>Remove an object from an array.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>removeItem(a: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;T>, o: T): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;T></div>
-   
   
   
 
@@ -1436,6 +1422,8 @@ original color.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -1456,10 +1444,7 @@ original color.</p>
   <p>Compare two objects to see if they are equal. Will handle primitive
 types, arrays, and plain-old JavaScript objects.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>deepEquals(objA: any, objB: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
-   
   
   
 
@@ -1511,6 +1496,8 @@ types, arrays, and plain-old JavaScript objects.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -1532,10 +1519,7 @@ types, arrays, and plain-old JavaScript objects.</p>
 strings into a plain-old JavaScript object so it
 can be converted to JSON.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>strMapToObj(strMap: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, any>)</div>
-   
   
   
 
@@ -1574,6 +1558,8 @@ can be converted to JSON.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -1594,10 +1580,7 @@ can be converted to JSON.</p>
   <p>Convert a plain-old JavaScript object to an ES6-style map.
 Only looks at the objects own properties.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>toMap(a: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, any></div>
-   
   
   
 
@@ -1641,6 +1624,8 @@ Only looks at the objects own properties.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -1653,8 +1638,11 @@ Only looks at the objects own properties.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -1672,10 +1660,7 @@ Only looks at the objects own properties.</p>
 
   <p>Utility class that provides various string-manipulation functionality.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new StringUtils()</div>
-   
   
   
 
@@ -1726,10 +1711,7 @@ in all cases.)</p>
 the characters '{}', that is substituted with the number
 itself, as a string.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>fmt(format: any, value: any)</div>
-   
   
   
 
@@ -1778,6 +1760,8 @@ itself, as a string.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -1798,10 +1782,7 @@ itself, as a string.</p>
   <p>Find the match for a regular expression in a string closest
 to the end of the string.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>regexLastIndexOf(s: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, regex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a>, startPos: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a> | null)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></div>
-   
   
   
 
@@ -1836,7 +1817,8 @@ to the end of the string.</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>startPos</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a> | null))</code>
+            <span class='code bold'>startPos</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a> | null)
+            = <code>null</code>)</code>
 	    and optional position in the string at which to stsrt
 
           </div>
@@ -1867,6 +1849,8 @@ to the end of the string.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -1886,10 +1870,7 @@ to the end of the string.</p>
 
   <p>Remove simple HTML tags from the string.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>stripSimpleHtml(orig: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -1937,6 +1918,8 @@ to the end of the string.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -1959,10 +1942,7 @@ characters specified by maxLen. The truncation will happen at a word
 boundary, if possible. Unless otherwise specified, an ellipsis
 is appended to the resulting string.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>smartTruncate(orig: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, maxLen: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, ellipsis: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -1997,7 +1977,8 @@ is appended to the resulting string.</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>ellipsis</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
+            <span class='code bold'>ellipsis</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>
+            = <code>true</code>)</code>
 	    if true, an ellipsis character will be appended to the
 truncated string
 
@@ -2029,6 +2010,8 @@ truncated string
   
 
   
+
+  
 </section>
 
       </div>
@@ -2049,10 +2032,7 @@ truncated string
   <p>Split the string onto multiple lines, separated with the
 given character, if the given limit is reached.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>wrapLabel(orig: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, newLine: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, limit: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -2078,7 +2058,8 @@ given character, if the given limit is reached.</p>
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>newLine</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+            <span class='code bold'>newLine</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>
+            = <code>&#39;\n&#39;</code>)</code>
 	    the line break string to use, optional—defaults to a newline
 character but could be replaced with a string like 
 <br />
@@ -2090,7 +2071,8 @@ character but could be replaced with a string like
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>limit</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+            <span class='code bold'>limit</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>
+            = <code>50</code>)</code>
 	    the maximum number of characters to allow on any given row
 
           </div>
@@ -2121,6 +2103,8 @@ character but could be replaced with a string like
   
 
   
+
+  
 </section>
 
       </div>
@@ -2140,10 +2124,7 @@ character but could be replaced with a string like
 
   <p>Returns true if the value is a string and it is has a length greater than 0.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>notEmpty(value: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
-   
   
   
 
@@ -2187,6 +2168,8 @@ character but could be replaced with a string like
   
 
   
+
+  
 </section>
 
       </div>
@@ -2219,10 +2202,7 @@ For example:
 "0:No Queries|{} Query|{} Queries" with 1 will produce the string "1 Query"
 "0:No Queries|{} Query|{} Queries" with 72.1 will produce the string "72 Queries"</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>formatNumber(formatString: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, value: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -2274,6 +2254,8 @@ For example:
   
 
   
+
+  
 </section>
 
       </div>
@@ -2300,10 +2282,7 @@ if one side of a hyphen is a number, it's left intact</p>
 simple query request (e.g. "?" will match exactly one character so if the suggestion is "who?"
 then documents containing "who" will not be found (but those with "whom" would).</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>normalizeAutocompleteSuggestion(original: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -2351,6 +2330,8 @@ then documents containing "who" will not be found (but those with "whom" would).
   
 
   
+
+  
 </section>
 
       </div>
@@ -2370,10 +2351,7 @@ then documents containing "who" will not be found (but those with "whom" would).
 
   <p>Check whether the given character is a digit.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>isDigit(c: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): any</div>
-   
   
   
 
@@ -2421,6 +2399,8 @@ then documents containing "who" will not be found (but those with "whom" would).
   
 
   
+
+  
 </section>
 
       </div>
@@ -2443,10 +2423,7 @@ This handles all punctuation, including various non-ASCII types
 like curly quotes, CJK punctuation, etc. Note that this doesn't
 check for whitespsce characters.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>isPunctuation(c: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
-   
   
   
 
@@ -2494,6 +2471,8 @@ check for whitespsce characters.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -2514,10 +2493,7 @@ check for whitespsce characters.</p>
   <p>Check to see if the given character is a whitespace character
 such as a space, tab, etc.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>isWhitespace(c: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
-   
   
   
 
@@ -2565,6 +2541,8 @@ such as a space, tab, etc.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -2587,10 +2565,7 @@ the adjacent characters preceeding the character at that
 position are digits, up until either a whitespace character,
 a punctuation character, or the beginning of the string.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>isNumericOnlyBefore(s: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, pos: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
-   
   
   
 
@@ -2647,6 +2622,8 @@ a punctuation character, or the beginning of the string.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -2669,10 +2646,7 @@ the adjacent characters following the character at that
 position are digits, up until either a whitespace character,
 a punctuation character, or the end of the string.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>isNumericOnlyAfter(s: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, pos: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
-   
   
   
 
@@ -2729,6 +2703,8 @@ a punctuation character, or the end of the string.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -2751,10 +2727,7 @@ with a space character. Ignores periods that aren't followed by whitespace
 or other punctuation and ignores hyphens if the "word" immediately before
 or after them is comprised solely of digits.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>stripPunctuation(orig: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -2802,6 +2775,8 @@ or after them is comprised solely of digits.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -2822,10 +2797,7 @@ or after them is comprised solely of digits.</p>
   <p>Collapse any occurrences of whitespace in the given string to just
 one single ASCII space character.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>coalesceWhitespace(orig: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -2873,6 +2845,8 @@ one single ASCII space character.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -2893,10 +2867,7 @@ one single ASCII space character.</p>
   <p>Given a string, remove any question marks and replace them with
 space characters.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>stripQuestionMarks(orig: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -2944,6 +2915,8 @@ space characters.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -2956,8 +2929,11 @@ space characters.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -2975,10 +2951,7 @@ space characters.</p>
 
   <p>Utility class with functions that help manipulate dates.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new DateUtils()</div>
-   
   
   
 
@@ -3018,10 +2991,7 @@ space characters.</p>
   <p>Given a JavaScript Date object, return a formatted date in the specified
 locale using the format specified.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>formatDate(date: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a>, format: DateFormat, locale: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -3082,6 +3052,8 @@ locale using the format specified.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -3102,10 +3074,7 @@ locale using the format specified.</p>
   <p>Given a JavaScript Date object, return a formatted date in the specified
 locale using the moment.js format string specified.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>formatDateCustom(date: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a>, formatString: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, locale: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -3166,6 +3135,8 @@ locale using the moment.js format string specified.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -3185,10 +3156,7 @@ locale using the moment.js format string specified.</p>
 
   <p>Given a string, return a Date object created by parsing it.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>stringToDate(dateString: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a></div>
-   
   
   
 
@@ -3232,6 +3200,8 @@ locale using the moment.js format string specified.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -3252,10 +3222,7 @@ locale using the moment.js format string specified.</p>
   <p>Given a string, return a formatted date in the specified locale using
 the format specified.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>formatDateString(dateString: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), format: DateFormat, locale: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -3316,6 +3283,8 @@ the format specified.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -3357,10 +3326,7 @@ information, essentially.</p>
 <li>2016 - 2019</li>
 </ul>
 
- 
-  
     <div class='pre p1 fill-light mt0'>formatDateRange(start: any, end: any)</div>
-   
   
   
 
@@ -3407,6 +3373,8 @@ information, essentially.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -3419,8 +3387,11 @@ information, essentially.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -3440,10 +3411,7 @@ information, essentially.</p>
 engine into an Attivio QueryResponse so that it can be
 processed by the Search UI.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new ElasticToQueryResponse()</div>
-   
   
   
 
@@ -3482,10 +3450,7 @@ processed by the Search UI.</p>
 
   <p>Turn non-array field values into arrays.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>wrapIfNotArray(v: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any></div>
-   
   
   
 
@@ -3529,6 +3494,8 @@ processed by the Search UI.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -3541,8 +3508,11 @@ processed by the Search UI.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -3562,10 +3532,7 @@ processed by the Search UI.</p>
 into an Attivio QueryResponse so that it can be
 processed by the Search UI.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new SolrToQueryResponse()</div>
-   
   
   
 
@@ -3604,10 +3571,7 @@ processed by the Search UI.</p>
 
   <p>Do the conversion.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>convert(json: any, customOptions: any): QueryResponse</div>
-   
   
   
 
@@ -3661,6 +3625,8 @@ processed by the Search UI.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -3680,10 +3646,7 @@ processed by the Search UI.</p>
 
   <p>Turn non-array field values into arrays.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>wrapIfNotArray(v: any)</div>
-   
   
   
 
@@ -3722,6 +3685,8 @@ processed by the Search UI.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -3734,8 +3699,11 @@ processed by the Search UI.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -3755,10 +3723,7 @@ processed by the Search UI.</p>
 configuration of application including the configuration used for components
 wrapped with the Configurable higher-order component.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new AuthUtils()</div>
-   
   
   
 
@@ -3797,10 +3762,7 @@ wrapped with the Configurable higher-order component.</p>
 
   <p>The special role representing a top-level admin, granting full permission.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>ADMIN_ROLE</div>
-   
   
   
 
@@ -3809,6 +3771,8 @@ wrapped with the Configurable higher-order component.</p>
   
   
   
+  
+
   
 
   
@@ -3846,10 +3810,7 @@ wrapped with the Configurable higher-order component.</p>
   <p>Called by the application to pass in configuration to the
 library's utility and API classes.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>configure(users: any, config: any, simpleValidation: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>): (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null)</div>
-   
   
   
 
@@ -3885,7 +3846,8 @@ maps converted already
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>simpleValidation</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
+            <span class='code bold'>simpleValidation</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>
+            = <code>false</code>)</code>
 	    if set to true, then a lot of the validation
 specific to search applications won't be done
 
@@ -3906,6 +3868,8 @@ specific to search applications won't be done
 
       
     
+  
+
   
 
   
@@ -3939,10 +3903,7 @@ Map objects if and only if their name starts with a lowercase letter. Thus
 orig.ALL and orig.Masthead won't be converted but orig.ALL.entityColors
 will.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>mappify(orig: any): any</div>
-   
   
   
 
@@ -3986,6 +3947,8 @@ will.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -4005,10 +3968,7 @@ will.</p>
 
   <p>Logs the currently logged-in user out.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>logout()</div>
-   
   
   
 
@@ -4017,6 +3977,8 @@ will.</p>
   
   
   
+  
+
   
 
   
@@ -4053,10 +4015,7 @@ will.</p>
 
   <p>Implementation of the obfuscation algorithm from Jetty.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>obfuscate(orig: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -4100,6 +4059,8 @@ will.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -4119,10 +4080,7 @@ will.</p>
 
   <p>Validate a password against a hashed one.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>passwordMatches(comp: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, compTo: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
-   
   
   
 
@@ -4174,6 +4132,8 @@ will.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -4194,10 +4154,7 @@ will.</p>
   <p>Find the user info for a given user name.
 This is only applicable in the case of XML authentication.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>findUser(username: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): any</div>
-   
   
   
 
@@ -4241,6 +4198,8 @@ This is only applicable in the case of XML authentication.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -4263,10 +4222,7 @@ occurs logging in, then it is returned. Otherwise
 this returns null. The log in is valid for the timeout
 set in the authentication configuration.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>login(username: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, password: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a> | null)</div>
-   
   
   
 
@@ -4318,6 +4274,8 @@ set in the authentication configuration.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -4337,10 +4295,7 @@ set in the authentication configuration.</p>
 
   <p>Save the currently logged-in user's info into session storage for easy access.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>saveLoggedInUser(userInfo: any)</div>
-   
   
   
 
@@ -4379,6 +4334,8 @@ set in the authentication configuration.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -4398,10 +4355,7 @@ set in the authentication configuration.</p>
 
   <p>Check whether the user has a particular permission.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>hasRole(user: any, role: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
-   
   
   
 
@@ -4453,6 +4407,8 @@ set in the authentication configuration.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -4473,10 +4429,7 @@ set in the authentication configuration.</p>
   <p>Check whether there is a user currently logged in.
 Optionally with the provided role</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>isLoggedIn(role: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
-   
   
   
 
@@ -4520,6 +4473,8 @@ Optionally with the provided role</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -4541,10 +4496,7 @@ Optionally with the provided role</p>
 If no user is logged in or if the logged-in user's login has expired,
 then this method returns null.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>getSavedUser(): any</div>
-   
   
   
 
@@ -4564,6 +4516,8 @@ then this method returns null.</p>
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code>any</code>
     
+  
+
   
 
   
@@ -4596,10 +4550,7 @@ then this method returns null.</p>
 callback function with this info. If no user is logged in, the callback
 is passed null.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>getLoggedInUserInfo(callback: function (any): void)</div>
-   
   
   
 
@@ -4639,6 +4590,8 @@ is passed null.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -4658,10 +4611,7 @@ is passed null.</p>
 
   <p>Get the user name to display given the user info passed in.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>getUserName(userInfo: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -4705,6 +4655,8 @@ is passed null.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -4726,10 +4678,7 @@ is passed null.</p>
 grief. Return null if it's good, or an error message otherwise.
 This should only be called if auth type is 'XML'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>validateUsers(users: any): (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null)</div>
-   
   
   
 
@@ -4773,6 +4722,8 @@ This should only be called if auth type is 'XML'</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -4793,10 +4744,7 @@ This should only be called if auth type is 'XML'</p>
   <p>Validate the configuration object to make sure it won't cause us any
 grief. Return null if it's good, or an error message otherwise.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>validateConfiguration(config: any, simpleValidation: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>): (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null)</div>
-   
   
   
 
@@ -4849,6 +4797,8 @@ grief. Return null if it's good, or an error message otherwise.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -4861,8 +4811,11 @@ grief. Return null if it's good, or an error message otherwise.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -4881,10 +4834,7 @@ grief. Return null if it's good, or an error message otherwise.</p>
   <p>Utility functions used by the KnowledgeGraphPanel component to construct the queries
 needed for populating it's graph.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new KnowledgeGraphUtils()</div>
-   
   
   
 
@@ -4925,10 +4875,7 @@ needed for populating it's graph.</p>
 query will be the main document (the one whose ID is passed in) with any related
 documents listed as its children.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>buildQuery(docId: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, table: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), tableField: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, linkingFields: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>, maxLinkedDocs: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, entityName: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), entityValue: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -5026,6 +4973,8 @@ any document, regardless of its table)
   
 
   
+
+  
 </section>
 
       </div>
@@ -5048,10 +4997,7 @@ The main document should have children that represent the others.
 If firstIsPrimary is false, no document will be the primary (shadowed) one.
 If filterOutSingletons is false, then external "leaf" entity nodes will be shown</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>searchResultsToGraph(mainDoc: SearchDocument, linkingFields: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>, firstIsPrimary: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, filterOutSingletons: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>): GraphDefinition</div>
-   
   
   
 
@@ -5121,6 +5067,8 @@ If filterOutSingletons is false, then external "leaf" entity nodes will be shown
   
 
   
+
+  
 </section>
 
       </div>
@@ -5133,8 +5081,11 @@ If filterOutSingletons is false, then external "leaf" entity nodes will be shown
   
 
   
+
+  
 </section>
 
+          
         
       </div>
     </div>

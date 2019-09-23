@@ -8,12 +8,12 @@ rm -rf  node_modules && \
 rm -rf es && \
 rm -rf lib && \
 rm -rf styleguide && \
-yarn install && \ 
+yarn install && \
 yarn lint && \
-yarn flow && \ 
+yarn flow && \
 yarn validatecomponents && \
 yarn doclint && \
 yarn test:coverage && \
-yarn styleguide && \
 yarn doc && \
-yarn build
+yarn build && \
+yarn styleguide
