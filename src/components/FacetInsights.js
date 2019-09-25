@@ -91,9 +91,8 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
     // "*:*" so there will be something to display here. If the
     // user has already searched, show things based on the current
     // search results.
-    const searcher = this.context.searcher;
-    if (searcher && !searcher.state.haveSearched) {
-      searcher.doSearch();
+    if (this.context && this.context.searcher && this.context.searcher.state && !this.context.searcher.state.haveSearched) {
+      this.context.searcher.doSearch();
     }
   }
 
@@ -164,9 +163,14 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
   }
 
   render() {
-    const searcher = this.context.searcher;
-    const facets = searcher.state.response ? searcher.state.response.facets.slice() : [];
+    const hasResponseFacets = this.context
+      && this.context.searcher
+      && this.context.searcher.state
+      && this.context.searcher.state.response
+      && this.context.searcher.state.response.facets;
+    const facets = hasResponseFacets ? this.context.searcher.state.response.facets.slice() : [];
 
+    // FIXME: Avoid expensive operations in render function.
     const facetMap: Map<string, SearchFacet> = new Map();
     facets.forEach((facet: SearchFacet) => {
       facetMap.set(facet.field, facet);

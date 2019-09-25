@@ -244,6 +244,24 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
       logoutFunction = null;
     }
 
+    const hideMast = (
+      this.context
+      && this.context.searcher
+      && this.context.searcher.state
+      && this.context.searcher.state.hideMast
+    ) || false;
+  
+    if (hideMast) {
+      return (
+        <header className="attivio-globalmast attivio-minwidth">
+          <div className="attivio-container">
+            {this.props.children}
+            <div className="attivio-globalmast-spacer attivio-globalmast-logo" />
+          </div>
+        </header>
+      );
+    }
+
     return (
       <header className="attivio-globalmast attivio-minwidth">
         <div className="attivio-container">

@@ -336,11 +336,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
 
   constructor(props: SearcherProps) {
     super(props);
-
     this.search = new Search(props.baseUri, props.searchEngineType, props.customOptions);
-
     this.state = this.getDefaultState(props);
-    (this: any).updateSearchResults = this.updateSearchResults.bind(this);
   }
 
   state: SearcherState;
@@ -396,6 +393,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       resultsOffset: 0,
       debug: props.debug,
       queryTimestamp: 0,
+      hideMast: (props.location.pathname && props.location.pathname.includes('/no-mast')),
     };
   }
 
@@ -468,24 +466,26 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * Get the list of fields to use in the query request.
    */
   getFieldList(): Array<string> {
+    const { fields } = this.props;
     // Start out with the fields the user specified
-    const result = [].concat(this.props.fields || []);
     // Add the mapped fields that the search results will expect
-    result.push(`${this.props.title} as title`);
-    result.push(`${this.props.uri} as uri`);
-    result.push(`${this.props.table} as table`);
-    result.push(`${this.props.teaser} as teaser`);
-    result.push(`${this.props.text} as text`);
-    result.push(`${this.props.previewImageUri} as previewImageUri`);
-    result.push(`${this.props.thumbnailImageUri} as thumbnailImageUri`);
-    result.push(`${this.props.latitude} as latitude`);
-    result.push(`${this.props.longitude} as longitude`);
-    result.push(`${this.props.moreLikeThisQuery} as morelikethisquery`);
-    result.push(`${this.props.mimetype} as mimetype`);
-    result.push(`${this.props.sourcePath} as sourcepath`);
-    // Add the fields we always want
-    result.push('tags');
-    return result;
+    return [
+      ...fields,
+      `${this.props.title} as title`,
+      `${this.props.uri} as uri`,
+      `${this.props.table} as table`,
+      `${this.props.teaser} as teaser`,
+      `${this.props.text} as text`,
+      `${this.props.previewImageUri} as previewImageUri`,
+      `${this.props.thumbnailImageUri} as thumbnailImageUri`,
+      `${this.props.latitude} as latitude`,
+      `${this.props.longitude} as longitude`,
+      `${this.props.moreLikeThisQuery} as morelikethisquery`,
+      `${this.props.mimetype} as mimetype`,
+      `${this.props.sourcePath} as sourcepath`,
+      // Add the fields we always want
+      'tags',
+    ];
   }
 
   /**
@@ -779,7 +779,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * Callback used when the search is completed. Will update the Searcher's state
    * with the query response or the error string passed in.
    */
-  updateSearchResults(response: QueryResponse | null, error: string | null) {
+  updateSearchResults = (response: QueryResponse | null, error: string | null) => {
     if (response) {
       // Succeeded...
       this.setState({

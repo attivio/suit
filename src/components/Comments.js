@@ -83,7 +83,9 @@ class Comments extends React.Component<void, CommentsProps, CommentsState> {
 
   deleteComment(id: string) {
     const jsonDoc = `{ "id" : "${id}", "mode" : "DELETE" }`;
-    this.context.searcher.search.addOrDeleteDocument(JSON.parse(jsonDoc), this.getComments);
+    if (this.context && this.context.searcher && this.context.searcher.search) {
+      this.context.searcher.search.addOrDeleteDocument(JSON.parse(jsonDoc), this.getComments);
+    }
   }
 
   createFormattedCommentList() {
@@ -112,7 +114,7 @@ class Comments extends React.Component<void, CommentsProps, CommentsState> {
               <div style={{ padding: '0.5em' }}>
                 <b> <i> {comment.username} </i> </b>
                 <div style={{ float: 'right' }}>
-                  { removeCommentOption }
+                  {removeCommentOption}
                 </div>
                 <br />
                 <span style={{ whiteSpace: 'pre-wrap' }}>

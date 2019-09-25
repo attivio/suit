@@ -155,14 +155,16 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
   }
 
   renderFacets() {
-    const searcher = this.context.searcher;
-    const facets = searcher.state.response ? searcher.state.response.facets : null;
+    const { searcher } = this.context;
+    const facets = searcher && searcher.state && searcher.state.response
+      ? searcher.state.response.facets
+      : null;
     if (facets && facets.length > 0) {
       const facetsMap: Map<string, SearchFacet> = new Map();
       facets.forEach((facet: SearchFacet) => {
         facetsMap.set(facet.name, facet);
       });
-      const facetFilters = this.context.searcher.state.facetFilters;
+      const facetFilters = searcher.state.facetFilters;
       const facetFiltersMap: Map<string, FacetFilter> = new Map();
       facetFilters.forEach((facetFilter: FacetFilter) => {
         facetFiltersMap.set(facetFilter.filter, facetFilter);
