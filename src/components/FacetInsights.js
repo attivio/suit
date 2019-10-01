@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import Facet from './Facet';
 
 import SearchFacet from '../api/SearchFacet';
+import SearchFacetBucket from '../api/SearchFacetBucket';
+import FacetFilter from '../api/FacetFilter';
 import ObjectUtils from '../util/ObjectUtils';
 
 type FacetInsightsProps = {
@@ -124,14 +126,32 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
     return 'list';
   }
 
-  facetForField(fieldName: string, facetMap: Map<string, SearchFacet>) {
+  /**
+   * Filter Buckets in Facet that are already applied to the search filters.
+   * Buckets of type tagcloud and timeseries do not need to be filtered.
+   */
+  filterFacetBuckets = (facet: SearchFacet, type: string, facetFiltersMap: Map<string, FacetFilter>): SearchFacet => {
+    if (type === 'tagcloud' || type === 'timeseries') {
+      return facet;
+    }
+    const filteredBuckets = [];
+    facet.buckets.forEach((bucket: SearchFacetBucket) => {
+      if (!facetFiltersMap.get(bucket.filter)) {
+        filteredBuckets.push(bucket);
+      }
+    });
+    return Object.assign(facet, { buckets: filteredBuckets });
+  }
+
+  facetForField(fieldName: string, facetMap: Map<string, SearchFacet>, facetFiltersMap: Map<string, FacetFilter>) {
     let result;
     const facet = facetMap.get(fieldName);
     if (facet) {
       const displayType = this.getFacetDisplayType(fieldName);
+      const filteredFacet = this.filterFacetBuckets(facet, displayType, facetFiltersMap);
       result = (
         <Facet
-          facet={facet}
+          facet={filteredFacet}
           key={fieldName}
           maxBuckets={this.props.maxFacetBuckets}
           type={displayType}
@@ -167,12 +187,18 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
     ObjectUtils.removeItem(facetOrder, 'keyphrases');
     ObjectUtils.removeItem(facetOrder, 'date');
 
+    const facetFilters = searcher.state.facetFilters;
+    const facetFiltersMap: Map<string, FacetFilter> = new Map();
+    facetFilters.forEach((facetFilter: FacetFilter) => {
+      facetFiltersMap.set(facetFilter.filter, facetFilter);
+    });
+
     const additionalFacets = facetOrder.map((facetField) => {
       const facet = facetMap.get(facetField);
       if (facet) {
         return (
           <div key={facetField} style={{ flex: 1 }}>
-            {this.facetForField(facetField, facetMap)}
+            {this.facetForField(facetField, facetMap, facetFiltersMap)}
           </div>
         );
       }
@@ -189,13 +215,13 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
           }}
         >
           <div style={{ gridRow: 'span 2' }}>
-            {this.facetForField('table', facetMap)}
+            {this.facetForField('table', facetMap, facetFiltersMap)}
           </div>
           <div>
-            {this.facetForField('keyphrases', facetMap)}
+            {this.facetForField('keyphrases', facetMap, facetFiltersMap)}
           </div>
           <div style={{ gridColumn: 'span 3' }}>
-            {this.facetForField('date', facetMap)}
+            {this.facetForField('date', facetMap, facetFiltersMap)}
           </div>
           {additionalFacets}
         </div>
