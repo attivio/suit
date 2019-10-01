@@ -1,45 +1,45 @@
 // @flow
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 
-import Dropdown from 'react-bootstrap/lib/Dropdown';
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import MenuItem from 'react-bootstrap/lib/MenuItem';
+import Dropdown from "react-bootstrap/lib/Dropdown";
+import Glyphicon from "react-bootstrap/lib/Glyphicon";
+import MenuItem from "react-bootstrap/lib/MenuItem";
 
-import Configurable from './Configurable';
-import AutoCompleteInput from './AutoCompleteInput';
-import SignalData from '../api/SignalData';
-import AuthUtils from '../util/AuthUtils';
-import Signals from '../api/Signals';
+import Configurable from "./Configurable";
+import AutoCompleteInput from "./AutoCompleteInput";
+import SignalData from "../api/SignalData";
+import AuthUtils from "../util/AuthUtils";
+import Signals from "../api/Signals";
 
 declare var webkitSpeechRecognition: any; // Prevent complaints about this not existing
 
 type SearchBarProps = {
-  history: PropTypes.object.isRequired;
+  history: PropTypes.object.isRequired,
   /** If set, this will be styled to live inside a Masthead component. */
-  inMasthead: boolean;
+  inMasthead: boolean,
   /**
    * The placeholder text to display when the input field is empty and Simple
    * Query Language is selected. Defaults to “Search…”
    */
-  placeholder: string;
+  placeholder: string,
   /**
    * The placeholder text to display when the input field is empty and Advanced
    * Query Language is selected. Defaults to “Enter an advanced query…”
    */
-  placeholderAdvanced: string;
+  placeholderAdvanced: string,
   /**
    * Whether to show a toggle for simple/advanced language in the search bar.
    * Defaults to true.
    */
-  allowLanguageSelect: boolean;
+  allowLanguageSelect: boolean,
   /**
    * If set, the microphone button is displayed in the search field and the
    * user can use speech recognition to input the query terms. This functionality
    * is only available if the user’s browser is Chrome.
    */
-  allowVoice: boolean;
+  allowVoice: boolean,
   /**
    * If set, the search bar’s input field will use autocomplete via this URI.
    * Otherwise, if the configuration is available, the autoCompleteUri in the
@@ -47,73 +47,99 @@ type SearchBarProps = {
    * Otherwise, the search bar will not autocomplete.
    * Note that this is relative to the baseUri field in the configuration.
    */
-  autoCompleteUri: string;
+  autoCompleteUri: string,
   /**
    * Optional. The location of the node through which to interact with Attivio.
    * Defaults to the value in the configuration.
    */
-  baseUri: string;
+  baseUri: string,
   /** The label to show on the search button. Defaults to "Go". */
-  buttonLabel: string;
+  buttonLabel: string,
   /** If set, this is the route to navigate to upon executing a search. By default, no navigation will occur when searching. */
-  route: string | null;
+  route: string | null,
+  /** Specifies if share search option should be displayed or not, false by default */
+  shareSearch: boolean,
   /**
    * If set, a new signal of this type would be added when an autocomplete item is selected.
    */
-  createAutoCompleteSignal?: boolean;
+  createAutoCompleteSignal?: boolean,
+  /**
+   * The message body for when a search is shared.
+   */
+  shareMessage: string,
+  /**
+   * Subject of the email for when a search is shared.
+   */
+  subject: string,
+  /**
+   * Email address the search will be shared with when using shareSearch.
+   */
+  email: string
 };
 
 type SearchBarDefaultProps = {
-  inMasthead: boolean;
-  placeholder: string;
-  placeholderAdvanced: string;
-  allowLanguageSelect: boolean;
-  allowVoice: boolean;
-  buttonLabel: string;
-  autoCompleteUri: string | null;
-  route: string | null;
-  baseUri: string;
-  createAutoCompleteSignal: boolean;
+  inMasthead: boolean,
+  placeholder: string,
+  placeholderAdvanced: string,
+  allowLanguageSelect: boolean,
+  allowVoice: boolean,
+  buttonLabel: string,
+  autoCompleteUri: string | null,
+  route: string | null,
+  baseUri: string,
+  shareSearch: boolean,
+  createAutoCompleteSignal: boolean,
+  shareMessage: string,
+  subject: string,
+  email: string
 };
 
 type SearchBarState = {
-  recognizing: boolean;
-  suggestions: Array<string>;
+  recognizing: boolean,
+  suggestions: Array<string>
 };
 
 /**
  * Component to include in the Masthead for entering the query
  * to use when searching. Must be inside a Searcher component.
  */
-class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, SearchBarState> {
+class SearchBar extends React.Component<
+  SearchBarDefaultProps,
+  SearchBarProps,
+  SearchBarState
+> {
   static defaultProps: SearchBarDefaultProps = {
     inMasthead: false,
-    placeholder: 'Search\u2026',
-    placeholderAdvanced: 'Enter an advanced query\u2026',
-    buttonLabel: 'Go',
+    placeholder: "Search\u2026",
+    placeholderAdvanced: "Enter an advanced query\u2026",
+    buttonLabel: "Go",
     allowLanguageSelect: true,
     allowVoice: false,
     autoCompleteUri: null,
     route: null,
-    baseUri: '',
+    baseUri: "",
+    shareSearch: false,
     createAutoCompleteSignal: false,
+    shareMessage:
+      "Hey,\n\nI think you would be interested in these search results that I found using the most cognitive and intuitive search platform called Attivio. Here's the link:",
+    subject: "Search results I found using Attivio!",
+    email: ""
   };
 
   static contextTypes = {
-    searcher: PropTypes.any,
+    searcher: PropTypes.any
   };
 
-  static displayName = 'SearchBar';
+  static displayName = "SearchBar";
 
   static AUTOCOMPLETE_THRESHOLD = 2;
 
   constructor(props: SearchBarProps) {
     super(props);
     this.state = {
-      query: '',
+      query: "",
       recognizing: false,
-      suggestions: [],
-
+      suggestions: []
     };
     (this: any).doKeyPress = this.doKeyPress.bind(this);
     (this: any).doSearch = this.doSearch.bind(this);
@@ -121,9 +147,12 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     (this: any).queryChanged = this.queryChanged.bind(this);
     (this: any).updateQuery = this.updateQuery.bind(this);
     (this: any).languageChanged = this.languageChanged.bind(this);
+    (this: any).shareSearch = this.shareSearch.bind(this);
     (this: any).addSignal = this.addSignal.bind(this);
-    if (this.props.allowVoice && !('webkitSpeechRecognition' in window)) {
-      console.log('Requested speech recognition but the browser doesn’t support it'); // eslint-disable-line no-console
+    if (this.props.allowVoice && !("webkitSpeechRecognition" in window)) {
+      console.log(
+        "Requested speech recognition but the browser doesn’t support it"
+      ); // eslint-disable-line no-console
     }
   }
 
@@ -133,7 +162,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     if (!this.state.suggestions || this.state.suggestions.length === 0) {
       return null;
     }
-    const contents = this.state.suggestions.map((suggestion) => {
+    const contents = this.state.suggestions.map(suggestion => {
       return <MenuItem key={suggestion}>{suggestion}</MenuItem>;
     });
     return (
@@ -161,24 +190,24 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
         }
       }
       this.setState({
-        recognizing: false,
+        recognizing: false
       });
     };
 
     recognition.onerror = () => {
       recognition.stop();
       this.setState({
-        recognizing: false,
+        recognizing: false
       });
     };
 
     recognition.start();
     this.setState({
-      recognizing: true,
+      recognizing: true
     });
   }
 
-  languageChanged(newLanguage: 'simple' | 'advanced') {
+  languageChanged(newLanguage: "simple" | "advanced") {
     const searcher = this.context.searcher;
     if (searcher && newLanguage) {
       searcher.updateQueryLanguage(newLanguage);
@@ -193,20 +222,24 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     }
     const signal = signalData.clone();
     signal.docId = query;
-    signal.featureVector = '';
-    signal.locale = 'en';
+    signal.featureVector = "";
+    signal.locale = "en";
     signal.principal = `${AuthUtils.config.ALL.defaultRealm}:${savedUser.fullName}:${savedUser.userId}`;
-    signal.relevancyModelName = 'default';
-    signal.relevancyModelNames = ['default'];
+    signal.relevancyModelName = "default";
+    signal.relevancyModelNames = ["default"];
     signal.relevancyModelVersion = 1;
     signal.signalTimestamp = Date.now();
-    signal.type = 'autocomplete';
+    signal.type = "autocomplete";
     signal.weight = 1;
 
     new Signals(this.props.baseUri).addRawSignal(signal);
   }
 
-  updateQuery(newQuery: string, doSearch: boolean = false, signalData?: SignalData) {
+  updateQuery(
+    newQuery: string,
+    doSearch: boolean = false,
+    signalData?: SignalData
+  ) {
     // Update the searcher
     const searcher = this.context.searcher;
     if (signalData) {
@@ -244,10 +277,12 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     const searcher = this.context.searcher;
     if (this.props.route && searcher) {
       // We need to do this to ensure the Searcher's state survives the navigation
-      const searchString = searcher.generateLocationQueryStringFromState(searcher.state);
+      const searchString = searcher.generateLocationQueryStringFromState(
+        searcher.state
+      );
       this.props.history.push({
         pathname: this.props.route,
-        search: searchString,
+        search: searchString
       });
     }
   }
@@ -278,18 +313,38 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     }
   }
 
+  shareSearch() {
+    const username = AuthUtils.getUserName(AuthUtils.getSavedUser());
+    const message = this.props.message;
+    const searchLink = window.location.href;
+    const emailBody = message + searchLink;
+    const subject = this.props.subject;
+    const emailAddress = this.props.email;
+    document.location.href = `mailto:${emailAddress}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(emailBody)}`;
+  }
+
   render() {
-    const showMicrophone = this.props.allowVoice && ('webkitSpeechRecognition' in window);
+    const showMicrophone =
+      this.props.allowVoice && "webkitSpeechRecognition" in window;
     const micStyle = {};
     if (this.state.recognizing) {
-      micStyle.backgroundSize = '125%';
+      micStyle.backgroundSize = "125%";
     }
 
-    const containerClass = this.props.inMasthead ? 'attivio-globalmast-search-container' : '';
-    const inputClass = this.props.inMasthead ? 'form-control attivio-globalmast-search-input' : 'form-control';
+    const containerClass = this.props.inMasthead
+      ? "attivio-globalmast-search-container"
+      : "";
+    const subContainerClass = this.props.shareSearch
+      ? "attivio-globalmast-search-share-search"
+      : "attivio-globalmast-search";
+    const inputClass = this.props.inMasthead
+      ? "form-control attivio-globalmast-search-input"
+      : "form-control";
 
-    let query = '';
-    let language = 'simple';
+    let query = "";
+    let language = "simple";
     const searcher = this.context.searcher;
 
     if (searcher) {
@@ -300,15 +355,22 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     const simpleMenuItem = (
       <MenuItem
         onSelect={() => {
-          this.languageChanged('simple');
+          this.languageChanged("simple");
           if (this.simpleMenuItem) {
             this.simpleMenuItem.blur();
           }
         }}
       >
-        <span ref={(c) => { this.simpleMenuItem = c; }}>
-          <span style={{ visibility: language === 'simple' ? 'visible' : 'hidden' }}>&#x2713;</span>
-          {' '}
+        <span
+          ref={c => {
+            this.simpleMenuItem = c;
+          }}
+        >
+          <span
+            style={{ visibility: language === "simple" ? "visible" : "hidden" }}
+          >
+            &#x2713;
+          </span>{" "}
           Simple
         </span>
       </MenuItem>
@@ -316,15 +378,24 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     const advancedMenuItem = (
       <MenuItem
         onSelect={() => {
-          this.languageChanged('advanced');
+          this.languageChanged("advanced");
           if (this.advancedMenuItem) {
             this.advancedMenuItem.blur();
           }
         }}
       >
-        <span ref={(c) => { this.advancedMenuItem = c; }}>
-          <span style={{ visibility: language === 'advanced' ? 'visible' : 'hidden' }}>&#x2713;</span>
-          {' '}
+        <span
+          ref={c => {
+            this.advancedMenuItem = c;
+          }}
+        >
+          <span
+            style={{
+              visibility: language === "advanced" ? "visible" : "hidden"
+            }}
+          >
+            &#x2713;
+          </span>{" "}
           Advanced
         </span>
       </MenuItem>
@@ -336,7 +407,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
         className=""
         onSelect={this.languageChanged}
         componentClass="div"
-        style={{ display: 'inline-block' }}
+        style={{ display: "inline-block" }}
       >
         <Dropdown.Toggle
           noCaret
@@ -345,71 +416,105 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
           bsClass="attivio-smalltoolbar-btn"
           title="Query Language"
           style={{
-            position: 'relative',
-            top: '1px',
-            left: '-2px',
-            color: '#fff',
-            border: 'none',
-            background: 'transparent',
+            position: "relative",
+            top: "1px",
+            left: "-2px",
+            color: "#fff",
+            border: "none",
+            background: "transparent"
           }}
         >
-          <Glyphicon glyph="search" style={{ color: 'white' }} />
-          {' '}
+          <Glyphicon glyph="search" style={{ color: "white" }} />{" "}
           <span className="attivio-globalmast-icon attivio-icon-arrow-down-blue" />
         </Dropdown.Toggle>
         <Dropdown.Menu
           style={{
             paddingTop: 0,
-            paddingBottom: 0,
+            paddingBottom: 0
           }}
         >
           {simpleMenuItem}
           {advancedMenuItem}
         </Dropdown.Menu>
       </Dropdown>
-    ) : '';
+    ) : (
+      ""
+    );
 
     let placeholder = this.props.placeholder;
-    if (this.props.allowLanguageSelect && language === 'advanced') {
+    if (this.props.allowLanguageSelect && language === "advanced") {
       placeholder = this.props.placeholderAdvanced;
     }
 
     const suggestionList = this.getSuggestionList();
-    const inputComponent = this.props.autoCompleteUri ?
-      (
-        <AutoCompleteInput
-          uri={`${this.props.baseUri}${this.props.autoCompleteUri}`}
-          updateValue={this.updateQuery}
-          placeholder={placeholder || ''}
-          value={query}
-          className={inputClass}
+    const inputComponent = this.props.autoCompleteUri ? (
+      <AutoCompleteInput
+        uri={`${this.props.baseUri}${this.props.autoCompleteUri}`}
+        updateValue={this.updateQuery}
+        placeholder={placeholder || ""}
+        value={query}
+        className={inputClass}
+      />
+    ) : (
+      <input
+        type="search"
+        className={inputClass}
+        placeholder={placeholder}
+        onChange={this.queryChanged}
+        onKeyDown={this.doKeyPress}
+        value={query}
+      />
+    );
+    const shareSearch = this.props.shareSearch ? (
+      <span
+        className="attivio-smalltoolbar-btn"
+        title="Share this search via email"
+        style={{
+          position: "relative",
+          top: "2px",
+          left: "-1px",
+          color: "#fff",
+          border: "none",
+          background: "transparent",
+          cursor: "pointer"
+        }}
+      >
+        <Glyphicon
+          onClick={this.shareSearch}
+          glyph="share"
+          style={{ color: "white", fontSize: "1.1em" }}
         />
-      ) : (
-        <input
-          type="search"
-          className={inputClass}
-          placeholder={placeholder}
-          onChange={this.queryChanged}
-          onKeyDown={this.doKeyPress}
-          value={query}
-        />
-      );
+      </span>
+    ) : (
+      ""
+    );
 
     return (
       <div className={containerClass}>
-        <div className="attivio-globalmast-search" role="search">
+        <div className={subContainerClass} role="search">
           <div className="form-group">
             {inputComponent}
             {showMicrophone ? (
-              <a onClick={this.startSpeechRecognition} role="button" tabIndex={0}>
-                <span className="attivio-globalmast-search-mic-icon attivio-icon-microphone" style={micStyle} />
+              <a
+                onClick={this.startSpeechRecognition}
+                role="button"
+                tabIndex={0}
+              >
+                <span
+                  className="attivio-globalmast-search-mic-icon attivio-icon-microphone"
+                  style={micStyle}
+                />
               </a>
-            ) : ''}
+            ) : (
+              ""
+            )}
             <button
               type="submit"
               className="btn attivio-globalmast-search-submit"
               onClick={this.doSearch}
-              ref={(c) => { this.submitButton = c; }}
+              ref={c => {
+                this.submitButton = c;
+              }}
             >
               {this.props.buttonLabel}
             </button>
@@ -417,6 +522,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
           {suggestionList}
         </div>
         {languageControl}
+        {shareSearch}
       </div>
     );
   }
