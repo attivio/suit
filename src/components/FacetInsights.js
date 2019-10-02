@@ -185,7 +185,7 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
     ObjectUtils.removeItem(facetOrder, 'keyphrases');
     ObjectUtils.removeItem(facetOrder, 'date');
 
-    const facetFilters = searcher.state.facetFilters;
+    const { facetFilters } = searcher.state;
     const facetFiltersMap: Map<string, FacetFilter> = new Map();
     facetFilters.forEach((facetFilter: FacetFilter) => {
       facetFiltersMap.set(facetFilter.filter, facetFilter);
