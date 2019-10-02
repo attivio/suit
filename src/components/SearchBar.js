@@ -1,17 +1,17 @@
 // @flow
-import React from "react";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
-import Dropdown from "react-bootstrap/lib/Dropdown";
-import Glyphicon from "react-bootstrap/lib/Glyphicon";
-import MenuItem from "react-bootstrap/lib/MenuItem";
+import Dropdown from 'react-bootstrap/lib/Dropdown';
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import MenuItem from 'react-bootstrap/lib/MenuItem';
 
-import Configurable from "./Configurable";
-import AutoCompleteInput from "./AutoCompleteInput";
-import SignalData from "../api/SignalData";
-import AuthUtils from "../util/AuthUtils";
-import Signals from "../api/Signals";
+import Configurable from './Configurable';
+import AutoCompleteInput from './AutoCompleteInput';
+import SignalData from '../api/SignalData';
+import AuthUtils from '../util/AuthUtils';
+import Signals from '../api/Signals';
 
 declare var webkitSpeechRecognition: any; // Prevent complaints about this not existing
 
@@ -74,7 +74,7 @@ type SearchBarProps = {
   /**
    * Email address the search will be shared with when using shareSearch.
    */
-  email: string
+  email: string,
 };
 
 type SearchBarDefaultProps = {
@@ -91,55 +91,51 @@ type SearchBarDefaultProps = {
   createAutoCompleteSignal: boolean,
   shareMessage: string,
   subject: string,
-  email: string
+  email: string,
 };
 
 type SearchBarState = {
   recognizing: boolean,
-  suggestions: Array<string>
+  suggestions: Array<string>,
 };
 
 /**
  * Component to include in the Masthead for entering the query
  * to use when searching. Must be inside a Searcher component.
  */
-class SearchBar extends React.Component<
-  SearchBarDefaultProps,
-  SearchBarProps,
-  SearchBarState
-> {
+class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, SearchBarState> {
   static defaultProps: SearchBarDefaultProps = {
     inMasthead: false,
-    placeholder: "Search\u2026",
-    placeholderAdvanced: "Enter an advanced query\u2026",
-    buttonLabel: "Go",
+    placeholder: 'Search\u2026',
+    placeholderAdvanced: 'Enter an advanced query\u2026',
+    buttonLabel: 'Go',
     allowLanguageSelect: true,
     allowVoice: false,
     autoCompleteUri: null,
     route: null,
-    baseUri: "",
+    baseUri: '',
     shareSearch: false,
     createAutoCompleteSignal: false,
-    shareMessage:
-      "Hey,\n\nI think you would be interested in these search results that I found using the most cognitive and intuitive search platform called Attivio. Here's the link:",
-    subject: "Search results I found using Attivio!",
-    email: ""
+    shareMessage: 'Hey,\n\nI think you would be interested in these search results that I found using the most'
+      + 'cognitive and intuitive search platform called Attivio. Here is the link:',
+    subject: 'Search results I found using Attivio!',
+    email: '',
   };
 
   static contextTypes = {
-    searcher: PropTypes.any
+    searcher: PropTypes.any,
   };
 
-  static displayName = "SearchBar";
+  static displayName = 'SearchBar';
 
   static AUTOCOMPLETE_THRESHOLD = 2;
 
   constructor(props: SearchBarProps) {
     super(props);
     this.state = {
-      query: "",
+      query: '',
       recognizing: false,
-      suggestions: []
+      suggestions: [],
     };
     (this: any).doKeyPress = this.doKeyPress.bind(this);
     (this: any).doSearch = this.doSearch.bind(this);
@@ -149,10 +145,8 @@ class SearchBar extends React.Component<
     (this: any).languageChanged = this.languageChanged.bind(this);
     (this: any).shareSearch = this.shareSearch.bind(this);
     (this: any).addSignal = this.addSignal.bind(this);
-    if (this.props.allowVoice && !("webkitSpeechRecognition" in window)) {
-      console.log(
-        "Requested speech recognition but the browser doesn’t support it"
-      ); // eslint-disable-line no-console
+    if (this.props.allowVoice && !('webkitSpeechRecognition' in window)) {
+      console.log('Requested speech recognition but the browser doesn’t support it'); // eslint-disable-line no-console
     }
   }
 
@@ -162,7 +156,7 @@ class SearchBar extends React.Component<
     if (!this.state.suggestions || this.state.suggestions.length === 0) {
       return null;
     }
-    const contents = this.state.suggestions.map(suggestion => {
+    const contents = this.state.suggestions.map((suggestion) => {
       return <MenuItem key={suggestion}>{suggestion}</MenuItem>;
     });
     return (
@@ -190,24 +184,24 @@ class SearchBar extends React.Component<
         }
       }
       this.setState({
-        recognizing: false
+        recognizing: false,
       });
     };
 
     recognition.onerror = () => {
       recognition.stop();
       this.setState({
-        recognizing: false
+        recognizing: false,
       });
     };
 
     recognition.start();
     this.setState({
-      recognizing: true
+      recognizing: true,
     });
   }
 
-  languageChanged(newLanguage: "simple" | "advanced") {
+  languageChanged(newLanguage: 'simple' | 'advanced') {
     const searcher = this.context.searcher;
     if (searcher && newLanguage) {
       searcher.updateQueryLanguage(newLanguage);
@@ -222,24 +216,20 @@ class SearchBar extends React.Component<
     }
     const signal = signalData.clone();
     signal.docId = query;
-    signal.featureVector = "";
-    signal.locale = "en";
+    signal.featureVector = '';
+    signal.locale = 'en';
     signal.principal = `${AuthUtils.config.ALL.defaultRealm}:${savedUser.fullName}:${savedUser.userId}`;
-    signal.relevancyModelName = "default";
-    signal.relevancyModelNames = ["default"];
+    signal.relevancyModelName = 'default';
+    signal.relevancyModelNames = ['default'];
     signal.relevancyModelVersion = 1;
     signal.signalTimestamp = Date.now();
-    signal.type = "autocomplete";
+    signal.type = 'autocomplete';
     signal.weight = 1;
 
     new Signals(this.props.baseUri).addRawSignal(signal);
   }
 
-  updateQuery(
-    newQuery: string,
-    doSearch: boolean = false,
-    signalData?: SignalData
-  ) {
+  updateQuery(newQuery: string, doSearch: boolean = false, signalData?: SignalData) {
     // Update the searcher
     const searcher = this.context.searcher;
     if (signalData) {
@@ -277,12 +267,10 @@ class SearchBar extends React.Component<
     const searcher = this.context.searcher;
     if (this.props.route && searcher) {
       // We need to do this to ensure the Searcher's state survives the navigation
-      const searchString = searcher.generateLocationQueryStringFromState(
-        searcher.state
-      );
+      const searchString = searcher.generateLocationQueryStringFromState(searcher.state);
       this.props.history.push({
         pathname: this.props.route,
-        search: searchString
+        search: searchString,
       });
     }
   }
@@ -315,36 +303,28 @@ class SearchBar extends React.Component<
 
   shareSearch() {
     const username = AuthUtils.getUserName(AuthUtils.getSavedUser());
-    const message = this.props.message;
+    const signature = `\nfrom \n${username}`;
+    const message = this.props.shareMessage;
     const searchLink = window.location.href;
-    const emailBody = message + searchLink;
+    const emailBody = message + searchLink + signature;
     const subject = this.props.subject;
     const emailAddress = this.props.email;
-    document.location.href = `mailto:${emailAddress}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(emailBody)}`;
+    document.location.href = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
   }
 
   render() {
-    const showMicrophone =
-      this.props.allowVoice && "webkitSpeechRecognition" in window;
+    const showMicrophone = this.props.allowVoice && 'webkitSpeechRecognition' in window;
     const micStyle = {};
     if (this.state.recognizing) {
-      micStyle.backgroundSize = "125%";
+      micStyle.backgroundSize = '125%';
     }
 
-    const containerClass = this.props.inMasthead
-      ? "attivio-globalmast-search-container"
-      : "";
-    const subContainerClass = this.props.shareSearch
-      ? "attivio-globalmast-search-share-search"
-      : "attivio-globalmast-search";
-    const inputClass = this.props.inMasthead
-      ? "form-control attivio-globalmast-search-input"
-      : "form-control";
+    const containerClass = this.props.inMasthead ? 'attivio-globalmast-search-container' : '';
+    const subContainerClass = this.props.shareSearch ? 'attivio-globalmast-search-share-search' : 'attivio-globalmast-search';
+    const inputClass = this.props.inMasthead ? 'form-control attivio-globalmast-search-input' : 'form-control';
 
-    let query = "";
-    let language = "simple";
+    let query = '';
+    let language = 'simple';
     const searcher = this.context.searcher;
 
     if (searcher) {
@@ -355,47 +335,42 @@ class SearchBar extends React.Component<
     const simpleMenuItem = (
       <MenuItem
         onSelect={() => {
-          this.languageChanged("simple");
+          this.languageChanged('simple');
           if (this.simpleMenuItem) {
             this.simpleMenuItem.blur();
           }
         }}
       >
         <span
-          ref={c => {
+          ref={(c) => {
             this.simpleMenuItem = c;
           }}
         >
-          <span
-            style={{ visibility: language === "simple" ? "visible" : "hidden" }}
-          >
-            &#x2713;
-          </span>{" "}
-          Simple
+          <span style={{ visibility: language === 'simple' ? 'visible' : 'hidden' }}>&#x2713;</span> Simple
         </span>
       </MenuItem>
     );
     const advancedMenuItem = (
       <MenuItem
         onSelect={() => {
-          this.languageChanged("advanced");
+          this.languageChanged('advanced');
           if (this.advancedMenuItem) {
             this.advancedMenuItem.blur();
           }
         }}
       >
         <span
-          ref={c => {
+          ref={(c) => {
             this.advancedMenuItem = c;
           }}
         >
           <span
             style={{
-              visibility: language === "advanced" ? "visible" : "hidden"
+              visibility: language === 'advanced' ? 'visible' : 'hidden',
             }}
           >
             &#x2713;
-          </span>{" "}
+          </span>{' '}
           Advanced
         </span>
       </MenuItem>
@@ -407,7 +382,7 @@ class SearchBar extends React.Component<
         className=""
         onSelect={this.languageChanged}
         componentClass="div"
-        style={{ display: "inline-block" }}
+        style={{ display: 'inline-block' }}
       >
         <Dropdown.Toggle
           noCaret
@@ -416,21 +391,21 @@ class SearchBar extends React.Component<
           bsClass="attivio-smalltoolbar-btn"
           title="Query Language"
           style={{
-            position: "relative",
-            top: "1px",
-            left: "-2px",
-            color: "#fff",
-            border: "none",
-            background: "transparent"
+            position: 'relative',
+            top: '1px',
+            left: '-2px',
+            color: '#fff',
+            border: 'none',
+            background: 'transparent',
           }}
         >
-          <Glyphicon glyph="search" style={{ color: "white" }} />{" "}
+          <Glyphicon glyph="search" style={{ color: 'white' }} />{' '}
           <span className="attivio-globalmast-icon attivio-icon-arrow-down-blue" />
         </Dropdown.Toggle>
         <Dropdown.Menu
           style={{
             paddingTop: 0,
-            paddingBottom: 0
+            paddingBottom: 0,
           }}
         >
           {simpleMenuItem}
@@ -438,11 +413,11 @@ class SearchBar extends React.Component<
         </Dropdown.Menu>
       </Dropdown>
     ) : (
-      ""
+      ''
     );
 
     let placeholder = this.props.placeholder;
-    if (this.props.allowLanguageSelect && language === "advanced") {
+    if (this.props.allowLanguageSelect && language === 'advanced') {
       placeholder = this.props.placeholderAdvanced;
     }
 
@@ -451,7 +426,7 @@ class SearchBar extends React.Component<
       <AutoCompleteInput
         uri={`${this.props.baseUri}${this.props.autoCompleteUri}`}
         updateValue={this.updateQuery}
-        placeholder={placeholder || ""}
+        placeholder={placeholder || ''}
         value={query}
         className={inputClass}
       />
@@ -470,23 +445,19 @@ class SearchBar extends React.Component<
         className="attivio-smalltoolbar-btn"
         title="Share this search via email"
         style={{
-          position: "relative",
-          top: "2px",
-          left: "-1px",
-          color: "#fff",
-          border: "none",
-          background: "transparent",
-          cursor: "pointer"
+          position: 'relative',
+          top: '2px',
+          left: '-1px',
+          color: '#fff',
+          border: 'none',
+          background: 'transparent',
+          cursor: 'pointer',
         }}
       >
-        <Glyphicon
-          onClick={this.shareSearch}
-          glyph="share"
-          style={{ color: "white", fontSize: "1.1em" }}
-        />
+        <Glyphicon onClick={this.shareSearch} glyph="share" style={{ color: 'white', fontSize: '1.1em' }} />
       </span>
     ) : (
-      ""
+      ''
     );
 
     return (
@@ -495,24 +466,17 @@ class SearchBar extends React.Component<
           <div className="form-group">
             {inputComponent}
             {showMicrophone ? (
-              <a
-                onClick={this.startSpeechRecognition}
-                role="button"
-                tabIndex={0}
-              >
-                <span
-                  className="attivio-globalmast-search-mic-icon attivio-icon-microphone"
-                  style={micStyle}
-                />
+              <a onClick={this.startSpeechRecognition} role="button" tabIndex={0}>
+                <span className="attivio-globalmast-search-mic-icon attivio-icon-microphone" style={micStyle} />
               </a>
             ) : (
-              ""
+              ''
             )}
             <button
               type="submit"
               className="btn attivio-globalmast-search-submit"
               onClick={this.doSearch}
-              ref={c => {
+              ref={(c) => {
                 this.submitButton = c;
               }}
             >
