@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import Facet from './Facet';
 
 import SearchFacet from '../api/SearchFacet';
-import SearchFacetBucket from '../api/SearchFacetBucket';
 import FacetFilter from '../api/FacetFilter';
 import ObjectUtils from '../util/ObjectUtils';
 
@@ -134,13 +133,12 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
     if (type === 'tagcloud' || type === 'timeseries') {
       return facet;
     }
-    const filteredBuckets = [];
-    facet.buckets.forEach((bucket: SearchFacetBucket) => {
-      if (!facetFiltersMap.get(bucket.filter)) {
-        filteredBuckets.push(bucket);
-      }
-    });
-    return Object.assign(facet, { buckets: filteredBuckets });
+    const filteredBuckets = facet.buckets.reduce((accumBuckets, currentBucket) => {
+      return !facetFiltersMap.get(currentBucket.filter)
+        ? [...accumBuckets, currentBucket]
+        : accumBuckets;
+    }, []);
+    return new SearchFacet(facet.name, facet.field, facet.label, facet.count, filteredBuckets, facet.statistics);
   }
 
   facetForField(fieldName: string, facetMap: Map<string, SearchFacet>, facetFiltersMap: Map<string, FacetFilter>) {
