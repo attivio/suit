@@ -6,6 +6,10 @@ If you are _publishing_ a new build of the library that has changes users will n
 
 If you are _using_ the SUIT library and want to upgrade to a newer version, please check here to see if there have been changes that will affect your project and, if there are, what you will need to do about them.
 
+## Version 1.0.6
+
+Fixes regression where using a number type in `<SearchFacetBuckets />` caused an error.
+
 ## Version 1.0.5
 
 Fixes regression that caused the location pointer in the center of the map to be be miscalculated.
