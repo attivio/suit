@@ -77,9 +77,21 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
   /**
    * Renders a <ListSearchResult> component for the document.
    */
-  static renderer(doc: SearchDocument, position: number, baseUri: string, key: string) {
+  static renderer(
+    doc: SearchDocument,
+    position: number,
+    baseUri: string,
+    key: string,
+    show360: boolean = true,
+  ) {
     return (
-      <ListSearchResult document={doc} position={position} baseUri={baseUri} key={key} />
+      <ListSearchResult
+        document={doc}
+        position={position}
+        baseUri={baseUri}
+        key={key}
+        show360={show360}
+      />
     );
   }
 

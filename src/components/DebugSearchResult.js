@@ -53,9 +53,21 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
   /**
    * Renders a <DebugSearchResult> component for the document.
    */
-  static renderer(doc: SearchDocument, position: number, baseUri: string, key: string) {
+  static renderer(
+    doc: SearchDocument,
+    position: number,
+    baseUri: string,
+    key: string,
+    show360: boolean = true,
+  ) {
     return (
-      <DebugSearchResult document={doc} position={position} baseUri={baseUri} key={key} />
+      <DebugSearchResult
+        document={doc}
+        position={position}
+        baseUri={baseUri}
+        key={key}
+        show360={show360}
+      />
     );
   }
 

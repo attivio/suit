@@ -92,14 +92,20 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
   static displayName = 'SearchResults';
 
   renderResults() {
-    const { searcher = null } = this.context;
-    const response = searcher && searcher.state ? searcher.state.response : null;
-    const offset = searcher && searcher.state ? searcher.state.resultsOffset : null;
-
     const {
       baseUri,
       format,
+      show360,
     } = this.props;
+
+    console.group('<SearchResults />');
+    console.log('Linked to local suit');
+    console.log('show360: ', show360);
+    console.groupEnd();
+
+    const { searcher = null } = this.context;
+    const response = searcher && searcher.state ? searcher.state.response : null;
+    const offset = searcher && searcher.state ? searcher.state.resultsOffset : null;
 
     let formatRenderers: Array<SearchResultRenderer> = [];
     if (searcher && searcher.state && searcher.state.debug) {
@@ -132,7 +138,7 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
         // will render a result.
         formatRenderers.forEach((formatRenderer: SearchResultRenderer) => {
           if (!renderedDocument) {
-            const possibleResult = formatRenderer(document, position, baseUri, key);
+            const possibleResult = formatRenderer(document, position, baseUri, key, show360);
             if (possibleResult) {
               renderedDocument = possibleResult;
             }
@@ -140,7 +146,7 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
         });
         if (!renderedDocument) {
           // Default to the List renderer if nothing else did anything... It will always produce a result.
-          renderedDocument = ListSearchResult.renderer(document, position, baseUri, key);
+          renderedDocument = ListSearchResult.renderer(document, position, baseUri, key, show360);
         }
 
         results.push(renderedDocument);
