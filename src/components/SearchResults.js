@@ -48,11 +48,15 @@ type SearchResultsProps = {
    * Whether or not the documents’ relevancy scores should be displayed.
    * Defaults to false.
    */
-  showScores: boolean;
+  showScores?: boolean;
   /** Whether tags should be shown in the UI or not. Defaults to true. */
-  showTags: boolean;
+  showTags?: boolean;
   /** Whether star ratings should be shown in the UI or not. Defaults to true. */
-  showRatings: boolean;
+  showRatings?: boolean;
+  /**
+   * Whether or not to show 360 view link on search result. Defaults to true.
+   */
+  show360?: boolean;
   /** A style to apply to the results list */
   style: any;
 };
@@ -77,6 +81,7 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
     showScores: false,
     showTags: true,
     showRatings: true,
+    show360: true,
     style: {},
   };
 
@@ -87,27 +92,32 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
   static displayName = 'SearchResults';
 
   renderResults() {
-    const searcher = this.context.searcher;
-    const response = searcher.state.response;
-    const offset = searcher.state.resultsOffset;
+    const { searcher = null } = this.context;
+    const response = searcher && searcher.state ? searcher.state.response : null;
+    const offset = searcher && searcher.state ? searcher.state.resultsOffset : null;
 
-    let formats: Array<SearchResultRenderer> = [];
-    if (searcher.state.debug) {
+    const {
+      baseUri,
+      format,
+    } = this.props;
+
+    let formatRenderers: Array<SearchResultRenderer> = [];
+    if (searcher && searcher.state && searcher.state.debug) {
       // If the searcher is overriding with the debug flag...
-      formats = [DebugSearchResult.renderer];
-    } else if (typeof this.props.format === 'function') {
-      formats = [this.props.format];
-    } else if (Array.isArray(this.props.format)) {
-      formats = this.props.format;
-    } else if (this.props.format === 'list') {
+      formatRenderers = [DebugSearchResult.renderer];
+    } else if (typeof format === 'function') {
+      formatRenderers = [format];
+    } else if (Array.isArray(format)) {
+      formatRenderers = format;
+    } else if (format === 'list') {
       // 'list' -> ListSearchResult
-      formats = [ListSearchResult.renderer];
-    } else if (this.props.format === 'simple') {
+      formatRenderers = [ListSearchResult.renderer];
+    } else if (format === 'simple') {
       // 'simple' -> SimpleSearchResult
-      formats = [SimpleSearchResult.renderer];
-    } else if (this.props.format === 'debug') {
+      formatRenderers = [SimpleSearchResult.renderer];
+    } else if (format === 'debug') {
       // 'debug' -> DebugSearchResult
-      formats = [DebugSearchResult.renderer];
+      formatRenderers = [DebugSearchResult.renderer];
     }
 
     if (response && response.documents && response.documents.length > 0) {
@@ -120,9 +130,9 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
 
         // Look through the format array and see if one of the functions
         // will render a result.
-        formats.forEach((format: SearchResultRenderer) => {
+        formatRenderers.forEach((formatRenderer: SearchResultRenderer) => {
           if (!renderedDocument) {
-            const possibleResult = format(document, position, this.props.baseUri, key);
+            const possibleResult = formatRenderer(document, position, baseUri, key);
             if (possibleResult) {
               renderedDocument = possibleResult;
             }
@@ -130,7 +140,7 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
         });
         if (!renderedDocument) {
           // Default to the List renderer if nothing else did anything... It will always produce a result.
-          renderedDocument = ListSearchResult.renderer(document, position, this.props.baseUri, key);
+          renderedDocument = ListSearchResult.renderer(document, position, baseUri, key);
         }
 
         results.push(renderedDocument);
@@ -141,14 +151,18 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
   }
 
   render() {
-    const baseStyle = this.props.style ? this.props.style : {};
-    const s = Object.assign({}, baseStyle, {
+    const {
+      style: baseStyle = {},
+    } = this.props;
+
+    const style = {
+      ...baseStyle,
       listStyle: 'none',
       paddingLeft: 0,
-    });
+    };
 
     return (
-      <ul style={s}>
+      <ul style={style}>
         {this.renderResults()}
       </ul>
     );

@@ -23,15 +23,18 @@ type DebugSearchResultProps = {
   /** The document’s position in the search results. */
   position: number,
   /** Whether tags should be shown in the UI or not. Defaults to true. */
-  showTags: boolean;
+  showTags?: boolean;
   /** Whether star ratings should be shown in the UI or not. Defaults to true. */
-  showRatings: boolean;
+  showRatings?: boolean;
+  /** Whether 360 View should be shown. Defaults to true. */
+  show360?: boolean;
 }
 
 type DebugSearchResultDefaultProps = {
   baseUri: string;
   showTags: boolean;
   showRatings: boolean;
+  show360: boolean;
 }
 
 /**
@@ -42,6 +45,7 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
     baseUri: '',
     showTags: true,
     showRatings: true,
+    show360: true,
   };
 
   static displayName = 'DebugSearchResult';
@@ -68,30 +72,34 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
 
   static renderer;
 
-  constructor(props: DebugSearchResultProps) {
-    super(props);
-    (this: any).rateDocument = this.rateDocument.bind(this);
-  }
-
-  rateDocument(doc: SearchDocument, rating: number) {
+  rateDocument = (doc: SearchDocument, rating: number) => {
+    const { baseUri } = this.props;
     if (doc.signal) {
-      new Signals(this.props.baseUri).addSignal(doc, 'like', rating);
+      new Signals(baseUri).addSignal(doc, 'like', rating);
     }
   }
 
   render() {
-    const doc = this.props.document;
-    const docId = doc.getFirstValue('.id');
-    const table = doc.getFirstValue(FieldNames.TABLE);
-    const thumbnailUri = doc.getFirstValue('thumbnailImageUri');
-    const previewUri = doc.getAllValues('previewImageUri');
-    const score = parseFloat(doc.getFirstValue(FieldNames.SCORE));
-    const scoreDescription = doc.getFirstValue(FieldNames.SCORE_EXPLAIN);
-    const moreLikeThisQuery = doc.getFirstValue('morelikethisquery');
-    const docTags = doc.getAllValues('tags');
+    const {
+      baseUri,
+      document,
+      position,
+      showRatings,
+      showTags,
+      show360,
+    } = this.props;
+
+    const docId = document.getFirstValue('.id');
+    const table = document.getFirstValue(FieldNames.TABLE);
+    const thumbnailUri = document.getFirstValue('thumbnailImageUri');
+    const previewUri = document.getAllValues('previewImageUri');
+    const score = parseFloat(document.getFirstValue(FieldNames.SCORE));
+    const scoreDescription = document.getFirstValue(FieldNames.SCORE_EXPLAIN);
+    const moreLikeThisQuery = document.getFirstValue('morelikethisquery');
+    const docTags = document.getAllValues('tags');
 
     const fieldRows = [];
-    const fieldNames = this.props.document.fields.keys();
+    const fieldNames = document.fields.keys();
     let finished = false;
     while (!finished) {
       const nextField = fieldNames.next();
@@ -100,7 +108,7 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
       } else {
         const fieldName = nextField.value;
         let value;
-        const values = this.props.document.getAllValues(fieldName);
+        const values = document.getAllValues(fieldName);
         if (values && values.length > 1) {
           let index = 0;
           const valueRows = values.map((singleValue) => {
@@ -122,29 +130,35 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
     return (
       <div className=" attivio-search-result row">
         <div className="col-xs-2 col-sm-2">
-          <DocumentType docType={table} position={this.props.position} />
-          <DocumentThumbnail uri={thumbnailUri} previewUris={previewUri} previewTitle={doc.getFirstValue(FieldNames.TITLE)} />
+          <DocumentType docType={table} position={position} />
+          <DocumentThumbnail uri={thumbnailUri} previewUris={previewUri} previewTitle={document.getFirstValue(FieldNames.TITLE)} />
           <dl className="attivio-labeldata-stacked attivio-labeldata-stacked-search-results">
-            {this.props.showRatings ? (
+            {showRatings && (
               <div>
                 <dt>User Rating</dt>
                 <dd>
-                  <StarRating onRated={(rating) => { this.rateDocument(doc, rating); }} />
+                  <StarRating onRated={(rating) => { this.rateDocument(document, rating); }} />
                 </dd>
               </div>
-            ) : null}
+            )}
             <dt>Relevancy Score</dt>
             <dd><RelevancyScore score={score} description={scoreDescription} id={docId} /></dd>
           </dl>
         </div>
         <div className="col-xs-8 col-sm-8">
-          <SearchResultTitle doc={doc} baseUri={this.props.baseUri} />
+          <SearchResultTitle doc={document} baseUri={baseUri} />
           <dl className="attivio-labeldata-2col attivio-search-result-debugger">
             {fieldRows}
           </dl>
-          {this.props.showTags ? (
-            <SearchResultTags tags={docTags} moreLikeThisQuery={moreLikeThisQuery} vertical docId={docId} />
-          ) : null}
+          {showTags && (
+            <SearchResultTags
+              tags={docTags}
+              moreLikeThisQuery={moreLikeThisQuery}
+              vertical
+              docId={docId}
+              show360={show360}
+            />
+          )}
         </div>
       </div>
     );
