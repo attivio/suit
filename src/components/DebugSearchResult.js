@@ -26,15 +26,15 @@ type DebugSearchResultProps = {
   showTags?: boolean;
   /** Whether star ratings should be shown in the UI or not. Defaults to true. */
   showRatings?: boolean;
-  /** Whether 360 View should be shown. Defaults to true. */
-  show360?: boolean;
+  /** Whether 360 View should be shown. Defaults to false. */
+  hide360Link?: boolean;
 }
 
 type DebugSearchResultDefaultProps = {
   baseUri: string;
   showTags: boolean;
   showRatings: boolean;
-  show360: boolean;
+  hide360Link: boolean;
 }
 
 /**
@@ -45,7 +45,7 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
     baseUri: '',
     showTags: true,
     showRatings: true,
-    show360: true,
+    hide360Link: false,
   };
 
   static displayName = 'DebugSearchResult';
@@ -58,7 +58,7 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
     position: number,
     baseUri: string,
     key: string,
-    show360: boolean = true,
+    hide360Link: boolean = false,
   ) {
     return (
       <DebugSearchResult
@@ -66,7 +66,7 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
         position={position}
         baseUri={baseUri}
         key={key}
-        show360={show360}
+        hide360Link={hide360Link}
       />
     );
   }
@@ -98,7 +98,7 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
       position,
       showRatings,
       showTags,
-      show360,
+      hide360Link,
     } = this.props;
 
     const docId = document.getFirstValue('.id');
@@ -168,7 +168,7 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
               moreLikeThisQuery={moreLikeThisQuery}
               vertical
               docId={docId}
-              show360={show360}
+              hide360Link={hide360Link}
             />
           )}
         </div>

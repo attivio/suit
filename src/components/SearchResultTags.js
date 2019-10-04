@@ -25,7 +25,7 @@ type SearchResultTagsProps = {
   /**
    * The label to show for the link to the 360 page for the document.
    * Defaults to "Show 360° View."
-   * Deprecated: Set to null to not show a link. Supported for backwards compatibility. Use `show360`
+   * Deprecated: Set to null to not show a link. Supported for backwards compatibility. Use `hide360Link`
    *  to omit 360 link instead.
    */
   view360Label: string | null;
@@ -47,9 +47,9 @@ type SearchResultTagsProps = {
   /** Table field for the comment documents */
   commentsTable?: string;
   /**
-   * Whether or not to show 360 page link. Defaults to true.
+   * Whether or not to show 360 page link. Defaults to false.
    */
-  show360?: boolean;
+  hide360Link?: boolean;
 };
 
 type SearchResultTagsDefaultProps = {
@@ -58,7 +58,7 @@ type SearchResultTagsDefaultProps = {
   comments: boolean;
   commentsTable: string;
   moreLikeThisQuery: string;
-  show360: boolean;
+  hide360Link: boolean;
   vertical: boolean;
   view360Label: string | null;
 };
@@ -89,7 +89,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
     comments: false,
     commentsTable: 'comments',
     moreLikeThisQuery: '',
-    show360: true,
+    hide360Link: false,
     vertical: false,
     view360Label: 'Show 360\u00B0 View',
   };
@@ -225,9 +225,9 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
   }
 
   render360Link() {
-    const { view360Label, show360 } = this.props;
+    const { view360Label, hide360Link } = this.props;
 
-    return view360Label && show360 && (
+    return view360Label && !hide360Link && (
       <a
         className="attivio-tags-more"
         onClick={this.show360View}

@@ -37,8 +37,8 @@ type InnerListSearchResultProps = {
   showTags: boolean;
   /** Whether star ratings should be shown in the UI or not. Defaults to true. */
   showRatings: boolean;
-  /** Whether 360 View should be shown. Defaults to true. */
-  show360?: boolean;
+  /** Whether 360 View should be shown. Defaults to false. */
+  hide360Link?: boolean;
 }
 
 type InnerListSearchResultDefaultProps = {
@@ -47,7 +47,7 @@ type InnerListSearchResultDefaultProps = {
   entityFields: Map<string, string>;
   showTags: boolean;
   showRatings: boolean;
-  show360: boolean;
+  hide360Link: boolean;
 }
 
 type InnerListSearchResultState = {
@@ -65,7 +65,7 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
     entityFields: new Map([['people', 'People'], ['location', 'Locations'], ['company', 'Companies']]),
     showTags: true,
     showRatings: true,
-    show360: true,
+    hide360Link: false,
   };
 
   static displayName = 'ListSearchResult';
@@ -82,7 +82,7 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
     position: number,
     baseUri: string,
     key: string,
-    show360: boolean = true,
+    hide360Link: boolean = false,
   ) {
     return (
       <ListSearchResult
@@ -90,7 +90,7 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
         position={position}
         baseUri={baseUri}
         key={key}
-        show360={show360}
+        hide360Link={hide360Link}
       />
     );
   }
@@ -199,7 +199,7 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
       showRatings,
       showScores,
       showTags,
-      show360,
+      hide360Link,
     } = this.props;
 
     const { configuration = null } = this.context;
@@ -260,7 +260,7 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
                   tags={docTags}
                   moreLikeThisQuery={moreLikeThisQuery}
                   docId={docId}
-                  show360={show360}
+                  hide360Link={hide360Link}
                 />
               )}
             </Col>

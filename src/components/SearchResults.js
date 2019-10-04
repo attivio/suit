@@ -54,9 +54,9 @@ type SearchResultsProps = {
   /** Whether star ratings should be shown in the UI or not. Defaults to true. */
   showRatings?: boolean;
   /**
-   * Whether or not to show 360 view link on search result. Defaults to true.
+   * Whether or not to show 360 view link on search result. Defaults to false.
    */
-  show360?: boolean;
+  hide360Link?: boolean;
   /** A style to apply to the results list */
   style: any;
 };
@@ -81,7 +81,7 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
     showScores: false,
     showTags: true,
     showRatings: true,
-    show360: true,
+    hide360Link: false,
     style: {},
   };
 
@@ -95,13 +95,8 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
     const {
       baseUri,
       format,
-      show360,
+      hide360Link,
     } = this.props;
-
-    console.group('<SearchResults />');
-    console.log('Linked to local suit');
-    console.log('show360: ', show360);
-    console.groupEnd();
 
     const { searcher = null } = this.context;
     const response = searcher && searcher.state ? searcher.state.response : null;
@@ -138,7 +133,7 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
         // will render a result.
         formatRenderers.forEach((formatRenderer: SearchResultRenderer) => {
           if (!renderedDocument) {
-            const possibleResult = formatRenderer(document, position, baseUri, key, show360);
+            const possibleResult = formatRenderer(document, position, baseUri, key, hide360Link);
             if (possibleResult) {
               renderedDocument = possibleResult;
             }
@@ -146,7 +141,7 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
         });
         if (!renderedDocument) {
           // Default to the List renderer if nothing else did anything... It will always produce a result.
-          renderedDocument = ListSearchResult.renderer(document, position, baseUri, key, show360);
+          renderedDocument = ListSearchResult.renderer(document, position, baseUri, key, hide360Link);
         }
 
         results.push(renderedDocument);
