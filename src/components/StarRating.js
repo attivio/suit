@@ -13,7 +13,7 @@ type StarRatingProps = {
 
 type StarRatingDefaultProps = {
   stars: number,
-  chooseable: boolean,
+  choosable: boolean,
   onRated: null | (starRating: 1 | 2 | 3 | 4 | 5) => void;
 };
 
@@ -24,7 +24,7 @@ type StarRatingState = {
 /**
  * Component to show a "star" rating for a document. It can display
  * between 0 and 5 stars, including fractional values rounded to the
- * nearest half star. If the chooseable flag is set, then the user
+ * nearest half star. If the choosable flag is set, then the user
  * will be able to choose their own rating for the document and call
  * the enclosing Searcher to apply the value to the document in the
  * index.
@@ -54,7 +54,7 @@ export default class StarRating extends React.Component<StarRatingDefaultProps, 
       if (this.props.onRated) {
         this.props.onRated(numberOfStars);
       }
-      this.starDivElems.forEach((elem) => {
+      this.starDivElements.forEach((elem) => {
         if (elem) {
           elem.blur();
         }
@@ -62,7 +62,7 @@ export default class StarRating extends React.Component<StarRatingDefaultProps, 
     });
   }
 
-  starDivElems: Array<?HTMLDivElement> = [];
+  starDivElements: Array<?HTMLDivElement> = [];
 
   render() {
     const origStars = this.state.stars;
@@ -72,12 +72,12 @@ export default class StarRating extends React.Component<StarRatingDefaultProps, 
 
     const starDivs = [];
     for (let i = 0; i < 5; i += 1) {
-      // If we're chooseable, then add click handling stuff
+      // If we're choosable, then add click handling stuff
       const clickableProps = this.props.onRated === null ? {} : {
         onClick: () => { this.handleClick(i + 1); },
         role: 'button',
         tabIndex: 0,
-        ref: (elem) => { this.starDivElems.push(elem); },
+        ref: (elem) => { this.starDivElements.push(elem); },
       };
 
       if (i < numFull) {

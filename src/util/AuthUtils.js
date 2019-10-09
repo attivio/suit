@@ -1,12 +1,22 @@
 // @flow
 import md5 from 'crypto-js/md5';
 
-import StringUtils from './StringUtils';
 import FetchUtils from './FetchUtils';
+import ObjectUtils from './ObjectUtils';
+import StringUtils from './StringUtils';
 
+/**
+ * Utility class for handling auhentication in SUIT-based applications. Also handles
+ * configuration of application including the configuration used for components
+ * wrapped with the Configurable higher-order component.
+ */
 export default class AuthUtils {
   static USER_KEY = 'suit-user';
-  static TIMEOUT = 30 * 60 * 1000;
+  /**
+   * The special role representing a top-level admin, granting full permission.
+   */
+  static ADMIN_ROLE = 'AIE_Administrator';
+
   static users;
   static config;
 
@@ -14,64 +24,104 @@ export default class AuthUtils {
    * Called by the application to pass in configuration to the
    * library's utility and API classes.
    *
-   * @property users    the contents of the users.xml file, converted to JavaScript objects
-   * @property config   the contents of the configuration.properties.js file with any
+   * @param users    the contents of the users.xml file, converted to JavaScript objects
+   * @param config   the contents of the configuration.properties.js file with any
    *                    maps converted already
-   * @property simpleValidation if set to true, then a lot of the validation
+   * @param simpleValidation if set to true, then a lot of the validation
    *                    specific to search applications won't be done
+   * @returns a configuraiton error message, if one occurred
    */
-  static configure(users: any, config: any, simpleValidation: boolean = false) {
-    const configError = AuthUtils.validateConfiguration(config, simpleValidation);
+  static configure(users: any, config: any, simpleValidation: boolean = false): string | null {
+    const mappifiedConfig = AuthUtils.mappify(config);
+
+    const configError = AuthUtils.validateConfiguration(mappifiedConfig, simpleValidation);
     if (configError) {
-      throw configError;
+      return configError;
     }
-    if (config.ALL.authType === 'XML') {
+    if (mappifiedConfig.ALL.authType === 'XML') {
       // Only validate users if the auth type is XML
       const usersError = AuthUtils.validateUsers(users);
       if (usersError) {
-        throw usersError;
+        return usersError;
       }
     }
     AuthUtils.users = users;
-    AuthUtils.config = config;
+    AuthUtils.config = mappifiedConfig;
+    return null;
+  }
+
+  /** Go through the passed in object and conver any nested objects to JavaScript
+   * Map objects if and only if their name starts with a lowercase letter. Thus
+   * orig.ALL and orig.Masthead won't be converted but orig.ALL.entityColors
+   * will.
+   */
+  static mappify(orig: any): any {
+    const copy = {};
+    Object.entries(orig).forEach((entry: [string, any]) => {
+      const [key: string, value: any] = entry;
+      if (typeof value === 'object' && value !== null &&
+          (!Array.isArray(value) || value instanceof Map)) {
+        // If the value is an object that's not null or an Array or a Map, convert it
+        if (key.charAt(0) === key.charAt(0).toLowerCase()) {
+          copy[key] = ObjectUtils.toMap(value);
+        } else {
+          // recurse on non-final objects
+          copy[key] = AuthUtils.mappify(value);
+        }
+      } else {
+        // Just set it as is
+        copy[key] = value;
+      }
+    });
+    return copy;
   }
 
   /**
    * Logs the currently logged-in user out.
    */
-  static logout(callback: () => void) {
-    // Tell the server to delete the SessionId cookie
-    document.cookie = `SessionId=; Path=${AuthUtils.config.basename}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
-    document.cookie = `JSESSIONID=; Path=${AuthUtils.config.basename}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
-    // And remove the user we added to session storage
+  static logout() {
+    // Remove the user we added to session storage
     sessionStorage.removeItem(AuthUtils.USER_KEY);
-    if (AuthUtils.config.ALL.authType === 'SAML') {
-      // For SAML auth, call the special URL from Spring/SAML to tell the IdP we’re logging out
-      fetch(`${AuthUtils.config.ALL.baseUri}/saml/logout`, { method: 'GET' }).then(() => {
-        // And then call the callback
-        callback();
-      }).catch(() => {
-       // Always do the callback even if we got an error fetching
-        callback();
+
+    // If it's just XML authentication, removing saved user (above) is good enough.
+    // Otherwise, we need to also tell the server
+    if (AuthUtils.config.authType !== 'XML') {
+      // The servlet mimics the node's login endpoint with the logout action to log out of the SAML IdP
+      // so regardless of how we're authenticated, we just need to access that to log out.
+
+      // But first, remove the session cookies
+      const baseUri = AuthUtils.getConfig().ALL.baseUri;
+      document.cookie = `SessionId=; Path=${baseUri}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+      document.cookie = `JSESSIONID=; Path=${baseUri}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+
+      const headers = new Headers({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       });
-    } else if (AuthUtils.config.ALL.authType === 'NONE') {
-      // And tell the server to log us out
-      fetch(`${AuthUtils.config.ALL.baseUri}/`, { method: 'POST' }).then(() => {
-        // And then call the callback
-        callback();
-      }).catch(() => {
-        // Always do the callback even if we got an error fetching
-        callback();
+      const params = {
+        method: 'GET',
+        headers,
+        credentials: 'include',
+        mode: 'cors',
+      };
+      const fetchRequest = new Request('login?action=logout', params);
+      fetch(fetchRequest).then((/* response: Response */) => {
+        const loggedOutUri = `${baseUri}?action=loggedout`;
+        // let loggedOutUri = baseUri;
+        // if (AuthUtils.getConfig() && AuthUtils.getConfig().ALL && AuthUtils.getConfig().ALL.authType === 'XML') {
+        //   // If we're doing XML authentication, go to the login page with the "We've logged you out" flag set
+        // }
+        setTimeout(() => {
+          document.location.assign(loggedOutUri);
+        }, 100);
+      }).catch((error: any) => {
+        console.warn('Failed to log out:', error);
       });
-    } else {
-      // Just XML authentication, removing saved user (above) is good enough.
-      // Still need to call the callback, though
-      callback();
     }
   }
 
   /**
-   * Imeplementation of the obfuscation algorithm from Jetty.
+   * Implementation of the obfuscation algorithm from Jetty.
    */
   static obfuscate(orig: string): string {
     const buf = [];
@@ -153,7 +203,6 @@ export default class AuthUtils {
       const userObject = AuthUtils.findUser(username);
       if (userObject) {
         if (AuthUtils.passwordMatches(password, userObject.$.password)) {
-          userObject.timeout = new Date().getTime() + AuthUtils.TIMEOUT;
           sessionStorage.setItem(AuthUtils.USER_KEY, JSON.stringify(userObject));
           return null;
         }
@@ -169,7 +218,6 @@ export default class AuthUtils {
   static saveLoggedInUser(userInfo: any) {
     if (userInfo) {
       const userInfoCopy = JSON.parse(JSON.stringify(userInfo));
-      userInfoCopy.timeout = new Date().getTime() + AuthUtils.TIMEOUT;
       sessionStorage.setItem(AuthUtils.USER_KEY, JSON.stringify(userInfoCopy));
     } else {
       sessionStorage.removeItem(AuthUtils.USER_KEY);
@@ -179,10 +227,17 @@ export default class AuthUtils {
   /**
    * Check whether the user has a particular permission.
    */
-  static hasPermission(user: any, permission: string): boolean {
+  static hasRole(user: any, role: string): boolean {
     if (AuthUtils.config && AuthUtils.config.ALL && AuthUtils.config.ALL.authType === 'NONE') {
-      // check if user is part of the role passed to this function.
-      if (user.roles.includes(permission)) {
+      // check if the user has inherited or been directly assigned the provided role
+      if (
+        user.roles &&
+        (
+          user.roles.includes(role) ||
+          // The admin role is equivalent to all roles
+          user.roles.includes(AuthUtils.ADMIN_ROLE)
+        )
+      ) {
         return true;
       }
     }
@@ -191,16 +246,17 @@ export default class AuthUtils {
 
   /**
    * Check whether there is a user currently logged in.
+   * Optionally with the provided role
    */
-  static isLoggedIn(permission: string | null): boolean {
+  static isLoggedIn(role: string | null): boolean {
     if (!AuthUtils.config || !AuthUtils.config.ALL) {
       return false;
     }
 
     const user = AuthUtils.getSavedUser();
     if (user) {
-      if (permission) {
-        return AuthUtils.hasPermission(user, permission);
+      if (role) {
+        return AuthUtils.hasRole(user, role);
       }
       return true;
     }
@@ -216,9 +272,7 @@ export default class AuthUtils {
     const userObjectJson = sessionStorage.getItem(AuthUtils.USER_KEY);
     if (userObjectJson) {
       const userObject = JSON.parse(userObjectJson);
-      if (userObject && userObject.timeout && userObject.timeout > new Date().getTime()) {
-        return userObject;
-      }
+      return userObject;
     }
     return null;
   }
@@ -232,7 +286,7 @@ export default class AuthUtils {
    */
   static getLoggedInUserInfo(callback: (any) => void) {
     const userObject = AuthUtils.getSavedUser();
-    if (userObject && userObject.timeout && userObject.timeout > new Date().getTime()) {
+    if (userObject) {
       callback(userObject);
     } else if (AuthUtils.config.ALL.authType === 'SAML' || AuthUtils.config.ALL.authType === 'NONE') {
       // If the authentication is done on the front-end, we shouldn't
@@ -243,7 +297,7 @@ export default class AuthUtils {
           AuthUtils.saveLoggedInUser(userInfo);
         }
         if (error) {
-          console.log('Got an error retrieving the current user\u2019s details.', error);
+          console.error('Got an error retrieving the current user\'s details.', error);
         }
         callback(userInfo);
       };
@@ -306,7 +360,7 @@ export default class AuthUtils {
 
   /**
    * Validate the users object to make sure it won't cause us any
-   * grief. Return null if it's good, or an error messager otherwise.
+   * grief. Return null if it's good, or an error message otherwise.
    * This should only be called if auth type is 'XML'
    */
   static validateUsers(users: any): string | null {
@@ -333,7 +387,7 @@ export default class AuthUtils {
 
   /**
    * Validate the configuration object to make sure it won't cause us any
-   * grief. Return null if it's good, or an error messager otherwise.
+   * grief. Return null if it's good, or an error message otherwise.
    */
   static validateConfiguration(config: any, simpleValidation: boolean = false): string | null {
     if (!config) {
@@ -354,6 +408,9 @@ export default class AuthUtils {
     }
     if (config.ALL.authType !== 'XML' && config.ALL.authType !== 'SAML' && config.ALL.authType !== 'NONE') {
       return `The configuration object has an invalid value for 'ALL.authType': it must be 'XML,' 'SAML,' or 'NONE' but it is '${config.ALL.authType}.'`; // eslint-disable-line max-len
+    }
+    if (config.ALL.authType === 'XML' && !config.ALL.loginPage) {
+      return 'The configuration is missing the \'All.loginPage\' value whiich is required when authentication is set to XML.';
     }
     if (!StringUtils.notEmpty(config.ALL.defaultRealm)) {
       return 'The configuration object is missing the \'ALL.defaultRealm\' value.';

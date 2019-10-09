@@ -16,7 +16,7 @@ type NavigationButtonProps = {
   bsStyle: string,
   /** The route to navigate to when the button is clicked. */
   route: string,
-  /** Any arbitray CSS styling to apply to the button. Optional. */
+  /** Any arbitrary CSS styling to apply to the button. Optional. */
   style: any,
   /** The contents of the button. Usually just text. */
   children: Children;
@@ -30,7 +30,7 @@ type NavigationButtonDefaultProps = {
 };
 
 /**
- * Wrapper for a React-Boostrap Button that will navigate to a route
+ * Wrapper for a React-Bootstrap Button that will navigate to a route
  * using the react router. You can pass a className, bsStyle, and arbitrary
  * style object to change the look of your button, similarly to the standard
  * one. Use the route property to specify where the router should take the

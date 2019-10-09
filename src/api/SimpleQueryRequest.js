@@ -59,7 +59,7 @@ export default class SimpleQueryRequest {
   rows: number;
   /** Any filters to apply to the query */
   filters: Array<string>;
-  /** Which facets you want to have returned with the resuls */
+  /** Which facets you want to have returned with the results */
   facets: Array<string>;
   /** How you want the query results sorted */
   sort: Array<string>;

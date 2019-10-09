@@ -18,6 +18,11 @@ type MastheadProps = {
   logoAlt: string | null;
   /** The route to navigate to when the user clicks the logo. Defaults to '/' */
   homeRoute: string | null;
+  /**
+   * The optional url to navigate to when the user clicks the logo. If homeRoute
+   *  and homeUrl are both specified, homeUrl takes precedence.
+   */
+  homeUrl: string | null;
   /** The name of the application. */
   applicationName: string | null;
   /** If set, then the application name will wrap to two lines. */
@@ -33,6 +38,13 @@ type MastheadProps = {
    * disables logging out as a side-effect.
    */
   username: string | null;
+  /**
+   * The function to call when the user chooses to log out. If this is not
+   * set, then the logout menu item won't be shown for the current user.
+   * NOTE: If the user is logged in via SAML authentication, the logout
+   * menu item will always be hidden and this function will never be called.
+   */
+  logoutFunction: null | () => void,
   /** The contents of the Masthead can be arbitrary components. */
   children: Children;
 };
@@ -41,11 +53,13 @@ type MastheadDefaultProps = {
   logoUri: string | null;
   logoAlt: string | null;
   homeRoute: string | null;
+  homeUrl: string | null;
   applicationName: string | null;
   multiline: boolean;
   searchEngineType: 'attivio' | 'solr' | 'elastic';
   helpUri: string | null;
   username: string | null;
+  logoutFunction: null | () => void,
 };
 
 type MastheadState = {
@@ -55,7 +69,7 @@ type MastheadState = {
 /**
  * Display a masthead header at the top of your page. It displays a logo,
  * the name of the application, and the currently logged-in user. It can
- * contain arbitray components, but components particularly suited for
+ * contain arbitrary components, but components particularly suited for
  * being in masthead have names that start with "Masthead," such as
  * MastheadNavBar and MastheadNavTabs.
  */
@@ -64,7 +78,8 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
     logoUri: 'img/attivio-logo-reverse.png',
     logoAlt: 'Attivio Home',
     homeRoute: '/',
-    logoutFunction: () => {},
+    homeUrl: null,
+    logoutFunction: null,
     applicationName: 'Cognitive Search',
     multiline: false,
     searchEngineType: 'attivio',
@@ -84,18 +99,19 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
       userInfo: null,
     };
     (this: any).navigateHome = this.navigateHome.bind(this);
-    (this: any).handleLogout = this.handleLogout.bind(this);
     (this: any).updateUser = this.updateUser.bind(this);
   }
 
   state: MastheadState;
 
-  componentWillMount() {
+  componentDidMount() {
     this.updateUser();
   }
 
-  componentWillReceiveProps() {
-    this.updateUser();
+  componentWillReceiveProps(nextProps) {
+    if (this.props.username !== nextProps.username) {
+      this.updateUser();
+    }
   }
 
   updateUser() {
@@ -122,29 +138,22 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
     }
   }
 
-  handleLogout() {
-    if (!this.props.username) {
-      AuthUtils.logout(() => {
-        this.setState({
-          userInfo: null,
-        }, () => {
-          this.props.history.push('/loggedout');
-        });
-      });
-    }
-  }
-
   navigateHome() {
     if (this.homeLink) {
       this.homeLink.blur();
     }
-    this.context.searcher.reset();
-    this.props.history.push({ pathname: this.props.homeRoute, search: this.props.location.search });
+    if (this.context && this.context.searcher) {
+      this.context.searcher.reset();
+    }
+    this.props.history.push({
+      pathname: this.props.homeRoute,
+      search: this.props.location.search,
+    });
   }
 
   homeLink: ?HTMLAnchorElement;
 
-  render() {
+  renderButton() {
     let engineInfo = null;
     if (this.props.searchEngineType === 'solr') {
       engineInfo = (
@@ -182,21 +191,63 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
       );
     }
 
+    const logo = (
+      <img
+        src={this.props.logoUri}
+        alt={this.props.logoAlt}
+        className="attivio-globalmast-logo-img"
+      />
+    );
+
+    if (this.props.homeUrl) {
+      return (
+        <a
+          style={{
+            backgroundColor: 'transparent',
+            borderWidth: 0,
+            textDecoration: 'none',
+          }}
+          role="button"
+          href={this.props.homeUrl}
+          className="attivio-globalmast-logo attivio-globalmast-separator after"
+        >
+          {logo}
+          {engineInfo}
+        </a>
+      );
+    }
+
+    return (
+      <button
+        style={{ backgroundColor: 'transparent', borderWidth: 0 }}
+        onClick={this.navigateHome}
+        className="attivio-globalmast-logo attivio-globalmast-separator after"
+        ref={(c) => {
+          this.homeLink = c;
+        }}
+      >
+        {logo}
+        {engineInfo}
+      </button>
+    );
+  }
+
+  render() {
+    let logoutFunction = this.props.logoutFunction;
+    if (this.state.userInfo) {
+      if (this.state.userInfo.saml) {
+        // If the user is logged in via SAML, diable logging out.
+        logoutFunction = null;
+      }
+    } else {
+      // If there's no user logged in, then disable logging out.
+      logoutFunction = null;
+    }
+
     return (
       <header className="attivio-globalmast attivio-minwidth">
         <div className="attivio-container">
-          <button
-            style={{ backgroundColor: 'transparent', borderWidth: 0 }}
-            onClick={this.navigateHome}
-            className="attivio-globalmast-logo attivio-globalmast-separator after"
-
-            ref={(c) => {
-              this.homeLink = c;
-            }}
-          >
-            <img src={this.props.logoUri} alt={this.props.logoAlt} className="attivio-globalmast-logo-img" />
-            {engineInfo}
-          </button>
+          {this.renderButton()}
           <div className={`attivio-globalmast-appname attivio-globalmast-separator after ${this.props.multiline ? '' : 'nowrap'}`}>
             {this.props.applicationName}
           </div>
@@ -204,7 +255,7 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
           <div className="attivio-globalmast-spacer" />
           <MastheadUser
             username={AuthUtils.getUserName(this.state.userInfo)}
-            logoutFunction={this.handleLogout}
+            logoutFunction={logoutFunction}
             helpUri={this.props.helpUri}
           />
         </div>

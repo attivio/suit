@@ -88,7 +88,7 @@ export default class Accordion extends React.Component<AccordionDefaultProps, Ac
     if (panels.length > 0) {
       const defaultPanelKey = this.props.defaultPanelKey ? this.props.defaultPanelKey : this.props.panels[0].key;
       return (
-        <PanelGroup accordion id="queryFrameDescriptionAccoerdion" defaultActiveKey={defaultPanelKey}>
+        <PanelGroup accordion id="queryFrameDescriptionAccordion" defaultActiveKey={defaultPanelKey}>
           {panels}
         </PanelGroup>
 

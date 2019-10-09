@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import DefaultImage from './DefaultImage';
 
 type CardPickerCardProps = {
   /**
@@ -8,17 +9,26 @@ type CardPickerCardProps = {
    */
   label: string;
   /**
-   * The URI for the icon to display. If unset, no icon is shown.
+   * The URI for the icon to display. If not set, no icon is shown.
    * The icon is limited in size to 60x60 pixels.
    */
   iconUri: string | null;
   /**
-   * If set, then the card is drawn with a selected border and is not
-   * clickable.
+   * The URI for the icon to display if the specified icon cannot be found.
+   * The icon is limited in size to 60x60 pixels.
+   */
+  defaultIconUri: string | null;
+   /**
+   * An optional description to show inside the card.
+   */
+  description: string | null;
+  /**
+   * Should be set when the card is selected. It will be drawn with a border
+   * to indicate its selected status and will not be clickable.
    */
   selected: boolean;
   /**
-   * The callback to use when the card is clicked by the user.
+   * The function to call when the card is clicked by the user.
    */
   onClick: () => void;
   /**
@@ -26,15 +36,28 @@ type CardPickerCardProps = {
    * the width of each card. Defaults to 3 columns.
    */
   columns: number;
+  /**
+   * Property that contains the prefix for data-test attribute added to elements to be uniquely
+   * identified by testing tools like Selenium
+   */
+  dataTestValue? : string | null;
 };
 
 type CardPickerCardDefaultProps = {
   columns: number;
+  iconUri: string | null;
+  defaultIconUri: string | null;
+  description: string | null;
+  dataTestValue : string | null;
 };
 
 export default class CardPickerCard extends React.Component<CardPickerCardDefaultProps, CardPickerCardProps, void> {
   static defaultProps = {
     columns: 3,
+    iconUri: null,
+    defaultIconUri: null,
+    description: null,
+    dataTestValue: null,
   };
 
   static displayName = 'CardPickerCard';
@@ -71,8 +94,9 @@ export default class CardPickerCard extends React.Component<CardPickerCardDefaul
     };
 
     const icon = this.props.iconUri ? (
-      <img
+      <DefaultImage
         src={this.props.iconUri}
+        defaultSrc={this.props.defaultIconUri}
         style={{
           maxHeight: '60px',
           maxWidth: '60px',
@@ -90,6 +114,7 @@ export default class CardPickerCard extends React.Component<CardPickerCardDefaul
 
     return (
       <div
+        title={this.props.description}
         style={style}
         onClick={this.onClick}
         role="button"
@@ -97,6 +122,7 @@ export default class CardPickerCard extends React.Component<CardPickerCardDefaul
         ref={(c) => {
           this.card = c;
         }}
+        data-test={(this.props.dataTestValue) ? `${this.props.dataTestValue}` : null}
       >
         <div
           style={{

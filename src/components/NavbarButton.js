@@ -9,7 +9,7 @@ type NavbarButtonProps = {
   label: string | null;
   /**
    * The icon to display for the button. This should be the name of an icon in the
-   * set of Glyphicons halflings (see here: )
+   * set of Glyphicons halflings (see here: http://www.glyphicons.com/)
    * Optional—if not set, the button will only have a text label. */
   icon: string | null;
   /** The callback for when the button is clicked. */
@@ -23,7 +23,7 @@ type NavbarButtonDefaultProps = {
 
 /**
  * A button to live in the navbar. Can have either an icon or a text label or both.
- * (It needs to at least have one or the other, though.) Clicking the butotn calls
+ * (It needs to at least have one or the other, though.) Clicking the button calls
  * the onClick handler.
  */
 export default class NavbarButton extends React.Component<NavbarButtonDefaultProps, NavbarButtonProps, void> {

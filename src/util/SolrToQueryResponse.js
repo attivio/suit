@@ -11,7 +11,7 @@ import SearchFacet from '../api/SearchFacet';
  */
 export default class SolrToQueryResponse {
   /**
-   * Do the convertsion.
+   * Do the conversion.
    *
    * @param json          the JSON returned from the call
    * @param customOptions the custom options defined in the configuration

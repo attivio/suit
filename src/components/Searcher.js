@@ -11,7 +11,10 @@ import SimpleQueryRequest from '../api/SimpleQueryRequest';
 import QueryResponse from '../api/QueryResponse';
 import FacetFilter from '../api/FacetFilter';
 import FieldNames from '../api/FieldNames';
+import SignalData from '../api/SignalData';
+import Signals from '../api/Signals';
 
+import AuthUtils from '../util/AuthUtils';
 import ObjectUtils from '../util/ObjectUtils';
 
 import Configurable from '../components/Configurable';
@@ -37,7 +40,7 @@ import Configuration from '../components/Configuration';
   then we update the state including setting the offset to 0, and, if there has been a previous
   search, we perform a new one (and, only in this case, update the search string). The following
   properties require resetting when they're changed: geoFilters (adding or removing), resultsPerPage,
-  facetFilters (adding or removing), sort, relevancyModels, format, and searchProfile.
+  facetFilters (adding or removing), sort, relevancyModels, debug, and searchProfile.
 */
 
 type SearcherProps = {
@@ -129,8 +132,8 @@ type SearcherProps = {
   // showWorkflowFields: boolean;
   /** The workflow to use when updating document properties, defaults to 'ingest' */
   // ingestWorkflow: string;
-  /** The format to use for displaying the individual documents. */
-  format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  /** Whether to override the format with the debug format. */
+  debug: boolean,
   /** The number of document results to display on each page of the results set */
   resultsPerPage: number;
   /**
@@ -142,6 +145,10 @@ type SearcherProps = {
    * control its properties and display the search results.
    */
   children: Children;
+  /**
+   * The max resubmits property for enabling features such as And-To-Or resubmission, if desired
+   */
+  maxResubmits: number;
 };
 
 type SearcherDefaultProps = {
@@ -169,15 +176,16 @@ type SearcherDefaultProps = {
   moreLikeThisQuery: string;
   mimetype: string;
   sourcePath: string;
-  format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  debug: boolean;
   resultsPerPage: number;
   businessCenterProfile: string | null;
   defaultQueryLanguage: 'simple' | 'advanced';
+  maxResubmits: number;
 };
 
 /*
  * NOTE: If you add or remove anything from the Searcher's state, you'll
- * need to update (at least) the following methods to accommodate the chnage:
+ * need to update (at least) the following methods to accommodate the change:
  *   constructor()
  *   getQueryRequest()
  *   generateLocationQueryStringFromState()
@@ -198,7 +206,8 @@ type SearcherState = {
   geoFilters: Array<string>;
   resultsPerPage: number;
   resultsOffset: number;
-  format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple';
+  debug: boolean;
+  queryTimestamp: number;
 };
 
 /**
@@ -206,7 +215,7 @@ type SearcherState = {
  * the searcher property that is inserted into their context object. This allows them
  * to access the Searcher's state to see all of its input parameters aa well as the
  * results of the most recent search and any errors. In addition, they can use the
- * reference to the Seacher to call methods which allow them to update the Searcher's
+ * reference to the Searcher to call methods which allow them to update the Searcher's
  * state or execute searches.
  *
  * The Searcher also provides a method, doCustomSearch(), that lets the callers
@@ -217,44 +226,45 @@ type SearcherState = {
  * of how this is done using by defining "static contextTypes" in the component.
  *
  * Note that the Searcher will add query parameters to the URL for the page's location
- * when the usere executes a (non-custom) search. This allows the URL for the search to be
+ * when the user executes a (non-custom) search. This allows the URL for the search to be
  * used to repeat the same search, either when refreshing the browser window or when
  * bookmarking the page, sharing it in an email, etc. The URL is updated whenever a search
  * happens, whether caused by the user clicking the search button or by changing the
  * parameters to an existing search (e.g., changing the sort order or paging through the
  * results).
-
- IF
-Searcher is first loaded, we need to check for query parameters and apply them if they exist.In this case, we need to do the search.
-
-IF
-Searcher is updated with a new query string, then we need to parse it and possibly do a new search, if it has changed.
-
-IF
-User does a search manually, we need to calculate the query string and push the new location onto the history if it has changed.
-  THIS HAPPENS IN THE doSearch() method
-
-IF
-User updates a property that affects existing searches but doesn't require resetting, we need to update the state and then,
-if there's a previous search, perform a new one (and, only in this case, update the search string
-  THIS HAPPENDS WHEN THESE PROPERTIES CHANGE:
-      resultsOffset (i.e., paging)
-
-IF
-User updates a property that affects existing searches AND requires resetting, then we need to update the state including setting
-the offset to 0, and , if there's a previous search, perform a new one (and, only in this case, update the search string
-  THIS HAPPENDS WHEN THESE PROPERTIES CHANGE:
-      geoFilters (adding or removing)
-      resultsPerPage
-      facetFilters (adding or removing)
-      sort
-      relevancyModels
-      format
-      searchProfile
-
-
-      // NEED TO DEAL WITH VALUES IN URL THAT ARE NOT VALID...
-
+ *
+ * IF
+ * Searcher is first loaded, we need to check for query parameters and apply them if they
+ * exist.In this case, we need to do the search.
+ *
+ * IF
+ * Searcher is updated with a new query string, then we need to parse it and possibly do
+ * a new search, if it has changed.
+ *
+ * IF
+ * User does a search manually, we need to calculate the query string and push the new
+ * location onto the history if it has changed.
+ *   THIS HAPPENS IN THE doSearch() method
+ *
+ * IF
+ * User updates a property that affects existing searches but doesn't require resetting,
+ * we need to update the state and then, if there's a previous search, perform a new one
+ * (and, only in this case, update the search string
+ *   THIS HAPPENS WHEN THESE PROPERTIES CHANGE:
+ *       resultsOffset (i.e., paging)
+ *
+ * IF
+ * User updates a property that affects existing searches AND requires resetting, then we
+ * need to update the state including setting the offset to 0, and , if there's a previous
+ * search, perform a new one (and, only in this case, update the search string
+ *   THIS HAPPENS WHEN THESE PROPERTIES CHANGE:
+ *       geoFilters (adding or removing)
+ *       resultsPerPage
+ *       facetFilters (adding or removing)
+ *       sort
+ *       relevancyModels
+ *       debug
+ *       searchProfile
  */
 class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, SearcherState> {
   static defaultProps = {
@@ -282,10 +292,11 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     moreLikeThisQuery: 'morelikethisquery',
     mimetype: FieldNames.MIME_TYPE,
     sourcePath: FieldNames.SOURCEPATH,
-    format: 'list',
+    debug: false,
     resultsPerPage: 10,
     businessCenterProfile: null,
     defaultQueryLanguage: 'simple',
+    maxResubmits: 1,
   };
 
   static contextTypes = {
@@ -340,7 +351,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // When the searcher is first created, this is called.
     // Pull a state object out of the location's query string
     const location = this.props.location;
@@ -383,8 +394,18 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       geoFilters: [],
       resultsPerPage: parseInt(this.props.resultsPerPage, 10),
       resultsOffset: 0,
-      format: this.props.format,
+      debug: this.props.debug,
+      queryTimestamp: 0,
     };
+  }
+
+  getRelevancyModels(): Array<string> {
+    if (this.state.relevancyModels && this.state.relevancyModels.length > 0) {
+      return this.state.relevancyModels;
+    } else if (this.props.relevancyModels && this.props.relevancyModels.length > 0) {
+      return this.props.relevancyModels;
+    }
+    return [];
   }
 
   /**
@@ -419,11 +440,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     // the restParams property.
     const restParams = new Map();
     restParams.set('offset', [`${this.state.resultsOffset}`]);
-    if (this.state.relevancyModels && this.state.relevancyModels.length > 0) {
-      restParams.set('relevancymodelnames', [this.state.relevancyModels.join(',')]);
-    } else if (this.props.relevancyModels && this.props.relevancyModels.length > 0) {
-      restParams.set('relevancymodelnames', [this.props.relevancyModels.join(',')]);
-    }
+    const relevancyModels = this.getRelevancyModels();
+    restParams.set('relevancymodelnames', [relevancyModels.join(',')]);
     restParams.set('includemetadatainresponse', ['true']);
     if (this.props.highlightResults) {
       restParams.set('highlight', ['true']);
@@ -439,6 +457,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       restParams.set('abc.enabled', ['true']);
       restParams.set('searchProfile', profiles);
     }
+    restParams.set('q.maxresubmits', [`${this.props.maxResubmits}`]);
 
     qr.restParams = restParams;
     return qr;
@@ -448,7 +467,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * Get the list of fields to use in the query request.
    */
   getFieldList(): Array<string> {
-    // Start out with the fields the user specifed
+    // Start out with the fields the user specified
     const result = [].concat(this.props.fields || []);
     // Add the mapped fields that the search results will expect
     result.push(`${this.props.title} as title`);
@@ -480,8 +499,42 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       error: undefined,
       response: undefined,
       facetFilters: [],
+      geoFilters: [],
       query,
     });
+  }
+
+  /**
+   * Fetches the signal data from the first document of the response.
+   * If the document or the signal does not exist, and createNewIfNotExisting = true,
+   * a new SignalData object is created with default values populated.
+   */
+  getDefaultQuerySignal = (createNewIfNotExisting?: boolean = false) => {
+    const queryDocuments = this.state.response ? this.state.response.documents : null;
+    const querySignal = queryDocuments && queryDocuments.length >= 1 ? queryDocuments[0].signal : null;
+    if (querySignal) {
+      if (!querySignal.relevancyModelVersion) {
+        querySignal.relevancyModelVersion = 1;
+      }
+      return querySignal;
+    }
+    if (createNewIfNotExisting) {
+      const savedUser = AuthUtils.getSavedUser();
+      const defaultSignalData = new SignalData();
+      const { query, queryTimestamp } = this.state;
+      const relevancyModels = this.getRelevancyModels();
+      if (savedUser) {
+        defaultSignalData.locale = 'en';
+        defaultSignalData.principal = `${AuthUtils.config.ALL.defaultRealm}:${savedUser.fullName}:${savedUser.userId}`;
+        defaultSignalData.query = query;
+        defaultSignalData.queryTimestamp = queryTimestamp;
+        defaultSignalData.relevancyModelName = relevancyModels[0] || '';
+        defaultSignalData.relevancyModelNames = relevancyModels.length > 0 ? relevancyModels : [];
+        defaultSignalData.relevancyModelVersion = 1;
+      }
+      return defaultSignalData;
+    }
+    return null;
   }
 
   /**
@@ -494,11 +547,13 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     delete currentState.error;
     delete currentState.response;
     delete currentState.haveSearched;
+    delete currentState.queryTimestamp;
 
     const newState = Object.assign({}, compareWith);
     delete newState.error;
     delete newState.response;
     delete newState.haveSearched;
+    delete newState.queryTimestamp;
 
     return !ObjectUtils.deepEquals(currentState, newState);
   }
@@ -537,8 +592,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     if (state.relevancyModels && state.relevancyModels.length > 0) {
       basicState.relevancyModels = state.relevancyModels;
     }
-    if (state.format && state.format !== this.props.format) {
-      basicState.format = state.format;
+    if (state.debug !== this.props.debug) {
+      basicState.debug = state.debug;
     }
 
     // See if there are any query parameters other than those set by the Searcher. If so, we want to maintain them.
@@ -553,7 +608,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         originalParsed.delete('facetFilters');
         originalParsed.delete('sort');
         originalParsed.delete('relevancyModels');
-        originalParsed.delete('format');
+        originalParsed.delete('debug');
       }
       // Add any leftover fields back in to the basic state
       basicState = Object.assign({}, basicState, originalParsed);
@@ -582,7 +637,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     }
 
     // Get the geoFilters (normalized to an array of strings)
-    // DEFAUT: []
+    // DEFAULT: []
     let geoFilters = parsed.geoFilters;
     if (!geoFilters) {
       geoFilters = [];
@@ -653,12 +708,11 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     // Get the business center profile to use.
     // DEFAULT: none
 
-    // Get the format.
+    // Determine if we're in debug mode.
     // DEFAULT: this.props.format
-    let format: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple' = this.props.format;
-    if (parsed.format === 'list' || parsed.format === 'usercard' || parsed.format === 'doccard' ||
-      parsed.format === 'debug' || parsed.format === 'simple') {
-      format = parsed.format;
+    let debug = this.props.debug;
+    if (Object.prototype.hasOwnProperty.call(parsed, 'debug')) {
+      debug = parsed.debug;
     }
 
     const result: SearcherState = {
@@ -670,8 +724,9 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       facetFilters,
       sort: [sort],
       relevancyModels,
-      format,
+      debug,
       haveSearched: this.state.haveSearched, // Make sure we don't change this
+      queryTimestamp: 0,
     };
 
     return result;
@@ -698,13 +753,13 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   }
 
   /**
-   * Used to tell the search results component which format
-   * to use when rendering results.
+   * Used to tell the search results component whether to use the debug
+   * format when rendering results.
    */
-  updateFormat(newFormat: 'list' | 'usercard' | 'doccard' | 'debug' | 'simple') {
-    if (this.state.format !== newFormat) {
+  updateDebug(newDebug: boolean) {
+    if (this.state.debug !== newDebug) {
       this.updateStateAndSearch({
-        format: newFormat,
+        debug: newDebug,
       });
     }
   }
@@ -712,8 +767,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   /**
    * Update the list of tags for the given document.
    */
-  updateTags(tags: Array<string>, docId: string): Promise<any> {
-    return this.search.updateRealtimeField(docId, FieldNames.TAGS, tags);
+  updateTags(tags: Array<string>, docId: string, onCompletion: () => void, onError: (error: string) => void): Promise<any> {
+    return this.search.updateRealtimeField(docId, FieldNames.TAGS, tags, onCompletion, onError);
   }
 
   props: SearcherProps;
@@ -730,6 +785,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         response,
         error: undefined,
         haveSearched: true,
+        queryTimestamp: Date.now(),
       });
     } else if (error) {
       // Failed!
@@ -888,6 +944,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       response: undefined,
       queryLanguage: advanced ? 'advanced' : 'simple',
       facetFilters: [],
+      geoFilters: [],
       query,
     });
   }
@@ -895,6 +952,10 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
 
   /**
    * Add multiple query filters (in AQL) to the query request.
+   * When DrawControl (in MapFacetContents) is re-enabled,
+   * ensure signal of type 'facet' is created when applying
+   * geofilters to the search.
+   * See PLAT-44214 for details of signals of type 'facet'.
    */
   addGeoFilters(filters: Array<string>) {
     let geoFilters = this.state.geoFilters.slice();
@@ -906,6 +967,10 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
 
   /**
    * Remove a query filter by name (in AQL) from the query request.
+   * When DrawControl (in MapFacetContents) is re-enabled,
+   * ensure signal of type 'facet' is created when removing
+   * geofilters from the search.
+   * See PLAT-44214 for details of signals of type 'facet'.
    */
   removeGeoFilter(filter: string) {
     const geoFilters = this.state.geoFilters.slice();
@@ -921,22 +986,17 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   /**
    * Add a facet filter to the current search. Will repeat the search
    * if it's already been performed. Note that if a filter for the
-   * same facet name already exists, it will be replaced with the
-   * new one.
+   * same facet name already exists, it will add the new filter
+   * instead of replacing.
    */
   addFacetFilter(facetName: string, bucketLabel: string, filter: string) {
+    const updatedFacetFilters = this.state.facetFilters ? this.state.facetFilters : [];
     const newFF = new FacetFilter();
     newFF.facetName = facetName;
     newFF.bucketLabel = bucketLabel;
     newFF.filter = filter;
+    this.addFacetFilterSignal(newFF, true);
 
-    const updatedFacetFilters = [];
-    const facetFilters = this.state.facetFilters;
-    facetFilters.forEach((facetFilter) => {
-      if (facetFilter.facetName !== facetName) {
-        updatedFacetFilters.push(facetFilter);
-      }
-    });
     updatedFacetFilters.push(newFF);
     this.updateStateResetAndSearch({
       facetFilters: updatedFacetFilters,
@@ -946,19 +1006,82 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   /**
    * Remove the specified facet filter from the current
    * search. If a search has already been performed, it
-   * will be repeated with the updated set of facet filters.
+   * will be repeated with the updated set of facet filters,
+   * unless repeatSearch is set to false the search will not
+   * be repeated.
    */
-  removeFacetFilter(removeFilter: FacetFilter) {
+  removeFacetFilter(removeFilter: FacetFilter, repeatSearch: boolean = true) {
     const updatedFacetFilters = [];
     const facetFilters = this.state.facetFilters;
+    this.addFacetFilterSignal(removeFilter, false);
     facetFilters.forEach((facetFilter) => {
-      if (facetFilter.facetName !== removeFilter.facetName) {
+      if (facetFilter.filter !== removeFilter.filter) {
         updatedFacetFilters.push(facetFilter);
       }
     });
-    this.updateStateResetAndSearch({
-      facetFilters: updatedFacetFilters,
+    if (repeatSearch) {
+      this.updateStateResetAndSearch({
+        facetFilters: updatedFacetFilters,
+      });
+    } else {
+      this.setState({
+        facetFilters: updatedFacetFilters,
+      });
+    }
+  }
+
+  /**
+   * Add signal each time a filter is added/removed.
+   * When a filter is added, signal with weight 1 is created.
+   * When a filter is removed, signal with weight 0 is created.
+   */
+  addFacetFilterSignal(facetFilter: FacetFilter, facetAdded: boolean) {
+    const querySignal = this.getDefaultQuerySignal();
+    const facets = this.state.response ? this.state.response.facets : null;
+    if (!querySignal || !facets) {
+      return;
+    }
+    const facet = facets.find((searchFacet) => {
+      return searchFacet.label === facetFilter.facetName;
     });
+    if (!facet) {
+      return;
+    }
+    // The signals for adding and removing the facet have the same docId and
+    // thus same signal is created for them. Thus, we add a suffix '|add' or '|remove'
+    // to denote whether the signal is for adding or removing facets and
+    // also to differentiate both the signals on backend.
+    const docIDSuffix = facetAdded ? '|add' : '|remove';
+    const signal = querySignal.clone();
+    signal.docId = facetFilter.filter.concat(docIDSuffix);
+    signal.docOrdinal = facet.buckets.findIndex((bucket) => {
+      return bucket.filter === facetFilter.filter;
+    }) + 1; // index starts at 1
+    signal.featureVector = '';
+    signal.signalTimestamp = Date.now();
+    signal.type = 'facet';
+    signal.weight = facetAdded ? 1 : 0;
+
+    new Signals(this.props.baseUri).addRawSignal(signal);
+  }
+
+  /**
+   * Add signal each time a promotion is clicked.
+   */
+  addPromotionSignal = (signalDocID: string, signalDocOrdinal: number) => {
+    const querySignal = this.getDefaultQuerySignal(true);
+    if (!querySignal) {
+      return;
+    }
+    const signal = querySignal.clone();
+    signal.docId = signalDocID;
+    signal.docOrdinal = signalDocOrdinal;
+    signal.featureVector = '';
+    signal.signalTimestamp = Date.now();
+    signal.type = 'promotion';
+    signal.weight = 1;
+
+    new Signals(this.props.baseUri).addRawSignal(signal);
   }
 
   /**

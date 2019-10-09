@@ -15,7 +15,7 @@ type DocumentThumbnailProps = {
   /**
    * The URIs of any images to display as previews for the document.
    * If there are none or this isn't set, then no previews will be
-   * available whenclicking the thumbnail. Otherwise, a modal
+   * available when clicking the thumbnail. Otherwise, a modal
    * will open up to display the preview(s). If there are multiple
    * URIs, then they will be displayed in a carousel-type control
    * and the user can flip through them.

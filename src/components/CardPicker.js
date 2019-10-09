@@ -9,11 +9,13 @@ export class CardPickerItem {
   label: string;
   key: string;
   iconUri: string | null;
+  description: string | null;
 
-  constructor(label: string, key: string, iconUri: string | null = null) {
+  constructor(label: string, key: string, iconUri: string | null = null, description: string | null) {
     this.label = label;
     this.key = key;
     this.iconUri = iconUri;
+    this.description = description;
   }
 }
 
@@ -29,8 +31,7 @@ type CardPickerProps = {
   initialSelection: string | null;
   /**
    * The icon to use if a particular card item doesn't have
-   * one defined. If all of the items will have icons assigned,
-   * you don't need to set this.
+   * one defined or if it cannot be found.
    */
   defaultIconUri: string | null;
   /**
@@ -42,12 +43,18 @@ type CardPickerProps = {
    * the width of each card. Defaults to 3 columns.
    */
   columns: number;
+  /**
+   * Property that contains the prefix for data-test attribute added to elements to be uniquely
+   * identified by testing tools like Selenium
+   */
+  dataTestPrefix? : string | null;
 };
 
 type CardPickerDefaultProps = {
   initialSelection: string | null;
   defaultIconUri: string | null;
   columns: number;
+  dataTestPrefix : string | null;
 };
 
 type CardPickerState = {
@@ -59,6 +66,7 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
     initialSelection: null,
     defaultIconUri: null,
     columns: 3,
+    dataTestPrefix: null,
   };
 
   static displayName = 'CardPicker';
@@ -84,44 +92,30 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
   }
 
   render() {
-    const cardComponnents = this.props.cards.map((cardItem) => {
+    const { dataTestPrefix, cards } = this.props;
+    const cardComponents = cards.map((cardItem, index) => {
+      const cardItemLabel = (cardItem.label) ? `${cardItem.label}-` : '';
       return (
         <CardPickerCard
           key={`${cardItem.label}|${cardItem.iconUri ? cardItem.iconUri : 'noicon'}`}
           label={cardItem.label}
           iconUri={cardItem.iconUri || this.props.defaultIconUri}
+          description={cardItem.description}
+          defaultIconUri={this.props.defaultIconUri}
           selected={cardItem.key === this.state.selection}
           onClick={() => { this.onClick(cardItem.key); }}
           columns={this.props.columns}
+          dataTestValue={(dataTestPrefix) ? `${dataTestPrefix}-${cardItemLabel}${index}` : null}
         />
       );
     });
 
     return (
       <GridLayout>
-        {cardComponnents}
+        {cardComponents}
       </GridLayout>
     );
   }
 }
 
 CardPicker.CardPickerItem = CardPickerItem;
-
-/*
-      <Scrollable style={{ height: '100%' }}>
-        <div
-          style={{
-            width: '100%',
-            padding: 0,
-            display: 'flex',
-            flex: 1,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-          }}
-        >
-          {cardComponnents}
-        </div>
-      </Scrollable>
-*/

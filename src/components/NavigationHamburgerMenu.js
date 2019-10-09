@@ -23,11 +23,12 @@ class NavMenuItem {
 type NavigationHamburgerMenuProps = {
   location: PropTypes.object.isRequired;
   history: PropTypes.object.isRequired;
-  /** The ID of the menu. Required for screen reader accessibiltiy. */
+  /** The ID of the menu. Required for screen reader accessability. */
   id: string;
   /** The icon to display as the menu's button. It can be
-   * the name of any Glyphicon icon. Defaults to the
-   * hamburger menu icon (three horizontal bars). */
+   * the name of any Glyphicon icon (see here: http://www.glyphicons.com/).
+   * Defaults to the "hamburger menu" icon (three horizontal bars).
+   */
   icon: string;
   /** A descriptive tooltip for the menu shown when the user hovers over it. */
   tooltip: string;

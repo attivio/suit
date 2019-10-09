@@ -36,7 +36,7 @@ type BigButtonDefaultProps = {
  * tag are rendered as the button's contents. You can pass
  * either an <code>onClick</code> callback or a <code>route</code>
  * name. If you pass the former, it , that will be called in response
- * to the user clickling the button; if, instead, you pass the name
+ * to the user clicking the button; if, instead, you pass the name
  * of a route, when the user clicks the button, the application will
  * navigate to that route.
  * <p>By default, the <code>BigButton</code> will have a
@@ -86,7 +86,7 @@ class BigButton extends React.Component<BigButtonDefaultProps, BigButtonProps, v
         className={className}
         style={this.props.style}
         role="button"
-        tabIndex="0"
+        tabIndex={0}
         ref={(c) => {
           this.button = c;
         }}

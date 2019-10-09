@@ -105,6 +105,12 @@ type MenuProps = {
   width: number | null;
   /** Any CSS style you need to apply to the menu. Optional. */
   style: any;
+  /**
+   * Property that contains the value for data-test attribute
+   * added to elements to be uniquely identified by testing tools
+   * like Selenium.
+   */
+  dataTest?: string | null;
 };
 
 type MenuDefaultProps = {
@@ -118,6 +124,7 @@ type MenuDefaultProps = {
   maxLabelCharacters: number | null;
   width: number | null;
   style: any;
+  dataTest : string | null;
 };
 
 export default class Menu extends React.Component<MenuDefaultProps, MenuProps, void> {
@@ -132,6 +139,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
     maxLabelCharacters: null,
     width: null,
     style: {},
+    dataTest: null,
   };
 
   static displayName = 'Menu';
@@ -350,6 +358,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
 
     const classNames = this.props.block ? 'attivio-dropdown attivio-dropdown-block' : 'attivio-dropdown';
     const outerStyle = this.props.width ? Object.assign({ width: `${this.props.width}px` }, this.props.style) : this.props.style;
+    const dataTest = this.props.dataTest;
 
     return (
       <Dropdown
@@ -366,10 +375,11 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
           className="attivio-smalltoolbar-btn"
           bsClass="attivio-smalltoolbar-btn"
           style={this.props.width ? { width: `${this.props.width}px` } : {}}
+          data-test={dataTest}
         >
           <div
             style={this.props.width ? {
-              // adjusted to fit the carot
+              // adjusted to fit the caret
               width: `${this.props.width - 40}px`,
               whiteSpace: 'nowrap',
               overflow: 'hidden',

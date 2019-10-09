@@ -2,7 +2,7 @@
 import React from 'react';
 
 import FormattedDate from './FormattedDate';
-import DateFormat from '../util/DateFormat';
+import DateFormat from '../api/DateFormat';
 import StringUtils from '../util/StringUtils';
 
 export class ExpertiseItem {
@@ -26,15 +26,15 @@ type ExpertCardProps = {
   expertDepartment: string;
   /** The employee ID for the expert. If missing, no ID will be displayed. */
   expertId: string | null;
-  /** The expert's date of birth. If missing, no birthdate will be displayed. */
-  expertBirthdate: Date | null;
+  /** The expert's date of birth. If missing, no birth date will be displayed. */
+  expertBirthDate: Date | null;
   /** A list of areas of expertise for this expert. */
   expertiseList: Array<ExpertiseItem>;
   /** The number of documents the expert has authored */
   authorCount: number;
   /**
    * A message (to be formatted) saying how many documents the author has formatted.
-   * Should contian a placeholder for the count.
+   * Should contain a placeholder for the count.
    */
   authoredMessage: string;
 };
@@ -42,7 +42,7 @@ type ExpertCardProps = {
 type ExpertCardDefaultProps = {
   expertImage: string;
   expertId: string | null;
-  expertBirthdate: Date | null;
+  expertBirthDate: Date | null;
   authorCount: number;
   authoredMessage: string;
 };
@@ -54,7 +54,7 @@ export default class ExpertCard extends React.Component<ExpertCardDefaultProps, 
   static defaultProps = {
     expertImage: 'img/placeholder-person.svg',
     expertId: null,
-    expertBirthdate: null,
+    expertBirthDate: null,
     authorCount: 0,
     authoredMessage: '{} document|{} documents',
   };
@@ -76,8 +76,8 @@ export default class ExpertCard extends React.Component<ExpertCardDefaultProps, 
 
     // Only show these if they're set on the component
     const expertId = this.props.expertId ? [<dt key="expertId-label">Employee</dt>, <dd key="expertId-value">{this.props.expertId}</dd>] : ''; // eslint-disable-line max-len
-    const expertBirthdate = this.props.expertBirthdate ?
-      [<dt key="expertDOB-label">Birthdate</dt>, <dd key="expertDOB-value"><FormattedDate date={this.props.expertBirthdate} format={DateFormat.MEDIUM_DATE} /></dd>] : ''; // eslint-disable-line max-len
+    const expertBirthDate = this.props.expertBirthDate ?
+      [<dt key="expertDOB-label">Birth Date</dt>, <dd key="expertDOB-value"><FormattedDate date={this.props.expertBirthDate} format={DateFormat.MEDIUM_DATE} /></dd>] : ''; // eslint-disable-line max-len
 
     let authorOf = '';
     if (this.props.authorCount > 0) {
@@ -108,7 +108,7 @@ export default class ExpertCard extends React.Component<ExpertCardDefaultProps, 
           <div className="col-xs-6 col-sm-6">
             <dl className="attivio-labeldata-2col attivio-expert-details">
               {expertId}
-              {expertBirthdate}
+              {expertBirthDate}
             </dl>
           </div>
         </div>

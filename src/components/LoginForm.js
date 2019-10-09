@@ -72,7 +72,7 @@ export default class LoginForm extends React.Component<LoginFormDefaultProps, Lo
     return (
       <Form>
         {error}
-        <FormGroup controlId="usernameText" validationState={formValidationState}>
+        <FormGroup validationState={formValidationState}>
           <ControlLabel>Username</ControlLabel>
           <FormControl
             type="text"
@@ -81,7 +81,7 @@ export default class LoginForm extends React.Component<LoginFormDefaultProps, Lo
             autoComplete="username"
           />
         </FormGroup>
-        <FormGroup controlId="passwordText" validationState={formValidationState}>
+        <FormGroup validationState={formValidationState}>
           <ControlLabel>Password</ControlLabel>
           <FormControl
             type="password"

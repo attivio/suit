@@ -9,6 +9,9 @@ import MenuItem from 'react-bootstrap/lib/MenuItem';
 
 import Configurable from './Configurable';
 import AutoCompleteInput from './AutoCompleteInput';
+import SignalData from '../api/SignalData';
+import AuthUtils from '../util/AuthUtils';
+import Signals from '../api/Signals';
 
 declare var webkitSpeechRecognition: any; // Prevent complaints about this not existing
 
@@ -54,6 +57,10 @@ type SearchBarProps = {
   buttonLabel: string;
   /** If set, this is the route to navigate to upon executing a search. By default, no navigation will occur when searching. */
   route: string | null;
+  /**
+   * If set, a new signal of this type would be added when an autocomplete item is selected.
+   */
+  createAutoCompleteSignal?: boolean;
 };
 
 type SearchBarDefaultProps = {
@@ -66,6 +73,7 @@ type SearchBarDefaultProps = {
   autoCompleteUri: string | null;
   route: string | null;
   baseUri: string;
+  createAutoCompleteSignal: boolean;
 };
 
 type SearchBarState = {
@@ -88,6 +96,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     autoCompleteUri: null,
     route: null,
     baseUri: '',
+    createAutoCompleteSignal: false,
   };
 
   static contextTypes = {
@@ -112,6 +121,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     (this: any).queryChanged = this.queryChanged.bind(this);
     (this: any).updateQuery = this.updateQuery.bind(this);
     (this: any).languageChanged = this.languageChanged.bind(this);
+    (this: any).addSignal = this.addSignal.bind(this);
     if (this.props.allowVoice && !('webkitSpeechRecognition' in window)) {
       console.log('Requested speech recognition but the browser doesn’t support it'); // eslint-disable-line no-console
     }
@@ -175,13 +185,44 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     }
   }
 
-  updateQuery(newQuery: string, doSearch: boolean = false) {
+  addSignal(query: string, signalData: SignalData) {
+    const signalType = this.props.createAutoCompleteSignal;
+    const savedUser = AuthUtils.getSavedUser();
+    if (!signalType || !savedUser) {
+      return;
+    }
+    const signal = signalData.clone();
+    signal.docId = query;
+    signal.featureVector = '';
+    signal.locale = 'en';
+    signal.principal = `${AuthUtils.config.ALL.defaultRealm}:${savedUser.fullName}:${savedUser.userId}`;
+    signal.relevancyModelName = 'default';
+    signal.relevancyModelNames = ['default'];
+    signal.relevancyModelVersion = 1;
+    signal.signalTimestamp = Date.now();
+    signal.type = 'autocomplete';
+    signal.weight = 1;
+
+    new Signals(this.props.baseUri).addRawSignal(signal);
+  }
+
+  updateQuery(newQuery: string, doSearch: boolean = false, signalData?: SignalData) {
     // Update the searcher
     const searcher = this.context.searcher;
+    if (signalData) {
+      this.addSignal(newQuery, signalData);
+    }
     if (searcher) {
       if (doSearch) {
-        searcher.setQueryAndSearch(newQuery);
-        this.route();
+        if (!searcher.state.haveSearched) {
+          // on click of Enter, if a new query is being searched
+          // reset filters & display results
+          searcher.setQueryAndSearch(newQuery);
+          this.route();
+        } else {
+          // do not reset only search
+          searcher.doSearch();
+        }
       } else {
         searcher.updateQuery(newQuery);
       }
@@ -215,7 +256,12 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     const searcher = this.context.searcher;
     if (this.props.route && searcher) {
       this.route();
-    } else {
+    } else if (searcher.state.query && !searcher.state.haveSearched) {
+      // on click of Go, if a new query is being searched
+      // reset filters & display results
+      searcher.setQueryAndSearch(searcher.state.query);
+    } else if (searcher.state.query && searcher.state.haveSearched) {
+      // do not reset only search
       searcher.doSearch();
     }
     if (this.submitButton) {
@@ -245,6 +291,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     let query = '';
     let language = 'simple';
     const searcher = this.context.searcher;
+
     if (searcher) {
       query = searcher.state.query;
       language = searcher.state.queryLanguage;
