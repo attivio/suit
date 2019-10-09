@@ -1,5 +1,7 @@
 // @flow
 
+import XRegExp from 'xregexp';
+
 /**
  * Utility class that provides various string-manipulation functionality.
  */
@@ -47,7 +49,16 @@ export default class StringUtils {
     return pieceForValue.replace('{}', valueString);
   }
 
-  static regexLastIndexOf(s: string, regex: RegExp, startPos: number | null = null) {
+  /**
+   * Find the match for a regular expression in a string closest
+   * to the end of the string.
+   *
+   * @param s the string
+   * @param regex the regular expression
+   * @param startPos and optional position in the string at which to stsrt
+   * @return the position of the last match or -1 if none was found
+   */
+  static regexLastIndexOf(s: string, regex: RegExp, startPos: number | null = null): number {
     const sp = startPos !== null ? startPos : s.length;
     let re;
     if (regex.global) {
@@ -82,6 +93,12 @@ export default class StringUtils {
     return lastIndexOf;
   }
 
+  /**
+   * Remove simple HTML tags from the string.
+   *
+   * @param orig the string contsining HTML tags
+   * @return the string with the HTML tags removed
+   */
   static stripSimpleHtml(orig: string): string {
     const div = document.createElement('div');
     div.innerHTML = orig;
@@ -94,6 +111,12 @@ export default class StringUtils {
    * characters specified by maxLen. The truncation will happen at a word
    * boundary, if possible. Unless otherwise specified, an ellipsis
    * is appended to the resulting string.
+   *
+   * @param orig the string to truncate
+   * @param maxLen the maximum number of characters to allow
+   * @param ellipsis if true, an ellipsis character will be appended to the
+   *        truncated string
+   * @return the truncated string
    */
   static smartTruncate(orig: string, maxLen: number, ellipsis: boolean = true):string {
     if (orig.length < maxLen) {
@@ -118,6 +141,12 @@ export default class StringUtils {
   /**
    * Split the string onto multiple lines, separated with the
    * given character, if the given limit is reached.
+   *
+   * @param orig the string to wrap
+   * @param newLine the line break string to use, optional—defaults to a newline
+   *        character but could be replaced with a string like <br /> for example
+   * @param limit the maximum number of characters to allow on any given row
+   * @return the wrapped string
    */
   static wrapLabel(orig: string, newLine: string = '\n', limit: number = 50): string {
     const s = String(orig);
@@ -160,7 +189,6 @@ export default class StringUtils {
     }
     return false;
   }
-
 
   /**
    * Take a number and format it as a string accordning to the specified format.
@@ -209,5 +237,202 @@ export default class StringUtils {
       formatToUse = formatStringPieces[2];
     }
     return formatToUse.replace('{}', formattedValue);
+  }
+
+  /**
+   * Normnalize a suggestion coming from autocomplete to make sure it doesn't have any special character.
+   * This involves lowercasing the string and replacing punctuation with spaces, except:
+   * detected email addresses are left intact
+   * if a period isn't followed by whitespace, it's left intact
+   * if one side of a hyphen is a number, it's left intact
+   *
+   * This will also ensure that unwanted characters aren't included in
+   * simple query request (e.g. "?" will match exactly one character so if the suggestion is "who?"
+   * then documents containing "who" will not be found (but those with "whom" would).
+   *
+   * @param original the string to modify
+   * @return the normalized string suitable for using in a query
+   */
+  static normalizeAutocompleteSuggestion(original: string): string {
+    const lc = original.toLocaleLowerCase();
+    let result = '';
+
+    let match;
+    let pos = 0;
+    const emailRegExp = RegExp('[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+', 'g');
+    while ((match = emailRegExp.exec(lc)) !== null) { // eslint-disable-line no-cond-assign
+      const matchEnd = emailRegExp.lastIndex;
+      const thisMatch = match[0];
+      const matchStart = matchEnd - thisMatch.length;
+      const preceeding = original.substring(pos, matchStart);
+      const cleanPreceeding = StringUtils.stripPunctuation(preceeding);
+      result += cleanPreceeding; // If anyhthing came before this match, add it to the result
+      result += match[0];
+      pos = matchEnd;
+    }
+
+    const remainder = original.substring(pos);
+    const cleanRemainder = StringUtils.stripPunctuation(remainder);
+    result += cleanRemainder;
+
+    return StringUtils.coalesceWhitespace(result);
+  }
+
+  /**
+   * Check whether the given character is a digit.
+   *
+   * @param c the character to check
+   * @return true if it's between 0 and 9
+   */
+  static isDigit(c: string) {
+    return /^\d$/.test(c);
+  }
+
+  /**
+   * Check to see if the given character is a punctuation character.
+   * This handles all punctuation, including various non-ASCII types
+   * like curly quotes, CJK punctuation, etc. Note that this doesn't
+   * check for whitespsce characters.
+   *
+   * @param c the character to check
+   * @return true if it's a punctuation character.
+   */
+  static isPunctuation(c: string): boolean {
+    return XRegExp('[\\p{P}]').test(c);
+  }
+
+  /**
+   * Check to see if the given character is a whitespace character
+   * such as a space, tab, etc.
+   *
+   * @param c the character to check
+   * @return true if it's a whitespace character.
+   */
+  static isWhitespace(c: string): boolean {
+    return /\s/.test(c);
+  }
+
+  /**
+   * Given a string and a position in the string, check to see if
+   * the adjacent characters preceeding the character at that
+   * position are digits, up until either a whitespace character,
+   * a punctuation character, or the beginning of the string.
+   *
+   * @param s the string to check
+   * @param pos the position of the character before which to start looking
+   * @return true if the preceeding characters are all digits
+   */
+  static isNumericOnlyBefore(s: string, pos: number): boolean {
+    if (pos === 0) {
+      return false;
+    }
+    let isNumeric = false;
+    let i;
+    for (i = pos - 1; i >= 0; i -= 1) {
+      const c = s.charAt(i);
+      if (StringUtils.isDigit(c)) {
+        isNumeric = true;
+      }
+      if (StringUtils.isPunctuation(c) || StringUtils.isWhitespace(c)) {
+        break;
+      }
+    }
+    return isNumeric;
+  }
+
+  /**
+   * Given a string and a position in the string, check to see if
+   * the adjacent characters following the character at that
+   * position are digits, up until either a whitespace character,
+   * a punctuation character, or the end of the string.
+   *
+   * @param s the string to check
+   * @param pos the position of the character after which to start looking
+   * @return true if the following characters are all digits
+   */
+  static isNumericOnlyAfter(s: string, pos: number): boolean {
+    if (pos === s.length - 1) {
+      return false;
+    }
+    let isNumeric = false;
+    let i;
+    for (i = pos + 1; i < s.length; i += 1) {
+      const c = s.charAt(i);
+      if (StringUtils.isDigit(c)) {
+        isNumeric = true;
+      }
+      if (StringUtils.isPunctuation(c) || StringUtils.isWhitespace(c)) {
+        break;
+      }
+    }
+    return isNumeric;
+  }
+
+  /**
+   * Find any punctuation characters in the given string and replace them
+   * with a space character. Ignores periods that aren't followed by whitespace
+   * or other punctuation and ignores hyphens if the "word" immediately before
+   * or after them is comprised solely of digits.
+   *
+   * @param orig the string to strip
+   * @return the modified string
+   */
+  static stripPunctuation(orig: string): string {
+    let result = '';
+    let i;
+    for (i = 0; i < orig.length; i += 1) {
+      const c = orig.charAt(i);
+      // Check to see if there's a period followed by
+      // non=whitespace/punctuation... if so, leave it in.
+      // For example, we want to keep 123.4567
+      if (c === '.') {
+        if (i < (orig.length - 1)) {
+          const nextC = orig.charAt(i + 1);
+          if (!StringUtils.isPunctuation(nextC) && !StringUtils.isWhitespace(nextC)) {
+            result += c;
+            continue; // eslint-disable-line no-continue
+          }
+        }
+      }
+
+      // If it's a hyphen, see if the part before or after it
+      // is just digits... in which case, leave it in.
+      // We want to keep the hyphen in part-numbery things like
+      // AB-4-12-COR but not in compounds like white-house
+      if (c === '-') {
+        if (StringUtils.isNumericOnlyBefore(orig, i) || StringUtils.isNumericOnlyAfter(orig, i)) {
+          result += c;
+          continue; // eslint-disable-line no-continue
+        }
+      }
+
+      if (StringUtils.isPunctuation(c)) {
+        result += ' ';
+      } else {
+        result += c;
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Collapse any occurrences of whitespace in the given string to just
+   * one single ASCII space character.
+   *
+   * @param orig the string to modify
+   * @return the string with the single spaces
+   */
+  static coalesceWhitespace(orig: string): string {
+    return orig.replace(/\s+/g, ' ').trim();
+  }
+
+  /**
+   * Given a string, remove any question marks and replace them with
+   * space characters.
+   * @param orig the string to modify
+   * @return the question-mark-less string
+   */
+  static stripQuestionMarks(orig: string): string {
+    return orig.replace(/\?/g, ' ');
   }
 }
