@@ -30,13 +30,6 @@ type DebugSearchResultProps = {
   hide360Link?: boolean;
 }
 
-type DebugSearchResultDefaultProps = {
-  baseUri: string;
-  showTags: boolean;
-  showRatings: boolean;
-  hide360Link: boolean;
-}
-
 /**
  * A "Debug" rendering of a document which shows all of its fields and their values.
  */

@@ -6,10 +6,6 @@ type NavbarOrProps = {
   message: string;
 };
 
-type NavbarOrDefaultProps = {
-  message: string;
-};
-
 /**
  * A component to use in a navbar to interject a choice between two others.
  */

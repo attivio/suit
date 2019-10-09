@@ -58,14 +58,6 @@ type ConfirmationDialogProps = {
   children: Children;
 };
 
-type ConfirmationDialogDefaultProps = {
-  cancelButtonLabel: string;
-  confirmButtonDisabled: boolean;
-  confirmButtonLabel: string;
-  dangerous: boolean;
-  show: boolean;
-};
-
 /**
  * Component to display a dialog box asking for confirmation from the user.
  */

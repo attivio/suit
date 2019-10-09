@@ -153,38 +153,6 @@ type SearcherProps = {
   maxResubmits: number;
 };
 
-type SearcherDefaultProps = {
-  searchEngineType: 'attivio' | 'elastic' | 'solr';
-  customOptions: any;
-  baseUri: string;
-  searchWorkflow: string;
-  fields: Array<string>;
-  facets: Array<string>;
-  relevancyModels: Array<string>;
-  facetFinderCount: number;
-  queryFilter: string | null;
-  highlightResults: 'on' | 'off' | 'all';
-  joinRollupMode: 'TREE' | 'AGGREGATE' | 'SQL';
-  locale: string | null;
-  title: string;
-  uri: string;
-  table: string;
-  teaser: string;
-  text: string;
-  previewImageUri: string;
-  thumbnailImageUri: string;
-  latitude: string;
-  longitude: string;
-  moreLikeThisQuery: string;
-  mimetype: string;
-  sourcePath: string;
-  debug: boolean;
-  resultsPerPage: number;
-  businessCenterProfile: string | null;
-  defaultQueryLanguage: 'simple' | 'advanced';
-  maxResubmits: number;
-};
-
 /*
  * NOTE: If you add or remove anything from the Searcher's state, you'll
  * need to update (at least) the following methods to accommodate the change:

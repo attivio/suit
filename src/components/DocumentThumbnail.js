@@ -25,12 +25,6 @@ type DocumentThumbnailProps = {
   previewTitle: string | null;
 };
 
-type DocumentThumbnailDefaultProps = {
-  uri: string | null;
-  previewUris: Array<string>;
-  previewTitle: string | null;
-};
-
 type DocumentThumbnailState = {
   previewing: boolean;
 };

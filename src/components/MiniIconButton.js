@@ -27,11 +27,6 @@ type MiniIconButtonProps = {
   uri: string | null;
 };
 
-type MiniIconButtonDefaultProps = {
-  glyph: string | null;
-  uri: string | null;
-};
-
 export default class MiniIconButton extends React.Component<MiniIconButtonProps, void> {
   static defaultProps = {
     glyph: null,

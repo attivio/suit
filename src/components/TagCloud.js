@@ -37,10 +37,6 @@ type TagCloudProps = {
   noLink: boolean;
 };
 
-type TagCloudDefaultProps = {
-  maxValues: number;
-};
-
 /**
  * Display a linear tag "cloud" where the items are proportionally sized
  * based on an associated value.

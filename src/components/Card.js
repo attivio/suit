@@ -18,14 +18,6 @@ type CardProps = {
   className: string;
 };
 
-type CardDefaultProps = {
-  title: string | null;
-  borderless: boolean;
-  style: any;
-  className: string;
-  subtitle: null;
-};
-
 /**
  * A card is just a bordered &lt;div&gt; to wrap a set of
  * related elements.

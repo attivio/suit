@@ -15,13 +15,6 @@ type SearchLanguagePickerProps = {
   right: boolean;
 }
 
-type SearchLanguagePickerDefaultProps = {
-  label: string,
-  simpleLabel: string,
-  advancedLabel: string,
-  right: boolean;
-}
-
 /**
  * A pop-up for choosing between the simple and advanced query language.
  */

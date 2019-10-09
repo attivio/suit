@@ -20,10 +20,6 @@ type SimpleSearchResultProps = {
   position: number,
 }
 
-type SimpleSearchResultDefaultProps = {
-  baseUri: string;
-}
-
 /**
  * An Simple rendering of an individual search result.
  */

@@ -26,10 +26,6 @@ type BreadcrumbsProps = {
   onClick: null | (location: any) => void;
 };
 
-type BreadcrumbsDefaultProps = {
-  onClick: null | (location: any) => void;
-};
-
 class Breadcrumbs extends React.Component<BreadcrumbsProps, void> {
   static BreadcrumbInfo;
 

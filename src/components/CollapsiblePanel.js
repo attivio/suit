@@ -16,11 +16,6 @@ type CollapsiblePanelProps = {
   collapsed: boolean;
 }
 
-type CollapsiblePanelDefaultProps = {
-  bordered: boolean;
-  collapsed: boolean;
-}
-
 type CollapsiblePanelState = {
   open: boolean;
 }

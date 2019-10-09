@@ -55,16 +55,6 @@ type NavigationHamburgerMenuProps = {
   style: any;
 };
 
-type NavigationHamburgerMenuDefaultProps = {
-  icon: string,
-  tooltip: string,
-  tooltipPlacement: 'top' | 'left' | 'bottom' | 'right';
-  currentItem: string | null;
-  color: string;
-  backgroundColor: string;
-  style: any;
-};
-
 /**
  * A menu to allow the user to navigate between the various routes in
  * the application. It appears as an icon (the default has three horizontal

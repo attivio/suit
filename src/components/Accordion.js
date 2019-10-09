@@ -32,10 +32,6 @@ type AccordionProps = {
   defaultPanelKey: string | null;
 };
 
-type AccordionDefaultProps = {
-  defaultPanelKey: string | null;
-};
-
 /**
  * This component presents a series of titled, collapsible panels, only one of which can be open at
  * any given time.

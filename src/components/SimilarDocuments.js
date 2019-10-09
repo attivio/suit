@@ -21,10 +21,6 @@ type SimilarDocumentsProps = {
   baseDoc: SearchDocument | null;
 };
 
-type SimilarDocumentsDefaultProps = {
-  baseUri: string;
-};
-
 type SimilarDocumentsState = {
   /**
    * The documents to display. If empty, a message to that effect will be displayed instead.

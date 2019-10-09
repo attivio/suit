@@ -50,13 +50,6 @@ type CardPickerProps = {
   dataTestPrefix? : string | null;
 };
 
-type CardPickerDefaultProps = {
-  initialSelection: string | null;
-  defaultIconUri: string | null;
-  columns: number;
-  dataTestPrefix : string | null;
-};
-
 type CardPickerState = {
   selection: string | null;
 };

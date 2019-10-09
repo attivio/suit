@@ -15,10 +15,6 @@ type SmallTabsProps = {
   children?: Children;
 };
 
-type SmallTabsDefaultProps = {
-  currentTab: string;
-};
-
 /**
  * A set of buttons for choosing among a series of mutually exclusive options.
  */

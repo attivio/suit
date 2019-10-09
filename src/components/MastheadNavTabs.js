@@ -25,10 +25,6 @@ type MastheadNavTabsProps = {
   initialTab: string | null;
 };
 
-type MastheadNavTabsDefaultProps = {
-  initialTab: string | null;
-};
-
 type MastheadNavTabsState = {
   currentTab: string | null;
 };

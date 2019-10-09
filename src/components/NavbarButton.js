@@ -16,11 +16,6 @@ type NavbarButtonProps = {
   onClick: () => void;
 };
 
-type NavbarButtonDefaultProps = {
-  label: string | null;
-  icon: string | null;
-};
-
 /**
  * A button to live in the navbar. Can have either an icon or a text label or both.
  * (It needs to at least have one or the other, though.) Clicking the button calls

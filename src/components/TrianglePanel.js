@@ -31,13 +31,6 @@ type TrianglePanelProps = {
   dataTestValue? : string | null;
 }
 
-type TrianglePanelDefaultProps = {
-  bordered: boolean;
-  initiallyCollapsed: boolean;
-  localStorageKey: string | null;
-  dataTestValue: string | null;
-}
-
 type TrianglePanelState = {
   open: boolean;
 }

@@ -16,10 +16,6 @@ type MiniSearchUIProps = {
   scale: number;
 };
 
-type MiniSearchUIDefaultProps = {
-  scale: number;
-};
-
 /**
  * A miniature, self-contained component that presents super simple search UI including a text field for the
  * query, an indication of the number or results or error from the query, and a small, scrollable results area

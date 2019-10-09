@@ -15,10 +15,6 @@ type MoreListFacetContentsProps = {
   noLink: boolean;
 };
 
-type MoreListFacetContentsDefaultProps = {
-  noLink: boolean;
-};
-
 /** Display a facet's bucket values in a MoreList component. */
 export default class MoreListFacetContents extends React.Component<MoreListFacetContentsProps, void> { // eslint-disable-line max-len
   static displayName = 'MoreListFacetContents';

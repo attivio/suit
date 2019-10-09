@@ -113,20 +113,6 @@ type MenuProps = {
   dataTest?: string | null;
 };
 
-type MenuDefaultProps = {
-  selection: Array<string> | string | null;
-  right: boolean;
-  multiSelect: boolean;
-  selectAllNone: null | (selectAll: boolean) => void;
-  block: boolean;
-  promptLabel: string | null;
-  allLabel: string | null;
-  maxLabelCharacters: number | null;
-  width: number | null;
-  style: any;
-  dataTest : string | null;
-};
-
 export default class Menu extends React.Component<MenuProps, void> {
   static defaultProps = {
     selection: null,

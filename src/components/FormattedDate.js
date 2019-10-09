@@ -13,11 +13,6 @@ type FormattedDateProps = {
   locale: string;
 };
 
-type FormattedDateDefaultProps = {
-  format: DateFormat;
-  locale: string;
-};
-
 /**
  * Display a formatted Date object.
  */

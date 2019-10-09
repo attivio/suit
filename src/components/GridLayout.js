@@ -20,10 +20,6 @@ type GridLayoutProps = {
   children: Children;
 };
 
-type GridLayoutDefaultProps = {
-  oneRow: boolean;
-};
-
 export default class GridLayout extends React.Component<GridLayoutProps, void> {
   static defaultProps = {
     oneRow: false,

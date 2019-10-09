@@ -10,10 +10,6 @@ type ExpertsHeaderProps = {
   doAllExperts: null | () => void;
 };
 
-type ExpertsHeaderDefaultProps = {
-  doAllExperts: null | () => void;
-};
-
 /**
  * Header for the Experts page.
  */

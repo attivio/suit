@@ -13,10 +13,6 @@ type LoginFormProps = {
   error: string | null;
 };
 
-type LoginFormDefaultProps = {
-  error: string | null;
-};
-
 type LoginFormState = {
   loading: boolean;
   username: string;

@@ -62,15 +62,6 @@ type TimeRangePickerProps = {
   style: any;
 };
 
-type TimeRangePickerDefaultProps = {
-  currentStart: Date | null;
-  currentEnd: Date | null;
-  customRange: boolean;
-  customGranularity: boolean;
-  currentGranularity: TimeRangeGranularity;
-  style: any;
-};
-
 type TimeRangePickerState = {
   start: Date | null;
   end: Date | null;

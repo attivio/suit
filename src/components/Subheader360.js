@@ -15,10 +15,6 @@ type Subheader360Props = {
   tooltip?: string;
 };
 
-type Subheader360DefaultProps = {
-  tooltip?: string;
-};
-
 export default class Subheader360 extends React.Component<Subheader360Props, void> {
   static defaultProps = {
     tooltip: undefined,

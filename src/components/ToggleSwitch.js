@@ -31,16 +31,6 @@ type ToggleSwitchProps = {
   dataTest?: string | null;
 };
 
-type ToggleSwitchDefaultProps = {
-  onLabel: string;
-  offLabel: string;
-  disabled: boolean;
-  noLabel: boolean;
-  style: any;
-  className: string;
-  dataTest : string | null;
-};
-
 /**
  * This is a simple “sliding” toggle switch with customizable labels.
  */

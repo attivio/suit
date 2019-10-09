@@ -41,15 +41,6 @@ type InnerListSearchResultProps = {
   hide360Link?: boolean;
 }
 
-type InnerListSearchResultDefaultProps = {
-  baseUri: string;
-  showScores: boolean;
-  entityFields: Map<string, string>;
-  showTags: boolean;
-  showRatings: boolean;
-  hide360Link: boolean;
-}
-
 type InnerListSearchResultState = {
   currentTab: string;
 };

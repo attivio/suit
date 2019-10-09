@@ -15,13 +15,6 @@ type ChartTrendsProps = {
   unchangedLabel: string;
 };
 
-type ChartTrendsDefaultProps = {
-  up: boolean;
-  down: boolean;
-  changedLabel: string;
-  unchangedLabel: string;
-};
-
 /**
  * Show a change in a value. If the neither the up or down
  * properties are set, then it is displayed as an average

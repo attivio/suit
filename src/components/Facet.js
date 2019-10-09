@@ -50,14 +50,6 @@ type FacetProps = {
   entityColors: Map<string, string>;
 }
 
-type FacetDefaultProps = {
-  bordered: boolean;
-  collapse: boolean;
-  entityColors: Map<string, string>;
-  maxBuckets: number;
-  type: FacetType;
-};
-
 /**
  * Display a single facet from the search results.
  */

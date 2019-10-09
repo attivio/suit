@@ -15,12 +15,6 @@ type MoreListProps = {
   fewerPrompt: string;
 }
 
-type MoreListDefaultProps = {
-  shortSize: number;
-  morePrompt: string;
-  fewerPrompt: string;
-}
-
 type MoreListState = {
   allVisible: boolean;
 }

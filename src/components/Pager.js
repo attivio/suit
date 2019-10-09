@@ -29,13 +29,6 @@ type PagerProps = {
   dataTestPrefix? : string | null;
 };
 
-type PagerDefaultProps = {
-  right: boolean;
-  totalPages: number;
-  hasMore: boolean;
-  dataTestPrefix : string | null;
-};
-
 /**
  * A simple control for paging through a set of results with forward and back buttons.
  */

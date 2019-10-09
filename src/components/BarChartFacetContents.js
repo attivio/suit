@@ -18,11 +18,6 @@ type BarChartFacetContentsProps = {
   color: string;
 };
 
-type BarChartFacetContentsDefaultProps = {
-  columns: boolean;
-  color: string;
-};
-
 /**
  * Component to display the buckets of a facet using a Bar chart.
  */

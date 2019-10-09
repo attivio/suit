@@ -41,17 +41,6 @@ type KnowledgeGraphPanelProps = {
   includeAllTables: boolean;
 };
 
-type KnowledgeGraphPanelDefaultProps = {
-  maxLinkedDocs: number;
-  tableField: string;
-  navigateToDoc: (docId: string) => void;
-  navigateToEntity: (entityType: string, entityValue: string) => void;
-  entityName: string | null;
-  entityValue: string | null;
-  showEdges: boolean;
-  includeAllTables: boolean;
-};
-
 type KnowledgeGraphPanelState = {
   nodes: Array<Node>;
   edges: Array<Edge>;

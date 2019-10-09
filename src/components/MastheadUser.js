@@ -21,12 +21,6 @@ type MastheadUserProps = {
   helpUri: string | null;
 };
 
-type MastheadUserDefaultProps = {
-  username: string | null;
-  logoutFunction: null | () => void;
-  helpUri: string | null;
-};
-
 /**
  * Displays the currently logged-in user inside the masthead.
  * The user can click on the name to pop-up a menu with a log-out command.

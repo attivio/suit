@@ -7,10 +7,6 @@ type SearchButtonProps = {
   label: string,
 };
 
-type SearchButtonDefaultProps = {
-  label: string,
-};
-
 /**
  * A button that can triggering an Attivio search. It must be
  * inside a Searcher component. Note that the SearchBar component,

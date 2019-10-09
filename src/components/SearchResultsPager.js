@@ -9,10 +9,6 @@ type SearchResultsPagerProps = {
   right: boolean;
 };
 
-type SearchResultsPagerDefaultProps = {
-  right: boolean;
-};
-
 /**
  * A Searcher-aware wrapper around the Pager component that triggers the Searcher to return the
  * next/previous page of search results.

@@ -19,10 +19,6 @@ type NavbarFilterProps = {
   maxHierarchicalSegmentLength: number;
 }
 
-type NavbarFilterDefaultProps = {
-  maxHierarchicalSegmentLength: number;
-}
-
 /** Displays a currently applied facet filter. */
 class NavbarFilter extends React.Component<NavbarFilterProps, void> {
   static defaultProps = {

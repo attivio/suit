@@ -33,11 +33,6 @@ type MapFacetContentsProps = {
   mapboxKey: string;
 };
 
-type MapFacetContentsDefaultProps = {
-  size: any;
-  mapboxKey: string;
-};
-
 type MapFacetContentsState = {
   latitude: number;
   longitude: number;

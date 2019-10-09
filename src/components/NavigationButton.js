@@ -24,13 +24,6 @@ type NavigationButtonProps = {
   children: Children;
 };
 
-type NavigationButtonDefaultProps = {
-  className: string,
-  bsStyle: string,
-  style: any,
-  children: Children,
-};
-
 /**
  * Wrapper for a React-Bootstrap Button that will navigate to a route
  * using the react router. You can pass a className, bsStyle, and arbitrary

@@ -9,10 +9,6 @@ type SearchInputFieldProps = {
   placeholder: string;
 };
 
-type SearchInputFieldDefaultProps = {
-  placeholder: string;
-};
-
 /**
  * This component renders an input field for entering a query string
  * for doing a search. It interacts with its parent Searcher component

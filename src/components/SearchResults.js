@@ -61,15 +61,6 @@ type SearchResultsProps = {
   style: any;
 };
 
-type SearchResultsDefaultProps = {
-  baseUri: string;
-  format: Array<SearchResultRenderer> | SearchResultRenderer | 'list' | 'simple' | 'debug';
-  showScores: boolean;
-  showTags: boolean;
-  showRatings: boolean;
-  style: any;
-};
-
 /**
  * A container for showing a list of documents from the search results.
  * This comes from the parent Searcher component.

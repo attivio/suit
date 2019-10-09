@@ -11,11 +11,6 @@ type SearchDebugToggleProps = {
   right: boolean;
 }
 
-type SearchDebugToggleDefaultProps = {
-  label: string,
-  right: boolean;
-}
-
 /**
  * A toggle switch for deciding whether the search results should be shown in debug format.
  */

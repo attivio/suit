@@ -21,11 +21,6 @@ type DisclosureTriangleProps = {
   style: any;
 };
 
-type DisclosureTriangleDefaultProps = {
-  open: boolean;
-  style: any;
-};
-
 /**
  * A component to render a toggle button in the shape of a triangle.
  */

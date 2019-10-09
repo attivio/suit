@@ -24,14 +24,6 @@ type BigButtonProps = {
   style: any,
 };
 
-type BigButtonDefaultProps = {
-  className: string,
-  bsStyle: string,
-  route: string,
-  onClick: () => void,
-  style: any,
-};
-
 /**
  * A button control that can have arbitrary
  * contents and is clickable by the user. The contents of the

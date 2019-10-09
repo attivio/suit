@@ -9,11 +9,6 @@ type SearchResultsPerPageProps = {
   options: Array<number>;
 };
 
-type SearchResultsPerPageDefaultProps = {
-  /** The options to show. Defaults to 10, 25, 50, and 100. */
-  options: Array<number>;
-};
-
 /**
  * A pop-up for choosing how many search results should be
  * on each page. It works with the parent Searcher component to

@@ -15,10 +15,6 @@ type DocumentPreviewProps = {
   onClose: () => void;
 };
 
-type DocumentPreviewDefaultProps = {
-  docTitle: string | null;
-};
-
 type DocumentPreviewState = {
   currentItem: number;
 };

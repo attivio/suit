@@ -7,10 +7,6 @@ type ProfilePhotoProps = {
   url: string | null;
 };
 
-type ProfilePhotoDefaultProps = {
-  url: string | null;
-};
-
 /**
  * Shows a person's profile photo.
  */

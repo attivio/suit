@@ -12,10 +12,6 @@ type SqlLogProps = {
   label: string;
 };
 
-type SqlLogDefaultProps = {
-  label: string;
-};
-
 /**
  * Shows a list of log entries, with alternating backgrounds like old-fashioned
  * green-bar printer paper.

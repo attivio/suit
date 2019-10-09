@@ -43,14 +43,6 @@ type CardPickerCardProps = {
   dataTestValue? : string | null;
 };
 
-type CardPickerCardDefaultProps = {
-  columns: number;
-  iconUri: string | null;
-  defaultIconUri: string | null;
-  description: string | null;
-  dataTestValue : string | null;
-};
-
 export default class CardPickerCard extends React.Component<CardPickerCardProps, void> {
   static defaultProps = {
     columns: 3,

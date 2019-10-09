@@ -24,19 +24,6 @@ type DummySearcherProps = {
   children: Children;
 };
 
-type DummySearcherDefaultProps = {
-  defaultRelevancyModels: Array<string>;
-  defaultQueryLanguage: 'simple' | 'advanced';
-  defaultDebug: boolean;
-  defaultResultsPerPage: number;
-  defaultBusinessCenterProfile: string | null;
-  defaultSort: Array<string>;
-  defaultQuery: string;
-  defaultQueryResponse: QueryResponse | null;
-  defaultError: string | null;
-  defaultFieldList: Array<string>;
-};
-
 type DummySearcherState = {
   haveSearched: boolean;
   response: QueryResponse | null;

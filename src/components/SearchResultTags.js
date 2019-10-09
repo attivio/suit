@@ -52,17 +52,6 @@ type SearchResultTagsProps = {
   hide360Link?: boolean;
 };
 
-type SearchResultTagsDefaultProps = {
-  autoCompleteUri: string | null;
-  baseUri: string;
-  comments: boolean;
-  commentsTable: string;
-  moreLikeThisQuery: string;
-  hide360Link: boolean;
-  vertical: boolean;
-  view360Label: string | null;
-};
-
 type SearchResultTagsState = {
   adding: boolean;
   newTag: string;

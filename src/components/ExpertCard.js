@@ -39,14 +39,6 @@ type ExpertCardProps = {
   authoredMessage: string;
 };
 
-type ExpertCardDefaultProps = {
-  expertImage: string;
-  expertId: string | null;
-  expertBirthDate: Date | null;
-  authorCount: number;
-  authoredMessage: string;
-};
-
 /**
  * Displays a card with details about an "expert" within the company.
  */

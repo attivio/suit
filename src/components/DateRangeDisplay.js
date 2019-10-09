@@ -21,14 +21,6 @@ type DateRangeDisplayProps = {
   style: any;
 };
 
-type DateRangeDisplayDefaultProps = {
-  label: string | null;
-  interval: number;
-  start: Date | null;
-  end: Date | null;
-  style: any;
-};
-
 export default class DateRangeDisplay extends React.Component<DateRangeDisplayProps, void> {
   static defaultProps = {
     label: 'Date:',

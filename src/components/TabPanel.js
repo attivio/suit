@@ -40,13 +40,6 @@ type TabPanelProps = {
    */
   dataTestPrefix?: string | null;
 };
-
-type TabPanelDefaultProps = {
-  tabLabel: string | null;
-  nested: boolean;
-  dataTestPrefix : string | null;
-};
-
 export default class TabPanel extends React.Component<TabPanelProps, void> {
   static defaultProps = {
     tabLabel: null,

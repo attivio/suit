@@ -52,14 +52,6 @@ type LozengeFilterProps = {
   filterPlaceholder: string;
 };
 
-type LozengeFilterDefaultProps = {
-  allLabel: string;
-  itemCutoff: number;
-  multiSelect: boolean;
-  currentValue: Array<string> | string | null;
-  filterPlaceholder: string;
-};
-
 type LozengeFilterState = {
   filterString: string;
   filteredItems: Array<string>;

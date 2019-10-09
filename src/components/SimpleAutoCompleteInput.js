@@ -61,15 +61,6 @@ type AutoCompleteInputProps = {
   outerStyle: any;
 };
 
-type AutoCompleteInputDefaultProps = {
-  placeholder: string;
-  allowCustomValues: boolean;
-  disabled: boolean;
-  className: string;
-  style: any;
-  outerStyle: any;
-};
-
 type AutoCompleteInputState = {
   suggestions: Array<string>;
   open: boolean;

@@ -112,13 +112,6 @@ type TimeSeriesProps = {
   onSelect: null | (date: Date, endingDate: Date) => void;
 };
 
-type TimeSeriesDefaultProps = {
-  onSelect: null | (date: Date, endingDate: Date) => void;
-  height: number;
-  barsSideBySide: boolean;
-  legendAtRight: boolean;
-};
-
 /**
  * Component to display a chart of values over time.
  */

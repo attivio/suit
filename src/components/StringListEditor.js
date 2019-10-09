@@ -25,11 +25,6 @@ type StringListEditorProps = {
   updateList: (items: Array<string>) => void;
 };
 
-type StringListEditorDefaultProps = {
-  addButtonTooltip: string;
-  placeholder: string;
-};
-
 type StringListEditorState = {
   value: string;
 }

@@ -58,15 +58,6 @@ type LineBarChartProps = {
   entityColors: Map<string, string>;
 };
 
-type LineBarChartDefaultProps = {
-  height: number;
-  yAxisLabelValueFormat: string | null;
-  yAxis2Label: string | null;
-  yAxis2LabelValueFormat: string | null;
-  barsSideBySide: boolean;
-  entityColors: Map<string, string>;
-};
-
 /**
  * Component to display a chart with one or more series of data points.
  */

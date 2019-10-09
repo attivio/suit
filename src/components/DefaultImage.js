@@ -13,10 +13,6 @@ type DefaultImageProps = {
   defaultSrc: string | null;
 };
 
-type DefaultImageDefaultProps = {
-  defaultSrc: string | null;
-}
-
 type DefaultImageState = {
   src: string | null;
 };

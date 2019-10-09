@@ -23,11 +23,6 @@ type LabeledDataProps = {
   stacked: boolean;
 };
 
-type LabeledDataDefaultProps = {
-  data: Array<LabeledDataPair>;
-  stacked: boolean;
-};
-
 /**
  * Present a collection of name/value pairs. The values can
  * be either simple strings or entire React elements. If the

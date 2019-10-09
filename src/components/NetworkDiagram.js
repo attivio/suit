@@ -62,12 +62,6 @@ type NetworkDiagramProps = {
   onDoubleClick: (event: NetworkEventInfo) => void;
 };
 
-type NetworkDiagramDefaultProps = {
-  options: any;
-  style: any;
-  onDoubleClick: (event: NetworkEventInfo) => void;
-};
-
 /**
  * Component to display an arbitrary network diagram of nodes and edges.
  */

@@ -15,10 +15,6 @@ type RelevancyScoreProps = {
   explanation: string | null;
 };
 
-type RelevancyScoreDefaultProps = {
-  explanation: string | null;
-};
-
 /**
  * Display the relevancy score for a document, including providing
  * a popover with the explanation of the score.

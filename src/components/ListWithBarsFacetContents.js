@@ -23,15 +23,6 @@ type ListWithBarsFacetContentsProps = {
   noLink: boolean;
 };
 
-type ListWithBarsFacetContentsDefaultProps = {
-  right: boolean;
-  color: string;
-  noLink: boolean;
-  shortSize: number;
-  morePrompt: string;
-  fewerPrompt: string;
-};
-
 type ListWithBarsFacetContentsState = {
   allVisible: boolean;
 }

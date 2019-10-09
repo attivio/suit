@@ -70,16 +70,6 @@ type AutoCompleteInputProps = {
   allowPunctuation: boolean;
 };
 
-type AutoCompleteInputDefaultProps = {
-  id: string;
-  placeholder: string;
-  value: string;
-  disabled: boolean;
-  className: string;
-  style: any;
-  allowPunctuation: boolean;
-};
-
 type AutoCompleteInputState = {
   isLoading: boolean;
   suggestions: Array<string>;
