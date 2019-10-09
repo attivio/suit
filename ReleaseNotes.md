@@ -6,6 +6,10 @@ If you are _publishing_ a new build of the library that has changes users will n
 
 If you are _using_ the SUIT library and want to upgrade to a newer version, please check here to see if there have been changes that will affect your project and, if there are, what you will need to do about them.
 
+## Version 1.1.0
+
+Update suit dependencies. Add tests and test coverage report. Replace npm with yarn. Replace nwb with webpack 4.
+
 ## Version 1.0.7
 
 Adds support for `hide360Link` option to `<SearchResults />` which omits the 360 link entirely from search result if specified. Non-breaking change.
