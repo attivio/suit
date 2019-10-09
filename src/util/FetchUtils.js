@@ -18,7 +18,7 @@ export default class FetchUtils {
       'Content-Type': 'application/json',
     });
 
-    const body = payload ? JSON.stringify(payload) : null;
+    const body = payload ? JSON.stringify(payload) : undefined;
     const params = {
       method,
       headers,
@@ -45,6 +45,8 @@ export default class FetchUtils {
                 // If the response content-type is HTML and it mentions SAML, it's 99.9% likely
                 // that it's a redirect to a login page. If so, then we then reload the whole
                 // page to let the user log in again.
+                window.location.reload();
+              } else if (text && text.includes('j_security_check')) {
                 window.location.reload();
               } else {
                 // We've received some other sort of error, so let's just log it and stop.

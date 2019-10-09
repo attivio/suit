@@ -1,5 +1,5 @@
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const createNwbWebpackConfig = require('create-nwb-webpack-config'); // eslint-disable-line import/no-extraneous-dependencies
 const merge = require('webpack-merge');
 
@@ -14,19 +14,41 @@ const ourWebpackConfig = {
     rules: [
       {
         test: /\.less$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', 'less-loader'],
-        }),
+        use: [
+          'style-loader',
+          'css-loader',
+          'less-loader',
+        ],
       },
       {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader'],
-        }),
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url-loader?limit=10000&minetype=application/font-woff',
       },
-
+      {
+        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'file-loader',
+      },
+      {
+        test: /\.png$/,
+        loader: 'url-loader?limit=100000',
+      },
+      {
+        test: /\.jpg$/,
+        loader: 'file-loader',
+      },
+      {
+        test: /\.svg$/,
+        loader: 'url-loader?limit=10000&mimetype=image/svg+xml',
+      },
+      {
+        test: /\.xml$/,
+        loader: 'xml-loader',
+        options: {
+          trim: true,
+          explicitArray: false,
+          explicitRoot: false,
+        },
+      },
     ],
   },
 };
@@ -36,12 +58,40 @@ const mergedWebpackConfig = merge(nwbWebpackConfig, ourWebpackConfig);
 module.exports = {
   title: 'Attivio SUIT Component Reference',
   verbose: true,
-  assetsDir: 'docs/static',
-  template: 'docs/template.ejs',
+  assetsDir: 'documentation/static',
+  template: {
+    title: 'Attivio SUIT Style Guide',
+    head: {
+      meta: [
+        {
+          'http-equiv': 'Content-type',
+          content: 'text/html; charset=utf-8',
+        },
+        {
+          charset: 'utf-8',
+        },
+        {
+          name: 'viewport',
+          content: 'width=device-width, initial-scale=1.0',
+        },
+      ],
+      links: [
+        {
+          rel: 'stylesheet',
+          href: 'https://api.tiles.mapbox.com/mapbox-gl-js/v0.37.0/mapbox-gl.css',
+        },
+        {
+          rel: 'stylesheet',
+          href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+        },
+      ],
+    },
+    favicon: 'img/',
+  },
   ignore: [], // Add any componets we want to exclude here
   defaultExample: false,
-  showUsage: true,
-  styleguideDir: 'styleguide',
+  usageMode: 'expand',
+  styleguideDir: 'docs/styleguide',
   editorConfig: {
     theme: 'ambiance', // see http://codemirror.net/demo/theme.html
   },
@@ -50,14 +100,14 @@ module.exports = {
   sections: [
     {
       name: 'Introduction',
-      content: 'docs/introduction.md',
+      content: 'documentation/introduction.md',
     },
     {
       name: 'Components',
       sections: [
         {
           name: 'Search Controls',
-          content: 'docs/searchControls.md',
+          content: 'documentation/searchControls.md',
           components: () => {
             return [
               'src/components/MiniSearchUI.js',
@@ -79,10 +129,10 @@ module.exports = {
         },
         {
           name: 'Search Results — Documents',
-          content: 'docs/searchResultsDocuments.md',
+          content: 'documentation/searchResultsDocuments.md',
           components: () => {
             return [
-              'src/components/DataPairs.js',
+              'src/components/Comments.js',
               'src/components/DebugSearchResult.js',
               'src/components/DocumentEntityList.js',
               'src/components/DocumentPreview.js',
@@ -106,7 +156,7 @@ module.exports = {
         },
         {
           name: 'Search Results — Facets',
-          content: 'docs/searchResultsFacets.md',
+          content: 'documentation/searchResultsFacets.md',
           components: () => {
             return [
               'src/components/BarChartFacetContents.js',
@@ -114,6 +164,7 @@ module.exports = {
               'src/components/FacetInsights.js',
               'src/components/FacetResults.js',
               'src/components/FacetSearchBar.js',
+              'src/components/HierarchicalFacetContents.js',
               'src/components/ListWithBarsFacetContents.js',
               'src/components/MapFacetContents.js',
               'src/components/MoreListFacetContents.js',
@@ -128,7 +179,7 @@ module.exports = {
         },
         {
           name: 'Search Results — Other',
-          content: 'docs/searchResultsOther.md',
+          content: 'documentation/searchResultsOther.md',
           components: () => {
             return [
               'src/components/Doc360Breadcrumbs.js',
@@ -145,7 +196,7 @@ module.exports = {
         },
         {
           name: 'Navigation',
-          content: 'docs/navigation.md',
+          content: 'documentation/navigation.md',
           components: () => {
             return [
               // 'src/components/BigButton.js',
@@ -158,26 +209,31 @@ module.exports = {
         },
         {
           name: 'Input',
-          content: 'docs/input.md',
+          content: 'documentation/input.md',
           components: () => {
             return [
               'src/components/CardPicker.js',
               'src/components/CardPickerCard.js',
+              'src/components/ConfirmationDialog.js',
               'src/components/DataPairs.js',
               'src/components/DatePicker.js',
+              'src/components/DisclosureTriangle.js',
               'src/components/DropdownButton.js',
               'src/components/Masthead.js',
               'src/components/Menu.js',
               'src/components/MiniIconButton.js',
               'src/components/ListEditor.js',
               'src/components/LoginForm.js',
+              'src/components/LozengeFilter.js',
               'src/components/NavbarButton.js',
               'src/components/NavbarFilter.js',
               'src/components/NavbarOr.js',
-              'src/components/NavbarPager.js',
+              'src/components/Pager.js',
+              'src/components/SimpleAutoCompleteInput.js',
               'src/components/SmallTabs.js',
               'src/components/StarRating.js',
               'src/components/StringListEditor.js',
+              'src/components/TimeRangePicker.js',
               'src/components/Toggle.js',
               'src/components/ToggleSwitch.js',
               'src/components/Wizard.js',
@@ -187,24 +243,32 @@ module.exports = {
         },
         {
           name: 'Display',
-          content: 'docs/display.md',
+          content: 'documentation/display.md',
           components: () => {
             return [
               'src/components/Accordion.js',
+              'src/components/BusyIndicator.js',
               'src/components/Card.js',
               'src/components/ChartTrends.js',
               'src/components/Code.js',
               'src/components/CollapsiblePanel.js',
+              'src/components/DateRangeDisplay.js',
               'src/components/DefaultImage.js',
+              'src/components/Details.js',
               'src/components/FormattedDate.js',
               'src/components/GridLayout.js',
               'src/components/Header360.js',
+              'src/components/HierarchicalList.js',
+              'src/components/IfAllowed.js',
               'src/components/LabeledData.js',
+              'src/components/LineBarChart.js',
               'src/components/Masthead.js',
               'src/components/MastheadUser.js',
+              'src/components/MasterDetails.js',
               'src/components/MoreList.js',
               'src/components/Navbar.js',
               'src/components/NetworkDiagram.js',
+              'src/components/Notifiable.js',
               'src/components/ProfilePhoto.js',
               'src/components/Scrollable.js',
               'src/components/SecondaryNavBar.js',
@@ -213,15 +277,18 @@ module.exports = {
               'src/components/SqlLog.js',
               'src/components/StarRating.js',
               'src/components/Subheader360.js',
+              'src/components/SwipeViews.js',
+              'src/components/Table.js',
               'src/components/TabPanel.js',
               'src/components/TagCloud.js',
               'src/components/TimeSeries.js',
+              'src/components/TrianglePanel.js',
             ];
           },
         },
         {
           name: 'No Examples',
-          content: 'docs/withoutExamples.md',
+          content: 'documentation/withoutExamples.md',
           components: () => {
             return [
               'src/components/AuthRoute.js',
@@ -233,7 +300,7 @@ module.exports = {
         },
         {
           name: 'Miscelaneous',
-          content: 'docs/misc.md',
+          content: 'documentation/misc.md',
           components: () => {
             return [
               'src/components/ContextHelp.js',
@@ -245,11 +312,11 @@ module.exports = {
     },
     {
       name: 'Extra',
-      content: 'docs/extra.md',
+      content: 'documentation/extra.md',
     },
   ],
   require: [
-    path.join(__dirname, 'docs/style/main.less'),
+    path.join(__dirname, 'documentation/style/main.less'),
   ],
   getComponentPathLine(componentPath) {
     const name = path.basename(componentPath, '.js');
@@ -260,7 +327,7 @@ module.exports = {
     const name = path.basename(componentPath, '.js');
     const mdName = `${name}.md`;
     const dir = path.dirname(componentPath);
-    const fullMdPath = path.resolve(dir, '../../docs/components', mdName);
+    const fullMdPath = path.resolve(dir, '../../documentation/components', mdName);
     return fullMdPath;
   },
   webpackConfig: mergedWebpackConfig,

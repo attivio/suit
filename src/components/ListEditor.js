@@ -5,13 +5,13 @@ import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 type ListEditorProps = {
   /**
-   * A tooltip to display for the add (plus) button.
+   * A tooltip to display for the add (plus) button. Defaults to "Add"
    */
   addButtonTooltip: string;
   /**
    * The list of items that is being edited. The type will depend on the caller.
    */
-  items: Array<*>,
+  items: Array<any>,
   /**
    * Render an item from the list as a string so it can be displayed.
    */
@@ -24,7 +24,7 @@ type ListEditorProps = {
    * Callback that is called when the list of items has changed so the parent
    * knows and can update itself.
    */
-  updateList: (items: Array<*>) => void;
+  updateList: (items: Array<any>) => void;
   /**
    * Get the object representing the current value of the control so that it can be
    * added to the list. Return null if the current value isn't valid and cannot

@@ -86,7 +86,7 @@ class BigButton extends React.Component<BigButtonDefaultProps, BigButtonProps, v
         className={className}
         style={this.props.style}
         role="button"
-        tabIndex="0"
+        tabIndex={0}
         ref={(c) => {
           this.button = c;
         }}

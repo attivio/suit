@@ -5,23 +5,50 @@
  */
 export default class SearchFacetBucket {
   static fromJson(json: any): SearchFacetBucket {
+    let children;
+    if (json.children && json.children.buckets && Array.isArray(json.children.buckets)) {
+      children = json.children.buckets.map((jsonChild: any) => {
+        return SearchFacetBucket.fromJson(jsonChild);
+      });
+    } else {
+      children = [];
+    }
+
+    let label = json.label;
+    if (!label && json.range) {
+      label = json.range.label;
+    }
+
     return new SearchFacetBucket(
       json.value,
-      json.label,
+      label,
       json.count,
       json.filter,
       json.min,
       json.max,
+      children,
+      json.range,
     );
   }
 
-  constructor(value: any, label: string, count: number, filter: string, min: string | null = null, max: string | null = null) {
+  constructor(
+    value: any,
+    label: string,
+    count: number,
+    filter: string,
+    min: string | null = null,
+    max: string | null = null,
+    children: Array<SearchFacetBucket> = [],
+    range: any,
+  ) {
     this.value = value;
     this.label = label;
     this.count = count;
     this.filter = filter;
     this.min = min;
     this.max = max;
+    this.children = children;
+    this.range = range;
   }
 
   /** Get the label to display for this bucket */
@@ -51,16 +78,13 @@ export default class SearchFacetBucket {
       if (this.max) {
         result = `${this.min} - ${this.max}`;
       }
-      result = this.min;
+      result = `${this.min}`;
     }
     return result;
   }
 
   /** Get a key to use for this bucket */
   bucketKey(): string {
-    if (this.value && this.value.length > 0) {
-      return this.value;
-    }
     return `${this.displayLabel()}:${this.filter}`;
   }
 
@@ -79,4 +103,8 @@ export default class SearchFacetBucket {
   min: string | null;
   /** The maximum, or "to," value for the bucket's range (for range facets only) */
   max: string | null;
+  /** Any child buckets */
+  children: Array<SearchFacetBucket>;
+  /** The range if this is a range facet */
+  range: any;
 }

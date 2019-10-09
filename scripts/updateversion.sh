@@ -11,15 +11,13 @@ if [ -z "$VERSION_TYPE" ]
     VERSION_TYPE="patch"
 fi
 git pull && \
-npm version $VERSION_TYPE
-#git commit --no-verify && \
-echo "Not pushing yet..."
-#git push
-
+npm version $VERSION_TYPE --commit-hooks false --no-git-tag-version && \
+git add . && \
+git commit -m "Updating $VERSION_TYPE version" --no-verify && \
+git push && \
 PACKAGE_VERSION=$(cat package.json \
   | grep version \
   | head -1 \
   | awk -F: '{ print $2 }' \
-  | sed 's/[",]//g')
-
-echo "Updated SUIT version to $PACKAGE_VERSION. Run 'npm run fullbuild' and 'npm run publish' to add the new version of the library to the NPM repo."
+  | sed 's/[",]//g') && \
+echo "Updated SUIT version to $PACKAGE_VERSION. Run  'npm run publishlib' to build the new version of the library and add it to the NPM repo."

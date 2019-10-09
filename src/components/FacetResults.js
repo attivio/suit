@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import Facet from './Facet';
 import SearchFacet from '../api/SearchFacet';
+import FacetFilter from '../api/FacetFilter';
+import SearchFacetBucket from '../api/SearchFacetBucket';
 
 type FacetResultsProps = {
   /** The facet field names that should be displayed as pie charts */
@@ -135,6 +137,23 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
     return false;
   }
 
+  /**
+   * Filter Buckets in Facet that are already applied to the search filters.
+   * Buckets of type tagcloud and timeseries do not need to be filtered.
+   */
+  filterFacetBuckets = (facet: SearchFacet, type: string, facetFiltersMap: Map<string, FacetFilter>): SearchFacet => {
+    if (type === 'tagcloud' || type === 'timeseries') {
+      return facet;
+    }
+    const filteredBuckets = [];
+    facet.buckets.forEach((bucket: SearchFacetBucket) => {
+      if (!facetFiltersMap.get(bucket.filter)) {
+        filteredBuckets.push(bucket);
+      }
+    });
+    return Object.assign(facet, { buckets: filteredBuckets });
+  }
+
   renderFacets() {
     const searcher = this.context.searcher;
     const facets = searcher.state.response ? searcher.state.response.facets : null;
@@ -143,13 +162,19 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
       facets.forEach((facet: SearchFacet) => {
         facetsMap.set(facet.name, facet);
       });
+      const facetFilters = this.context.searcher.state.facetFilters;
+      const facetFiltersMap: Map<string, FacetFilter> = new Map();
+      facetFilters.forEach((facetFilter: FacetFilter) => {
+        facetFiltersMap.set(facetFilter.filter, facetFilter);
+      });
       const results = [];
       this.props.orderHint.forEach((facetName) => {
         const facet = facetsMap.get(facetName);
         if (facet && this.shouldShow(facet)) {
           const type = this.getFacetDisplayType(facet.field);
+          const filteredFacet = this.filterFacetBuckets(facet, type, facetFiltersMap);
           results.push(<Facet
-            facet={facet}
+            facet={filteredFacet}
             type={type}
             key={facet.name}
             maxBuckets={this.props.maxFacetBuckets}
@@ -162,8 +187,9 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
         if (!this.props.orderHint.includes(facet.name)) {
           if (this.shouldShow(facet)) {
             const type = this.getFacetDisplayType(facet.field);
+            const filteredFacet = this.filterFacetBuckets(facet, type, facetFiltersMap);
             results.push(<Facet
-              facet={facet}
+              facet={filteredFacet}
               type={type}
               key={facet.name}
               maxBuckets={this.props.maxFacetBuckets}
