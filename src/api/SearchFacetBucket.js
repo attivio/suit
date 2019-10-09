@@ -78,7 +78,7 @@ export default class SearchFacetBucket {
       if (this.max) {
         result = `${this.min} - ${this.max}`;
       }
-      result = this.min;
+      result = `${this.min}`;
     }
     return result;
   }
