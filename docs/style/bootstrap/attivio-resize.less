@@ -1,0 +1,62 @@
+/* Note: [data-resize] element needs to be position rel or abs */
+.attivio-resizer {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 17px;
+  cursor: ew-resize;
+}
+[data-resize='l'] .attivio-resizer {
+  left: -6px;
+}
+[data-resize='r'] .attivio-resizer {
+  right: -6px;
+}
+.attivio-resizer,
+.attivio-dragging {
+  cursor: ew-resize;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.attivio-resizer:before {
+  content: "\20";
+  position: absolute;
+  top: 200px;
+  width: 5px;
+  height: 20px;
+  border-right: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  display: block;
+  z-index: 100;
+}
+[data-resize='l'] .attivio-resizer:before {
+  left: 9px;
+}
+[data-resize='r'] .attivio-resizer:before {
+  right: 9px;
+}
+.attivio-resizer:after {
+  display: none;
+  content: "\20";
+  position: absolute;
+  height: 100%;
+  top: 0;
+}
+[data-resize='l'] .attivio-resizer:after {
+  box-shadow: -2px 0 2px rgba(0,0,0,.1);
+  border-left: 1px solid #ccc;
+  left: 5px;
+}
+[data-resize='r'] .attivio-resizer:after {
+  box-shadow: 2px 0 2px rgba(0,0,0,.1);
+  border-right: 1px solid #ccc;
+  right: 5px;
+}
+.attivio-resizer:hover:after,
+.attivio-dragging .attivio-resizer:after {
+  display: block;
+}

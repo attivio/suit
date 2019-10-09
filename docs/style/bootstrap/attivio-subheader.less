@@ -1,0 +1,199 @@
+.attivio-subheader-icon {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-size: 50px 50px;
+}
+.attivio-subheader {
+  .clearfix;
+  margin: 24px 0 16px;
+}
+.attivio-subheader .attivio-subheader-icon {
+  float: left;
+}
+.attivio-subheader .attivio-breadcrumb {
+  margin: 0;
+  font-size: 14px;
+}
+.attivio-subheader .attivio-breadcrumb .attivio-icon-arrow-right {
+  background-size: 8px 8px;
+  background-position: 0 1px;
+  margin-left: 2px;
+}
+.attivio-subheader .attivio-title {
+  font-size: 32px;
+}
+.attivio-subheader .attivio-description {
+  font-size: 13px;
+  color: @attivio-subheader-description-color;
+}
+.attivio-subheader .attivio-breadcrumb,
+.attivio-subheader .attivio-title,
+.attivio-subheader .attivio-description {
+  margin: 0 0 3px 75px;
+}
+.attivio-subheader input.attivio-title,
+.attivio-subheader input.attivio-description {
+  /*display: block;*/
+  display: none;
+  width: 75%;
+  margin: -3px 0 0 75px;
+  border: none;
+  padding: 0;
+}
+.attivio-sp {
+  display: none;
+}
+.attivio-title,
+.attivio-description {
+  position: relative;
+}
+.attivio-title input,
+.attivio-description input {
+  background-color: transparent;
+  border: none;
+  font-size: 1em;
+  padding: 0 .2em;
+  margin-left: -.2em;
+  appearance: none;
+  width: 100%;
+  min-width: 15em;
+
+  display: block;
+}
+.attivio-description input {
+  line-height: 1.5;
+}
+.attivio-title .attivio-icon,
+.attivio-description .attivio-icon {
+  position: absolute;
+  right: 10px;
+  top: 2px;
+  width: 19px;
+  height: 18.4px;
+  display: none;
+}
+.attivio-description .attivio-icon {
+  top: .1em;
+}
+.attivio-title:hover .attivio-icon,
+.attivio-description:hover .attivio-icon {
+  display: block;
+}
+.attivio-title input:hover,
+.attivio-description input:hover {
+  background-color: rgba(44, 97, 149, .6);
+}
+.attivio-title input:focus,
+.attivio-description input:focus {
+  background-color: #2c6195;
+  box-shadow: none;
+  outline: none;
+}
+.attivio-subheader > .col-sm-6 + .col-sm-6 {
+  text-align: right;
+}
+.attivio-toolbar {
+  clear: both;
+  color: @attivio-subheader-toolbar-color;
+}
+.attivio-toolbar strong {
+  color: @brand-primary;
+}
+.attivio-toolbar .attivio-arrow-icon {
+  display: inline-block;
+  width: 12px;
+  height: 8px;
+}
+.attivio-toolbar .attivio-collaborators-icon {
+  display: inline-block;
+  margin-right: 3px;
+  vertical-align: top;
+  width: 16px;
+  height: 16px;
+}
+.attivio-toolbar .attivio-copy-icon {
+  display: inline-block;
+  width: 18px;
+  height: 24px;
+  vertical-align: middle;
+  margin-left: 5px;
+  margin-right: 16px;
+}
+
+/* Compact Masthead */
+.attivio-masthead .attivio-subheader {
+  float: left;
+  margin: 0;
+  margin-left: 10px;
+}
+.attivio-masthead .attivio-subheader-icon {
+  width: 36px;
+  height: 36px;
+  background-size: 36px 36px;
+}
+.attivio-masthead .attivio-choose-icon {
+  margin-bottom: 0;
+  margin-top: -4px;
+}
+.attivio-masthead .attivio-choose-icon:after {
+  right: -6px;
+  bottom: -4px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid @attivio-icon-chooser-arrow-color;
+}
+
+.attivio-masthead .attivio-subheader .attivio-breadcrumb {
+  font-size: 12px;
+
+  a,
+  :link,
+  :visited {
+    color: @attivio-masthead-subheader-breadcrumb-color;
+  }
+}
+.attivio-masthead .attivio-subheader .attivio-title {
+  font-size: 18px;
+  color: #fff;
+  margin-bottom: 0;
+  font-weight: 700;
+}
+.attivio-masthead .attivio-subheader .attivio-title,
+.attivio-masthead .attivio-subheader .attivio-breadcrumb,
+.attivio-masthead .attivio-subheader .attivio-description {
+  margin-left: 55px;
+}
+.attivio-masthead .attivio-toolbar {
+  margin-bottom: 0;
+  text-align: right;
+}
+.attivio-masthead .attivio-toolbar > li {
+  & > a,
+  & > a:hover,
+  & > a:focus,
+  & > a > strong {
+    color: #fff;
+  }
+}
+
+.attivio-masthead .attivio-dropdown-container {
+  position: relative;
+}
+.attivio-masthead .attivio-toolbar .dropdown-menu {
+  a,
+  a:hover,
+  a:focus {
+    color: #000;
+  }
+}
+.attivio-masthead .attivio-toolbar .btn-primary {
+  background-color: rgba(35, 156, 204, .85);
+}
+.attivio-masthead .attivio-toolbar .btn-primary:hover {
+  background-color: #239ccc;
+}
+.attivio-masthead .attivio-toolbar .attivio-dropdown-container .dropdown-menu {
+  right: 5px;
+  min-width: 180px;
+}

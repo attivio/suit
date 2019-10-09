@@ -1,0 +1,367 @@
+/* Dropdown */
+.attivio-dropdown {
+	display: inline-block;
+}
+.attivio-dropdown .dropdown-menu .checkbox,
+.attivio-dropdown .dropdown-menu .radio {
+	padding-left: 1em;
+	padding-right: 1em;
+}
+.attivio-dropdown .attivio-dropdown-toolbar {
+	white-space: nowrap;
+	border-bottom: 1px solid #d0d2d3;
+	padding: .5em 0;
+	margin: 0 1.4rem;
+	text-transform: uppercase;
+	font-size: 1.2rem;
+}
+.attivio-dropdown .dropdown-menu {
+  border-radius: 0;
+  box-shadow: 0 3px 0 0 rgba(0,0,0,0.03);
+  padding-top: 1em;
+  padding-bottom: 1em;
+  top: ~"calc( 100% + 2px )";
+  left: -5px;
+}
+.attivio-dropdown .dropdown-menu > li > a {
+  color: #666;
+  font-size: 1.4rem; /* 14px /10 */
+  padding: 6px 11px 6px 16px;
+}
+.attivio-dropdown .dropdown-menu > li > a:hover,
+.attivio-dropdown .dropdown-menu > li > a:focus {
+  background-color: #d6effa;
+  color: #111;
+}
+.attivio-dropdown.open [data-toggle] {
+	text-decoration: none;
+}
+
+/* Tags */
+.attivio-tags {
+	.clearfix();
+	font-size: 1.3rem; /* 13px /10 */
+}
+.attivio-tags-more,
+.attivio-tags-label,
+.attivio-tags-link,
+.attivio-tags-form {
+	vertical-align: top;
+}
+.attivio-tags-more,
+.attivio-tags-anchor {
+	float: left;
+	position: relative;
+	padding-right: 1em;
+	margin-right: 1em;
+}
+.attivio-tags-more:after,
+.attivio-tags-anchor:after {
+	content: "";
+	position: absolute;
+	top: 23%;
+	right: 0;
+	height: 1em;
+	border-right: 1px solid #e6e7e8;
+}
+.attivio-tags-vertical .attivio-tags-more,
+.attivio-tags-vertical .attivio-tags-anchor {
+	display: block;
+	float: none;
+	padding-right: 0;
+	margin-right: 0;
+	margin-bottom: 1em;
+}
+.attivio-tags-vertical .attivio-tags-more:after,
+.attivio-tags-vertical .attivio-tags-anchor:after {
+	display: none;
+}
+
+.attivio-tags-label {
+	font-weight: 700;
+	margin-right: 1em;
+}
+.attivio-tags-link {
+  margin-right: 1em;
+  white-space: nowrap;
+  display: inline-block;
+}
+.attivio-tags-link .attivio-icon-remove {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	vertical-align: middle;
+}
+.attivio-tags-vertical .attivio-tags-label,
+.attivio-tags-vertical .attivio-tags-link {
+	display: block;
+	float: left;
+	clear: left;
+	width: auto;
+}
+.attivio-tags-vertical .attivio-tags-link {
+	padding-top: .2em;
+	padding-bottom: .2em;
+}
+
+.attivio-tags-form {
+	display: inline-block;
+	margin-top: -3px;
+}
+.attivio-tags-form .form-control {
+	font-size: 0.9230769230769em; /* 12px /13 */
+	height: 2em;
+	width: 9em;
+}
+.attivio-tags-form .btn {
+	min-width: 0;
+	padding-left: 1.076923076923em; /* 14px /13 */
+	padding-right: 1.076923076923em; /* 14px /13 */
+}
+
+/* Strong variation */
+.attivio-tags-strong {
+	font-weight: 700;
+}
+.attivio-tags-strong .attivio-tags-anchor,
+.attivio-tags-strong .attivio-tags-link {
+	color: #555151;
+}
+.attivio-tags-strong .attivio-tags-anchor span,
+.attivio-tags-strong .attivio-tags-link span {
+	color: @brand-primary;
+}
+
+/* Links Bar Chart, abstracted from Relevance Chart */
+.table.attivio-relevance,
+.table.attivio-linksbar {
+	margin-bottom: 0;
+}
+.attivio-linksbar-chart,
+.attivio-relevance-chart {
+	border-left: 1px solid #E6E7E8;
+	padding-left: 0;
+	width: 60%;
+}
+.attivio-linksbar-chart-sm {
+	width: 38%;
+}
+.table.attivio-linksbar tbody tr td,
+.table.attivio-relevance tbody tr td {
+	padding-top: 4px;
+	padding-bottom: 4px;
+	text-align: right;
+	font-size: 1.2rem;
+}
+.table.attivio-linksbar-b tbody tr td:first-child {
+	text-align: left;
+}
+.table tbody tr td.attivio-linksbar-chart,
+.table tbody tr td.attivio-relevance-chart {
+	padding-left: 0;
+	text-align: left;
+}
+.table.attivio-linksbar-b .attivio-linksbar-chart {
+	width: 60%;
+}
+.attivio-linksbar-chart-percent,
+.attivio-relevance-chart-percent {
+	text-indent: -9999px;
+	background-color: #55B3E3;
+	height: 1em;
+	margin-top: 2px;
+}
+
+/* Small toolbar buttons sit next to small tabs */
+.attivio-globalmastnavbar-btn,
+.attivio-smalltoolbar-btn {
+	display: inline-block;
+	font-size: 1.3rem;
+	color: #221f20;
+	border: 1px solid #BBBDBF;
+	border-radius: 3px;
+	background-color: #fff;
+	padding: 4px 8px;
+	margin-left: 4px;
+}
+.attivio-smalltoolbar-btn-borderless {
+	border-color: transparent;
+}
+.attivio-card-smalltoolbar-btn {
+	position: relative;
+	top: -8px;
+}
+.attivio-globalmastnavbar-btn:hover,
+.attivio-smalltoolbar-btn:hover {
+	text-decoration: none;
+	background-color: #f5f5f6;
+}
+.attivio-dropdown-block {
+	display: block;
+}
+.attivio-card .attivio-dropdown-block {
+	margin-left: -2px;
+	margin-right: -2px;
+}
+.attivio-dropdown-block .attivio-smalltoolbar-btn {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin-left: 0;
+}
+.attivio-globalmastnavbar-btn .attivio-icon-arrow-down,
+.attivio-smalltoolbar-btn .attivio-icon-arrow-down {
+	margin-left: .5em;
+}
+.attivio-dropdown-block .attivio-icon-arrow-down {
+	float: right;
+	position: relative;
+	bottom: -6px;
+}
+.attivio-globalmastnavbar-btn b,
+.attivio-smalltoolbar-btn b {
+	color: #4074b1;
+}
+.attivio-globalmastnavbar-btn.disabled,
+.attivio-smalltoolbar-btn.disabled {
+	opacity: .5;
+	background-color: #eee;
+	pointer-events: none;
+}
+.attivio-smalltoolbar-btn-model {
+	min-width: 13.84615384615em; /* 180px /13 */
+}
+.attivio-model-dot {
+	display: inline-block;
+	border-radius: 50%;
+	width: 8px;
+	height: 8px;
+	margin-right: 2px;
+}
+
+/* Cards */
+.attivio-row-card {
+	display: flex;
+	align-items: stretch;
+	flex-wrap: wrap;
+	margin-top: 1.6rem; /* 16px /10 */
+}
+.attivio-row-card > * {
+	margin-bottom: 1.875em; /* 30px /16 */
+}
+@media (max-width: 68.6875em) { /* 1099px */
+	.attivio-row-card {
+		margin: 16px -8px;
+	}
+	.attivio-row-card > * {
+		padding-left: 8px;
+		padding-right: 8px;
+		margin-bottom: 1em; /* 16px /16 */
+	}
+}
+.attivio-card {
+	display: block;
+	height: 100%;
+	width: 100%;
+	font-size: 1.6rem;
+	padding: 1.125em; /* 18px /16 */
+	border: 1px solid #D0D2D3;
+	box-shadow: -3px 3px 0 0 rgba(0,0,0,0.03);
+	background-color: #fff;
+}
+.attivio-card-borderless {
+	border: none;
+	padding-left: 0;
+	padding-right: 0;
+	box-shadow: none;
+	background-color: transparent;
+}
+.attivio-card-title {
+	font-size: 0.9375em; /* 15px /16 */
+	font-weight: 700;
+	margin-top: 0;
+}
+.attivio-card-subtitle {
+	font-size: 0.75em; /* 12px /16 */
+	margin-top: 2em;
+	margin-bottom: 1em;
+}
+.attivio-card-img {
+	margin: 0 0 1em;
+}
+.attivio-card-list li {
+	font-size: .75em; /* 12px */
+	margin-bottom: .5em; /* 6px */
+}
+.attivio-card-table {
+	font-size: 1.2rem;
+}
+.attivio-table > tbody > tr.attivio-table-row-selected:nth-of-type(odd),
+.attivio-table > tbody > tr.attivio-table-row-selected:nth-of-type(even) {
+	background-color: #d8ecf9;
+}
+
+/* Experts Header */
+.attivio-expert-hed {
+	.clearfix();
+	font-size: 1.6rem; /* 16px /10 */
+	margin-top: 0.875em; /* 14px /16 */
+}
+.attivio-expert-hed + .row {
+	padding-top: 0;
+}
+.attivio-expert-hed + .attivio-row-card {
+	margin-top: 0;
+}
+.attivio-expert-hed-title {
+	font-size: 1em; /* 16px /16 */
+	margin-top: 0;
+}
+.attivio-expert-hed-link {
+	font-size: 0.6875em; /* 11px /16 */
+}
+/* Expert Cards */
+.attivio-expert {
+	.clearfix();
+}
+.attivio-expert-title {
+	font-size: 1.125em; /* 18px /16 */
+	margin-top: 0;
+}
+.attivio-expert-img {
+	float: right;
+	max-width: 3.75em; /* 60px /16 */
+}
+.attivio-expert-detail {
+	font-size: 0.6875em; /* 11px /16 */
+	margin-bottom: 2em;
+}
+.attivio-expert-detail + .row {
+	clear: both;
+	padding-top: 1em;
+}
+.attivio-expert-detail-link {
+	font-weight: 700;
+	font-size: 1.090909090909em; /* 12px /11 */
+}
+.attivio-expert-details {
+	margin-bottom: 1em;
+}
+.attivio-expert-title ~ .attivio-expert-details:last-child {
+	margin-bottom: 0;
+}
+.attivio-expert-details dt,
+.attivio-expert-details dd {
+	border-top: 0;
+	padding-top: 0;
+	padding-bottom: 0.3rem; /* 3px /10 */
+}
+.attivio-expert-details dt {
+	font-size: 0.6875em; /* 11px /16 */
+	padding-top: 0.1818181818182em; /* 2px /11 */
+	width: 6em; /* 66px /11 */
+}
+.attivio-expert-details dd {
+	font-size: 0.8125em; /* 13px /16 */
+	width: ~"calc( 100% - 5.076923077em )"; /* 66px /13 */
+}

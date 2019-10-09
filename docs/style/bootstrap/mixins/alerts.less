@@ -1,0 +1,27 @@
+// Alerts
+
+.alert-variant(@border; @text-color) {
+  position: relative;
+
+  &:before {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 8px;
+    height: 100%;
+    background-color: @border;
+  }
+
+  strong {
+    font-weight: normal;
+    color: @text-color;
+  }
+
+  hr {
+    border-top-color: darken(@border, 5%);
+  }
+  .alert-link {
+    color: darken(@text-color, 10%);
+  }
+}

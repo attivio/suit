@@ -1,0 +1,24 @@
+.btn {
+  text-transform: uppercase;
+  padding-left: @attivio-btn-horizontal-padding;
+  padding-right: @attivio-btn-horizontal-padding;
+  box-shadow: @attivio-btn-default-shadow;
+  min-width: @attivio-btn-min-width;
+}
+.btn-primary {
+  .box-shadow(@attivio-btn-primary-shadow);
+}
+.btn-link {
+  box-shadow: none;
+  min-width: 0;
+}
+.attivio-btn-cancel {
+  font-weight: @attivio-btn-cancel-font-weight;
+  .button-variant(@attivio-btn-cancel-color; @attivio-btn-cancel-bg; @attivio-btn-cancel-border);
+}
+.btn .attivio-icon svg {
+  vertical-align: middle;
+}
+.btn .attivio-icon {
+  margin-right: 4px;
+}

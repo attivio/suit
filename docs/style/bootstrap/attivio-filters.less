@@ -1,0 +1,97 @@
+.attivio-filters-hed {
+	font-size: 16px;
+}
+.attivio-filters-active,
+.attivio-filters-active li {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	overflow: hidden;
+	max-width: 250px; /* necessary? */
+}
+.attivio-filters-activehed,
+.attivio-filters-activeitem {
+	float: left;
+}
+
+
+.attivio-facet ul {
+	padding: 0;
+}
+.attivio-facet li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.attivio-facets-active li {
+	font-size: 12px;
+	font-weight: 400;
+}
+
+.attivio-facets-active li a {
+	color: @attivio-blue;
+}
+.attivio-filters-active .attivio-icon-remove {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	margin-left: 4px;
+	text-indent: -999px;
+	overflow: hidden;
+}
+
+.attivio-facet {
+	margin: 1em 0;
+	padding-top: 1em;
+	border-top: 1px solid #e6e7e8;
+}
+.attivio-facet:first-child {
+	margin-top: 0;
+	border-top: none;
+}
+.attivio-facet-hed {
+	font-size: 13px;
+	font-weight: 700;
+	margin: 0 0 1em;
+}
+.attivio-facet-hed a {
+	display: block;
+	color: #231f20;
+}
+.attivio-facet .attivio-icon-arrow-down {
+	float: right;
+	width: 12px;
+	height: 8px;
+	transition: transform .5s linear;
+	transform: rotateX(180deg);
+}
+ .attivio-facet [aria-expanded=false] .attivio-icon-arrow-down {
+	transform: rotateX(0deg);
+}
+.attivio-facet li {
+	font-size: 12px;
+	color: #767676;
+	padding: .3em 0;
+}
+.attivio-facet li a {
+	color: #2e75b3;
+}
+.attivio-facet-more {
+	font-weight: 700;
+}
+
+/* ratings */
+.attivio-icon-rating {
+	width: 42px;
+	height: 10px;
+	background-size: 42px 10px;
+	display: inline-block;
+	background-position: 50% 50%;
+}
+.attivio-facet .attivio-icon-rating {
+	margin-right: 1em;
+	float: left;
+	height: 1.3em;
+}
+
+

@@ -1,0 +1,33 @@
+.attivio-connectors-hed {
+	border-bottom: 1px solid #d4d6d7;
+}
+.attivio-connectors-main {
+	border-right: 1px solid #d4d6d7;
+	/* bump the right border min-height */
+	min-height: ~"calc( 100vh - 22rem )"; /* 220px /10 */
+}
+.attivio-connectors-toolbar {
+	border-bottom: 1px solid #d4d6d7;
+	padding-top: 0.6rem; /* 6px /10 */
+	padding-bottom: 0.6rem; /* 6px /10 */
+}
+.attivio-connectors-toolbar .attivio-dropdown {
+	color: #000;
+	font-weight: 700;
+	margin-left: 0.8em;
+}
+@media (min-width: 75em) {
+	.attivio-connectors-toolbar .attivio-dropdown {
+		margin-left: 2em;
+	}
+}
+.attivio-connectors-toolbar .attivio-dropdown > a {
+	color: #000;
+}
+.attivio-connectors-toolbar .attivio-dropdown > a > b {
+	color: @link-color;
+}
+
+.attivio-connectors-inspector {
+	margin-top: 1.4rem; /* 14px /10 */
+}

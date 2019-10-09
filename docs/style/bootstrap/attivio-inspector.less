@@ -1,0 +1,118 @@
+.attivio-inspector {
+  .clearfix();
+  background-size: 30px;
+}
+.attivio-well-right > .attivio-inspector:first-child {
+  margin-top: 20px;
+}
+.attivio-inspector .attivio-list-inline {
+  margin-bottom: 0;
+}
+.attivio-inspector .attivio-breadcrumb,
+.attivio-inspector .attivio-title {
+  float: left;
+  font-weight: 700;
+  margin: 0;
+}
+.attivio-inspector.attivio-icon .attivio-breadcrumb,
+.attivio-inspector.attivio-icon .attivio-title {
+  padding-left: 36px;
+}
+.attivio-inspector .attivio-title {
+  font-size: 18px;
+  line-height: 24px;
+  clear: left;
+  margin-bottom: 4px;
+}
+.attivio-inspector .attivio-breadcrumb {
+  font-size: 13px;
+  color: @attivio-inspector-breadcrumb-color;
+  margin-bottom: .2em;
+}
+.attivio-inspector .attivio-toolbar {
+  position: relative;
+  float: right;
+  text-align: right;
+  margin-bottom: 8px;
+  color: @attivio-inspector-toolbar-border-color;
+}
+.attivio-inspector .attivio-toolbar a {
+  text-decoration: none;
+}
+.attivio-inspector .attivio-toolbar .attivio-list-inline > li {
+  position: relative;
+  white-space: nowrap;
+}
+.attivio-inspector .attivio-content {
+  clear: both;
+  border-top: 1px solid @attivio-inspector-toolbar-border-color;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.attivio-inspector .attivio-icon-play,
+.attivio-inspector .attivio-icon-clock,
+.attivio-inspector .attivio-icon-gear,
+.attivio-inspector .attivio-icon-pencil {
+  display: inline-block;
+  width: 19px;
+  height: 19px;
+  vertical-align: middle;
+  background-position: 50% 50%;
+}
+.attivio-inspector .attivio-toolbar .attivio-list-inline > li > a ~ a {
+  margin-left: 1em;
+}
+.attivio-inspector .attivio-icon-gear {
+  height: 20px;
+}
+.attivio-inspector .btn.attivio-icon-identify-white {
+  background-position: 10px 49%;
+  padding-left: 31px;
+  background-size: 13px 13px;
+}
+.attivio-inspector .attivio-toolbar-stack {
+  clear: left;
+  padding-top: 1em;
+}
+.attivio-inspector .attivio-rating {
+  font-weight: 700;
+  color: @attivio-labeldata-title-font-color;
+  margin-bottom: .8em;
+}
+.attivio-inspector .attivio-rating .attivio-icon-rating {
+  margin-left: 8px;
+}
+
+/* Query Tab */
+.attivio-query {
+  margin-top: 16px;
+}
+.attivio-query .attivio-icon-clipboard {
+  display: inline-block;
+  padding-left: 21px;
+  margin-bottom: 6px;
+  background-position: 0 40%;
+}
+.attivio-query .code {
+  width: 100%;
+  min-height: 400px;
+  border: none;
+  border-top: 1px solid @attivio-query-border-color;
+  background-color: @attivio-query-background-color;
+  font-size: 11px;
+  font-family: Consolas, monospace;
+  word-wrap: normal;
+  padding: 10px;
+}
+
+/* Sample Data Tab */
+.attivio-sampledata,
+.attivio-sampledata .attivio-table {
+  margin-top: 16px;
+}
+.attivio-sampledata > .col-xs-5:first-child {
+  padding-left: 0;
+}
+.attivio-sampledata .attivio-labeldata-stacked {
+  margin-top: 0;
+}

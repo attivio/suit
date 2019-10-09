@@ -1,0 +1,111 @@
+.attivio-container {
+  max-width: @attivio-max-width;
+  min-width: @attivio-min-width;
+  margin: 0 auto;
+  .clearfix();
+}
+
+.attivio-cols(@well-left, @well-right, @flush) {
+  @well-padding: 3%;
+  position: relative;
+
+  & when (@well-left > 0) and (@flush) {
+    padding-left: @well-left;
+  }
+  & when (@well-right > 0) and (@flush) {
+    padding-right: @well-right;
+  }
+  & when (@well-left > 0) and not(@flush) {
+    padding-left: (@well-left + @well-padding);
+  }
+  & when (@well-right > 0) and not(@flush) {
+    padding-right: (@well-right + @well-padding);
+  }
+
+  .attivio-well-left {
+    width: @well-left;
+  }
+  .attivio-well-right {
+    width: @well-right;
+  }
+}
+
+.attivio-well-left {
+  left: 0;
+  border-right: 1px solid #ddd;
+  min-width: 165px;
+  max-width: 350px;
+}
+.attivio-well-right {
+  right: 0;
+  border-left: 1px solid #ddd;
+  z-index: 100;
+  min-width: 275px;
+  max-width: 460px;
+}
+.attivio-well-left,
+.attivio-well-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  padding-left: 1em;
+  padding-right: 1em;
+  box-sizing: border-box;
+}
+
+
+.attivio-3-cols {
+  .attivio-cols(22%, 37%, true);
+  overflow: hidden;
+}
+
+.attivio-2-cols-right-rail {
+  .attivio-cols(0, 37%, true);
+}
+
+.attivio-2-cols-right-rail-b {
+  .attivio-cols(0, 28%, true);
+
+  .attivio-well-right {
+    background-color: #fff;
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+}
+
+.attivio-2-cols-left-rail {
+  .attivio-cols(22%, 0, true);
+}
+
+.attivio-tmpl-all-marts,
+.attivio-tmpl-add-source,
+.attivio-tmpl-all-sources {
+  padding-top: 12px;
+}
+
+@media (min-width:1024px){
+  .attivio-3-cols {
+    .attivio-cols(20%, 27%, true);
+  }
+
+  .attivio-2-cols-right-rail {
+    .attivio-cols(0, 27%, true);
+  }
+  .attivio-2-cols-left-rail {
+    .attivio-cols(20%, 0, true);
+  }
+
+}
+
+
+/* for 3-panel internal scrolling */
+.attivio-layout-internal-scroll {
+  overflow: hidden;
+}
+.attivio-well-left,
+.attivio-well-right,
+.attivio-listings,
+.attivio-mart-listings {
+  overflow: auto;
+  overflow-x: hidden;
+}

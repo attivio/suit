@@ -1,0 +1,49 @@
+/* POPOVER */
+.popover-buttons .popover-row {
+  display:inline-block;
+}
+
+.popover-trigger,
+.popover-trigger:hover{
+	color: @attivio-white;
+	cursor: pointer;
+}
+
+.dark-popover-trigger,
+.dark-popover-trigger:hover{
+	color: @gray-dark;
+}
+
+.popover-trigger .attivio-arrow-icon{
+    margin-left: 4px;
+}
+
+input.error-popover{
+  border-color: @attivio-error-popover;
+}
+
+.popover.error-popover{
+  margin-top: 10px;
+}
+
+.popover.error-popover .arrow{
+  display: none;
+}
+
+.modal .popover.error-popover {
+    background-color:@state-danger-bg;
+    color:#B94A48;
+    border-color:@attivio-error-popover;
+}
+
+.modal .popover.error-popover .arrow::after {
+    border-right-color:@state-danger-bg;
+}
+
+.modal .popover.error-popover .popover-title {
+    display:none;
+}
+
+.modal .popover.error-popover .arrow {
+    border-right-color:@attivio-error-popover;
+}
