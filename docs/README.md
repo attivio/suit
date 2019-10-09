@@ -74,7 +74,7 @@ use the following commands:
 
 | Command | Description |
 | ------- | ----------- |
-| `npm install` | Installs the project's dependencies into the `node_modules` directory. |
+| `npm ci` | Installs the project's dependencies into the `node_modules` directory (note, don't use `npm install` to do this). |
 | `npm run clean` | Cleans the build products from your copy of the library. |
 | `npm run build` | Performs a build of the library. |
 | `npm run flow` | Run the Flow type checker on the library and report any errors. |

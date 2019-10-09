@@ -19,11 +19,19 @@ export default class PlacementResults extends React.Component<void, {}, void> {
   renderResults() {
     const searcher = this.context.searcher;
     const response = searcher.state.response;
-    if (response && response.placements && response.documents.length > 0) {
+    if (response && response.placements) {
       const placements = response.placements;
       const results = [];
+      let markupCount = 0;
       placements.forEach((placement: Placement) => {
-        const key = `${placement.linkUrl ? placement.linkUrl : 'nourl'}-${placement.linkText ? placement.linkText : 'notext'}-${placement.imageUrl ? placement.imageUrl : 'noimg'}`; // eslint-disable-line max-len
+        if (placement.markup) {
+          markupCount += 1;
+        }
+        const urlKey = placement.linkUrl ? placement.linkUrl : 'nourl';
+        const textKey = placement.linkText ? placement.linkText : 'notext';
+        const imageKey = placement.imageUrl ? placement.imageUrl : 'noimg';
+        const markupKey = placement.markup ? `markup${markupCount}` : 'nomarkup';
+        const key = `${urlKey}-${textKey}-${imageKey}-${markupKey}`;
         results.push(
           <PlacementResult
             linkUrl={placement.linkUrl}

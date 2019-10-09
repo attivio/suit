@@ -81,9 +81,12 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
 
   static calcState(buckets: Array<SearchFacetBucket>, zoom: number,
     geoFilters: Array<string>, updating: string): MapFacetContentsState {
+    // Calculate the center from all the coordinates in the buckets.
+    // The output from map() is filtered to remove null values as
+    // getCoordinatesFromBucket() can return null.
     const center = PositionUtils.calcCenter(buckets.map((bucket) => {
-      return bucket.value;
-    }));
+      return MapFacetContents.getCoordinatesFromBucket(bucket);
+    }).filter(coordinates => coordinates !== null));
     return {
       latitude: center.latitude,
       longitude: center.longitude,
@@ -91,6 +94,33 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
       geoFilters,
       updating,
     };
+  }
+
+  /**
+   * Gets the latitude and longitude from the SearchFacetBucket value.
+   * The SearchFacetBucket value returned from backend can have 2 different formats:
+   * 1. Comma separated string. Eg. "22.56,17.53"
+   * 2. Plain JS Object. Eg. { longitude: 22.56, latitude: 17.53 }
+   * This method returns null if bucket.value is different from these above 2 formats.
+   */
+  static getCoordinatesFromBucket(bucket: SearchFacetBucket):any {
+    const value = bucket.value;
+    let longitude = NaN;
+    let latitude = NaN;
+    if (typeof value === 'string') {
+      const valueArr = value.split(',');
+      if (valueArr.length === 2) {
+        longitude = Number.parseFloat(valueArr[0]);
+        latitude = Number.parseFloat(valueArr[1]);
+      }
+    } else {
+      longitude = value.longitude;
+      latitude = value.latitude;
+    }
+    if (Number.isNaN(longitude) || Number.isNaN(latitude)) {
+      return null;
+    }
+    return { longitude, latitude };
   }
 
   static getFilter(e: any): string {
@@ -223,7 +253,12 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
         locationPointer = <Glyphicon glyph={this.props.pointerGlyph} style={{ fontSize: '18px', color: '#2a689c' }} />;
       }
       const points = this.props.buckets.map((bucket) => {
-        const value = bucket.value; // JSON.parse(bucket.value);
+        // Return null if getCoordinatesFromBucket() returns null value
+        const coordinates = MapFacetContents.getCoordinatesFromBucket(bucket);
+        if (!coordinates) {
+          return null;
+        }
+        const { longitude, latitude } = coordinates;
         // Keep track of the boundaries of the coordinates
         let formattedTooltip;
         formattedTooltip = StringUtils.fmt(this.props.tooltip, bucket.count);
@@ -232,11 +267,11 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
         }
         return (
           <Marker
-            coordinates={[value.longitude || 0, value.latitude || 0]}
+            coordinates={[longitude, latitude]}
             onClick={() => {
               this.props.addFacetFilter(bucket);
             }}
-            key={`${value.longitude || 0},${value.latitude || 0}`}
+            key={`${longitude},${latitude}`}
             style={{ cursor: 'pointer' }}
           >
             <OverlayTrigger overlay={
@@ -310,7 +345,9 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
           >
             <ZoomControl position="bottom-right" />
             {/* DrawControl has no ES5 support yet, hence we won't use it until we have a fix for this.
-                Uncommenting below code would enable Polygon selection feature and render it in Chrome but won't render in IE11. */}
+                Uncommenting below code would enable Polygon selection feature and render it in Chrome but won't render in IE11.
+                When DrawControl is re-enabled, ensure signal of type 'facet' is created when applying geofilters to the search.
+                See PLAT-44214 for details on signals of type 'facet'. */}
             {/* <DrawControl
               controls={{
                 point: false,

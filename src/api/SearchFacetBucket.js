@@ -14,14 +14,20 @@ export default class SearchFacetBucket {
       children = [];
     }
 
+    let label = json.label;
+    if (!label && json.range) {
+      label = json.range.label;
+    }
+
     return new SearchFacetBucket(
       json.value,
-      json.label,
+      label,
       json.count,
       json.filter,
       json.min,
       json.max,
       children,
+      json.range,
     );
   }
 
@@ -33,6 +39,7 @@ export default class SearchFacetBucket {
     min: string | null = null,
     max: string | null = null,
     children: Array<SearchFacetBucket> = [],
+    range: any,
   ) {
     this.value = value;
     this.label = label;
@@ -41,6 +48,7 @@ export default class SearchFacetBucket {
     this.min = min;
     this.max = max;
     this.children = children;
+    this.range = range;
   }
 
   /** Get the label to display for this bucket */
@@ -70,7 +78,7 @@ export default class SearchFacetBucket {
       if (this.max) {
         result = `${this.min} - ${this.max}`;
       }
-      result = this.min;
+      result = `${this.min}`;
     }
     return result;
   }
@@ -97,4 +105,6 @@ export default class SearchFacetBucket {
   max: string | null;
   /** Any child buckets */
   children: Array<SearchFacetBucket>;
+  /** The range if this is a range facet */
+  range: any;
 }

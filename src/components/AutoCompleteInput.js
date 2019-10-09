@@ -4,19 +4,70 @@ import React from 'react';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import { RootCloseWrapper } from 'react-overlays';
+import SignalData from '../api/SignalData';
 
 import FetchUtils from '../util/FetchUtils';
+import StringUtils from '../util/StringUtils';
 
 type AutoCompleteInputProps = {
+  /**
+   * The ID to give the outer dropdown component for the
+   * menu of suggestions. Defaults to "autocomplete" and only
+   * needs to be provided (with unique values) if there are
+   * multiple AutoCompleteInput components on the same page.
+   */
   id: string;
+  /**
+   * The URI to call to get the list of autocomplete suggestions for
+   * the text the user has typed. It will be passed a single parameter
+   * called "term" that contains the user's query. The call should return
+   * an array of objects which each contain a "label" property containing
+   * the text of the suggestion.
+   */
   uri: string | null;
-  updateValue: (newValue: string, doSearch: boolean) => void;
+  /**
+   * The callback used when the user edits the text in the <input> element
+   * or chooses an item from the suggestion menu. If a suggestion is chosen,
+   * then the doSearch parameter will be set to true and it is expected that
+   * the callee will trigger a new query with the given query string passed
+   * as newValue. A signal object is passed as well and the callee can use it
+   * to add a signal to the server tracking the user's autocomplete choice.
+   */
+  updateValue: (newValue: string, doSearch: boolean, signalData?: SignalData) => void;
+  /**
+   * A placeholder string to display in the <input> element.
+   */
   placeholder: string;
+  /**
+   * The current value of the underlying <input> element.
+   */
   value: string;
+  /**
+   * If true, the component will be disabled.
+   */
   disabled: boolean;
+  /**
+   * Any CSS class that should be applied on the underlying <input> component.
+   */
   className: string;
+  /**
+   * Any CSS styling that should be applied on the underlying <input> component.
+   */
   style: any;
+  /**
+   * This is called when the user uses the escape key to close the
+   * autocomplete suggestion menu.
+   */
   onEscape?: () => void;
+  /**
+   * If set, then the autocomplete input will allow punctuation
+   * to be passed from suggestions to the underlying input. (By default,
+   * punctuation is stripped out to prevent issues with the Attivio
+   * Simple Query Language, except for a couple cases—see the method
+   * normalizeAutocompleteSuggestion() method in StringUtils.js for
+   * more detail.)
+   */
+  allowPunctuation: boolean;
 };
 
 type AutoCompleteInputDefaultProps = {
@@ -26,6 +77,7 @@ type AutoCompleteInputDefaultProps = {
   disabled: boolean;
   className: string;
   style: any;
+  allowPunctuation: boolean;
 };
 
 type AutoCompleteInputState = {
@@ -35,6 +87,9 @@ type AutoCompleteInputState = {
   open: boolean;
   cursor: number;
   queryValue: string;
+  userInput: string;
+  queryTimestamp: number;
+  queryIsAutocomplete: boolean;
 };
 
 export default class AutoCompleteInput extends React.Component<AutoCompleteInputDefaultProps, AutoCompleteInputProps, AutoCompleteInputState> { // eslint-disable-line max-len
@@ -45,6 +100,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
     disabled: false,
     className: '',
     style: {},
+    allowPunctuation: false,
   };
 
   static displayName = 'AutoCompleteInput';
@@ -61,6 +117,9 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
       open: false,
       cursor: -1,
       queryValue: this.props.value,
+      userInput: this.props.value,
+      queryTimestamp: 0,
+      queryIsAutocomplete: false,
     };
     (this: any).closeMenu = this.closeMenu.bind(this);
     (this: any).handleChange = this.handleChange.bind(this);
@@ -76,7 +135,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
   }
 
   valueSelected(newValue: string) {
-    this.props.updateValue(newValue, true);
+    this.updateValueAndAddSignal(newValue, true);
     this.setState({
       queryValue: newValue,
     });
@@ -103,8 +162,10 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
           isLoading: true,
           open: true,
           error: '',
-          suggestions: [],
           queryValue: query,
+          userInput: query,
+          queryTimestamp: Date.now(),
+          queryIsAutocomplete: false,
         });
 
         const callback = (response: any | null, errorString: string | null) => {
@@ -141,12 +202,43 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
     }
   }
 
+  updateValueAndAddSignal(newQuery: string, doSearch: boolean = false) {
+    const { suggestions, queryTimestamp, userInput } = this.state;
+    const { updateValue, allowPunctuation } = this.props;
+    const docOrdinal = suggestions.findIndex((suggestion) => {
+      return suggestion === newQuery;
+    });
+    const signalData = new SignalData();
+    // index starts at 1
+    signalData.docOrdinal = docOrdinal + 1;
+    signalData.query = userInput;
+    signalData.queryTimestamp = queryTimestamp;
+
+    let queryToSet = newQuery;
+    if (!allowPunctuation) {
+      queryToSet = StringUtils.normalizeAutocompleteSuggestion(newQuery);
+    }
+
+    this.setState({
+      queryValue: queryToSet,
+      userInput: queryToSet,
+    }, () => {
+      updateValue(queryToSet, doSearch, signalData);
+    });
+  }
+
   doKeyPress(event: Event & { currentTarget: HTMLInputElement, keyCode: number }) {
     const { suggestions } = this.state;
     // This condition is satisfied when a user presses the enter key.
     if (event.keyCode === 13) {
       const query = event.currentTarget.value;
-      this.props.updateValue(query, true);
+      // This condition is satisfied when the user presses the enter key
+      // after selecting entry from the autocomplete list
+      if (this.state.queryIsAutocomplete) {
+        this.updateValueAndAddSignal(query, true);
+      } else {
+        this.props.updateValue(query, true);
+      }
       this.setState({
         suggestions: [],
         open: false,
@@ -158,6 +250,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
       this.setState({
         cursor: newCursor,
         queryValue: value,
+        queryIsAutocomplete: true,
       });
     } else if (event.keyCode === 38 && this.state.cursor > 0) {
       // This condition is satisfied when a user presses the up arrow key.
@@ -166,6 +259,7 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
       this.setState({
         cursor: newCursor,
         queryValue: value,
+        queryIsAutocomplete: true,
       });
     } else if (event.keyCode === 27 && this.props.onEscape) {
       // This condition is satisfied when a user presses the escape key
