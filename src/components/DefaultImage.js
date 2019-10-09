@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 type DefaultImageProps = {
   /**
@@ -26,7 +26,7 @@ type DefaultImageState = {
  * If neither provided source is successfully displayed, then display nothing.
  * You can pass in any props that work for a standard <img> tag and they'll be added to the inserted image.
  */
-export default class DefaultImage extends React.Component<DefaultImageDefaultProps, DefaultImageProps, DefaultImageState> {
+export default class DefaultImage extends React.Component<DefaultImageProps, DefaultImageState> {
   static defaultProps = {
     defaultSrc: null,
   }

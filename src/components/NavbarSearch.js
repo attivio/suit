@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 type NavbarSearchProps = {
   /** The placeholder to show when the field is empty. Defaults to "Search…" */
@@ -20,7 +20,7 @@ type NavbarSearchDefaultProps = {
  * A search bar to include inside a Navbar component. This isn't connected to
  * a Searcher component but is instead to be used for operations such as filtering.
  */
-export default class NavbarSearch extends React.Component<NavbarSearchDefaultProps, NavbarSearchProps, void> {
+export default class NavbarSearch extends React.Component<NavbarSearchProps, void> {
   static defaultProps: NavbarSearchDefaultProps = {
     placeholder: 'Search\u2026',
   };
@@ -67,6 +67,9 @@ export default class NavbarSearch extends React.Component<NavbarSearchDefaultPro
           className="btn btn-link attivio-icon-search"
           onClick={this.onSearch}
           ref={(i) => {
+            /* $FlowFixMe This comment suppresses an error found when upgrading
+             * Flow to v0.107.0. To view the error, delete this comment and run
+             * Flow. */
             this.button = i;
           }}
         >

@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 type Subheader360Props = {
@@ -19,7 +19,7 @@ type Subheader360DefaultProps = {
   tooltip?: string;
 };
 
-export default class Subheader360 extends React.Component<Subheader360DefaultProps, Subheader360Props, void> {
+export default class Subheader360 extends React.Component<Subheader360Props, void> {
   static defaultProps = {
     tooltip: undefined,
   };

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import Popover from 'react-bootstrap/lib/Popover';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
@@ -23,7 +23,7 @@ type RelevancyScoreDefaultProps = {
  * Display the relevancy score for a document, including providing
  * a popover with the explanation of the score.
  */
-export default class RelevancyScore extends React.Component<RelevancyScoreDefaultProps, RelevancyScoreProps, void> {
+export default class RelevancyScore extends React.Component<RelevancyScoreProps, void> {
   static defaultProps = {
     explanation: null,
   };

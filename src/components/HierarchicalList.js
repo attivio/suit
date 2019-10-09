@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import type { Node } from 'react';
 
 import DisclosureTriangle from './DisclosureTriangle';
@@ -37,7 +37,9 @@ type HierarchicalListProps = {
  * Component to render tree of data in a hierarchical list format where nodes which have children
  * can be opened/closed by the user.
  */
-export default class HierarchicalList extends React.Component<void, HierarchicalListProps, void> {
+export default class HierarchicalList extends React.Component<HierarchicalListProps, void> {
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static HierarchicalNode;
 
   static displayName = 'HierarchicalList';

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -30,7 +30,7 @@ type BreadcrumbsDefaultProps = {
   onClick: null | (location: any) => void;
 };
 
-class Breadcrumbs extends React.Component<BreadcrumbsDefaultProps, BreadcrumbsProps, void> {
+class Breadcrumbs extends React.Component<BreadcrumbsProps, void> {
   static BreadcrumbInfo;
 
   static defaultProps = {
@@ -73,6 +73,9 @@ class Breadcrumbs extends React.Component<BreadcrumbsDefaultProps, BreadcrumbsPr
                   if (!this.links) {
                     this.links = [];
                   }
+                  /* $FlowFixMe This comment suppresses an error found when
+                   * upgrading Flow to v0.107.0. To view the error, delete this
+                   * comment and run Flow. */
                   this.links[index] = c;
                 }}
               >

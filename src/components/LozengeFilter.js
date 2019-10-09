@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import Scrollable from './Scrollable';
 import SimpleAutoCompleteInput from './SimpleAutoCompleteInput';
@@ -65,7 +65,7 @@ type LozengeFilterState = {
   filteredItems: Array<string>;
 };
 
-export default class LozengeFilter extends React.Component<LozengeFilterDefaultProps, LozengeFilterProps, LozengeFilterState> {
+export default class LozengeFilter extends React.Component<LozengeFilterProps, LozengeFilterState> {
   static defaultProps = {
     allLabel: 'All Items',
     itemCutoff: 9,
@@ -140,8 +140,14 @@ export default class LozengeFilter extends React.Component<LozengeFilterDefaultP
         style={style}
         ref={(item) => {
           if (typeof value === 'string') {
+            /* $FlowFixMe This comment suppresses an error found when upgrading
+             * Flow to v0.107.0. To view the error, delete this comment and run
+             * Flow. */
             this.divs.set(value, item);
           } else {
+            /* $FlowFixMe This comment suppresses an error found when upgrading
+             * Flow to v0.107.0. To view the error, delete this comment and run
+             * Flow. */
             this.divs.set('null', item);
           }
         }}

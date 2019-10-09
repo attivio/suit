@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 type NavbarOrProps = {
   /** The "or" message to display. defaults to "OR" */
@@ -13,7 +13,7 @@ type NavbarOrDefaultProps = {
 /**
  * A component to use in a navbar to interject a choice between two others.
  */
-export default class NavbarOr extends React.Component<NavbarOrDefaultProps, NavbarOrProps, void> {
+export default class NavbarOr extends React.Component<NavbarOrProps, void> {
   static defaultProps = {
     message: 'OR',
   };

@@ -1,6 +1,8 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
+/* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+ * v0.107.0. To view the error, delete this comment and run Flow. */
 import type { Children } from 'react';
 
 import Scrollable from './Scrollable';
@@ -22,7 +24,7 @@ type GridLayoutDefaultProps = {
   oneRow: boolean;
 };
 
-export default class GridLayout extends React.Component<GridLayoutDefaultProps, GridLayoutProps, void> {
+export default class GridLayout extends React.Component<GridLayoutProps, void> {
   static defaultProps = {
     oneRow: false,
   };

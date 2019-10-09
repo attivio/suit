@@ -1,5 +1,7 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
+/* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+ * v0.107.0. To view the error, delete this comment and run Flow. */
 import type { Children } from 'react';
 
 type MoreListProps = {
@@ -32,7 +34,7 @@ type MoreListState = {
  *
  * Depends on CSS classes: more-list-link
  */
-export default class MoreList extends React.Component<MoreListDefaultProps, MoreListProps, MoreListState> {
+export default class MoreList extends React.Component<MoreListProps, MoreListState> {
   static defaultProps = {
     shortSize: 5,
     morePrompt: 'More\u2026',

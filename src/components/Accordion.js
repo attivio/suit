@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import Panel from 'react-bootstrap/lib/Panel';
 import PanelGroup from 'react-bootstrap/lib/PanelGroup';
 
@@ -11,9 +11,9 @@ import PanelGroup from 'react-bootstrap/lib/PanelGroup';
 export class AccordionPanel {
   heading: string;
   key: string;
-  body: React$Element<*> | string;
+  body: React.Element<any> | string;
 
-  constructor(heading: string, key: string, body: React$Element<*> | string) {
+  constructor(heading: string, key: string, body: React.Element<any> | string) {
     this.heading = heading;
     this.key = key;
     this.body = body;
@@ -40,7 +40,9 @@ type AccordionDefaultProps = {
  * This component presents a series of titled, collapsible panels, only one of which can be open at
  * any given time.
  */
-export default class Accordion extends React.Component<AccordionDefaultProps, AccordionProps, void> {
+export default class Accordion extends React.Component<AccordionProps, void> {
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static AccordionPanel;
 
   static defaultProps = {

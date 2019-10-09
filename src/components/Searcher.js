@@ -1,5 +1,7 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
+/* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+ * v0.107.0. To view the error, delete this comment and run Flow. */
 import type { Children } from 'react';
 
 import { withRouter } from 'react-router-dom';
@@ -266,7 +268,7 @@ type SearcherState = {
  *       debug
  *       searchProfile
  */
-class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, SearcherState> {
+class Searcher extends React.Component<SearcherProps, SearcherState> {
   static defaultProps = {
     searchEngineType: 'attivio',
     customOptions: {},
@@ -384,15 +386,25 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       response: undefined,
       error: undefined,
       query: Searcher.EVERYTHING,
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       queryLanguage: props.defaultQueryLanguage,
       sort: ['.score:DESC'],
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       relevancyModels: props.relevancyModels,
       facetFilters: [],
       geoFilters: [],
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       resultsPerPage: parseInt(props.resultsPerPage, 10),
       resultsOffset: 0,
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       debug: props.debug,
       queryTimestamp: 0,
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       hideMast: (props.location.pathname && props.location.pathname.includes('/no-mast')),
     };
   }
@@ -859,6 +871,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * The search is reset to the first page when performed again.
    */
   updateSort(newSort: string) {
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     if (this.newSort !== this.state.sort) {
       let sort = this.state.sort;
       if (sort && sort.length > 0) {

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, Col, Row, Glyphicon } from 'react-bootstrap';
 
@@ -22,7 +22,7 @@ type CommentsState = {
   showCommentModal: boolean,
 };
 
-class Comments extends React.Component<void, CommentsProps, CommentsState> {
+class Comments extends React.Component<CommentsProps, CommentsState> {
   static contextTypes = {
     searcher: PropTypes.any,
   };

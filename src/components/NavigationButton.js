@@ -1,5 +1,7 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
+/* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+ * v0.107.0. To view the error, delete this comment and run Flow. */
 import type { Children } from 'react';
 
 import { withRouter } from 'react-router-dom';
@@ -36,7 +38,7 @@ type NavigationButtonDefaultProps = {
  * one. Use the route property to specify where the router should take the
  * user when clicked.
  */
-class NavigationButton extends React.Component<NavigationButtonDefaultProps, NavigationButtonProps, void> {
+class NavigationButton extends React.Component<NavigationButtonProps, void> {
   static defaultProps = {
     className: '',
     bsStyle: 'default',

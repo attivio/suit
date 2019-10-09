@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import SearchFacetBucket from '../api/SearchFacetBucket';
 
@@ -20,7 +20,7 @@ type MoreListFacetContentsDefaultProps = {
 };
 
 /** Display a facet's bucket values in a MoreList component. */
-export default class MoreListFacetContents extends React.Component<MoreListFacetContentsDefaultProps, MoreListFacetContentsProps, void> { // eslint-disable-line max-len
+export default class MoreListFacetContents extends React.Component<MoreListFacetContentsProps, void> { // eslint-disable-line max-len
   static displayName = 'MoreListFacetContents';
 
   static defaultProps = {
@@ -33,7 +33,11 @@ export default class MoreListFacetContents extends React.Component<MoreListFacet
   }
 
   addFilter(event: Event & { target: HTMLAnchorElement }) {
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     this.props.addFacetFilter(this.props.buckets[event.target.tabIndex]);
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     event.target.blur();
   }
 

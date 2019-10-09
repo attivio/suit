@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import Configurable from './Configurable';
 
@@ -24,7 +24,7 @@ type NavbarFilterDefaultProps = {
 }
 
 /** Displays a currently applied facet filter. */
-class NavbarFilter extends React.Component<NavbarFilterDefaultProps, NavbarFilterProps, void> {
+class NavbarFilter extends React.Component<NavbarFilterProps, void> {
   static defaultProps = {
     maxHierarchicalSegmentLength: 0,
   };
@@ -63,6 +63,8 @@ class NavbarFilter extends React.Component<NavbarFilterDefaultProps, NavbarFilte
 
   remove(event: Event & { target: HTMLAnchorElement }) {
     this.props.removeCallback();
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     event.target.blur();
   }
 

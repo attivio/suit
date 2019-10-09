@@ -1,7 +1,7 @@
 
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import ReactHighcharts from 'react-highcharts';
 
 import DataPoint from '../api/DataPoint';
@@ -122,7 +122,7 @@ type TimeSeriesDefaultProps = {
 /**
  * Component to display a chart of values over time.
  */
-export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, TimeSeriesProps, void> {
+export default class TimeSeries extends React.Component<TimeSeriesProps, void> {
   static defaultProps = {
     onSelect: null,
     height: 300,
@@ -132,6 +132,8 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
 
   static displayName = 'TimeSeries';
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static SeriesDataSource;
 
   static getDataSourceType(type: TimeSeriesDataType) {

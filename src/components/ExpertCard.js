@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import FormattedDate from './FormattedDate';
 import DateFormat from '../api/DateFormat';
@@ -50,7 +50,7 @@ type ExpertCardDefaultProps = {
 /**
  * Displays a card with details about an "expert" within the company.
  */
-export default class ExpertCard extends React.Component<ExpertCardDefaultProps, ExpertCardProps, void> {
+export default class ExpertCard extends React.Component<ExpertCardProps, void> {
   static defaultProps = {
     expertImage: 'img/placeholder-person.svg',
     expertId: null,
@@ -61,6 +61,8 @@ export default class ExpertCard extends React.Component<ExpertCardDefaultProps, 
 
   static displayName = 'ExpertCard';
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static ExpertiseItem;
 
   render() {

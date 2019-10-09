@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import SearchDocument from '../api/SearchDocument';
@@ -58,7 +58,7 @@ type KnowledgeGraphPanelState = {
   error: string | null;
 };
 
-export default class KnowledgeGraphPanel extends React.Component<KnowledgeGraphPanelDefaultProps, KnowledgeGraphPanelProps, KnowledgeGraphPanelState> { // eslint-disable-line max-len
+export default class KnowledgeGraphPanel extends React.Component<KnowledgeGraphPanelProps, KnowledgeGraphPanelState> { // eslint-disable-line max-len
   static defaultProps = {
     maxLinkedDocs: 3,
     tableField: FieldNames.TABLE,

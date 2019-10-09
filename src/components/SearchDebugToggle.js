@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import ToggleSwitch from './ToggleSwitch';
@@ -19,7 +19,7 @@ type SearchDebugToggleDefaultProps = {
 /**
  * A toggle switch for deciding whether the search results should be shown in debug format.
  */
-export default class SearchDebugToggle extends React.Component<SearchDebugToggleDefaultProps, SearchDebugToggleProps, void> { // eslint-disable-line max-len
+export default class SearchDebugToggle extends React.Component<SearchDebugToggleProps, void> { // eslint-disable-line max-len
   static defaultProps = {
     label: 'Details:',
     right: false,

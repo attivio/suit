@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import ReactHighcharts from 'react-highcharts';
 import SearchFacetBucket from '../api/SearchFacetBucket';
 import StringUtils from '../util/StringUtils';
@@ -53,8 +53,10 @@ type PieChartFacetContentsDefaultProps = {
 /**
  * Component to display the buckets of a facet using a pie chart.
  */
-export default class PieChartFacetContents extends React.Component<PieChartFacetContentsDefaultProps, PieChartFacetContentsProps, void> { // eslint-disable-line max-len
+export default class PieChartFacetContents extends React.Component<PieChartFacetContentsProps, void> { // eslint-disable-line max-len
   static defaultProps = {
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     entityColors: new Map(),
     legendAlign: 'center',
     legendLayout: 'horizontal',
@@ -128,6 +130,9 @@ export default class PieChartFacetContents extends React.Component<PieChartFacet
           events: {
             click: (event: Event) => {
               if (this.props.clickable) {
+                /* $FlowFixMe This comment suppresses an error found when
+                 * upgrading Flow to v0.107.0. To view the error, delete this
+                 * comment and run Flow. */
                 if (event.point) {
                   this.clickWedge((event.point: any).index);
                 }

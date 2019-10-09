@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import Menu, { MenuItemDef } from './Menu';
@@ -29,7 +29,7 @@ type NavbarSortDefaultProps = {
  * search results should be sorted by. It must be a child of
  * the Searcher component it is controlling.
  */
-export default class NavbarSort extends React.Component<NavbarSortDefaultProps, NavbarSortProps, void> {
+export default class NavbarSort extends React.Component<NavbarSortProps, void> {
   static defaultProps: NavbarSortDefaultProps = {
     right: false,
     label: 'Sort:',

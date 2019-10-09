@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 export class TagCloudValue {
   /** The string to display in the list. */
@@ -45,7 +45,7 @@ type TagCloudDefaultProps = {
  * Display a linear tag "cloud" where the items are proportionally sized
  * based on an associated value.
  */
-export default class TagCloud extends React.Component<TagCloudDefaultProps, TagCloudProps, void> {
+export default class TagCloud extends React.Component<TagCloudProps, void> {
   static defaultProps = {
     maxValues: 15,
     noLink: false,
@@ -53,6 +53,8 @@ export default class TagCloud extends React.Component<TagCloudDefaultProps, TagC
 
   static displayName = 'TagCloud';
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static TagCloudValue;
 
   static getAdjustedValue(value: number, min: number, max: number): number {
@@ -135,6 +137,9 @@ export default class TagCloud extends React.Component<TagCloudDefaultProps, TagC
       const size = TagCloud.getAdjustedValue(tcv.value, minValue, maxValue);
       const callback = (event: Event & { target: HTMLAnchorElement }) => {
         this.props.callback(tcv);
+        /* $FlowFixMe This comment suppresses an error found when upgrading
+         * Flow to v0.107.0. To view the error, delete this comment and run
+         * Flow. */
         event.target.blur();
       };
       const className = TagCloud.getClassNameForLevel(size);

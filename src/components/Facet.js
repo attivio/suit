@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import BarChartFacetContents from './BarChartFacetContents';
@@ -22,7 +22,7 @@ import TimeSeriesFacetContents from './TimeSeriesFacetContents';
 
 export type FacetType = 'barchart' | 'columnchart' | 'piechart' | 'barlist' |
   'tagcloud' | 'timeseries' | 'list' | 'sentiment' | 'geomap' |
-  (facetName: string) => React$Element<*>;
+  (facetName: string) => React.Element<any>;
 
 type FacetProps = {
   /** The facet to display. */
@@ -61,10 +61,12 @@ type FacetDefaultProps = {
 /**
  * Display a single facet from the search results.
  */
-export default class Facet extends React.Component<FacetDefaultProps, FacetProps, void> {
+export default class Facet extends React.Component<FacetProps, void> {
   static defaultProps = {
     bordered: false,
     collapse: false,
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     entityColors: new Map(),
     maxBuckets: 15,
     type: 'list',

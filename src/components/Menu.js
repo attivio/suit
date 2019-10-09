@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import Checkbox from 'react-bootstrap/lib/Checkbox';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
@@ -127,7 +127,7 @@ type MenuDefaultProps = {
   dataTest : string | null;
 };
 
-export default class Menu extends React.Component<MenuDefaultProps, MenuProps, void> {
+export default class Menu extends React.Component<MenuProps, void> {
   static defaultProps = {
     selection: null,
     right: false,
@@ -144,6 +144,8 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
 
   static displayName = 'Menu';
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static MenuItemDef;
 
   constructor(props: MenuProps) {

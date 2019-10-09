@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 type CardProps = {
   /** The title of the card. Optional—if not set, none will be shown. */
@@ -9,6 +9,8 @@ type CardProps = {
   subtitle?: any;
   /** If set, the card won't have a border around it. */
   borderless: boolean;
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   children: React.Children;
   /** Any custom style information needed */
   style: any;
@@ -28,7 +30,7 @@ type CardDefaultProps = {
  * A card is just a bordered &lt;div&gt; to wrap a set of
  * related elements.
  */
-export default class Card extends React.Component<CardDefaultProps, CardProps, void> {
+export default class Card extends React.Component<CardProps, void> {
   static defaultProps = {
     borderless: false,
     title: null,

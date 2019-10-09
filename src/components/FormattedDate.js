@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import DateUtils from '../util/DateUtils';
 import DateFormat from '../api/DateFormat';
@@ -21,7 +21,7 @@ type FormattedDateDefaultProps = {
 /**
  * Display a formatted Date object.
  */
-export default class FormattedDate extends React.Component<FormattedDateDefaultProps, FormattedDateProps, void> {
+export default class FormattedDate extends React.Component<FormattedDateProps, void> {
   static defaultProps = {
     format: DateFormat.SHORT_DATE,
     locale: 'en',
@@ -29,6 +29,8 @@ export default class FormattedDate extends React.Component<FormattedDateDefaultP
 
   static displayName = 'FormattedDate';
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static DateFormat;
 
   render() {

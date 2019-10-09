@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 type SearchButtonProps = {
@@ -17,7 +17,7 @@ type SearchButtonDefaultProps = {
  * designed to be used in the Masthead component, already has its
  * own search button.
  */
-export default class SearchButton extends React.Component<SearchButtonDefaultProps, SearchButtonProps, void> {
+export default class SearchButton extends React.Component<SearchButtonProps, void> {
   static defaultProps = {
     label: 'Go',
   };

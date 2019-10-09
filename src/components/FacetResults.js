@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import Facet from './Facet';
@@ -69,7 +69,7 @@ type FacetResultsDefaultProps = {
  * not covered by one of these property's lists will be displayed
  * in a standard "More…" list.
  */
-export default class FacetResults extends React.Component<FacetResultsDefaultProps, FacetResultsProps, void> {
+export default class FacetResults extends React.Component<FacetResultsProps, void> {
   static defaultProps = {
     pieChartFacets: null,
     barChartFacets: null,
@@ -81,6 +81,8 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
     geoMapFacets: null,
     maxFacetBuckets: 15,
     orderHint: [],
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     entityColors: new Map(),
     showEmptyFacets: false,
   };

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -57,7 +57,7 @@ type InnerListSearchResultState = {
 /**
  * An individual List-type search result.
  */
-class InnerListSearchResult extends React.Component<InnerListSearchResultDefaultProps, InnerListSearchResultProps, InnerListSearchResultState> { // eslint-disable-line max-len
+class InnerListSearchResult extends React.Component<InnerListSearchResultProps, InnerListSearchResultState> { // eslint-disable-line max-len
   static defaultProps = {
     baseUri: '',
     format: 'list',
@@ -221,6 +221,8 @@ class InnerListSearchResult extends React.Component<InnerListSearchResultDefault
       && configuration.state.ALL.entityFields;
 
     const userEntityFields = userDefinedEntityFieldsExist
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       ? configuration.state.ALL.entityFields
       : entityFields;
 

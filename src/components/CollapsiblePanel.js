@@ -3,6 +3,8 @@ import React, { Children } from 'react';
 
 type CollapsiblePanelProps = {
   /** The contents of the panel can be whatever you like. */
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   children: Children;
   /** The title displayed in the header of the panel. */
   title: string;
@@ -28,7 +30,7 @@ type CollapsiblePanelState = {
  * its header. It's used, for example, for displaying facets in
  * search results but can be used with whatever contents you like.
  */
-export default class CollapsiblePanel extends React.Component<CollapsiblePanelDefaultProps, CollapsiblePanelProps, CollapsiblePanelState> { // eslint-disable-line max-len
+export default class CollapsiblePanel extends React.Component<CollapsiblePanelProps, CollapsiblePanelState> { // eslint-disable-line max-len
   static defaultProps = {
     bordered: false,
     collapsed: false,

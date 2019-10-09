@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import SearchDocument from '../api/SearchDocument';
 import FieldNames from '../api/FieldNames';
@@ -40,7 +40,7 @@ type DebugSearchResultDefaultProps = {
 /**
  * A "Debug" rendering of a document which shows all of its fields and their values.
  */
-export default class DebugSearchResult extends React.Component<DebugSearchResultDefaultProps, DebugSearchResultProps, void> {
+export default class DebugSearchResult extends React.Component<DebugSearchResultProps, void> {
   static defaultProps = {
     baseUri: '',
     showTags: true,
@@ -82,6 +82,8 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
     return <span>{json}</span>;
   }
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static renderer;
 
   rateDocument = (doc: SearchDocument, rating: number) => {

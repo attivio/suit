@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -85,7 +85,7 @@ type SearchBarState = {
  * Component to include in the Masthead for entering the query
  * to use when searching. Must be inside a Searcher component.
  */
-class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, SearchBarState> {
+class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
   static defaultProps: SearchBarDefaultProps = {
     inMasthead: false,
     placeholder: 'Search\u2026',
@@ -274,6 +274,8 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
   doKeyPress(e: Event) {
     // If the user presses enter, do the search
     if (e.target instanceof HTMLInputElement) {
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       if (e.keyCode === 13) {
         this.doSearch();
       }

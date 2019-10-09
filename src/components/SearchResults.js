@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import FieldNames from '../api/FieldNames';
@@ -74,7 +74,7 @@ type SearchResultsDefaultProps = {
  * A container for showing a list of documents from the search results.
  * This comes from the parent Searcher component.
  */
-export default class SearchResults extends React.Component<SearchResultsDefaultProps, SearchResultsProps, void> {
+export default class SearchResults extends React.Component<SearchResultsProps, void> {
   static defaultProps = {
     baseUri: '',
     format: 'list',

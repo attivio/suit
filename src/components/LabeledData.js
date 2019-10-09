@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import validator from 'validator';
 
 export class LabeledDataPair {
@@ -34,7 +34,7 @@ type LabeledDataDefaultProps = {
  * value is a string and appears to be a URL, it will be rendered
  * as a link that will navigate to that URL.
  */
-export default class LabeledData extends React.Component<LabeledDataDefaultProps, LabeledDataProps, void> {
+export default class LabeledData extends React.Component<LabeledDataProps, void> {
   static defaultProps = {
     data: [],
     stacked: false,
@@ -42,6 +42,8 @@ export default class LabeledData extends React.Component<LabeledDataDefaultProps
 
   static displayName = 'LabeledData';
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static LabeledDataPair;
 
   render() {
@@ -58,6 +60,9 @@ export default class LabeledData extends React.Component<LabeledDataDefaultProps
           </dd>
         ));
       } else {
+        /* $FlowFixMe This comment suppresses an error found when upgrading
+         * Flow to v0.107.0. To view the error, delete this comment and run
+         * Flow. */
         rows.push(<dd key={`${item.label}-value`}>{item.value}</dd>);
       }
     });

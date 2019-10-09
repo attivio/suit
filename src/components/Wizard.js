@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
@@ -63,12 +63,12 @@ export class WizardPageDefinition {
   /**
    * The component to display for the wizard page.
    */
-  page: React$Element<*>;
+  page: React.Element<any>;
 
   constructor(
     key: string,
     title: string,
-    page: React$Element <*>,
+    page: React.Element<any>,
     getValue: null | () => any = null,
     validate: null | (values: Map<string, any>) => Promise < void> = null,
     aboutToShow: null | (values: Map<string, any>) => void = null,
@@ -128,7 +128,9 @@ type WizardState = {
  * This component presents a series of pages which are used by the user, in sequence,
  * to enter data. The pages in the list can be enabled or disabled at any time.
  */
-export default class Wizard extends React.Component<void, WizardProps, WizardState> {
+export default class Wizard extends React.Component<WizardProps, WizardState> {
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static WizardPageDefinition;
 
   static displayName = 'Wizard';

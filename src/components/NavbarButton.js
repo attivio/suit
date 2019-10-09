@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
@@ -26,7 +26,7 @@ type NavbarButtonDefaultProps = {
  * (It needs to at least have one or the other, though.) Clicking the button calls
  * the onClick handler.
  */
-export default class NavbarButton extends React.Component<NavbarButtonDefaultProps, NavbarButtonProps, void> {
+export default class NavbarButton extends React.Component<NavbarButtonProps, void> {
   static defaultProps = {
     label: '',
     icon: null,

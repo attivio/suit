@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -72,7 +72,7 @@ type NavigationHamburgerMenuDefaultProps = {
  * user clicks to reveal a menu of options. Clicking one takes the user to
  * that route.
  */
-class NavigationHamburgerMenu extends React.Component<NavigationHamburgerMenuDefaultProps, NavigationHamburgerMenuProps, void> { // eslint-disable-line max-len
+class NavigationHamburgerMenu extends React.Component<NavigationHamburgerMenuProps, void> { // eslint-disable-line max-len
   static defaultProps = {
     icon: 'menu-hamburger',
     tooltip: '',

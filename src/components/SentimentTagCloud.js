@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 export class SentimentTagCloudValue {
   /** The string to display in the list. */
@@ -43,15 +43,19 @@ type SentimentTagCloudDefaultProps = {
  * Display a linear tag "cloud" where the items are proportionally sized
  * based on an associated value.
  */
-export default class SentimentTagCloud extends React.Component<SentimentTagCloudDefaultProps, SentimentTagCloudProps, void> {
+export default class SentimentTagCloud extends React.Component<SentimentTagCloudProps, void> {
   static defaultProps = {
     maxValues: 15,
   };
 
   static displayName = 'SentimentTagCloud';
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static SentimentTagCloudValue;
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static mapRange(num, sentiment) {
     if (sentiment === 'positive') {
       const inMin = 1;
@@ -108,6 +112,9 @@ export default class SentimentTagCloud extends React.Component<SentimentTagCloud
       const size = SentimentTagCloud.getAdjustedValue(tcv.value, maxValue, tcv.sentiment);
       const callback = (event: Event & { target: HTMLAnchorElement }) => {
         this.props.callback(tcv);
+        /* $FlowFixMe This comment suppresses an error found when upgrading
+         * Flow to v0.107.0. To view the error, delete this comment and run
+         * Flow. */
         event.target.blur();
       };
       return (
