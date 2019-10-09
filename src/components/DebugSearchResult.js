@@ -143,7 +143,11 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
       <div className=" attivio-search-result row">
         <div className="col-xs-2 col-sm-2">
           <DocumentType docType={table} position={position} />
-          <DocumentThumbnail uri={thumbnailUri} previewUris={previewUri} previewTitle={document.getFirstValue(FieldNames.TITLE)} />
+          <DocumentThumbnail
+            uri={thumbnailUri}
+            previewUris={previewUri}
+            previewTitle={document.getFirstValue(FieldNames.TITLE)}
+          />
           <dl className="attivio-labeldata-stacked attivio-labeldata-stacked-search-results">
             {showRatings && (
               <div>
