@@ -38,9 +38,9 @@ their configuration in real time, right in your browser. (We actually use it whi
 the changes we make will look.) The documentation presented by the style guide comes directly from the comments
 in the individual components' source files, so it's never out of date.
 
-To build the SUIT style guide and serve it dynamically, run the command `npm run styleguide:serve`
-(after having run `npm install`) and then point a browser to http://localhost:6060 to see the
-resulting interactive website. (Alternatively, you can run `npm run styleguide` to build a static
+To build the SUIT style guide and serve it dynamically, run the command `yarn start`
+(after having run `yarn install`) and then point a browser to http://localhost:6060 to see the
+resulting interactive website. (Alternatively, you can run `yarn run styleguide` to build a static
 copy to the `styleguide` directory and then just load the `index.html` file it contains.)  
 
 ### SUIT’s API Layer
@@ -61,7 +61,7 @@ changes to it or build it yourself. However, if you may need to do so if, for ex
 you are interested in submitting a pull request that fixes a bug or adds a new feature. For this,
 see further information in the file [CONTRIBUTING.md](CONTRIBUTING.md).
 
-If you are a developer in the SUIT project who needs to build a new version of the library, you use the command `npm run updateversion` to bump the version of SUIT to the next patch release (or use `npm run updateversion minor` or `npm run uipdateversion major` to update the minor or major version). Then you can use the command `npm run publishlib` to perform a clean, full build including all the available validation steps, and publish the resulting files to the NPM repository. You must be logged into npmjs.com (via `npm login`) to do this.
+If you are a developer in the SUIT project who needs to build a new version of the library, you use the command `yarn updateversion` to bump the version of SUIT to the next patch release (or use `yarn updateversion minor` or `yarn updateversion major` to update the minor or major version). Then you can use the command `yarn publishlib` to perform a clean, full build including all the available validation steps, and publish the resulting files to the NPM repository. You must be logged into npmjs.com (via `npm login`) to do this.
 
 ### Contributing to the SUIT Library
 
@@ -74,23 +74,23 @@ use the following commands:
 
 | Command | Description |
 | ------- | ----------- |
-| `npm ci` | Installs the project's dependencies into the `node_modules` directory (note, don't use `npm install` to do this). |
-| `npm run clean` | Cleans the build products from your copy of the library. |
-| `npm run build` | Performs a build of the library. |
-| `npm run flow` | Run the Flow type checker on the library and report any errors. |
-| `npm run lint` | Run the ES Lint style checker on the library and report any errors. |
-| `npm run doclint` | Run the documentation.js checker to look for errors in the JSDoc comments in the `api` and `util` subdirectories. |
-| `npm run validatecomponents` | Performs validation that all of the components in the library meet certain standards. |
-| `npm run fullbuild` | Performs a full buid of the project from scratch (removing the `node_modules` direcotory as well as any other build products and performs all validation steps before actually building the contents of the SUIT library and its documentation. |
-| `npm run updateversion` | Updates the project's version before publishing it to the NPM repository. |
-| `npm run publishlib` | Does a full build and then publishes the resulting new version to the NPM repository. |
-| `npm run styleguide:serve` | Buids the style guide and serves it on your local machine's port 6060. This continues watching for changes and re-compiles and updates the style guide if any are found. |
-| `npm run styleguide` | Buids the style guide statically into the `styleguide` directory for the `components` directory. |
-| `npm run doc` | Run the documentation.js builder to publish documentation for the classes in the `api` and `util` subdirectories. |
-| `npm run watch` | Builds the library and watches for changes, rebuilding as they are found. |
-| `npm run test ` | Runs the suite of tests for the library. |
-| `npm run test:coverage ` | Generates a report of test coverage for the library. |
-| `npm run test:watch ` | Continuously runs the suite of tests for the library, watching for changes and re-running as they are found. |
+| `yarn install` | Installs the project's dependencies into the `node_modules` directory (note, don't use `npm install` to do this). |
+| `yarn clean` | Cleans the build products from your copy of the library. |
+| `yarn build` | Performs a build of the library. |
+| `yarn flow` | Run the Flow type checker on the library and report any errors. |
+| `yarn lint` | Run the ES Lint style checker on the library and report any errors. |
+| `yarn doclint` | Run the documentation.js checker to look for errors in the JSDoc comments in the `api` and `util` subdirectories. |
+| `yarn validatecomponents` | Performs validation that all of the components in the library meet certain standards. |
+| `yarn fullbuild` | Performs a full buid of the project from scratch (removing the `node_modules` direcotory as well as any other build products and performs all validation steps before actually building the contents of the SUIT library and its documentation. |
+| `yarn updateversion` | Updates the project's version before publishing it to the NPM repository. |
+| `yarn publishlib` | Does a full build and then publishes the resulting new version to the NPM repository. |
+| `yarn styleguide:serve` | Buids the style guide and serves it on your local machine's port 6060. This continues watching for changes and re-compiles and updates the style guide if any are found. |
+| `yarn styleguide` | Buids the style guide statically into the `styleguide` directory for the `components` directory. |
+| `yarn doc` | Run the documentation.js builder to publish documentation for the classes in the `api` and `util` subdirectories. |
+| `yarn watch` | Builds the library and watches for changes, rebuilding as they are found. |
+| `yarn test ` | Runs the suite of tests for the library. |
+| `yarn test:coverage ` | Generates a report of test coverage for the library. |
+| `yarn test:watch ` | Continuously runs the suite of tests for the library, watching for changes and re-running as they are found. |
 
 [npm-badge]: https://img.shields.io/npm/v/@attivio/suit.svg
 [npm]: https://www.npmjs.org/package/@attivio/suit

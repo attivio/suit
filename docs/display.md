@@ -1,1 +1,0 @@
-These components provide the means to display various other parts of your application in a consistent way.

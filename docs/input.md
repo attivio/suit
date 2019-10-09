@@ -1,1 +1,0 @@
-These components provide various types of input widgets that allow the user to enter information.

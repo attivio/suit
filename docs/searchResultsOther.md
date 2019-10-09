@@ -1,1 +1,0 @@
-These components provide additional functionality related to search results, apart from the lists of documents and facets. They also must all exist inside the context of a `<Searcher>` component.

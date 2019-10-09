@@ -1,1 +1,0 @@
-These components provide the means to display the facet information returned by a search. They must all exist inside the context of a `<Searcher>` component.
