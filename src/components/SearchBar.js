@@ -8,6 +8,7 @@ import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 
 import Configurable from './Configurable';
+import SavedSearchRenderer from './SavedSearchRenderer';
 import AutoCompleteInput from './AutoCompleteInput';
 import SignalData from '../api/SignalData';
 import AuthUtils from '../util/AuthUtils';
@@ -58,6 +59,10 @@ type SearchBarProps = {
   /** If set, this is the route to navigate to upon executing a search. By default, no navigation will occur when searching. */
   route: string | null;
   /**
+   * If set, saved search feature is available for use, displayed next to the SearchBar.
+   */
+  allowSavedSearch?: boolean,
+  /**
    * If set, a new signal of this type would be added when an autocomplete item is selected.
    */
   createAutoCompleteSignal?: boolean;
@@ -73,6 +78,7 @@ type SearchBarDefaultProps = {
   autoCompleteUri: string | null;
   route: string | null;
   baseUri: string;
+  allowSavedSearch: boolean,
   createAutoCompleteSignal: boolean;
 };
 
@@ -96,6 +102,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     autoCompleteUri: null,
     route: null,
     baseUri: '',
+    allowSavedSearch: false,
     createAutoCompleteSignal: false,
   };
 
@@ -395,6 +402,12 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
         />
       );
 
+    const SavedSearchComp = this.props.allowSavedSearch ? (
+      <SavedSearchRenderer />
+    ) : (
+      ''
+    );
+
     return (
       <div className={containerClass}>
         <div className="attivio-globalmast-search" role="search">
@@ -417,6 +430,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
           {suggestionList}
         </div>
         {languageControl}
+        {SavedSearchComp}
       </div>
     );
   }
