@@ -4,12 +4,10 @@ __1.__ Showing a List-type search result for a basic document, with the addition
 of showing the document’s relevancy score and a few entity values.
 
 ```js
-  const { Router } = require('react-router-dom');
-  const { createMemoryHistory } = require('history');
+  import sampleDocs from '../sampleData/Documents';
+  const { MemoryRouter } = require('react-router-dom');
 
-  const history = createMemoryHistory();
-
-  <Router context={history}>
+  <MemoryRouter>
     <ListSearchResult
       document={sampleDocs.elsalvador}
       position={4}
@@ -22,22 +20,19 @@ of showing the document’s relevancy score and a few entity values.
           ['keyphrases', 'Key Phrases'],
         ])}
     />
-  </Router>
+  </MemoryRouter>
 ```
 
 __2.__ Showing a document with child documents.
 
 ```js
   import sampleDocs from '../sampleData/Documents';
-  const { Router } = require('react-router-dom');
-  const { createMemoryHistory } = require('history');
+  const { MemoryRouter } = require('react-router-dom');
 
-  const history = createMemoryHistory();
-
-  <Router context={history}>
+  <MemoryRouter context={history}>
     <ListSearchResult
       document={sampleDocs.docWithChildren}
       position={4}
     />
-  </Router>
+  </MemoryRouter>
 ```

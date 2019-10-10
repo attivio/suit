@@ -7,17 +7,14 @@ __1.__ Showing the built-in simple format.
   const DummySearcher = require('../../src/components/DummySearcher').default;
   const SimpleSearchResult = require('../../src/components/SimpleSearchResult').default;
   const sampleDocs = require('../sampleData/Documents').default;
-  const { Router } = require('react-router-dom');
-  const { createMemoryHistory } = require('history');
-
-  const history = createMemoryHistory();
+  const { MemoryRouter } = require('react-router-dom');
 
   const queryResponse = new QueryResponse();
   queryResponse.totalTime = 3239;
   queryResponse.totalHits = sampleDocs.rawDocuments.length;
   queryResponse.documents = sampleDocs.rawDocuments;
 
-  <Router history={history}>
+  <MemoryRouter>
     <DummySearcher defaultQueryResponse={queryResponse}>
       <SearchResults
         format="simple"
@@ -26,7 +23,7 @@ __1.__ Showing the built-in simple format.
         showTags={false}
       />
     </DummySearcher>
-  </Router>
+  </MemoryRouter>
 ```
 
 
@@ -39,10 +36,7 @@ __2.__ Using a custom renderer for documents in the "country" table.
   const DummySearcher = require('../../src/components/DummySearcher').default;
   const SimpleSearchResult = require('../../src/components/SimpleSearchResult').default;
   const sampleDocs = require('../sampleData/Documents').default;
-  const { Router } = require('react-router-dom');
-  const { createMemoryHistory } = require('history');
-
-  const history = createMemoryHistory();
+  const { MemoryRouter } = require('react-router-dom');
 
   const queryResponse = new QueryResponse();
   queryResponse.totalTime = 3239;
@@ -84,7 +78,7 @@ __2.__ Using a custom renderer for documents in the "country" table.
     SimpleSearchResult.renderer,
   ];
 
-  <Router history={history}>
+  <MemoryRouter>
     <DummySearcher defaultQueryResponse={queryResponse}>
       <SearchResults
         format={formats}
@@ -93,5 +87,5 @@ __2.__ Using a custom renderer for documents in the "country" table.
         showTags={false}
       />
     </DummySearcher>
-  </Router>
+  </MemoryRouter>
 ```

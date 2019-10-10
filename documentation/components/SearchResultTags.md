@@ -3,10 +3,9 @@
 __1.__ Showing a set of existing tags.
 
 ```jsx
-const { Router } = require('react-router-dom');
-const historyMock = require('../../tests/mocks/historyMock.js').default;
+const { MemoryRouter } = require('react-router-dom');
 
-<Router history={historyMock}>
+<MemoryRouter>
   <SearchResultTags
     tags={[
       'Useful',
@@ -16,41 +15,25 @@ const historyMock = require('../../tests/mocks/historyMock.js').default;
     ]}
     docId="foo"
   />
-</Router>
+</MemoryRouter>
 ```
 
 __2.__ Showing no existing tags.
 
 ```jsx
-const { Router } = require('react-router-dom');
-const { createMemoryHistory } = require('history');
+const { MemoryRouter } = require('react-router-dom');
 
-const history = createMemoryHistory({
-  initialEntries: ['/'],
-  initialIndex: 0,
-  keyLength: 6,
-  getUserConfirmation: null
-});
-
-<Router history={history}>
+<MemoryRouter>
   <SearchResultTags tags={[]} docId="foo" />
-</Router>
+</MemoryRouter>
 ```
 
 __3.__ Showing tags in a vertical layout.
 
 ```jsx
-const { Router } = require('react-router-dom');
-const { createMemoryHistory } = require('history');
+const { MemoryRouter } = require('react-router-dom');
 
-const history = createMemoryHistory({
-  initialEntries: ['/'],
-  initialIndex: 0,
-  keyLength: 6,
-  getUserConfirmation: null
-});
-
-<Router history={history}>
+<MemoryRouter>
   <SearchResultTags
     tags={[
       'Useful',
@@ -61,5 +44,5 @@ const history = createMemoryHistory({
     vertical
     docId="foo"
   />
-</Router>
+</MemoryRouter>
 ```
