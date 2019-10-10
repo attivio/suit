@@ -14,6 +14,6 @@ yarn flow && \
 yarn validatecomponents && \
 yarn doclint && \
 yarn test:coverage && \
+yarn styleguide:build && \
 yarn doc && \
-yarn build && \
-yarn styleguide
+yarn build
