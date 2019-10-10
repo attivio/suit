@@ -8,7 +8,6 @@ import SimpleQueryRequest from '../api/SimpleQueryRequest';
 import SavedSearch from '../api/SavedSearch';
 import AuthUtils from '../util/AuthUtils';
 import Configurable from '../components/Configurable';
-import Configuration from '../components/Configuration';
 
 type MetadataManagerProps = {
   username: string,
