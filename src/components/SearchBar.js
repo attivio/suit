@@ -3,11 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
-import Dropdown from 'react-bootstrap/lib/Dropdown';
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import MenuItem from 'react-bootstrap/lib/MenuItem';
+import { Dropdown, Glyphicon, MenuItem } from 'react-bootstrap';
 
 import Configurable from './Configurable';
+import SavedSearchRenderer from './SavedSearchRenderer';
 import AutoCompleteInput from './AutoCompleteInput';
 import SignalData from '../api/SignalData';
 import AuthUtils from '../util/AuthUtils';
@@ -57,24 +56,12 @@ type SearchBarProps = {
   buttonLabel: string,
   /** If set, this is the route to navigate to upon executing a search. By default, no navigation will occur when searching. */
   route: string | null,
-  /** Specifies if share search option should be displayed or not, false by default */
-  shareSearch: boolean,
+  /** Optional, If set, the save search option is displayed next to the SearchBar, false by default */
+  allowSavedSearch?: boolean,
   /**
    * If set, a new signal of this type would be added when an autocomplete item is selected.
    */
   createAutoCompleteSignal?: boolean,
-  /**
-   * The message body for when a search is shared.
-   */
-  shareMessage: string,
-  /**
-   * Subject of the email for when a search is shared.
-   */
-  subject: string,
-  /**
-   * Email address the search will be shared with when using shareSearch.
-   */
-  email: string,
 };
 
 type SearchBarDefaultProps = {
@@ -83,15 +70,12 @@ type SearchBarDefaultProps = {
   placeholderAdvanced: string,
   allowLanguageSelect: boolean,
   allowVoice: boolean,
-  buttonLabel: string,
   autoCompleteUri: string | null,
-  route: string | null,
   baseUri: string,
-  shareSearch: boolean,
+  buttonLabel: string,
+  route: string | null,
+  allowSavedSearch: boolean,
   createAutoCompleteSignal: boolean,
-  shareMessage: string,
-  subject: string,
-  email: string,
 };
 
 type SearchBarState = {
@@ -114,12 +98,8 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     autoCompleteUri: null,
     route: null,
     baseUri: '',
-    shareSearch: false,
+    allowSavedSearch: false,
     createAutoCompleteSignal: false,
-    shareMessage: 'Hey,\n\nI think you would be interested in these search results that I found using the most'
-      + 'cognitive and intuitive search platform called Attivio. Here is the link:',
-    subject: 'Search results I found using Attivio!',
-    email: '',
   };
 
   static contextTypes = {
@@ -143,7 +123,6 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     (this: any).queryChanged = this.queryChanged.bind(this);
     (this: any).updateQuery = this.updateQuery.bind(this);
     (this: any).languageChanged = this.languageChanged.bind(this);
-    (this: any).shareSearch = this.shareSearch.bind(this);
     (this: any).addSignal = this.addSignal.bind(this);
     if (this.props.allowVoice && !('webkitSpeechRecognition' in window)) {
       console.log('Requested speech recognition but the browser doesn’t support it'); // eslint-disable-line no-console
@@ -301,17 +280,6 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     }
   }
 
-  shareSearch() {
-    const username = AuthUtils.getUserName(AuthUtils.getSavedUser());
-    const signature = `\nfrom \n${username}`;
-    const message = this.props.shareMessage;
-    const searchLink = window.location.href;
-    const emailBody = message + searchLink + signature;
-    const subject = this.props.subject;
-    const emailAddress = this.props.email;
-    document.location.href = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-  }
-
   render() {
     const showMicrophone = this.props.allowVoice && 'webkitSpeechRecognition' in window;
     const micStyle = {};
@@ -320,7 +288,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     }
 
     const containerClass = this.props.inMasthead ? 'attivio-globalmast-search-container' : '';
-    const subContainerClass = this.props.shareSearch ? 'attivio-globalmast-search-share-search' : 'attivio-globalmast-search';
+    const subContainerClass = 'attivio-globalmast-search';
     const inputClass = this.props.inMasthead ? 'form-control attivio-globalmast-search-input' : 'form-control';
 
     let query = '';
@@ -364,14 +332,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
             this.advancedMenuItem = c;
           }}
         >
-          <span
-            style={{
-              visibility: language === 'advanced' ? 'visible' : 'hidden',
-            }}
-          >
-            &#x2713;
-          </span>{' '}
-          Advanced
+          <span style={{ visibility: language === 'advanced' ? 'visible' : 'hidden' }}>&#x2713;</span> Advanced
         </span>
       </MenuItem>
     );
@@ -440,22 +401,8 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
         value={query}
       />
     );
-    const shareSearch = this.props.shareSearch ? (
-      <span
-        className="attivio-smalltoolbar-btn"
-        title="Share this search via email"
-        style={{
-          position: 'relative',
-          top: '2px',
-          left: '-1px',
-          color: '#fff',
-          border: 'none',
-          background: 'transparent',
-          cursor: 'pointer',
-        }}
-      >
-        <Glyphicon onClick={this.shareSearch} glyph="share" style={{ color: 'white', fontSize: '1.1em' }} />
-      </span>
+    const SavedSearchComp = this.props.allowSavedSearch ? (
+      <SavedSearchRenderer />
     ) : (
       ''
     );
@@ -486,7 +433,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
           {suggestionList}
         </div>
         {languageControl}
-        {shareSearch}
+        {SavedSearchComp}
       </div>
     );
   }
