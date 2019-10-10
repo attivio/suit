@@ -4,7 +4,7 @@
  * Saved search queries marked/saved for future use
  */
 export default class SavedSearch {
-  setProperties(doc: SearchDocument) {
+  setProperties(doc) {
     const htmlString = doc.getFirstValue('title');
     this.id = doc.getFirstValue('.id');
     this.title = htmlString.replace(/<[^>]+>/g, '');

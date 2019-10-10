@@ -23,7 +23,7 @@ export type SearchResultRenderer = (
   position: number,
   baseUri: string,
   key: string,
-  hide360Link: boolean,
+  hide360Link?: boolean,
 ) => any;
 
 type SearchResultsProps = {
