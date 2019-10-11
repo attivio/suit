@@ -4,7 +4,7 @@
 __1:__ A series of common entities.
 
 ```jsx
-  const sampleDocs = require('../sampleData/Documents').default;
+  import sampleDocs from '../sampleData/Documents';
 
   const entities = new Map();
   entities.set('location', 'Location');

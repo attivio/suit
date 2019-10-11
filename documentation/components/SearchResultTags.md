@@ -3,7 +3,7 @@
 __1.__ Showing a set of existing tags.
 
 ```jsx
-const { MemoryRouter } = require('react-router-dom');
+import { MemoryRouter } from 'react-router-dom';
 
 <MemoryRouter>
   <SearchResultTags
@@ -21,7 +21,7 @@ const { MemoryRouter } = require('react-router-dom');
 __2.__ Showing no existing tags.
 
 ```jsx
-const { MemoryRouter } = require('react-router-dom');
+import { MemoryRouter } from 'react-router-dom';
 
 <MemoryRouter>
   <SearchResultTags tags={[]} docId="foo" />
@@ -31,7 +31,7 @@ const { MemoryRouter } = require('react-router-dom');
 __3.__ Showing tags in a vertical layout.
 
 ```jsx
-const { MemoryRouter } = require('react-router-dom');
+import { MemoryRouter } from 'react-router-dom';
 
 <MemoryRouter>
   <SearchResultTags

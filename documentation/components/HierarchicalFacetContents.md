@@ -3,8 +3,7 @@
 __1.__ Hierarchical facet.
 
 ```jsx
-const sampleFacets = require('../sampleData/Facets').default;
-
+import sampleFacets from '../sampleData/Facets';
 
 <HierarchicalFacetContents
   buckets={sampleFacets.hierarchicalFacet.buckets}

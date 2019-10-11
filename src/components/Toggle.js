@@ -34,7 +34,6 @@ export default class Toggle extends React.Component<ToggleProps, void> {
 
     return (
       <a
-        href
         className={className}
         onClick={this.handleClick}
       >

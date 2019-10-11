@@ -3,7 +3,7 @@
 __1:__ A standard “hamburger” menu.
 
 ```jsx
-const { MemoryRouter } = require('react-router-dom');
+import { MemoryRouter } from 'react-router-dom';
 <MemoryRouter>
   <NavigationHamburgerMenu
     id="myHBMenu"
@@ -19,7 +19,7 @@ const { MemoryRouter } = require('react-router-dom');
 __2:__ Another one, using a custom icon (“user”) and color (orange on purple).
 
 ```jsx
-const { MemoryRouter } = require('react-router-dom');
+import { MemoryRouter } from 'react-router-dom';
 <MemoryRouter>
   <NavigationHamburgerMenu
     id="anotherHBMenu"

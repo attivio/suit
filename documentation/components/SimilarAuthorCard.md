@@ -3,7 +3,7 @@
 __1.__ Simple example.
 
 ```jsx
-  const ExpertDetails = require('../../src/components/ExpertDetails').default;
+  import ExpertDetails from '../../src/components/ExpertDetails';
   <SimilarAuthorCard
     expert={
       new ExpertDetails.ExpertInfo(

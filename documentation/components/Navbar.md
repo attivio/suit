@@ -3,7 +3,7 @@
 __1.__ Simple, empty navigation bar
 
 ```jsx
-  const NavbarFilter = require('../../src/components/NavbarFilter').default;
+  import NavbarFilter from '../../src/components/NavbarFilter';
   <Navbar>
     <NavbarFilter
       facetName="Country"

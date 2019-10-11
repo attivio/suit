@@ -4,7 +4,8 @@
 __1:__ Example showing an inline date picker. Usually it would be in a dialog box or ther pop-up-like div.
 
 ```jsx
-  const DateRangeDisplay = require("../../src/components/DateRangeDisplay").default;
+  import DateRangeDisplay from '../../src/components/DateRangeDisplay';
+
   initialState = {
     start: new Date(2018, 6, 19),
     end: new Date(2018, 6, 28),

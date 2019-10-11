@@ -1,4 +1,4 @@
-const { createMemoryHistory } = require('history');
+import { createMemoryHistory } from 'history';
 
 const historyMock = createMemoryHistory({
   initialEntries: ['/'],

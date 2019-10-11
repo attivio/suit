@@ -4,10 +4,10 @@
 __1:__ A short list of placements.
 
 ```jsx
-  const QueryResponse = require('../../src/api/QueryResponse').default;
-  const SearchPlacement = require('../../src/api/SearchPlacement').default;
-  const sampleDocs = require('../sampleData/Documents').default;
-  const DummySearcher = require('../../src/components/DummySearcher').default;
+  import QueryResponse from '../../src/api/QueryResponse';
+  import SearchPlacement from '../../src/api/SearchPlacement';
+  import sampleDocs from '../sampleData/Documents';
+  import DummySearcher from '../../src/components/DummySearcher';
   const response = new QueryResponse();
 
   response.documents = sampleDocs.rawDocuments;

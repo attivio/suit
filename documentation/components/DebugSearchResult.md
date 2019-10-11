@@ -3,9 +3,9 @@
 __1.__ Showing the debug search output for a document.
 
 ```jsx
-  const sampleDocs = require('../sampleData/Documents').default;
+  import { StaticRouter } from 'react-router-dom';
+  import sampleDocs from '../sampleData/Documents';
 
-  const { StaticRouter } = require('react-router-dom');
   <StaticRouter context={{}}>
     <DebugSearchResult
       document={sampleDocs.elsalvador}

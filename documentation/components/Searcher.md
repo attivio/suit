@@ -5,7 +5,7 @@ The `<Searcher>` component does all of the work to perform searches of the Attiv
 __1.__ This example won't actually search the index but is meant to give you an idea of how the `<Searcher>` component is used. Note that the searcher doesn't itself render any UI but relies on its children to do so. For a more fleshed-out example, please look at the source code for the SearchPage.
 
 ```jsx
-const { MemoryRouter } = require('react-router-dom');
+import { MemoryRouter } from 'react-router-dom';
   <MemoryRouter>
     <Searcher
       searchUrl="http://myHost:17000"

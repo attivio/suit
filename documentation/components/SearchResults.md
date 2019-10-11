@@ -3,11 +3,11 @@
 __1.__ Showing the built-in simple format.
 
 ```jsx
-  const QueryResponse = require('../../src/api/QueryResponse').default;
-  const DummySearcher = require('../../src/components/DummySearcher').default;
-  const SimpleSearchResult = require('../../src/components/SimpleSearchResult').default;
-  const sampleDocs = require('../sampleData/Documents').default;
-  const { MemoryRouter } = require('react-router-dom');
+  import QueryResponse from'../../src/api/QueryResponse';
+  import DummySearcher from'../../src/components/DummySearcher';
+  import SimpleSearchResult from'../../src/components/SimpleSearchResult';
+  import sampleDocs from'../sampleData/Documents';
+  import { MemoryRouter } from'react-router-dom';
 
   const queryResponse = new QueryResponse();
   queryResponse.totalTime = 3239;
@@ -30,13 +30,13 @@ __1.__ Showing the built-in simple format.
 __2.__ Using a custom renderer for documents in the "country" table.
 
 ```jsx
-  const QueryResponse = require('../../src/api/QueryResponse').default;
-  const Card = require('../../src/components/Card').default;
-  const DocumentType = require('../../src/components/DocumentType').default;
-  const DummySearcher = require('../../src/components/DummySearcher').default;
-  const SimpleSearchResult = require('../../src/components/SimpleSearchResult').default;
-  const sampleDocs = require('../sampleData/Documents').default;
-  const { MemoryRouter } = require('react-router-dom');
+  import QueryResponse from'../../src/api/QueryResponse';
+  import Card from'../../src/components/Card';
+  import DocumentType from'../../src/components/DocumentType';
+  import DummySearcher from'../../src/components/DummySearcher';
+  import SimpleSearchResult from'../../src/components/SimpleSearchResult';
+  import sampleDocs from'../sampleData/Documents';
+  import { MemoryRouter } from'react-router-dom';
 
   const queryResponse = new QueryResponse();
   queryResponse.totalTime = 3239;

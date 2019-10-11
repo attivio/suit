@@ -3,9 +3,9 @@
 __1.__ Simple example—paging by fours across 10 documents.
 
 ```jsx
-  const QueryResponse = require('../../src/api/QueryResponse').default;
-  const DummySearcher = require('../../src/components/DummySearcher').default;
-  const sampleDocs = require('../sampleData/Documents').default;
+  import QueryResponse from '../../src/api/QueryResponse';
+  import DummySearcher from '../../src/components/DummySearcher';
+  import sampleDocs from '../sampleData/Documents';
 
   const queryResponse = new QueryResponse();
   queryResponse.documents = sampleDocs.rawDocuments;

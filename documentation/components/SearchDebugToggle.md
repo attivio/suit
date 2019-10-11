@@ -4,7 +4,7 @@
 __1:__ Basic version.
 
 ```jsx
-  const DummySearcher = require('../../src/components/DummySearcher').default;
+  import DummySearcher from '../../src/components/DummySearcher';
   <DummySearcher>
     <SearchDebugToggle />
   </DummySearcher>
@@ -13,7 +13,7 @@ __1:__ Basic version.
 __2:__ Custom label, pinned to the right.
 
 ```jsx
-  const DummySearcher = require('../../src/components/DummySearcher').default;
+  import DummySearcher from '../../src/components/DummySearcher';
   <DummySearcher>
     <SearchDebugToggle label="Show Me Everything:" right/>
   </DummySearcher>

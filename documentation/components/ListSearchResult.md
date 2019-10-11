@@ -5,7 +5,7 @@ of showing the document’s relevancy score and a few entity values.
 
 ```js
   import sampleDocs from '../sampleData/Documents';
-  const { MemoryRouter } = require('react-router-dom');
+  import { MemoryRouter } from 'react-router-dom';
 
   <MemoryRouter>
     <ListSearchResult
@@ -27,7 +27,7 @@ __2.__ Showing a document with child documents.
 
 ```js
   import sampleDocs from '../sampleData/Documents';
-  const { MemoryRouter } = require('react-router-dom');
+  import { MemoryRouter } from 'react-router-dom';
 
   <MemoryRouter context={history}>
     <ListSearchResult
