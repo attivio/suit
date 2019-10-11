@@ -146,6 +146,7 @@ export SentimentFacetContents from './components/SentimentFacetContents';
 export SentimentTagCloud from './components/SentimentTagCloud';
 export SentimentTagCloudFacetContents from './components/SentimentTagCloudFacetContents';
 export SeparatedList from './components/SeparatedList';
+export ShareSearch from './components/ShareSearch';
 export SimilarAuthorCard from './components/SimilarAuthorCard';
 export SimilarDocuments from './components/SimilarDocuments';
 export SimpleSearchResult from './components/SimpleSearchResult';

@@ -14,11 +14,7 @@ const ourWebpackConfig = {
     rules: [
       {
         test: /\.less$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'less-loader',
-        ],
+        use: ['style-loader', 'css-loader', 'less-loader'],
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -274,6 +270,7 @@ module.exports = {
               'src/components/SecondaryNavBar.js',
               'src/components/SeparatedList.js',
               'src/components/SentimentTagCloud.js',
+              'src/components/ShareSearch.js',
               'src/components/SqlLog.js',
               'src/components/StarRating.js',
               'src/components/Subheader360.js',
@@ -302,10 +299,7 @@ module.exports = {
           name: 'Miscelaneous',
           content: 'documentation/misc.md',
           components: () => {
-            return [
-              'src/components/ContextHelp.js',
-              'src/components/DummySearcher.js',
-            ];
+            return ['src/components/ContextHelp.js', 'src/components/DummySearcher.js'];
           },
         },
       ],
@@ -315,9 +309,7 @@ module.exports = {
       content: 'documentation/extra.md',
     },
   ],
-  require: [
-    path.join(__dirname, 'documentation/style/main.less'),
-  ],
+  require: [path.join(__dirname, 'documentation/style/main.less')],
   getComponentPathLine(componentPath) {
     const name = path.basename(componentPath, '.js');
     // const dir = path.dirname(componentPath);

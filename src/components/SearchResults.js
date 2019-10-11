@@ -18,7 +18,7 @@ import SearchDocument from '../api/SearchDocument';
  * rendered by this function. If no SearchResultRenderer functions handle the
  * rendering, then the document will be rendered by the 'list' renderer.
  */
-export type SearchResultRenderer = (doc: SearchDocument, position: number, baseUri: string, key: string) => any;
+export type SearchResultRenderer = (doc: SearchDocument, position: number, baseUri: string, key: string, hide360Link?: boolean) => any;
 
 type SearchResultsProps = {
   /**
