@@ -116,7 +116,9 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     baseUri: '',
     shareSearch: false,
     createAutoCompleteSignal: false,
-    shareMessage: 'Hey,\n\nI think you would be interested in these search results that I found using the most'
+    shareMessage: `Hey,
+    
+    I think you would be interested in these search results that I found using Attivio, a leader in cognitive search and knowledge discovery. Here is the link:`,
       + 'cognitive and intuitive search platform called Attivio. Here is the link:',
     subject: 'Search results I found using Attivio!',
     email: '',
