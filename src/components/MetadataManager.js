@@ -9,6 +9,10 @@ import SavedSearch from '../api/SavedSearch';
 import AuthUtils from '../util/AuthUtils';
 import Configurable from '../components/Configurable';
 
+type MetadataManagerProps = {};
+
+type MetadataManagerDefaultProps = {};
+
 type MetadataManagerState = {
   response?: QueryResponse,
   error?: string,
@@ -18,7 +22,8 @@ type MetadataManagerState = {
  * Component that manages all the metadata management, manages functions that require api calls
  * but are not relevant to be put in search
  */
-class MetadataManager extends React.Component<{}, {}, MetadataManagerState> {
+class MetadataManager extends React.Component<MetadataManagerDefaultProps, MetadataManagerProps, MetadataManagerState> {
+  static defaultProps: MetadataManagerDefaultProps = {};
   static childContextTypes = {
     metadataManager: PropTypes.any,
   };
@@ -36,6 +41,7 @@ class MetadataManager extends React.Component<{}, {}, MetadataManagerState> {
     (this: any).saveThisSearch = this.saveThisSearch.bind(this);
     (this: any).deleteThisSearch = this.deleteThisSearch.bind(this);
     (this: any).populateSavedSearches = this.populateSavedSearches.bind(this);
+    (this: any).updateSavedSearches = this.updateSavedSearches.bind(this);
   }
 
   state: MetadataManagerState;
@@ -146,12 +152,12 @@ class MetadataManager extends React.Component<{}, {}, MetadataManagerState> {
                 .then((updateResult: Response) => {
                   if (updateResult.ok) {
                     // Now need to refresh the update
-                    const refreshUri = `${this.baseUri}/rest/ingestApi/refresh/${sessionId}`;
+                    const refreshUri = `${baseUri}/rest/ingestApi/refresh/${sessionId}`;
                     fetch(refreshUri, { credentials: 'include' })
                       .then((refreshResult: Response) => {
                         if (refreshResult.ok) {
                           // Now need to close the session
-                          const disconnectUri = `${this.baseUri}/rest/ingestApi/disconnect/${sessionId}`;
+                          const disconnectUri = `${baseUri}/rest/ingestApi/disconnect/${sessionId}`;
                           fetch(disconnectUri, { credentials: 'include' })
                             .then((disconnectResult: Response) => {
                               if (disconnectResult.ok) {

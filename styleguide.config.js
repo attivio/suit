@@ -110,6 +110,7 @@ module.exports = {
           content: 'documentation/searchControls.md',
           components: () => {
             return [
+              'src/components/MetadataManager.js',
               'src/components/MiniSearchUI.js',
               'src/components/NavbarFilter.js',
               'src/components/NavbarResults.js',
@@ -270,6 +271,7 @@ module.exports = {
               'src/components/NetworkDiagram.js',
               'src/components/Notifiable.js',
               'src/components/ProfilePhoto.js',
+              'src/components/SavedSearchRenderer.js',
               'src/components/Scrollable.js',
               'src/components/SecondaryNavBar.js',
               'src/components/SeparatedList.js',
