@@ -35,11 +35,11 @@ class SavedSearchRenderer extends React.Component<
 > {
   static defaultProps: SavedSearchRendererDefaultProps = {};
 
+  static displayName = 'SavedSearchRenderer';
+
   static contextTypes = {
     searcher: PropTypes.any,
   };
-
-  static displayName = 'SavedSearch';
 
   constructor(props: SavedSearchRendererProps) {
     super(props);
@@ -49,7 +49,6 @@ class SavedSearchRenderer extends React.Component<
       showSaveSearchModal: false,
       savedSearchTitle: '',
       savedSearchList: [],
-      savedSearch: null,
     };
     (this: any).applySavedSearch = this.applySavedSearch.bind(this);
     (this: any).showSaveSearchModal = this.showSaveSearchModal.bind(this);
