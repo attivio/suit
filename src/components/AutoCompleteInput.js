@@ -24,7 +24,7 @@ type AutoCompleteInputProps = {
    * an array of objects which each contain a "label" property containing
    * the text of the suggestion.
    */
-  uri: string | null;
+  uri?: string;
   /**
    * The callback used when the user edits the text in the <input> element
    * or chooses an item from the suggestion menu. If a suggestion is chosen,

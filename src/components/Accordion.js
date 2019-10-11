@@ -29,7 +29,7 @@ type AccordionProps = {
    * The ID of the panel that should be the default open one. If not
    * set, the first panel's ID will be used.
    */
-  defaultPanelKey: string | null;
+  defaultPanelKey?: string;
 };
 
 /**

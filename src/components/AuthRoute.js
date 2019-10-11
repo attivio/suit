@@ -31,7 +31,7 @@ type AuthRouteProps = {
 };
 
 type AuthRouteDefaultProps = {
-  requiredRole: string | null;
+  requiredRole: null;
   location: any;
   authType: 'SAML' | 'XML' | 'NONE';
 };
