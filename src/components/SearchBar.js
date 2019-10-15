@@ -416,7 +416,8 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
             background: 'transparent',
           }}
         >
-          <Glyphicon glyph="search" style={{ color: 'white' }} />{' '}
+          <Glyphicon glyph="search" style={{ color: 'white' }} />
+          {' '}
           <span className="attivio-globalmast-icon attivio-icon-arrow-down-blue" />
         </Dropdown.Toggle>
         <Dropdown.Menu
@@ -435,11 +436,6 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
 
     const subject = this.props.subject || '';
     const emailAddress = this.props.email || '';
-    const shareSearch = this.props.allowShareSearch ? (
-      <ShareSearch shareMessage={this.props.shareMessage} subject={subject} email={emailAddress} />
-    ) : (
-      ''
-    );
 
     return (
       <div className={containerClass}>
@@ -450,9 +446,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
               <a onClick={this.startSpeechRecognition} role="button" tabIndex={0}>
                 <span className="attivio-globalmast-search-mic-icon attivio-icon-microphone" style={micStyle} />
               </a>
-            ) : (
-              ''
-            )}
+            ) : ''}
             <button
               type="submit"
               className="btn attivio-globalmast-search-submit"
@@ -467,7 +461,8 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
           {suggestionList}
         </div>
         {languageControl}
-        {shareSearch}
+        {this.props.allowShareSearch &&
+        <ShareSearch shareMessage={this.props.shareMessage} subject={subject} email={emailAddress} />}
       </div>
     );
   }
