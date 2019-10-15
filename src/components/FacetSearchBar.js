@@ -243,7 +243,7 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
    */
   doSearch() {
     const callback = this.handleSearchResults;
-    this.doConfiguredSearch(`${this.state.facetValue}*`, this.props.maxValues * 2, callback, this.context.searcher); // `
+    this.doConfiguredSearch(`${this.state.facetValue}*`, this.props.maxValues * 2, callback, this.context.searcher);
   }
 
   /**
