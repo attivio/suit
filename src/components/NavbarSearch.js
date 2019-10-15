@@ -46,6 +46,15 @@ export default class NavbarSearch extends React.Component<NavbarSearchDefaultPro
     }
   }
 
+  doKeyPress = (e: Event) => {
+    // If the user presses enter, do the search
+    if (e.target instanceof HTMLInputElement) {
+      if (e.keyCode === 13) {
+        this.onSearch();
+      }
+    }
+  }
+
   button: ?HTMLDivElement;
 
   render() {
@@ -60,6 +69,7 @@ export default class NavbarSearch extends React.Component<NavbarSearchDefaultPro
             placeholder={this.props.placeholder}
             value={this.props.value}
             onChange={this.onChange}
+            onKeyDown={this.doKeyPress}
           />
         </div>
         <button
