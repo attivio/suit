@@ -7,7 +7,6 @@ import NavbarSearch from '../components/NavbarSearch';
 import SearchResults from '../components/SearchResults';
 import Scrollable from '../components/Scrollable';
 import SearchResultsCount from '../components/SearchResultsCount';
-import ObjectUtils from '../util/ObjectUtils';
 import QueryResponse from '../api/QueryResponse';
 
 type MiniSearchUIProps = {
@@ -20,30 +19,28 @@ type MiniSearchUIProps = {
    * Optional callback to handle searching if not using the context's
    * Searcher component to do the searching (otherwise the searcher's onSearch method is used).
    */
-  onSearch: null | (q: string) => void;
+  onSearch?: (q: string) => void;
   /**
    * Optional callback to handle updating the query string if not using the context's
    * Searcher component to do the searching (otherwise the searcher's onSearch method is used).
    */
-  updateQuery: null | (q: string) => void;
+  updateQuery?: (q: string) => void;
   /**
    * Optional query response to render if not using the context's
    * Searcher component to do the searching (otherwise the searcher's state's response is used).
    */
-  response: QueryResponse | null;
+  response?: QueryResponse | null;
   /**
    * Optional query error to render if not using the context's
    * Searcher component to do the searching (otherwise the searcher's state's error is used).
    */
-  error: string | null;
+  error?: string | null;
 };
 
 type MiniSearchUIDefaultProps = {
   scale: number;
-  onSearch: null | (q: string) => void;
-  updateQuery: null | (q: string) => void;
-  response: QueryResponse | null;
-  error: string | null;
+  response: null;
+  error: null;
 };
 
 type MiniSearchUIState = {
@@ -59,8 +56,6 @@ type MiniSearchUIState = {
 export default class MiniSearchUI extends React.Component<MiniSearchUIDefaultProps, MiniSearchUIProps, MiniSearchUIState> {
   static defaultProps = {
     scale: 1.0,
-    onSearch: null,
-    updateQuery: null,
     response: null,
     error: null,
   };

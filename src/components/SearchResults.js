@@ -59,9 +59,9 @@ type SearchResultsProps = {
    * A response can be passed in from custom searches if you don't want
    *  to use the response on the searcher in this.context
    */
-  response: QueryResponse | null;
+  response?: QueryResponse | null;
   /** Offset of search results for long scrolling or pagination */
-  offset: number;
+  offset?: number;
 };
 
 type SearchResultsDefaultProps = {
@@ -70,7 +70,7 @@ type SearchResultsDefaultProps = {
   showScores: boolean;
   showTags: boolean;
   showRatings: boolean;
-  response: QueryResponse | null;
+  response: null;
   offset: number;
   style: any;
 };
@@ -100,7 +100,7 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
   renderResults() {
     const searcher = this.context.searcher;
     const response = this.props.response !== null ? this.props.response : searcher.state.response;
-    const offset = this.props.response ? this.props.offset : searcher.state.resultsOffset;
+    const offset = this.props.response && this.props.offset ? this.props.offset : searcher.state.resultsOffset;
 
     let formats: Array<SearchResultRenderer> = [];
     if (searcher.state.debug) {

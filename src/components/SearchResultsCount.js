@@ -37,29 +37,23 @@ export default class SearchResultsCount extends React.Component<SearchResultsCou
 
   static displayName = 'SearchResultsCount';
 
-  render() {
-    let response;
-    let message;
+  renderMessage = () => {
+    const { response, error } = this.props;
+    const { searcher } = this.context;
+    const derivedResponse = response || searcher.state.response;
+
     let countMessage;
-    if (this.props.response) {
-      response = this.props.response;
-    } else {
-      const searcher = this.context.searcher;
-      if (searcher) {
-        response = searcher.state.response;
-      }
-    }
-    if (response) {
-      const count = response.totalHits;
-      if (count === 0) {
+
+    if (derivedResponse) {
+      const { totalHits: count } = response;
+      if (count === 0 || typeof count !== 'number') {
         countMessage = 'No results found';
       } else if (count === 1) {
         countMessage = '1 result found';
       } else {
-        const countStr = Number(count).toLocaleString();
-        countMessage = `${countStr} results found`;
+        countMessage = `${count} results found`;
       }
-      message = (
+      return (
         <span>
           {countMessage}
           <span style={{ fontWeight: 'normal' }}>
@@ -68,18 +62,20 @@ export default class SearchResultsCount extends React.Component<SearchResultsCou
           </span>
         </span>
       );
-    } else if (this.props.error) {
-      message = `Error: ${this.props.error}`;
-    } else if (this.context.searcher.state.error) {
+    } else if (error) {
+      return `Error: ${error}`;
+    } else if (searcher.state.error) {
         // got an error...
-      message = `Error: ${this.context.searcher.state.error}`;
-    } else {
-      message = ''; // Not yet searched...
+      return `Error: ${searcher.state.error}`;
     }
+    // Not yet searched...
+    return '';
+  }
 
+  render() {
     return (
       <div className="attivio-globalmastnavbar-results">
-        {message}
+        {this.renderMessage()}
       </div>
     );
   }
