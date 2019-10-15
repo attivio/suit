@@ -61,7 +61,7 @@ type SearchBarProps = {
   /**
    * If set, saved search feature is available for use, displayed next to the SearchBar.
    */
-  allowSavedSearch?: boolean,
+  allowSavedSearch?: boolean;
   /**
    * If set, a new signal of this type would be added when an autocomplete item is selected.
    */
@@ -402,12 +402,6 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
         />
       );
 
-    const SavedSearchComp = this.props.allowSavedSearch ? (
-      <SavedSearchRenderer />
-    ) : (
-      ''
-    );
-
     return (
       <div className={containerClass}>
         <div className="attivio-globalmast-search" role="search">
@@ -430,7 +424,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
           {suggestionList}
         </div>
         {languageControl}
-        {SavedSearchComp}
+        {this.props.allowSavedSearch && <SavedSearchRenderer />}
       </div>
     );
   }

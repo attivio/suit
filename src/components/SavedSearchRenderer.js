@@ -41,26 +41,15 @@ class SavedSearchRenderer extends React.Component<
     searcher: PropTypes.any,
   };
 
-  constructor(props: SavedSearchRendererProps) {
-    super(props);
-    this.state = {
-      response: undefined,
-      error: undefined,
-      showSaveSearchModal: false,
-      savedSearchTitle: '',
-      savedSearchList: [],
-    };
-    (this: any).applySavedSearch = this.applySavedSearch.bind(this);
-    (this: any).showSaveSearchModal = this.showSaveSearchModal.bind(this);
-    (this: any).hideSaveSearchModal = this.hideSaveSearchModal.bind(this);
-    (this: any).searchTitleEntered = this.searchTitleEntered.bind(this);
-    (this: any).renderSavedQuery = this.renderSavedQuery.bind(this);
-    (this: any).renderSavedQueryHeader = this.renderSavedQueryHeader.bind(this);
-  }
+  state: SavedSearchRendererState = {
+    response: undefined,
+    error: undefined,
+    showSaveSearchModal: false,
+    savedSearchTitle: '',
+    savedSearchList: [],
+  };
 
-  state: SavedSearchRendererState;
-
-  componentWillMount() {
+  componentMount() {
     this.context.metadataManager.getSavedSearches();
     this.setState({
       savedSearchList: this.context.metadataManager.state.savedSearchList,
@@ -68,44 +57,41 @@ class SavedSearchRenderer extends React.Component<
   }
 
   // applies the saved search which includes a query and facet filters
-  applySavedSearch(query: string) {
-    const { location } = this.props;
-    this.props.history.push({
-      pathname: location.pathname,
-      search: query,
+  applySavedSearch = (search: string) => {
+    const {
+      location: { pathname },
+      history,
+    } = this.props;
+    history.push({
+      pathname,
+      search,
     });
-  }
+  };
 
-  searchTitleEntered(e: Event) {
+  searchTitleEntered = (e: Event) => {
     if (e.target instanceof HTMLInputElement) {
       this.setState({
         savedSearchTitle: e.target.value,
       });
     }
-  }
+  };
 
   // hides the modal
-  hideSaveSearchModal() {
+  hideSaveSearchModal = () => {
     this.setState({ showSaveSearchModal: false });
-  }
+  };
 
   // sets the query from searcher as the search title and shows the modal
-  showSaveSearchModal() {
+  showSaveSearchModal = () => {
     this.setState({
       savedSearchTitle: this.context.searcher.state.query,
       showSaveSearchModal: true,
     });
-  }
+  };
 
-  renderSavedQueryHeader() {
+  renderSavedQueryHeader = () => {
     return (
-      <MenuItem
-        key="saveQueryHeader"
-        onSelect={() => {
-          this.showSaveSearchModal();
-        }}
-        id="saveQueryHeader"
-      >
+      <MenuItem key="saveQueryHeader" onSelect={this.showSaveSearchModal} id="saveQueryHeader">
         <span
           style={{
             fontSize: '14px',
@@ -116,9 +102,9 @@ class SavedSearchRenderer extends React.Component<
         </span>
       </MenuItem>
     );
-  }
+  };
 
-  renderSavedQueryList() {
+  renderSavedQueryList = () => {
     return this.state.savedSearchList.length > 0 ? (
       this.state.savedSearchList.map((e) => {
         return (
@@ -157,10 +143,10 @@ class SavedSearchRenderer extends React.Component<
         </span>
       </MenuItem>
     );
-  }
+  };
 
-  renderSavedQuery() {
-    const savedQueryDivider = (
+  renderSavedQueryDivider = () => {
+    return (
       <div
         id="recentlySavedSearchesLabel"
         style={{
@@ -174,7 +160,9 @@ class SavedSearchRenderer extends React.Component<
         <b>Recently saved searches:</b>
       </div>
     );
+  }
 
+  renderSavedQuery = () => {
     return (
       <Dropdown id="saveQueryDropDown" style={{ display: 'inline-block' }}>
         <Dropdown.Toggle
@@ -197,13 +185,13 @@ class SavedSearchRenderer extends React.Component<
         <Dropdown.Menu>
           {this.renderSavedQueryHeader()}
           <hr style={{ marginTop: '2px', marginBottom: '2px', color: '#003c7e' }} />
-          {savedQueryDivider}
+          {this.renderSavedQueryDivider()}
           <hr style={{ marginTop: '2px', marginBottom: '2px', color: '#003c7e' }} />
           {this.renderSavedQueryList()}
         </Dropdown.Menu>
       </Dropdown>
     );
-  }
+  };
 
   renderSaveSearchModal() {
     return (

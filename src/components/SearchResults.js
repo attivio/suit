@@ -98,7 +98,11 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
   static displayName = 'SearchResults';
 
   renderResults() {
-    const { baseUri, format, hide360Link } = this.props;
+    const {
+      baseUri,
+      format,
+      hide360Link,
+    } = this.props;
 
     const { searcher = null } = this.context;
     const response = searcher && searcher.state ? searcher.state.response : null;

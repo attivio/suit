@@ -33,8 +33,7 @@ class MetadataManager extends React.Component<MetadataManagerDefaultProps, Metad
   constructor(props: MetadataManagerProps) {
     super(props);
     this.state = {
-      response: undefined,
-      error: undefined,
+      error: '',
       savedSearchList: [],
     };
     (this: any).getSavedSearches = this.getSavedSearches.bind(this);
