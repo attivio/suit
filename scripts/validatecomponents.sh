@@ -17,7 +17,7 @@ compsAllowedToNotHaveDisplayName=("Configurable")
 # Note that configurable creates its display name dynamically using the name of the component it wraps...
 compsAllowedToNotHaveTests=()
 compsAllowedToNotHaveExamples=("AuthRoute" "AutoCompleteInput" "Configurable" "Configuration" "Logger")
-apisAllowedToNotHaveTests=("AbstractDocument" "DataPoint" "DataSet" "DateFormat" "DocumentMode" "FacetFilter" "FieldNames" "GraphEdge" "GraphNode" "Placement" "Position" "QueryResponse" "SavedSearch" "SearchDocument" "SearchFacet" "SearchFacetBucket" "SearchFacetStatistics" "SearchFeedback" "SearchPlacement" "SignalData" "Signals" "SimpleIngestDocument" "SimplePrincipal" "SimpleQueryRequest")
+apisAllowedToNotHaveTests=("AbstractDocument" "DataPoint" "DataSet" "DateFormat" "DocumentMode" "FacetFilter" "FieldNames" "GraphEdge" "GraphNode" "MetadataManager" "Placement" "Position" "QueryResponse" "SavedSearch" "SearchDocument" "SearchFacet" "SearchFacetBucket" "SearchFacetStatistics" "SearchFeedback" "SearchPlacement" "SignalData" "Signals" "SimpleIngestDocument" "SimplePrincipal" "SimpleQueryRequest")
 utilsAllowedToNotHaveTests=("ElasticToQueryResponse" "FetchUtils" "KnowledgeGraphUtils" "QueryRequestToElastic" "QueryRequestToSolr" "SolrToQueryResponse")
 
 

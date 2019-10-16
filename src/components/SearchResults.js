@@ -18,20 +18,14 @@ import SearchDocument from '../api/SearchDocument';
  * rendered by this function. If no SearchResultRenderer functions handle the
  * rendering, then the document will be rendered by the 'list' renderer.
  */
-export type SearchResultRenderer = (
-  doc: SearchDocument,
-  position: number,
-  baseUri: string,
-  key: string,
-  hide360Link?: boolean,
-) => any;
+export type SearchResultRenderer = (doc: SearchDocument, position: number, baseUri: string, key: string, hide360Link?: boolean) => any;
 
 type SearchResultsProps = {
   /**
    * Optional. The location of the node through which to interact with Attivio.
    * Defaults to the value in the configuration.
    */
-  baseUri: string,
+  baseUri: string;
   /**
    * This controls how the document is rendered. If can be a single SearchResultRenderer or an
    * array of SearchResultRenderers. If an array, then each function is called in turn
@@ -49,31 +43,31 @@ type SearchResultsProps = {
    * are also three string values you can pass to the format property, "list," "simple," and "debug,"
    * which result in a single SearchResultRenderer that produces a result of that format.
    */
-  format: Array<SearchResultRenderer> | SearchResultRenderer | 'list' | 'simple' | 'debug',
+  format: Array<SearchResultRenderer> | SearchResultRenderer | 'list' | 'simple' | 'debug';
   /**
    * Whether or not the documents’ relevancy scores should be displayed.
    * Defaults to false.
    */
-  showScores?: boolean,
+  showScores?: boolean;
   /** Whether tags should be shown in the UI or not. Defaults to true. */
-  showTags?: boolean,
+  showTags?: boolean;
   /** Whether star ratings should be shown in the UI or not. Defaults to true. */
-  showRatings?: boolean,
+  showRatings?: boolean;
   /**
    * Whether or not to show 360 view link on search result. Defaults to false.
    */
-  hide360Link?: boolean,
+  hide360Link?: boolean;
   /** A style to apply to the results list */
-  style: any,
+  style: any;
 };
 
 type SearchResultsDefaultProps = {
-  baseUri: string,
-  format: Array<SearchResultRenderer> | SearchResultRenderer | 'list' | 'simple' | 'debug',
-  showScores: boolean,
-  showTags: boolean,
-  showRatings: boolean,
-  style: any,
+  baseUri: string;
+  format: Array<SearchResultRenderer> | SearchResultRenderer | 'list' | 'simple' | 'debug';
+  showScores: boolean;
+  showTags: boolean;
+  showRatings: boolean;
+  style: any;
 };
 
 /**
@@ -158,7 +152,9 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
   }
 
   render() {
-    const { style: baseStyle = {} } = this.props;
+    const {
+      style: baseStyle = {},
+    } = this.props;
 
     const style = {
       ...baseStyle,
@@ -166,6 +162,10 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
       paddingLeft: 0,
     };
 
-    return <ul style={style}>{this.renderResults()}</ul>;
+    return (
+      <ul style={style}>
+        {this.renderResults()}
+      </ul>
+    );
   }
 }

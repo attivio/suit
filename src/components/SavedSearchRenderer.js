@@ -6,8 +6,10 @@ import { withRouter } from 'react-router-dom';
 import { Dropdown, Glyphicon, MenuItem, Button, Modal, Row, Col } from 'react-bootstrap';
 
 import Configurable from './Configurable';
+import MetadataManager from '../api/MetadataManager';
 import QueryResponse from '../api/QueryResponse';
 import SavedSearch from '../api/SavedSearch';
+import AuthUtils from '../util/AuthUtils';
 
 type SavedSearchRendererProps = {
   history: PropTypes.object.isRequired,
@@ -22,6 +24,7 @@ type SavedSearchRendererState = {
   showSaveSearchModal: boolean,
   savedSearchTitle: string,
   savedSearchList: Array<SavedSearch>,
+  searchToSave: SavedSearch,
 };
 
 /**
@@ -41,39 +44,80 @@ class SavedSearchRenderer extends React.Component<
     searcher: PropTypes.any,
   };
 
-  state: SavedSearchRendererState = {
-    response: undefined,
-    error: undefined,
-    showSaveSearchModal: false,
-    savedSearchTitle: '',
-    savedSearchList: [],
-  };
-
-  componentMount() {
-    this.context.metadataManager.getSavedSearches();
-    this.setState({
-      savedSearchList: this.context.metadataManager.state.savedSearchList,
-    });
+  constructor(props: SavedSearchRendererProps) {
+    super(props);
+    this.metadataManager = new MetadataManager(this.context.searcher.search);
   }
+
+  state: SavedSearchRendererState;
+
+  componentDidMount() {
+    this.metadataManager.getSavedSearches(this.responseHandler);
+  }
+
+  metadataManager: MetadataManager;
+
+  // default callback to handle query responses
+  responseHandler = (response: Array<SavedSearch> | null, error: string | null) => {
+    if (response) {
+      this.setState({
+        savedSearchList: response,
+        error: '',
+      });
+    } else if (error) {
+      this.setState({
+        savedSearchList: [],
+        error,
+      });
+    }
+  };
 
   // applies the saved search which includes a query and facet filters
   applySavedSearch = (search: string) => {
-    const {
-      location: { pathname },
-      history,
-    } = this.props;
+    const { location: { pathname }, history } = this.props;
     history.push({
       pathname,
       search,
     });
   };
 
+  // steps to perform when a new title is entered as a label for a saved search
   searchTitleEntered = (e: Event) => {
+    const ss = new SavedSearch();
     if (e.target instanceof HTMLInputElement) {
+      ss.title = e.target.value;
+      const { searcher } = this.context;
+      const loggedDateTime = new Date().toISOString();
+      const username = AuthUtils.getLoggedInUserId();
+      ss.id = username.concat(loggedDateTime);
+      ss.query = searcher.generateLocationQueryStringFromState(this.context.searcher.state);
+      ss.queryString = searcher.state.query;
       this.setState({
-        savedSearchTitle: e.target.value,
+        savedSearchTitle: ss.title,
+        searchToSave: ss,
       });
     }
+  };
+
+  // saves a search query into the index
+  saveASearch = () => {
+    const ss = new SavedSearch();
+    if (!this.state.searchToSave) {
+      const { searcher } = this.context;
+      const loggedDateTime = new Date().toISOString();
+      const username = AuthUtils.getLoggedInUserId();
+      ss.title = this.context.searcher.state.query;
+      ss.id = username.concat(loggedDateTime);
+      ss.query = searcher.generateLocationQueryStringFromState(this.context.searcher.state);
+      ss.queryString = searcher.state.query;
+      this.setState({
+        savedSearchTitle: ss.title,
+        searchToSave: ss,
+      });
+    }
+    this.setState({ showSaveSearchModal: false }, () => {
+      this.metadataManager.saveThisSearch(this.state.searchToSave, this.responseHandler);
+    });
   };
 
   // hides the modal
@@ -106,31 +150,33 @@ class SavedSearchRenderer extends React.Component<
 
   renderSavedQueryList = () => {
     return this.state.savedSearchList.length > 0 ? (
-      this.state.savedSearchList.map((e) => {
-        return (
-          <MenuItem key={e.id}>
-            <span // eslint-disable-line
-              onClick={() => {
-                this.applySavedSearch(e.query);
-              }}
-              title={e.title}
-            >
-              {e.titleLabel}
-            </span>
-            <span // eslint-disable-line
-              onClick={() => {
-                this.context.metadataManager.deleteThisSearch(e.id);
-              }}
-              style={{
-                float: 'right',
-                fontWeight: 'bold',
-              }}
-            >
-              &times;
-            </span>
-          </MenuItem>
-        );
-      })
+      this.state.savedSearchList.map(savedSearchItem => (
+        <MenuItem key={savedSearchItem.id}>
+          <span
+            onClick={() => {
+              this.applySavedSearch(savedSearchItem.query);
+            }}
+            title={savedSearchItem.title}
+            role="button"
+            tabIndex={0}
+          >
+            {savedSearchItem.titleLabel}
+          </span>
+          <span
+            onClick={() => {
+              this.metadataManager.deleteThisSearch(savedSearchItem.id, this.responseHandler);
+            }}
+            style={{
+              float: 'right',
+              fontWeight: 'bold',
+            }}
+            role="button"
+            tabIndex={0}
+          >
+            &times;
+          </span>
+        </MenuItem>
+      ))
     ) : (
       <MenuItem key="noSavedSearches">
         <span
@@ -193,7 +239,7 @@ class SavedSearchRenderer extends React.Component<
     );
   };
 
-  renderSaveSearchModal() {
+  renderSaveSearchModal = () => {
     return (
       <Modal show={this.state.showSaveSearchModal} onHide={this.hideSaveSearchModal}>
         <Modal.Header closeButton>
@@ -218,7 +264,7 @@ class SavedSearchRenderer extends React.Component<
           <Button onClick={this.hideSaveSearchModal}>Close</Button>
           <Button
             onClick={() => {
-              this.context.metadataManager.saveThisSearch(this.hideSaveSearchModal);
+              this.saveASearch();
             }}
           >
             Save Search

@@ -110,7 +110,6 @@ module.exports = {
           content: 'documentation/searchControls.md',
           components: () => {
             return [
-              'src/components/MetadataManager.js',
               'src/components/MiniSearchUI.js',
               'src/components/NavbarFilter.js',
               'src/components/NavbarResults.js',
