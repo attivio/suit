@@ -457,8 +457,10 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       restParams.set('facet.ffcount', [this.props.facetFinderCount.toString(10)]);
     }
     restParams.set('join.rollup', [this.props.joinRollupMode]);
-    if ((this.props.businessCenterProfile && this.props.businessCenterProfile.length > 0) || (this.state.profile && this.state.profile.length > 0)) {
-      const profiles = this.state.profile && this.state.profile.length > 0 ? [this.state.profile] : [this.props.businessCenterProfile];
+    if ((this.props.businessCenterProfile && this.props.businessCenterProfile.length > 0)
+    || (this.state.profile && this.state.profile.length > 0)) {
+      const profiles = this.state.profile && this.state.profile.length > 0 ?
+      [this.state.profile] : [this.props.businessCenterProfile];
       restParams.set('abc.enabled', ['true']);
       restParams.set('searchProfile', profiles);
     }
