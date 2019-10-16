@@ -67,7 +67,7 @@ export default class NavbarWorkflowSelector extends React.Component<
     let currentWorkflow = 'search';
     const searcher = this.context.searcher;
     if (searcher) {
-      currentWorkflow = searcher.state.searchWorkflow;
+      currentWorkflow = searcher.state.selectedSearchWorkflow;
     }
 
     const menuItems = [];

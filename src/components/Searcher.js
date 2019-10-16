@@ -208,7 +208,8 @@ type SearcherState = {
   resultsOffset: number;
   debug: boolean;
   queryTimestamp: number;
-  profile: string | null,
+  profile: string | null;
+  selectedSearchWorkflow: string | null;
 };
 
 /**
@@ -266,6 +267,7 @@ type SearcherState = {
  *       relevancyModels
  *       debug
  *       searchProfile
+ *       selectedSearchWorklow
  */
 class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, SearcherState> {
   static defaultProps = {
@@ -398,6 +400,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       debug: this.props.debug,
       queryTimestamp: 0,
       profile: this.props.businessCenterProfile,
+      selectedSearchWorkflow: this.props.searchWorkflow,
     };
   }
 
@@ -417,7 +420,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    */
   getQueryRequest() {
     const qr = new SimpleQueryRequest();
-    qr.workflow = this.props.searchWorkflow;
+    qr.workflow = this.state.selectedSearchWorkflow || this.props.searchWorkflow;
     qr.query = this.state.query;
     qr.queryLanguage = this.state.queryLanguage;
     qr.rows = this.state.resultsPerPage;
@@ -454,8 +457,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       restParams.set('facet.ffcount', [this.props.facetFinderCount.toString(10)]);
     }
     restParams.set('join.rollup', [this.props.joinRollupMode]);
-    if (this.props.businessCenterProfile || this.state.profile) {
-      const profiles = this.state.profile ? [this.state.profile] : [this.props.businessCenterProfile];
+    if ((this.props.businessCenterProfile && this.props.businessCenterProfile.length > 0) || (this.state.profile && this.state.profile.length > 0)) {
+      const profiles = this.state.profile && this.state.profile.length > 0 ? [this.state.profile] : [this.props.businessCenterProfile];
       restParams.set('abc.enabled', ['true']);
       restParams.set('searchProfile', profiles);
     }
@@ -509,6 +512,12 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   setSearchProfile = (profile: string) => {
     this.updateStateResetAndSearch({
       profile,
+    });
+  }
+
+  setSearchWorkflow = (workflow: string) => {
+    this.updateStateResetAndSearch({
+      selectedSearchWorkflow: workflow,
     });
   }
 
@@ -603,6 +612,9 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     if (state.profile && state.profile.length > 0) {
       basicState.profile = state.profile;
     }
+    if (state.selectedSearchWorkflow && state.selectedSearchWorkflow.length > 0) {
+      basicState.selectedSearchWorkflow = state.selectedSearchWorkflow;
+    }
     if (state.debug !== this.props.debug) {
       basicState.debug = state.debug;
     }
@@ -620,6 +632,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         originalParsed.delete('sort');
         originalParsed.delete('relevancyModels');
         originalParsed.delete('profile');
+        originalParsed.delete('selectedSearchWorkflow');
         originalParsed.delete('debug');
       }
       // Add any leftover fields back in to the basic state
@@ -716,11 +729,14 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       relevancyModels = [];
     }
 
-    let businessCenterProfile = 'Default';
+    let businessCenterProfile = this.props.businessCenterProfile;
     if (parsed.profile) {
       businessCenterProfile = parsed.profile;
-    } else if (this.props.businessCenterProfile) {
-      businessCenterProfile = this.props.businessCenterProfile;
+    }
+
+    let selectedSearchWorkflow = this.props.searchWorkflow;
+    if (parsed.selectedSearchWorkflow) {
+      selectedSearchWorkflow = parsed.selectedSearchWorkflow;
     }
 
     // LJV TODO
@@ -744,6 +760,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       sort: [sort],
       relevancyModels,
       profile: businessCenterProfile,
+      selectedSearchWorkflow,
       debug,
       haveSearched: this.state.haveSearched, // Make sure we don't change this
       queryTimestamp: 0,
