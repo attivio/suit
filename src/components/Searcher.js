@@ -208,6 +208,7 @@ type SearcherState = {
   resultsOffset: number;
   debug: boolean;
   queryTimestamp: number;
+  profile: string | null,
 };
 
 /**
@@ -396,6 +397,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       resultsOffset: 0,
       debug: this.props.debug,
       queryTimestamp: 0,
+      profile: this.props.businessCenterProfile,
     };
   }
 
@@ -452,8 +454,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       restParams.set('facet.ffcount', [this.props.facetFinderCount.toString(10)]);
     }
     restParams.set('join.rollup', [this.props.joinRollupMode]);
-    if (this.props.businessCenterProfile) {
-      const profiles = [this.props.businessCenterProfile];
+    if (this.props.businessCenterProfile || this.state.profile) {
+      const profiles = this.state.profile ? [this.state.profile] : [this.props.businessCenterProfile];
       restParams.set('abc.enabled', ['true']);
       restParams.set('searchProfile', profiles);
     }
@@ -501,6 +503,12 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       facetFilters: [],
       geoFilters: [],
       query,
+    });
+  }
+
+  setSearchProfile = (profile: string) => {
+    this.updateStateResetAndSearch({
+      profile,
     });
   }
 
@@ -592,6 +600,9 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     if (state.relevancyModels && state.relevancyModels.length > 0) {
       basicState.relevancyModels = state.relevancyModels;
     }
+    if (state.profile && state.profile.length > 0) {
+      basicState.profile = state.profile;
+    }
     if (state.debug !== this.props.debug) {
       basicState.debug = state.debug;
     }
@@ -608,6 +619,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         originalParsed.delete('facetFilters');
         originalParsed.delete('sort');
         originalParsed.delete('relevancyModels');
+        originalParsed.delete('profile');
         originalParsed.delete('debug');
       }
       // Add any leftover fields back in to the basic state
@@ -704,6 +716,13 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       relevancyModels = [];
     }
 
+    let businessCenterProfile = 'Default';
+    if (parsed.profile) {
+      businessCenterProfile = parsed.profile;
+    } else if (this.props.businessCenterProfile) {
+      businessCenterProfile = this.props.businessCenterProfile;
+    }
+
     // LJV TODO
     // Get the business center profile to use.
     // DEFAULT: none
@@ -724,6 +743,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       facetFilters,
       sort: [sort],
       relevancyModels,
+      profile: businessCenterProfile,
       debug,
       haveSearched: this.state.haveSearched, // Make sure we don't change this
       queryTimestamp: 0,
