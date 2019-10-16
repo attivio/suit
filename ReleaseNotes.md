@@ -6,6 +6,39 @@ If you are _publishing_ a new build of the library that has changes users will n
 
 If you are _using_ the SUIT library and want to upgrade to a newer version, please check here to see if there have been changes that will affect your project and, if there are, what you will need to do about them.
 
+## Version 1.0.7
+
+Adds support for `hide360Link` option to `<SearchResults />` which omits the 360 link entirely from search result if specified. Non-breaking change.
+
+## Version 1.0.6
+
+Fixes regression where using a number type in `<SearchFacetBuckets />` caused an error.
+
+## Version 1.0.5
+
+Fixes regression that caused the location pointer in the center of the map to be be miscalculated.
+Adds logic to check if a facet is already added to the filter before adding a new facet filter.
+
+## Version 1.0.4
+
+Do not use. This version is unavailable via npm due to a publishing error.
+
+## Version 1.0.3
+
+The when a user chooses an autocomplete suggestion in the SearchBox component, the string is now filtered to remove punctuation that would interfere with it being used as a Simple Query Language query.
+
+## Version 1.0.2
+
+Signals can now be added when promotions are clicked (requires a configuration change).
+
+## Version 1.0.1
+
+* Update facet components to not render applied filters.
+* Ensure promotions are rendered even if there are no search results.
+* Allow adding signals when facet filters are applied or removed (requires a configuration change).
+* Fix issue with the Mabpox facet component where points were not showing up when running with Attivio 5.6.1.
+* Fix the build script to use the `npm ci` command instead of `npm install` and documented this as the recommended behavior.
+
 ## Version 1.0.0
 
 Updates to react v.16.8.6.
