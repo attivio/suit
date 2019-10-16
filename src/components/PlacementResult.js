@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Card from './Card';
 
@@ -34,12 +35,55 @@ export default class PlacementResult extends React.Component<PlacementResultDefa
 
   static displayName = 'PlacementResult';
 
+  static contextTypes = {
+    searcher: PropTypes.any,
+  };
+
+  onPromotionClick = () => {
+    const { linkUrl, linkText, imageUrl } = this.props;
+    const searcher = this.context.searcher;
+    if (!searcher) {
+      return;
+    }
+    // The docId for the signal is of the format:
+    // '{Display Text} - {Destination Link}' -- if the promotion is Link
+    // '{Image URL} - {Destination Link}' -- if the promotion is Image
+    // The docOrdinal for link promotion is 1 and image promotion is 2
+    const signalDocId = imageUrl ? `${imageUrl} - ${linkUrl || ''}` : `${linkText || ''} - ${linkUrl || ''}`;
+    const signalDocOrdinal = imageUrl ? 2 : 1;
+    searcher.addPromotionSignal(signalDocId, signalDocOrdinal);
+  }
+
+  renderMarkupIframe() {
+    const getBlobURL = (code) => {
+      const blob = new Blob([code], { type: 'text/html' });
+      return URL.createObjectURL(blob);
+    };
+
+    const source = `
+      <html>
+        <body>
+          ${this.props.markup || ''}
+        </body>
+      </html>
+    `;
+    const iframeSource = getBlobURL(source);
+
+    return (
+      <iframe
+        title="Promotions frame"
+        style={{ margin: '0px', border: '0px', width: '100%', height: '100%', frameBorder: '0', overflow: 'hidden' }}
+        src={iframeSource}
+      />
+    );
+  }
+
   render() {
     if (this.props.markup) {
       return (
-        <Card style={{ marginBottom: '10px' }}>
+        <Card style={{ marginBottom: '10px', border: '0px', padding: '0px' }}>
           {
-            <div dangerouslySetInnerHTML={{ __html: this.props.markup }} /> // eslint-disable-line react/no-danger
+            this.renderMarkupIframe()
           }
         </Card>
       );
@@ -59,7 +103,7 @@ export default class PlacementResult extends React.Component<PlacementResultDefa
     return (
       <Card style={{ marginBottom: '10px' }}>
         {this.props.linkUrl ? (
-          <a href={this.props.linkUrl} >
+          <a href={this.props.linkUrl} onClick={this.onPromotionClick} >
             {contents}
           </a>
         ) : contents}

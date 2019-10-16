@@ -14,18 +14,18 @@ describe('Test ObjectUtils', () => {
     };
     const sixthArray = [1, 3, randomObject];
     const seventhArray = [1, 3, randomObject];
-    expect(ObjectUtils.arrayEquals(firstArray, firstArray)).toBeTruthy();
-    expect(ObjectUtils.arrayEquals(firstArray, secondArray)).toBeFalsy();
-    expect(ObjectUtils.arrayEquals(firstArray, thirdArray)).toBeFalsy();
-    expect(ObjectUtils.arrayEquals(fourthArray, fourthArray)).toBeTruthy();
-    expect(ObjectUtils.arrayEquals(fourthArray, fifthArray)).toBeFalsy();
-    expect(ObjectUtils.arrayEquals(sixthArray, seventhArray)).toBeTruthy();
+    expect(ObjectUtils.deepEquals(firstArray, firstArray)).toBeTruthy();
+    expect(ObjectUtils.deepEquals(firstArray, secondArray)).toBeFalsy();
+    expect(ObjectUtils.deepEquals(firstArray, thirdArray)).toBeFalsy();
+    expect(ObjectUtils.deepEquals(fourthArray, fourthArray)).toBeTruthy();
+    expect(ObjectUtils.deepEquals(fourthArray, fifthArray)).toBeFalsy();
+    expect(ObjectUtils.deepEquals(sixthArray, seventhArray)).toBeTruthy();
   });
 
   it('Removes items from arrays', () => {
     const bigArray = ['Hello', 'Goodbye', 'What\'s Up?'];
     const smallerArray = ['Hello', 'What\'s Up?'];
-    expect(ObjectUtils.arrayEquals(ObjectUtils.removeItem(bigArray, 'Goodbye'), smallerArray)).toBeTruthy();
+    expect(ObjectUtils.deepEquals(ObjectUtils.removeItem(bigArray, 'Goodbye'), smallerArray)).toBeTruthy();
   });
 
   it('Does a deep equality comparison of objects', () => {
@@ -74,10 +74,10 @@ describe('Test ObjectUtils', () => {
     map3.set('firstName', 'Fred');
     map3.set('phoneNumber', '1-800-BYE-YALL');
 
-    expect(ObjectUtils.mapEquals(map1, map1)).toBeTruthy();
-    expect(ObjectUtils.mapEquals(map1, map2)).toBeFalsy();
-    expect(ObjectUtils.mapEquals(map1, map3)).toBeFalsy();
-    expect(ObjectUtils.mapEquals(map2, map3)).toBeFalsy();
+    expect(ObjectUtils.deepEquals(map1, map1)).toBeTruthy();
+    expect(ObjectUtils.deepEquals(map1, map2)).toBeFalsy();
+    expect(ObjectUtils.deepEquals(map1, map3)).toBeFalsy();
+    expect(ObjectUtils.deepEquals(map2, map3)).toBeFalsy();
   });
 
   it('Creates a JS object from a map', () => {
@@ -120,6 +120,6 @@ describe('Test ObjectUtils', () => {
   it('Removes items from arrays', () => {
     const bigArray = ['Hello', 'Goodbye', 'What\'s Up?'];
     const smallerArray = ['Hello', 'What\'s Up?'];
-    expect(ObjectUtils.arrayEquals(ObjectUtils.removeItem(bigArray, 'Goodbye'), smallerArray)).toBeTruthy();
+    expect(ObjectUtils.deepEquals(ObjectUtils.removeItem(bigArray, 'Goodbye'), smallerArray)).toBeTruthy();
   });
 });

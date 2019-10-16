@@ -4,7 +4,7 @@ import SearchDocument from '../../src/api/SearchDocument';
 
 // We don't need to lint the JSON data...
 /* eslint-disable quote-props,comma-dangle,quotes,max-len */
-const testDoc1 = {
+const testDoc = date => ({
   "fields": {
     ".score": [
       0.99652886
@@ -43,7 +43,7 @@ const testDoc1 = {
       "news"
     ],
     "date": [
-      "2017-08-14T16:03:48.000-0400"
+      date,
     ],
     "tags": [
       "Foo"
@@ -109,12 +109,15 @@ const testDoc1 = {
     "weight": 1.0,
     "ttl": true
   }
-};
+});
 
 describe('Test Comment', () => {
+  const date = new Date();
+  const testDoc1 = testDoc(date);
+  const formattedDate = Comment.createTimestamp(date);
   it('Can be constructed properly from a SearchDocument', () => {
     expect(Comment.fromDoc(SearchDocument.fromJson(testDoc1))).toEqual(
-      new Comment('docID1', 'Interesting!', 'Posted on Mon Aug 14 2017 at 8:03:48 PM GMT', 'Jack Donaghy')
+      new Comment('docID1', 'Interesting!', formattedDate, 'Jack Donaghy')
     );
   });
   it('Populates fields correctly when instantiated', () => {
@@ -125,7 +128,7 @@ describe('Test Comment', () => {
       'docID1'
     );
     expect(Comment.fromDoc(SearchDocument.fromJson(testDoc1)).timestamp).toEqual(
-      'Posted on Mon Aug 14 2017 at 8:03:48 PM GMT'
+      formattedDate
     );
     expect(Comment.fromDoc(SearchDocument.fromJson(testDoc1)).username).toEqual(
       'Jack Donaghy'

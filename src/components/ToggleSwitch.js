@@ -84,7 +84,6 @@ export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultPro
     } = this.props;
 
     const disabledClass = disabled ? 'disabled' : '';
-    const containerClass = `toggle-switch-container ${className || ''} ${disabledClass || ''}`;
 
     const onClassName = `toggle-switch toggle-switch-on ${on ? 'selected' : ''} ${noLabel ? '' : disabledClass}`;
     const offClassName = `toggle-switch toggle-switch-off ${on ? '' : 'selected'} ${disabledClass}`;

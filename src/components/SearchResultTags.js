@@ -24,7 +24,9 @@ type SearchResultTagsProps = {
   docId: string;
   /**
    * The label to show for the link to the 360 page for the document.
-   * Set to null to not show a link. Defaults to "Show 360° View."
+   * Defaults to "Show 360° View."
+   * Deprecated: Set to null to not show a link. Supported for backwards compatibility. Use `hide360Link`
+   *  to omit 360 link instead.
    */
   view360Label: string | null;
   /**
@@ -44,23 +46,28 @@ type SearchResultTagsProps = {
   comments?: boolean;
   /** Table field for the comment documents */
   commentsTable?: string;
+  /**
+   * Whether or not to show 360 page link. Defaults to false.
+   */
+  hide360Link?: boolean;
 };
 
 type SearchResultTagsDefaultProps = {
+  autoCompleteUri: string | null;
+  baseUri: string;
+  comments: boolean;
+  commentsTable: string;
   moreLikeThisQuery: string;
+  hide360Link: boolean;
   vertical: boolean;
   view360Label: string | null;
-  autoCompleteUri: string | null,
-  baseUri: string,
-  comments: boolean,
-  commentsTable: string,
 };
 
 type SearchResultTagsState = {
   adding: boolean;
   newTag: string;
-  tags: Array<string>;
   tagError: string | null;
+  tags: Array<string>;
   updating: boolean;
 };
 
@@ -77,13 +84,14 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
   };
 
   static defaultProps = {
-    moreLikeThisQuery: '',
-    vertical: false,
-    view360Label: 'Show 360\u00B0 View',
     autoCompleteUri: null,
     baseUri: '',
     comments: false,
     commentsTable: 'comments',
+    moreLikeThisQuery: '',
+    hide360Link: false,
+    vertical: false,
+    view360Label: 'Show 360\u00B0 View',
   };
 
   static displayName = 'SearchResultTags';
@@ -93,19 +101,10 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
     this.state = {
       adding: false,
       newTag: '',
-      tags: [...props.tags],
       tagError: null,
+      tags: [...props.tags],
       updating: false,
     };
-    (this: any).updateTags = this.updateTags.bind(this);
-    (this: any).removeTag = this.removeTag.bind(this);
-    (this: any).addTag = this.addTag.bind(this);
-    (this: any).updateNewTag = this.updateNewTag.bind(this);
-    (this: any).updateNewTagFromString = this.updateNewTagFromString.bind(this);
-    (this: any).keyUp = this.keyUp.bind(this);
-    (this: any).onEscape = this.onEscape.bind(this);
-    (this: any).moreLikeThis = this.moreLikeThis.bind(this);
-    (this: any).show360View = this.show360View.bind(this);
   }
 
   state: SearchResultTagsState;
@@ -119,9 +118,11 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
 
   inputField: ?HTMLInputElement;
 
+  updateTags = (tags: Array<string>) => {
+    const { searcher = null } = this.context;
+    const { docId } = this.props;
 
-  updateTags(tags: Array<string>) {
-    if (this.context.searcher) {
+    if (searcher) {
       this.setState({
         updating: true,
       }, () => {
@@ -144,12 +145,12 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
           });
         };
 
-        this.context.searcher.updateTags(tags, this.props.docId, completionCallback, errorCallback);
+        searcher.updateTags(tags, docId, completionCallback, errorCallback);
       });
     }
   }
 
-  removeTag(tagName: string) {
+  removeTag = (tagName: string) => {
     const tags = this.state.tags.slice();
     const index = tags.indexOf(tagName);
     if (index >= 0) {
@@ -158,8 +159,9 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
     }
   }
 
-  addTag() {
-    const tagName = this.state.newTag;
+  addTag = () => {
+    const { newTag: tagName } = this.state;
+
     if (tagName && tagName.length > 0) {
       const tags = this.state.tags.slice();
       tags.push(tagName);
@@ -167,7 +169,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
     }
   }
 
-  updateNewTag(event: Event) {
+  updateNewTag = (event: Event) => {
     if (event.target instanceof HTMLInputElement) {
       this.setState({
         newTag: event.target.value,
@@ -175,7 +177,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
     }
   }
 
-  updateNewTagFromString(tagValue: string, addNow?: boolean) {
+  updateNewTagFromString = (tagValue: string, addNow?: boolean) => {
     if (addNow) {
       this.setState({
         newTag: tagValue,
@@ -187,7 +189,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
     }
   }
 
-  keyUp(event: Event) {
+  keyUp = (event: Event) => {
     if (event.target instanceof HTMLInputElement) {
       if (event.key === 'Enter') {
         // If the user presses enter, then add the new tag
@@ -199,70 +201,63 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
     }
   }
 
-  moreLikeThis() {
-    if (this.context.searcher) {
-      this.context.searcher.performQueryImmediately(this.props.moreLikeThisQuery, true);
+  moreLikeThis = () => {
+    const { moreLikeThisQuery } = this.props;
+    const { searcher = null } = this.context;
+
+    if (searcher) {
+      searcher.performQueryImmediately(moreLikeThisQuery, true);
     }
   }
 
-  show360View() {
-    const escapedDocId = encodeURIComponent(this.props.docId);
+  show360View = () => {
+    const {
+      docId,
+      history,
+      location,
+    } = this.props;
+
+    const escapedDocId = encodeURIComponent(docId);
     const path = '/doc360';
-    const search = QueryString.parse(this.props.location.search);
+    const search = QueryString.parse(location.search);
     search.docId = escapedDocId;
-    this.props.history.push({ pathname: path, search: `${QueryString.stringify(search)}` });
+    history.push({ pathname: path, search: `${QueryString.stringify(search)}` });
   }
 
-  render() {
-    const { vertical, moreLikeThisQuery, baseUri, autoCompleteUri, view360Label } = this.props;
-    const { tags, updating, adding, newTag, tagError } = this.state;
+  render360Link() {
+    const { view360Label, hide360Link } = this.props;
 
-    const outerDivClassName = `attivio-tags ${vertical ? 'attivio-tags-vertical' : ''}`;
-    const moreLikeThisComponent =
-      moreLikeThisQuery.length > 0 ? (
-        <a
-          className="attivio-tags-more"
-          onClick={this.moreLikeThis}
-          role="button"
-          tabIndex={0}
-        >
-          More like this
-        </a>
-      ) : '';
-    let tagList;
-    if (tags.length > 0) {
-      tagList = tags.map((tag) => {
-        return (
-          <span key={tag}>
-            <a
-              className="attivio-tags-link"
-              onClick={() => { this.removeTag(tag); }}
-              role="button"
-              tabIndex={0}
-            >
-              {tag}
-              {' '}
-              <span className="attivio-icon-remove" />
-            </a>
-            {' '}
-          </span>
-        );
-      });
-    } else {
-      tagList = <span className="attivio-tags-link none">None</span>;
-    }
+    return view360Label && !hide360Link && (
+      <a
+        className="attivio-tags-more"
+        onClick={this.show360View}
+        role="button"
+        tabIndex={0}
+      >
+        {view360Label}
+      </a>
+    );
+  }
 
-    const inputComponent = autoCompleteUri && autoCompleteUri.length > 0 ?
-      (
-        <AutoCompleteInput
-          uri={`${baseUri || ''}${autoCompleteUri || ''}`}
-          onChange={this.updateNewTagFromString}
-          updateValue={this.updateNewTagFromString}
-          onEscape={this.onEscape}
-          placeholder={'Tag\u2026'}
-          value={newTag}
-          className="form-control"
-        />
+  renderInputComponent() {
+    const {
+      autoCompleteUri,
+      baseUri,
+    } = this.props;
+
+    const { newTag } = this.state;
+
+    return autoCompleteUri && autoCompleteUri.length > 0
+    ? (
+      <AutoCompleteInput
+        uri={`${baseUri || ''}${autoCompleteUri || ''}`}
+        onChange={this.updateNewTagFromString}
+        updateValue={this.updateNewTagFromString}
+        onEscape={this.onEscape}
+        placeholder={'Tag\u2026'}
+        value={newTag}
+        className="form-control"
+      />
     ) : (
       <input
         type="email"
@@ -277,13 +272,22 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
         }}
       />
     );
+  }
+
+  renderExtraLinks() {
+    const {
+      adding,
+      newTag,
+      updating,
+    } = this.state;
 
     const addButtonText = updating ? 'Adding\u2026' : 'Add';
-    const extra = adding ? (
+
+    return adding ? (
       <div className="form-inline attivio-tags-form">
         <div className="form-group">
           <label htmlFor="attivio-tags-more-add" className="sr-only">Tag</label>
-          {inputComponent}
+          {this.renderInputComponent()}
         </div>
         <button
           type="submit"
@@ -312,37 +316,74 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
         {'Add\u2026'}
       </a>
     );
+  }
 
-    const show360Component = view360Label ? (
+  renderTags() {
+    const { tags } = this.state;
+
+    if (tags && tags.length > 0) {
+      return tags.map(tag => (
+        <span key={tag}>
+          <a
+            className="attivio-tags-link"
+            onClick={() => { this.removeTag(tag); }}
+            role="button"
+            tabIndex={0}
+          >
+            {tag}
+            {' '}
+            <span className="attivio-icon-remove" />
+          </a>
+          {' '}
+        </span>
+      ));
+    }
+
+    return <span className="attivio-tags-link none">None</span>;
+  }
+
+  renderMoreLikeThis() {
+    const { moreLikeThisQuery } = this.props;
+
+    return moreLikeThisQuery.length > 0 ? (
       <a
         className="attivio-tags-more"
-        onClick={this.show360View}
+        onClick={this.moreLikeThis}
         role="button"
         tabIndex={0}
       >
-        {view360Label}
+        More like this
       </a>
     ) : '';
+  }
 
-    const tagErrorMsg = tagError ? (
-      <span title={tagError}>
-        <Glyphicon glyph="exclamation-sign" style={{ color: '#d9534f', marginRight: '4px' }} />
-      </span>
-    ) : '';
+  render() {
+    const {
+      comments,
+      commentsTable,
+      docId,
+      vertical,
+    } = this.props;
 
-    const comments = this.props.comments && (
-      <Comments docId={this.props.docId} commentsTable={this.props.commentsTable} />
-    );
+    const { tagError } = this.state;
+
+    const outerDivClassName = `attivio-tags ${vertical ? 'attivio-tags-vertical' : ''}`;
 
     return (
       <div className={outerDivClassName}>
-        {show360Component}
-        {moreLikeThisComponent}
-        {comments}
+        {this.render360Link()}
+        {this.renderMoreLikeThis()}
+        {comments && (
+          <Comments docId={docId} commentsTable={commentsTable} />
+        )}
         <span className="attivio-tags-label">Tags:</span>
-        {tagErrorMsg}
-        {tagList}
-        {extra}
+        {tagError && (
+          <span title={tagError}>
+            <Glyphicon glyph="exclamation-sign" style={{ color: '#d9534f', marginRight: '4px' }} />
+          </span>
+        )}
+        {this.renderTags()}
+        {this.renderExtraLinks()}
       </div>
     );
   }
