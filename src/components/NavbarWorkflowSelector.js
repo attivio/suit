@@ -10,7 +10,7 @@ type NavbarWorkflowSelectorProps = {
   /** The label to use for the menu. Defaults to "Sort:". */
   label: string,
   /** The names of the fields to include in the menu. */
-  workflows?: Array<string>,
+  workflows: Array<string>,
 };
 
 type NavbarWorkflowSelectorDefaultProps = {
@@ -70,10 +70,9 @@ export default class NavbarWorkflowSelector extends React.Component<
       currentWorkflow = searcher.state.selectedSearchWorkflow;
     }
 
-    const menuItems = [];
-    this.props.workflows.forEach((workflowName) => {
-      const menuItem = new MenuItemDef(workflowName, workflowName);
-      menuItems.push(menuItem);
+    const { workflows } = this.props;
+    const menuItems = workflows.map((workflowName) => {
+      return new MenuItemDef(workflowName, workflowName);
     });
 
     const leftRight = this.props.right ? 'attivio-globalmastnavbar-right' : '';

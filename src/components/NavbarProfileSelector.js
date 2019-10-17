@@ -65,11 +65,9 @@ export default class NavbarProfileSelector extends React.Component<
       currentProfile = searcher.state.profile;
     }
 
-    const profileList = this.props.profiles ? this.props.profiles : this.state.profiles;
-    const menuItems = [];
-    profileList.forEach((profileName) => {
-      const menuItem = new MenuItemDef(profileName, profileName);
-      menuItems.push(menuItem);
+    const { profiles } = this.props;
+    const menuItems = profiles.map((profileName: string) => {
+      return new MenuItemDef(profileName, profileName);
     });
 
     const leftRight = this.props.right ? 'attivio-globalmastnavbar-right' : '';
