@@ -37,6 +37,7 @@ class Comments extends React.Component<void, CommentsProps, CommentsState> {
       error: null,
       showCommentModal: false,
     };
+    this.metadataManager = new MetadataManager(this.context.searcher.search);
   }
 
   state: CommentsState;
