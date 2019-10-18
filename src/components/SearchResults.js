@@ -46,15 +46,6 @@ type SearchResultsProps = {
    */
   format: Array<SearchResultRenderer> | SearchResultRenderer | 'list' | 'simple' | 'debug';
   /**
-   * Whether or not the documents’ relevancy scores should be displayed.
-   * Defaults to false.
-   */
-  showScores?: boolean;
-  /** Whether tags should be shown in the UI or not. Defaults to true. */
-  showTags?: boolean;
-  /** Whether star ratings should be shown in the UI or not. Defaults to true. */
-  showRatings?: boolean;
-  /**
    * Whether or not to show 360 view link on search result. Defaults to false.
    */
   hide360Link?: boolean;
@@ -71,9 +62,7 @@ type SearchResultsProps = {
 type SearchResultsDefaultProps = {
   baseUri: string;
   format: Array<SearchResultRenderer> | SearchResultRenderer | 'list' | 'simple' | 'debug';
-  showScores: boolean;
-  showTags: boolean;
-  showRatings: boolean;
+  hide360Link: boolean;
   showTabs: boolean;
   tabsField: string;
   tabList: Array<string>;
@@ -92,9 +81,6 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
   static defaultProps = {
     baseUri: '',
     format: 'list',
-    showScores: false,
-    showTags: true,
-    showRatings: true,
     hide360Link: false,
     showTabs: false,
     tabsField: FieldNames.TABLE,
