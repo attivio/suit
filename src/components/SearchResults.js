@@ -9,6 +9,9 @@ import DebugSearchResult from './DebugSearchResult';
 import ListSearchResult from './ListSearchResult';
 import SimpleSearchResult from './SimpleSearchResult';
 import SearchDocument from '../api/SearchDocument';
+import QueryResponse from '../api/QueryResponse';
+import SearchFacet from '../api/SearchFacet';
+import SearchFacetBucket from '../api/SearchFacetBucket';
 
 /**
  * This is the definition of a search result renderer. It is passed the document
