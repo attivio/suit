@@ -204,6 +204,7 @@ type SearcherState = {
   relevancyModels: Array<string>;
   facetFilters: Array<FacetFilter>;
   geoFilters: Array<string>;
+  filters: Array<string>;
   resultsPerPage: number;
   resultsOffset: number;
   debug: boolean;
@@ -392,6 +393,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       relevancyModels: this.props.relevancyModels,
       facetFilters: [],
       geoFilters: [],
+      filters: [],
       resultsPerPage: parseInt(this.props.resultsPerPage, 10),
       resultsOffset: 0,
       debug: this.props.debug,
@@ -423,6 +425,9 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       qr.filters = this.state.geoFilters;
     } else {
       qr.filters = [];
+    }
+    if (this.state.filters && this.state.filters.length > 0) {
+      qr.filters = qr.filters.concat(this.state.filters);
     }
     if (this.props.queryFilter) {
       qr.filters.push(this.props.queryFilter);
@@ -576,6 +581,9 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     if (state.geoFilters && state.geoFilters.length > 0) {
       basicState.geoFilters = state.geoFilters;
     }
+    if (state.filters && state.filters.length > 0) {
+      basicState.filters = state.filters;
+    }
     if (state.resultsPerPage !== this.props.resultsPerPage) {
       basicState.resultsPerPage = state.resultsPerPage;
     }
@@ -603,6 +611,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
         originalParsed.delete('query');
         originalParsed.delete('queryLanguage');
         originalParsed.delete('geoFilters');
+        originalParsed.delete('filters');
         originalParsed.delete('resultsPerPage');
         originalParsed.delete('resultsOffset');
         originalParsed.delete('facetFilters');
@@ -643,6 +652,13 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       geoFilters = [];
     } else if (typeof geoFilters === 'string') {
       geoFilters = [geoFilters];
+    }
+
+    let filters = parsed.filters;
+    if (!filters) {
+      filters = [];
+    } else if (typeof filters === 'string') {
+      filters = [filters];
     }
 
     // Get the number of results per page (as a positive integer)
@@ -719,6 +735,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
       query,
       queryLanguage,
       geoFilters,
+      filters,
       resultsPerPage,
       resultsOffset,
       facetFilters,
@@ -900,10 +917,17 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
   }
 
   /**
-   * Add a query filter (in AQL) to the query request.
+   * Add a geospactial query filter (in AQL) to the query request.
    */
   addGeoFilter(filter: string) {
     this.addGeoFilters([filter]);
+  }
+
+  /**
+   * Add a query filter (in AQL) to the query request.
+   */
+  addFilter = (filter: string) => {
+    this.addFilters([filter]);
   }
 
   /**
@@ -951,7 +975,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
 
 
   /**
-   * Add multiple query filters (in AQL) to the query request.
+   * Add multiple geospacial query filters (in AQL) to the query request.
    * When DrawControl (in MapFacetContents) is re-enabled,
    * ensure signal of type 'facet' is created when applying
    * geofilters to the search.
@@ -965,8 +989,17 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     });
   }
 
+  /** Add multiple query filters (in AQL) to the query request. */
+  addFilters(newFilters: Array<string>) {
+    let filters = this.state.filters.slice();
+    filters = filters.concat(newFilters);
+    this.updateStateResetAndSearch({
+      filters,
+    });
+  }
+
   /**
-   * Remove a query filter by name (in AQL) from the query request.
+   * Remove a geospatial query filter by name (in AQL) from the query request.
    * When DrawControl (in MapFacetContents) is re-enabled,
    * ensure signal of type 'facet' is created when removing
    * geofilters from the search.
@@ -980,6 +1013,20 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     }
     this.updateStateResetAndSearch({
       geoFilters,
+    });
+  }
+
+  /**
+   * Remove a query filter by name (in AQL) from the query request.
+   */
+  removeFilter(filter: string) {
+    const filters = this.state.filters.slice();
+    const index = filters.indexOf(filter);
+    if (index !== -1) {
+      filters.splice(index, 1);
+    }
+    this.updateStateResetAndSearch({
+      filters,
     });
   }
 

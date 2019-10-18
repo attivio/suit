@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Tabs, Tab } from 'react-bootstrap';
 
 import FieldNames from '../api/FieldNames';
 
@@ -57,6 +58,12 @@ type SearchResultsProps = {
    * Whether or not to show 360 view link on search result. Defaults to false.
    */
   hide360Link?: boolean;
+  /** Whether or not to show tabs based on a facet */
+  showTabs: boolean;
+  /** Facet field to use for tabs */
+  tabsField: string;
+  /** List of explicit tabs to always show. If empty, tab values will be dynamic based on query response. */
+  tabList: Array<string>;
   /** A style to apply to the results list */
   style: any;
 };
@@ -67,14 +74,21 @@ type SearchResultsDefaultProps = {
   showScores: boolean;
   showTags: boolean;
   showRatings: boolean;
+  showTabs: boolean;
+  tabsField: string;
+  tabList: Array<string>;
   style: any;
+};
+
+type SearchResultsState = {
+  activeTableTabKey: string,
 };
 
 /**
  * A container for showing a list of documents from the search results.
  * This comes from the parent Searcher component.
  */
-export default class SearchResults extends React.Component<SearchResultsDefaultProps, SearchResultsProps, void> {
+export default class SearchResults extends React.Component<SearchResultsDefaultProps, SearchResultsProps, SearchResultsState> {
   static defaultProps = {
     baseUri: '',
     format: 'list',
@@ -82,6 +96,9 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
     showTags: true,
     showRatings: true,
     hide360Link: false,
+    showTabs: false,
+    tabsField: FieldNames.TABLE,
+    tabList: [],
     style: {},
   };
 
@@ -90,6 +107,94 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
   };
 
   static displayName = 'SearchResults';
+
+  constructor(props: SearchResultsProps) {
+    super(props);
+    this.state = {
+      activeTableTabKey: 'All',
+    };
+
+    (this: any).wrapResultsInTabs = this.wrapResultsInTabs.bind(this);
+    (this: any).handleTabChange = this.handleTabChange.bind(this);
+  }
+
+  wrapResultsInTabs(results: Array<any>, response: QueryResponse) {
+    const facets = response.facets;
+    let tables = [];
+    let tableFacet;
+    facets.forEach((f: SearchFacet) => {
+      if (f.name === this.props.tabsField) {
+        tableFacet = f;
+      }
+    });
+
+    let { activeTableTabKey } = this.state;
+    if (!this.context.searcher.state.filters || this.context.searcher.state.filters.length <= 0) {
+      activeTableTabKey = 'All';
+    } else {
+      this.context.searcher.state.filters.forEach((f: string) => {
+        if (f.indexOf('table') > -1) {
+          activeTableTabKey = f;
+        }
+      });
+    }
+    if (this.props.tabList.length < 1 && tableFacet && tableFacet.buckets) {
+      tables = tableFacet.buckets.map((bucket: SearchFacetBucket) => {
+        const innerContents = activeTableTabKey === bucket.filter ? results : '';
+        return (
+          <Tab eventKey={bucket.filter} title={`${bucket.value} (${bucket.count})`}>
+            {innerContents}
+          </Tab>
+        );
+      });
+    } else if (this.props.tabList.length > 1) {
+      tables = this.props.tabList.map((tableName: string) => {
+        let isDisabled = true;
+        let count = 0;
+        let innerContents;
+        let eventKey = tableName;
+        if (tableFacet && tableFacet.buckets) {
+          tableFacet.buckets.forEach((facet: SearchFacetBucket) => {
+            if (facet.value === tableName) {
+              isDisabled = false;
+              count = facet.count;
+              eventKey = facet.filter;
+              if (activeTableTabKey === facet.filter) {
+                innerContents = results;
+              }
+            }
+          });
+        }
+        return (
+          <Tab eventKey={eventKey} title={`${tableName} (${count})`} disabled={isDisabled}>
+            {innerContents}
+          </Tab>
+        );
+      });
+    }
+    if (tables && tables.length > 0) {
+      const innerContents = activeTableTabKey === 'All' ? results : '';
+      tables.unshift(
+        <Tab eventKey="All" title="All">
+          {innerContents}
+        </Tab>,
+      );
+      // `
+      return (
+        <Tabs activeKey={activeTableTabKey} id="table-tabs" onSelect={this.handleTabChange}>
+          {tables}
+        </Tabs>
+      );
+    }
+    return results;
+  }
+
+  handleTabChange(key: string) {
+    this.setState({ activeTableTabKey: key }, () => {
+      const newFilters = key === 'All' ? [] : [key];
+      this.context.searcher.updateStateResetAndSearch({ filters: newFilters });
+    });
+  }
 
   renderResults() {
     const {
@@ -146,6 +251,9 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
 
         results.push(renderedDocument);
       });
+      if (this.props.showTabs) {
+        return this.wrapResultsInTabs(results, response);
+      }
       return results;
     }
     return null;
