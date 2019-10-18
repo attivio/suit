@@ -44,8 +44,6 @@ type SearchResultTagsProps = {
   baseUri?: string,
   /** Whether to show a Comment option. Defaults to false. */
   comments?: boolean;
-  /** Table field for the comment documents */
-  commentsTable?: string;
   /**
    * Whether or not to show 360 page link. Defaults to false.
    */
@@ -360,7 +358,6 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
   render() {
     const {
       comments,
-      commentsTable,
       docId,
       vertical,
     } = this.props;
@@ -374,7 +371,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
         {this.render360Link()}
         {this.renderMoreLikeThis()}
         {comments && (
-          <Comments docId={docId} commentsTable={commentsTable} />
+          <Comments docId={docId} />
         )}
         <span className="attivio-tags-label">Tags:</span>
         {tagError && (

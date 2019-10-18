@@ -3,6 +3,7 @@ import QueryResponse from '../api/QueryResponse';
 import SimpleQueryRequest from '../api/SimpleQueryRequest';
 import SavedSearch from '../api/SavedSearch';
 import AuthUtils from '../util/AuthUtils';
+import FetchUtils from '../util/FetchUtils';
 import Search from '../api/Search';
 
 /**
@@ -185,11 +186,74 @@ export default class MetadataManager {
       });
   }
 
+  addOrDeleteComment = (jsonRequest: JSON, callback: () => void, errorCallback: (error: string | null) => void) => {
+    // return new Promise((resolve, reject) => {
+    const disconnectCallback = (response: any | null, error: string | null) => {
+      if (response.ok) {
+        callback();
+      } else if (error) {
+        errorCallback(`Failed to disconnect from the ingest API: ${error}`);
+      } else {
+        response.text().then((msg) => {
+          errorCallback(`Error disconnecting from the ingest API: ${msg}`);
+        });
+      }
+    };
+
+    const refreshResultCallback = (sessionId: string | null, response: any | null, error: string | null) => {
+      if (response.ok) {
+        // Now we need to close the session
+        const disconnectUri = `${this.baseUri}/rest/ingestApi/disconnect/${sessionId}`;
+        FetchUtils.fetch(disconnectUri, null, disconnectCallback);
+      } else if (error) {
+        errorCallback(`Failed to refresh the update: ${error}`);
+      } else {
+        response.text().then((msg) => {
+          errorCallback(`Failed to refresh the update: ${msg}`);
+        });
+      }
+    };
+
+    const updateResultCallback = (sessionId: string | null, response: any | null, error: string | null) => {
+      if (response.ok) {
+        const refreshUri = `${this.baseUri}/rest/ingestApi/refresh/${sessionId}`;
+        const callbackWithSessionID = (updateResponse: any | null, updateError: string | null) => {
+          refreshResultCallback(sessionId, updateResponse, updateError);
+        };
+        FetchUtils.fetch(refreshUri, null, callbackWithSessionID);
+      } else if (error) {
+        errorCallback(`Failed to update the field: ${error}`);
+      } else {
+        response.text().then((msg) => {
+          errorCallback(`Failed to update the field: ${msg}`);
+        });
+      }
+    };
+
+    const sessionConnectCallback = (response: any | null, error: string | null) => {
+      if (response) {
+        const sessionId = response;
+        const updateUri = `${this.baseUri}/rest/ingestApi/feedDocuments/${sessionId}`;
+        const callbackWithSessionID = (connectResponse: any | null, connectError: string | null) => {
+          updateResultCallback(sessionId, connectResponse, connectError);
+        };
+        FetchUtils.fetch(updateUri, jsonRequest, callbackWithSessionID, 'POST');
+      } else if (error) {
+        errorCallback(`Failed to connect to the ingest API: ${error}`);
+      }
+    };
+
+    // Get session
+    const connectUri = `${this.baseUri}/rest/ingestApi/connect`;
+    FetchUtils.fetch(connectUri, null, sessionConnectCallback);
+    // });
+  }
+
   constructor(search: Search) {
     this.search = search;
   }
 
-  /** An instance of the Search class to call other methods Search from MetadataManager*/
+  /** An instance of the Search class to call other methods Search from MetadataManager */
   search: Search;
 }
 
