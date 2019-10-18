@@ -304,14 +304,21 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
   }
 
   renderInputComponent(query, language) {
-    let placeholder = this.props.placeholder;
-    if (this.props.allowLanguageSelect && language === 'advanced') {
-      placeholder = this.props.placeholderAdvanced;
-    }
-    const inputClass = this.props.inMasthead ? 'form-control attivio-globalmast-search-input' : 'form-control';
-    return this.props.autoCompleteUri ? (
+    const {
+      placeholder: defaultPlaceholder = '',
+      placeholderAdvanced = '',
+      allowLanguageSelect,
+      inMasthead,
+      autoCompleteUri,
+      baseUri,
+    } = this.props;
+    const placeholder = allowLanguageSelect && language === 'advanced'
+      ? placeholderAdvanced
+      : defaultPlaceholder;
+    const inputClass = inMasthead ? 'form-control attivio-globalmast-search-input' : 'form-control';
+    return autoCompleteUri ? (
       <AutoCompleteInput
-        uri={`${this.props.baseUri}${this.props.autoCompleteUri}`}
+        uri={`${baseUri}${autoCompleteUri}`}
         updateValue={this.updateQuery}
         placeholder={placeholder || ''}
         value={query}
@@ -434,8 +441,11 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
       ''
     );
 
-    const subject = this.props.subject || '';
-    const emailAddress = this.props.email || '';
+    const {
+      subject = '',
+      email: emailAddress = '',
+      shareMessage,
+    } = this.props;
 
     return (
       <div className={containerClass}>
@@ -462,7 +472,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
         </div>
         {languageControl}
         {this.props.allowShareSearch &&
-        <ShareSearch shareMessage={this.props.shareMessage} subject={subject} email={emailAddress} />}
+        <ShareSearch shareMessage={shareMessage} subject={subject} email={emailAddress} />}
       </div>
     );
   }

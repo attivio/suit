@@ -50,13 +50,17 @@ class ShareSearch extends React.Component<ShareSearchDefaultProps, ShareSearchPr
   static displayName = 'ShareSearch';
 
   render() {
+    const {
+      shareMessage: message,
+      history: {
+        location: { pathname: searchlink },
+      },
+      subject = '',
+      email: emailAddress = '',
+    } = this.props;
     const username = AuthUtils.getUserName(AuthUtils.getSavedUser());
     const signature = `\nfrom \n${username}`;
-    const message = this.props.shareMessage;
-    const searchLink = this.props.history.location.pathname;
-    const emailBody = message + searchLink + signature;
-    const subject = this.props.subject || '';
-    const emailAddress = this.props.email || '';
+    const emailBody = message + searchlink + signature;
     const href = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
     return (
       <span
