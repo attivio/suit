@@ -75,7 +75,6 @@ use the following commands:
 | Command | Description |
 | ------- | ----------- |
 | `yarn install` | Installs the project's dependencies into the `node_modules` directory (note, don't use `npm install` to do this). |
-| `yarn clean` | Cleans the build products from your copy of the library. |
 | `yarn build` | Performs a build of the library. |
 | `yarn flow` | Run the Flow type checker on the library and report any errors. |
 | `yarn lint` | Run the ES Lint style checker on the library and report any errors. |
@@ -84,8 +83,8 @@ use the following commands:
 | `yarn fullbuild` | Performs a full buid of the project from scratch (removing the `node_modules` direcotory as well as any other build products and performs all validation steps before actually building the contents of the SUIT library and its documentation. |
 | `yarn updateversion` | Updates the project's version before publishing it to the NPM repository. |
 | `yarn publishlib` | Does a full build and then publishes the resulting new version to the NPM repository. |
-| `yarn styleguide:serve` | Buids the style guide and serves it on your local machine's port 6060. This continues watching for changes and re-compiles and updates the style guide if any are found. |
-| `yarn styleguide` | Buids the style guide statically into the `styleguide` directory for the `components` directory. |
+| `yarn styleguide` | Buids the style guide and serves it on your local machine's port 6060. This continues watching for changes and re-compiles and updates the style guide if any are found. |
+| `yarn styleguide:build` | Buids the style guide statically into the `styleguide` directory for the `components` directory. |
 | `yarn doc` | Run the documentation.js builder to publish documentation for the classes in the `api` and `util` subdirectories. |
 | `yarn watch` | Builds the library and watches for changes, rebuilding as they are found. |
 | `yarn test ` | Runs the suite of tests for the library. |
