@@ -80,11 +80,11 @@ use the following commands:
 | `yarn lint` | Run the ES Lint style checker on the library and report any errors. |
 | `yarn doclint` | Run the documentation.js checker to look for errors in the JSDoc comments in the `api` and `util` subdirectories. |
 | `yarn validatecomponents` | Performs validation that all of the components in the library meet certain standards. |
-| `yarn fullbuild` | Performs a full buid of the project from scratch (removing the `node_modules` direcotory as well as any other build products and performs all validation steps before actually building the contents of the SUIT library and its documentation. |
+| `yarn fullbuild` | Performs a full build of the project from scratch (removing the `node_modules` direcotory as well as any other build products and performs all validation steps before actually building the contents of the SUIT library and its documentation. |
 | `yarn updateversion` | Updates the project's version before publishing it to the NPM repository. |
 | `yarn publishlib` | Does a full build and then publishes the resulting new version to the NPM repository. |
-| `yarn styleguide` | Buids the style guide and serves it on your local machine's port 6060. This continues watching for changes and re-compiles and updates the style guide if any are found. |
-| `yarn styleguide:build` | Buids the style guide statically into the `styleguide` directory for the `components` directory. |
+| `yarn styleguide` | Builds the style guide and serves it on your local machine's port 6060. This continues watching for changes and re-compiles and updates the style guide if any are found. |
+| `yarn styleguide:build` | Builds the style guide statically into the `styleguide` directory for the `components` directory. |
 | `yarn doc` | Run the documentation.js builder to publish documentation for the classes in the `api` and `util` subdirectories. |
 | `yarn watch` | Builds the library and watches for changes, rebuilding as they are found. |
 | `yarn test ` | Runs the suite of tests for the library. |
