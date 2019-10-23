@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import FormControl from 'react-bootstrap/lib/FormControl';
 
 import ListEditor from './ListEditor';
@@ -25,16 +25,11 @@ type StringListEditorProps = {
   updateList: (items: Array<string>) => void;
 };
 
-type StringListEditorDefaultProps = {
-  addButtonTooltip: string;
-  placeholder: string;
-};
-
 type StringListEditorState = {
   value: string;
 }
 
-export default class StringListEditor extends React.Component<StringListEditorDefaultProps, StringListEditorProps, StringListEditorState> { // eslint-disable-line max-len
+export default class StringListEditor extends React.Component<StringListEditorProps, StringListEditorState> { // eslint-disable-line max-len
   static defaultProps = {
     addButtonTooltip: 'Add',
     placeholder: 'Enter a value\u2026',
@@ -60,6 +55,8 @@ export default class StringListEditor extends React.Component<StringListEditorDe
   state: StringListEditorState;
 
   onChange(event: Event & { currentTarget: HTMLInputElement }) {
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     const newValue = event.currentTarget.value;
     this.setState({
       value: newValue,

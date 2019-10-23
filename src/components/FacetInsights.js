@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import Facet from './Facet';
@@ -35,19 +35,6 @@ type FacetInsightsProps = {
   entityColors: Map<string, string>;
 };
 
-type FacetInsightsDefaultProps = {
-  pieChartFacets: Array<string> | string | null;
-  barChartFacets: Array<string> | string | null;
-  columnChartFacets: Array<string> | string | null;
-  barListFacets: Array<string> | string | null;
-  tagCloudFacets: Array<string> | string | null;
-  timeSeriesFacets: Array<string> | string | null;
-  sentimentFacets: Array<string> | string | null;
-  geoMapFacets: Array<string> | string | null;
-  maxFacetBuckets: number;
-  entityColors: Map<string, string>;
-};
-
 /**
  * A container for showing facet results from a search.
  * It must be contained within a Searcher component and
@@ -56,7 +43,7 @@ type FacetInsightsDefaultProps = {
  * not coveed by one of these property's lists will be displayed
  * in a standard "More…" list.
  */
-export default class FacetInsights extends React.Component<FacetInsightsDefaultProps, FacetInsightsProps, void> {
+export default class FacetInsights extends React.Component<FacetInsightsProps, void> {
   static defaultProps = {
     pieChartFacets: null,
     barChartFacets: null,
@@ -67,6 +54,8 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
     sentimentFacets: null,
     geoMapFacets: null,
     maxFacetBuckets: 15,
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     entityColors: new Map(),
   };
 
@@ -91,9 +80,8 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
     // "*:*" so there will be something to display here. If the
     // user has already searched, show things based on the current
     // search results.
-    const searcher = this.context.searcher;
-    if (searcher && !searcher.state.haveSearched) {
-      searcher.doSearch();
+    if (this.context && this.context.searcher && this.context.searcher.state && !this.context.searcher.state.haveSearched) {
+      this.context.searcher.doSearch();
     }
   }
 
@@ -164,9 +152,14 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
   }
 
   render() {
-    const searcher = this.context.searcher;
-    const facets = searcher.state.response ? searcher.state.response.facets.slice() : [];
+    const hasResponseFacets = this.context
+      && this.context.searcher
+      && this.context.searcher.state
+      && this.context.searcher.state.response
+      && this.context.searcher.state.response.facets;
+    const facets = hasResponseFacets ? this.context.searcher.state.response.facets.slice() : [];
 
+    // FIXME: Avoid expensive operations in render function.
     const facetMap: Map<string, SearchFacet> = new Map();
     facets.forEach((facet: SearchFacet) => {
       facetMap.set(facet.field, facet);
@@ -185,7 +178,7 @@ export default class FacetInsights extends React.Component<FacetInsightsDefaultP
     ObjectUtils.removeItem(facetOrder, 'keyphrases');
     ObjectUtils.removeItem(facetOrder, 'date');
 
-    const { facetFilters } = searcher.state;
+    const { facetFilters } = this.context.searcher.state;
     const facetFiltersMap: Map<string, FacetFilter> = new Map();
     facetFilters.forEach((facetFilter: FacetFilter) => {
       facetFiltersMap.set(facetFilter.filter, facetFilter);

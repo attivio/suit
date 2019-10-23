@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import ReactHighcharts from 'react-highcharts';
 
 import SearchFacetBucket from '../api/SearchFacetBucket';
@@ -18,15 +18,10 @@ type BarChartFacetContentsProps = {
   color: string;
 };
 
-type BarChartFacetContentsDefaultProps = {
-  columns: boolean;
-  color: string;
-};
-
 /**
  * Component to display the buckets of a facet using a Bar chart.
  */
-export default class BarChartFacetContents extends React.Component<BarChartFacetContentsDefaultProps, BarChartFacetContentsProps, void> { // eslint-disable-line max-len
+export default class BarChartFacetContents extends React.Component<BarChartFacetContentsProps, void> { // eslint-disable-line max-len
   static defaultProps = {
     columns: false,
     color: '#55B3E3',

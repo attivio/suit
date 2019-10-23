@@ -3,7 +3,7 @@
 __1.__ Normal variation.
 
 ```jsx
-  const sampleFacets = require('../sampleData/Facets').default;
+  import sampleFacets from '../sampleData/Facets';
 
   <TagCloudFacetContents
     buckets={sampleFacets.regionFacet.buckets}

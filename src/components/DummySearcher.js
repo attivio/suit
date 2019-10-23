@@ -1,5 +1,7 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
+/* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+ * v0.107.0. To view the error, delete this comment and run Flow. */
 import type { Children } from 'react';
 
 import PropTypes from 'prop-types';
@@ -20,19 +22,6 @@ type DummySearcherProps = {
   defaultError: string | null;
   defaultFieldList: Array<string>;
   children: Children;
-};
-
-type DummySearcherDefaultProps = {
-  defaultRelevancyModels: Array<string>;
-  defaultQueryLanguage: 'simple' | 'advanced';
-  defaultDebug: boolean;
-  defaultResultsPerPage: number;
-  defaultBusinessCenterProfile: string | null;
-  defaultSort: Array<string>;
-  defaultQuery: string;
-  defaultQueryResponse: QueryResponse | null;
-  defaultError: string | null;
-  defaultFieldList: Array<string>;
 };
 
 type DummySearcherState = {
@@ -58,7 +47,7 @@ type DummySearcherState = {
  * This isn't included in the index.js for SUIT because
  * YOU DO NOT WANT TO USE THIS COMPONENT IN YOUR APPLICATIONS!
  */
-export default class DummySearcher extends React.Component<DummySearcherDefaultProps, DummySearcherProps, DummySearcherState> {
+export default class DummySearcher extends React.Component<DummySearcherProps, DummySearcherState> {
   static defaultProps = {
     defaultRelevancyModels: ['default'],
     defaultQueryLanguage: 'simple',
@@ -255,6 +244,8 @@ export default class DummySearcher extends React.Component<DummySearcherDefaultP
    * The search is reset to the first page when performed again.
    */
   updateSort(newSort: string) {
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     if (this.newSort !== this.state.sort) {
       let sort = this.state.sort;
       if (sort && sort.length > 0) {

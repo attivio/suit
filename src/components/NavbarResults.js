@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 type NavbarResultsProps = {
   /** The result message to display. */
@@ -10,7 +10,7 @@ type NavbarResultsProps = {
  * Displays a message about the results of your search.
  * It could be an error, a count of the documents found, etc.
  */
-export default class NavbarResults extends React.Component<void, NavbarResultsProps, void> {
+export default class NavbarResults extends React.Component<NavbarResultsProps, void> {
   static displayName = 'NavbarResults';
 
   render() {

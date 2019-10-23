@@ -3,7 +3,7 @@
 __1.__ Showing positive and negative sentiment in the sanme cloud.
 
 ```jsx
-  const sampleFacets = require('../sampleData/Facets').default;
+  import sampleFacets from '../sampleData/Facets';
   
   <SentimentTagCloudFacetContents
     positiveBuckets={sampleFacets.positiveSentimentFacet.buckets}

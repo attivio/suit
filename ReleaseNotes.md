@@ -6,6 +6,10 @@ If you are _publishing_ a new build of the library that has changes users will n
 
 If you are _using_ the SUIT library and want to upgrade to a newer version, please check here to see if there have been changes that will affect your project and, if there are, what you will need to do about them.
 
+## Version 1.1.0
+
+Update suit dependencies. Add tests and test coverage report. Replace npm with yarn. Replace nwb with webpack 4.
+
 ## Version 1.0.7
 
 Adds support for `hide360Link` option to `<SearchResults />` which omits the 360 link entirely from search result if specified. Non-breaking change.
@@ -48,7 +52,7 @@ https://reactjs.org/blog/2017/09/26/react-v16.0.html
 To use attivio/suit `v1.x.x+`, consuming libraries must match the
 version of react in this library: `react` `v16.8.6`. If using
 `react-dom`, keep in mind that it must always match your version of
-react. 
+react.
 
 ## Version 0.1.18
 
@@ -64,8 +68,7 @@ If the markup in promotions contained javascript code in `<script>`, the code wa
 To overcome this, the `<div>` wrapper for the markup in `<PlacementResult>` is changed to `<iframe>`.
 The markup is added in the body of the iframe to ensure script as well as html is rendered.
 
-Additionally, `iframe` also required a unique title which is created using the new `markupCount` prop passed
-to `PlacementResult`.
+Additionally, `iframe` also required a unique title which is created using the new `markupCount` prop passed to `PlacementResult`.
 
 ### Subheader360
 
@@ -76,8 +79,7 @@ Modifies the Subheader360 component to show an information icon that shows addit
 Update several of the date formats to use proper American English punctuation:
 
 There is always a comma after the day of the week, if present, separating it from the rest of the date.
-There is never a comma between the month and the year, if there's no day of the month in between 
-(e.g., Sep 11, 2001 but Sep 2001)
+There is never a comma between the month and the year, if there's no day of the month in between (e.g., Sep 11, 2001 but Sep 2001)
 
 Update the comments in DateFormat.js to match these.
 
@@ -161,7 +163,7 @@ This introduces breaking changes to the `<Table />` and `<MasterDetails />` comp
 Selection tracking has been moved to `<Table />`. `onSelect` is no longer a required function, it is now considered a convenience hook so a consumer may respond to selection changes and/or be aware of the current selection. This is a breaking change. Previously, the consumer of `<Table />` was responsible for passing in the current selection and `onSelect` drove the selection within `<Table />`. That is no longer true. `onSelect` no longer impacts the selections within `<Table />` and `<Table />` no longer accepts a `selection` prop to dictate the current selection.
 
 * `<Table />` now supports key selection in multi-select mode.
-* `rowComparator` is now required for comparison equality checking between rows.
+* `rowComparator` is now required for comparison equality checking between rows.	
 * `<Table />` and `<MasterDetails />` now optionally accept `activeRowBackgroundColor` and `multiSelectBackgroundColor` props which, if specified, override any other className specifications for those colors. This change is intended to make it easier to indicate color selections. `selectedClassName` may still optionally be passed in, but takes a second seat to those props.
 
 ### Version 0.0.53
@@ -170,7 +172,7 @@ Selection tracking has been moved to `<Table />`. `onSelect` is no longer a requ
 
 ### Version 0.0.47
 
-*	Many of the broken/incomplete examples in the Style Guide have been fixed/updated.
+*	Many of the broken/incomplete examples in the Style Guide have been fixed/updated.	
 *	The renderer functions for DebugSearchResult, ListSearchResult, and SimpleSearchResult must now be accessed as static methods on the classes, not as a separately exported function.
 *	The versions of dependencies in package.json are no-longer open-ended and must be upgraded manually when needed.
 *	The MasterDetails, Table, and Details components have been added.

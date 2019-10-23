@@ -1,4 +1,3 @@
-import expect from 'expect';
 import Comment from '../../src/api/Comment';
 import SearchDocument from '../../src/api/SearchDocument';
 
@@ -111,16 +110,16 @@ const testDoc = date => ({
   }
 });
 
-describe('Test Comment', () => {
+describe('Comment', () => {
   const date = new Date();
   const testDoc1 = testDoc(date);
   const formattedDate = Comment.createTimestamp(date);
-  it('Can be constructed properly from a SearchDocument', () => {
+  test('Can be constructed properly from a SearchDocument', () => {
     expect(Comment.fromDoc(SearchDocument.fromJson(testDoc1))).toEqual(
       new Comment('docID1', 'Interesting!', formattedDate, 'Jack Donaghy')
     );
   });
-  it('Populates fields correctly when instantiated', () => {
+  test('Populates fields correctly when instantiated', () => {
     expect(Comment.fromDoc(SearchDocument.fromJson(testDoc1)).text).toEqual(
       'Interesting!'
     );

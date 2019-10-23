@@ -3,8 +3,9 @@
 __1:__ Three navigation buttons for use in the masthead.
 
 ```jsx
-const { MemoryRouter, Route, Switch } = require('react-router-dom');
+import { MemoryRouter, Route, Switch } from 'react-router-dom';
 const tabDivStyle = { border: '1px solid #3276b1', padding: '10px' };
+
 <MemoryRouter initialEntries={['/insights']}>
   <div>
     <MastheadNavTabs

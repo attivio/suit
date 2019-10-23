@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 export class DataPairInfo {
   /** The label shown describing the value. */
@@ -33,9 +33,11 @@ type DataPairsState = {
 * Display a list of name/value pairs, with optional category type indicators
 * in a side-by-side, two-column list format.
 */
-export default class DataPairs extends React.Component<void, DataPairsProps, DataPairsState> {
+export default class DataPairs extends React.Component<DataPairsProps, DataPairsState> {
   static displayName = 'DataPairs';
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static DataPairInfo;
 
   static MAX_CHARACTERS = 100;

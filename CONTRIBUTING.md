@@ -8,18 +8,18 @@ For contributions, we prefer pull requests. Please follow these steps to get you
 2. [Fork](https://help.github.com/articles/fork-a-repo) the [suit repo](https://github.com/attivio/suit).
 3. Make the changes.
 4. Prior to submitting a pull request, execute:
-  `npm run lint`
+  `yarn lint`
 
-  `npm run flow`
+  `yarn flow`
 
-  `npm run test`
+  `yarn test`
 
   and resolve any reported issues.
 5. Update the styleguide if necessary. 
    1. We use styleguidist as a way to document the appearance and functionality of components. If you have created a new component or changed the style or functionality of a component included in `documentation/components`, you should update the example(s) or create new ones to ensure the documentation remains accurate.
    2. To view/test your changes to the style guide, run:
 
-     `npm run styleguide:serve`
+     `yarn start`
 
     That will run the styleguide at `localhost:6060`. You can then view the styleguide including your changes in your browser. This is also a convenient way to manually test your changes.
 6. Send a [pull request](https://help.github.com/articles/using-pull-requests) from your forked repo to the suit repo.

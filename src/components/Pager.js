@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 type PagerProps = {
   /**
@@ -29,17 +29,10 @@ type PagerProps = {
   dataTestPrefix? : string | null;
 };
 
-type PagerDefaultProps = {
-  right: boolean;
-  totalPages: number;
-  hasMore: boolean;
-  dataTestPrefix : string | null;
-};
-
 /**
  * A simple control for paging through a set of results with forward and back buttons.
  */
-export default class Pager extends React.Component<PagerDefaultProps, PagerProps, void> {
+export default class Pager extends React.Component<PagerProps, void> {
   static defaultProps = {
     right: false,
     totalPages: -1,

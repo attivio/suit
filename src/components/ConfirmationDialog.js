@@ -1,5 +1,7 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
+/* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+ * v0.107.0. To view the error, delete this comment and run Flow. */
 import type { Children } from 'react';
 
 import { Modal, Button } from 'react-bootstrap';
@@ -56,19 +58,10 @@ type ConfirmationDialogProps = {
   children: Children;
 };
 
-type ConfirmationDialogDefaultProps = {
-  cancelButtonLabel: string;
-  confirmButtonDisabled: boolean;
-  confirmButtonLabel: string;
-  dangerous: boolean;
-  show: boolean;
-};
-
 /**
  * Component to display a dialog box asking for confirmation from the user.
  */
-export default class ConfirmationDialog extends React.Component<ConfirmationDialogDefaultProps,
-  ConfirmationDialogProps, void> {
+export default class ConfirmationDialog extends React.Component<ConfirmationDialogProps, void> {
   static defaultProps = {
     cancelButtonLabel: 'Cancel',
     confirmButtonDisabled: false,

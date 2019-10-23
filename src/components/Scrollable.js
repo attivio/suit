@@ -1,6 +1,8 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
+/* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+ * v0.107.0. To view the error, delete this comment and run Flow. */
 import type { Children } from 'react';
 
 type ScrollableProps = {
@@ -42,20 +44,11 @@ type ScrollableProps = {
   children: Children;
 };
 
-type ScrollableDefaultProps = {
-  style: any;
-  vertical: boolean;
-  horizontal: boolean;
-  force: boolean;
-  height: string | null;
-  width: string | null;
-};
-
 /**
  * A scrollable container for other components. If the size of the children is large enough that
  * they won't fit, scroll bars are enabled to let the user scroll to see the rest of the contents.
  */
-export default class Scrollable extends React.Component<ScrollableDefaultProps, ScrollableProps, void> {
+export default class Scrollable extends React.Component<ScrollableProps, void> {
   static defaultProps = {
     style: {},
     height: null,

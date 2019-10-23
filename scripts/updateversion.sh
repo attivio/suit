@@ -20,4 +20,4 @@ PACKAGE_VERSION=$(cat package.json \
   | head -1 \
   | awk -F: '{ print $2 }' \
   | sed 's/[",]//g') && \
-echo "Updated SUIT version to $PACKAGE_VERSION. Run  'npm run publishlib' to build the new version of the library and add it to the NPM repo."
+echo "Updated SUIT version to $PACKAGE_VERSION. Run  'yarn publishlib' to build the new version of the library and add it to the NPM repo."

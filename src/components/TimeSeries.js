@@ -1,7 +1,7 @@
 
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import ReactHighcharts from 'react-highcharts';
 
 import DataPoint from '../api/DataPoint';
@@ -112,17 +112,10 @@ type TimeSeriesProps = {
   onSelect: null | (date: Date, endingDate: Date) => void;
 };
 
-type TimeSeriesDefaultProps = {
-  onSelect: null | (date: Date, endingDate: Date) => void;
-  height: number;
-  barsSideBySide: boolean;
-  legendAtRight: boolean;
-};
-
 /**
  * Component to display a chart of values over time.
  */
-export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, TimeSeriesProps, void> {
+export default class TimeSeries extends React.Component<TimeSeriesProps, void> {
   static defaultProps = {
     onSelect: null,
     height: 300,
@@ -132,6 +125,8 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
 
   static displayName = 'TimeSeries';
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static SeriesDataSource;
 
   static getDataSourceType(type: TimeSeriesDataType) {
@@ -194,7 +189,9 @@ export default class TimeSeries extends React.Component<TimeSeriesDefaultProps, 
    */
   static normalizeYAxisMax(yAxis: any): any {
     const maxValue = yAxis.max;
-    const roundUpTo = [10, 20, 25, 30, 40, 50, 100, 200, 250, 300, 400, 500, 750, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 10000];
+    const roundUpTo = [
+      10, 20, 25, 30, 40, 50, 100, 200, 250, 300, 400, 500, 750, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 10000,
+    ];
     let roundMax = -1;
     roundUpTo.forEach((cap: number) => {
       if (roundMax < 0 && maxValue <= cap) {

@@ -1,15 +1,11 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import SearchButton from './SearchButton';
 
 type SearchInputFieldProps = {
   /** The placeholder to display if the field is empty. Defaults to "Search…". */
-  placeholder: string;
-};
-
-type SearchInputFieldDefaultProps = {
   placeholder: string;
 };
 
@@ -20,7 +16,7 @@ type SearchInputFieldDefaultProps = {
  * other children of the Searcher. It is designed to be used outside of
  * the masthead, unlike the <code>SearchBar</code> component.
  */
-export default class SearchInputField extends React.Component<SearchInputFieldDefaultProps, SearchInputFieldProps, void> {
+export default class SearchInputField extends React.Component<SearchInputFieldProps, void> {
   static defaultProps = {
     placeholder: 'Search\u2026',
   };
@@ -47,6 +43,8 @@ export default class SearchInputField extends React.Component<SearchInputFieldDe
 
   keyPressed(event: Event) {
     if (event.target instanceof HTMLInputElement) {
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       if (event.key === 'Enter') {
         this.doSearch();
       }

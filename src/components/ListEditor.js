@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 type ListEditorProps = {
@@ -19,7 +19,7 @@ type ListEditorProps = {
   /**
    * Render the control for adding a new item to the list.
    */
-  renderControl: () => React$Element<*>;
+  renderControl: () => React.Element<any>;
   /**
    * Callback that is called when the list of items has changed so the parent
    * knows and can update itself.
@@ -37,7 +37,7 @@ type ListEditorProps = {
   resetControl: () => any;
 };
 
-export default class ListEditor extends React.Component<void, ListEditorProps, void> {
+export default class ListEditor extends React.Component<ListEditorProps, void> {
   static displayName = 'ListEditor';
 
   constructor(props: ListEditorProps) {

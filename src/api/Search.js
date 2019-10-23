@@ -31,6 +31,7 @@ export default class Search {
 
   search(request: SimpleQueryRequest, updateResults: (response: QueryResponse | null, error: string | null) => void) {
     if (!request.restParams || request.restParams.size === 0) {
+      // eslint-disable-next-line no-undef
       request.restParams = new Map([
         ['join.rollup', ['TREE']],
         ['includeMetadataInResponse', ['true']],
