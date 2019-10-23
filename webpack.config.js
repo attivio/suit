@@ -40,7 +40,7 @@ module.exports = {
       filename: "./index.html",
     }),
 
-// Replacement for deprecated extract-text-webpack-plugin
+  // Replacement for deprecated extract-text-webpack-plugin
     // https://github.com/webpack-contrib/mini-css-extract-plugin
     new MiniCssExtractPlugin({
       filename: '[name].css',
