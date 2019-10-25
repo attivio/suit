@@ -4,14 +4,6 @@
 
 ```jsx
 const { SearchBar } = require('react-router-dom');
-initialState = {
-  response: undefined,
-  error: undefined,
-  showSaveSearchModal: false,
-  savedSearchTitle: '',
-  savedSearchList: []
-};
-
 <SearchBar>
   <SavedSearchRenderer />;
 </SearchBar>;

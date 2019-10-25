@@ -10,6 +10,13 @@ import Search from '../api/Search';
  * but are not relevant to be put into Search class
  */
 export default class MetadataManager {
+  constructor(search: Search) {
+    this.search = search;
+  }
+
+  /** An instance of the Search class to call other methods Search from MetadataManager */
+  search: Search;
+
   /** Queries the index for the saved searches and sets the response to state */
   getSavedSearches = (callback: (response: Array<SavedSearch> | null, error: string | null) => void) => {
     const username = AuthUtils.getLoggedInUserId();
@@ -29,22 +36,23 @@ export default class MetadataManager {
     });
   }
 
-  /** Populates the response in an array of SavedSearch objects */
+  /** Transform the response into an array of SavedSearch objects */
   populateSavedSearches = (response: QueryResponse) => {
-    const menuItemList = [];
     if (response) {
-      response.documents.forEach((doc) => {
+      const menuItemList = response.documents.map((doc) => {
         const ss = new SavedSearch();
         ss.setProperties(doc);
-        menuItemList.push(ss);
+        return ss;
       });
+      return menuItemList;
     }
-    return menuItemList;
+    return [];
   }
 
   /** Saves a Search query, then get the updated list of saved searches for the callback */
   saveThisSearch = (ss: SavedSearch, callback: (response: Array<SavedSearch> | null, error: string | null) => void) => {
-    // safety check for id
+    // creating a new instance of SavedSearch if there is no id in the passed one
+    // making a new id and then using the new object of SavedSearch
     if (ss.id === '') {
       const loggedDateTime = new Date().toISOString();
       const username = AuthUtils.getLoggedInUserId();
@@ -54,9 +62,9 @@ export default class MetadataManager {
       newSavedSearch.query = ss.query;
       newSavedSearch.queryString = ss.queryString;
       this.updateSavedSearches(newSavedSearch, callback);
+    } else {
+      this.updateSavedSearches(ss, callback);
     }
-
-    this.updateSavedSearches(ss, callback);
   }
 
   /** Deletes a saved search by id */
@@ -103,7 +111,6 @@ export default class MetadataManager {
             jsonRequest.id = ss.id;
             jsonRequest.zone = '.metadata';
             jsonRequest.mode = mode;
-            // const body = JSON.stringify(jsonRequest);
             const params = {
               method: 'POST',
               headers,
@@ -185,11 +192,5 @@ export default class MetadataManager {
       });
   }
 
-  constructor(search: Search) {
-    this.search = search;
-  }
-
-  /** An instance of the Search class to call other methods Search from MetadataManager*/
-  search: Search;
 }
 

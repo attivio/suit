@@ -1,5 +1,6 @@
 // @flow
 import SearchDocument from './SearchDocument';
+import StringUtils from '../util/StringUtils';
 /**
  * Saved search queries marked/saved for future use
  */
@@ -7,10 +8,10 @@ export default class SavedSearch {
   setProperties(doc: SearchDocument) {
     const htmlString = doc.getFirstValue('title');
     this.id = doc.getFirstValue('.id');
-    this.title = htmlString.replace(/<[^>]+>/g, '');
+    this.title = StringUtils.stripSimpleHtml(htmlString);
     this.query = doc.getFirstValue('query_s');
     this.queryString = doc.getFirstValue('query_string_s');
-    this.titleLabel = this.title.length > 15 ? `${this.title.substring(0, 15)}...` : this.title;
+    this.titleLabel = this.title;
   }
 
   constructor() {

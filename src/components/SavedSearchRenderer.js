@@ -28,8 +28,7 @@ type SavedSearchRendererState = {
 };
 
 /**
- * Component to include in the Masthead for entering the query
- * to use when searching. Must be inside a Searcher component.
+ * Component to include in the SearchBar for saving a query
  */
 class SavedSearchRenderer extends React.Component<
   SavedSearchRendererDefaultProps,
@@ -136,14 +135,7 @@ class SavedSearchRenderer extends React.Component<
   renderSavedQueryHeader = () => {
     return (
       <MenuItem key="saveQueryHeader" onSelect={this.showSaveSearchModal} id="saveQueryHeader">
-        <span
-          style={{
-            fontSize: '14px',
-            color: '#003c7e',
-          }}
-        >
-          <b> SAVE SEARCH </b>
-        </span>
+        Save Search...
       </MenuItem>
     );
   };
