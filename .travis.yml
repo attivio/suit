@@ -1,7 +1,5 @@
 language: node_js
 node_js:
-  - '11.4.0'
-install:
-  - npm install
+  - '12.8.1'
 script:
-- npm run fullbuild
+  - yarn fullbuild

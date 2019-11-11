@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 type ExpertsHeaderProps = {
   /**
@@ -10,14 +10,10 @@ type ExpertsHeaderProps = {
   doAllExperts: null | () => void;
 };
 
-type ExpertsHeaderDefaultProps = {
-  doAllExperts: null | () => void;
-};
-
 /**
  * Header for the Experts page.
  */
-export default class ExpertsHeader extends React.Component<ExpertsHeaderDefaultProps, ExpertsHeaderProps, void> {
+export default class ExpertsHeader extends React.Component<ExpertsHeaderProps, void> {
   static defaultProps = {
     doAllExperts: null,
   };

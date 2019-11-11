@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import Pager from './Pager';
@@ -9,15 +9,11 @@ type SearchResultsPagerProps = {
   right: boolean;
 };
 
-type SearchResultsPagerDefaultProps = {
-  right: boolean;
-};
-
 /**
  * A Searcher-aware wrapper around the Pager component that triggers the Searcher to return the
  * next/previous page of search results.
  */
-export default class SearchResultsPager extends React.Component<SearchResultsPagerDefaultProps, SearchResultsPagerProps, void> {
+export default class SearchResultsPager extends React.Component<SearchResultsPagerProps, void> {
   static defaultProps = {
     right: false,
   };

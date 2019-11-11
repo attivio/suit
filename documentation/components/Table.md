@@ -3,7 +3,7 @@
 __1:__ Simple table allowing multiple selection.
 
 ```jsx
-  const tableData = require('../sampleData/TableData').default;
+  import tableData from '../sampleData/TableData';
   initialState = {
     activeRow: tableData.customerEngagementRows[0],
     selectedRows: [tableData.customerEngagementRows[0], tableData.customerEngagementRows[1]],
@@ -27,7 +27,7 @@ __1:__ Simple table allowing multiple selection.
 __2:__ Simple table allowing multiple selection that requires a row to always be selected.
 
 ```jsx
-  const tableData = require('../sampleData/TableData').default;
+  import tableData from '../sampleData/TableData';
   initialState = {
     activeRow: tableData.customerEngagementRows[0],
     selectedRows: [tableData.customerEngagementRows[0], tableData.customerEngagementRows[1]],
@@ -52,7 +52,7 @@ __2:__ Simple table allowing multiple selection that requires a row to always be
 __3:__ Single-selection table with a border.
 
 ```jsx
-  const tableData = require('../sampleData/TableData').default;
+  import tableData from '../sampleData/TableData';
   initialState = {
     selectedRows: [tableData.customerEngagementRows[0]],
   };
@@ -72,7 +72,7 @@ __3:__ Single-selection table with a border.
 __4:__ Table with a custom cell renderer for the Self-Service column showing percentage bars...
 
 ```jsx
-  const tableData = require('../sampleData/TableData').default;
+  import tableData from '../sampleData/TableData';
   initialState = {
     selectedRows: [tableData.customerEngagementRows[0]],
   };
@@ -110,7 +110,7 @@ __4:__ Table with a custom cell renderer for the Self-Service column showing per
 __5:__ Table with sortable columms handled by a global handler (useful when sorting in the back-end code).
 
 ```jsx
-  const tableData = require('../sampleData/TableData').default;
+  import tableData from '../sampleData/TableData';
   initialState = {
     selectedRows: [tableData.customerEngagementRows[0]],
     sortCol: 0,
@@ -158,7 +158,7 @@ __5:__ Table with sortable columms handled by a global handler (useful when sort
 __6:__ Table with sortable columms with sorting handled by the columns themselves.
 
 ```jsx
-  const tableData = require('../sampleData/TableData').default;
+  import tableData from '../sampleData/TableData';
   initialState = {
     selectedRows: [tableData.customerEngagementRows[0]],
     sortCol: 0,

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import vis from 'vis';
 
 export class Node {
@@ -62,16 +62,10 @@ type NetworkDiagramProps = {
   onDoubleClick: (event: NetworkEventInfo) => void;
 };
 
-type NetworkDiagramDefaultProps = {
-  options: any;
-  style: any;
-  onDoubleClick: (event: NetworkEventInfo) => void;
-};
-
 /**
  * Component to display an arbitrary network diagram of nodes and edges.
  */
-export default class NetworkDiagram extends React.Component<NetworkDiagramDefaultProps, NetworkDiagramProps, void> {
+export default class NetworkDiagram extends React.Component<NetworkDiagramProps, void> {
   static defaultProps = {
     options: {},
     style: {},
@@ -80,7 +74,11 @@ export default class NetworkDiagram extends React.Component<NetworkDiagramDefaul
 
   static displayName = 'NetworkDiagram';
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static Node;
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static Edge;
 
   componentDidMount() {
@@ -129,6 +127,8 @@ export default class NetworkDiagram extends React.Component<NetworkDiagramDefaul
   network: vis.Network;
 
   render() {
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     return <div ref={(c) => { this.networkDiagram = c; }} style={this.props.style} />;
   }
 }

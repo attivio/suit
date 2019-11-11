@@ -4,8 +4,9 @@
 __1:__ Showing breadcrumbs for the document 360 page.
 
 ```jsx
-const { MemoryRouter, Route, Switch } = require('react-router-dom');
-const sampleDocs = require('../sampleData/Documents').default;
+import { MemoryRouter, Route, Switch } from 'react-router-dom';
+import sampleDocs from '../sampleData/Documents';
+
 <MemoryRouter initialEntries={['/otherDoc', '/earlietDoc', '/doc360']} initialIndex={2}>
   <Switch>
     <Route exact path="/doc360">

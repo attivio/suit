@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -55,16 +55,6 @@ type NavigationHamburgerMenuProps = {
   style: any;
 };
 
-type NavigationHamburgerMenuDefaultProps = {
-  icon: string,
-  tooltip: string,
-  tooltipPlacement: 'top' | 'left' | 'bottom' | 'right';
-  currentItem: string | null;
-  color: string;
-  backgroundColor: string;
-  style: any;
-};
-
 /**
  * A menu to allow the user to navigate between the various routes in
  * the application. It appears as an icon (the default has three horizontal
@@ -72,7 +62,7 @@ type NavigationHamburgerMenuDefaultProps = {
  * user clicks to reveal a menu of options. Clicking one takes the user to
  * that route.
  */
-class NavigationHamburgerMenu extends React.Component<NavigationHamburgerMenuDefaultProps, NavigationHamburgerMenuProps, void> { // eslint-disable-line max-len
+class NavigationHamburgerMenu extends React.Component<NavigationHamburgerMenuProps, void> { // eslint-disable-line max-len
   static defaultProps = {
     icon: 'menu-hamburger',
     tooltip: '',

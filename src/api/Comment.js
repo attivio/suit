@@ -6,6 +6,8 @@ import DateUtils from '../util/DateUtils';
  * A single comment for a SearchDocument.
  */
 export default class Comment {
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static createTimestamp(date) {
     const d = DateUtils.stringToDate(date);
     return `Posted on ${d.toDateString()} at ${d.toLocaleTimeString()}`;

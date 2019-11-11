@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import PlacementResult from './PlacementResult';
@@ -9,7 +9,7 @@ import Placement from '../api/Placement';
  * A container for showing a list of business center promotional placements from the search results.
  * These come from the parent Searcher component.
  */
-export default class PlacementResults extends React.Component<void, {}, void> {
+export default class PlacementResults extends React.Component<{}, void> {
   static contextTypes = {
     searcher: PropTypes.any,
   };

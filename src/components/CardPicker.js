@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import CardPickerCard from './CardPickerCard';
 import GridLayout from './GridLayout';
@@ -50,18 +50,11 @@ type CardPickerProps = {
   dataTestPrefix? : string | null;
 };
 
-type CardPickerDefaultProps = {
-  initialSelection: string | null;
-  defaultIconUri: string | null;
-  columns: number;
-  dataTestPrefix : string | null;
-};
-
 type CardPickerState = {
   selection: string | null;
 };
 
-export default class CardPicker extends React.Component<CardPickerDefaultProps, CardPickerProps, CardPickerState> {
+export default class CardPicker extends React.Component<CardPickerProps, CardPickerState> {
   static defaultProps = {
     initialSelection: null,
     defaultIconUri: null,
@@ -71,6 +64,8 @@ export default class CardPicker extends React.Component<CardPickerDefaultProps, 
 
   static displayName = 'CardPicker';
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static CardPickerItem;
 
   constructor(props: CardPickerProps) {

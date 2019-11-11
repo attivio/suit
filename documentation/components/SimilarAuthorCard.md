@@ -3,6 +3,7 @@
 __1.__ Simple example.
 
 ```jsx
+  import ExpertDetails from '../../src/components/ExpertDetails';
   <SimilarAuthorCard
     expert={
       new ExpertDetails.ExpertInfo(

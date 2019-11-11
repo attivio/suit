@@ -34,6 +34,8 @@ export default class ElasticToQueryResponse {
   /**
    * Turn non-array field values into arrays.
    */
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static wrapIfNotArray(v): Array<any> {
     return Array.isArray(v) ? v : [v];
   }
@@ -57,6 +59,8 @@ export default class ElasticToQueryResponse {
   }
 
   static getElasticFacets(facets: any, customOptions: any) {
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     return Object.keys(facets).map((field) => {
       const facetConfig = customOptions.facets.find((f) => {
         return f.field === field;

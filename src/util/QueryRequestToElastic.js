@@ -40,6 +40,8 @@ export default class QueryRequestToElastic {
       .catch((e) => { return callback(`Error: ${e}`); });
   }
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static buildQuery(query, facetFilters) {
     if (facetFilters.length === 0) {
       return query;
@@ -55,6 +57,8 @@ export default class QueryRequestToElastic {
     return aggs;
   }
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static buildSort(sort, customConfig) {
     if (sort.length === 0) {
       return [];

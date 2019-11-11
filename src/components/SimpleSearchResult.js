@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import SearchDocument from '../api/SearchDocument';
 import StringUtils from '../util/StringUtils';
@@ -20,14 +20,10 @@ type SimpleSearchResultProps = {
   position: number,
 }
 
-type SimpleSearchResultDefaultProps = {
-  baseUri: string;
-}
-
 /**
  * An Simple rendering of an individual search result.
  */
-export default class SimpleSearchResult extends React.Component<SimpleSearchResultDefaultProps, SimpleSearchResultProps, void> {
+export default class SimpleSearchResult extends React.Component<SimpleSearchResultProps, void> {
   static defaultProps = {
     baseUri: '',
   };
@@ -62,6 +58,8 @@ export default class SimpleSearchResult extends React.Component<SimpleSearchResu
     return <span>{json}</span>;
   }
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static renderer;
 
   render() {

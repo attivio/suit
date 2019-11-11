@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 type DefaultImageProps = {
   /**
@@ -13,10 +13,6 @@ type DefaultImageProps = {
   defaultSrc: string | null;
 };
 
-type DefaultImageDefaultProps = {
-  defaultSrc: string | null;
-}
-
 type DefaultImageState = {
   src: string | null;
 };
@@ -26,7 +22,7 @@ type DefaultImageState = {
  * If neither provided source is successfully displayed, then display nothing.
  * You can pass in any props that work for a standard <img> tag and they'll be added to the inserted image.
  */
-export default class DefaultImage extends React.Component<DefaultImageDefaultProps, DefaultImageProps, DefaultImageState> {
+export default class DefaultImage extends React.Component<DefaultImageProps, DefaultImageState> {
   static defaultProps = {
     defaultSrc: null,
   }
@@ -62,7 +58,7 @@ export default class DefaultImage extends React.Component<DefaultImageDefaultPro
   }
 
   render() {
-    const { src, defaultSrc, ...props } = this.props;
+    const { src, defaultSrc, ...props } = this.props; // eslint-disable-line no-unused-vars
     if (this.state.src !== null) {
       return <img src={this.state.src} onError={this.onError} {...props} />; // eslint-disable-line jsx-a11y/alt-text
     }

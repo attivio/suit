@@ -17,7 +17,11 @@ export default class AuthUtils {
    */
   static ADMIN_ROLE = 'AIE_Administrator';
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static users;
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static config;
 
   /**

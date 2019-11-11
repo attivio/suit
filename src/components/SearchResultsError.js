@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 type SearchResultsErrorProps = {
   error: string,
@@ -8,7 +8,7 @@ type SearchResultsErrorProps = {
 /**
  * An indicator of an error that occurred during the search.
  */
-export default class SearchResultsError extends React.Component<void, SearchResultsErrorProps, void> {
+export default class SearchResultsError extends React.Component<SearchResultsErrorProps, void> {
   static displayName = 'SearchResultsError';
 
   render() {

@@ -3,8 +3,7 @@
 ##################################################
 ### This script expects to be executed by NPM
 ### from the root of the project. For example,
-### with the command "npm run validateComponents"
-### with the command "npm run validatecomponents"
+### with the command "yarn validateComponents"
 ##################################################
 
 
@@ -17,7 +16,7 @@ compsAllowedToNotHaveDisplayName=("Configurable")
 # Note that configurable creates its display name dynamically using the name of the component it wraps...
 compsAllowedToNotHaveTests=()
 compsAllowedToNotHaveExamples=("AuthRoute" "AutoCompleteInput" "Configurable" "Configuration" "Logger")
-apisAllowedToNotHaveTests=("AbstractDocument" "DataPoint" "DataSet" "DateFormat" "DocumentMode" "FacetFilter" "FieldNames" "GraphEdge" "GraphNode" "Placement" "Position" "QueryResponse" "SearchDocument" "SearchFacet" "SearchFacetBucket" "SearchFacetStatistics" "SearchFeedback" "SearchPlacement" "SignalData" "Signals" "SimpleIngestDocument" "SimplePrincipal" "SimpleQueryRequest")
+apisAllowedToNotHaveTests=("AbstractDocument" "DataPoint" "DataSet" "DateFormat" "DocumentMode" "FacetFilter" "FieldNames" "GraphEdge" "GraphNode" "Placement" "Position" "QueryResponse" "Search" "SearchDocument" "SearchFacet" "SearchFacetBucket" "SearchFacetStatistics" "SearchFeedback" "SearchPlacement" "SignalData" "Signals" "SimpleIngestDocument" "SimplePrincipal" "SimpleQueryRequest")
 utilsAllowedToNotHaveTests=("ElasticToQueryResponse" "FetchUtils" "KnowledgeGraphUtils" "QueryRequestToElastic" "QueryRequestToSolr" "SolrToQueryResponse")
 
 
@@ -251,36 +250,6 @@ then
 else
   echo "Components that have no corresponding test (${#compsMissingTests[@]}):"
   echo ${compsMissingTests[*]}
-fi
-
-##################################################
-### Validate that all of the components have a
-### display name property.
-##################################################
-i=0
-for compName in "${compNames[@]}"
-do
-  if grep -q "static\sdisplayName\s*=\s*'${compName}'\s*;" "./src/components/${compName}.js"
-  then
-    :
-  else
-    compsWithMissingDisplayName[$i]="$compName"
-    (( i++ ))
-  fi
-done
-
-for i in "${compsAllowedToNotHaveDisplayName[@]}"; do
-  compsWithMissingDisplayName=(${compsWithMissingDisplayName[@]//*$i*})
-done
-
-echo ""
-if [ ${#compsWithMissingDisplayName[@]} -eq 0 ]
-then
-  echo "Components which are missing the display name attribute:"
-  echo None
-else
-  echo "Components which are missing the display name attribute (${#compsWithMissingDisplayName[@]}):"
-  echo ${compsWithMissingDisplayName[*]}
 fi
 
 

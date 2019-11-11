@@ -4,10 +4,11 @@
 __1:__  A simple example for finding values in a large facet.
 
 ```jsx
-  const AuthUtils = require('../../src/util/AuthUtils').default;
-  const DummySearcher = require('../../src/components/DummySearcher').default;
-  const QueryResponse = require('../../src/api/QueryResponse').default;
-  const sampleFacets = require('../sampleData/Facets').default;
+  import AuthUtils from'../../src/util/AuthUtils';
+  import DummySearcher from'../../src/components/DummySearcher';
+  import MoreListFacetContents from'../../src/components/MoreListFacetContents';
+  import QueryResponse from'../../src/api/QueryResponse';
+  import sampleFacets from'../sampleData/Facets';
 
   const config = {
     ALL: {
@@ -51,10 +52,11 @@ __1:__  A simple example for finding values in a large facet.
 __2:__  An example that allows exporting values as a CSV file.
 
 ```jsx
-  const AuthUtils = require('../../src/util/AuthUtils').default;
-  const DummySearcher = require('../../src/components/DummySearcher').default;
-  const QueryResponse = require('../../src/api/QueryResponse').default;
-  const sampleFacets = require('../sampleData/Facets').default;
+  import AuthUtils from '../../src/util/AuthUtils';
+  import DummySearcher from '../../src/components/DummySearcher';
+  import MoreListFacetContents from '../../src/components/MoreListFacetContents';
+  import QueryResponse from '../../src/api/QueryResponse';
+  import sampleFacets from '../sampleData/Facets';
 
   const config = {
     ALL: {

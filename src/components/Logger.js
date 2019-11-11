@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import Configurable from './Configurable';
 
@@ -11,7 +11,7 @@ type LoggerProps = {
   baseUri: string;
 }
 
-class Logger extends React.Component<LoggerProps, LoggerProps, void> {
+class Logger extends React.Component<LoggerProps, void> {
   static defaultProps = {
     baseUri: '',
   }

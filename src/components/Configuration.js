@@ -10,10 +10,12 @@ type ConfigurationProps = {
    * Any child components can access the configuration's settings
    * using the "configuration" object in their context
    */
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   children: Children;
 };
 
-export default class Configuration extends React.Component<void, ConfigurationProps, any> {
+export default class Configuration extends React.Component<ConfigurationProps, any> {
   static childContextTypes = {
     configuration: PropTypes.any,
   }

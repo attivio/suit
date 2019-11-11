@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import SearchDocument from '../api/SearchDocument';
 import FieldNames from '../api/FieldNames';
@@ -30,17 +30,10 @@ type DebugSearchResultProps = {
   hide360Link?: boolean;
 }
 
-type DebugSearchResultDefaultProps = {
-  baseUri: string;
-  showTags: boolean;
-  showRatings: boolean;
-  hide360Link: boolean;
-}
-
 /**
  * A "Debug" rendering of a document which shows all of its fields and their values.
  */
-export default class DebugSearchResult extends React.Component<DebugSearchResultDefaultProps, DebugSearchResultProps, void> {
+export default class DebugSearchResult extends React.Component<DebugSearchResultProps, void> {
   static defaultProps = {
     baseUri: '',
     showTags: true,
@@ -82,6 +75,8 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
     return <span>{json}</span>;
   }
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static renderer;
 
   rateDocument = (doc: SearchDocument, rating: number) => {
@@ -143,7 +138,11 @@ export default class DebugSearchResult extends React.Component<DebugSearchResult
       <div className=" attivio-search-result row">
         <div className="col-xs-2 col-sm-2">
           <DocumentType docType={table} position={position} />
-          <DocumentThumbnail uri={thumbnailUri} previewUris={previewUri} previewTitle={document.getFirstValue(FieldNames.TITLE)} />
+          <DocumentThumbnail
+            uri={thumbnailUri}
+            previewUris={previewUri}
+            previewTitle={document.getFirstValue(FieldNames.TITLE)}
+          />
           <dl className="attivio-labeldata-stacked attivio-labeldata-stacked-search-results">
             {showRatings && (
               <div>
