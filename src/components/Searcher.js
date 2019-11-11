@@ -66,7 +66,7 @@ type SearcherProps = {
    */
   baseUri: string;
   /** The workflow to use when performing the search. Defaults to the "search" workflow. */
-  searchWorkflow: string;
+  workflow: string;
   /** The list of document fields to return when performing the search. Defaults to all fields (*). */
   fields: Array<string>;
   /** The list of facets to request when performing the search. Defaults to just 'table'. */
@@ -141,7 +141,7 @@ type SearcherProps = {
   /**
    * The name of the Business Center profile to use for queries. If set, this will enable Profile level campaigns and promotions.
    */
-  businessCenterProfile: string | null;
+  searchProfile: string | null;
   /**
    * The Searcher contains arbitrary children, including the components that
    * control its properties and display the search results.
@@ -179,7 +179,7 @@ type SearcherState = {
   debug: boolean;
   queryTimestamp: number;
   profile: string | null;
-  selectedSearchWorkflow: string | null;
+  workflow: string | null;
 };
 
 /**
@@ -244,7 +244,7 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
     searchEngineType: 'attivio',
     customOptions: {},
     baseUri: '',
-    searchWorkflow: 'search',
+    workflow: 'search',
     fields: ['*'],
     facets: [],
     relevancyModels: ['default'],
@@ -267,7 +267,7 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
     sourcePath: FieldNames.SOURCEPATH,
     debug: false,
     resultsPerPage: 10,
-    businessCenterProfile: null,
+    searchProfile: null,
     defaultQueryLanguage: 'simple',
     maxResubmits: 1,
   };
@@ -374,8 +374,8 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
        * to v0.107.0. To view the error, delete this comment and run Flow. */
       debug: props.debug,
       queryTimestamp: 0,
-      profile: this.props.businessCenterProfile,
-      selectedSearchWorkflow: this.props.searchWorkflow,
+      profile: this.props.searchProfile,
+      workflow: this.props.workflow,
       /* $FlowFixMe This comment suppresses an error found when upgrading Flow
        * to v0.107.0. To view the error, delete this comment and run Flow. */
       hideMast: (props.location.pathname && props.location.pathname.includes('/no-mast')),
@@ -398,7 +398,7 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
    */
   getQueryRequest() {
     const qr = new SimpleQueryRequest();
-    qr.workflow = this.state.selectedSearchWorkflow || this.props.searchWorkflow;
+    qr.workflow = this.state.workflow || this.props.workflow;
     qr.query = this.state.query;
     qr.queryLanguage = this.state.queryLanguage;
     qr.rows = this.state.resultsPerPage;
@@ -439,9 +439,9 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
     if (this.state.profile && this.state.profile.length > 0) {
       restParams.set('abc.enabled', ['true']);
       restParams.set('searchProfile', [this.state.profile]);
-    } else if (this.props.businessCenterProfile && this.props.businessCenterProfile.length > 0) {
+    } else if (this.props.searchProfile && this.props.searchProfile.length > 0) {
       restParams.set('abc.enabled', ['true']);
-      restParams.set('searchProfile', [this.props.businessCenterProfile]);
+      restParams.set('searchProfile', [this.props.searchProfile]);
     }
     restParams.set('q.maxresubmits', [`${this.props.maxResubmits}`]);
 
@@ -492,15 +492,23 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
     });
   }
 
+  /**
+   * Update the Attivio Businesss Center search profile the Searcher will set
+   * in the query requests it makes.
+   */
   setSearchProfile = (profile: string) => {
     this.updateStateResetAndSearch({
       profile,
     });
   }
 
-  setSearchWorkflow = (workflow: string) => {
+  /**
+   * Update the query workflow the Searcher will set in the query
+   * requests it makes.
+   */
+  setWorkflow = (workflow: string) => {
     this.updateStateResetAndSearch({
-      selectedSearchWorkflow: workflow,
+      workflow,
     });
   }
 
@@ -595,8 +603,8 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
     if (state.profile && state.profile.length > 0) {
       basicState.profile = state.profile;
     }
-    if (state.selectedSearchWorkflow && state.selectedSearchWorkflow.length > 0) {
-      basicState.selectedSearchWorkflow = state.selectedSearchWorkflow;
+    if (state.workflow && state.workflow.length > 0) {
+      basicState.workflow = state.workflow;
     }
     if (state.debug !== this.props.debug) {
       basicState.debug = state.debug;
@@ -615,7 +623,7 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
         originalParsed.delete('sort');
         originalParsed.delete('relevancyModels');
         originalParsed.delete('profile');
-        originalParsed.delete('selectedSearchWorkflow');
+        originalParsed.delete('workflow');
         originalParsed.delete('debug');
       }
       // Add any leftover fields back in to the basic state
@@ -712,19 +720,15 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
       relevancyModels = [];
     }
 
-    let businessCenterProfile = this.props.businessCenterProfile;
+    let searchProfile = this.props.searchProfile;
     if (parsed.profile) {
-      businessCenterProfile = parsed.profile;
+      searchProfile = parsed.profile;
     }
 
-    let selectedSearchWorkflow = this.props.searchWorkflow;
-    if (parsed.selectedSearchWorkflow) {
-      selectedSearchWorkflow = parsed.selectedSearchWorkflow;
+    let workflow = this.props.workflow;
+    if (parsed.workflow) {
+      workflow = parsed.workflow;
     }
-
-    // LJV TODO
-    // Get the business center profile to use.
-    // DEFAULT: none
 
     // Determine if we're in debug mode.
     // DEFAULT: this.props.format
@@ -742,8 +746,8 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
       facetFilters,
       sort: [sort],
       relevancyModels,
-      profile: businessCenterProfile,
-      selectedSearchWorkflow,
+      profile: searchProfile,
+      workflow,
       debug,
       haveSearched: this.state.haveSearched, // Make sure we don't change this
       queryTimestamp: 0,
