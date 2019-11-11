@@ -46,16 +46,14 @@ export default class NavbarSearch extends React.Component<NavbarSearchProps, voi
     }
   }
 
-  doKeyPress = (e: Event) => {
+  doKeyPress = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     // If the user presses enter, do the search
-    if (e.target instanceof HTMLInputElement) {
-      if (e.keyCode === 13) {
-        this.onSearch();
-      }
+    if (e.keyCode === 13) {
+      this.onSearch();
     }
   }
 
-  button: ?HTMLDivElement;
+  button: ?HTMLButtonElement;
 
   render() {
     const { placeholder, value, updateSearchString, onSearch, ...otherProps } = this.props; // eslint-disable-line no-unused-vars
