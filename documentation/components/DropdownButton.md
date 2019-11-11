@@ -4,7 +4,8 @@
 __1:__ Simple dropdown button with Bootstrap-type menu items.
 
 ```jsx
-  const { MenuItem } = require('react-bootstrap');
+  import { MenuItem } from 'react-bootstrap';
+
   <DropdownButton
     id="testingButton"
     title="Pick a Color"

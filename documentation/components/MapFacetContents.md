@@ -4,7 +4,7 @@
 __1:__ Showing some geographic facet data. Click the VIEW CODE link below and enter your own Mapbox key to see the map displayed.
 
 ```jsx
-  const sampleFacets = require('../sampleData/Facets').default;
+  import sampleFacets from '../sampleData/Facets';
 
   <MapFacetContents
     buckets={sampleFacets.positionFacet.buckets}

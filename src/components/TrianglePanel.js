@@ -21,19 +21,14 @@ type TrianglePanelProps = {
    */
   localStorageKey: string | null;
   /** The contents of the panel can be whatever you like. */
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   children: Children;
   /**
    * Property that contains the value for data-test attribute added to elements to be uniquely
    * identified by testing tools like Selenium
    */
   dataTestValue? : string | null;
-}
-
-type TrianglePanelDefaultProps = {
-  bordered: boolean;
-  initiallyCollapsed: boolean;
-  localStorageKey: string | null;
-  dataTestValue: string | null;
 }
 
 type TrianglePanelState = {
@@ -49,7 +44,7 @@ type TrianglePanelState = {
  * It can optionally remember the open/closed state between uses by using
  * the browser's local storage.
  */
-export default class TrianglePanel extends React.Component<TrianglePanelDefaultProps, TrianglePanelProps, TrianglePanelState> { // eslint-disable-line max-len
+export default class TrianglePanel extends React.Component<TrianglePanelProps, TrianglePanelState> { // eslint-disable-line max-len
   static defaultProps = {
     bordered: false,
     initiallyCollapsed: false,

@@ -141,7 +141,7 @@ type MasterDetailsState = {
  * information about the item in the selected row. If the table allows selection of multiple rows
  * simultaneously, then the details pane shows information aobut the most recently selected row.
  */
-export default class MasterDetails extends React.Component<MasterDetailsDefaultProps, MasterDetailsProps, MasterDetailsState> {
+export default class MasterDetails extends React.Component<MasterDetailsProps, MasterDetailsState> {
   static defaultProps: MasterDetailsDefaultProps = {
     detailsProps: {},
     footer: null,

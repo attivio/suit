@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import moment from 'moment';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
@@ -40,7 +40,7 @@ type DatePickerState = {
  * Component to let the user choose either a single
  * date or a starting/ending range.
  */
-export default class DatePicker extends React.Component<void, DatePickerProps, DatePickerState> {
+export default class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
   static displayName = 'DatePicker';
 

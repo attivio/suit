@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import Menu, { MenuItemDef } from './Menu';
 import SmallTabs from './SmallTabs';
@@ -62,22 +62,13 @@ type TimeRangePickerProps = {
   style: any;
 };
 
-type TimeRangePickerDefaultProps = {
-  currentStart: Date | null;
-  currentEnd: Date | null;
-  customRange: boolean;
-  customGranularity: boolean;
-  currentGranularity: TimeRangeGranularity;
-  style: any;
-};
-
 type TimeRangePickerState = {
   start: Date | null;
   end: Date | null;
   showCustomDatePicker: boolean;
 };
 
-export default class TimeRangePicker extends React.Component<TimeRangePickerDefaultProps, TimeRangePickerProps, TimeRangePickerState> { // eslint-disable-line max-len
+export default class TimeRangePicker extends React.Component<TimeRangePickerProps, TimeRangePickerState> { // eslint-disable-line max-len
   static defaultProps = {
     currentStart: null,
     currentEnd: null,
@@ -205,6 +196,8 @@ export default class TimeRangePicker extends React.Component<TimeRangePickerDefa
 
   renderCustomRangeOption() {
     if (this.props.customRange) {
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       const customRangeClass = this.state.currentInterval === null ? 'attivio-smalltabs-selected' : '';
       const { startDate, endDate } = this.calculateRange();
       return (

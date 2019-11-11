@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import { withRouter } from 'react-router-dom';
@@ -15,7 +15,7 @@ type SpellCheckMessageProps = {
 /**
  * A suggested alternate query if one is available.
  */
-class SpellCheckMessage extends React.Component<void, SpellCheckMessageProps, void> {
+class SpellCheckMessage extends React.Component<SpellCheckMessageProps, void> {
   static contextTypes = {
     searcher: PropTypes.any,
   };

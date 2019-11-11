@@ -3,7 +3,7 @@
 __1.__ Button with just text.
 
 ```jsx
-  const Navbar = require('../../src/components/Navbar').default;
+  import Navbar from '../../src/components/Navbar';
   <Navbar>
     <NavbarButton
       label="Click Me"
@@ -11,10 +11,11 @@ __1.__ Button with just text.
     />
   </Navbar>
 ```
+
 __2.__ Button with just an icon.
 
 ```jsx
-  const Navbar = require('../../src/components/Navbar').default;
+  import Navbar from '../../src/components/Navbar';
   <Navbar>
     <NavbarButton
       icon="cog"
@@ -22,10 +23,11 @@ __2.__ Button with just an icon.
     />
   </Navbar>
 ```
+
 __3.__ Button with text and an icon.
 
 ```jsx
-  const Navbar = require('../../src/components/Navbar').default;
+  import Navbar from '../../src/components/Navbar';
   <Navbar>
     <NavbarButton
       label="Scan Product"

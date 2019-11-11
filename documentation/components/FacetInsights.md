@@ -4,9 +4,9 @@
 __1:__ Showing a set of common facets.
 
 ```jsx
-  const QueryResponse = require('../../src/api/QueryResponse').default;
-  const DummySearcher = require('../../src/components/DummySearcher').default;
-  const sampleFacets = require('../sampleData/Facets').default;
+  import QueryResponse from '../../src/api/QueryResponse';
+  import DummySearcher from '../../src/components/DummySearcher';
+  import sampleFacets from '../sampleData/Facets';
 
   const queryResponse = new QueryResponse();
   queryResponse.facets = [

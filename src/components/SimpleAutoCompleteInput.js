@@ -1,6 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import { RootCloseWrapper } from 'react-overlays';
@@ -61,15 +61,6 @@ type AutoCompleteInputProps = {
   outerStyle: any;
 };
 
-type AutoCompleteInputDefaultProps = {
-  placeholder: string;
-  allowCustomValues: boolean;
-  disabled: boolean;
-  className: string;
-  style: any;
-  outerStyle: any;
-};
-
 type AutoCompleteInputState = {
   suggestions: Array<string>;
   open: boolean;
@@ -84,7 +75,7 @@ type AutoCompleteInputState = {
  * the look up and suggestions happen with the first key stroke instead of
  * waiting to have at least three characters.
  */
-export default class SimpleAutoCompleteInput extends React.Component<AutoCompleteInputDefaultProps, AutoCompleteInputProps, AutoCompleteInputState> { // eslint-disable-line max-len
+export default class SimpleAutoCompleteInput extends React.Component<AutoCompleteInputProps, AutoCompleteInputState> { // eslint-disable-line max-len
   static defaultProps = {
     placeholder: '',
     allowCustomValues: false,
@@ -145,6 +136,8 @@ export default class SimpleAutoCompleteInput extends React.Component<AutoComplet
   }
 
   handleChange(event: Event & { currentTarget: HTMLInputElement }) {
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     const query = event.currentTarget.value;
     this.props.updateValue(query, false);
     if (!query || query.length === 0) {
@@ -187,6 +180,8 @@ export default class SimpleAutoCompleteInput extends React.Component<AutoComplet
     const suggestions = this.state.suggestions;
     // This condition is satisfied when a user presses the enter key.
     if (event.keyCode === 13) {
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       const query = event.currentTarget.value;
       this.submitChoice(query);
     } else if (event.keyCode === 40 && this.state.cursor < suggestions.length - 1) {

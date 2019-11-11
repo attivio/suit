@@ -1,5 +1,7 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
+/* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+ * v0.107.0. To view the error, delete this comment and run Flow. */
 import type { Children } from 'react';
 
 import PropTypes from 'prop-types';
@@ -73,7 +75,7 @@ type MastheadState = {
  * being in masthead have names that start with "Masthead," such as
  * MastheadNavBar and MastheadNavTabs.
  */
-class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, MastheadState> {
+class Masthead extends React.Component<MastheadProps, MastheadState> {
   static defaultProps: MastheadDefaultProps = {
     logoUri: 'img/attivio-logo-reverse.png',
     logoAlt: 'Attivio Home',
@@ -223,6 +225,9 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
         onClick={this.navigateHome}
         className="attivio-globalmast-logo attivio-globalmast-separator after"
         ref={(c) => {
+          /* $FlowFixMe This comment suppresses an error found when upgrading
+           * Flow to v0.107.0. To view the error, delete this comment and run
+           * Flow. */
           this.homeLink = c;
         }}
       >
@@ -242,6 +247,24 @@ class Masthead extends React.Component<MastheadDefaultProps, MastheadProps, Mast
     } else {
       // If there's no user logged in, then disable logging out.
       logoutFunction = null;
+    }
+
+    const hideMast = (
+      this.context
+      && this.context.searcher
+      && this.context.searcher.state
+      && this.context.searcher.state.hideMast
+    ) || false;
+  
+    if (hideMast) {
+      return (
+        <header className="attivio-globalmast attivio-minwidth">
+          <div className="attivio-container">
+            {this.props.children}
+            <div className="attivio-globalmast-spacer attivio-globalmast-logo" />
+          </div>
+        </header>
+      );
     }
 
     return (

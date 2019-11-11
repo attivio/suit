@@ -3,7 +3,7 @@
 __1.__ Simple sort menu that includes the Relevancy option.
 
 ```jsx
-  const Navbar = require('../../src/components/Navbar').default;
+  import Navbar from '../../src/components/Navbar';
   <Navbar>
     <NavbarSort
       includeRelevancy
@@ -22,7 +22,7 @@ __1.__ Simple sort menu that includes the Relevancy option.
 __2.__ Example with custom label, pulled to the right.
 
 ```jsx
-  const Navbar = require('../../src/components/Navbar').default;
+  import Navbar from '../../src/components/Navbar';
   <Navbar>
     <NavbarSort
       label="Order the Results:"

@@ -4,10 +4,10 @@
 __1:__  Showing a suggested update to the user's query.
 
 ```jsx
-  const { Link, MemoryRouter, Route, Switch } = require('react-router-dom');
-  const DummySearcher = require('../../src/components/DummySearcher').default;
-  const QueryResponse = require('../../src/api/QueryResponse').default;
-  const SearchFeedback = require('../../src/api/SearchFeedback').default;
+  import { Link, MemoryRouter, Route, Switch } from 'react-router-dom';
+  import DummySearcher from '../../src/components/DummySearcher';
+  import QueryResponse from '../../src/api/QueryResponse';
+  import SearchFeedback from '../../src/api/SearchFeedback';
 
   const feedback = new SearchFeedback();
   feedback.messageName = 'spellcheck.suggested';

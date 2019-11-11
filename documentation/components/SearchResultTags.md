@@ -3,8 +3,9 @@
 __1.__ Showing a set of existing tags.
 
 ```jsx
-const { StaticRouter } = require('react-router-dom');
-<StaticRouter context={{}}>
+import { MemoryRouter } from 'react-router-dom';
+
+<MemoryRouter>
   <SearchResultTags
     tags={[
       'Useful',
@@ -14,23 +15,25 @@ const { StaticRouter } = require('react-router-dom');
     ]}
     docId="foo"
   />
-</StaticRouter>
+</MemoryRouter>
 ```
 
 __2.__ Showing no existing tags.
 
 ```jsx
-const { StaticRouter } = require('react-router-dom');
-<StaticRouter context={{}}>
+import { MemoryRouter } from 'react-router-dom';
+
+<MemoryRouter>
   <SearchResultTags tags={[]} docId="foo" />
-</StaticRouter>
+</MemoryRouter>
 ```
 
 __3.__ Showing tags in a vertical layout.
 
 ```jsx
-const { StaticRouter } = require('react-router-dom');
-<StaticRouter context={{}}>
+import { MemoryRouter } from 'react-router-dom';
+
+<MemoryRouter>
   <SearchResultTags
     tags={[
       'Useful',
@@ -41,5 +44,5 @@ const { StaticRouter } = require('react-router-dom');
     vertical
     docId="foo"
   />
-</StaticRouter>
+</MemoryRouter>
 ```

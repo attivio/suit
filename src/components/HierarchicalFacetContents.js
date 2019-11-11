@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import HierarchicalList, { HierarchicalNode } from './HierarchicalList';
 import SearchFacetBucket from '../api/SearchFacetBucket';
@@ -19,7 +19,7 @@ type HierarchicalFacetContentsState = {
   bucketMap: Map<string, SearchFacetBucket>;
 };
 
-export default class HierarchicalFacetContents extends React.Component<void, HierarchicalFacetContentsProps, HierarchicalFacetContentsState> { // eslint-disable-line max-len
+export default class HierarchicalFacetContents extends React.Component<HierarchicalFacetContentsProps, HierarchicalFacetContentsState> { // eslint-disable-line max-len
   static displayName = 'HierarchicalFacetContents';
 
   constructor(props: HierarchicalFacetContentsProps) {

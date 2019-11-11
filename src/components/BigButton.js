@@ -1,5 +1,7 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
+/* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+ * v0.107.0. To view the error, delete this comment and run Flow. */
 import type { Children } from 'react';
 
 import PropTypes from 'prop-types';
@@ -22,14 +24,6 @@ type BigButtonProps = {
   style: any,
 };
 
-type BigButtonDefaultProps = {
-  className: string,
-  bsStyle: string,
-  route: string,
-  onClick: () => void,
-  style: any,
-};
-
 /**
  * A button control that can have arbitrary
  * contents and is clickable by the user. The contents of the
@@ -44,7 +38,7 @@ type BigButtonDefaultProps = {
  * pass a value to the <code>bsStyle</code> prop to change its style). Alternatively,
  * you can pass the name of a CSS class or a style object as to style it yourself.
  */
-class BigButton extends React.Component<BigButtonDefaultProps, BigButtonProps, void> {
+class BigButton extends React.Component<BigButtonProps, void> {
   static defaultProps = {
     className: '',
     bsStyle: 'default',
@@ -82,6 +76,7 @@ class BigButton extends React.Component<BigButtonDefaultProps, BigButtonProps, v
     }
     return (
       <div
+        data-testid='big-button'
         onClick={this.doClick}
         className={className}
         style={this.props.style}

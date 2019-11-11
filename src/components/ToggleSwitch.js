@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 type ToggleSwitchProps = {
   /** Whether the switch is in the “on” position. */
@@ -31,20 +31,10 @@ type ToggleSwitchProps = {
   dataTest?: string | null;
 };
 
-type ToggleSwitchDefaultProps = {
-  onLabel: string;
-  offLabel: string;
-  disabled: boolean;
-  noLabel: boolean;
-  style: any;
-  className: string;
-  dataTest : string | null;
-};
-
 /**
  * This is a simple “sliding” toggle switch with customizable labels.
  */
-export default class ToggleSwitch extends React.Component<ToggleSwitchDefaultProps, ToggleSwitchProps, void> {
+export default class ToggleSwitch extends React.Component<ToggleSwitchProps, void> {
   static defaultProps = {
     onLabel: 'On',
     offLabel: 'Off',

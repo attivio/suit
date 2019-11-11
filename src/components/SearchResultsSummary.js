@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 type SearchResultsSummaryProps = {
   /** The current page number. */
@@ -15,7 +15,7 @@ type SearchResultsSummaryProps = {
 /**
  * A summary of the currently displayed search results.
  */
-export default class SearchResultsSummary extends React.Component<void, SearchResultsSummaryProps, void> {
+export default class SearchResultsSummary extends React.Component<SearchResultsSummaryProps, void> {
   static displayName = 'SearchResultsSummary';
 
   render() {

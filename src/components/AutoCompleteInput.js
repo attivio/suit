@@ -1,6 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import { RootCloseWrapper } from 'react-overlays';
@@ -24,7 +24,7 @@ type AutoCompleteInputProps = {
    * an array of objects which each contain a "label" property containing
    * the text of the suggestion.
    */
-  uri: string | null;
+  uri?: string;
   /**
    * The callback used when the user edits the text in the <input> element
    * or chooses an item from the suggestion menu. If a suggestion is chosen,
@@ -70,16 +70,6 @@ type AutoCompleteInputProps = {
   allowPunctuation: boolean;
 };
 
-type AutoCompleteInputDefaultProps = {
-  id: string;
-  placeholder: string;
-  value: string;
-  disabled: boolean;
-  className: string;
-  style: any;
-  allowPunctuation: boolean;
-};
-
 type AutoCompleteInputState = {
   isLoading: boolean;
   suggestions: Array<string>;
@@ -92,7 +82,7 @@ type AutoCompleteInputState = {
   queryIsAutocomplete: boolean;
 };
 
-export default class AutoCompleteInput extends React.Component<AutoCompleteInputDefaultProps, AutoCompleteInputProps, AutoCompleteInputState> { // eslint-disable-line max-len
+export default class AutoCompleteInput extends React.Component<AutoCompleteInputProps, AutoCompleteInputState> { // eslint-disable-line max-len
   static defaultProps = {
     id: 'autocomplete',
     placeholder: '',
@@ -152,6 +142,8 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
   }
 
   handleChange(event: Event & { currentTarget: HTMLInputElement }) {
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     const query = event.currentTarget.value;
     this.props.updateValue(query, false);
     if (query && query.length > AutoCompleteInput.AUTOCOMPLETE_THRESHOLD) {
@@ -231,6 +223,8 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
     const { suggestions } = this.state;
     // This condition is satisfied when a user presses the enter key.
     if (event.keyCode === 13) {
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       const query = event.currentTarget.value;
       // This condition is satisfied when the user presses the enter key
       // after selecting entry from the autocomplete list
@@ -271,6 +265,8 @@ export default class AutoCompleteInput extends React.Component<AutoCompleteInput
     const menuItems = [];
     if (this.state.error && this.state.error.length > 0) {
       menuItems.push(<MenuItem eventKey="error" disabled>{this.state.error}</MenuItem>);
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     } else if (this.state.loading) {
       menuItems.push(<MenuItem eventKey="loading" disabled>{'Loading\u2026'}</MenuItem>);
     } else {

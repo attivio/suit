@@ -262,11 +262,15 @@ export default class StringUtils {
     const emailRegExp = RegExp('[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+', 'g');
     while ((match = emailRegExp.exec(lc)) !== null) { // eslint-disable-line no-cond-assign
       const matchEnd = emailRegExp.lastIndex;
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       const thisMatch = match[0];
       const matchStart = matchEnd - thisMatch.length;
       const preceeding = original.substring(pos, matchStart);
       const cleanPreceeding = StringUtils.stripPunctuation(preceeding);
       result += cleanPreceeding; // If anyhthing came before this match, add it to the result
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       result += match[0];
       pos = matchEnd;
     }

@@ -3,7 +3,7 @@
 __1.__ Showing the 'simple' view of a document.
 
 ```jsx
-  sampleDocs = require('../sampleData/Documents').default;
+  import sampleDocs from '../sampleData/Documents';
 
   <SimpleSearchResult
     document={sampleDocs.elsalvador}

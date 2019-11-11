@@ -13,6 +13,8 @@ type DropdownButtonProps = {
   /** The title to display on the un-opened dropdown button */
   title: string;
   /** The menu items to display when the dropdown is opened */
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   children: Children;
   /** An optional custom className for the button title */
   titleClassName: ?string;
@@ -27,7 +29,7 @@ type DropdownButtonProps = {
 /**
  * A button that displays a menu below it when clicked.
  */
-export default class DropdownButton extends React.Component<void, DropdownButtonProps, void> {
+export default class DropdownButton extends React.Component<DropdownButtonProps, void> {
   static displayName = 'DropdownButton';
 
   render() {

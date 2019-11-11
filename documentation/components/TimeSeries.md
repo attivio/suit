@@ -3,7 +3,7 @@
 __1:__ Combined bar and line chart values over time. The bar represents percentages.
 
 ```jsx
-  const DataPoint = require('../../src/api/DataPoint').default;
+  import DataPoint from '../../src/api/DataPoint';
 
   const roundTo = function(num, digits = 0) {
     var multiplier = Math.pow(10, digits);
@@ -68,7 +68,7 @@ __1:__ Combined bar and line chart values over time. The bar represents percenta
 __2:__ Stacked bar chart values over time.
 
 ```jsx
-  const DataPoint = require('../../src/api/DataPoint').default;
+  import DataPoint from '../../src/api/DataPoint';
 
   const roundTo = function(num, digits = 0) {
     var multiplier = Math.pow(10, digits);
@@ -131,7 +131,7 @@ __2:__ Stacked bar chart values over time.
 __3:__ Combined bar and line chart values over time with the legend off to the right and a taller chart.
 
 ```jsx
-  const DataPoint = require('../../src/api/DataPoint').default;
+  import DataPoint from '../../src/api/DataPoint';
 
   const roundTo = function(num, digits = 0) {
     var multiplier = Math.pow(10, digits);

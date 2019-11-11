@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import Menu, { MenuItemDef } from './Menu';
@@ -9,17 +9,12 @@ type SearchResultsPerPageProps = {
   options: Array<number>;
 };
 
-type SearchResultsPerPageDefaultProps = {
-  /** The options to show. Defaults to 10, 25, 50, and 100. */
-  options: Array<number>;
-};
-
 /**
  * A pop-up for choosing how many search results should be
  * on each page. It works with the parent Searcher component to
  * update its property and to show the current value.
  */
-export default class SearchResultsPerPage extends React.Component<SearchResultsPerPageDefaultProps, SearchResultsPerPageProps, void> { // eslint-disable-line max-len
+export default class SearchResultsPerPage extends React.Component<SearchResultsPerPageProps, void> { // eslint-disable-line max-len
   static defaultProps = {
     options: [10, 25, 50, 100],
   };
