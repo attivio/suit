@@ -7,9 +7,9 @@ import Menu, { MenuItemDef } from './Menu';
 type NavbarProfileSelectorProps = {
   /** If set, the menu will be pulled to the right side of its parent. */
   right: boolean,
-  /** The label to use for the menu. Defaults to "Sort:". */
+  /** The label to use for the menu. Defaults to "Profile:". */
   label: string,
-  /** The names of the fields to include in the menu. */
+  /** The names of the profiles to include in the menu. */
   profiles: Array<string>,
 };
 
@@ -42,40 +42,50 @@ export default class NavbarProfileSelector extends React.Component<
   static displayName = 'NavbarProfileSelector';
 
   static makeMenuItem(profileName: string, current: boolean) {
-    const profileNameElement = current ? <b>{profileName}</b> : profileName;
-    const key = profileName;
+    const profileNameElement = current ? (
+        <b>
+          {profileName}
+        </b>
+      ) : profileName;
     return (
-      <li key={key}>
-        <a>{profileNameElement}</a>
+      <li key={profileName}>
+        <a>
+          {profileNameElement}
+        </a>
       </li>
     );
   }
 
   profileChanged = (item: MenuItemDef) => {
-    const searcher = this.context.searcher;
-    if (searcher) {
-      searcher.setSearchProfile(item.value);
-    }
+    const { searcher } = this.context;
+    searcher.setSearchProfile(item.value);
   }
 
   render() {
-    let currentProfile = 'Default';
-    const searcher = this.context.searcher;
+    const { searcher } = this.context;
     if (searcher) {
-      currentProfile = searcher.state.profile;
+      const { profile: currentProfile } = searcher.state;
+
+      const { profiles, label, right } = this.props;
+      const menuItems = profiles.map((profileName: string) => {
+          return new MenuItemDef(profileName, profileName);
+        });
+      }
+
+      const className = right ? 'attivio-globalmastnavbar-right' : '';
+
+      return (
+        <div className={className}>
+          <Menu
+            label={label}
+            selection={currentProfile}
+            items={menuItems}
+            onSelect={this.profileChanged}
+          />
+        </div>
+      );
     }
-
-    const { profiles } = this.props;
-    const menuItems = profiles.map((profileName: string) => {
-      return new MenuItemDef(profileName, profileName);
-    });
-
-    const leftRight = this.props.right ? 'attivio-globalmastnavbar-right' : '';
-
-    return (
-      <div className={leftRight}>
-        <Menu label={this.props.label} selection={currentProfile} items={menuItems} onSelect={this.profileChanged} />
-      </div>
-    );
-  }
+    // If there's no searcher, don't show anything
+    return null;
+  }    
 }
