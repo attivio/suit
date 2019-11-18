@@ -24,7 +24,7 @@ Please provide a detailed description of the issue with any code excerpts, logs 
 ## Attivio
 For more information on Attivio and the Attivio Platform, please visit our website at [http://www.attivio.com](http://www.attivio.com).
 
-[build-badge]: https://travis-ci.org/attivio/suit.svg
+[build-badge]: https://travis-ci.org/attivio/suit/master.svg
 [build]: https://travis-ci.org/attivio/suit
 
 [npm-badge]: https://img.shields.io/npm/v/@attivio/suit.svg
