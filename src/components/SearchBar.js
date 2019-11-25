@@ -61,6 +61,12 @@ type SearchBarProps = {
    * If set, a new signal of this type would be added when an autocomplete item is selected.
    */
   createAutoCompleteSignal?: boolean;
+  /**
+   * If set, this function will be called prior to executing a search. If the function
+   * returns true, then the default search behavior will then be executed, otherwise
+   * nothing else will happen.
+   */
+  searchHook?: null | (query: string, searcher: any) => boolean;
 };
 
 type SearchBarDefaultProps = {
@@ -74,6 +80,7 @@ type SearchBarDefaultProps = {
   route: string | null;
   baseUri: string;
   createAutoCompleteSignal: boolean;
+  searchHook: null | (query: string, searcher: any) => boolean;
 };
 
 type SearchBarState = {
@@ -97,6 +104,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
     route: null,
     baseUri: '',
     createAutoCompleteSignal: false,
+    searchHook: null,
   };
 
   static contextTypes = {
@@ -255,17 +263,29 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
   doSearch() {
     const searcher = this.context.searcher;
     if (searcher) {
-      if (this.props.route) {
-        this.route();
-      } else if (searcher.state.query && !searcher.state.haveSearched) {
-        // on click of Go, if a new query is being searched
-        // reset filters & display results
-        searcher.setQueryAndSearch(searcher.state.query);
-      } else if (searcher.state.query && searcher.state.haveSearched) {
-        // do not reset only search
-        searcher.doSearch();
+      const { query, haveSearched } = searcher.state;
+      const { searchHook } = this.props;
+
+      let doMainSearch = true;
+
+      if (searchHook) {
+        doMainSearch = searchHook(query, searcher);
+      }
+
+      if (doMainSearch) {
+        if (this.props.route) {
+          this.route();
+        } else if (query && !haveSearched) {
+          // on click of Go, if a new query is being searched
+          // reset filters & display results
+          searcher.setQueryAndSearch(query);
+        } else if (query && haveSearched) {
+          // do not reset only search
+          searcher.doSearch();
+        }
       }
     }
+    // Always want to do this, even if the serchHook cancelled
     if (this.submitButton) {
       this.submitButton.blur();
     }
