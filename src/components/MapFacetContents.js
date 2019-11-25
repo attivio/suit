@@ -5,7 +5,7 @@ import * as React from 'react';
 // Uncommenting DrawControl import would enable Polygon selection
 // feature and render it in Chrome but won't render in IE11.
 // import DrawControl from 'react-mapbox-gl-draw';
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import { Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 import PropTypes from 'prop-types';
 import sizeMe from 'react-sizeme';
@@ -29,8 +29,28 @@ type MapFacetContentsProps = {
    * and should not be set by the component's parent.
   */
   size: any;
-  /** The public key with which to connect to the mapbox public apis. */
+  /**
+   * The key for connecting to the Mapbox public APIs. This must be set to your
+   * own key in order for the MapFacetContents component to be rendered.
+   */
   mapboxKey: string;
+  /** Custom location pointer glyphicon name; default is the "map-marker" glyphicon */
+  pointerGlyph?: string;
+  /** Custom location pointer image URI; if set, this image is shown instead of a glyphicon */
+  pointerImageUri?: string;
+  /**
+   * Custom tooltip text to convey what the location pointers are for, for e.g. customers,
+   * transactions, etc. It uses the same format as is used by StringUtils.fmt. For example,
+   * '{} cat|{} cats' to differentiate between singular and plural cats. See StringUtils.fmt()'s
+   * documentation for further details.
+   *
+   * Note that if this isn't parameterized with "{}" then it is treated as a plain-text suffix
+   * and is appended to the count for the given facet. For example, if this is set to "ethnic foods"
+   * then the tooltips would read "7 ethnic foods," "15 ethnic foods," etc.
+   *
+   * If this is not set at all, then just the count for the facet bucket is used (e.g., "7" or "15").
+   */
+  tooltip?: string;
 };
 
 type MapFacetContentsState = {
@@ -42,12 +62,16 @@ type MapFacetContentsState = {
 };
 
 /**
- * Component to display the buckets of a facet using a MapBox map.
+ * Component to display the buckets of a facet using a Mapbox map. See
+ * https://www.mapbox.com for details on Mapbox.
  */
 class MapFacetContents extends React.Component<MapFacetContentsProps, MapFacetContentsState> {
   static defaultProps = {
     size: null,
     mapboxKey: '',
+    pointerGlyph: 'map-marker',
+    pointerImageUri: undefined,
+    tooltip: '{}',
   };
 
   static contextTypes = {
@@ -217,12 +241,19 @@ class MapFacetContents extends React.Component<MapFacetContentsProps, MapFacetCo
   render() {
     const Marker = ReactMapboxGl.Marker;
     const ZoomControl = ReactMapboxGl.ZoomControl;
+    const { buckets, tooltip } = this.props;
     if (StringUtils.notEmpty(this.props.mapboxKey)) {
       const Map = ReactMapboxGl.Map({
         accessToken: this.props.mapboxKey,
         attributionControl: false,
       });
 
+      let locationPointer = <Glyphicon glyph="map-marker" style={{ fontSize: '18px', color: '#2a689c' }} />;
+      if (this.props.pointerImageUri) {
+        locationPointer = <img src={this.props.pointerImageUri} alt="location pointer" style={{ height: '20px', width: '20px' }} />;
+      } else if (this.props.pointerGlyph) {
+        locationPointer = <Glyphicon glyph={this.props.pointerGlyph} style={{ fontSize: '18px', color: '#2a689c' }} />;
+      }
       const points = this.props.buckets.map((bucket) => {
         // Return null if getCoordinatesFromBucket() returns null value
         const coordinates = MapFacetContents.getCoordinatesFromBucket(bucket);
@@ -231,6 +262,16 @@ class MapFacetContents extends React.Component<MapFacetContentsProps, MapFacetCo
         }
         const { longitude, latitude } = coordinates;
         // Keep track of the boundaries of the coordinates
+        let formattedTooltip;
+        if (tooltip) {
+          formattedTooltip = StringUtils.fmt(tooltip, bucket.count);
+          if (formattedTooltip === tooltip) {
+            // If the tooltip string isn't parameterized, treat it as a suffix.
+            formattedTooltip = `${bucket.count} ${tooltip}`;
+          }
+        } else {
+          formattedTooltip = `${bucket.count}`;
+        }
         return (
           <Marker
             coordinates={[longitude, latitude]}
@@ -240,7 +281,13 @@ class MapFacetContents extends React.Component<MapFacetContentsProps, MapFacetCo
             key={`${longitude},${latitude}`}
             style={{ cursor: 'pointer' }}
           >
-            <Glyphicon glyph="map-marker" style={{ fontSize: '18px', color: '#2a689c' }} />
+            <OverlayTrigger overlay={
+              <Tooltip id="tooltip-bottom">
+                {formattedTooltip} in this region
+              </Tooltip>}
+            >
+              {locationPointer}
+            </OverlayTrigger>
           </Marker>
         );
       });
