@@ -39,6 +39,8 @@ export default class SolrToQueryResponse {
   /**
    * Turn non-array field values into arrays.
    */
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static wrapIfNotArray(v) {
     return Array.isArray(v) ? v : [v];
   }
@@ -72,6 +74,8 @@ export default class SolrToQueryResponse {
       delete countlessFacets.count;
     }
 
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     return Object.keys(countlessFacets).map((field) => {
       const facetConfig = customOptions.facets.find((f) => {
         return f.field === field;

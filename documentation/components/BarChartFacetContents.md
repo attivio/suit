@@ -3,7 +3,7 @@
 __1.__ Simple example.
 
 ```jsx
-  const sampleFacets = require('../sampleData/Facets').default;
+  import sampleFacets from '../sampleData/Facets';
   <BarChartFacetContents
     buckets={sampleFacets.locationFacet.buckets}
     addFacetFilter={(filterBucket) => {

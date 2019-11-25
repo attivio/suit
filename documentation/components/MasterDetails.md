@@ -3,8 +3,8 @@
 __1:__ A simple master detail example using the dummy &lt;Details&gt; component on the right side.
 
 ```jsx
-  const tableData = require('../sampleData/TableData').default;
-  const Details = require('../../src/components/Details').default;
+  import tableData from '../sampleData/TableData';
+  import Details from '../../src/components/Details';
 
   <MasterDetails
     columns={tableData.experts.columns}
@@ -17,8 +17,8 @@ __2:__ A master detail example using the dummy &lt;Details&gt; component on the 
 multiselect table option that always requires a table selection.
 
 ```jsx
-  const tableData = require('../sampleData/TableData').default;
-  const Details = require('../../src/components/Details').default;
+  import tableData from '../sampleData/TableData';
+  import Details from '../../src/components/Details';
 
   <MasterDetails
     columns={tableData.experts.columns}
@@ -36,8 +36,8 @@ __3:__ Another example showing the use of a header and footer and with a 50-50 s
 the table and details, along with 20 pixels of padding between them.
 
 ```jsx
-  const tableData = require('../sampleData/TableData').default;
-  const Details = require('../../src/components/Details').default;
+  import tableData from '../sampleData/TableData';
+  import Details from '../../src/components/Details';
 
   <MasterDetails
     columns={tableData.experts.columns}
@@ -58,7 +58,7 @@ __4:__ A multi-select variation with a custom details component. In real life, i
 create a full class-based component for the details pane.
 
 ```jsx
-  const tableData = require('../sampleData/TableData').default;
+  import tableData from '../sampleData/TableData';
 
   const details = (props) => {
     let contents;

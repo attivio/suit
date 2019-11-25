@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import SearchFacetBucket from '../api/SearchFacetBucket';
@@ -22,12 +22,8 @@ type TagCloudFacetContentsProps = {
   noLink: boolean;
 };
 
-type TagCloudFacetContentsDefaultProps = {
-  noLink: boolean;
-};
-
 /** Display a facet's bucket values in a list with TagClouds. */
-export default class TagCloudFacetContents extends React.Component<TagCloudFacetContentsDefaultProps, TagCloudFacetContentsProps, void> { // eslint-disable-line max-len
+export default class TagCloudFacetContents extends React.Component<TagCloudFacetContentsProps, void> { // eslint-disable-line max-len
   static displayName = 'TagCloudFacetContents';
 
   static defaultProps = {

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import FieldNames from '../api/FieldNames';
@@ -21,10 +21,6 @@ type SimilarDocumentsProps = {
   baseDoc: SearchDocument | null;
 };
 
-type SimilarDocumentsDefaultProps = {
-  baseUri: string;
-};
-
 type SimilarDocumentsState = {
   /**
    * The documents to display. If empty, a message to that effect will be displayed instead.
@@ -38,7 +34,7 @@ type SimilarDocumentsState = {
  * A container for showing a list of documents from the search results.
  * This comes from the parent Searcher component.
  */
-export default class SimilarDocuments extends React.Component<SimilarDocumentsDefaultProps, SimilarDocumentsProps, SimilarDocumentsState> { // eslint-disable-line max-len
+export default class SimilarDocuments extends React.Component<SimilarDocumentsProps, SimilarDocumentsState> { // eslint-disable-line max-len
   static defaultProps = {
     baseUri: '',
   }

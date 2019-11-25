@@ -1,7 +1,7 @@
 // @flow
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 
-import React from 'react';
+import * as React from 'react';
 // Uncommenting DrawControl import would enable Polygon selection
 // feature and render it in Chrome but won't render in IE11.
 // import DrawControl from 'react-mapbox-gl-draw';
@@ -16,7 +16,7 @@ import PositionUtils from '../util/PositionUtils';
 import ObjectUtils from '../util/ObjectUtils';
 import StringUtils from '../util/StringUtils';
 
-const ReactMapboxGl = require('react-mapbox-gl');
+import ReactMapboxGl from 'react-mapbox-gl';
 
 type MapFacetContentsProps = {
   /** The facet’s buckets. */
@@ -33,11 +33,6 @@ type MapFacetContentsProps = {
   mapboxKey: string;
 };
 
-type MapFacetContentsDefaultProps = {
-  size: any;
-  mapboxKey: string;
-};
-
 type MapFacetContentsState = {
   latitude: number;
   longitude: number;
@@ -49,7 +44,7 @@ type MapFacetContentsState = {
 /**
  * Component to display the buckets of a facet using a MapBox map.
  */
-class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, MapFacetContentsProps, MapFacetContentsState> {
+class MapFacetContents extends React.Component<MapFacetContentsProps, MapFacetContentsState> {
   static defaultProps = {
     size: null,
     mapboxKey: '',

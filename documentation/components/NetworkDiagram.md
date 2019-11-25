@@ -6,15 +6,11 @@ see the <a href="http://visjs.org/docs/network/" target="_blank">Vis.js Network 
 __1.__ Simple example with straightforward content.
 
 ```jsx
-  // const KnowledgeGraphUtils = require('../../src/util/KnowledgeGraphUtils');
-  const entityColors = require('../sampleData/EntityColors').default;
-  // const linkingFields = [];
-  // const options = KnowledgeGraphUtils.calculateGraphOptions(linkingFields);
+  import entityColors from'../sampleData/EntityColors';
   const options = {
     width: '100%',
     height: '100%',
     layout: {
-      // randomSeed: 10000,
       improvedLayout: false,
     },
     configure: false,

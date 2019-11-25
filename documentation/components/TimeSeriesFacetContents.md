@@ -3,7 +3,7 @@
 __1.__ Time series facet output.
 
 ```jsx
-  const sampleFacets = require('../sampleData/Facets').default;
+  import sampleFacets from '../sampleData/Facets';
 
   <TimeSeriesFacetContents
     buckets={sampleFacets.dateFacet.buckets}

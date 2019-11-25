@@ -10,17 +10,15 @@ type SmallTabsProps = {
   /** Callback that is invoked when the user clicks a tab. */
   changed: (string) => void;
   /** Any custom tab elements to include alongside the regular string tabs. Optional */
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   children?: Children;
-};
-
-type SmallTabsDefaultProps = {
-  currentTab: string;
 };
 
 /**
  * A set of buttons for choosing among a series of mutually exclusive options.
  */
-export default class SmallTabs extends React.Component<SmallTabsDefaultProps, SmallTabsProps, void> {
+export default class SmallTabs extends React.Component<SmallTabsProps, void> {
   static defaultProps = {
     currentTab: '',
   };
@@ -33,8 +31,12 @@ export default class SmallTabs extends React.Component<SmallTabsDefaultProps, Sm
   }
 
   onClick(event: Event & { target: HTMLAnchorElement }) {
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     const tabName = event.target.attributes.getNamedItem('data-tab-name').value;
     this.props.changed(tabName);
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     event.target.blur();
   }
 

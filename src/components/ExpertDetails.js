@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import SimilarAuthorCard from './SimilarAuthorCard';
 
@@ -8,9 +8,11 @@ type ExpertDetailsProps = {
   expert: SimilarAuthorCard.ExpertInfo;
 };
 
-export default class ExpertDetails extends React.Component<void, ExpertDetailsProps, void> {
+export default class ExpertDetails extends React.Component<ExpertDetailsProps, void> {
   static displayName = 'ExpertDetails';
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static ExpertInfo;
 
   render() {

@@ -1,5 +1,7 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
+/* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+ * v0.107.0. To view the error, delete this comment and run Flow. */
 import type { Children } from 'react';
 import PropTypes from 'prop-types';
 import { RootCloseWrapper } from 'react-overlays';
@@ -56,7 +58,7 @@ type FacetSearchBarState = {
  * Component that wraps a Facet that allows searching for specific values for that facet,
  * as well as exporting that facet's values to a CSV
  */
-class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSearchBarProps, FacetSearchBarState> {
+class FacetSearchBar extends React.Component<FacetSearchBarProps, FacetSearchBarState> {
   static contextTypes = {
     searcher: PropTypes.any,
   };
@@ -281,6 +283,8 @@ class FacetSearchBar extends React.Component<FacetSearchBarDefaultProps, FacetSe
    */
   doKeyPress(e: Event) {
     // If the user presses enter, do the search
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     if (e.target instanceof HTMLInputElement && e.keyCode) {
       if (e.keyCode === 13) {
         this.doSearch();

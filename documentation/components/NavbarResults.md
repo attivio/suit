@@ -3,7 +3,7 @@
 __1.__ Simple results.
 
 ```jsx
-  const Navbar = require('../../src/components/Navbar').default;
+  import Navbar from '../../src/components/Navbar';
   <Navbar>
     <NavbarResults message="This text is in the navbar" />
   </Navbar>

@@ -4,7 +4,7 @@
 __1:__ Standard shape button with a "danger" coloration and various text inside. Clicking sends the user to the "/catalog" route.
 
 ```jsx
-const { Link, MemoryRouter, Route, Switch } = require('react-router-dom');
+import { Link, MemoryRouter, Route, Switch } from 'react-router-dom';
 <MemoryRouter>
   <Switch>
     <Route exact path="/">
@@ -29,7 +29,7 @@ const { Link, MemoryRouter, Route, Switch } = require('react-router-dom');
 __2:__ Image button with no other styling that shows an alert when clicked.
 
 ```jsx
-const { MemoryRouter } = require('react-router-dom');
+import { MemoryRouter } from 'react-router-dom';
 <MemoryRouter>
   <BigButton onClick={() => { alert('You clicked the big button!'); }} style={{ border: 'none', background: 'lightblue' }}>
     <img src="/img/attivio-logo.png" />

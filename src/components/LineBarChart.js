@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import ReactHighcharts from 'react-highcharts';
 
 import ObjectUtils from '../util/ObjectUtils';
@@ -58,25 +58,18 @@ type LineBarChartProps = {
   entityColors: Map<string, string>;
 };
 
-type LineBarChartDefaultProps = {
-  height: number;
-  yAxisLabelValueFormat: string | null;
-  yAxis2Label: string | null;
-  yAxis2LabelValueFormat: string | null;
-  barsSideBySide: boolean;
-  entityColors: Map<string, string>;
-};
-
 /**
  * Component to display a chart with one or more series of data points.
  */
-export default class LineBarChart extends React.Component<LineBarChartDefaultProps, LineBarChartProps, void> {
+export default class LineBarChart extends React.Component<LineBarChartProps, void> {
   static defaultProps = {
     height: 185,
     yAxisLabelValueFormat: null,
     yAxis2Label: null,
     yAxis2LabelValueFormat: null,
     barsSideBySide: false,
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     entityColors: new Map(),
   };
 
@@ -96,7 +89,11 @@ export default class LineBarChart extends React.Component<LineBarChartDefaultPro
     }
   }
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static ChartDataSource;
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static Point;
 
   constructor(props: LineBarChartProps) {
@@ -141,6 +138,9 @@ export default class LineBarChart extends React.Component<LineBarChartDefaultPro
         tooltip: {
           valueSuffix: source.valueSuffix,
         },
+        /* $FlowFixMe This comment suppresses an error found when upgrading
+         * Flow to v0.107.0. To view the error, delete this comment and run
+         * Flow. */
         yAxis: source.opposite ? 1 : 0,
         stacking: 'normal',
       };

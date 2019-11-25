@@ -1,5 +1,7 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
+/* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+ * v0.107.0. To view the error, delete this comment and run Flow. */
 import type { Children } from 'react';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
@@ -15,7 +17,7 @@ type NotifiableProps = {
   children: Children;
 };
 
-export default class Notifiable extends React.Component<void, NotifiableProps, void> {
+export default class Notifiable extends React.Component<NotifiableProps, void> {
   /**
    * This does all the work of setting up colors and the contents of the notifications...
    */

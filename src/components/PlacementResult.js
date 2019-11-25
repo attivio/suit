@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import Card from './Card';
@@ -15,17 +15,10 @@ type PlacementResultProps = {
   markup: string | null;
 }
 
-type PlacementResultDefaultProps = {
-  linkUrl: string | null;
-  linkText: string | null;
-  imageUrl: string | null;
-  markup: string | null;
-}
-
 /**
  * The display card for a Placement query result.
  */
-export default class PlacementResult extends React.Component<PlacementResultDefaultProps, PlacementResultProps, void> {
+export default class PlacementResult extends React.Component<PlacementResultProps, void> {
   static defaultProps = {
     linkUrl: null,
     linkText: null,

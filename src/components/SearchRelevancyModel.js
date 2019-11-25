@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -35,7 +35,7 @@ type SearchRelevancyModelState = {
  * on each page. It works with the parent Searcher component to
  * update its property and to show the current value.
  */
-export default class SearchRelevancyModel extends React.Component<SearchRelevancyModelProps, SearchRelevancyModelProps, SearchRelevancyModelState> { // eslint-disable-line max-len
+export default class SearchRelevancyModel extends React.Component<SearchRelevancyModelProps, SearchRelevancyModelState> { // eslint-disable-line max-len
   static defaultProps = {
     models: [],
     right: false,

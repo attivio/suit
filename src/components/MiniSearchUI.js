@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import NavbarSearch from '../components/NavbarSearch';
@@ -16,17 +16,13 @@ type MiniSearchUIProps = {
   scale: number;
 };
 
-type MiniSearchUIDefaultProps = {
-  scale: number;
-};
-
 /**
  * A miniature, self-contained component that presents super simple search UI including a text field for the
  * query, an indication of the number or results or error from the query, and a small, scrollable results area
  * showing the resulting documents. It must be nested inside a Searcher component and will use that parent
  * Searcher to manage its state.
  */
-export default class MiniSearchUI extends React.Component<MiniSearchUIDefaultProps, MiniSearchUIProps, void> {
+export default class MiniSearchUI extends React.Component<MiniSearchUIProps, void> {
   static defaultProps = {
     scale: 1.0,
   };

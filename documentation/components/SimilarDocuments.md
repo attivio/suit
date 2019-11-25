@@ -4,10 +4,10 @@
 __1:__ Showing documents similar to the main one, using its `morelikethisquery` field.
 
 ```jsx
-  const QueryResponse = require('../../src/api/QueryResponse').default;
-  const DummySearcher = require('../../src/components/DummySearcher').default;
-  const AuthUtils = require('../../src/util/AuthUtils').default;
-  const sampleDocs = require('../sampleData/Documents').default;
+  import QueryResponse from '../../src/api/QueryResponse';
+  import DummySearcher from '../../src/components/DummySearcher';
+  import AuthUtils from '../../src/util/AuthUtils';
+  import sampleDocs from '../sampleData/Documents';
 
   const queryResponse = new QueryResponse();
   queryResponse.documents = sampleDocs.rawDocuments;
