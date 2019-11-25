@@ -254,7 +254,7 @@ class MapFacetContents extends React.Component<MapFacetContentsProps, MapFacetCo
       } else if (this.props.pointerGlyph) {
         locationPointer = <Glyphicon glyph={this.props.pointerGlyph} style={{ fontSize: '18px', color: '#2a689c' }} />;
       }
-      const points = this.props.buckets.map((bucket) => {
+      const points = buckets.map((bucket) => {
         // Return null if getCoordinatesFromBucket() returns null value
         const coordinates = MapFacetContents.getCoordinatesFromBucket(bucket);
         if (!coordinates) {

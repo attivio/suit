@@ -141,7 +141,7 @@ type SearcherProps = {
   /**
    * The name of the Business Center profile to use for queries. If set, this will enable Profile level campaigns and promotions.
    */
-  searchProfile: string | null;
+  searchProfile?: string;
   /**
    * The Searcher contains arbitrary children, including the components that
    * control its properties and display the search results.
@@ -178,8 +178,8 @@ type SearcherState = {
   resultsOffset: number;
   debug: boolean;
   queryTimestamp: number;
-  profile: string | null;
-  workflow: string | null;
+  profile?: string;
+  workflow?: string;
 };
 
 /**
@@ -436,12 +436,17 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
       restParams.set('facet.ffcount', [this.props.facetFinderCount.toString(10)]);
     }
     restParams.set('join.rollup', [this.props.joinRollupMode]);
-    if (this.state.profile && this.state.profile.length > 0) {
+    let profileToUse = undefined;
+    const { profile: stateProfile } = this.state;
+    const { searchProfile: propsProfile } = this.props;
+    if (stateProfile && stateProfile.length > 0) {
+      profileToUse = stateProfile;
+    } else if (propsProfile && propsProfile.length > 0) {
+      profileToUse = propsProfile;
+    }
+    if (profileToUse) {
       restParams.set('abc.enabled', ['true']);
-      restParams.set('searchProfile', [this.state.profile]);
-    } else if (this.props.searchProfile && this.props.searchProfile.length > 0) {
-      restParams.set('abc.enabled', ['true']);
-      restParams.set('searchProfile', [this.props.searchProfile]);
+      restParams.set('searchProfile', [profileToUse]);
     }
     restParams.set('q.maxresubmits', [`${this.props.maxResubmits}`]);
 
