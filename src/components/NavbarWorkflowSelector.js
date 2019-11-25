@@ -13,23 +13,13 @@ type NavbarWorkflowSelectorProps = {
   workflows: Array<string>,
 };
 
-type NavbarWorkflowSelectorDefaultProps = {
-  right: boolean,
-  label: string,
-  workflows: Array<string>,
-};
-
 /**
  * A pop-up menu that lets the user choose which Business Center profile
  * they will search with. It must be a child of the Searcher component it
  * is controlling.
  */
-export default class NavbarWorkflowSelector extends React.Component<
-  NavbarWorkflowSelectorDefaultProps,
-  NavbarWorkflowSelectorProps,
-  void,
-> {
-  static defaultProps: NavbarWorkflowSelectorDefaultProps = {
+export default class NavbarWorkflowSelector extends React.Component<NavbarWorkflowSelectorProps, void> {
+  static defaultProps = {
     right: false,
     label: 'Workflow:',
     workflows: [],

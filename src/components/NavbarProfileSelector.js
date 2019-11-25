@@ -13,23 +13,13 @@ type NavbarProfileSelectorProps = {
   profiles: Array<string>,
 };
 
-type NavbarProfileSelectorDefaultProps = {
-  right: boolean,
-  label: string,
-  profiles: Array<string>,
-};
-
 /**
  * A pop-up menu that lets the user choose which Business Center profile
  * they will search with. It must be a child of the Searcher component it
  * is controlling.
  */
-export default class NavbarProfileSelector extends React.Component<
-  NavbarProfileSelectorDefaultProps,
-  NavbarProfileSelectorProps,
-  void,
-> {
-  static defaultProps: NavbarProfileSelectorDefaultProps = {
+export default class NavbarProfileSelector extends React.Component<NavbarProfileSelectorProps, void> {
+  static defaultProps = {
     right: false,
     label: 'Profile:',
     profiles: [],
@@ -68,9 +58,8 @@ export default class NavbarProfileSelector extends React.Component<
 
       const { profiles, label, right } = this.props;
       const menuItems = profiles.map((profileName: string) => {
-          return new MenuItemDef(profileName, profileName);
-        });
-      }
+        return new MenuItemDef(profileName, profileName);
+      });
 
       const className = right ? 'attivio-globalmastnavbar-right' : '';
 
