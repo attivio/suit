@@ -241,6 +241,7 @@ class MapFacetContents extends React.Component<MapFacetContentsProps, MapFacetCo
   render() {
     const Marker = ReactMapboxGl.Marker;
     const ZoomControl = ReactMapboxGl.ZoomControl;
+    const { buckets, tooltip } = this.props;
     if (StringUtils.notEmpty(this.props.mapboxKey)) {
       const Map = ReactMapboxGl.Map({
         accessToken: this.props.mapboxKey,
@@ -262,10 +263,14 @@ class MapFacetContents extends React.Component<MapFacetContentsProps, MapFacetCo
         const { longitude, latitude } = coordinates;
         // Keep track of the boundaries of the coordinates
         let formattedTooltip;
-        formattedTooltip = StringUtils.fmt(this.props.tooltip, bucket.count);
-        if (formattedTooltip === this.props.tooltip) {
-          // If the tooltip string isn't parameterized, treat it as a suffix.
-          formattedTooltip = `${bucket.count} ${this.props.tooltip}`;
+        if (tooltip) {
+          formattedTooltip = StringUtils.fmt(tooltip, bucket.count);
+          if (formattedTooltip === tooltip) {
+            // If the tooltip string isn't parameterized, treat it as a suffix.
+            formattedTooltip = `${bucket.count} ${tooltip}`;
+          }
+        } else {
+          formattedTooltip = `${bucket.count}`;
         }
         return (
           <Marker
