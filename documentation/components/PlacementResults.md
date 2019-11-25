@@ -4,10 +4,12 @@
 __1:__ A short list of placements.
 
 ```jsx
-  const QueryResponse = require('../../src/api/QueryResponse').default;
-  const SearchPlacement = require('../../src/api/SearchPlacement').default;
-  const sampleDocs = require('../sampleData/Documents').default;
+  import QueryResponse from '../../src/api/QueryResponse';
+  import SearchPlacement from '../../src/api/SearchPlacement';
+  import sampleDocs from '../sampleData/Documents';
+  import DummySearcher from '../../src/components/DummySearcher';
   const response = new QueryResponse();
+
   response.documents = sampleDocs.rawDocuments;
   response.placements = [
     new SearchPlacement('Attivio is the best!', 'img/attivio-logo.png', 'Attivio\'s website', 'http://www.attivio.com'),

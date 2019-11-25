@@ -1,21 +1,21 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset='utf-8' />
-  <title>@attivio/suit 1.0.7 | Documentation</title>
-  <meta name='viewport' content='width=device-width,initial-scale=1'>
-  <link href='assets/bass.css' type='text/css' rel='stylesheet' />
-  <link href='assets/style.css' type='text/css' rel='stylesheet' />
-  <link href='assets/github.css' type='text/css' rel='stylesheet' />
-  <link href='assets/split.css' type='text/css' rel='stylesheet' />
+  <meta charset='utf-8'>
+  <title>@attivio/suit 1.1.0 | Documentation</title>
   <meta name='description' content='Attivio SUIT, the Search UI Toolkit, is a library for creating search clients for searching the Attivio platform.'>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href='assets/bass.css' rel='stylesheet'>
+  <link href='assets/style.css' rel='stylesheet'>
+  <link href='assets/github.css' rel='stylesheet'>
+  <link href='assets/split.css' rel='stylesheet'>
 </head>
 <body class='documentation m0'>
     <div class='flex'>
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>@attivio/suit</h3>
-          <div class='mb1'><code>1.0.7</code></div>
+          <div class='mb1'><code>1.1.0</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -1569,7 +1569,7 @@
             </ul>
           </div>
           <div class='mt1 h6 quiet'>
-            <a href='http://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
+            <a href='https://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
           </div>
         </div>
       </div>
@@ -1591,10 +1591,7 @@
 
   <p>The basis for ingest and search documents.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new AbstractDocument(fields: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>>)</div>
-   
   
   
 
@@ -1649,10 +1646,7 @@
   <p>A map of the document's field names to a list of their values
 (the values are in an arry even if there is only one).</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>fields</div>
-   
   
     <p>
       Type:
@@ -1683,6 +1677,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -1693,8 +1689,11 @@
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -1712,10 +1711,7 @@
 
   <p>A single point of data in a time-based series.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new DataPoint(startTime: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, endTime: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, data: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a> | null))</div>
-   
   
   
 
@@ -1785,10 +1781,7 @@
 
   <p>The start of the range the data point covers.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>startTime</div>
-   
   
     <p>
       Type:
@@ -1802,6 +1795,8 @@
   
   
   
+  
+
   
 
   
@@ -1838,10 +1833,7 @@
 
   <p>The end of the range the data point covers.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>endTime</div>
-   
   
     <p>
       Type:
@@ -1855,6 +1847,8 @@
   
   
   
+  
+
   
 
   
@@ -1891,10 +1885,7 @@
 
   <p>The value of the data point. If there is no data for this time, this will be null.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>data</div>
-   
   
     <p>
       Type:
@@ -1925,6 +1916,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -1935,8 +1928,11 @@
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -1954,10 +1950,7 @@
 
   <p>A facet filter for a query</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new FacetFilter()</div>
-   
   
   
 
@@ -1998,10 +1991,7 @@
 
   <p>The name of the facet</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>facetName</div>
-   
   
     <p>
       Type:
@@ -2015,6 +2005,8 @@
   
   
   
+  
+
   
 
   
@@ -2051,10 +2043,7 @@
 
   <p>The human-readable label for this bucket</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>bucketLabel</div>
-   
   
     <p>
       Type:
@@ -2068,6 +2057,8 @@
   
   
   
+  
+
   
 
   
@@ -2104,10 +2095,7 @@
 
   <p>The query string that will be used to filter the results for this facet/bucket</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>filter</div>
-   
   
     <p>
       Type:
@@ -2138,6 +2126,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -2148,8 +2138,11 @@
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -2167,10 +2160,7 @@
 
   <p>A query placement from a Business Center profile/campaign.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new Placement(label: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, linkUrl: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), linkText: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), imageUrl: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), markup: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null))</div>
-   
   
   
 
@@ -2258,10 +2248,7 @@
 This label is used for placement purposes and will typically have a value
 of "top", "left", etc.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>label</div>
-   
   
     <p>
       Type:
@@ -2275,6 +2262,8 @@ of "top", "left", etc.</p>
   
   
   
+  
+
   
 
   
@@ -2311,10 +2300,7 @@ of "top", "left", etc.</p>
 
   <p>The address of the link. Optional.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>linkUrl</div>
-   
   
     <p>
       Type:
@@ -2328,6 +2314,8 @@ of "top", "left", etc.</p>
   
   
   
+  
+
   
 
   
@@ -2364,10 +2352,7 @@ of "top", "left", etc.</p>
 
   <p>The text to display as the link. Optional.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>linkText</div>
-   
   
     <p>
       Type:
@@ -2381,6 +2366,8 @@ of "top", "left", etc.</p>
   
   
   
+  
+
   
 
   
@@ -2417,10 +2404,7 @@ of "top", "left", etc.</p>
 
   <p>The address of an image to display. Optional.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>imageUrl</div>
-   
   
     <p>
       Type:
@@ -2434,6 +2418,8 @@ of "top", "left", etc.</p>
   
   
   
+  
+
   
 
   
@@ -2470,10 +2456,7 @@ of "top", "left", etc.</p>
 
   <p>The raw html markup to display. Optional.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>markup</div>
-   
   
     <p>
       Type:
@@ -2504,6 +2487,8 @@ of "top", "left", etc.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -2514,8 +2499,11 @@ of "top", "left", etc.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -2533,10 +2521,7 @@ of "top", "left", etc.</p>
 
   <p>A geographic coordinate.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new Position(longitude: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, latitude: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
-   
   
   
 
@@ -2598,10 +2583,7 @@ of "top", "left", etc.</p>
 
   <p>The coordinate's longitude</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>longitude</div>
-   
   
     <p>
       Type:
@@ -2615,6 +2597,8 @@ of "top", "left", etc.</p>
   
   
   
+  
+
   
 
   
@@ -2651,10 +2635,7 @@ of "top", "left", etc.</p>
 
   <p>The coordinate's latitude</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>latitude</div>
-   
   
     <p>
       Type:
@@ -2685,6 +2666,8 @@ of "top", "left", etc.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -2695,8 +2678,11 @@ of "top", "left", etc.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -2714,10 +2700,7 @@ of "top", "left", etc.</p>
 
   <p>Details for a single value for a particular facet.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new SearchFacetBucket(value: any, label: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, count: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, filter: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, min: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), max: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), children: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#searchfacetbucket">SearchFacetBucket</a>>, range: any)</div>
-   
   
   
 
@@ -2830,10 +2813,7 @@ of "top", "left", etc.</p>
 
   <p>Get the label to display for this bucket</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>displayLabel(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -2853,6 +2833,8 @@ of "top", "left", etc.</p>
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
     
+  
+
   
 
   
@@ -2883,10 +2865,7 @@ of "top", "left", etc.</p>
 
   <p>Get a key to use for this bucket</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>bucketKey(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
-   
   
   
 
@@ -2917,6 +2896,8 @@ of "top", "left", etc.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -2936,10 +2917,7 @@ of "top", "left", etc.</p>
 
   <p>The value of the bucket</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>value</div>
-   
   
     <p>
       Type:
@@ -2953,6 +2931,8 @@ of "top", "left", etc.</p>
   
   
   
+  
+
   
 
   
@@ -2990,10 +2970,7 @@ of "top", "left", etc.</p>
   <p>If present (generally for filter facet requests or range facets), the label to display
 as the facet bucket's value instead of the value field</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>label</div>
-   
   
     <p>
       Type:
@@ -3007,6 +2984,8 @@ as the facet bucket's value instead of the value field</p>
   
   
   
+  
+
   
 
   
@@ -3043,10 +3022,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>The number of occurrences of this value in the facet</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>count</div>
-   
   
     <p>
       Type:
@@ -3060,6 +3036,8 @@ as the facet bucket's value instead of the value field</p>
   
   
   
+  
+
   
 
   
@@ -3096,10 +3074,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>The filter that can be used to limit the original query to only show documents matching this value</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>filter</div>
-   
   
     <p>
       Type:
@@ -3113,6 +3088,8 @@ as the facet bucket's value instead of the value field</p>
   
   
   
+  
+
   
 
   
@@ -3149,10 +3126,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>The minimum, or "from," value for the bucket's range (for range facets only)</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>min</div>
-   
   
     <p>
       Type:
@@ -3166,6 +3140,8 @@ as the facet bucket's value instead of the value field</p>
   
   
   
+  
+
   
 
   
@@ -3202,10 +3178,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>The maximum, or "to," value for the bucket's range (for range facets only)</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>max</div>
-   
   
     <p>
       Type:
@@ -3219,6 +3192,8 @@ as the facet bucket's value instead of the value field</p>
   
   
   
+  
+
   
 
   
@@ -3255,10 +3230,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>Any child buckets</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>children</div>
-   
   
     <p>
       Type:
@@ -3272,6 +3244,8 @@ as the facet bucket's value instead of the value field</p>
   
   
   
+  
+
   
 
   
@@ -3308,10 +3282,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>The range if this is a range facet</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>range</div>
-   
   
     <p>
       Type:
@@ -3342,6 +3313,8 @@ as the facet bucket's value instead of the value field</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -3352,8 +3325,11 @@ as the facet bucket's value instead of the value field</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -3371,10 +3347,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>Feedback information about the query and how it was processed.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new SearchFeedback()</div>
-   
   
   
 
@@ -3415,10 +3388,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>A user-readable message describing the feedback</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>message</div>
-   
   
     <p>
       Type:
@@ -3432,6 +3402,8 @@ as the facet bucket's value instead of the value field</p>
   
   
   
+  
+
   
 
   
@@ -3468,10 +3440,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>The name of the message</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>messageName</div>
-   
   
     <p>
       Type:
@@ -3485,6 +3454,8 @@ as the facet bucket's value instead of the value field</p>
   
   
   
+  
+
   
 
   
@@ -3521,10 +3492,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>Properties for the message</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>properties</div>
-   
   
     <p>
       Type:
@@ -3538,6 +3506,8 @@ as the facet bucket's value instead of the value field</p>
   
   
   
+  
+
   
 
   
@@ -3574,10 +3544,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>The name of the stage in the workflow that added the feedback</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>stageName</div>
-   
   
     <p>
       Type:
@@ -3608,6 +3575,8 @@ as the facet bucket's value instead of the value field</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -3618,8 +3587,11 @@ as the facet bucket's value instead of the value field</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -3637,10 +3609,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>Signal data needed for doing click tracking, etc., with a document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new SignalData(docId: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, docOrdinal: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, featureVector: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, locale: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, principal: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, query: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, queryTimestamp: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, relevancyModelName: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, relevancyModelNames: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>, relevancyModelVersion: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, signalTimestamp: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, ttl: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, weight: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
-   
   
   
 
@@ -3797,8 +3766,11 @@ as the facet bucket's value instead of the value field</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -3816,10 +3788,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>Principal object used by the Attivio server.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new SimplePrincipal(name: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, realm: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, groupMemberships: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#simpleprincipal">SimplePrincipal</a>>, type: (<code>"user"</code> | <code>"group"</code>))</div>
-   
   
   
 
@@ -3899,10 +3868,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>The principal's name</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>name</div>
-   
   
     <p>
       Type:
@@ -3916,6 +3882,8 @@ as the facet bucket's value instead of the value field</p>
   
   
   
+  
+
   
 
   
@@ -3952,10 +3920,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>The principal's realm</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>realm</div>
-   
   
     <p>
       Type:
@@ -3969,6 +3934,8 @@ as the facet bucket's value instead of the value field</p>
   
   
   
+  
+
   
 
   
@@ -4005,10 +3972,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>Any groups the principal belongs to (they should all have their type field set to 'group')</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>groupMemberships</div>
-   
   
     <p>
       Type:
@@ -4022,6 +3986,8 @@ as the facet bucket's value instead of the value field</p>
   
   
   
+  
+
   
 
   
@@ -4058,10 +4024,7 @@ as the facet bucket's value instead of the value field</p>
 
   <p>Whether this is a user or a group</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>type</div>
-   
   
     <p>
       Type:
@@ -4092,6 +4055,8 @@ as the facet bucket's value instead of the value field</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -4102,8 +4067,11 @@ as the facet bucket's value instead of the value field</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -4122,10 +4090,7 @@ as the facet bucket's value instead of the value field</p>
   <p>The names of fields in the default Attivio schema that can be used to access values
 in a document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new FieldNames()</div>
-   
   
   
 
@@ -4164,10 +4129,7 @@ in a document.</p>
 
   <p>The internal field that holds the document id.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>ID</div>
-   
   
   
 
@@ -4176,6 +4138,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4212,10 +4176,7 @@ in a document.</p>
 
   <p>The internal field used for populating/querying the zone for a document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>ZONE</div>
-   
   
   
 
@@ -4224,6 +4185,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4260,10 +4223,7 @@ in a document.</p>
 
   <p>The virtual field used for requesting/sorting by the score for a document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>SCORE</div>
-   
   
   
 
@@ -4272,6 +4232,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4308,10 +4270,7 @@ in a document.</p>
 
   <p>The virtual field used for sorting documents randomly</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>RANDOM_SORT</div>
-   
   
   
 
@@ -4320,6 +4279,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4356,10 +4317,7 @@ in a document.</p>
 
   <p>Field indicating the maximum number of times an IngestDocument will be retried for fault tolerance</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>FT_RETRY_COUNT</div>
-   
   
   
 
@@ -4368,6 +4326,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4404,10 +4364,7 @@ in a document.</p>
 
   <p>The field that holds the title of the document; string.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>TITLE</div>
-   
   
   
 
@@ -4416,6 +4373,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4452,10 +4411,7 @@ in a document.</p>
 
   <p>The field that holds the document's primary language; string.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>LANGUAGE</div>
-   
   
   
 
@@ -4464,6 +4420,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4500,10 +4458,7 @@ in a document.</p>
 
   <p>The field that holds the languages that are contained in the document in addition to primary language; string.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>LANGUAGES</div>
-   
   
   
 
@@ -4512,6 +4467,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4548,10 +4505,7 @@ in a document.</p>
 
   <p>The field that holds the date.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>DATE</div>
-   
   
   
 
@@ -4560,6 +4514,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4596,10 +4552,7 @@ in a document.</p>
 
   <p>The field that holds the source URI of the document; string.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>SOURCEURI</div>
-   
   
   
 
@@ -4608,6 +4561,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4644,10 +4599,7 @@ in a document.</p>
 
   <p>The field where the primary raw text content for the document is placed.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>TEXT</div>
-   
   
   
 
@@ -4656,6 +4608,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4692,10 +4646,7 @@ in a document.</p>
 
   <p>The field for XML represented as DOM4J Document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>XML_DOM</div>
-   
   
   
 
@@ -4704,6 +4655,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4740,10 +4693,7 @@ in a document.</p>
 
   <p>The field that contains the filepath of the document. Default: 'sourcepath'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>SOURCEPATH</div>
-   
   
   
 
@@ -4752,6 +4702,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4788,10 +4740,7 @@ in a document.</p>
 
   <p>The field that contains the filename of the document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>FILENAME</div>
-   
   
   
 
@@ -4800,6 +4749,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4836,10 +4787,7 @@ in a document.</p>
 
   <p>The field that contains the document type.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>DOCTYPE</div>
-   
   
   
 
@@ -4848,6 +4796,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4884,10 +4834,7 @@ in a document.</p>
 
   <p>The field that contains the parent document type.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>PARENT_DOCTYPE</div>
-   
   
   
 
@@ -4896,6 +4843,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4932,10 +4881,7 @@ in a document.</p>
 
   <p>The field that holds the category of the document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>CATEGORY</div>
-   
   
   
 
@@ -4944,6 +4890,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -4980,10 +4928,7 @@ in a document.</p>
 
   <p>The field that contains the sentiment of the document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>SENTIMENT</div>
-   
   
   
 
@@ -4992,6 +4937,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -5028,10 +4975,7 @@ in a document.</p>
 
   <p>The field that contains the concepts of the document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>CONCEPTS</div>
-   
   
   
 
@@ -5040,6 +4984,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -5076,10 +5022,7 @@ in a document.</p>
 
   <p>The field that contains people mentioned in the document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>PEOPLE</div>
-   
   
   
 
@@ -5088,6 +5031,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -5124,10 +5069,7 @@ in a document.</p>
 
   <p>The field that contains organizations mentioned in the document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>ORGANIZATIONS</div>
-   
   
   
 
@@ -5136,6 +5078,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -5172,10 +5116,7 @@ in a document.</p>
 
   <p>The field that contains the MIME type. Value = 'mimetype'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>MIME_TYPE</div>
-   
   
   
 
@@ -5184,6 +5125,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -5220,10 +5163,7 @@ in a document.</p>
 
   <p>The field that holds the parent MIME type, if any.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>PARENT_MIME_TYPE</div>
-   
   
   
 
@@ -5232,6 +5172,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -5268,10 +5210,7 @@ in a document.</p>
 
   <p>The field that holds the document content specified as a byte array.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>CONTENT_POINTER</div>
-   
   
   
 
@@ -5280,6 +5219,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -5316,10 +5257,7 @@ in a document.</p>
 
   <p>The field that contains the URI of a document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>URI</div>
-   
   
   
 
@@ -5328,6 +5266,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -5364,10 +5304,7 @@ in a document.</p>
 
   <p>The field that contains the hostname of a document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>HOSTNAME</div>
-   
   
   
 
@@ -5376,6 +5313,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -5412,10 +5351,7 @@ in a document.</p>
 
   <p>The field that contains the default document string encoding.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>ENCODING</div>
-   
   
   
 
@@ -5424,6 +5360,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -5460,10 +5398,7 @@ in a document.</p>
 
   <p>The field that will contain the explain map for scoring in a SearchDocument.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>SCORE_EXPLAIN</div>
-   
   
   
 
@@ -5472,6 +5407,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -5508,10 +5445,7 @@ in a document.</p>
 
   <p>The field that will store a document's original size.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>SIZE</div>
-   
   
   
 
@@ -5520,6 +5454,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -5556,10 +5492,7 @@ in a document.</p>
 
   <p>The field that will store the document id of the parent document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>PARENT_ID</div>
-   
   
   
 
@@ -5568,6 +5501,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -5604,10 +5539,7 @@ in a document.</p>
 
   <p>The field that will store the document id of the parent document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>PROGENATOR_ID</div>
-   
   
   
 
@@ -5616,6 +5548,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -5652,10 +5586,7 @@ in a document.</p>
 
   <p>The field that will store the ID's of documents that are ancestors of a given document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>ANCESTOR_IDS</div>
-   
   
   
 
@@ -5664,6 +5595,8 @@ in a document.</p>
   
   
   
+  
+
   
 
   
@@ -5702,10 +5635,7 @@ in a document.</p>
 a given document in a particular data source. Also includes the ID of the document itself and is
 primarily used for document deletions.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>LINEAGE_IDS</div>
-   
   
   
 
@@ -5714,6 +5644,8 @@ primarily used for document deletions.</p>
   
   
   
+  
+
   
 
   
@@ -5750,10 +5682,7 @@ primarily used for document deletions.</p>
 
   <p>Name of the field that will store encoded position for geo search.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>POSITION</div>
-   
   
   
 
@@ -5762,6 +5691,8 @@ primarily used for document deletions.</p>
   
   
   
+  
+
   
 
   
@@ -5798,10 +5729,7 @@ primarily used for document deletions.</p>
 
   <p>Name of the field that will store latitude information for geo search.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>LATITUDE</div>
-   
   
   
 
@@ -5810,6 +5738,8 @@ primarily used for document deletions.</p>
   
   
   
+  
+
   
 
   
@@ -5846,10 +5776,7 @@ primarily used for document deletions.</p>
 
   <p>Name of the field that will store longitude information for geo search.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>LONGITUDE</div>
-   
   
   
 
@@ -5858,6 +5785,8 @@ primarily used for document deletions.</p>
   
   
   
+  
+
   
 
   
@@ -5896,10 +5825,7 @@ primarily used for document deletions.</p>
 referred to in the parent document. For example, 'dir1/dir2/doc1.txt' would be the value
 for a ZIP archive entry 'dir1/dir2/doc1.txt'.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>CHILD_PATH</div>
-   
   
   
 
@@ -5908,6 +5834,8 @@ for a ZIP archive entry 'dir1/dir2/doc1.txt'.</p>
   
   
   
+  
+
   
 
   
@@ -5944,10 +5872,7 @@ for a ZIP archive entry 'dir1/dir2/doc1.txt'.</p>
 
   <p>This field contains the name of all fields indexed for a document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>FIELD_NAMES</div>
-   
   
   
 
@@ -5956,6 +5881,8 @@ for a ZIP archive entry 'dir1/dir2/doc1.txt'.</p>
   
   
   
+  
+
   
 
   
@@ -5993,10 +5920,7 @@ for a ZIP archive entry 'dir1/dir2/doc1.txt'.</p>
   <p>This is the field that will return the name of the join clause (if annotated)
 for child documents.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>JOIN_CLAUSE_NAME</div>
-   
   
   
 
@@ -6005,6 +5929,8 @@ for child documents.</p>
   
   
   
+  
+
   
 
   
@@ -6043,10 +5969,7 @@ for child documents.</p>
 in federation scenarios at response time to indicate where a document came from
 for front end presentation purposes.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>SOURCE_ENGINE</div>
-   
   
   
 
@@ -6055,6 +5978,8 @@ for front end presentation purposes.</p>
   
   
   
+  
+
   
 
   
@@ -6092,10 +6017,7 @@ for front end presentation purposes.</p>
   <p>This field holds the name of the connector type. Useful to know what connector
 was used to bring a doc into index.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>CONNECTOR_TYPE</div>
-   
   
   
 
@@ -6104,6 +6026,8 @@ was used to bring a doc into index.</p>
   
   
   
+  
+
   
 
   
@@ -6140,10 +6064,7 @@ was used to bring a doc into index.</p>
 
   <p>This field holds internal document status values.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>DOC_STATUS</div>
-   
   
   
 
@@ -6152,6 +6073,8 @@ was used to bring a doc into index.</p>
   
   
   
+  
+
   
 
   
@@ -6188,10 +6111,7 @@ was used to bring a doc into index.</p>
 
   <p>This field holds document conversion error strings.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>CONVERSION_ERROR</div>
-   
   
   
 
@@ -6200,6 +6120,8 @@ was used to bring a doc into index.</p>
   
   
   
+  
+
   
 
   
@@ -6236,10 +6158,7 @@ was used to bring a doc into index.</p>
 
   <p>This field holds document conversion error codes.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>CONVERSION_ERROR_CODE</div>
-   
   
   
 
@@ -6248,6 +6167,8 @@ was used to bring a doc into index.</p>
   
   
   
+  
+
   
 
   
@@ -6284,10 +6205,7 @@ was used to bring a doc into index.</p>
 
   <p>This field holds document conversion error codes.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>CONVERTED_FILE_PATH</div>
-   
   
   
 
@@ -6296,6 +6214,8 @@ was used to bring a doc into index.</p>
   
   
   
+  
+
   
 
   
@@ -6332,10 +6252,7 @@ was used to bring a doc into index.</p>
 
   <p>This field holds the count of the number of children a particular document has.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>CHILD_COUNT</div>
-   
   
   
 
@@ -6344,6 +6261,8 @@ was used to bring a doc into index.</p>
   
   
   
+  
+
   
 
   
@@ -6380,10 +6299,7 @@ was used to bring a doc into index.</p>
 
   <p>This field holds the index of the child.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>CHILD_INDEX</div>
-   
   
   
 
@@ -6392,6 +6308,8 @@ was used to bring a doc into index.</p>
   
   
   
+  
+
   
 
   
@@ -6429,10 +6347,7 @@ was used to bring a doc into index.</p>
   <p>This field holds the commonly used table designation for a record for
 join-based applications.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>TABLE</div>
-   
   
   
 
@@ -6441,6 +6356,8 @@ join-based applications.</p>
   
   
   
+  
+
   
 
   
@@ -6477,10 +6394,7 @@ join-based applications.</p>
 
   <p>This field holds a static teaser for a document's search result.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>TEASER</div>
-   
   
   
 
@@ -6489,6 +6403,8 @@ join-based applications.</p>
   
   
   
+  
+
   
 
   
@@ -6525,10 +6441,7 @@ join-based applications.</p>
 
   <p>This field holds all of the anchor text for the links that point to this page/document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>ANCHOR_TEXT</div>
-   
   
   
 
@@ -6537,6 +6450,8 @@ join-based applications.</p>
   
   
   
+  
+
   
 
   
@@ -6573,10 +6488,7 @@ join-based applications.</p>
 
   <p>This field holds the number of inbound links that point to this page/document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>LINK_COUNT</div>
-   
   
   
 
@@ -6585,6 +6497,8 @@ join-based applications.</p>
   
   
   
+  
+
   
 
   
@@ -6622,10 +6536,7 @@ join-based applications.</p>
   <p>This field holds the a scaled factor of the number of inbound links that point to
 this page/document. This field is primarily used for relevancy weighting purposes.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>LINK_FACTOR</div>
-   
   
   
 
@@ -6634,6 +6545,8 @@ this page/document. This field is primarily used for relevancy weighting purpose
   
   
   
+  
+
   
 
   
@@ -6670,10 +6583,7 @@ this page/document. This field is primarily used for relevancy weighting purpose
 
   <p>This field holds a list of duplicate uris or doc ids of this page/document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>DUPLICATES</div>
-   
   
   
 
@@ -6682,6 +6592,8 @@ this page/document. This field is primarily used for relevancy weighting purpose
   
   
   
+  
+
   
 
   
@@ -6718,10 +6630,7 @@ this page/document. This field is primarily used for relevancy weighting purpose
 
   <p>This field holds the SHA-256 checksum of this page/document.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>CHECKSUM</div>
-   
   
   
 
@@ -6730,6 +6639,8 @@ this page/document. This field is primarily used for relevancy weighting purpose
   
   
   
+  
+
   
 
   
@@ -6766,10 +6677,7 @@ this page/document. This field is primarily used for relevancy weighting purpose
 
   <p>Field for unparsed JSON text</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>JSON</div>
-   
   
   
 
@@ -6778,6 +6686,8 @@ this page/document. This field is primarily used for relevancy weighting purpose
   
   
   
+  
+
   
 
   
@@ -6814,10 +6724,7 @@ this page/document. This field is primarily used for relevancy weighting purpose
 
   <p>Field for level of processing feedback</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>PROCESSING_FEEDBACK_LEVEL</div>
-   
   
   
 
@@ -6826,6 +6733,8 @@ this page/document. This field is primarily used for relevancy weighting purpose
   
   
   
+  
+
   
 
   
@@ -6862,10 +6771,7 @@ this page/document. This field is primarily used for relevancy weighting purpose
 
   <p>Field for message of processing feedback</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>PROCESSING_FEEDBACK_MESSAGE</div>
-   
   
   
 
@@ -6874,6 +6780,8 @@ this page/document. This field is primarily used for relevancy weighting purpose
   
   
   
+  
+
   
 
   
@@ -6910,10 +6818,7 @@ this page/document. This field is primarily used for relevancy weighting purpose
 
   <p>Field for component of processing feedback</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>PROCESSING_FEEDBACK_COMPONENT</div>
-   
   
   
 
@@ -6922,6 +6827,8 @@ this page/document. This field is primarily used for relevancy weighting purpose
   
   
   
+  
+
   
 
   
@@ -6958,10 +6865,7 @@ this page/document. This field is primarily used for relevancy weighting purpose
 
   <p>Field for error code of processing feedback</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>PROCESSING_FEEDBACK_ERROR_CODE</div>
-   
   
   
 
@@ -6970,6 +6874,8 @@ this page/document. This field is primarily used for relevancy weighting purpose
   
   
   
+  
+
   
 
   
@@ -7006,10 +6912,7 @@ this page/document. This field is primarily used for relevancy weighting purpose
 
   <p>Field containing the list of static field names</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>STATIC_FIELD_NAME</div>
-   
   
   
 
@@ -7018,6 +6921,8 @@ this page/document. This field is primarily used for relevancy weighting purpose
   
   
   
+  
+
   
 
   
@@ -7054,10 +6959,7 @@ this page/document. This field is primarily used for relevancy weighting purpose
 
   <p>Dynamic field containing any user-added tags on the document</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>TAGS</div>
-   
   
   
 
@@ -7066,6 +6968,8 @@ this page/document. This field is primarily used for relevancy weighting purpose
   
   
   
+  
+
   
 
   
@@ -7095,8 +6999,11 @@ this page/document. This field is primarily used for relevancy weighting purpose
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -7115,10 +7022,7 @@ this page/document. This field is primarily used for relevancy weighting purpose
   <p>Statistics about the values in a given facet. Only
 applies to numeric fields.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new SearchFacetStatistics()</div>
-   
   
   
 
@@ -7159,10 +7063,7 @@ applies to numeric fields.</p>
 
   <p>The number of the counts for all buckets</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>count</div>
-   
   
     <p>
       Type:
@@ -7176,6 +7077,8 @@ applies to numeric fields.</p>
   
   
   
+  
+
   
 
   
@@ -7212,10 +7115,7 @@ applies to numeric fields.</p>
 
   <p>The lowest value for all buckets</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>min</div>
-   
   
     <p>
       Type:
@@ -7229,6 +7129,8 @@ applies to numeric fields.</p>
   
   
   
+  
+
   
 
   
@@ -7265,10 +7167,7 @@ applies to numeric fields.</p>
 
   <p>The highest value for all buckets</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>max</div>
-   
   
     <p>
       Type:
@@ -7282,6 +7181,8 @@ applies to numeric fields.</p>
   
   
   
+  
+
   
 
   
@@ -7318,10 +7219,7 @@ applies to numeric fields.</p>
 
   <p>The arithmetic mean for all buckets' values</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>mean</div>
-   
   
     <p>
       Type:
@@ -7335,6 +7233,8 @@ applies to numeric fields.</p>
   
   
   
+  
+
   
 
   
@@ -7371,10 +7271,7 @@ applies to numeric fields.</p>
 
   <p>The midpoint between the min and max values</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>midpoint</div>
-   
   
     <p>
       Type:
@@ -7388,6 +7285,8 @@ applies to numeric fields.</p>
   
   
   
+  
+
   
 
   
@@ -7424,10 +7323,7 @@ applies to numeric fields.</p>
 
   <p>The standard deviation for all values in the field</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>stdev</div>
-   
   
     <p>
       Type:
@@ -7441,6 +7337,8 @@ applies to numeric fields.</p>
   
   
   
+  
+
   
 
   
@@ -7477,10 +7375,7 @@ applies to numeric fields.</p>
 
   <p>The sum of all values in the field</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>sum</div>
-   
   
     <p>
       Type:
@@ -7494,6 +7389,8 @@ applies to numeric fields.</p>
   
   
   
+  
+
   
 
   
@@ -7530,10 +7427,7 @@ applies to numeric fields.</p>
 
   <p>The statistical variance for all values in the field</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>var</div>
-   
   
     <p>
       Type:
@@ -7564,6 +7458,8 @@ applies to numeric fields.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -7574,8 +7470,11 @@ applies to numeric fields.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -7594,10 +7493,7 @@ applies to numeric fields.</p>
   <p>A placement generated by the Attivio Business Center
 that you can display along with search results.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new SearchPlacement(label: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), imageUrl: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), linkText: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), linkUrl: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), markup: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null))</div>
-   
   
   
 
@@ -7688,10 +7584,7 @@ that you can display along with search results.</p>
 
   <p>The label to display</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>label</div>
-   
   
     <p>
       Type:
@@ -7705,6 +7598,8 @@ that you can display along with search results.</p>
   
   
   
+  
+
   
 
   
@@ -7741,10 +7636,7 @@ that you can display along with search results.</p>
 
   <p>The URL of an image to display</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>imageUrl</div>
-   
   
     <p>
       Type:
@@ -7758,6 +7650,8 @@ that you can display along with search results.</p>
   
   
   
+  
+
   
 
   
@@ -7794,10 +7688,7 @@ that you can display along with search results.</p>
 
   <p>The text to display for a hyperlink</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>linkText</div>
-   
   
     <p>
       Type:
@@ -7811,6 +7702,8 @@ that you can display along with search results.</p>
   
   
   
+  
+
   
 
   
@@ -7847,10 +7740,7 @@ that you can display along with search results.</p>
 
   <p>The URL that should be the target of the hyperlink</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>linkUrl</div>
-   
   
     <p>
       Type:
@@ -7864,6 +7754,8 @@ that you can display along with search results.</p>
   
   
   
+  
+
   
 
   
@@ -7900,10 +7792,7 @@ that you can display along with search results.</p>
 
   <p>HTML markup for the placement to be displayed as-is</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>markup</div>
-   
   
     <p>
       Type:
@@ -7934,6 +7823,8 @@ that you can display along with search results.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -7944,8 +7835,11 @@ that you can display along with search results.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -7963,10 +7857,7 @@ that you can display along with search results.</p>
 
   <p>A single comment for a SearchDocument.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new Comment(id: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, text: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, timestamp: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, username: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
-   
   
   
 
@@ -8044,10 +7935,7 @@ that you can display along with search results.</p>
 
   <p>The comment's ID</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>id</div>
-   
   
     <p>
       Type:
@@ -8061,6 +7949,8 @@ that you can display along with search results.</p>
   
   
   
+  
+
   
 
   
@@ -8097,10 +7987,7 @@ that you can display along with search results.</p>
 
   <p>The comment text</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>text</div>
-   
   
     <p>
       Type:
@@ -8114,6 +8001,8 @@ that you can display along with search results.</p>
   
   
   
+  
+
   
 
   
@@ -8150,10 +8039,7 @@ that you can display along with search results.</p>
 
   <p>The timestamp for when the comment is posted</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>timestamp</div>
-   
   
     <p>
       Type:
@@ -8167,6 +8053,8 @@ that you can display along with search results.</p>
   
   
   
+  
+
   
 
   
@@ -8203,10 +8091,7 @@ that you can display along with search results.</p>
 
   <p>The username of the user who posted this comment</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>username</div>
-   
   
     <p>
       Type:
@@ -8220,6 +8105,8 @@ that you can display along with search results.</p>
   
   
   
+  
+
   
 
   
@@ -8247,8 +8134,11 @@ that you can display along with search results.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -8266,10 +8156,7 @@ that you can display along with search results.</p>
 
   <p>Add a document to the index. (implies a delete of any existing documents with the same ID prior to adding)</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>ADD</div>
-   
   
     <p>
       Type:
@@ -8300,8 +8187,11 @@ that you can display along with search results.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -8319,10 +8209,7 @@ that you can display along with search results.</p>
 
   <p>An individual document in a search result.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new SearchDocument(fields: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>>, signal: (<a href="#signaldata">SignalData</a> | null), children: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#searchdocument">SearchDocument</a>>)</div>
-   
   
   
     <p>
@@ -8401,10 +8288,7 @@ that you can display along with search results.</p>
 
   <p>Signal data that is included if requested</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>signal</div>
-   
   
     <p>
       Type:
@@ -8418,6 +8302,8 @@ that you can display along with search results.</p>
   
   
   
+  
+
   
 
   
@@ -8455,10 +8341,7 @@ that you can display along with search results.</p>
   <p>An array of any child documents (e.g., as the result of performing
 a JOIN in the query).</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>children</div>
-   
   
     <p>
       Type:
@@ -8489,6 +8372,8 @@ a JOIN in the query).</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -8499,8 +8384,11 @@ a JOIN in the query).</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -8518,10 +8406,7 @@ a JOIN in the query).</p>
 
   <p>A particular facet from a query, including all of its values.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new SearchFacet(name: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, field: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, label: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, count: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, buckets: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#searchfacetbucket">SearchFacetBucket</a>>, statistics: (<a href="#searchfacetstatistics">SearchFacetStatistics</a> | null))</div>
-   
   
   
 
@@ -8617,10 +8502,7 @@ a JOIN in the query).</p>
 
   <p>The facet buckets (the various values for the facet that can be used to limit the query)</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>buckets</div>
-   
   
     <p>
       Type:
@@ -8634,6 +8516,8 @@ a JOIN in the query).</p>
   
   
   
+  
+
   
 
   
@@ -8670,10 +8554,7 @@ a JOIN in the query).</p>
 
   <p>The name of the facet</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>name</div>
-   
   
     <p>
       Type:
@@ -8687,6 +8568,8 @@ a JOIN in the query).</p>
   
   
   
+  
+
   
 
   
@@ -8723,10 +8606,7 @@ a JOIN in the query).</p>
 
   <p>The field that the facet is for</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>field</div>
-   
   
     <p>
       Type:
@@ -8740,6 +8620,8 @@ a JOIN in the query).</p>
   
   
   
+  
+
   
 
   
@@ -8776,10 +8658,7 @@ a JOIN in the query).</p>
 
   <p>The human-readable label for this facet, usually the name of the field being faceted on</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>label</div>
-   
   
     <p>
       Type:
@@ -8793,6 +8672,8 @@ a JOIN in the query).</p>
   
   
   
+  
+
   
 
   
@@ -8829,10 +8710,7 @@ a JOIN in the query).</p>
 
   <p>The number of occurrences for a facet.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>count</div>
-   
   
     <p>
       Type:
@@ -8846,6 +8724,8 @@ a JOIN in the query).</p>
   
   
   
+  
+
   
 
   
@@ -8882,10 +8762,7 @@ a JOIN in the query).</p>
 
   <p>Statistics for the facet (only available for numeric fields)</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>statistics</div>
-   
   
     <p>
       Type:
@@ -8916,6 +8793,8 @@ a JOIN in the query).</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -8926,8 +8805,11 @@ a JOIN in the query).</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -8946,10 +8828,7 @@ a JOIN in the query).</p>
   <p>Enumerated values for possible date formats used by the
 formatDate() and formatDateString() methods.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new DateFormat()</div>
-   
   
   
     <p>
@@ -8982,8 +8861,11 @@ formatDate() and formatDateString() methods.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -9001,10 +8883,7 @@ formatDate() and formatDateString() methods.</p>
 
   <p>The results of executing a query on the Attivio index.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new QueryResponse()</div>
-   
   
   
 
@@ -9045,10 +8924,7 @@ formatDate() and formatDateString() methods.</p>
 
   <p>The total amount of time, in milliseconds, it took to perform the query</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>totalTime</div>
-   
   
     <p>
       Type:
@@ -9062,6 +8938,8 @@ formatDate() and formatDateString() methods.</p>
   
   
   
+  
+
   
 
   
@@ -9098,10 +8976,7 @@ formatDate() and formatDateString() methods.</p>
 
   <p>The total number of matching documents</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>totalHits</div>
-   
   
     <p>
       Type:
@@ -9115,6 +8990,8 @@ formatDate() and formatDateString() methods.</p>
   
   
   
+  
+
   
 
   
@@ -9151,10 +9028,7 @@ formatDate() and formatDateString() methods.</p>
 
   <p>An array of documents matching the query (limited by the offset and rows parameters in the search request)</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>documents</div>
-   
   
     <p>
       Type:
@@ -9168,6 +9042,8 @@ formatDate() and formatDateString() methods.</p>
   
   
   
+  
+
   
 
   
@@ -9204,10 +9080,7 @@ formatDate() and formatDateString() methods.</p>
 
   <p>An array of facets applicable to the query</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>facets</div>
-   
   
     <p>
       Type:
@@ -9221,6 +9094,8 @@ formatDate() and formatDateString() methods.</p>
   
   
   
+  
+
   
 
   
@@ -9257,10 +9132,7 @@ formatDate() and formatDateString() methods.</p>
 
   <p>An array of feedback objects from performing the query</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>feedback</div>
-   
   
     <p>
       Type:
@@ -9274,6 +9146,8 @@ formatDate() and formatDateString() methods.</p>
   
   
   
+  
+
   
 
   
@@ -9310,10 +9184,7 @@ formatDate() and formatDateString() methods.</p>
 
   <p>An array of Attivio-Business-Center-generated placements for the query</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>placements</div>
-   
   
     <p>
       Type:
@@ -9344,6 +9215,8 @@ formatDate() and formatDateString() methods.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -9354,8 +9227,11 @@ formatDate() and formatDateString() methods.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -9373,10 +9249,7 @@ formatDate() and formatDateString() methods.</p>
 
   <p>Encapsulates the default Attivio search behavior.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new Signals(baseUri: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
-   
   
   
 
@@ -9434,10 +9307,7 @@ with no trailing slash)
   <p>Add a signal for the given document. If the document has no signal information
 inside it, this method does nothing.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>addSignal(doc: <a href="#searchdocument">SearchDocument</a>, type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, weight: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
-   
   
   
 
@@ -9494,6 +9364,8 @@ inside it, this method does nothing.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -9513,10 +9385,7 @@ inside it, this method does nothing.</p>
 
   <p>Add a signal for the given SignalData.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>addRawSignal(signal: <a href="#signaldata">SignalData</a>)</div>
-   
   
   
 
@@ -9555,6 +9424,8 @@ inside it, this method does nothing.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -9565,8 +9436,11 @@ inside it, this method does nothing.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -9585,10 +9459,7 @@ inside it, this method does nothing.</p>
   <p>An object that embodies the various parameters needed to
 make a query of the Attivio index.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new SimpleQueryRequest(q: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, wf: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, ql: (<code>"simple"</code> | <code>"advanced"</code>), l: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, r: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, flt: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>, f: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>, s: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>, fds: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>, un: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), rlm: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), ff: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#facetfilter">FacetFilter</a>>, rp: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>>)</div>
-   
   
   
 
@@ -9751,10 +9622,7 @@ make a query of the Attivio index.</p>
 
   <p>The workflow to use when processing the query</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>workflow</div>
-   
   
     <p>
       Type:
@@ -9768,6 +9636,8 @@ make a query of the Attivio index.</p>
   
   
   
+  
+
   
 
   
@@ -9804,10 +9674,7 @@ make a query of the Attivio index.</p>
 
   <p>The query string</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>query</div>
-   
   
     <p>
       Type:
@@ -9821,6 +9688,8 @@ make a query of the Attivio index.</p>
   
   
   
+  
+
   
 
   
@@ -9857,10 +9726,7 @@ make a query of the Attivio index.</p>
 
   <p>Whether the query is in Simple Query Language or Advanced Query Language</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>queryLanguage</div>
-   
   
     <p>
       Type:
@@ -9874,6 +9740,8 @@ make a query of the Attivio index.</p>
   
   
   
+  
+
   
 
   
@@ -9910,10 +9778,7 @@ make a query of the Attivio index.</p>
 
   <p>The locale to use when performing the query</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>locale</div>
-   
   
     <p>
       Type:
@@ -9927,6 +9792,8 @@ make a query of the Attivio index.</p>
   
   
   
+  
+
   
 
   
@@ -9963,10 +9830,7 @@ make a query of the Attivio index.</p>
 
   <p>The number of documents to return with the query results</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>rows</div>
-   
   
     <p>
       Type:
@@ -9980,6 +9844,8 @@ make a query of the Attivio index.</p>
   
   
   
+  
+
   
 
   
@@ -10016,10 +9882,7 @@ make a query of the Attivio index.</p>
 
   <p>Any filters to apply to the query</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>filters</div>
-   
   
     <p>
       Type:
@@ -10033,6 +9896,8 @@ make a query of the Attivio index.</p>
   
   
   
+  
+
   
 
   
@@ -10069,10 +9934,7 @@ make a query of the Attivio index.</p>
 
   <p>Which facets you want to have returned with the results</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>facets</div>
-   
   
     <p>
       Type:
@@ -10086,6 +9948,8 @@ make a query of the Attivio index.</p>
   
   
   
+  
+
   
 
   
@@ -10122,10 +9986,7 @@ make a query of the Attivio index.</p>
 
   <p>How you want the query results sorted</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>sort</div>
-   
   
     <p>
       Type:
@@ -10139,6 +10000,8 @@ make a query of the Attivio index.</p>
   
   
   
+  
+
   
 
   
@@ -10175,10 +10038,7 @@ make a query of the Attivio index.</p>
 
   <p>The fields to return for each document</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>fields</div>
-   
   
     <p>
       Type:
@@ -10192,6 +10052,8 @@ make a query of the Attivio index.</p>
   
   
   
+  
+
   
 
   
@@ -10228,10 +10090,7 @@ make a query of the Attivio index.</p>
 
   <p>The name of the user performing the query</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>username</div>
-   
   
     <p>
       Type:
@@ -10245,6 +10104,8 @@ make a query of the Attivio index.</p>
   
   
   
+  
+
   
 
   
@@ -10281,10 +10142,7 @@ make a query of the Attivio index.</p>
 
   <p>The user's realm</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>realm</div>
-   
   
     <p>
       Type:
@@ -10298,6 +10156,8 @@ make a query of the Attivio index.</p>
   
   
   
+  
+
   
 
   
@@ -10334,10 +10194,7 @@ make a query of the Attivio index.</p>
 
   <p>Any facet filters to apply to the query</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>facetFilters</div>
-   
   
     <p>
       Type:
@@ -10351,6 +10208,8 @@ make a query of the Attivio index.</p>
   
   
   
+  
+
   
 
   
@@ -10387,10 +10246,7 @@ make a query of the Attivio index.</p>
 
   <p>Any additional REST parameters to pass. Note that the values MUST be arrays, even if there's only one instance.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>restParams</div>
-   
   
     <p>
       Type:
@@ -10421,6 +10277,8 @@ make a query of the Attivio index.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -10431,8 +10289,11 @@ make a query of the Attivio index.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -10450,10 +10311,7 @@ make a query of the Attivio index.</p>
 
   <p>Delete a document from the index.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>DELETE</div>
-   
   
     <p>
       Type:
@@ -10484,8 +10342,11 @@ make a query of the Attivio index.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -10503,10 +10364,7 @@ make a query of the Attivio index.</p>
 
   <p>The ISO-like format that the Attivio APIs expect.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>ATTIVIO</div>
-   
   
     <p>
       Type:
@@ -10537,8 +10395,11 @@ make a query of the Attivio index.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -10556,10 +10417,7 @@ make a query of the Attivio index.</p>
 
   <p>Encapsulates the default Attivio search behavior.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new Search(baseUri: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, searchEngineType: (<code>"attivio"</code> | <code>"solr"</code> | <code>"elastic"</code>), customOptions: any)</div>
-   
   
   
 
@@ -10632,10 +10490,7 @@ with no trailing slash)
 
   <p>Perform a search against the Attivio index.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>simpleSearch(query: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, queryLanguage: (<code>"simple"</code> | <code>"advanced"</code>), offset: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, count: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, updateResults: function (response: (<a href="#queryresponse">QueryResponse</a> | null), error: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null)): void)</div>
-   
   
   
 
@@ -10711,6 +10566,8 @@ with no trailing slash)
   
 
   
+
+  
 </section>
 
       </div>
@@ -10721,8 +10578,11 @@ with no trailing slash)
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -10741,10 +10601,7 @@ with no trailing slash)
   <p>A simplified version of the AttivioPermission class used by the Attivio
 REST APIs.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new SimplePermission(principal: (<a href="#simpleprincipal">SimplePrincipal</a> | null), readable: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</div>
-   
   
   
 
@@ -10793,8 +10650,11 @@ REST APIs.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -10812,10 +10672,7 @@ REST APIs.</p>
 
   <p>the ISO-8601 format, e.g., '2017-09-07T10:29-05:00'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>ISO_8601</div>
-   
   
     <p>
       Type:
@@ -10846,8 +10703,11 @@ REST APIs.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -10865,10 +10725,7 @@ REST APIs.</p>
 
   <p>a short date with just numbers, e.g., '09/07/2017'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>SHORT_DATE</div>
-   
   
     <p>
       Type:
@@ -10899,8 +10756,11 @@ REST APIs.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -10918,10 +10778,7 @@ REST APIs.</p>
 
   <p>a date using the abbreviated month name, e.g., 'Sep 8, 2017'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>MEDIUM_DATE</div>
-   
   
     <p>
       Type:
@@ -10952,8 +10809,11 @@ REST APIs.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -10974,10 +10834,7 @@ REST APIs.</p>
 The exact semantics are engine dependent as some may only work on real time fields while others may work on any field in the
 document.
 
- 
-  
     <div class='pre p1 fill-light mt0'>PARTIAL</div>
-   
   
     <p>
       Type:
@@ -11008,8 +10865,11 @@ document.
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -11027,10 +10887,7 @@ document.
 
   <p>a date including the day of the week and the full month name: e.g., 'Thursday, September 8, 2017'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>LONG_DATE</div>
-   
   
     <p>
       Type:
@@ -11061,8 +10918,11 @@ document.
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -11080,10 +10940,7 @@ document.
 
   <p>A simple time format, e.g, '10:29 AM'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>SHORT_TIME</div>
-   
   
     <p>
       Type:
@@ -11114,8 +10971,11 @@ document.
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -11133,10 +10993,7 @@ document.
 
   <p>A full time format, with seconds: e.g., '10:29:52 AM'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>LONG_TIME</div>
-   
   
     <p>
       Type:
@@ -11167,8 +11024,11 @@ document.
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -11188,10 +11048,7 @@ document.
 <p>
 NOTE: This operation will only affect multi-value fields. Any updates to single value fields will be ignored.
 
- 
-  
     <div class='pre p1 fill-light mt0'>PARTIAL_APPEND_VALUES</div>
-   
   
     <p>
       Type:
@@ -11222,8 +11079,11 @@ NOTE: This operation will only affect multi-value fields. Any updates to single 
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -11241,10 +11101,7 @@ NOTE: This operation will only affect multi-value fields. Any updates to single 
 
   <p>The month and year of the date: e.g., 'Sep 2017'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>SHORT_MONTH</div>
-   
   
     <p>
       Type:
@@ -11275,8 +11132,11 @@ NOTE: This operation will only affect multi-value fields. Any updates to single 
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -11294,10 +11154,7 @@ NOTE: This operation will only affect multi-value fields. Any updates to single 
 
   <p>The month and year of the date: e.g., 'September 2017'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>LONG_MONTH</div>
-   
   
     <p>
       Type:
@@ -11328,8 +11185,11 @@ NOTE: This operation will only affect multi-value fields. Any updates to single 
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -11347,10 +11207,7 @@ NOTE: This operation will only affect multi-value fields. Any updates to single 
 
   <p>The abbreviated 2-digit year: e.g. ’17</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>SHORT_YEAR</div>
-   
   
     <p>
       Type:
@@ -11381,8 +11238,11 @@ NOTE: This operation will only affect multi-value fields. Any updates to single 
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -11400,10 +11260,7 @@ NOTE: This operation will only affect multi-value fields. Any updates to single 
 
   <p>The full year: e.g. 2017</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>LONG_YEAR</div>
-   
   
     <p>
       Type:
@@ -11434,8 +11291,11 @@ NOTE: This operation will only affect multi-value fields. Any updates to single 
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -11453,10 +11313,7 @@ NOTE: This operation will only affect multi-value fields. Any updates to single 
 
   <p>The short date and the short time, combined: e.g., '09/07/2017 10:29 AM'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>SHORT</div>
-   
   
     <p>
       Type:
@@ -11487,8 +11344,11 @@ NOTE: This operation will only affect multi-value fields. Any updates to single 
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -11510,10 +11370,7 @@ Fields in this update act as a blacklist, filtering multi-value fields in the pr
 <p>
 NOTE: This operation will only affect multi-value fields. Any updates to single value fields will be ignored.
 
- 
-  
     <div class='pre p1 fill-light mt0'>PARTIAL_REMOVE_VALUES</div>
-   
   
     <p>
       Type:
@@ -11544,8 +11401,11 @@ NOTE: This operation will only affect multi-value fields. Any updates to single 
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -11564,10 +11424,7 @@ NOTE: This operation will only affect multi-value fields. Any updates to single 
   <p>A simplified version of the IngestDocument class used by the Attivio
 REST APIs.</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>new SimpleIngestDocument(id: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, fields: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>>, mode: DocumentMode, zone: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), correlationId: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | null), permissions: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#simplepermission">SimplePermission</a>>)</div>
-   
   
   
     <p>
@@ -11672,10 +11529,7 @@ REST APIs.</p>
 
   <p>The document's ID</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>id</div>
-   
   
     <p>
       Type:
@@ -11689,6 +11543,8 @@ REST APIs.</p>
   
   
   
+  
+
   
 
   
@@ -11725,10 +11581,7 @@ REST APIs.</p>
 
   <p>The index zone</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>zone</div>
-   
   
     <p>
       Type:
@@ -11742,6 +11595,8 @@ REST APIs.</p>
   
   
   
+  
+
   
 
   
@@ -11778,10 +11633,7 @@ REST APIs.</p>
 
   <p>How the document should be applied to the index</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>mode</div>
-   
   
     <p>
       Type:
@@ -11795,6 +11647,8 @@ REST APIs.</p>
   
   
   
+  
+
   
 
   
@@ -11831,10 +11685,7 @@ REST APIs.</p>
 
   <p>Permissions on the document</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>permissions</div>
-   
   
     <p>
       Type:
@@ -11865,6 +11716,8 @@ REST APIs.</p>
   
 
   
+
+  
 </section>
 
       </div>
@@ -11875,8 +11728,11 @@ REST APIs.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -11894,10 +11750,7 @@ REST APIs.</p>
 
   <p>The medium date and the short time, combined: e.g., 'Sep 8, 2017 10:29 AM'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>MEDIUM</div>
-   
   
     <p>
       Type:
@@ -11928,8 +11781,11 @@ REST APIs.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -11947,10 +11803,7 @@ REST APIs.</p>
 
   <p>The long date and the long time, combined: e.g., 'Thursday, September 8, 2017 10:29:52 AM'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>LONG</div>
-   
   
     <p>
       Type:
@@ -11981,8 +11834,11 @@ REST APIs.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -12000,10 +11856,7 @@ REST APIs.</p>
 
   <p>The month and day of the month with no time or year: e.g., 'March 4'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>DAY_OF_MONTH</div>
-   
   
     <p>
       Type:
@@ -12034,8 +11887,11 @@ REST APIs.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -12053,10 +11909,7 @@ REST APIs.</p>
 
   <p>A simple hour, in 12-hour format with AM or PM: e.g., '2 days ago'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>HOUR</div>
-   
   
     <p>
       Type:
@@ -12087,8 +11940,11 @@ REST APIs.</p>
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -12109,10 +11965,7 @@ REST APIs.</p>
 This document mode should only be used during an initial feed of the index or in situations where the same document will
 never be feed twice. If the same document is added with this mode twice, the document will occur in the index twice.
 
- 
-  
     <div class='pre p1 fill-light mt0'>CREATE</div>
-   
   
     <p>
       Type:
@@ -12143,8 +11996,11 @@ never be feed twice. If the same document is added with this mode twice, the doc
   
 
   
+
+  
 </section>
 
+          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -12162,10 +12018,7 @@ never be feed twice. If the same document is added with this mode twice, the doc
 
   <p>A distance 'ago' in time before now: e.g., '2 days ago'</p>
 
- 
-  
     <div class='pre p1 fill-light mt0'>AGO</div>
-   
   
     <p>
       Type:
@@ -12196,8 +12049,11 @@ never be feed twice. If the same document is added with this mode twice, the doc
   
 
   
+
+  
 </section>
 
+          
         
       </div>
     </div>

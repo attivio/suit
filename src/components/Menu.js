@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import Checkbox from 'react-bootstrap/lib/Checkbox';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
@@ -113,21 +113,7 @@ type MenuProps = {
   dataTest?: string | null;
 };
 
-type MenuDefaultProps = {
-  selection: Array<string> | string | null;
-  right: boolean;
-  multiSelect: boolean;
-  selectAllNone: null | (selectAll: boolean) => void;
-  block: boolean;
-  promptLabel: string | null;
-  allLabel: string | null;
-  maxLabelCharacters: number | null;
-  width: number | null;
-  style: any;
-  dataTest : string | null;
-};
-
-export default class Menu extends React.Component<MenuDefaultProps, MenuProps, void> {
+export default class Menu extends React.Component<MenuProps, void> {
   static defaultProps = {
     selection: null,
     right: false,
@@ -144,6 +130,8 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
 
   static displayName = 'Menu';
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static MenuItemDef;
 
   constructor(props: MenuProps) {
@@ -316,7 +304,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
             className="checkbox"
             componentClass="div"
           >
-            <Checkbox checked={selected}>
+            <Checkbox checked={selected} readOnly>
               {item.label}
             </Checkbox>
           </MenuItem>
@@ -335,9 +323,17 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
       } else {
         label = selected ? <b>{itemLabel}</b> : itemLabel;
       }
-      return <MenuItem eventKey={item.value} key={item.value}>{label}</MenuItem>;
+      return (
+        <MenuItem 
+          eventKey={item.value}
+          key={item.value}
+          data-testid={`menu-option-${item.value}`}
+        >
+          {label}
+        </MenuItem>
+      );
     });
-
+  
     const menuPrefix = this.props.multiSelect && this.props.selectAllNone ? (
       <MenuItem
         eventKey="allNone"
@@ -363,6 +359,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
     return (
       <Dropdown
         id="myDropdown"
+        data-testid="menu-dropdown"
         className={classNames}
         onSelect={this.onSelect}
         componentClass="div"
@@ -376,6 +373,7 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
           bsClass="attivio-smalltoolbar-btn"
           style={this.props.width ? { width: `${this.props.width}px` } : {}}
           data-test={dataTest}
+          data-testid={dataTest}
         >
           <div
             style={this.props.width ? {
@@ -395,7 +393,8 @@ export default class Menu extends React.Component<MenuDefaultProps, MenuProps, v
           style={{
             paddingTop: 0,
             paddingBottom: 0,
-          }}
+                }}
+            data-testid="menu-options"
         >
           {menuPrefix}
           {menuItems}

@@ -3,36 +3,40 @@
 __1.__ Showing the built-in simple format.
 
 ```jsx
-  const QueryResponse = require('../../src/api/QueryResponse').default;
-  const DummySearcher = require('../../src/components/DummySearcher').default;
-  const SimpleSearchResult = require('../../src/components/SimpleSearchResult').default;
-  const sampleDocs = require('../sampleData/Documents').default;
+  import QueryResponse from'../../src/api/QueryResponse';
+  import DummySearcher from'../../src/components/DummySearcher';
+  import SimpleSearchResult from'../../src/components/SimpleSearchResult';
+  import sampleDocs from'../sampleData/Documents';
+  import { MemoryRouter } from'react-router-dom';
 
   const queryResponse = new QueryResponse();
   queryResponse.totalTime = 3239;
   queryResponse.totalHits = sampleDocs.rawDocuments.length;
   queryResponse.documents = sampleDocs.rawDocuments;
 
-  <DummySearcher defaultQueryResponse={queryResponse}>
-    <SearchResults
-      format="simple"
-      showRatings={false}
-      showScores={false}
-      showTags={false}
-    />
-  </DummySearcher>
+  <MemoryRouter>
+    <DummySearcher defaultQueryResponse={queryResponse}>
+      <SearchResults
+        format="simple"
+        showRatings={false}
+        showScores={false}
+        showTags={false}
+      />
+    </DummySearcher>
+  </MemoryRouter>
 ```
 
 
 __2.__ Using a custom renderer for documents in the "country" table.
 
 ```jsx
-  const QueryResponse = require('../../src/api/QueryResponse').default;
-  const Card = require('../../src/components/Card').default;
-  const DocumentType = require('../../src/components/DocumentType').default;
-  const DummySearcher = require('../../src/components/DummySearcher').default;
-  const SimpleSearchResult = require('../../src/components/SimpleSearchResult').default;
-  const sampleDocs = require('../sampleData/Documents').default;
+  import QueryResponse from'../../src/api/QueryResponse';
+  import Card from'../../src/components/Card';
+  import DocumentType from'../../src/components/DocumentType';
+  import DummySearcher from'../../src/components/DummySearcher';
+  import SimpleSearchResult from'../../src/components/SimpleSearchResult';
+  import sampleDocs from'../sampleData/Documents';
+  import { MemoryRouter } from'react-router-dom';
 
   const queryResponse = new QueryResponse();
   queryResponse.totalTime = 3239;
@@ -74,14 +78,16 @@ __2.__ Using a custom renderer for documents in the "country" table.
     SimpleSearchResult.renderer,
   ];
 
-  <DummySearcher defaultQueryResponse={queryResponse}>
-    <SearchResults
-      format={formats}
-      showRatings={false}
-      showScores={false}
-      showTags={false}
-    />
-  </DummySearcher>
+  <MemoryRouter>
+    <DummySearcher defaultQueryResponse={queryResponse}>
+      <SearchResults
+        format={formats}
+        showRatings={false}
+        showScores={false}
+        showTags={false}
+      />
+    </DummySearcher>
+  </MemoryRouter>
 ```
 __3.__ Showing the built-in simple format wrapped in tabs for filtering by table.
 

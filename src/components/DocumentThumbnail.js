@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import Button from 'react-bootstrap/lib/Button';
 
@@ -25,12 +25,6 @@ type DocumentThumbnailProps = {
   previewTitle: string | null;
 };
 
-type DocumentThumbnailDefaultProps = {
-  uri: string | null;
-  previewUris: Array<string>;
-  previewTitle: string | null;
-};
-
 type DocumentThumbnailState = {
   previewing: boolean;
 };
@@ -41,7 +35,7 @@ type DocumentThumbnailState = {
  * isn't valid, then the image is hidden rather than showing a
  * broken image in the browser.
  */
-export default class DocumentThumbnail extends React.Component<DocumentThumbnailDefaultProps, DocumentThumbnailProps, DocumentThumbnailState> { // eslint-disable-line max-len
+export default class DocumentThumbnail extends React.Component<DocumentThumbnailProps, DocumentThumbnailState> { // eslint-disable-line max-len
   static defaultProps = {
     uri: null,
     previewUris: [],
@@ -117,6 +111,9 @@ export default class DocumentThumbnail extends React.Component<DocumentThumbnail
           </a>
           { havePreview ? (
             <DocumentPreview
+              /* $FlowFixMe This comment suppresses an error found when
+               * upgrading Flow to v0.107.0. To view the error, delete this
+               * comment and run Flow. */
               uris={previews}
               show={this.state.previewing}
               onClose={this.stopPreview}

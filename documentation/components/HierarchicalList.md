@@ -3,7 +3,7 @@
 __1.__ Hierarchical list.
 
 ```jsx
-const initialState = {
+initialState = {
   openNodes: [],
 };
 

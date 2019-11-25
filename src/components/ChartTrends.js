@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 type ChartTrendsProps = {
   /** The change to display, including any ± signs, %, etc… */
@@ -15,19 +15,12 @@ type ChartTrendsProps = {
   unchangedLabel: string;
 };
 
-type ChartTrendsDefaultProps = {
-  up: boolean;
-  down: boolean;
-  changedLabel: string;
-  unchangedLabel: string;
-};
-
 /**
  * Show a change in a value. If the neither the up or down
  * properties are set, then it is displayed as an average
  * value, with no up/down arrows.
  */
-export default class ChartTrends extends React.Component<ChartTrendsDefaultProps, ChartTrendsProps, void> {
+export default class ChartTrends extends React.Component<ChartTrendsProps, void> {
   static defaultProps = {
     up: false,
     down: false,

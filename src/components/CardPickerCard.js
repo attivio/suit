@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import DefaultImage from './DefaultImage';
 
 type CardPickerCardProps = {
@@ -43,15 +43,7 @@ type CardPickerCardProps = {
   dataTestValue? : string | null;
 };
 
-type CardPickerCardDefaultProps = {
-  columns: number;
-  iconUri: string | null;
-  defaultIconUri: string | null;
-  description: string | null;
-  dataTestValue : string | null;
-};
-
-export default class CardPickerCard extends React.Component<CardPickerCardDefaultProps, CardPickerCardProps, void> {
+export default class CardPickerCard extends React.Component<CardPickerCardProps, void> {
   static defaultProps = {
     columns: 3,
     iconUri: null,
@@ -120,6 +112,9 @@ export default class CardPickerCard extends React.Component<CardPickerCardDefaul
         role="button"
         tabIndex={0}
         ref={(c) => {
+          /* $FlowFixMe This comment suppresses an error found when upgrading
+           * Flow to v0.107.0. To view the error, delete this comment and run
+           * Flow. */
           this.card = c;
         }}
         data-test={(this.props.dataTestValue) ? `${this.props.dataTestValue}` : null}

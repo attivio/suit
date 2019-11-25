@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 /**
  * Describes the help to display in a particular context.
@@ -34,9 +34,11 @@ type ContextHelpProps = {
 /**
  * Component to display contextual help.
  */
-export default class ContextHelp extends React.Component<void, ContextHelpProps, void> {
+export default class ContextHelp extends React.Component<ContextHelpProps, void> {
   static displayName = 'ContextHelp';
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static ContextHelpInfo;
 
   render() {

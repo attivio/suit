@@ -3,6 +3,8 @@ import React, { Children } from 'react';
 
 type CollapsiblePanelProps = {
   /** The contents of the panel can be whatever you like. */
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   children: Children;
   /** The title displayed in the header of the panel. */
   title: string;
@@ -11,11 +13,6 @@ type CollapsiblePanelProps = {
   /** If set, the panel will be drawn with a border, like a Card. */
   bordered: boolean;
   /** If set, then the panel's initial state will be collapsed. */
-  collapsed: boolean;
-}
-
-type CollapsiblePanelDefaultProps = {
-  bordered: boolean;
   collapsed: boolean;
 }
 
@@ -28,7 +25,7 @@ type CollapsiblePanelState = {
  * its header. It's used, for example, for displaying facets in
  * search results but can be used with whatever contents you like.
  */
-export default class CollapsiblePanel extends React.Component<CollapsiblePanelDefaultProps, CollapsiblePanelProps, CollapsiblePanelState> { // eslint-disable-line max-len
+export default class CollapsiblePanel extends React.Component<CollapsiblePanelProps, CollapsiblePanelState> { // eslint-disable-line max-len
   static defaultProps = {
     bordered: false,
     collapsed: false,
@@ -39,7 +36,7 @@ export default class CollapsiblePanel extends React.Component<CollapsiblePanelDe
   constructor(props: CollapsiblePanelProps) {
     super(props);
     this.state = {
-      open: !this.props.collapsed,
+      open: !props.collapsed,
     };
     (this: any).toggleState = this.toggleState.bind(this);
   }

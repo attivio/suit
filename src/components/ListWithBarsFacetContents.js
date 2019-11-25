@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import SearchFacetBucket from '../api/SearchFacetBucket';
 
@@ -23,15 +23,6 @@ type ListWithBarsFacetContentsProps = {
   noLink: boolean;
 };
 
-type ListWithBarsFacetContentsDefaultProps = {
-  right: boolean;
-  color: string;
-  noLink: boolean;
-  shortSize: number;
-  morePrompt: string;
-  fewerPrompt: string;
-};
-
 type ListWithBarsFacetContentsState = {
   allVisible: boolean;
 }
@@ -40,7 +31,7 @@ type ListWithBarsFacetContentsState = {
  * Component to display the buckets of a facet in a table with
  * horizontal bars showing relative size.
  */
-export default class ListWithBarsFacetContents extends React.Component<ListWithBarsFacetContentsDefaultProps, ListWithBarsFacetContentsProps, ListWithBarsFacetContentsState> { // eslint-disable-line max-len
+export default class ListWithBarsFacetContents extends React.Component<ListWithBarsFacetContentsProps, ListWithBarsFacetContentsState> { // eslint-disable-line max-len
   static defaultProps = {
     right: false,
     color: '#55B3E3',
@@ -86,6 +77,9 @@ export default class ListWithBarsFacetContents extends React.Component<ListWithB
       const percentage = `${percent}%`;
       const callback = (event: Event & { target: HTMLAnchorElement }) => {
         this.props.addFacetFilter(bucket);
+        /* $FlowFixMe This comment suppresses an error found when upgrading
+         * Flow to v0.107.0. To view the error, delete this comment and run
+         * Flow. */
         event.target.blur();
       };
       const labelValue = this.props.noLink ? (

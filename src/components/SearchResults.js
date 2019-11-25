@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-bootstrap';
 
@@ -62,16 +62,6 @@ type SearchResultsProps = {
   style: any;
 };
 
-type SearchResultsDefaultProps = {
-  baseUri: string;
-  format: Array<SearchResultRenderer> | SearchResultRenderer | 'list' | 'simple' | 'debug';
-  hide360Link: boolean;
-  showTabs: boolean;
-  tabsField: string;
-  tabList: Array<string>;
-  style: any;
-};
-
 type SearchResultsState = {
   activeTableTabKey: string,
 };
@@ -80,7 +70,7 @@ type SearchResultsState = {
  * A container for showing a list of documents from the search results.
  * This comes from the parent Searcher component.
  */
-export default class SearchResults extends React.Component<SearchResultsDefaultProps, SearchResultsProps, SearchResultsState> {
+export default class SearchResults extends React.Component<SearchResultsProps, SearchResultsState> {
   static defaultProps = {
     baseUri: '',
     format: 'list',
@@ -227,9 +217,11 @@ export default class SearchResults extends React.Component<SearchResultsDefaultP
         // will render a result.
         formatRenderers.forEach((formatRenderer: SearchResultRenderer) => {
           if (!renderedDocument) {
-            const possibleResult = formatRenderer(document, position, baseUri, key, hide360Link);
-            if (possibleResult) {
-              renderedDocument = possibleResult;
+            if (typeof format === 'function') {
+              const possibleResult = formatRenderer(document, position, this.props.baseUri, key);
+              if (possibleResult) {
+                renderedDocument = possibleResult;
+              }
             }
           }
         });

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 
@@ -21,17 +21,11 @@ type MastheadUserProps = {
   helpUri: string | null;
 };
 
-type MastheadUserDefaultProps = {
-  username: string | null;
-  logoutFunction: null | () => void;
-  helpUri: string | null;
-};
-
 /**
  * Displays the currently logged-in user inside the masthead.
  * The user can click on the name to pop-up a menu with a log-out command.
  */
-export default class MastheadUser extends React.Component<MastheadUserDefaultProps, MastheadUserProps, void> {
+export default class MastheadUser extends React.Component<MastheadUserProps, void> {
   static defaultProps = {
     username: null,
     logoutFunction: null,

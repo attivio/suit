@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -61,6 +61,12 @@ type SearchBarProps = {
    * If set, a new signal of this type would be added when an autocomplete item is selected.
    */
   createAutoCompleteSignal?: boolean;
+  /**
+   * If set, this function will be called prior to executing a search. If the function
+   * returns true, then the default search behavior will then be executed, otherwise
+   * nothing else will happen.
+   */
+  searchHook?: null | (query: string, searcher: any) => boolean;
 };
 
 type SearchBarDefaultProps = {
@@ -74,6 +80,7 @@ type SearchBarDefaultProps = {
   route: string | null;
   baseUri: string;
   createAutoCompleteSignal: boolean;
+  searchHook: null | (query: string, searcher: any) => boolean;
 };
 
 type SearchBarState = {
@@ -85,7 +92,7 @@ type SearchBarState = {
  * Component to include in the Masthead for entering the query
  * to use when searching. Must be inside a Searcher component.
  */
-class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, SearchBarState> {
+class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
   static defaultProps: SearchBarDefaultProps = {
     inMasthead: false,
     placeholder: 'Search\u2026',
@@ -97,6 +104,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
     route: null,
     baseUri: '',
     createAutoCompleteSignal: false,
+    searchHook: null,
   };
 
   static contextTypes = {
@@ -254,16 +262,30 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
 
   doSearch() {
     const searcher = this.context.searcher;
-    if (this.props.route && searcher) {
-      this.route();
-    } else if (searcher.state.query && !searcher.state.haveSearched) {
-      // on click of Go, if a new query is being searched
-      // reset filters & display results
-      searcher.setQueryAndSearch(searcher.state.query);
-    } else if (searcher.state.query && searcher.state.haveSearched) {
-      // do not reset only search
-      searcher.doSearch();
+    if (searcher) {
+      const { query, haveSearched } = searcher.state;
+      const { searchHook } = this.props;
+
+      let doMainSearch = true;
+
+      if (searchHook) {
+        doMainSearch = searchHook(query, searcher);
+      }
+
+      if (doMainSearch) {
+        if (this.props.route) {
+          this.route();
+        } else if (query && !haveSearched) {
+          // on click of Go, if a new query is being searched
+          // reset filters & display results
+          searcher.setQueryAndSearch(query);
+        } else if (query && haveSearched) {
+          // do not reset only search
+          searcher.doSearch();
+        }
+      }
     }
+    // Always want to do this, even if the serchHook cancelled
     if (this.submitButton) {
       this.submitButton.blur();
     }
@@ -272,6 +294,8 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
   doKeyPress(e: Event) {
     // If the user presses enter, do the search
     if (e.target instanceof HTMLInputElement) {
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       if (e.keyCode === 13) {
         this.doSearch();
       }
@@ -386,6 +410,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
         />
       ) : (
         <input
+          data-testid="search-bar-input"
           type="search"
           className={inputClass}
           placeholder={placeholder}
@@ -396,9 +421,9 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
       );
 
     return (
-      <div className={containerClass}>
+      <div className={containerClass} data-testid="search-bar-container">
         <div className="attivio-globalmast-search" role="search">
-          <div className="form-group">
+          <div className="form-group" data-testid="search-bar-form">
             {inputComponent}
             {showMicrophone ? (
               <a onClick={this.startSpeechRecognition} role="button" tabIndex={0}>
@@ -407,6 +432,7 @@ class SearchBar extends React.Component<SearchBarDefaultProps, SearchBarProps, S
             ) : ''}
             <button
               type="submit"
+              data-testid="search-bar-button"
               className="btn attivio-globalmast-search-submit"
               onClick={this.doSearch}
               ref={(c) => { this.submitButton = c; }}

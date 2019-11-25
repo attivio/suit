@@ -1,12 +1,12 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 /**
  * The count of search results or an indication
  * that a search hasn't yet happened.
  */
-export default class SearchResultsCount extends React.Component<void, {}, void> {
+export default class SearchResultsCount extends React.Component<{}, void> {
   static contextTypes = {
     searcher: PropTypes.any,
   };

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import Facet from './Facet';
@@ -48,22 +48,6 @@ type FacetResultsProps = {
   hiddenFacets: Array<string>;
 };
 
-type FacetResultsDefaultProps = {
-  pieChartFacets: Array<string> | string | null;
-  barChartFacets: Array<string> | string | null;
-  columnChartFacets: Array<string> | string | null;
-  barListFacets: Array<string> | string | null;
-  tagCloudFacets: Array<string> | string | null;
-  timeSeriesFacets: Array<string> | string | null;
-  sentimentFacets: Array<string> | string | null;
-  geoMapFacets: Array<string> | string | null;
-  maxFacetBuckets: number;
-  orderHint: Array<string>;
-  entityColors: Map<string, string>;
-  showEmptyFacets: boolean;
-  hiddenFacets: Array<string>;
-};
-
 /**
  * A container for showing facet results from a search.
  * It must be contained within a Searcher component and
@@ -72,7 +56,7 @@ type FacetResultsDefaultProps = {
  * not covered by one of these property's lists will be displayed
  * in a standard "More…" list.
  */
-export default class FacetResults extends React.Component<FacetResultsDefaultProps, FacetResultsProps, void> {
+export default class FacetResults extends React.Component<FacetResultsProps, void> {
   static defaultProps = {
     pieChartFacets: null,
     barChartFacets: null,
@@ -84,6 +68,8 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
     geoMapFacets: null,
     maxFacetBuckets: 15,
     orderHint: [],
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     entityColors: new Map(),
     showEmptyFacets: false,
     hiddenFacets: [],
@@ -159,14 +145,16 @@ export default class FacetResults extends React.Component<FacetResultsDefaultPro
   }
 
   renderFacets() {
-    const searcher = this.context.searcher;
-    const facets = searcher.state.response ? searcher.state.response.facets : null;
+    const { searcher } = this.context;
+    const facets = searcher && searcher.state && searcher.state.response
+      ? searcher.state.response.facets
+      : null;
     if (facets && facets.length > 0) {
       const facetsMap: Map<string, SearchFacet> = new Map();
       facets.forEach((facet: SearchFacet) => {
         facetsMap.set(facet.name, facet);
       });
-      const facetFilters = this.context.searcher.state.facetFilters;
+      const facetFilters = searcher.state.facetFilters;
       const facetFiltersMap: Map<string, FacetFilter> = new Map();
       facetFilters.forEach((facetFilter: FacetFilter) => {
         facetFiltersMap.set(facetFilter.filter, facetFilter);

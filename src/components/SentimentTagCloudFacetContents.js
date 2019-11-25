@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import SearchFacetBucket from '../api/SearchFacetBucket';
 import SentimentTagCloud, { SentimentTagCloudValue } from './SentimentTagCloud';
@@ -21,7 +21,7 @@ type SentimentTagCloudFacetContentsProps = {
 };
 
 /** Display the values for positive and negative keyphrases in a list with TagClouds. */
-export default class SentimentTagCloudFacetContents extends React.Component<void, SentimentTagCloudFacetContentsProps, void> {
+export default class SentimentTagCloudFacetContents extends React.Component<SentimentTagCloudFacetContentsProps, void> {
   static displayName = 'SentimentTagCloudFacetContents';
 
   // Check if keyphrase bucket is a part of keyphrase bucketList

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -25,10 +25,6 @@ type MastheadNavTabsProps = {
   initialTab: string | null;
 };
 
-type MastheadNavTabsDefaultProps = {
-  initialTab: string | null;
-};
-
 type MastheadNavTabsState = {
   currentTab: string | null;
 };
@@ -38,7 +34,7 @@ type MastheadNavTabsState = {
  * navigation within the application. Clicking one will update
  * the application’s router with the button’s route.
  */
-class MastheadNavTabs extends React.Component<MastheadNavTabsDefaultProps, MastheadNavTabsProps, MastheadNavTabsState> {
+class MastheadNavTabs extends React.Component<MastheadNavTabsProps, MastheadNavTabsState> {
   static defaultProps = {
     initialTab: null,
   };
@@ -49,10 +45,10 @@ class MastheadNavTabs extends React.Component<MastheadNavTabsDefaultProps, Masth
 
   constructor(props: MastheadNavTabsProps) {
     super(props);
-    let initialTab = this.props.initialTab;
+    let initialTab = props.initialTab;
     if (!initialTab) {
-      if (this.props.tabInfo && this.props.tabInfo.length > 0 && this.props.tabInfo[0]) {
-        initialTab = this.props.tabInfo[0].route;
+      if (props.tabInfo && props.tabInfo.length > 0 && props.tabInfo[0]) {
+        initialTab = props.tabInfo[0].route;
       }
     }
     this.state = {

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import Menu, { MenuItemDef } from './Menu';
@@ -15,17 +15,10 @@ type SearchLanguagePickerProps = {
   right: boolean;
 }
 
-type SearchLanguagePickerDefaultProps = {
-  label: string,
-  simpleLabel: string,
-  advancedLabel: string,
-  right: boolean;
-}
-
 /**
  * A pop-up for choosing between the simple and advanced query language.
  */
-export default class SearchLanguagePicker extends React.Component<SearchLanguagePickerDefaultProps, SearchLanguagePickerProps, void> { // eslint-disable-line max-len
+export default class SearchLanguagePicker extends React.Component<SearchLanguagePickerProps, void> { // eslint-disable-line max-len
   static defaultProps = {
     initialValue: 'simple',
     label: 'Query Language:',

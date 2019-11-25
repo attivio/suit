@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
@@ -16,20 +16,22 @@ type AuthRouteProps = {
    * If a particular permission is required for this route, set it here.
    * Otherwise, any logged-in user can access the authenticated component.
    */
-  requiredRole: string | null;
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
+  requiredRole?: FunctionStringCallback;
   /**
    * Location shouldn't ever be set by the containing component, only
    * by the router.
    */
-  location: any;
+  location?: any;
   /**
    * The authentication method being used
    */
-  authType: 'SAML' | 'XML' | 'NONE';
+  authType?: 'SAML' | 'XML' | 'NONE';
 };
 
 type AuthRouteDefaultProps = {
-  requiredRole: string | null;
+  requiredRole: null;
   location: any;
   authType: 'SAML' | 'XML' | 'NONE';
 };
@@ -39,31 +41,25 @@ type AuthRouteState = {
 };
 
 // LJV TODO Create a no-permissions page to use for unauthorized users
-class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, AuthRouteState> {
-  static defaultProps = {
+class AuthRoute extends React.Component<AuthRouteProps, AuthRouteState> {
+  static defaultProps: AuthRouteDefaultProps = {
     requiredRole: null,
     location: null, // This should be filled in by the router
     authType: 'NONE',
   };
 
-  static displayName = 'AuthRoute';
-
   static childContextTypes = {
     user: PropTypes.any,
-  }
+  };
 
-  constructor(props: AuthRouteProps) {
-    super(props);
-    this.state = {
-      user: null,
-    };
-  }
-
-  state: AuthRouteState;
+  state: AuthRouteState = {
+    user: null,
+  };
 
   getChildContext() {
+    const { user } = this.state;
     return {
-      user: this.state.user,
+      user,
     };
   }
 
@@ -76,9 +72,12 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
   }
 
   render() {
+    const { authType, requiredRole, location } = this.props;
     // if authentication is via XML, handled here in JavaScript, make sure the user is logged in.
-    if (this.props.authType === 'XML') {
-      if (AuthUtils.isLoggedIn(this.props.requiredRole)) {
+    if (authType === 'XML') {
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
+      if (AuthUtils.isLoggedIn(requiredRole)) {
         return (
           <Route
             {...this.props}
@@ -91,7 +90,7 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
           to={{
             pathname: AuthUtils.config.ALL.loginPage,
             state: {
-              referrer: this.props.location,
+              referrer: location,
             },
           }}
         />
@@ -99,7 +98,7 @@ class AuthRoute extends React.Component<AuthRouteDefaultProps, AuthRouteProps, A
     }
 
     // If this route doesn't require any special credentials or it does and the currently logged-in user meets them
-    if (!this.props.requiredRole || AuthUtils.isLoggedIn(this.props.requiredRole)) {
+    if (!requiredRole || AuthUtils.isLoggedIn(requiredRole)) {
       return (
         <Route
           {...this.props}

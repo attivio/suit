@@ -2402,6 +2402,8 @@ const documentsJson =
 
 /* eslint-enable quote-props */
 
+/* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+ * v0.107.0. To view the error, delete this comment and run Flow. */
 const documents = documentsJson.map((documentJson) => {
   return SearchDocument.fromJson(documentJson);
 });

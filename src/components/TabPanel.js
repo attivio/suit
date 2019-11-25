@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 export class TabInfo {
   label: string;
@@ -40,14 +40,7 @@ type TabPanelProps = {
    */
   dataTestPrefix?: string | null;
 };
-
-type TabPanelDefaultProps = {
-  tabLabel: string | null;
-  nested: boolean;
-  dataTestPrefix : string | null;
-};
-
-export default class TabPanel extends React.Component<TabPanelDefaultProps, TabPanelProps, void> {
+export default class TabPanel extends React.Component<TabPanelProps, void> {
   static defaultProps = {
     tabLabel: null,
     nested: false,
@@ -56,6 +49,8 @@ export default class TabPanel extends React.Component<TabPanelDefaultProps, TabP
 
   static displayName = 'TabPanel';
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static TabInfo;
 
   constructor(props: TabPanelProps) {
