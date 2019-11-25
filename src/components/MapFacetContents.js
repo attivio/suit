@@ -29,28 +29,36 @@ type MapFacetContentsProps = {
    * and should not be set by the component's parent.
   */
   size: any;
-  /** The public key with which to connect to the mapbox public apis. */
-  mapboxKey: string;
-  /** Custom location pointer pointerGlyphicon, default is the map-marker glyphicon */
-  pointerGlyph: string | null;
-  /** Custom location pointer image uri, if available image is shown instead of glyphicon */
-  pointerImageUri: string | null;
   /**
-   * Custom tooltip text to convey what the location pointers are for, for e.g. customers, transactions etc
-   * It should specify the singular and plural forms to be used
-   * For example a tooltip for cats would be '{} cat|{} cats'
-   * If the string is not in the format specified above,
-   * it would be used as it is appended to the count.
-  */
-  tooltip: string;
+   * The key for connecting to the Mapbox public APIs. This must be set to your
+   * own key in order for the MapFacetContents component to be rendered.
+   */
+  mapboxKey: string;
+  /** Custom location pointer glyphicon name; default is the "map-marker" glyphicon */
+  pointerGlyph?: string;
+  /** Custom location pointer image URI; if set, this image is shown instead of a glyphicon */
+  pointerImageUri?: string;
+  /**
+   * Custom tooltip text to convey what the location pointers are for, for e.g. customers,
+   * transactions, etc. It uses the same format as is used by StringUtils.fmt. For example,
+   * '{} cat|{} cats' to differentiate between singular and plural cats. See StringUtils.fmt()'s
+   * documentation for further details.
+   *
+   * Note that if this isn't parameterized with "{}" then it is treated as a plain-text suffix
+   * and is appended to the count for the given facet. For example, if this is set to "ethnic foods"
+   * then the tooltips would read "7 ethnic foods," "15 ethnic foods," etc.
+   *
+   * If this is not set at all, then just the count for the facet bucket is used (e.g., "7" or "15").
+   */
+  tooltip?: string;
 };
 
 type MapFacetContentsDefaultProps = {
   size: any;
   mapboxKey: string;
-  pointerGlyph: string;
-  pointerImageUri: string;
-  tooltip: string;
+  pointerGlyph?: string;
+  pointerImageUri?: string;
+  tooltip?: string;
 };
 
 type MapFacetContentsState = {
@@ -62,15 +70,16 @@ type MapFacetContentsState = {
 };
 
 /**
- * Component to display the buckets of a facet using a MapBox map.
+ * Component to display the buckets of a facet using a Mapbox map. See
+ * https://www.mapbox.com for details on Mapbox.
  */
 class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, MapFacetContentsProps, MapFacetContentsState> {
   static defaultProps = {
     size: null,
     mapboxKey: '',
     pointerGlyph: 'map-marker',
-    pointerImageUri: null,
-    tooltip: '{} occurrence|{} occurrences',
+    pointerImageUri: undefined,
+    tooltip: '{}',
   };
 
   static contextTypes = {
@@ -263,6 +272,7 @@ class MapFacetContents extends React.Component<MapFacetContentsDefaultProps, Map
         let formattedTooltip;
         formattedTooltip = StringUtils.fmt(this.props.tooltip, bucket.count);
         if (formattedTooltip === this.props.tooltip) {
+          // If the tooltip string isn't parameterized, treat it as a suffix.
           formattedTooltip = `${bucket.count} ${this.props.tooltip}`;
         }
         return (
