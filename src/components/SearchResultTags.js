@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import QueryString from 'query-string';
@@ -52,17 +52,6 @@ type SearchResultTagsProps = {
   hide360Link?: boolean;
 };
 
-type SearchResultTagsDefaultProps = {
-  autoCompleteUri: string | null;
-  baseUri: string;
-  comments: boolean;
-  commentsTable: string;
-  moreLikeThisQuery: string;
-  hide360Link: boolean;
-  vertical: boolean;
-  view360Label: string | null;
-};
-
 type SearchResultTagsState = {
   adding: boolean;
   newTag: string;
@@ -78,7 +67,7 @@ type SearchResultTagsState = {
  * in a single column as opposed to in a horizontal row. Also allows
  * the user to add additional tags by clicking the Add button.
  */
-class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, SearchResultTagsProps, SearchResultTagsState> { // eslint-disable-line max-len
+class SearchResultTags extends React.Component<SearchResultTagsProps, SearchResultTagsState> { // eslint-disable-line max-len
   static contextTypes = {
     searcher: PropTypes.any,
   };
@@ -109,7 +98,7 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
 
   state: SearchResultTagsState;
 
-  onEscape() {
+  onEscape = () => {
     this.setState({
       newTag: '',
       adding: false,
@@ -191,6 +180,8 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
 
   keyUp = (event: Event) => {
     if (event.target instanceof HTMLInputElement) {
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       if (event.key === 'Enter') {
         // If the user presses enter, then add the new tag
         this.addTag();
@@ -374,6 +365,9 @@ class SearchResultTags extends React.Component<SearchResultTagsDefaultProps, Sea
         {this.render360Link()}
         {this.renderMoreLikeThis()}
         {comments && (
+          /* $FlowFixMe This comment suppresses an error found when upgrading
+           * Flow to v0.107.0. To view the error, delete this comment and run
+           * Flow. */
           <Comments docId={docId} commentsTable={commentsTable} />
         )}
         <span className="attivio-tags-label">Tags:</span>

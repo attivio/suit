@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import Modal from 'react-bootstrap/lib/Modal';
 import Carousel from 'react-bootstrap/lib/Carousel';
@@ -15,15 +15,11 @@ type DocumentPreviewProps = {
   onClose: () => void;
 };
 
-type DocumentPreviewDefaultProps = {
-  docTitle: string | null;
-};
-
 type DocumentPreviewState = {
   currentItem: number;
 };
 
-export default class DocumentPreview extends React.Component<DocumentPreviewDefaultProps, DocumentPreviewProps, DocumentPreviewState> { // eslint-disable-line max-len
+export default class DocumentPreview extends React.Component<DocumentPreviewProps, DocumentPreviewState> { // eslint-disable-line max-len
   static defaultProps = {
     docTitle: null,
   };

@@ -1,5 +1,7 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
+/* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+ * v0.107.0. To view the error, delete this comment and run Flow. */
 import type { Children } from 'react';
 
 import { withRouter } from 'react-router-dom';
@@ -151,38 +153,6 @@ type SearcherProps = {
   maxResubmits: number;
 };
 
-type SearcherDefaultProps = {
-  searchEngineType: 'attivio' | 'elastic' | 'solr';
-  customOptions: any;
-  baseUri: string;
-  searchWorkflow: string;
-  fields: Array<string>;
-  facets: Array<string>;
-  relevancyModels: Array<string>;
-  facetFinderCount: number;
-  queryFilter: string | null;
-  highlightResults: 'on' | 'off' | 'all';
-  joinRollupMode: 'TREE' | 'AGGREGATE' | 'SQL';
-  locale: string | null;
-  title: string;
-  uri: string;
-  table: string;
-  teaser: string;
-  text: string;
-  previewImageUri: string;
-  thumbnailImageUri: string;
-  latitude: string;
-  longitude: string;
-  moreLikeThisQuery: string;
-  mimetype: string;
-  sourcePath: string;
-  debug: boolean;
-  resultsPerPage: number;
-  businessCenterProfile: string | null;
-  defaultQueryLanguage: 'simple' | 'advanced';
-  maxResubmits: number;
-};
-
 /*
  * NOTE: If you add or remove anything from the Searcher's state, you'll
  * need to update (at least) the following methods to accommodate the change:
@@ -266,7 +236,7 @@ type SearcherState = {
  *       debug
  *       searchProfile
  */
-class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, SearcherState> {
+class Searcher extends React.Component<SearcherProps, SearcherState> {
   static defaultProps = {
     searchEngineType: 'attivio',
     customOptions: {},
@@ -336,11 +306,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
 
   constructor(props: SearcherProps) {
     super(props);
-
-    this.search = new Search(this.props.baseUri, this.props.searchEngineType, this.props.customOptions);
-
-    this.state = this.getDefaultState();
-    (this: any).updateSearchResults = this.updateSearchResults.bind(this);
+    this.search = new Search(props.baseUri, props.searchEngineType, props.customOptions);
+    this.state = this.getDefaultState(props);
   }
 
   state: SearcherState;
@@ -381,21 +348,32 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * separate method since it needs to be done both in the constructor
    * and in the reset method.
    */
-  getDefaultState(): SearcherState {
+  getDefaultState(props): SearcherState {
     return {
       haveSearched: false,
       response: undefined,
       error: undefined,
       query: Searcher.EVERYTHING,
-      queryLanguage: this.props.defaultQueryLanguage,
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
+      queryLanguage: props.defaultQueryLanguage,
       sort: ['.score:DESC'],
-      relevancyModels: this.props.relevancyModels,
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
+      relevancyModels: props.relevancyModels,
       facetFilters: [],
       geoFilters: [],
-      resultsPerPage: parseInt(this.props.resultsPerPage, 10),
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
+      resultsPerPage: parseInt(props.resultsPerPage, 10),
       resultsOffset: 0,
-      debug: this.props.debug,
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
+      debug: props.debug,
       queryTimestamp: 0,
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
+      hideMast: (props.location.pathname && props.location.pathname.includes('/no-mast')),
     };
   }
 
@@ -438,7 +416,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
     // And now, the fields that don't have explicit counterparts
     // in the simple query request, which need to be set using
     // the restParams property.
-    const restParams = new Map();
+    // eslint-disable-next-line no-undef 
+    const restParams = new Map();  
     restParams.set('offset', [`${this.state.resultsOffset}`]);
     const relevancyModels = this.getRelevancyModels();
     restParams.set('relevancymodelnames', [relevancyModels.join(',')]);
@@ -467,24 +446,26 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * Get the list of fields to use in the query request.
    */
   getFieldList(): Array<string> {
+    const { fields } = this.props;
     // Start out with the fields the user specified
-    const result = [].concat(this.props.fields || []);
     // Add the mapped fields that the search results will expect
-    result.push(`${this.props.title} as title`);
-    result.push(`${this.props.uri} as uri`);
-    result.push(`${this.props.table} as table`);
-    result.push(`${this.props.teaser} as teaser`);
-    result.push(`${this.props.text} as text`);
-    result.push(`${this.props.previewImageUri} as previewImageUri`);
-    result.push(`${this.props.thumbnailImageUri} as thumbnailImageUri`);
-    result.push(`${this.props.latitude} as latitude`);
-    result.push(`${this.props.longitude} as longitude`);
-    result.push(`${this.props.moreLikeThisQuery} as morelikethisquery`);
-    result.push(`${this.props.mimetype} as mimetype`);
-    result.push(`${this.props.sourcePath} as sourcepath`);
-    // Add the fields we always want
-    result.push('tags');
-    return result;
+    return [
+      ...fields,
+      `${this.props.title} as title`,
+      `${this.props.uri} as uri`,
+      `${this.props.table} as table`,
+      `${this.props.teaser} as teaser`,
+      `${this.props.text} as text`,
+      `${this.props.previewImageUri} as previewImageUri`,
+      `${this.props.thumbnailImageUri} as thumbnailImageUri`,
+      `${this.props.latitude} as latitude`,
+      `${this.props.longitude} as longitude`,
+      `${this.props.moreLikeThisQuery} as morelikethisquery`,
+      `${this.props.mimetype} as mimetype`,
+      `${this.props.sourcePath} as sourcepath`,
+      // Add the fields we always want
+      'tags',
+    ];
   }
 
   /**
@@ -778,7 +759,7 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * Callback used when the search is completed. Will update the Searcher's state
    * with the query response or the error string passed in.
    */
-  updateSearchResults(response: QueryResponse | null, error: string | null) {
+  updateSearchResults = (response: QueryResponse | null, error: string | null) => {
     if (response) {
       // Succeeded...
       this.setState({
@@ -858,6 +839,8 @@ class Searcher extends React.Component<SearcherDefaultProps, SearcherProps, Sear
    * The search is reset to the first page when performed again.
    */
   updateSort(newSort: string) {
+    /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+     * v0.107.0. To view the error, delete this comment and run Flow. */
     if (this.newSort !== this.state.sort) {
       let sort = this.state.sort;
       if (sort && sort.length > 0) {

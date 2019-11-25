@@ -106,6 +106,8 @@ export default class DateUtils {
  * * April - May, 2017
  * * 2016 - 2019
  */
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static formatDateRange(start, end) {
     const diff = end - start;
     const middle = (start + end) / 2;

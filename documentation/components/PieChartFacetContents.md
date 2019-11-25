@@ -3,8 +3,8 @@
 __1.__ Normal variation.
 
 ```jsx
-  const sampleFacets = require('../sampleData/Facets').default;
-  const entityColors = require('../sampleData/EntityColors').default;
+  import sampleFacets from '../sampleData/Facets';
+  import entityColors from '../sampleData/EntityColors';
   
   <PieChartFacetContents
     buckets={sampleFacets.locationFacet.buckets}

@@ -18,7 +18,7 @@ TAG_NAME="v${PACKAGE_VERSION}_PUBLISHED_TO_NPM"
 # Try a git pull first to make sure that there are no un-checked-in changes
 git pull && \
 echo "Building..." && \
-npm run fullbuild && \
+yarn fullbuild && \
 echo "Publishing..." && \
 npm publish && \
 echo "Tagging..." && \

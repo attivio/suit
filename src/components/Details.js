@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 export type DetailsProps = {
   /**
@@ -14,7 +14,7 @@ export type DetailsProps = {
  * Component to display details for a row from the master-details component. This
  * placeholder/example one just shows the row data formatted as JSON.
  */
-export default class Details extends React.Component<void, DetailsProps, void> {
+export default class Details extends React.Component<DetailsProps, void> {
   static displayName = 'Details';
 
   render() {

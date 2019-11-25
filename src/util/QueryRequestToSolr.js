@@ -35,6 +35,8 @@ export default class QueryRequestToSolr {
       .catch((e) => { return callback(`Error: ${e}`); });
   }
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static buildFilter(facetFilters): string {
     if (!facetFilters || facetFilters.length === 0) return '';
     return `${facetFilters.map((ff) => { return ff.filter; }).join(' AND ')}`;
@@ -48,6 +50,8 @@ export default class QueryRequestToSolr {
     return aggs;
   }
 
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   static buildSort(sort, customConfig): string {
     if (!sort || !sort[0] || sort[0].length === 0) return 'score DESC';
     const [field, order] = sort[0].split(':');

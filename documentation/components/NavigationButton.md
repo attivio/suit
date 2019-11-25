@@ -3,7 +3,7 @@
 __1:__ A standard Bootstrap-styled button that navigates to the “myRoute” route.
 
 ```jsx
-const { Link, MemoryRouter, Route, Switch } = require('react-router-dom');
+import { Link, MemoryRouter, Route, Switch } from 'react-router-dom';
 <MemoryRouter>
   <Switch>
     <Route exact path="/">
@@ -29,7 +29,7 @@ const { Link, MemoryRouter, Route, Switch } = require('react-router-dom');
 __2:__ A custom-styled button that navigates to the “elsewhere” route.
 
 ```jsx
-const { Link, MemoryRouter, Route, Switch } = require('react-router-dom');
+import { Link, MemoryRouter, Route, Switch } from 'react-router-dom';
 <MemoryRouter>
   <Switch>
     <Route exact path="/">

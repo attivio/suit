@@ -4,9 +4,9 @@
 __1:__  An example of the view from a user who is allowed to see the secret.
 
 ```jsx
-  const AuthUtils = require('../../src/util/AuthUtils').default;
-  const AuthRoute = require('../../src/components/AuthRoute').default;
-  const { Link, MemoryRouter, Route, Switch } = require('react-router-dom');
+  import AuthUtils from '../../src/util/AuthUtils';
+  import AuthRoute from '../../src/components/AuthRoute';
+  import { Link, MemoryRouter, Route, Switch } from 'react-router-dom';
 
   const config = {
     ALL: {
@@ -58,9 +58,9 @@ __1:__  An example of the view from a user who is allowed to see the secret.
 __2:__  An example of the view from a user who is _not_ allowed to see the secret.
 
 ```jsx
-  const AuthUtils = require('../../src/util/AuthUtils').default;
-  const AuthRoute = require('../../src/components/AuthRoute').default;
-  const { Link, MemoryRouter, Route, Switch } = require('react-router-dom');
+  import AuthUtils from '../../src/util/AuthUtils';
+  import AuthRoute from '../../src/components/AuthRoute';
+  import { Link, MemoryRouter, Route, Switch } from 'react-router-dom';
 
   const config = {
     ALL: {

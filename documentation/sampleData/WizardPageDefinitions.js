@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -12,10 +12,20 @@ import TabPanel, { TabInfo } from '../../src/components/TabPanel';
 import { WizardPageDefinition } from '../../src/components/Wizard';
 
 const typeCards = [
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   new CardPickerItem('Avro Files', 'avro', 'http://avro.apache.org/images/avro-logo.png'),
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   new CardPickerItem('CSV Files', 'csv', 'https://upload.wikimedia.org/wikipedia/commons/1/18/Text-csv-text.svg'),
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   new CardPickerItem('Excel Files', 'excel', 'https://upload.wikimedia.org/wikipedia/commons/2/2d/LibreOffice_Calc_icon_3.3.1_48_px.svg'), // eslint-disable-line max-len
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   new CardPickerItem('JDBC Database', 'jdbc', 'https://upload.wikimedia.org/wikipedia/commons/4/4d/Database_icon_simple.png'),
+  /* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+   * v0.107.0. To view the error, delete this comment and run Flow. */
   new CardPickerItem('XML Files', 'xml', 'https://upload.wikimedia.org/wikipedia/commons/4/4b/Oxygen480-mimetypes-application-xml.svg'), // eslint-disable-line max-len
 ];
 
@@ -64,6 +74,8 @@ const configurationTabs = [
   )),
 ];
 
+/* $FlowFixMe This comment suppresses an error found when upgrading Flow to
+ * v0.107.0. To view the error, delete this comment and run Flow. */
 const wizardPages = (state, setState) => {
   return [
     new WizardPageDefinition(

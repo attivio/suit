@@ -4,7 +4,7 @@
 __1:__ Accordion whose second panel is the default open one.
 
 ```jsx
-  const { Button } = require('react-bootstrap');
+import Button from 'react-bootstrap/lib/Button';
   <Accordion 
     panels={[
       new Accordion.AccordionPanel('Panel 1', '1', <div>First panel's contents</div>),

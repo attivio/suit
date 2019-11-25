@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import Alert from 'react-bootstrap/lib/Alert';
 import Button from 'react-bootstrap/lib/Button';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
@@ -13,17 +13,13 @@ type LoginFormProps = {
   error: string | null;
 };
 
-type LoginFormDefaultProps = {
-  error: string | null;
-};
-
 type LoginFormState = {
   loading: boolean;
   username: string;
   password: string;
 };
 
-export default class LoginForm extends React.Component<LoginFormDefaultProps, LoginFormProps, LoginFormState> {
+export default class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   static defaultProps = {
     error: null,
   };
@@ -51,12 +47,16 @@ export default class LoginForm extends React.Component<LoginFormDefaultProps, Lo
 
   updateUsername(event: Event & { currentTarget: HTMLInputElement }) {
     this.setState({
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       username: event.currentTarget.value,
     });
   }
 
   updatePassword(event: Event & { currentTarget: HTMLInputElement }) {
     this.setState({
+      /* $FlowFixMe This comment suppresses an error found when upgrading Flow
+       * to v0.107.0. To view the error, delete this comment and run Flow. */
       password: event.currentTarget.value,
     });
   }

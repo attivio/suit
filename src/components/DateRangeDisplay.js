@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import DateFormat from '../api/DateFormat';
 import DateUtils from '../util/DateUtils';
@@ -21,15 +21,7 @@ type DateRangeDisplayProps = {
   style: any;
 };
 
-type DateRangeDisplayDefaultProps = {
-  label: string | null;
-  interval: number;
-  start: Date | null;
-  end: Date | null;
-  style: any;
-};
-
-export default class DateRangeDisplay extends React.Component<DateRangeDisplayDefaultProps, DateRangeDisplayProps, void> {
+export default class DateRangeDisplay extends React.Component<DateRangeDisplayProps, void> {
   static defaultProps = {
     label: 'Date:',
     interval: 0,

@@ -16,18 +16,20 @@ You are free to use whatever IDE or code editor you enjoy working with. However,
 
 ### Building SUIT
 
-Before building the SUIT library, you will need to install its dependencies using NPM. From the directory where you cloned the repository, run the `npm ci` command. This will pull down all of the library's dependencies from the NPM repository so you'll be able to build SUIT's code locally.
+Before building the SUIT library, you will need to install its dependencies using [yarn](https://yarnpkg.com/lang/en/). From the directory where you cloned the repository, run the `yarn install` command. This will pull down all of the library's dependencies from the NPM repository so you'll be able to build SUIT's code locally.
 
-Note that you should not run the `npm install` command to do this as it can create undesired changes in the versions of the dependencies that are used. The `npm ci` command will use the versions as they are set in the package-lock.json file and won't automatically pull down more recent ones, so you know that you're building using the same versions of dependencies that Attivio is using (it's also significantly faster since it doesn't have to do all of the version resolution that `npm install` does). You should, however, use the `npm install <library>@<version>` command when you need to add dependencies to the library (or use `npm remove <library>` to remove them), instead of editing the package.json file directly.
+You should never edit the `package.json` file directly. If you want to edit dependencies, you should do so using [yarn commands](https://yarnpkg.com/en/docs/usage).
 
-Once you've installed SUIT's dependencies, you can execute the `npm run build` command to do build the SUIT code. Run `npm run fullbuild` to do a build plus all validation steps. You will also need to run `npm run fullbuild` prior to submitting any pull requests to the repoisitory. You can use the `npm run styleguide:serve` command to build and launch the SUIT styleguide where you can see examples of the components and verify that any changes you've made to them work as expected.
-all all of SUIT’s dependencies and then execute `npm run build` to create the library’s output in the es and lib directories. Once your application is pointing to your local build of SUIT as described in the next step, you can re-run `npm run build` to update it every time you've made a change.
+Once you've installed SUIT's dependencies, you can execute the `yarn build` command to do build the SUIT code. Run `yarn fullbuild` to do a build plus all validation steps. You will also need to run `yarn fullbuild` prior to submitting any pull requests to the repoisitory. You can use the `yarn styleguide:serve` command to build and launch the SUIT styleguide where you can see examples of the components and verify that any changes you've made to them work as expected.
+all all of SUIT’s dependencies and then execute `yarn build` to create the library’s output in the es and lib directories. Once your application is pointing to your local build of SUIT as described in the next step, you can re-run `yarn build` to update it every time you've made a change.
 
 ## Seeing Your SUIT Changes in Search UI
 
 Once you've completed any changes you need to make to the SUIT library, you can submit a pull request to have them incorporated into the main SUIT project. Once they're incorporated, a new version of SUIT will be built and published to the NPM repository, and you can update your copy of Search UI (or other SUIT-based application) to depend on this new version.
 
 ### Seeing SUIT Changes Immediately
+
+**Option 1 - Locally link your modified suit repo to the library that depends on it.**
 
 In the meantime, you can use a feature of NPM to have the application project depend on your local copy of SUIT rather than a version in the NPM repository, by using the path to the cloned SUIT repository as the "version" of the @attivio/suit dependency. To do so:
 1. Make sure you've built the SUIT library.
@@ -36,9 +38,14 @@ In the meantime, you can use a feature of NPM to have the application project de
 
 Now that you've set up this path, changes you make to the SUIT code will, once the library is rebuilt, appear in the Search UI you're building.
 
+**Option 2 - Use styleguidist to immediately see stylistic changes to components.**
+
+Styleguidist documents many of the components in suit. To run styleguidist use `yarn start`.
+It'll take a few minutes for the initial load, but subsequent changes will be faster and will show up automatically.
+
 ### Watching for Changes
 
-In order to avoid constantly repeating the `npm run build` command, you can use the `npm run watch` command in the SUIT project to continuously build the library as changes are made to the source files. This will continue until you press control-C to stop it. (Note that building the module does a complete build every time and so takes a few seconds longer after saving a change than rebuilding the application itself.)
+In order to avoid constantly repeating the `yarn build` command, you can use the `yarn watch` command in the SUIT project to continuously build the library as changes are made to the source files. This will continue until you press control-C to stop it. (Note that building the module does a complete build every time and so takes a few seconds longer after saving a change than rebuilding the application itself.)
 
 ### Avoid NPM's Link Functionality
 
