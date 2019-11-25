@@ -4,6 +4,7 @@ import * as React from 'react';
  * v0.107.0. To view the error, delete this comment and run Flow. */
 import type { Children } from 'react';
 import PropTypes from 'prop-types';
+import { RootCloseWrapper } from 'react-overlays';
 
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import Configurable from './Configurable';
@@ -48,7 +49,6 @@ type FacetSearchBarDefaultProps = {
 
 type FacetSearchBarState = {
   query: string;
-  recognizing: boolean;
   suggestions: Array<SearchFacetBucket>;
   facetValue: string;
   error: string | null;
@@ -107,7 +107,6 @@ class FacetSearchBar extends React.Component<FacetSearchBarProps, FacetSearchBar
     super(props);
     this.state = {
       query: '',
-      recognizing: false,
       suggestions: [],
       facetValue: '',
       error: null,
@@ -117,6 +116,7 @@ class FacetSearchBar extends React.Component<FacetSearchBarProps, FacetSearchBar
     (this: any).queryChanged = this.queryChanged.bind(this);
     (this: any).addFilter = this.addFilter.bind(this);
     (this: any).handleSearchResults = this.handleSearchResults.bind(this);
+    (this: any).closeMenu = this.closeMenu.bind(this);
   }
 
   state: FacetSearchBarState;
@@ -183,6 +183,13 @@ class FacetSearchBar extends React.Component<FacetSearchBarProps, FacetSearchBar
       return [];
     }
     this.doConfiguredSearch('*', -1, localCallback, this.context.searcher);
+  }
+
+  closeMenu() {
+    this.setState({
+      suggestions: [],
+      error: '',
+    });
   }
 
   /**
@@ -337,11 +344,15 @@ class FacetSearchBar extends React.Component<FacetSearchBarProps, FacetSearchBar
       </div>) : null;
 
     return (
-      <div>
-        {inputComponent}
-        {this.props.children}
-        {exportButton}
-      </div>
+      <RootCloseWrapper
+        onRootClose={this.closeMenu}
+      >
+        <div>
+          {inputComponent}
+          {this.props.children}
+          {exportButton}
+        </div>
+      </RootCloseWrapper>
     );
   }
 }
