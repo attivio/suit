@@ -135,9 +135,9 @@ Updates several of the date formats to use proper American English punctuation. 
 - Introduces breaking changes to the `<Table />` and `<MasterDetails />` components.
   - Selection tracking has been moved to `<Table />`.
   - The `onSelect` property is no longer required, it is now considered a convenience hook so a consumer may respond to selection changes and/or be aware of the current selection. **This is a breaking change**; previously, the owner of the `<Table />` component was responsible for passing in the current selection and the function passed to `onSelect` drove the selection within the table. That is no longer true—`onSelect` no longer impacts the selections within the table and `<Table />` no longer accepts a `selection` prop to dictate the current selection.
- - The `<Table />` component now supports key selection in multi-select mode.
- - The `rowComparator` property is now required for comparison equality checking between rows.	
- - The `<Table />` and `<MasterDetails />` components now optionally accept `activeRowBackgroundColor` and `multiSelectBackgroundColor` properties which override any other `className` specifications for those colors. This change is intended to make it easier to indicate color selections. The `selectedClassName` property may still optionally be passed in, but the other properties take precedence.
+  - The `<Table />` component now supports key selection in multi-select mode.
+  - The `rowComparator` property is now required for comparison equality checking between rows.	
+  - The `<Table />` and `<MasterDetails />` components now optionally accept `activeRowBackgroundColor` and `multiSelectBackgroundColor` properties which override any other `className` specifications for those colors. This change is intended to make it easier to indicate color selections. The `selectedClassName` property may still optionally be passed in, but the other properties take precedence.
 
 ### Version 0.0.53
 
