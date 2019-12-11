@@ -18,7 +18,7 @@ To ensure your application functions as expected, the version of react in your a
 
 ### Upgrading
 
-If you are upgading a project from version 0.1 to version 1.0 of SUIT, you might wish to look at information from the [React 16 Release Notes](https://github.com/facebook/react/releases?after=16.1.0-rc) and the [React 16 Guide](https://reactjs.org/blog/2017/09/26/react-v16.0.html) for assistance.
+If you are upgrading a project from version 0.1 to version 1.0 of SUIT, you might wish to look at information from the [React 16 Release Notes](https://github.com/facebook/react/releases?after=16.1.0-rc) and the [React 16 Guide](https://reactjs.org/blog/2017/09/26/react-v16.0.html) for assistance.
 
 ## Documentation
 For detailed documentation about SUIT including both how to use it and how to contribute to it, see the [SUIT Documentation site](https://attivio.github.io/suit/).
