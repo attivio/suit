@@ -23,7 +23,7 @@ export default class Comment {
     return new Comment(id, text, timestamp, username);
   }
 
-  /** The comment's ID */
+  /** The comment’s ID */
   id: string;
   /** The comment text */
   text: string;
