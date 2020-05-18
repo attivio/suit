@@ -1,6 +1,9 @@
 // @flow
 import DataPoint from './DataPoint';
 
+/**
+ * A set of data to use when displaying a chart.
+ */
 export default class DataSet {
   constructor(data: Array<DataPoint>, first: number = -1, last: number = -1,
     trend: number = NaN, trendFirst: number = NaN, trendLast: number = NaN) {
