@@ -1,7 +1,7 @@
 // @flow
 
 /**
- * The basis for ingest and search documents.
+ * The base class for ingest and search documents.
  */
 export default class AbstractDocument {
   constructor(fields: Map<string, Array<string>>) {
@@ -9,11 +9,15 @@ export default class AbstractDocument {
   }
 
   /**
-   * A map of the document's field names to a list of their values
-   * (the values are in an arry even if there is only one).
+   * A map of the document’s field names to a list of their values
+   * (the values must always be in an array, even if there is only one).
    */
   fields: Map<string, Array<string>>;
 
+  /**
+   * Get the first value for a given field. Will return the
+   * empty string if the field doesn’t exist in the document.
+   */
   getFirstValue(fieldName: string): string {
     let result = '';
     if (this.fields) {
@@ -25,6 +29,11 @@ export default class AbstractDocument {
     return result;
   }
 
+  /**
+   * Get an array with all of the values for a given field.
+   * Will return an empty array if the field doesn’t exist
+   * in the document.
+   */
   getAllValues(fieldName: string): Array<string> {
     let result = [];
     if (this.fields) {
