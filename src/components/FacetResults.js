@@ -44,6 +44,8 @@ type FacetResultsProps = {
    * buckets. By default, facets with no buckets will be hidden.
    */
   showEmptyFacets: boolean;
+  /** Facets to not render */
+  hiddenFacets: Array<string>;
 };
 
 /**
@@ -70,6 +72,7 @@ export default class FacetResults extends React.Component<FacetResultsProps, voi
      * v0.107.0. To view the error, delete this comment and run Flow. */
     entityColors: new Map(),
     showEmptyFacets: false,
+    hiddenFacets: [],
   };
 
   static contextTypes = {
@@ -158,22 +161,24 @@ export default class FacetResults extends React.Component<FacetResultsProps, voi
       });
       const results = [];
       this.props.orderHint.forEach((facetName) => {
-        const facet = facetsMap.get(facetName);
-        if (facet && this.shouldShow(facet)) {
-          const type = this.getFacetDisplayType(facet.field);
-          const filteredFacet = this.filterFacetBuckets(facet, type, facetFiltersMap);
-          results.push(<Facet
-            facet={filteredFacet}
-            type={type}
-            key={facet.name}
-            maxBuckets={this.props.maxFacetBuckets}
-            collapse
-            entityColors={this.props.entityColors}
-          />);
+        if (this.props.hiddenFacets.indexOf(facetName) === -1) {
+          const facet = facetsMap.get(facetName);
+          if (facet && this.shouldShow(facet)) {
+            const type = this.getFacetDisplayType(facet.field);
+            const filteredFacet = this.filterFacetBuckets(facet, type, facetFiltersMap);
+            results.push(<Facet
+              facet={filteredFacet}
+              type={type}
+              key={facet.name}
+              maxBuckets={this.props.maxFacetBuckets}
+              collapse
+              entityColors={this.props.entityColors}
+            />);
+          }
         }
       });
       facets.forEach((facet: SearchFacet) => {
-        if (!this.props.orderHint.includes(facet.name)) {
+        if (!this.props.orderHint.includes(facet.name) && this.props.hiddenFacets.indexOf(facet.name) === -1) {
           if (this.shouldShow(facet)) {
             const type = this.getFacetDisplayType(facet.field);
             const filteredFacet = this.filterFacetBuckets(facet, type, facetFiltersMap);

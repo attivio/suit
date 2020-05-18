@@ -89,3 +89,52 @@ __2.__ Using a custom renderer for documents in the "country" table.
     </DummySearcher>
   </MemoryRouter>
 ```
+__3.__ Showing the built-in simple format wrapped in tabs for filtering by table.
+
+```jsx
+  const QueryResponse = require('../../src/api/QueryResponse').default;
+  const DummySearcher = require('../../src/components/DummySearcher').default;
+  const SimpleSearchResult = require('../../src/components/SimpleSearchResult').default;
+  const sampleDocs = require('../sampleData/Documents').default;
+
+  const queryResponse = new QueryResponse();
+  queryResponse.totalTime = 3239;
+  queryResponse.totalHits = sampleDocs.rawDocuments.length;
+  queryResponse.documents = sampleDocs.rawDocuments;
+
+  <DummySearcher defaultQueryResponse={queryResponse}>
+    <SearchResults
+      format="simple"
+      showRatings={false}
+      showScores={false}
+      showTags={false}
+      showTabs
+    />
+  </DummySearcher>
+```
+
+__4.__ Showing the built-in simple format wrapped in tabs for filtering by a set list of products.
+
+```jsx
+  const QueryResponse = require('../../src/api/QueryResponse').default;
+  const DummySearcher = require('../../src/components/DummySearcher').default;
+  const SimpleSearchResult = require('../../src/components/SimpleSearchResult').default;
+  const sampleDocs = require('../sampleData/Documents').default;
+
+  const queryResponse = new QueryResponse();
+  queryResponse.totalTime = 3239;
+  queryResponse.totalHits = sampleDocs.rawDocuments.length;
+  queryResponse.documents = sampleDocs.rawDocuments;
+
+  <DummySearcher defaultQueryResponse={queryResponse}>
+    <SearchResults
+      format="simple"
+      showRatings={false}
+      showScores={false}
+      showTags={false}
+      showTabs
+      tabsField="product"
+      tabList={['Apples','Bananas','Oranges']}
+    />
+  </DummySearcher>
+```
