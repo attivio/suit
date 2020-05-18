@@ -66,7 +66,7 @@ type SearcherProps = {
    */
   baseUri: string;
   /** The workflow to use when performing the search. Defaults to the "search" workflow. */
-  searchWorkflow: string;
+  workflow: string;
   /** The list of document fields to return when performing the search. Defaults to all fields (*). */
   fields: Array<string>;
   /** The list of facets to request when performing the search. Defaults to just 'table'. */
@@ -141,7 +141,7 @@ type SearcherProps = {
   /**
    * The name of the Business Center profile to use for queries. If set, this will enable Profile level campaigns and promotions.
    */
-  businessCenterProfile: string | null;
+  searchProfile?: string;
   /**
    * The Searcher contains arbitrary children, including the components that
    * control its properties and display the search results.
@@ -178,6 +178,8 @@ type SearcherState = {
   resultsOffset: number;
   debug: boolean;
   queryTimestamp: number;
+  profile?: string;
+  workflow?: string;
 };
 
 /**
@@ -235,13 +237,14 @@ type SearcherState = {
  *       relevancyModels
  *       debug
  *       searchProfile
+ *       selectedSearchWorklow
  */
 class Searcher extends React.Component<SearcherProps, SearcherState> {
   static defaultProps = {
     searchEngineType: 'attivio',
     customOptions: {},
     baseUri: '',
-    searchWorkflow: 'search',
+    workflow: 'search',
     fields: ['*'],
     facets: [],
     relevancyModels: ['default'],
@@ -264,7 +267,7 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
     sourcePath: FieldNames.SOURCEPATH,
     debug: false,
     resultsPerPage: 10,
-    businessCenterProfile: null,
+    searchProfile: null,
     defaultQueryLanguage: 'simple',
     maxResubmits: 1,
   };
@@ -371,6 +374,8 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
        * to v0.107.0. To view the error, delete this comment and run Flow. */
       debug: props.debug,
       queryTimestamp: 0,
+      profile: this.props.searchProfile,
+      workflow: this.props.workflow,
       /* $FlowFixMe This comment suppresses an error found when upgrading Flow
        * to v0.107.0. To view the error, delete this comment and run Flow. */
       hideMast: (props.location.pathname && props.location.pathname.includes('/no-mast')),
@@ -393,7 +398,7 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
    */
   getQueryRequest() {
     const qr = new SimpleQueryRequest();
-    qr.workflow = this.props.searchWorkflow;
+    qr.workflow = this.state.workflow || this.props.workflow;
     qr.query = this.state.query;
     qr.queryLanguage = this.state.queryLanguage;
     qr.rows = this.state.resultsPerPage;
@@ -431,10 +436,17 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
       restParams.set('facet.ffcount', [this.props.facetFinderCount.toString(10)]);
     }
     restParams.set('join.rollup', [this.props.joinRollupMode]);
-    if (this.props.businessCenterProfile) {
-      const profiles = [this.props.businessCenterProfile];
+    let profileToUse = undefined;
+    const { profile: stateProfile } = this.state;
+    const { searchProfile: propsProfile } = this.props;
+    if (stateProfile && stateProfile.length > 0) {
+      profileToUse = stateProfile;
+    } else if (propsProfile && propsProfile.length > 0) {
+      profileToUse = propsProfile;
+    }
+    if (profileToUse) {
       restParams.set('abc.enabled', ['true']);
-      restParams.set('searchProfile', profiles);
+      restParams.set('searchProfile', [profileToUse]);
     }
     restParams.set('q.maxresubmits', [`${this.props.maxResubmits}`]);
 
@@ -482,6 +494,26 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
       facetFilters: [],
       geoFilters: [],
       query,
+    });
+  }
+
+  /**
+   * Update the Attivio Businesss Center search profile the Searcher will set
+   * in the query requests it makes.
+   */
+  setSearchProfile = (profile: string) => {
+    this.updateStateResetAndSearch({
+      profile,
+    });
+  }
+
+  /**
+   * Update the query workflow the Searcher will set in the query
+   * requests it makes.
+   */
+  setWorkflow = (workflow: string) => {
+    this.updateStateResetAndSearch({
+      workflow,
     });
   }
 
@@ -573,6 +605,12 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
     if (state.relevancyModels && state.relevancyModels.length > 0) {
       basicState.relevancyModels = state.relevancyModels;
     }
+    if (state.profile && state.profile.length > 0) {
+      basicState.profile = state.profile;
+    }
+    if (state.workflow && state.workflow.length > 0) {
+      basicState.workflow = state.workflow;
+    }
     if (state.debug !== this.props.debug) {
       basicState.debug = state.debug;
     }
@@ -589,6 +627,8 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
         originalParsed.delete('facetFilters');
         originalParsed.delete('sort');
         originalParsed.delete('relevancyModels');
+        originalParsed.delete('profile');
+        originalParsed.delete('workflow');
         originalParsed.delete('debug');
       }
       // Add any leftover fields back in to the basic state
@@ -685,9 +725,15 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
       relevancyModels = [];
     }
 
-    // LJV TODO
-    // Get the business center profile to use.
-    // DEFAULT: none
+    let searchProfile = this.props.searchProfile;
+    if (parsed.profile) {
+      searchProfile = parsed.profile;
+    }
+
+    let workflow = this.props.workflow;
+    if (parsed.workflow) {
+      workflow = parsed.workflow;
+    }
 
     // Determine if we're in debug mode.
     // DEFAULT: this.props.format
@@ -705,6 +751,8 @@ class Searcher extends React.Component<SearcherProps, SearcherState> {
       facetFilters,
       sort: [sort],
       relevancyModels,
+      profile: searchProfile,
+      workflow,
       debug,
       haveSearched: this.state.haveSearched, // Make sure we don't change this
       queryTimestamp: 0,

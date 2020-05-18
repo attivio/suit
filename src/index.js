@@ -111,6 +111,8 @@ export NavbarOr from './components/NavbarOr';
 export NavbarResults from './components/NavbarResults';
 export NavbarSearch from './components/NavbarSearch';
 export NavbarSort from './components/NavbarSort';
+export NavbarProfileSelector from './components/NavbarProfileSelector';
+export NavbarWorkflowSelector from './components/NavbarWorkflowSelector';
 export NavigationButton from './components/NavigationButton';
 export NavigationHamburgerMenu from './components/NavigationHamburgerMenu';
 export NetworkDiagram from './components/NetworkDiagram';
